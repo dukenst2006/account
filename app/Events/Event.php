@@ -1,4 +1,4 @@
-<?php namespace App\Events;
+<?php namespace BibleBowl\Events;
 
 abstract class Event {
 

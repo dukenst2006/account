@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: BibleBowl
+        psr4_prefix: BibleBowl
         src_path: app

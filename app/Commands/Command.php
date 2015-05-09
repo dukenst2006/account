@@ -1,4 +1,4 @@
-<?php namespace App\Commands;
+<?php namespace BibleBowl\Commands;
 
 abstract class Command {
 
