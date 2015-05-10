@@ -29,6 +29,11 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'BibleBowl\Services\Registrar'
 		);
+
+		if ($this->app->environment('production') === false) {
+			$this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+			$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+		}
 	}
 
 }
