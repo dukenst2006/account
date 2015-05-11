@@ -1,5 +1,7 @@
 /vendor
 /node_modules
+/public/css/*.css
+/public/css/*.map
 .env
 .idea
 _ide_helper.php
