@@ -14,4 +14,6 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.less('style.less');
     mix.less('responsive.less');
+
+    mix.version(['css/style.css', 'css/responsive.css']);
 });
