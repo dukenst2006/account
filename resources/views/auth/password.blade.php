@@ -7,7 +7,7 @@
 				<br/>
 				<div class="row">
 					<div class="col-md-6 pull-left">
-						<div class="page-title"> <a href="#" id="btn-back"><i class="icon-custom-left"></i></a>
+						<div class="page-title">
 							<h3>Reset Email</h3>
 						</div>
 					</div>
