@@ -16,10 +16,9 @@
     <link href="{!! elixir('css/responsive.css') !!}" rel="stylesheet" type="text/css"/>
     @yield('after-styles-end')
 </head>
-<body>
+<body class="error-body no-top lazy">
 
 <div class="container-fluid">
-    @include('partials.messages')
     @yield('content')
 </div>
 

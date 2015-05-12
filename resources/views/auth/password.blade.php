@@ -1,50 +1,46 @@
-@extends('app')
+@extends('layouts.frontend_master')
 
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Reset Password</div>
-				<div class="panel-body">
-					@if (session('status'))
-						<div class="alert alert-success">
-							{{ session('status') }}
+	<div class="login-container row">
+		<div class="grid simple">
+			<div class="col-md-8 col-md-offset-2 grid-body no-border">
+				<br/>
+				<div class="row">
+					<div class="col-md-6 pull-left">
+						<div class="page-title"> <a href="#" id="btn-back"><i class="icon-custom-left"></i></a>
+							<h3>Reset Email</h3>
 						</div>
-					@endif
-
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
-
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+					</div>
+					<div class="col-md-6 text-right">
+						<a href="/login">Back to login</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12"> <br>
+						@include('partials.messages')
+						<form method="post">
+							<input type="hidden" name="_token" value="{{ Session::token() }}" />
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="form-label">E-Mail Address</label>
+									<span class="help"></span>
+									<div class="controls">
+										<div class="input-with-icon right">
+											<i class="icon-email"></i>
+											<input type="text" name="email" class="form-control" autofocus>
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Send Password Reset Link
-								</button>
+							<div class="row">
+								<div class="col-md-12">
+									<button class="btn btn-primary btn-cons pull-right" type="submit">Send Password Reset Link</button>
+								</div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 @endsection
