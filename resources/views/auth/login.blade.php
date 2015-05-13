@@ -1,5 +1,7 @@
 @extends('layouts.frontend_master')
 
+@section('title', 'Login')
+
 @section('before-styles-end')
 	<link href="/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
 @endsection

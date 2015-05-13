@@ -28,5 +28,12 @@
 @if (App::environment('production'))
     @include('partials.ga')
 @endif
+
+<div id="footer">
+    <div class="error-container">
+        <br/><br/><br/><br/><br/>
+        <div class="copyright"> <?=date('Y')?> <i class="fa fa-copyright"></i> Bible Bowl </div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,5 +1,7 @@
 @extends('layouts.frontend_master')
 
+@section('title', 'Forgot Password')
+
 @section('content')
 	<div class="login-container row">
 		<div class="grid simple">
