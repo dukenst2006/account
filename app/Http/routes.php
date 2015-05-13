@@ -11,7 +11,11 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', function () {
+	if (Auth::guest()) {
+		return Redirect::to('login');
+	}
+});
 
 Route::get('home', 'HomeController@index');
 
