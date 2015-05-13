@@ -4,6 +4,7 @@ use BibleBowl\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
 
 class AuthController extends Controller {
 
@@ -18,7 +19,9 @@ class AuthController extends Controller {
 	|
 	*/
 
-	use AuthenticatesAndRegistersUsers;
+	use AuthenticatesAndRegistersUsers {
+		redirectPath as originalRedirectPath;
+	}
 
 	protected $redirectTo = '/home';
 
@@ -29,7 +32,6 @@ class AuthController extends Controller {
 	 *
 	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
 	 * @param  \Illuminate\Contracts\Auth\Registrar  $registrar
-	 * @return void
 	 */
 	public function __construct(Guard $auth, Registrar $registrar)
 	{
@@ -37,6 +39,15 @@ class AuthController extends Controller {
 		$this->registrar = $registrar;
 
 		$this->middleware('guest', ['except' => 'getLogout']);
+	}
+
+	public function redirectPath()
+	{
+		//update the last login timestamp when
+		//the redirect path is obtained
+		Auth::user()->updateLastLogin();
+
+		return $this->originalRedirectPath();
 	}
 
 }

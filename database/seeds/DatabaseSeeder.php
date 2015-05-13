@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder {
 		Model::unguard();
 
 		\BibleBowl\User::create([
-			'first_name'		=> 'John',
-			'last_name'			=> 'Smith',
-			'email'				=> 'tester@testerson.com',
-			'password'			=> bcrypt('asdf')
+			'first_name'		=> 'Ben',
+			'last_name'			=> 'Kuhl',
+			'email'				=> 'benkuhl@gmail.com',
+			'password'			=> bcrypt('changeme')
 		]);
 	}
 

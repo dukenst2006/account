@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -30,5 +31,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+	public function updateLastLogin()
+	{
+		return $this->update([
+			'last_login' => Carbon::now()
+		]);
+	}
 
 }

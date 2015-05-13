@@ -1,5 +1,6 @@
 <?php
 use \AcceptanceTester;
+use BibleBowl\User;
 
 class AuthCest
 {
@@ -11,8 +12,7 @@ class AuthCest
     {
     }
 
-    // tests
-    public function tryToTest(AcceptanceTester $I)
+    public function tryToLogin(AcceptanceTester $I)
     {
         $I->amOnPage('/login');
 
@@ -22,5 +22,28 @@ class AuthCest
         $I->click('Login');
 
         $I->canSeeCurrentUrlEquals('/home');
+    }
+
+    public function tryToRegister(AcceptanceTester $I)
+    {
+        $I->amOnPage('/login');
+
+        $I->click('Sign up Now!');
+
+        $I->fillField('first_name', 'Bill');
+        $I->fillField('last_name', 'Johnson');
+        $email = 'actest'.time().'@testerson.com';
+        $I->fillField('email', $email);
+        $I->fillField('password', 'asdfasdf');
+        $I->fillField('password_confirmation', 'asdfasdf');
+
+        $I->click('Register');
+
+        $I->canSeeCurrentUrlEquals('/home');
+
+        //cleanup
+        User::where([
+            'email' => $email
+        ])->delete();
     }
 }

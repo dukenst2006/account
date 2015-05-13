@@ -8,6 +8,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser
+        - Laravel5
         - AcceptanceHelper
     config:
         PhpBrowser:
