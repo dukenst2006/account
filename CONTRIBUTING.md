@@ -19,3 +19,7 @@ sites:
 ```
  * Run migrations with `php artisan migrate` to build the database
  * Open [http://bbowl.local](http://bbowl.local) in your browser
+ 
+## Pull Requests
+
+Please branch off of `master` and when your branch is ready to get merged back into master please create a pull request and assign it to BKuhl.
