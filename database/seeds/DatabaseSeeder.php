@@ -14,7 +14,12 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		// $this->call('UserTableSeeder');
+		\BibleBowl\User::create([
+			'first_name'		=> 'John',
+			'last_name'			=> 'Smith',
+			'email'				=> 'tester@testerson.com',
+			'password'			=> bcrypt('asdf')
+		]);
 	}
 
 }

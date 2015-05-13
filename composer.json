@@ -1,8 +1,7 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
+	"name": "bkuhl/biblebowl",
+	"description": "Bible Bowl management application",
+	"keywords": ["bible bowl"],
 	"type": "project",
 	"require": {
 		"laravel/framework": "5.0.*"
@@ -11,9 +10,8 @@
 	  	"barryvdh/laravel-ide-helper": "^2.0",
 	  	"doctrine/dbal": "^2.5",
 	  	"barryvdh/laravel-debugbar": "^2.0",
-		"phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1",
-	  	"spatie/laravel-tail": "dev-master"
+	  	"spatie/laravel-tail": "dev-master",
+	  	"codeception/codeception": "~2.0"
 	},
 	"autoload": {
 		"classmap": [
