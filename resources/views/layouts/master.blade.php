@@ -28,13 +28,10 @@
         </div>
     </div>
 
-<!--[if lt IE 9]>
-<script src="/assets/plugins/respond.js"></script>
-<![endif]-->
+    <!--[if lt IE 9]>
+    <script src="/assets/plugins/respond.js"></script>
+    <![endif]-->
 
-
-@if (App::environment('production'))
-    @include('partials.ga')
-@endif
+    <script src="{!! elixir('js/backend.js') !!}" type="text/javascript"></script>
 </body>
 </html>

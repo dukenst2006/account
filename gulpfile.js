@@ -19,7 +19,6 @@ elixir(function(mix) {
         'style.css',
         'responsive.css'
     ],  'public/css/core.css', 'public/css');
-    mix.version(['css/core.css']);
 
     // compile backend assets
     mix.scripts([
@@ -32,5 +31,10 @@ elixir(function(mix) {
         '/plugins/jquery-lazyload/jquery.lazyload.min.js',
         '/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
         '/js/core.js',
-    ], './public/js/backend.js', 'public/assets')
+    ], 'public/js/backend.js', 'public/assets')
+
+    mix.version([
+        'js/backend.js',
+        'css/core.css'
+    ]);
 });

@@ -18,9 +18,6 @@
     @yield('content')
 </div>
 
-@yield('before-scripts-end')
-@yield('after-scripts-end')
-
 <div id="footer">
     <div class="error-container">
         <br/><br/><br/><br/><br/>
