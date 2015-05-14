@@ -8,12 +8,8 @@
     <title>@yield('title')</title>
     @yield('meta')
 
-    <link href="/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
     @yield('before-styles-end')
-    <link href="{!! elixir('css/style.css') !!}" rel="stylesheet" type="text/css"/>
-    <link href="{!! elixir('css/responsive.css') !!}" rel="stylesheet" type="text/css"/>
+    <link href="{!! elixir('css/core.css') !!}" rel="stylesheet" type="text/css"/>
     @yield('after-styles-end')
 </head>
 <body class="error-body no-top lazy">
@@ -24,10 +20,6 @@
 
 @yield('before-scripts-end')
 @yield('after-scripts-end')
-
-@if (App::environment('production'))
-    @include('partials.ga')
-@endif
 
 <div id="footer">
     <div class="error-container">

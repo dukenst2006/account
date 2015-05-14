@@ -2,10 +2,6 @@
 
 @section('title', 'Login')
 
-@section('before-styles-end')
-	<link href="/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
-@endsection
-
 @section('content')
 <body class="error-body no-top lazy" style="background-image: url('assets/img/work.jpg')">
 <div class="container">
@@ -81,6 +77,4 @@
 	</div>
 </div>
 </body>
-
-</html>
 @endsection

@@ -2,6 +2,7 @@
 
  * Setup [Laravel Homestead](https://github.com/laravel/homestead)
  * Clone this repo to `~/Personal` or wherever you would like it to live
+ * Run `npm install` and then `gulp` from project directory (can also run on Homestead)
  * Add `192.168.10.10   bbowl.local` to `/etc/hosts` 
  * Configure Homestead by typing `homestead edit`:
     * Add database `bbowl_management`

@@ -12,8 +12,25 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
+    //compile core css
     mix.less('style.less');
     mix.less('responsive.less');
+    mix.styles([
+        'style.css',
+        'responsive.css'
+    ],  'public/css/core.css', 'public/css');
+    mix.version(['css/core.css']);
 
-    mix.version(['css/style.css', 'css/responsive.css']);
+    // compile backend assets
+    mix.scripts([
+        '/plugins/jquery-1.8.3.min.js',
+        '/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js',
+        '/plugins/boostrapv3/js/bootstrap.min.js',
+        '/plugins/breakpoints.js',
+        '/plugins/jquery-unveil/jquery.unveil.min.js',
+        '/plugins/jquery-block-ui/jqueryblockui.js',
+        '/plugins/jquery-lazyload/jquery.lazyload.min.js',
+        '/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
+        '/js/core.js',
+    ], './public/js/backend.js', 'public/assets')
 });
