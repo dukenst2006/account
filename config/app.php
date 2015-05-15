@@ -145,6 +145,11 @@ return [
 		'BibleBowl\Providers\EventServiceProvider',
 		'BibleBowl\Providers\RouteServiceProvider',
 
+		/*
+		 * 3rd Party Service Providers...
+		 */
+		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider'
+
 	],
 
 	/*
@@ -192,6 +197,11 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+		/**
+		 * 3rd party facades
+		 */
+		'Gravatar' => 'Thomaswelton\LaravelGravatar\Facades\Gravatar'
 
 	],
 

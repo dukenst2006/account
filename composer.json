@@ -4,7 +4,8 @@
 	"keywords": ["bible bowl"],
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.0.*"
+		"laravel/framework": "5.0.*",
+		"thomaswelton/laravel-gravatar": "^1.0"
 	},
 	"require-dev": {
 	  	"barryvdh/laravel-ide-helper": "^2.0",
