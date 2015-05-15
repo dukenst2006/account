@@ -16,9 +16,10 @@ elixir(function(mix) {
     mix.less('style.less');
     mix.less('responsive.less');
     mix.styles([
-        'style.css',
-        'responsive.css'
-    ],  'public/css/core.css', 'public/css');
+        'css/style.css',
+        'css/responsive.css',
+        'assets/css/custom-icon-set.css'
+    ],  'public/css/core.css', 'public');
 
     // compile backend assets
     mix.scripts([
@@ -30,6 +31,7 @@ elixir(function(mix) {
         '/plugins/jquery-block-ui/jqueryblockui.js',
         '/plugins/jquery-lazyload/jquery.lazyload.min.js',
         '/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
+        '/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
         '/js/core.js',
     ], 'public/js/backend.js', 'public/assets')
 

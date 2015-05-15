@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-<body class="error-body no-top lazy" style="background-image: url('assets/img/work.jpg')">
+<body class="error-body no-top lazy" style="background-image: url('/img/work.jpg')">
 <div class="container">
 	<div class="row login-container column-seperation">
 		<div class="col-md-5 col-md-offset-1">
