@@ -8,7 +8,7 @@
                 </a> </li>
         </ul>
         <!-- BEGIN LOGO -->
-        <a href="/"><img src="/img/logo.png" class="logo" alt=""  data-src="/img/logo.png" data-src-retina="/img/logo2x.png" width="106" height="21"/></a>
+        <a href="/"><img src="/img/logo.png" class="logo" alt="" width="106" height="36"/></a>
         <!-- END LOGO -->
         <ul class="nav pull-right notifcation-center">
             <li class="dropdown" id="header_task_bar"> <a href="/" class="dropdown-toggle active" data-toggle="">
@@ -42,8 +42,6 @@
                     </a>
                     <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
                         <li><a href="user-profile.html"> My Account</a> </li>
-                        <li><a href="calender.html">My Calendar</a> </li>
-                        <li><a href="email.html"> My Inbox&nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span></a> </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                     </ul>
