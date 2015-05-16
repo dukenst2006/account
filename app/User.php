@@ -19,11 +19,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $table = 'users';
 
 	/**
-	 * The attributes that are mass assignable.
+	 * The attributes that are guarded against mass assignment.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password'];
+	protected $guarded = ['id', 'remember_token', 'password'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
