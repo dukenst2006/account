@@ -14,7 +14,7 @@ class AuthCest
 
         $I->amOnPage('/login');
 
-        $I->click('Sign up Now!');
+        $I->click('register a new account');
 
         $I->fillField('first_name', $this->firstName);
         $I->fillField('last_name', $this->lastName);
