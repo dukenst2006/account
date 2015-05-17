@@ -1,12 +1,12 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
+use BibleBowl\Auth\EmailAlreadyInUse;
 use BibleBowl\Auth\ThirdPartyRegistrar;
 use BibleBowl\Auth\ThirdPartyAuthenticator;
 use Illuminate\Http\Request;
 
 class ThirdPartyAuthController extends AuthController
 {
-
 	/**
 	 * Get authorization from the given provider
 	 *
@@ -21,7 +21,14 @@ class ThirdPartyAuthController extends AuthController
 			return $authenticator->getAuthorization($provider);
 		}
 
-		$user = $authenticator->findOrCreateUser($provider);
+		try {
+			$user = $authenticator->findOrCreateUser($provider);
+		} catch (EmailAlreadyInUse $e) {
+			return redirect($this->loginPath())
+				->withErrors([
+					'email' => $e->getMessage(),
+				]);
+		}
 
 		$this->auth->login($user);
 

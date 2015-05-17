@@ -54,15 +54,22 @@ class ThirdPartyAuthenticator
 	/**
 	 * Find the existing user or create a new one for this account
 	 *
-	 * @param                             $provider
+	 * @param $provider
 	 *
 	 * @return User
+	 * @throws EmailAlreadyInUse
 	 */
 	public function findOrCreateUser($provider)
 	{
+		/** @var \Laravel\Socialite\Two\User $providerUser */
 		$providerUser = $this->socialite->with($provider)->user();
 		$user = User::byProviderId($providerUser->id)->first();
 		if (is_null($user)) {
+			# Don't allow this email to be registered if it's already in use
+			if (User::where('email', $providerUser->getEmail())->count() > 0) {
+				throw new EmailAlreadyInUse($providerUser->getEmail().' is already in use by an another account.');
+			}
+
 			return $this->registrar->create($provider, $providerUser);
 		}
 
