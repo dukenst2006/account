@@ -1,7 +1,6 @@
 <?php namespace BibleBowl\Auth;
 
 use BibleBowl\User;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class ThirdPartyAuthenticator

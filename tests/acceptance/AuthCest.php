@@ -7,7 +7,7 @@ class AuthCest
     protected $email = null;
     protected $password = 'asdfasdf';
 
-    public function tryToRegister(AcceptanceTester $I)
+    public function registerNewAccount(AcceptanceTester $I)
     {
         # Seed email
         $this->email = 'actest'.time().'@testerson.com';
@@ -25,25 +25,26 @@ class AuthCest
         $I->click('Register');
 
         $I->canSeeCurrentUrlEquals('/dashboard');
+
+        $I->see($this->firstName.' '.$this->lastName);
     }
 
     /**
-     * @depends tryToRegister
+     * @depends registerNewAccount
      */
-    public function tryToLogout(AcceptanceTester $I)
+    public function logout(AcceptanceTester $I)
     {
         $I->amOnPage('/dashboard');
 
-        $I->click('#user-options');
-        $I->click('Log Out');
+        \Lib\AuthHelper::logout($I);
 
         $I->canSeeCurrentUrlEquals('/login');
     }
 
     /**
-     * @depends tryToLogout
+     * @depends logout
      */
-    public function tryToLogin(AcceptanceTester $I)
+    public function login(AcceptanceTester $I)
     {
         $I->amOnPage('/login');
 
