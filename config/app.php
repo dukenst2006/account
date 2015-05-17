@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => 'http://manage.biblebowl.org',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -140,7 +140,6 @@ return [
 		 * Application Service Providers...
 		 */
 		'BibleBowl\Providers\AppServiceProvider',
-		'BibleBowl\Providers\BusServiceProvider',
 		'BibleBowl\Providers\ConfigServiceProvider',
 		'BibleBowl\Providers\EventServiceProvider',
 		'BibleBowl\Providers\RouteServiceProvider',
@@ -148,7 +147,8 @@ return [
 		/*
 		 * 3rd Party Service Providers...
 		 */
-		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider'
+		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
+		'Laravel\Socialite\SocialiteServiceProvider',
 
 	],
 
@@ -202,7 +202,7 @@ return [
 		 * 3rd party facades
 		 */
 		'Gravatar' => 'Thomaswelton\LaravelGravatar\Facades\Gravatar'
-
+		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 	],
 
 ];

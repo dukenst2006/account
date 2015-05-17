@@ -1,5 +1,8 @@
 <?php namespace BibleBowl\Providers;
 
+use Route;
+use Auth;
+use Redirect;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -35,10 +38,37 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	public function map(Router $router)
 	{
-		$router->group(['namespace' => $this->namespace], function($router)
+		$router->group(['namespace' => $this->namespace], function(Router $router)
 		{
-			require app_path('Http/routes.php');
+			# Default Routes for different users
+			Route::get('/', function () {
+				if (Auth::guest()) {
+					return Redirect::to('login');
+				}
+
+				return Redirect::to('dashboard');
+			});
+
+			# Authentication Routes
+			Route::get('login', 'Auth\AuthController@getLogin');
+			Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@login');
+			Route::post('login', 'Auth\AuthController@postLogin');
+			Route::get('register', 'Auth\AuthController@getRegister');
+			Route::post('register', 'Auth\AuthController@postRegister');
+			Route::controllers([
+				'password' => 'Auth\PasswordController',
+			]);
+
+			# Must be logged in to access these routes
+			$router->group(['middleware' => 'auth'], function () {
+				Route::get('logout', 'Auth\AuthController@getLogout');
+
+				Route::get('dashboard', 'DashboardController@index');
+			});
+
 		});
+
+
 	}
 
 }

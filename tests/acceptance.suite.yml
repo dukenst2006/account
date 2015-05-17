@@ -7,9 +7,11 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser
-        - Laravel5
+        - WebDriver
         - AcceptanceHelper
     config:
-        PhpBrowser:
+        WebDriver:
             url: 'http://bbowl.local'
+            browser: 'firefox'
+            window_size: 1120x550
+            clear_cookies: false
