@@ -59,3 +59,15 @@ GOOGLE_REDIRECT=
 ## Pull Requests
 
 Please branch off of `master` and when your branch is ready to get merged back into master please create a pull request and assign it to BKuhl.
+
+## Tests
+For this application, tests are broken down by...
+
+ * **Acceptance tests** test the UI/application flow
+ * **Functional tests** test the internal workings of the application
+ 
+### Testing OAuth2 Integration
+
+ * obtain the `PROVIDER_CLIENT_ID`/`PROVIDER_CLIENT_SECRET` and add it to the config the `.env` file under the provider you wish to test with
+Should be something like:
+ * Add `192.168.10.10   manage.biblebowl.org` to `/etc/hosts` so that the third party provider redirects you back to your local application rather than production
