@@ -41,7 +41,7 @@
                         <div class="iconset top-settings-dark "></div>
                     </a>
                     <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                        <li><a href="user-profile.html"> My Account</a> </li>
+                        <li><a href="/account/address"> My Addresses</a> </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                     </ul>

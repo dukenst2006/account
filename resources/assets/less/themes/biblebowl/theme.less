@@ -5,5 +5,39 @@
 
 // Import Vars
 @import "var.less";
+@import "account.less";
 
-//Theme Overwrite
+// --------------------------------------------------
+// allow all icons to be used inside of delete forms
+
+// removed ".tools > a" limitation from originals
+.grid.simple .grid-title .tools a.remove, .grid.solid .grid-title .tools a.remove {
+  background-position: -66px -38px;
+  width: 10px;
+  height: 10px;
+  top: -5px;
+}
+.grid-title .tools a {
+  display: inline-block;
+  height: 16px;
+  margin-left: 5px;
+}
+.grid-title .tools a:hover {
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
+  opacity: .6;
+}
+
+// allow "fa" icons to be used
+.grid-title .tools a.fa {
+  background: transparent !important;
+  color: #666 !important;
+}
+.grid-title .tools a.fa.fa-edit {
+  width: 18px;
+}
+.grid-title .tools a.fa:hover {
+  color: #333 !important;
+}
+
+// --------------------------------------------------

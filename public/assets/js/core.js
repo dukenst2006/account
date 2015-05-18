@@ -230,33 +230,33 @@ $(document).ready(function () {
         });
     }
     //***********************************BEGIN Grids*****************************		
-    $('.grid .tools a.remove').on('click', function () {
-        var removable = jQuery(this).parents(".grid");
-        if (removable.next().hasClass('grid') || removable.prev().hasClass('grid')) {
-            jQuery(this).parents(".grid").remove();
-        } else {
-            jQuery(this).parents(".grid").parent().remove();
-        }
-    });
-
-    $('.grid .tools a.reload').on('click', function () {
-        var el = jQuery(this).parents(".grid");
-        blockUI(el);
-        window.setTimeout(function () {
-            unblockUI(el);
-        }, 1000);
-    });
-
-    $('.grid .tools .collapse, .grid .tools .expand').on('click', function () {
-        var el = jQuery(this).parents(".grid").children(".grid-body");
-        if (jQuery(this).hasClass("collapse")) {
-            jQuery(this).removeClass("collapse").addClass("expand");
-            el.slideUp(200);
-        } else {
-            jQuery(this).removeClass("expand").addClass("collapse");
-            el.slideDown(200);
-        }
-    });
+    //$('.grid .tools a.remove').on('click', function () {
+    //    var removable = jQuery(this).parents(".grid");
+    //    if (removable.next().hasClass('grid') || removable.prev().hasClass('grid')) {
+    //        jQuery(this).parents(".grid").remove();
+    //    } else {
+    //        jQuery(this).parents(".grid").parent().remove();
+    //    }
+    //});
+    //
+    //$('.grid .tools a.reload').on('click', function () {
+    //    var el = jQuery(this).parents(".grid");
+    //    blockUI(el);
+    //    window.setTimeout(function () {
+    //        unblockUI(el);
+    //    }, 1000);
+    //});
+    //
+    //$('.grid .tools .collapse, .grid .tools .expand').on('click', function () {
+    //    var el = jQuery(this).parents(".grid").children(".grid-body");
+    //    if (jQuery(this).hasClass("collapse")) {
+    //        jQuery(this).removeClass("collapse").addClass("expand");
+    //        el.slideUp(200);
+    //    } else {
+    //        jQuery(this).removeClass("expand").addClass("collapse");
+    //        el.slideDown(200);
+    //    }
+    //});
 
     $('.user-info .collapse').on('click', function () {
         jQuery(this).parents(".user-info ").stop().slideToggle(400, "swing");

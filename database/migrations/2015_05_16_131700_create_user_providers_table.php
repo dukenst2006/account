@@ -31,10 +31,6 @@ class CreateUserProvidersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('user_providers', function (Blueprint $table) {
-			$table->dropForeign('user_providers_user_id_foreign');
-			$table->dropUnique('user_providers_provider_provider_id_unique');
-		});
 		Schema::drop('user_providers');
 	}
 

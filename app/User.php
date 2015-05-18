@@ -87,4 +87,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany('BibleBowl\UserProvider');
 	}
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function addresses() {
+		return $this->hasMany('BibleBowl\Address');
+	}
+
 }

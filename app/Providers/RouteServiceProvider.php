@@ -60,10 +60,17 @@ class RouteServiceProvider extends ServiceProvider {
 			]);
 
 			# Must be logged in to access these routes
-			$router->group(['middleware' => 'auth'], function () {
+			Route::group(['middleware' => 'auth'], function () {
 				Route::get('logout', 'Auth\AuthController@getLogout');
 
 				Route::get('dashboard', 'DashboardController@index');
+
+				Route::group([
+					'prefix'	=> 'account',
+					'namespace'	=> 'Account'
+				], function () {
+					Route::resource('address', 'AddressController');
+				});
 			});
 
 		});
