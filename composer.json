@@ -14,7 +14,7 @@
 	  	"barryvdh/laravel-debugbar": "^2.0",
 	  	"spatie/laravel-tail": "dev-master",
 	  	"codeception/codeception": "~2.0",
-	  	"janhenkgerritsen/codeception-laravel5": "^1.0"
+	    "mockery/mockery": "dev-master@dev"
 	},
 	"autoload": {
 		"classmap": [
