@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1aa65d49c3a75c1d5628f2a7e6ff0881",
+    "hash": "8ec5e40f7fc1696a0a19f5d1327cb651",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -927,16 +927,16 @@
         },
         {
             "name": "league/oauth1-client",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth1-client.git",
-                "reference": "b378b2ba54f0de789628c9b5784bcf01c8303adf"
+                "reference": "815b2dbd2b866409f3de6e4046a76e66b5af608e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/b378b2ba54f0de789628c9b5784bcf01c8303adf",
-                "reference": "b378b2ba54f0de789628c9b5784bcf01c8303adf",
+                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/815b2dbd2b866409f3de6e4046a76e66b5af608e",
+                "reference": "815b2dbd2b866409f3de6e4046a76e66b5af608e",
                 "shasum": ""
             },
             "require": {
@@ -986,7 +986,7 @@
                 "tumblr",
                 "twitter"
             ],
-            "time": "2015-04-07 00:07:18"
+            "time": "2015-05-18 00:04:43"
         },
         {
             "name": "monolog/monolog",
@@ -3010,48 +3010,6 @@
                 "test"
             ],
             "time": "2015-05-11 14:41:42"
-        },
-        {
-            "name": "janhenkgerritsen/codeception-laravel5",
-            "version": "1.0.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/janhenkgerritsen/codeception-laravel5.git",
-                "reference": "77ab72ba8353087bce2524ed280a80a28c065a8d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/janhenkgerritsen/codeception-laravel5/zipball/77ab72ba8353087bce2524ed280a80a28c065a8d",
-                "reference": "77ab72ba8353087bce2524ed280a80a28c065a8d",
-                "shasum": ""
-            },
-            "require": {
-                "codeception/codeception": "~2.0",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Codeception": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jan-Henk Gerritsen",
-                    "email": "j.h.gerritsen@movage.nl"
-                }
-            ],
-            "description": "Laravel5 module for Codeception",
-            "keywords": [
-                "codeception",
-                "laravel",
-                "laravel5"
-            ],
-            "time": "2015-03-16 08:04:21"
         },
         {
             "name": "maximebf/debugbar",
