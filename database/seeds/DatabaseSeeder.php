@@ -36,6 +36,8 @@ class DatabaseSeeder extends Seeder {
 			]]);
 			$BKuhl->addresses()->save($homeAddress);
 		}
+
+		$this->call('AcceptanceTestingSeeder');
 	}
 
 }

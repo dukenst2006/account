@@ -14,7 +14,7 @@
                         <div class="tools">
                             {!! Form::open(['url' => '/account/address/'.$address->id, 'method' => 'delete']) !!}
                                 <a href="/account/address/{{ $address->id }}/edit" class="fa fa-edit"></a>
-                                <a href='#' onclick="$(this).closest('form').submit();" class="fa fa-trash-o"></a>
+                                <a onclick="$(this).closest('form').submit();" class="fa fa-trash-o"></a>
                             {!! Form::close() !!}
                         </div>
                     </div>

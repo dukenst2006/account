@@ -37,9 +37,9 @@ class AddressController extends Controller
 			'user_id' => Auth::id()
 		]);
 
-		Address::create($request->all());
+		$address = Address::create($request->all());
 
-		return redirect('/account/address')->withFlashSuccess('Your changes were saved');
+		return redirect('/account/address')->withFlashSuccess('Your '.$address->name.' address has been created');
 	}
 
 	/**
@@ -78,7 +78,7 @@ class AddressController extends Controller
 	{
 		$address = Address::find($id);
 		$address->delete();
-		return redirect('/account/address')->withFlashSuccess($address->name.' address has been deleted');
+		return redirect('/account/address')->withFlashSuccess('Your '.$address->name.' address has been deleted');
 	}
 
 }

@@ -7,6 +7,15 @@ class AuthCest
     protected $email = null;
     protected $password = 'asdfasdf';
 
+    public function logout(AcceptanceTester $I)
+    {
+        $I->amOnPage('/dashboard');
+
+        \Lib\AuthHelper::logout($I);
+
+        $I->canSeeCurrentUrlEquals('/login');
+    }
+
     public function registerNewAccount(AcceptanceTester $I)
     {
         # Seed email
@@ -27,32 +36,9 @@ class AuthCest
         $I->canSeeCurrentUrlEquals('/dashboard');
 
         $I->see($this->firstName.' '.$this->lastName);
-    }
 
-    /**
-     * @depends registerNewAccount
-     */
-    public function logout(AcceptanceTester $I)
-    {
-        $I->amOnPage('/dashboard');
-
+        //switch currently logged in user back to the default
         \Lib\AuthHelper::logout($I);
-
-        $I->canSeeCurrentUrlEquals('/login');
-    }
-
-    /**
-     * @depends logout
-     */
-    public function login(AcceptanceTester $I)
-    {
-        $I->amOnPage('/login');
-
-        $I->fillField('email', $this->email);
-        $I->fillField('password', $this->password);
-
-        $I->click('Login');
-
-        $I->canSeeCurrentUrlEquals('/dashboard');
+        \Lib\AuthHelper::login($I);
     }
 }
