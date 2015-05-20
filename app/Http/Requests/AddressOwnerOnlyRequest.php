@@ -1,10 +1,10 @@
-<?php namespace BibleBowl\Http\Requests\Addresses;
+<?php namespace BibleBowl\Http\Requests;
 
 use Auth;
 use BibleBowl\Address;
 use BibleBowl\Http\Requests\Request;
 
-class DestroyAddressRequest extends Request {
+class AddressOwnerOnlyRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.

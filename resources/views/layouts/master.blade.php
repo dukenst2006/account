@@ -24,7 +24,6 @@
         @include('partials.sidebar')
 
         <div class="page-content">
-            @include('partials.messages')
             @yield('content')
         </div>
     </div>

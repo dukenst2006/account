@@ -139,10 +139,11 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-		'BibleBowl\Providers\AppServiceProvider',
-		'BibleBowl\Providers\ConfigServiceProvider',
-		'BibleBowl\Providers\EventServiceProvider',
-		'BibleBowl\Providers\RouteServiceProvider',
+		'BibleBowl\Support\Providers\AppServiceProvider',
+		'BibleBowl\Support\Providers\ConfigServiceProvider',
+		'BibleBowl\Support\Providers\EventServiceProvider',
+		'BibleBowl\Support\Providers\RouteServiceProvider',
+		'BibleBowl\Support\Providers\PresentationServiceProvider',
 
 		/*
 		 * 3rd Party Service Providers...
@@ -201,6 +202,8 @@ return [
 		/**
 		 * 3rd party facades
 		 */
+		'Form'		=> 'Illuminate\Html\FormFacade',
+		'HTML'		=> 'Illuminate\Html\HtmlFacade',
 		'Gravatar' => 'Thomaswelton\LaravelGravatar\Facades\Gravatar'
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 	],

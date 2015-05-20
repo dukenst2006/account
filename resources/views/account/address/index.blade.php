@@ -3,8 +3,8 @@
 @section('title', 'My Addresses')
 
 @section('content')
-    @include('partials.messages')
     <div class="content sm-gutter">
+        @include('partials.messages')
         <div class="row">
         @foreach(Auth::user()->addresses as $address)
             <div class="col-md-3 col-vlg-3 m-b-10">
@@ -12,10 +12,10 @@
                     <div class="grid-title no-border">
                         <h4>{{ $address->name }}</h4>
                         <div class="tools">
-                            <form method='DELETE' action='address/{{ $address->id }}'>
-                                <a href="address/{{ $address->id }}/edit" class="fa fa-edit"></a>
-                                <a href="javascript:void(0);" onclick="$(this).closest('form').submit();" class="fa fa-trash-o"></a>
-                            </form>
+                            {!! Form::open(['url' => '/account/address/'.$address->id, 'method' => 'delete']) !!}
+                                <a href="/account/address/{{ $address->id }}/edit" class="fa fa-edit"></a>
+                                <a href='#' onclick="$(this).closest('form').submit();" class="fa fa-trash-o"></a>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                     <div class="grid-body no-border">
@@ -26,9 +26,10 @@
         @endforeach
             <div class="col-md-3 col-vlg-3 m-b-10">
                 <div class="grid simple address-card">
-                    <div class="grid-body no-border">
-                        Add new address
-                    </div>
+                    <a href="/account/address/create" class="grid-body no-border button-grid text-center">
+                        <span class="fa fa-plus"></span><br/>
+                        New Address
+                    </a>
                 </div>
             </div>
         </div>

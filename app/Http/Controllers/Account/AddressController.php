@@ -1,15 +1,17 @@
 <?php namespace BibleBowl\Http\Controllers\Account;
 
+use Auth;
+use BibleBowl\Http\Requests\AddressOwnerOnlyRequest;
+use Illuminate\Http\Request;
+use Redirect;
+use BibleBowl\Address;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\Addresses\DestroyAddressRequest;
 
 class AddressController extends Controller
 {
 
 	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
+	 * @return \Illuminate\View\View
 	 */
 	public function index()
 	{
@@ -17,14 +19,66 @@ class AddressController extends Controller
 	}
 
 	/**
-	 * @param DestroyAddressRequest $request
-	 * @param                      $id
+	 * @return \Illuminate\View\View
+	 */
+	public function create()
+	{
+		return view('account.address.create');
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function store(Request $request)
+	{
+		$this->validate($request, Address::validationRules(), Address::validationMessages());
+
+		$request->merge([
+			'user_id' => Auth::id()
+		]);
+
+		Address::create($request->all());
+
+		return redirect('/account/address')->withFlashSuccess('Your changes were saved');
+	}
+
+	/**
+	 * @param AddressOwnerOnlyRequest $request
+	 *
+	 * @return \Illuminate\View\View
+	 */
+	public function edit(AddressOwnerOnlyRequest $request, $id)
+	{
+		return view('account.address.edit')
+				->withAddress(Address::findOrFail($id));
+	}
+
+	/**
+	 * @param AddressOwnerOnlyRequest $request
+	 * @param                         $id
 	 *
 	 * @return mixed
 	 */
-	public function destroy(DestroyAddressRequest $request, $id)
+	public function update(AddressOwnerOnlyRequest $request, $id)
 	{
+		$this->validate($request, Address::validationRules(), Address::validationMessages());
 
+		Address::findOrFail($id)->update($request->all());
+
+		return redirect('/account/address')->withFlashSuccess('Your changes were saved');
+	}
+
+	/**
+	 * @param AddressOwnerOnlyRequest 	$request
+	 * @param                      		$id
+	 *
+	 * @return mixed
+	 */
+	public function destroy(AddressOwnerOnlyRequest $request, $id)
+	{
+		$address = Address::find($id);
+		$address->delete();
+		return redirect('/account/address')->withFlashSuccess($address->name.' address has been deleted');
 	}
 
 }

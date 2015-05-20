@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Providers;
+<?php namespace BibleBowl\Support\Providers;
 
 use Route;
 use Auth;
