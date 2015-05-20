@@ -14,7 +14,7 @@ class AccountAddressCest
     protected $state = 'KY';
     protected $zipCode = 40241;
 
-    public function createNewAddress(AcceptanceTester $I)
+    public function manageAddresses(AcceptanceTester $I)
     {
         \Lib\AuthHelper::login($I);
 
