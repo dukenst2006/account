@@ -19,7 +19,7 @@ class Registrar implements RegistrarContract {
 	{
 		$rules = [
 			'email'			=> 'required|email|max:255|unique:users',
-			'password'		=> 'required|confirmed|min:6',
+			'password'		=> 'required|confirmed|min:6|max:60',
 		];
 
 		if (!App::environment('local')) {
