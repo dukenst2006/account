@@ -54,7 +54,10 @@ return [
 	|
 	*/
 
-	'from' => ['address' => null, 'name' => null],
+	'from' => [
+		'address' => 'noreply@biblebowl.org',
+		'name' => 'Bible Bowl'
+	],
 
 	/*
 	|--------------------------------------------------------------------------

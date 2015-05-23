@@ -10,6 +10,7 @@
 				<div class="p-t-30 p-l-40 p-r-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
 					<h2 class="normal">Bible Bowl</h2>
 					<p>Manage your player information, team rosters and more!  To get started, <strong>login with your favorite social network</strong> or <strong><a href="/register">register a new account</a></strong>.<br></p>
+					@include('partials.messages')
 				</div>
 				<div class="tiles grey text-black">
 					<div class="row p-t-20 p-b-20">
@@ -28,7 +29,6 @@
 							</a>
 						</div>
 						<div class="col-md-7 p-l-10 p-r-10">
-							@include('partials.messages')
 							<form class="login-form" method="post">
 								<input type="hidden" name="_token" value="{{ Session::token() }}" />
 								<div class="row">

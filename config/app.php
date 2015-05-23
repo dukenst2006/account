@@ -200,6 +200,11 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 
 		/**
+		 * Application facades
+		 */
+		'EmailTemplate'		=> 'BibleBowl\Support\Facades\EmailTemplate',
+
+		/**
 		 * 3rd party facades
 		 */
 		'Form'		=> 'Illuminate\Html\FormFacade',

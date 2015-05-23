@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Presentation\EmailTemplate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider {
 			\Illuminate\Contracts\Auth\Registrar::class,
 			\BibleBowl\Auth\Registrar::class
 		);
+
+		$this->app->bind('email.template', function()
+		{
+			return new EmailTemplate();
+		});
 
 		if ($this->app->environment('production') === false) {
 			$this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

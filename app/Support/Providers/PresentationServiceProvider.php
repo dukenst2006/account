@@ -29,5 +29,7 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
             $form = new Form($app['html'], $app['url'], $app['session.store']->getToken());
             return $form->setSessionStore($app['session.store']);
         });
+
+        //for EmailTemplate service provider, see AppServiceProvider
     }
 }

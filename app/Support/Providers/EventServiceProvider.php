@@ -1,5 +1,8 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Auth\OnLogin;
+use BibleBowl\Auth\UserRegistered;
+use BibleBowl\Auth\SendConfirmationEmail;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -12,8 +15,14 @@ class EventServiceProvider extends ServiceProvider {
 	 */
 	protected $listen = [
 		'auth.login' => [
-			'BibleBowl\Auth\OnLogin',
+			OnLogin::class,
 		],
+		'auth.registered' => [
+			SendConfirmationEmail::class
+		],
+		'auth.resend.confirmation' => [
+			SendConfirmationEmail::class
+		]
 	];
 
 	/**

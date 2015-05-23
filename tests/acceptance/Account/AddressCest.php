@@ -1,7 +1,6 @@
 <?php
 
-use BibleBowl\Address;
-use Codeception\Util\Locator;
+use Lib\AuthHelper;
 
 class AccountAddressCest
 {
@@ -16,7 +15,8 @@ class AccountAddressCest
 
     public function manageAddresses(AcceptanceTester $I)
     {
-        \Lib\AuthHelper::login($I);
+        //required since this is the first test that runs
+        AuthHelper::login($I);
 
         $I->amOnPage('/account/address');
 

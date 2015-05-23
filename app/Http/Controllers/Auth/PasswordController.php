@@ -4,6 +4,7 @@ use BibleBowl\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class PasswordController extends Controller {
 
@@ -20,6 +21,8 @@ class PasswordController extends Controller {
 
 	use ResetsPasswords;
 
+	protected $redirectTo = '/login';
+
 	/**
 	 * Create a new password controller instance.
 	 *
@@ -33,6 +36,31 @@ class PasswordController extends Controller {
 		$this->passwords = $passwords;
 
 		$this->middleware('guest');
+	}
+
+	/**
+	 * Send a reset link to the given user.
+	 *
+	 * @param  Request  $request
+	 * @return Response
+	 */
+	public function postEmail(Request $request)
+	{
+		$this->validate($request, ['email' => 'required|email']);
+
+		$response = $this->passwords->sendResetLink($request->only('email'), function($m)
+		{
+			$m->subject($this->getEmailSubject());
+		});
+
+		switch ($response)
+		{
+			case PasswordBroker::RESET_LINK_SENT:
+				return redirect()->back()->withFlashSuccess('Password reset email has been sent', trans($response));
+
+			case PasswordBroker::INVALID_USER:
+				return redirect()->back()->withErrors(['email' => trans($response)]);
+		}
 	}
 
 }

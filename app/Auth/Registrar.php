@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Auth;
 
+use Event;
 use App;
 use Gravatar;
 use BibleBowl\User;
@@ -48,6 +49,8 @@ class Registrar implements RegistrarContract {
 		}
 
 		$user->save();
+
+		Event::fire('auth.registered', [$user]);
 
 		return $user;
 	}

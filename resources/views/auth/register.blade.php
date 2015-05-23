@@ -20,22 +20,7 @@
 				<div class="row">
 					<div class="col-md-12"> <br>
 						@include('partials.messages')
-						<form method="post">
-							<input type="hidden" name="_token" value="{{ Session::token() }}" />
-							<div class="row">
-								<div class="form-group col-md-12">
-									<label class="form-label">Name</label>
-									<span class="help"></span>
-									<div class="row">
-										<div class="col-md-6">
-											<input type="text" name="first_name" class="form-control" autofocus placeholder="First">
-										</div>
-										<div class="col-md-6">
-											<input type="text" name="last_name" class="form-control" placeholder="Last">
-										</div>
-									</div>
-								</div>
-							</div>
+						{!! Form::open(['method' => 'post']) !!}
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label class="form-label">E-Mail Address</label>
@@ -67,7 +52,7 @@
 									<button class="btn btn-primary btn-cons" type="submit">Register</button>
 								</div>
 							</div>
-						</form>
+						{!! Form::close() !!}
 					</div>
 				</div>
 			</div>

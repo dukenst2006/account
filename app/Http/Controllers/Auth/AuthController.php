@@ -1,9 +1,12 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
+use Event;
 use BibleBowl\Http\Controllers\Controller;
+use BibleBowl\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller {
 
@@ -36,6 +39,44 @@ class AuthController extends Controller {
 		$this->registrar = $registrar;
 
 		$this->middleware('guest', ['except' => 'getLogout']);
+	}
+
+	/**
+	 * Handle a login request to the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postLogin(Request $request)
+	{
+		$this->validate($request, [
+			'email' 	=> 'required|email',
+			'password'  => 'required',
+		]);
+
+		$credentials = $request->only('email', 'password');
+
+		if ($this->auth->attempt($credentials, $request->has('remember')))
+		{
+			//require email is confirmed before continuing
+			$user = $this->auth->user();
+			if ($user->status == User::STATUS_UNCONFIRMED) {
+				$this->auth->logout();
+				Event::fire('auth.resend.confirmation', [$user]);
+				return redirect($this->loginPath())
+					->withErrors([
+						'email' => "Your email address is not yet confirmed.  We've resent your confirmation email.",
+					]);
+			}
+
+			return redirect()->intended($this->redirectPath());
+		}
+
+		return redirect($this->loginPath())
+			->withInput($request->only('email', 'remember'))
+			->withErrors([
+				'email' => $this->getFailedLoginMessage(),
+			]);
 	}
 
 }

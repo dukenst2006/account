@@ -1,59 +1,65 @@
-@extends('app')
+@extends('layouts.frontend_master')
+
+@section('title', 'Reset Password')
 
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Reset Password</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
-
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="token" value="{{ $token }}">
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+	<div class="login-container row">
+		<div class="grid simple">
+			<div class="col-md-8 col-md-offset-2 grid-body no-border">
+				<br/>
+				<div class="row">
+					<div class="col-md-12 page-title">
+						<h3>Reset Password</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12"> <br>
+						@include('partials.messages')
+						<form role="form" method="POST" action="{{ url('/password/reset') }}">
+							<input type="hidden" name="_token" value="{{ Session::token() }}" />
+							<input type="hidden" name="token" value="{{ $token }}">
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="form-label">E-Mail Address</label>
+									<span class="help"></span>
+									<div class="controls">
+										<input type="text" name="email" class="form-control" autofocus value="{{ old('email') }}">
+									</div>
+								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="form-label">Password</label>
+									<span class="help"></span>
+									<div class="controls">
+										<div class="input-with-icon right">
+											<i class="icon-email"></i>
+											<input type="password" name="password" class="form-control">
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="form-label">Confirm Password</label>
+									<span class="help"></span>
+									<div class="controls">
+										<div class="input-with-icon right">
+											<i class="icon-email"></i>
+											<input type="password" name="password_confirmation" class="form-control">
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Reset Password
-								</button>
+							<div class="row">
+								<div class="col-md-12">
+									<button class="btn btn-primary btn-cons pull-right" type="submit">Reset Password</button>
+								</div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 @endsection

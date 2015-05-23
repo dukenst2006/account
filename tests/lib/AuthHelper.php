@@ -11,12 +11,15 @@ class AuthHelper
         $I->click('Log Out');
     }
 
-    public static function login(AcceptanceTester $I)
-    {
+    public static function login(
+        AcceptanceTester $I,
+        $email = AcceptanceTestingSeeder::USER_EMAIL,
+        $password = AcceptanceTestingSeeder::USER_PASSWORD
+    ) {
         $I->amOnPage('/login');
 
-        $I->fillField('email', AcceptanceTestingSeeder::USER_EMAIL);
-        $I->fillField('password', AcceptanceTestingSeeder::USER_PASSWORD);
+        $I->fillField('email', $email);
+        $I->fillField('password', $password);
 
         $I->click('Login');
     }

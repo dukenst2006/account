@@ -10,7 +10,7 @@
 				<div class="row">
 					<div class="col-md-6 pull-left">
 						<div class="page-title">
-							<h3>Reset Email</h3>
+							<h3>Password Reset Email</h3>
 						</div>
 					</div>
 					<div class="col-md-6 text-right">
