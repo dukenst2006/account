@@ -47,6 +47,16 @@
 									</div>
 								</div>
 							</div>
+							@if(!App::environment('local'))
+							<div class="row">
+								<div class="col-md-3"></div>
+								<div class="col-md-5 text-center">
+									{!! app('captcha')->display(); !!}
+									<br/>
+								</div>
+								<div class="col-md-3"></div>
+							</div>
+							@endif
 							<div class="row">
 								<div class="col-md-12 text-center">
 									<button class="btn btn-primary btn-cons" type="submit">Register</button>

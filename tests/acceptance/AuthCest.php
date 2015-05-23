@@ -51,8 +51,6 @@ class AuthCest
 //
 //        $I->canSeeCurrentUrlEquals('/dashboard');
 //
-//        $I->see($this->firstName.' '.$this->lastName);
-//
 //        //switch currently logged in user back to the default
 //        AuthHelper::logout($I);
 //        AuthHelper::login($I);

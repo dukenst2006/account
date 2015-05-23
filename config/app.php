@@ -150,6 +150,7 @@ return [
 		 */
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 		'Laravel\Socialite\SocialiteServiceProvider',
+		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
 
 	],
 
