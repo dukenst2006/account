@@ -13,33 +13,7 @@ var color_warning="#f7cf5e";
 var color_info="#3b4751";
 
 $(document).ready(function () {
-    $('select').select2();
-
     calculateHeight();
-    $(".remove-widget").click(function () {
-        $(this).parent().parent().parent().addClass('animated fadeOut');
-        $(this).parent().parent().parent().attr('id', 'id_a');
-
-        //$(this).parent().parent().parent().hide();
-        setTimeout(function () {
-            $('#id_a').remove();
-        }, 400);
-        return false;
-    });
-
-    $(".create-folder").click(function () {
-        $('.folder-input').show();
-        return false;
-    });
-
-    $(".folder-name").keypress(function (e) {
-        if (e.which == 13) {
-            $('.folder-input').hide();
-            $('<li><a href="#"><div class="status-icon green"></div>' + $(this).val() + '</a> </li>').insertBefore(".folder-input");
-            $(this).val('');
-        }
-    });
-
     $("#menu-collapse").click(function () {
         if ($('.page-sidebar').hasClass('mini')) {
             $('.page-sidebar').removeClass('mini');
@@ -87,39 +61,6 @@ $(document).ready(function () {
     $('#user-options').click(function () {
         $('#my-task-list').popover('hide');
     });
-    //*********************************** BEGIN CHAT POPUP*****************************
-//    if($('body').hasClass('rtl')){
-//        $('.chat-menu-toggle').sidr({
-//        name: 'sidr',
-//        side: 'left',
-//        complete: function () {}
-//        });
-//    }
-//    else{
-//        $('.chat-menu-toggle').sidr({
-//            name: 'sidr',
-//            side: 'right',
-//            complete: function () {}
-//        });        
-//    }
-//    $(".simple-chat-popup").click(function () {
-//        $(this).addClass('hide');
-//        $('#chat-message-count').addClass('hide');
-//    });
-//
-//    setTimeout(function () {
-//        $('#chat-message-count').removeClass('hide');
-//        $('#chat-message-count').addClass('animated bounceIn');
-//        $('.simple-chat-popup').removeClass('hide');
-//        $('.simple-chat-popup').addClass('animated fadeIn');
-//    }, 5000);
-//    setTimeout(function () {
-//        $('.simple-chat-popup').addClass('hide');
-//        $('.simple-chat-popup').removeClass('animated fadeIn');
-//        $('.simple-chat-popup').addClass('animated fadeOut');
-//    }, 8000);
-
-    //*********************************** END CHAT POPUP*****************************	
 
     //**********************************BEGIN MAIN MENU********************************
     jQuery('.page-sidebar li > a').on('click', function (e) {
@@ -231,35 +172,7 @@ $(document).ready(function () {
             effect: "fadeIn"
         });
     }
-    //***********************************BEGIN Grids*****************************		
-    //$('.grid .tools a.remove').on('click', function () {
-    //    var removable = jQuery(this).parents(".grid");
-    //    if (removable.next().hasClass('grid') || removable.prev().hasClass('grid')) {
-    //        jQuery(this).parents(".grid").remove();
-    //    } else {
-    //        jQuery(this).parents(".grid").parent().remove();
-    //    }
-    //});
-    //
-    //$('.grid .tools a.reload').on('click', function () {
-    //    var el = jQuery(this).parents(".grid");
-    //    blockUI(el);
-    //    window.setTimeout(function () {
-    //        unblockUI(el);
-    //    }, 1000);
-    //});
-    //
-    //$('.grid .tools .collapse, .grid .tools .expand').on('click', function () {
-    //    var el = jQuery(this).parents(".grid").children(".grid-body");
-    //    if (jQuery(this).hasClass("collapse")) {
-    //        jQuery(this).removeClass("collapse").addClass("expand");
-    //        el.slideUp(200);
-    //    } else {
-    //        jQuery(this).removeClass("expand").addClass("collapse");
-    //        el.slideDown(200);
-    //    }
-    //});
-
+    //***********************************BEGIN Grids*****************************
     $('.user-info .collapse').on('click', function () {
         jQuery(this).parents(".user-info ").stop().slideToggle(400, "swing");
     });
@@ -474,7 +387,6 @@ $(document).ready(function () {
     });
     $('.animate-progress-bar').each(function () {
         $(this).css('width', $(this).attr("data-percentage"));
-
     });
     //***********************************BEGIN Function calls *****************************	
 

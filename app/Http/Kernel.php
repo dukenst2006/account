@@ -27,6 +27,7 @@ class Kernel extends HttpKernel {
 		'auth' => 'BibleBowl\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'BibleBowl\Http\Middleware\RedirectIfAuthenticated',
+		'requires.setup' => \BibleBowl\Http\Middleware\RedirectIfRequiresSetup::class,
 	];
 
 }

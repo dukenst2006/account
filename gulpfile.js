@@ -23,20 +23,32 @@ elixir(function(mix) {
 
     // compile backend assets
     mix.scripts([
-        '/plugins/jquery-1.8.3.min.js',
-        '/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js',
-        '/plugins/boostrapv3/js/bootstrap.min.js',
-        '/plugins/breakpoints.js',
-        '/plugins/jquery-unveil/jquery.unveil.min.js',
-        '/plugins/jquery-block-ui/jqueryblockui.js',
-        '/plugins/jquery-lazyload/jquery.lazyload.min.js',
-        '/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
-        '/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
-        '/js/core.js',
-    ], 'public/js/backend.js', 'public/assets')
+        '/assets/plugins/jquery-1.8.3.min.js',
+        '/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js',
+        '/assets/plugins/boostrapv3/js/bootstrap.min.js',
+        '/assets/plugins/breakpoints.js',
+        '/assets/plugins/jquery-unveil/jquery.unveil.min.js',
+        '/assets/plugins/jquery-block-ui/jqueryblockui.js',
+        '/assets/plugins/jquery-lazyload/jquery.lazyload.min.js',
+        '/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
+        '/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
+        '/assets/js/core.js',
+    ], 'public/js/backend.js', 'public');
+
+    // compile form assets
+    mix.scripts([
+        '/assets/plugins/bootstrap-select2/select2.js',
+        '/assets/plugins/jquery-inputmask/jquery.inputmask.min.js',
+        '/assets/js/forms.js',
+    ], 'public/js/forms.js', 'public');
+    mix.styles([
+        '/assets/plugins/bootstrap-select2/select2.css',
+    ],  'public/css/forms.css', 'public');
 
     mix.version([
         'js/backend.js',
-        'css/core.css'
+        'js/forms.js',
+        'css/core.css',
+        'css/forms.css'
     ]);
 });

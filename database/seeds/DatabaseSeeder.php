@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +17,8 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		$BKuhl = \BibleBowl\User::create([
+		$BKuhl = User::create([
+			'status'			=> User::STATUS_CONFIRMED,
 			'first_name'		=> 'Ben',
 			'last_name'			=> 'Kuhl',
 			'email'				=> 'benkuhl@gmail.com',

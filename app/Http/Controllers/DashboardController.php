@@ -2,6 +2,10 @@
 
 class DashboardController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('requires.setup');
+	}
 
 	/**
 	 * Show the application dashboard to the user.

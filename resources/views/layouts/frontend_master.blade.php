@@ -25,5 +25,6 @@
         <div class="copyright"> <?=date('Y')?> <i class="fa fa-copyright"></i> Bible Bowl </div>
     </div>
 </div>
+@yield('scripts')
 </body>
 </html>

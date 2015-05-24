@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider {
 			\BibleBowl\Auth\Registrar::class
 		);
 
+		// putting this in the PresentServiceProvider causes issues
 		$this->app->bind('email.template', function()
 		{
 			return new EmailTemplate();
@@ -38,7 +39,7 @@ class AppServiceProvider extends ServiceProvider {
 
 		if ($this->app->environment('production') === false) {
 			$this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-			$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+			//$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
 			$this->app->register(\Spatie\Tail\TailServiceProvider::class);
 		}
 	}

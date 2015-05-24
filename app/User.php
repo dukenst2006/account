@@ -94,4 +94,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany('BibleBowl\Address');
 	}
 
+	/**
+	 * Determines if this user still lacks basic account information
+	 *
+	 * @return bool
+	 */
+	public function requiresSetup()
+	{
+		return is_null($this->first_name) || is_null($this->last_name);
+	}
+
 }

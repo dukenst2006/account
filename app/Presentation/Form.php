@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Presentation;
 
+use BibleBowl\User;
 use Illuminate\Html\FormBuilder;
 
 class Form extends FormBuilder

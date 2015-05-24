@@ -71,6 +71,8 @@ class RouteServiceProvider extends ServiceProvider {
 					'namespace'	=> 'Account'
 				], function () {
 					Route::resource('address', 'AddressController');
+					Route::get('setup', 'SetupController@getSetup');
+					Route::post('setup', 'SetupController@postSetup');
 				});
 			});
 
