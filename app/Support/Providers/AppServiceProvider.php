@@ -1,7 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use Whoops\Handler\PrettyPageHandler;
 use BibleBowl\Presentation\EmailTemplate;
 use Illuminate\Support\ServiceProvider;
+use Whoops\Run;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -12,7 +14,12 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		// whoops page for local dev
+//		if ($this->app->environment('production') === false) {
+//			$whoops = new Run();
+//			$whoops->pushHandler(new PrettyPageHandler);
+//			$whoops->register();
+//		}
 	}
 
 	/**

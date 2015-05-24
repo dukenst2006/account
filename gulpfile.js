@@ -18,6 +18,7 @@ elixir(function(mix) {
     mix.styles([
         'css/style.css',
         'css/responsive.css',
+        'assets/plugins/font-awesome/css/font-awesome.css',
         'assets/css/custom-icon-set.css'
     ],  'public/css/core.css', 'public');
 

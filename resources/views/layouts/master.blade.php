@@ -9,7 +9,6 @@
     <title>@yield('title')</title>
     @yield('meta')
 
-    <link href="/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css"/>
     @yield('before-styles-end')
     <link href="{!! elixir('css/core.css') !!}" rel="stylesheet" type="text/css"/>
     @yield('after-styles-end')

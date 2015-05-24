@@ -23,6 +23,7 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler {
 	 */
 	public function report(Exception $e)
 	{
+		dd($e->getMessage());
 		return ExceptionHandler::report($e);
 	}
 

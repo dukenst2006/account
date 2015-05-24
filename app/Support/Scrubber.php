@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Support\Scrubber;
+<?php namespace BibleBowl\Support;
 
 /**
  * Remove characters that don't match the given type

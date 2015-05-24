@@ -11,6 +11,7 @@
 	  	"anhskohbo/no-captcha": "2.*"
 	},
 	"require-dev": {
+	    "filp/whoops": "dev-master",
 	  	"barryvdh/laravel-ide-helper": "^2.0",
 	  	"doctrine/dbal": "^2.5",
 	  	"barryvdh/laravel-debugbar": "^2.0",

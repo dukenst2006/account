@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration {
 			$table->boolean('status');
 			$table->string('guid')->unique()->index();
 			$table->string('email', 255)->unique();
-			$table->string('first_name', 64)->nullable();
-			$table->string('last_name', 64)->nullable();
+			$table->string('first_name', 32)->nullable();
+			$table->string('last_name', 32)->nullable();
 			$table->string('phone', 10);
 			$table->string('gender')->nullable();
 			$table->string('avatar', 255);

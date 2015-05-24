@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers\Account;
 
 use App;
-use BibleBowl\Support\Scrubber\Scrubber;
+use BibleBowl\Support\Scrubber;
 use DB;
 use Auth;
 use Illuminate\Http\Request;

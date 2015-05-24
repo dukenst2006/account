@@ -1,6 +1,5 @@
 <?php
 
-use BibleBowl\User;
 use Lib\AuthHelper;
 
 class AuthCest
@@ -19,11 +18,11 @@ class AuthCest
         $I->canSeeCurrentUrlEquals('/login');
     }
 
-//    public function loginRequiresEmailConfirmation(AcceptanceTester $I)
-//    {
-//        AuthHelper::login($I, AcceptanceTestingSeeder::UNCONFIRMED_USER_EMAIL);
-//        $I->see("Your email address is not yet confirmed.");
-//
+    public function loginRequiresEmailConfirmation(AcceptanceTester $I)
+    {
+        AuthHelper::login($I, AcceptanceTestingSeeder::UNCONFIRMED_USER_EMAIL);
+        $I->see("Your email address is not yet confirmed.");
+
 //        $user = User::where('email', AcceptanceTestingSeeder::UNCONFIRMED_USER_EMAIL)->first();
 //        $I->amOnPage('/register/confirm/'.$user->guid);
 //
@@ -32,7 +31,7 @@ class AuthCest
 //        $I->canSeeInCurrentUrl('/dashboard');
 //
 //        $user->save(); //set back to unconfirmed
-//    }
+    }
 
     public function registerNewAccount(AcceptanceTester $I)
     {
