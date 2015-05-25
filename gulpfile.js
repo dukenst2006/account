@@ -38,18 +38,13 @@ elixir(function(mix) {
 
     // compile form assets
     mix.scripts([
-        '/assets/plugins/bootstrap-select2/select2.js',
         '/assets/plugins/jquery-inputmask/jquery.inputmask.min.js',
         '/assets/js/forms.js',
     ], 'public/js/forms.js', 'public');
-    mix.styles([
-        '/assets/plugins/bootstrap-select2/select2.css',
-    ],  'public/css/forms.css', 'public');
 
     mix.version([
         'js/backend.js',
         'js/forms.js',
-        'css/core.css',
-        'css/forms.css'
+        'css/core.css'
     ]);
 });

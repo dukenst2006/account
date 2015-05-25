@@ -2,10 +2,6 @@
 
 @section('title', 'Account Registration')
 
-@section('after-styles-end')
-    <link href="{!! elixir('css/forms.css') !!}" rel="stylesheet" type="text/css"/>
-@endsection
-
 @section('scripts')
     <script src="/assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>
     <script src="{!! elixir('js/forms.js') !!}" type="text/javascript"></script>
