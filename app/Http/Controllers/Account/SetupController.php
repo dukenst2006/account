@@ -2,6 +2,7 @@
 
 use App;
 use BibleBowl\Support\Scrubber;
+use BibleBowl\User;
 use DB;
 use Auth;
 use Illuminate\Http\Request;
@@ -11,18 +12,10 @@ use BibleBowl\Http\Controllers\Controller;
 
 class SetupController extends Controller
 {
-	/** @var Scrubber */
-	protected $scrubber;
-
-	public function __construct(Scrubber $scrubber)
-	{
-		$this->scrubber = $scrubber;
-	}
-
 	/**
 	 * @return \Illuminate\View\View
 	 */
-	public function getSetup(Request $request)
+	public function getSetup()
 	{
 		return view('account.setup');
 	}
@@ -30,17 +23,15 @@ class SetupController extends Controller
 	/**
 	 * @return mixed
 	 */
-	public function postSetup(Request $request)
+	public function postSetup(Request $request, Scrubber $scrubber)
 	{
 		$request->merge([
 			'name' 	=> 'Home', //default address name,
-			'phone' => $this->scrubber->integer($request->get('phone')) //strip non-int characters
+			'phone' => $scrubber->integer($request->get('phone')) //strip non-int characters
 		]);
 
-		$this->validate($request, array_merge(Address::validationRules(), [
-			'phone'		=> 'required|integer|digits:10',
-			'gender'	=> 'required'
-		]), Address::validationMessages());
+		$userRules = array_only(User::validationRules(), ['gender', 'phone']);
+		$this->validate($request, array_merge(Address::validationRules(), $userRules), Address::validationMessages());
 
 		//update the info
 		DB::transaction(function () use($request) {

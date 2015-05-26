@@ -4,6 +4,7 @@
 
 @section('content')
 	<div class="content sm-gutter">
+		@include('partials.messages')
 		<div class="row">
 			<div class="col-md-6 m-b-10">
 				<!-- BEGIN ROLE GUIDIANCE WIDGET -->

@@ -58,6 +58,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		});
 	}
 
+	public static function validationRules(User $userBeingUpdated = null)
+	{
+		$rules = [
+			'first_name'	=> 'required|max:32',
+			'last_name'		=> 'required|max:32',
+			'email'			=> 'required|email|max:255|unique:users',
+			'password'		=> 'confirmed|min:6|max:60',
+			'phone'			=> 'required|integer|digits:10',
+			'gender'		=> 'required'
+		];
+
+		if (!is_null($userBeingUpdated)) {
+			$rules['email'] .= ',email,'.$userBeingUpdated->id;
+		}
+
+		return $rules;
+	}
+
 	public function updateLastLogin()
 	{
 		return $this->update([

@@ -33,6 +33,7 @@ elixir(function(mix) {
         '/assets/plugins/jquery-lazyload/jquery.lazyload.min.js',
         '/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
         '/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
+        '/assets/plugins/jquery-inputmask/jquery.inputmask.min.js',
         '/assets/js/core.js',
     ], 'public/js/backend.js', 'public');
 
