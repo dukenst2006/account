@@ -19,6 +19,14 @@ class Address extends Model {
         return $this->belongsTo('BibleBowl\User');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function group()
+    {
+        return $this->hasMany('BibleBowl\Group');
+    }
+
     public static function validationRules()
     {
         return [

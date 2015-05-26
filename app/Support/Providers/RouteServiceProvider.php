@@ -74,6 +74,10 @@ class RouteServiceProvider extends ServiceProvider {
 					Route::get('setup', 'SetupController@getSetup');
 					Route::post('setup', 'SetupController@postSetup');
 				});
+
+				Route::resource('children', 'ChildrenController', [
+					'only' => ['edit', 'update', 'destroy']
+				]);
 			});
 
 		});

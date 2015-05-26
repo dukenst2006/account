@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Config;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -7,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Rhumsaa\Uuid\Uuid;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -36,7 +38,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['id', 'remember_token', 'password'];
+	protected $guarded = ['id', 'guid', 'remember_token', 'password'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -45,14 +47,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-
 	public static function boot()
 	{
 		parent::boot();
 
 		//assign a guid for each user
 		static::creating(function ($user) {
-			$user->guid = md5(uniqid().Carbon::now());
+			$user->guid = Uuid::uuid5(Uuid::NAMESPACE_DNS, Config::get('biblebowl.uuid.name'));
 			return true;
 		});
 	}
@@ -92,6 +93,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public function addresses() {
 		return $this->hasMany('BibleBowl\Address');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function children() {
+		return $this->hasMany('BibleBowl\Children');
 	}
 
 	/**
