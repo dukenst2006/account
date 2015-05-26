@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Season;
 use BibleBowl\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +39,10 @@ class DatabaseSeeder extends Seeder {
 			]]);
 			$BKuhl->addresses()->save($homeAddress);
 		}
+
+		$season = Season::create([
+			'name' => date('Y').' - '.(date('y')+1)
+		]);
 
 		$this->call('AcceptanceTestingSeeder');
 	}
