@@ -2,11 +2,6 @@
 
 return [
 
-	// configuration used to generate UUID5 guids
-	'uuid' => [
-		'name' => 'biblebowl'
-	],
-
 	'season' => [
 
 		// the date the season will end.  If August or later, it'll

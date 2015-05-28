@@ -75,4 +75,31 @@ class Form extends FormBuilder
 
         return $this->select($name, $list, $selected, $options);
     }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectShirtSize($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [
+            'YS'    => 'YS - Youth Small',
+            'YM'    => 'YM - Youth Medium',
+            'YL'    => 'YL - Youth Large',
+            'S'     => 'S - Small',
+            'M'     => 'M - Medium',
+            'L'     => 'L - Large',
+            'XL'    => 'XL - X-Large',
+            'XXL'   => 'XXL - XX-Large',
+        ];
+
+        if ($optional) {
+            array_unshift($list, ['' => 'Select One...']);
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
 }

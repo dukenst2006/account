@@ -9,13 +9,14 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Rhumsaa\Uuid\Uuid;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	const STATUS_UNCONFIRMED = 0;
 	const STATUS_CONFIRMED = 1;
 
-	use Authenticatable, CanResetPassword;
+	use Authenticatable, CanResetPassword, EntrustUserTrait;
 
 	/**
 	 * The database table used by the model.
@@ -47,13 +48,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	protected $dates = ['birthday'];
+
 	public static function boot()
 	{
 		parent::boot();
 
 		//assign a guid for each user
 		static::creating(function ($user) {
-			$user->guid = Uuid::uuid5(Uuid::NAMESPACE_DNS, Config::get('biblebowl.uuid.name'));
+			$user->guid = uniqid();
 			return true;
 		});
 	}
@@ -116,8 +119,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function children() {
-		return $this->hasMany('BibleBowl\Children');
+	public function players() {
+		return $this->hasMany('BibleBowl\Player', 'guardian_id')->orderBy('birthday', 'DESC');
 	}
 
 	/**
@@ -128,6 +131,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function requiresSetup()
 	{
 		return is_null($this->first_name) || is_null($this->last_name);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFullNameAttribute()
+	{
+		return $this->first_name.' '.$this->last_name;
 	}
 
 }

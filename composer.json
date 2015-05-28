@@ -9,7 +9,7 @@
 		"laravel/socialite": "^2.0",
 		"illuminate/html": "^5.0",
 	  	"anhskohbo/no-captcha": "2.*",
-		"ramsey/uuid": "~2.8"
+	  	"zizaco/entrust": "dev-laravel-5"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",

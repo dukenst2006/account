@@ -23,8 +23,7 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler {
 	 */
 	public function report(Exception $e)
 	{
-		dd($e->getMessage());
-		return ExceptionHandler::report($e);
+		return parent::report($e);
 	}
 
 	/**
@@ -36,7 +35,7 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler {
 	 */
 	public function render($request, Exception $e)
 	{
-		return ExceptionHandler::render($request, $e);
+		return parent::render($request, $e);
 	}
 
 }

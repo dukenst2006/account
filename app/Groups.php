@@ -9,11 +9,6 @@ class Groups extends Model {
     const TYPE_BEGINNER = 0;
     const TYPE_TEEN = 1;
 
-    /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id', 'guid'];
 
     protected $attributes = [
@@ -25,8 +20,8 @@ class Groups extends Model {
         parent::boot();
 
         //assign a guid for each user
-        static::creating(function ($user) {
-            $user->guid = Uuid::uuid5(Uuid::NAMESPACE_DNS, Config::get('biblebowl.uuid.name'));
+        static::creating(function ($group) {
+            $group->guid = uniqid();
             return true;
         });
     }

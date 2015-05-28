@@ -28,6 +28,7 @@
         <!-- END TOP NAVIGATION MENU -->
         <!-- BEGIN CHAT TOGGLER -->
         <div class="pull-right">
+            @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
             <div class="chat-toggler"> <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notifications">
                     <div class="user-details">
                         <div class="username"> {{ Auth::user()->first_name }} <span class="bold">{{ Auth::user()->last_name }}</span> </div>
@@ -35,6 +36,7 @@
                     <div class="iconset top-down-arrow"></div>
                 </a>
             </div>
+            @endif
             <ul class="nav quick-section ">
                 <li class="quicklinks"> <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
                         <div class="iconset top-settings-dark "></div>

@@ -17,7 +17,7 @@
 							</div>
 							<div class="col-md-5 col-sm-5">
 								<div class="m-t-20">
-									<a class="btn btn-primary btn-cons" href="/children/create">Add my child(ren)</a>
+									<a class="btn btn-primary btn-cons" href="/player/create">Add my child(ren)</a>
 								</div>
 							</div>
 						</div>
@@ -37,6 +37,9 @@
 					</div>
 				</div>
 				<!-- END ROLE GUIDIANCE WIDGET -->
+				@if(Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
+					@include('dashboard.guardian_players')
+				@endif
 			</div>
 		</div>
 	</div>

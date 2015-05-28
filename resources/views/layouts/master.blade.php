@@ -32,5 +32,9 @@
     <![endif]-->
 
     <script src="{!! elixir('js/backend.js') !!}" type="text/javascript"></script>
+    @yield('includeJs')
+    <script type="text/javascript">
+        @yield('js')
+    </script>
 </body>
 </html>
