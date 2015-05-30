@@ -122,6 +122,6 @@ return [
 	|
 	*/
 
-	'pretend' => true,
+	'pretend' => env('MAIL_PRETEND', true),
 
 ];

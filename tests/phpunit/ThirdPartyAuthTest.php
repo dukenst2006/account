@@ -4,7 +4,7 @@ use Laravel\Socialite\Two\User as ThirdPartyUser;
 use BibleBowl\User;
 use BibleBowl\Auth\ThirdPartyAuthenticator;
 
-class ThirdPartyAuthCestTest extends TestCase
+class ThirdPartyAuthTest extends TestCase
 {
     /** @var ThirdPartyUser */
     protected $providerUser;
@@ -30,8 +30,13 @@ class ThirdPartyAuthCestTest extends TestCase
         $this->app->instance('Laravel\Socialite\Contracts\Factory', $this->socialite);
     }
 
-    public function testLoginViaOAuth2()
+    /**
+     * @test
+     */
+    public function loginViaOAuth2()
     {
+        Mail::shouldReceive('send');
+
         $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
             'code' => uniqid()
         ]);
@@ -54,14 +59,17 @@ class ThirdPartyAuthCestTest extends TestCase
     }
 
     /**
-     * @depends testLoginViaOAuth2
+     * @test
      */
-    public function testLoginViaOAuth2FailsIfEmailAlreadyInUse()
+    public function loginViaOAuth2FailsIfEmailAlreadyInUse()
     {
+        //allow GUID to be set
+        User::unguard();
         User::create([
-            'guid'  => uniqid(),
+            'guid'  => md5(uniqid().microtime()),
             'email' => $this->providerUser->getEmail()
         ]);
+        User::reguard();
 
         $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
             'code' => uniqid()

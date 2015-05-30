@@ -1,8 +1,8 @@
 <?php namespace BibleBowl\Auth;
 
+use Mail;
 use BibleBowl\User;
 use Illuminate\Mail\Message;
-use Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
 
@@ -13,7 +13,7 @@ class SendConfirmationEmail implements ShouldBeQueued {
 	/**
 	 * Handle the event.
 	 *
-	 * @param  User  $event
+	 * @param  User  $user
 	 * @return void
 	 */
 	public function handle(User $user)
