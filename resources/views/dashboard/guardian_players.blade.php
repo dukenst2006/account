@@ -4,11 +4,15 @@
             <div class="tiles-body">
                 <h4>Your <span class="semi-bold">Players</span></h4>
                 <div class="row">
-                    @foreach(Auth::user()->players as $player)
-                    <div class="col-md-3">
-                        <h3>{{ $player->full_name }}</h3>
-                        <p>Shirt size: {{ $player->shirt_size }}</p>
-                        <br>
+                    @foreach(Auth::user()->players as $index => $player)
+                    <div class="col-md-3 @if($index > 0) b-l b-grey @endif p-l-20">
+                        <h4 class="semi-bold">{{ $player->full_name }}</h4>
+                        <p>{!! HTML::genderIcon($player->gender) !!} {{ $player->gender }}</p>
+                        <p><i class="fa fa-birthday-cake"></i> {{ $player->birthday->format('M j Y') }}</p>
+                        <p>T-Shirt size: {{ $player->shirt_size }}</p>
+                        <p class="text-center">
+                            <a href="/player/{{ $player->id }}/edit">[ Edit ]</a>
+                        </p>
                     </div>
                     @endforeach
                 </div>

@@ -36,7 +36,7 @@ class PlayerController extends Controller
 	 */
 	public function edit(GuardianOnlyRequest $request, $id)
 	{
-		return view('account.address.edit')
+		return view('player.edit')
 			->withPlayer(Player::findOrFail($id));
 	}
 

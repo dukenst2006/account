@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Support\Providers;
 
 use BibleBowl\Presentation\Form;
+use BibleBowl\Presentation\Html;
 
 class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 {
@@ -23,6 +24,11 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->app->bindShared('html', function($app)
+        {
+            return new Html($app['url']);
+        });
 
         $this->app->bindShared('form', function($app)
         {

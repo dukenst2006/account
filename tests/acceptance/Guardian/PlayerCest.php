@@ -29,19 +29,14 @@ class GuardianPlayerCest
         $I->canSeeCurrentUrlEquals('/dashboard');
 
         $I->see($this->firstName.' '.$this->lastName);
-//
-//        //test editing
-//        $I->click('(//a[contains(@class,"fa-edit")])[2]');
-//        $this->lastName = $this->lastName.time();
-//        $I->fillField('last_name', $this->lastName);
-//
-//        $I->click('Save');
-//        $I->see('Your changes were saved');
-//
-//        //test deleting
-//        $I->click('(//a[contains(@class,"fa-trash-o")])[2]');
-//
-//        $I->see('Your '.$this->name.' address has been deleted');
-//        $I->dontSee($this->name, 'h4');
+
+        //test editing
+        $I->click('[ Edit ]');
+        $this->lastName = $this->lastName.time();
+        $I->fillField('last_name', $this->lastName);
+
+        $I->click('Save');
+        $I->see('Your changes were saved');
+        $I->see($this->lastName);
     }
 }

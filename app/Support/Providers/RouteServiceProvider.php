@@ -77,7 +77,9 @@ class RouteServiceProvider extends ServiceProvider {
 					Route::patch('update', 'AccountController@update');
 				});
 
-				Route::resource('player', 'PlayerController');
+				Route::resource('player', 'PlayerController', [
+					'except' => ['delete']
+				]);
 			});
 
 		});

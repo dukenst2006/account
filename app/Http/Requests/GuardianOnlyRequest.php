@@ -14,7 +14,7 @@ class GuardianOnlyRequest extends Request {
 	 */
 	public function authorize()
 	{
-		return Player::where('id', $this->route('address'))
+		return Player::where('id', $this->route('player'))
 			->where('guardian_id', Auth::id())
 			->exists();
 	}

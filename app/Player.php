@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 use Rhumsaa\Uuid\Uuid;
@@ -12,6 +13,8 @@ class Player extends Model {
      * @var array
      */
     protected $guarded = ['id', 'guid'];
+
+    //protected $dates = ['birthday'];
 
     public static function boot()
     {
@@ -61,6 +64,28 @@ class Player extends Model {
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    /**
+     * Convert from m/d/Y to a Carbon object for saving
+     *
+     * @param $birthday
+     */
+    public function setBirthdayAttribute($birthday)
+    {
+        $this->attributes['birthday'] = Carbon::createFromFormat('m/d/Y', $birthday);
+    }
+
+    /**
+     * Provide birthday as a Carbon object
+     *
+     * @param $birthday
+     *
+     * @return static
+     */
+    public function getBirthdayAttribute($birthday)
+    {
+        return Carbon::createFromFormat('Y-m-d', $birthday);
     }
 
 }
