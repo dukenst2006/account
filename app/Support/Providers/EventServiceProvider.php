@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Support\FetchCoordinatesForAddress;
 use BibleBowl\Auth\OnLogin;
-use BibleBowl\Auth\UserRegistered;
 use BibleBowl\Auth\SendConfirmationEmail;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +22,12 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'auth.resend.confirmation' => [
 			SendConfirmationEmail::class
+		],
+		'eloquent.created: BibleBowl\Address' => [
+			FetchCoordinatesForAddress::class
+		],
+		'eloquent.updated: BibleBowl\Address' => [
+			FetchCoordinatesForAddress::class
 		]
 	];
 

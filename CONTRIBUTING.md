@@ -50,6 +50,8 @@ TWITTER_REDIRECT=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 GOOGLE_REDIRECT=
+
+GOOGLE_API_KEY=
 ```
  * Run migrations with `php artisan migrate` to build the database
  * Open [http://bbowl.local](http://bbowl.local) in your browser

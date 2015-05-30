@@ -151,7 +151,8 @@ return [
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 		'Laravel\Socialite\SocialiteServiceProvider',
 		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
-		'Zizaco\Entrust\EntrustServiceProvider'
+		'Zizaco\Entrust\EntrustServiceProvider',
+		'Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider'
 
 	],
 
