@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Auth\SessionManager;
 use Whoops\Handler\PrettyPageHandler;
 use BibleBowl\Presentation\EmailTemplate;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +38,13 @@ class AppServiceProvider extends ServiceProvider {
 			\Illuminate\Contracts\Auth\Registrar::class,
 			\BibleBowl\Auth\Registrar::class
 		);
+
+        $this->app->bind(
+            'session',
+            function ($app) {
+                return new SessionManager($app);
+            }
+        );
 
 		// putting this in the PresentServiceProvider causes issues
 		$this->app->bind('email.template', function()
