@@ -11,4 +11,11 @@ class Season extends Model {
      */
     protected $guarded = ['id'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function players() {
+        return $this->hasMany('BibleBowl\Player')->orderBy('birthday', 'DESC');
+    }
+
 }

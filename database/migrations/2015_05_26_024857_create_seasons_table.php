@@ -12,12 +12,24 @@ class CreateSeasonsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('seasons', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('name', 10)->unique();
-			$table->timestamps();
-		});
+        Schema::create('seasons', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name', 10)->unique();
+            $table->timestamps();
+        });
+
+        Schema::create('season_players', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('season_id')->unsigned();
+            $table->integer('player_id')->unsigned();
+            $table->string('grade');
+            $table->string('shirt_size', 3);
+            $table->timestamps();
+            $table->foreign('season_id')->references('id')->on('seasons');
+            $table->foreign('player_id')->references('id')->on('players');
+        });
 	}
 
 	/**
@@ -27,7 +39,8 @@ class CreateSeasonsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('seasons');
+        Schema::drop('season_players');
+        Schema::drop('seasons');
 	}
 
 }

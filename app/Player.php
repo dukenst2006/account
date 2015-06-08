@@ -47,6 +47,16 @@ class Player extends Model {
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function seasons()
+    {
+        return $this->belongsToMany('BibleBowl\Season')
+            ->withPivot('grade', 'shirt_size')
+            ->withTimestamps();
+    }
+
+    /**
      * @return null|int
      */
     public function age()
