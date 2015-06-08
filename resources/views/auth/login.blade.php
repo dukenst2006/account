@@ -29,8 +29,7 @@
 							</a>
 						</div>
 						<div class="col-md-7 p-l-10 p-r-10">
-							<form class="login-form" method="post">
-								<input type="hidden" name="_token" value="{{ Session::token() }}" />
+                            {!! Form::open(['class' => 'login-form', 'role' => 'form']) !!}
 								<div class="row">
 									<div class="form-group col-md-10">
 										<label class="form-label">Email</label>
@@ -74,7 +73,7 @@
 										<button class="btn btn-primary btn-cons pull-right" type="submit">Login</button>
 									</div>
 								</div>
-							</form>
+                            {!! Form::close() !!}
 						</div>
 					</div>
 				</div>

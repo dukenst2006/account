@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider {
 			\BibleBowl\Auth\Registrar::class
 		);
 
-        $this->app->bind(
+        $this->app->singleton(
             'session',
             function ($app) {
                 return new SessionManager($app);
