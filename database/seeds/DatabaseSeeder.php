@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder {
 		}
 
 		$season = Season::create([
-			'name' => date('Y').' - '.(date('y')+1)
+			'name' => date('Y').'-'.(date('y')+1)
 		]);
 
 		$this->call('AcceptanceTestingSeeder');

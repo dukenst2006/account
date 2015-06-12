@@ -32,7 +32,6 @@ class Player extends Model {
         return [
             'first_name'	=> 'required|max:32',
             'last_name'		=> 'required|max:32',
-            'shirt_size'	=> 'required',
             'gender'		=> 'required',
             'birthday'		=> 'required|date'
         ];
@@ -51,7 +50,7 @@ class Player extends Model {
      */
     public function seasons()
     {
-        return $this->belongsToMany('BibleBowl\Season')
+        return $this->belongsToMany('BibleBowl\Season', 'player_season')
             ->withPivot('grade', 'shirt_size')
             ->withTimestamps();
     }

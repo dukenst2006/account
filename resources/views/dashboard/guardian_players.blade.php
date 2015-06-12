@@ -8,8 +8,7 @@
                     <div class="col-md-3 @if($index > 0) b-l b-grey @endif p-l-20">
                         <h4 class="semi-bold">{{ $player->full_name }}</h4>
                         <p>{!! HTML::genderIcon($player->gender) !!} {{ $player->gender }}</p>
-                        <p><i class="fa fa-birthday-cake"></i> {{ $player->birthday->format('M j Y') }}</p>
-                        <p>T-Shirt size: {{ $player->shirt_size }}</p>
+                        <p> {{ $player->age() }} years old</p>
                         <p class="text-center">
                             <a href="/player/{{ $player->id }}/edit">[ Edit ]</a>
                         </p>

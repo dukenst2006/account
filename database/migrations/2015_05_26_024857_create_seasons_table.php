@@ -19,7 +19,7 @@ class CreateSeasonsTable extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('season_players', function(Blueprint $table)
+        Schema::create('player_season', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('season_id')->unsigned();
@@ -29,6 +29,7 @@ class CreateSeasonsTable extends Migration {
             $table->timestamps();
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->foreign('player_id')->references('id')->on('players');
+            $table->unique(['season_id', 'player_id']);
         });
 	}
 
@@ -39,7 +40,7 @@ class CreateSeasonsTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('season_players');
+        Schema::drop('player_season');
         Schema::drop('seasons');
 	}
 

@@ -12,10 +12,13 @@ class Season extends Model {
     protected $guarded = ['id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function players() {
-        return $this->hasMany('BibleBowl\Player')->orderBy('birthday', 'DESC');
+        return $this->belongsToMany('BibleBowl\Player')
+            ->withPivot('grade', 'shirt_size')
+            ->withTimestamps()
+            ->orderBy('birthday', 'DESC');
     }
 
 }

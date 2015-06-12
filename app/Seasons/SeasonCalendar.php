@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Competition;
+<?php namespace BibleBowl\Seasons;
 
 use Config;
 use Carbon\Carbon;

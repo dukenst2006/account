@@ -2,7 +2,7 @@
 
 use App;
 use BibleBowl\Season;
-use BibleBowl\Competition\SeasonCalendar;
+use BibleBowl\Seasons\SeasonCalendar;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -31,7 +31,7 @@ class SeasonRotator extends Command {
 	 */
 	public function fire()
 	{
-		/** @var SeasonCalendar $seasonCalendar */
+		/** @var \BibleBowl\Seasons\SeasonCalendar $seasonCalendar */
 		$seasonCalendar = App::make(SeasonCalendar::class);
 
 		// if it ends today, start the new season

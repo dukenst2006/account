@@ -70,7 +70,7 @@ class Form extends FormBuilder
         ];
 
         if ($optional) {
-            array_unshift($list, ['' => 'Select One...']);
+            array_unshift($list, 'Select One...');
         }
 
         return $this->select($name, $list, $selected, $options);
@@ -86,18 +86,57 @@ class Form extends FormBuilder
     public function selectShirtSize($name, $selected = null, $options = array(), $optional = false)
     {
         $list = [
-            'YS'    => 'YS - Youth Small',
-            'YM'    => 'YM - Youth Medium',
-            'YL'    => 'YL - Youth Large',
-            'S'     => 'S - Small',
-            'M'     => 'M - Medium',
-            'L'     => 'L - Large',
-            'XL'    => 'XL - X-Large',
-            'XXL'   => 'XXL - XX-Large',
+            'Youth' => [
+                'YS'    => 'YS - Small',
+                'YM'    => 'YM - Medium',
+                'YL'    => 'YL - Large',
+            ],
+            'Adult' => [
+                'S'     => 'S - Small',
+                'M'     => 'M - Medium',
+                'L'     => 'L - Large',
+                'XL'    => 'XL - X-Large',
+                'XXL'   => 'XXL - XX-Large',
+            ],
         ];
 
         if ($optional) {
-            array_unshift($list, ['' => 'Select One...']);
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectGrade($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [
+            'Elementary School' => [
+                '3'     => '3rd',
+                '4'     => '4th',
+                '5'     => '5th'
+            ],
+            'Middle School' => [
+                '6'     => '6th',
+                '7'     => '7th',
+                '8'     => '8th'
+            ],
+            'High School' => [
+                '9'     => '9th - Freshman',
+                '10'    => '10th - Sophomore',
+                '11'    => '11th - Junior',
+                '12'    => '12th - Senior'
+            ]
+        ];
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
         }
 
         return $this->select($name, $list, $selected, $options);

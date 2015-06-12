@@ -66,16 +66,24 @@ class RouteServiceProvider extends ServiceProvider {
 
 				Route::get('dashboard', 'DashboardController@index');
 
-				Route::group([
-					'prefix'	=> 'account',
-					'namespace'	=> 'Account'
-				], function () {
-					Route::resource('address', 'AddressController');
-					Route::get('setup', 'SetupController@getSetup');
-					Route::post('setup', 'SetupController@postSetup');
-					Route::get('edit', 'AccountController@edit');
-					Route::patch('update', 'AccountController@update');
-				});
+                Route::group([
+                    'prefix'	=> 'account',
+                    'namespace'	=> 'Account'
+                ], function () {
+                    Route::resource('address', 'AddressController');
+                    Route::get('setup', 'SetupController@getSetup');
+                    Route::post('setup', 'SetupController@postSetup');
+                    Route::get('edit', 'AccountController@edit');
+                    Route::patch('update', 'AccountController@update');
+                });
+
+                Route::group([
+                    'prefix'	=> 'seasons',
+                    'namespace'	=> 'Seasons'
+                ], function () {
+                    Route::get('register', 'PlayerRegistrationController@getRegister');
+                    Route::post('register', 'PlayerRegistrationController@postRegister');
+                });
 
 				Route::resource('player', 'PlayerController', [
 					'except' => ['delete']

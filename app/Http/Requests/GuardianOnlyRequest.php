@@ -1,9 +1,6 @@
 <?php namespace BibleBowl\Http\Requests;
 
 use Auth;
-use BibleBowl\Address;
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Player;
 
 class GuardianOnlyRequest extends Request {
 
@@ -14,9 +11,7 @@ class GuardianOnlyRequest extends Request {
 	 */
 	public function authorize()
 	{
-		return Player::where('id', $this->route('player'))
-			->where('guardian_id', Auth::id())
-			->exists();
+        return Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN);
 	}
 
 	/**

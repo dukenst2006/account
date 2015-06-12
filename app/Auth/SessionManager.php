@@ -12,7 +12,10 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function season()
     {
-        return $this->app->make(Season::class, $this->get(self::SEASON));
+        Season::unguard();
+        $season = $this->app->make(Season::class, [$this->get(self::SEASON)]);
+        Season::reguard();
+        return $season;
     }
 
     public function setSeason(Season $season)
