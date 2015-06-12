@@ -2,9 +2,6 @@
 
 class GuardianSeasonRegistrationCest
 {
-    protected $firstName = 'Lucy';
-    protected $lastName = 'Tharn';
-
     public function register(AcceptanceTester $I)
     {
         $I->amOnPage('/seasons/register');
