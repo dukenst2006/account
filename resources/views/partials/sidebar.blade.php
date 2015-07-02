@@ -15,13 +15,7 @@
         <!-- END MINI-PROFILE -->
         <!-- BEGIN SIDEBAR MENU -->
         <ul>
-            <li class="start"> <a href="../../frontend/index.html"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a></li>
-            <li class=""> <a href="index.html" > <i class="icon-custom-home"></i> <span class="title">Dashboard</span> <span class="selected"></span> <span class="arrow open"></span> </a>
-                <ul class="sub-menu">
-                    <li > <a href="dashboard_v1.html"> Dashboard v1 </a> </li>
-                    <li class="active"> <a href="index.html "> Dashboard v2 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
-                </ul>
-            </li>
+            <li class="start"> <a href="/dashboard"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a></li>
         </ul>
         <div class="clearfix"></div>
         <!-- END SIDEBAR MENU -->

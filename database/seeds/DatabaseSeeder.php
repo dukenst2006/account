@@ -7,7 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder {
 
+    private static $isSeeding = false;
 
+    /**
+     * @return bool
+     */
+    public static function isSeeding()
+    {
+        return self::$isSeeding;
+    }
 
 	/**
 	 * Run the database seeds.
@@ -16,35 +24,57 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        self::$isSeeding = true;
+
 		Model::unguard();
 
-		$BKuhl = User::create([
-			'status'			=> User::STATUS_CONFIRMED,
-			'first_name'		=> 'Ben',
-			'last_name'			=> 'Kuhl',
-			'email'				=> 'benkuhl@gmail.com',
-			'password'			=> bcrypt('changeme')
-		]);
+        $season = Season::create([
+            'name' => date('Y').'-'.(date('y')+1)
+        ]);
+
+        // ---------- Seed a Guardian
+        $BKuhlGuardian = User::create([
+            'status'			=> User::STATUS_CONFIRMED,
+            'first_name'		=> 'Ben',
+            'last_name'			=> 'Guardian',
+            'email'				=> 'benkuhl+guardian@gmail.com',
+            'password'			=> bcrypt('changeme')
+        ]);
 		$addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
 		foreach ($addresses as $key => $name) {
-			$homeAddress = App::make('BibleBowl\Address', [[
+			$address = App::make('BibleBowl\Address', [[
 				'name'			=> $name,
-				'first_name'	=> 'Ben',
-				'last_name'		=> 'Kuhl',
 				'address_one'	=> '123 Test Street',
 				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
 				'city'			=> 'Louisville',
 				'state'			=> 'KY',
 				'zip_code'		=> '40241'
 			]]);
-			$BKuhl->addresses()->save($homeAddress);
+			$BKuhlGuardian->addresses()->save($address);
 		}
 
-		$season = Season::create([
-			'name' => date('Y').'-'.(date('y')+1)
-		]);
+        // ---------- Seed a Head Coach
+        $BKuhlHeadCoach = User::create([
+            'status'			=> User::STATUS_CONFIRMED,
+            'first_name'		=> 'Ben',
+            'last_name'			=> 'HeadCoach',
+            'email'				=> 'benkuhl+headcoach@gmail.com',
+            'password'			=> bcrypt('changeme')
+        ]);
+        $address = App::make('BibleBowl\Address', [[
+            'name'			=> 'Home',
+            'address_one'	=> '11025 Eagles Cove Dr.',
+            'latitude'      => '38.2515659',
+            'longitude'     => '-85.615241',
+            'city'			=> 'Louisville',
+            'state'			=> 'KY',
+            'zip_code'		=> '40241'
+        ]]);
+        $BKuhlHeadCoach->addresses()->save($address);
 
 		$this->call('AcceptanceTestingSeeder');
-	}
+
+        self::$isSeeding = false;
+    }
 
 }

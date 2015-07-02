@@ -10,7 +10,8 @@
 		"illuminate/html": "^5.0",
 	  	"anhskohbo/no-captcha": "2.*",
 	  	"zizaco/entrust": "dev-laravel-5",
-	  	"alexpechkarev/google-geocoder": "dev-master"
+	  	"alexpechkarev/google-geocoder": "dev-master",
+		"jackpopp/geodistance": "^1.2"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",

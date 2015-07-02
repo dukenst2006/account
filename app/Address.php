@@ -12,6 +12,14 @@ class Address extends Model {
     protected $guarded = ['id'];
 
     /**
+     * @return bool
+     */
+    public function isOwnedByUser()
+    {
+        return !is_null($this->user_id);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -31,8 +39,6 @@ class Address extends Model {
     {
         return [
             'name'			=> 'required|max:32',
-            'first_name'	=> 'required|max:32',
-            'last_name'		=> 'required|max:32',
             'address_one'	=> 'required|max:255',
             'address_two'	=> 'max:255',
             'city'			=> 'required|min:3|max:255',
@@ -46,14 +52,6 @@ class Address extends Model {
         return [
             'address_one.required' => 'Street address is required'
         ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getFullNameAttribute()
-    {
-        return $this->first_name.' '.$this->last_name;
     }
 
 }

@@ -77,6 +77,10 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::patch('update', 'AccountController@update');
                 });
 
+                Route::resource('player', 'PlayerController', [
+                    'except' => ['delete']
+                ]);
+
                 Route::group([
                     'prefix'	=> 'seasons',
                     'namespace'	=> 'Seasons'
@@ -85,9 +89,9 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::post('register', 'PlayerRegistrationController@postRegister');
                 });
 
-				Route::resource('player', 'PlayerController', [
-					'except' => ['delete']
-				]);
+                Route::resource('group', 'GroupController', [
+                    'except' => ['delete']
+                ]);
 			});
 
 		});

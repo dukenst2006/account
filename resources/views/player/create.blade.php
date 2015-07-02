@@ -5,7 +5,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-offset-3 col-md-6">
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <h4>New <span class="semi-bold">Player</span></h4>

@@ -5,8 +5,6 @@ use Lib\AuthHelper;
 class AccountAddressCest
 {
     protected $name;
-    protected $firstName = 'Bill';
-    protected $lastName = 'Johnson';
     protected $addressOne = '123 My Street';
     protected $addressTwo = 'Apt 6';
     protected $city = 'Louisville';
@@ -24,9 +22,7 @@ class AccountAddressCest
 
         $this->name = 'Test '.time();
 
-        $I->fillField('name', $this->name);
-        // skip first name so we see a validation error
-        $I->fillField('last_name', $this->lastName);
+        // skip name so we see a validation error
         $I->fillField('address_one', $this->addressOne);
         $I->fillField('address_two', $this->addressTwo);
         $I->fillField('city', $this->city);
@@ -34,9 +30,9 @@ class AccountAddressCest
         $I->fillField('zip_code', $this->zipCode);
 
         $I->click('Save');
-        $I->see('The first name field is required.');
+        $I->see('The name field is required.');
 
-        $I->fillField('first_name', $this->firstName);
+        $I->fillField('name', $this->name);
 
         $I->click('Save');
         $I->see('Your '.$this->name.' address has been created');
@@ -44,12 +40,11 @@ class AccountAddressCest
         $I->canSeeCurrentUrlEquals('/account/address');
 
         $I->see($this->name);
-        $I->see($this->firstName.' '.$this->lastName);
 
         //test editing
         $I->click('(//a[contains(@class,"fa-edit")])[2]');
-        $this->lastName = $this->lastName.time();
-        $I->fillField('last_name', $this->lastName);
+        $this->name = $this->name.time();
+        $I->fillField('name', $this->name);
 
         $I->click('Save');
         $I->see('Your changes were saved');

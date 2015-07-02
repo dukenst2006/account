@@ -23,12 +23,12 @@ class CreateGroupsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('guid')->unique()->index();
-			$table->string('name');
-			$table->boolean('type');
-			//todo what about addresses?
+            $table->boolean('type');
+            $table->string('name');
 			$table->integer('owner_id')->unsigned();
 			$table->foreign('owner_id')->references('id')->on('users');
-			$table->softDeletes();
+            $table->integer('address_id')->unsigned();
+            $table->foreign('address_id')->references('id')->on('addresses');
 			$table->timestamps();
 		});
 	}

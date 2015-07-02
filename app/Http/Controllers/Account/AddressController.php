@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\Http\Requests\AddressOwnerOnlyRequest;
+use BibleBowl\Location\AddressCreator;
 use Illuminate\Http\Request;
 use Redirect;
 use BibleBowl\Address;
@@ -29,17 +30,17 @@ class AddressController extends Controller
 	/**
 	 * @return mixed
 	 */
-	public function store(Request $request)
+	public function store(Request $request, AddressCreator $addressCreator)
 	{
+        $request->merge([
+            'user_id' => Auth::id()
+        ]);
+        
 		$this->validate($request, Address::validationRules(), Address::validationMessages());
 
-		$request->merge([
-			'user_id' => Auth::id()
-		]);
+		$address = $addressCreator->create($request->except('redirectUrl'));
 
-		$address = Address::create($request->all());
-
-		return redirect('/account/address')->withFlashSuccess('Your '.$address->name.' address has been created');
+		return redirect($request->get('redirectUrl'))->withFlashSuccess('Your '.$address->name.' address has been created');
 	}
 
 	/**

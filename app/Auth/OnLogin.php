@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Auth;
 
+use BibleBowl\Role;
 use BibleBowl\Season;
 use Session;
 use BibleBowl\User;
@@ -15,5 +16,10 @@ class OnLogin
 
         // current session is the most recent
         Session::setSeason(Season::orderBy('id', 'DESC')->first());
+
+        // if user is a coach set current "Group" upon login
+        if ($user->hasRole(Role::HEAD_COACH)) {
+
+        }
     }
 }

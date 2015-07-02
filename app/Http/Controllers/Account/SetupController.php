@@ -43,7 +43,7 @@ class SetupController extends Controller
 			$user->save();
 
 			$address = App::make('BibleBowl\Address', [$request->except([
-				'phone', 'gender'
+				'first_name', 'last_name', 'phone', 'gender'
 			])]);
 			$user->addresses()->save($address);
 		});

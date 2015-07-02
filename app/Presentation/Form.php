@@ -1,5 +1,7 @@
 <?php namespace BibleBowl\Presentation;
 
+use Auth;
+use BibleBowl\Group;
 use BibleBowl\User;
 use Illuminate\Html\FormBuilder;
 
@@ -87,17 +89,38 @@ class Form extends FormBuilder
     {
         $list = [
             'Youth' => [
-                'YS'    => 'YS - Small',
-                'YM'    => 'YM - Medium',
-                'YL'    => 'YL - Large',
+                'YS' => 'YS - Small',
+                'YM' => 'YM - Medium',
+                'YL' => 'YL - Large',
             ],
             'Adult' => [
-                'S'     => 'S - Small',
-                'M'     => 'M - Medium',
-                'L'     => 'L - Large',
-                'XL'    => 'XL - X-Large',
-                'XXL'   => 'XXL - XX-Large',
+                'S' => 'S - Small',
+                'M' => 'M - Medium',
+                'L' => 'L - Large',
+                'XL' => 'XL - X-Large',
+                'XXL' => 'XXL - XX-Large',
             ],
+        ];
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectGroupType($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [
+            Group::TYPE_BEGINNER => 'Beginner (3rd-5th grade)',
+            Group::TYPE_TEEN => 'Teen (6th-12th grade)'
         ];
 
         if ($optional) {
@@ -118,22 +141,43 @@ class Form extends FormBuilder
     {
         $list = [
             'Elementary School' => [
-                '3'     => '3rd',
-                '4'     => '4th',
-                '5'     => '5th'
+                '3' => '3rd',
+                '4' => '4th',
+                '5' => '5th'
             ],
             'Middle School' => [
-                '6'     => '6th',
-                '7'     => '7th',
-                '8'     => '8th'
+                '6' => '6th',
+                '7' => '7th',
+                '8' => '8th'
             ],
             'High School' => [
-                '9'     => '9th - Freshman',
-                '10'    => '10th - Sophomore',
-                '11'    => '11th - Junior',
-                '12'    => '12th - Senior'
+                '9' => '9th - Freshman',
+                '10' => '10th - Sophomore',
+                '11' => '11th - Junior',
+                '12' => '12th - Senior'
             ]
         ];
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectAddress($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [];
+        foreach (Auth::user()->addresses as $address) {
+            $list[$address->id] = $address->name.' ('.$address->address_one.')';
+        }
 
         if ($optional) {
             array_unshift($list, 'Select One...');

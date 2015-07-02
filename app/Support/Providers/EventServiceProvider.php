@@ -1,6 +1,6 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use BibleBowl\Support\FetchCoordinatesForAddress;
+use BibleBowl\Location\FetchCoordinatesForAddress;
 use BibleBowl\Auth\OnLogin;
 use BibleBowl\Auth\SendConfirmationEmail;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
