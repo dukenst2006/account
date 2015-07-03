@@ -2,6 +2,9 @@
 
 use BibleBowl\Season;
 use BibleBowl\User;
+use BibleBowl\Group;
+use BibleBowl\Address;
+use BibleBowl\Groups\GroupCreator;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,7 +56,15 @@ class DatabaseSeeder extends Seeder {
 			$BKuhlGuardian->addresses()->save($address);
 		}
 
-        // ---------- Seed a Head Coach
+        $this->seedHeadCoach();
+
+		$this->call('AcceptanceTestingSeeder');
+
+        self::$isSeeding = false;
+    }
+
+    private function seedHeadCoach()
+    {
         $BKuhlHeadCoach = User::create([
             'status'			=> User::STATUS_CONFIRMED,
             'first_name'		=> 'Ben',
@@ -61,7 +72,7 @@ class DatabaseSeeder extends Seeder {
             'email'				=> 'benkuhl+headcoach@gmail.com',
             'password'			=> bcrypt('changeme')
         ]);
-        $address = App::make('BibleBowl\Address', [[
+        $address = App::make(Address::class, [[
             'name'			=> 'Home',
             'address_one'	=> '11025 Eagles Cove Dr.',
             'latitude'      => '38.2515659',
@@ -72,9 +83,13 @@ class DatabaseSeeder extends Seeder {
         ]]);
         $BKuhlHeadCoach->addresses()->save($address);
 
-		$this->call('AcceptanceTestingSeeder');
-
-        self::$isSeeding = false;
+        /** @var GroupCreator $groupCreator */
+        $groupCreator = App::make(GroupCreator::class);
+        $groupCreator->create($BKuhlHeadCoach, [
+            'name'          => 'Southeast Christian Church',
+            'type'          => Group::TYPE_TEEN,
+            'address_id'    => $address->id
+        ]);
     }
 
 }

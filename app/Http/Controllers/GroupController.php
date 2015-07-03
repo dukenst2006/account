@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers;
 
+use Session;
 use Auth;
 use BibleBowl\Http\Requests\GroupCreationRequest;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
@@ -23,6 +24,9 @@ class GroupController extends Controller
 	public function store(GroupCreationRequest $request, GroupCreator $groupCreator)
 	{
 		$group = $groupCreator->create(Auth::user(), $request->all());
+
+		// log the user in under this group
+		Session::setGroup($group);
 
 		return redirect('/dashboard')->withFlashSuccess($group->name.' has been created');
 	}

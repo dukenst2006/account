@@ -48,15 +48,36 @@ class Group extends Model {
      */
     public function getFullNameAttribute()
     {
-        $name = $this->name;
+        return $this->name.' '.$this->type();
+    }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function users() {
+        return $this->belongsTo('BibleBowl\User', 'owner_id');
+    }
+
+    /**
+     * @return string
+     */
+    public function type()
+    {
         if ($this->status == self::TYPE_BEGINNER) {
-            $name .= ' Beginner Bowl';
-        } else {
-            $name .= ' Bible Bowl';
+            return 'Beginner Bowl';
         }
 
-        return $name;
+        return 'Bible Bowl';
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isOwner(User $user)
+    {
+        return $user->id == $this->owner_id;
     }
 
 }

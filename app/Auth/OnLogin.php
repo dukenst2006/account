@@ -18,8 +18,8 @@ class OnLogin
         Session::setSeason(Season::orderBy('id', 'DESC')->first());
 
         // if user is a coach set current "Group" upon login
-        if ($user->hasRole(Role::HEAD_COACH)) {
-
+        if ($user->hasRole(Role::HEAD_COACH) && $user->groups->count() > 0) {
+            Session::setGroup($user->groups->first());
         }
     }
 }

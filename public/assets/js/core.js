@@ -51,16 +51,16 @@ $(document).ready(function () {
         $(this).parent().addClass('input-focus');
     });
 
-    $('#my-task-list').popover({
-        html: true,
-        content: function () {
-            return $('#notification-list').html();
-        }
-    });
+    //$('#my-task-list').popover({
+    //    html: true,
+    //    content: function () {
+    //        return $('#notification-list').html();
+    //    }
+    //});
 
-    $('#user-options').click(function () {
-        $('#my-task-list').popover('hide');
-    });
+    //$('#user-options').click(function () {
+    //    $('#my-task-list').popover('hide');
+    //});
 
     //**********************************BEGIN MAIN MENU********************************
     jQuery('.page-sidebar li > a').on('click', function (e) {

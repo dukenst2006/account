@@ -119,6 +119,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
+	public function groups() {
+		return $this->hasMany('BibleBowl\Group', 'owner_id')->orderBy('name', 'ASC');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
 	public function players() {
 		return $this->hasMany('BibleBowl\Player', 'guardian_id')->orderBy('birthday', 'DESC');
 	}

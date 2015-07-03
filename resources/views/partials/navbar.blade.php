@@ -28,20 +28,36 @@
         <!-- END TOP NAVIGATION MENU -->
         <!-- BEGIN CHAT TOGGLER -->
         <div class="pull-right">
-            @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
-            <div class="chat-toggler"> <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notifications">
-                    <div class="user-details">
-                        <div class="username"> {{ Auth::user()->first_name }} <span class="bold">{{ Auth::user()->last_name }}</span> </div>
-                    </div>
-                    <div class="iconset top-down-arrow"></div>
-                </a>
-            </div>
-            @endif
-            <ul class="nav quick-section ">
-                <li class="quicklinks"> <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
+            <ul class="nav quick-section group-section">
+                @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
+                    <li class="group-menu">
+                        <div class="group-menu">
+                            <div class="groupname semi-bold"> {{ Session::group()->name }} <a href="/group/{{ Session::group()->id }}/edit" class="fa fa-edit"></a></div>
+                            <div class="grouptype" class="faded"> {{ Session::group()->type() }}</div>
+                        </div>
+                        @if(Auth::user()->groups()->count() > 1)
+                        <div class="iconset top-down-arrow" id="my-groups" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></div>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="my-groups">
+                            @foreach(Auth::user()->groups as $group)
+                                @if($group->id != Session::group()->id)
+                                <li>
+                                    <a href="#">
+                                        <div class="groupname semi-bold"> {{ Session::group()->name }} </div>
+                                        <span class="grouptype" class="faded"> {{ Session::group()->type() }}</span>
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                        @endif
+                    </li>
+                @endif
+                <li class="quicklinks"><span class="h-seperate"></span></li>
+                <li class="quicklinks">
+                    <a data-toggle="dropdown" class="dropdown-toggle pull-right" href="#" id="user-options">
                         <div class="iconset top-settings-dark "></div>
                     </a>
-                    <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
                         <li><a href="/account/edit"> My Account</a> </li>
                         <li><a href="/account/address"> My Addresses</a> </li>
                         <li class="divider"></li>
