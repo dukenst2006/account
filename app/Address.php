@@ -54,4 +54,24 @@ class Address extends Model {
         ];
     }
 
+    public function setNameAttribute ($attribute)
+    {
+        $this->attributes['name'] = ucwords(strtolower($attribute));
+    }
+
+    public function setAddressOneAttribute ($attribute)
+    {
+        $this->attributes['address_one'] = ucwords(strtolower($attribute));
+    }
+
+    public function setAddressTwoAttribute ($attribute)
+    {
+        $this->attributes['address_two'] = ucwords(strtolower($attribute));
+    }
+
+    public function setCityAttribute ($attribute)
+    {
+        $this->attributes['city'] = ucwords(strtolower($attribute));
+    }
+
 }

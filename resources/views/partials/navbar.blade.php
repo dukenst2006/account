@@ -32,7 +32,11 @@
                 @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
                     <li class="group-menu">
                         <div class="group-menu">
-                            <div class="groupname semi-bold"> {{ Session::group()->name }} <a href="/group/{{ Session::group()->id }}/edit" class="fa fa-edit"></a></div>
+                            <div class="groupname semi-bold"> {{ Session::group()->name }}
+                                @if(Session::group()->isOwner(Auth::user()))
+                                    <a href="/group/{{ Session::group()->id }}/edit" class="fa fa-edit"></a>
+                                @endif
+                            </div>
                             <div class="grouptype" class="faded"> {{ Session::group()->type() }}</div>
                         </div>
                         @if(Auth::user()->groups()->count() > 1)
@@ -41,9 +45,9 @@
                             @foreach(Auth::user()->groups as $group)
                                 @if($group->id != Session::group()->id)
                                 <li>
-                                    <a href="#">
-                                        <div class="groupname semi-bold"> {{ Session::group()->name }} </div>
-                                        <span class="grouptype" class="faded"> {{ Session::group()->type() }}</span>
+                                    <a href="/group/{{ $group->id }}/swap">
+                                        <div class="groupname semi-bold"> {{ $group->name }} </div>
+                                        <span class="grouptype" class="faded"> {{ $group->type() }}</span>
                                     </a>
                                 </li>
                                 @endif

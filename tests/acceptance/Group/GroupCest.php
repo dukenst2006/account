@@ -19,23 +19,18 @@ class GroupCest
         $I->fillField('name', $this->name);
         $I->click('Save');
         $I->see($this->name.' has been created');
-//
-//        $I->canSeeCurrentUrlEquals('/dashboard');
-//
-//        $I->see($this->name);
-//
-//        //test editing
-//        $I->click('(//a[contains(@class,"fa-edit")])[2]');
-//        $this->name = $this->name.time();
-//        $I->fillField('name', $this->name);
-//
-//        $I->click('Save');
-//        $I->see('Your changes were saved');
-//
-//        //test deleting
-//        $I->click('(//a[contains(@class,"fa-trash-o")])[2]');
-//
-//        $I->see('Your '.$this->name.' address has been deleted');
-//        $I->dontSee($this->name, 'h4');
+
+        $I->canSeeCurrentUrlEquals('/dashboard');
+
+        // verify name is the default group in the session
+        $I->see($this->name);
+
+        //test editing
+        $I->click('(//div[contains(@class,"groupname")]/a[contains(@class,"fa-edit")])');
+        $this->name = $this->name.time();
+        $I->fillField('name', $this->name);
+
+        $I->click('Save');
+        $I->see('Your changes were saved');
     }
 }

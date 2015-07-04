@@ -80,4 +80,9 @@ class Group extends Model {
         return $user->id == $this->owner_id;
     }
 
+    public function setNameAttribute ($attribute)
+    {
+        $this->attributes['name'] = ucwords(strtolower($attribute));
+    }
+
 }

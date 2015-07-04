@@ -2,6 +2,7 @@
 
 use Session;
 use Auth;
+use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\GroupCreationRequest;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Group;
@@ -43,18 +44,37 @@ class GroupController extends Controller
 	}
 
 	/**
-	 * @param GuardianOnlyRequest 	$request
+	 * @param GroupEditRequest 		$request
 	 * @param                     	$id
 	 *
 	 * @return mixed
 	 */
-	public function update(GroupCreatorOnlyRequest $request, $id)
+	public function update(GroupEditRequest $request, $id)
 	{
-		$this->validate($request, Group::validationRules());
+		$group = Group::findOrFail($id);
+		$group->update($request->all());
 
-		//Player::findOrFail($id)->update($request->all());
+		// update the user's session
+		if (Session::group()->id == $group->id) {
+			Session::setGroup($group);
+		}
 
 		return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
+	}
+
+	/**
+	 * Swap the current user's group for another
+	 *
+	 * @param GroupCreatorOnlyRequest $request
+	 * @param                         $id
+	 *
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function swap(GroupCreatorOnlyRequest $request, $id)
+	{
+		Session::setGroup(Group::findOrFail($id));
+
+		return redirect('/dashboard');
 	}
 
 }

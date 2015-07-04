@@ -1,6 +1,7 @@
 <?php namespace BibleBowl;
 
-use Config;
+use App;
+use BibleBowl\Support\Scrubber;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -146,6 +147,30 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function getFullNameAttribute()
 	{
 		return $this->first_name.' '.$this->last_name;
+	}
+
+	public function setEmailAttribute ($attribute)
+	{
+		/** @var Scrubber $scrubber */
+		$scrubber = App::make(Scrubber::class);
+		$this->attributes['email'] = $scrubber->email($attribute);
+	}
+
+	public function setFirstNameAttribute ($attribute)
+	{
+		$this->attributes['first_name'] = ucwords(strtolower($attribute));
+	}
+
+	public function setLastNameAttribute ($attribute)
+	{
+		$this->attributes['last_name'] = ucwords(strtolower($attribute));
+	}
+
+	public function setPhoneAttribute ($attribute)
+	{
+		/** @var Scrubber $scrubber */
+		$scrubber = App::make(Scrubber::class);
+		$this->attributes['phone'] = $scrubber->phone($attribute);
 	}
 
 }

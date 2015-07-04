@@ -31,31 +31,11 @@ class DatabaseSeeder extends Seeder {
 
 		Model::unguard();
 
-        $season = Season::create([
+        Season::create([
             'name' => date('Y').'-'.(date('y')+1)
         ]);
 
-        // ---------- Seed a Guardian
-        $BKuhlGuardian = User::create([
-            'status'			=> User::STATUS_CONFIRMED,
-            'first_name'		=> 'Ben',
-            'last_name'			=> 'Guardian',
-            'email'				=> 'benkuhl+guardian@gmail.com',
-            'password'			=> bcrypt('changeme')
-        ]);
-		$addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
-		foreach ($addresses as $key => $name) {
-			$address = App::make('BibleBowl\Address', [[
-				'name'			=> $name,
-				'address_one'	=> '123 Test Street',
-				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
-				'city'			=> 'Louisville',
-				'state'			=> 'KY',
-				'zip_code'		=> '40241'
-			]]);
-			$BKuhlGuardian->addresses()->save($address);
-		}
-
+        $this->seedGuardian();
         $this->seedHeadCoach();
 
 		$this->call('AcceptanceTestingSeeder');
@@ -90,6 +70,36 @@ class DatabaseSeeder extends Seeder {
             'type'          => Group::TYPE_TEEN,
             'address_id'    => $address->id
         ]);
+
+        $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
+        $groupCreator->create($BKuhlHeadCoach, [
+            'name'          => 'Mount Pleasant Christian Church',
+            'type'          => Group::TYPE_TEEN,
+            'address_id'    => $address->id
+        ]);
+    }
+
+    private function seedGuardian()
+    {
+        $BKuhlGuardian = User::create([
+            'status'			=> User::STATUS_CONFIRMED,
+            'first_name'		=> 'Ben',
+            'last_name'			=> 'Guardian',
+            'email'				=> 'benkuhl+guardian@gmail.com',
+            'password'			=> bcrypt('changeme')
+        ]);
+        $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
+        foreach ($addresses as $key => $name) {
+            $address = App::make('BibleBowl\Address', [[
+                'name'			=> $name,
+                'address_one'	=> '123 Test Street',
+                'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
+                'city'			=> 'Louisville',
+                'state'			=> 'KY',
+                'zip_code'		=> '40241'
+            ]]);
+            $BKuhlGuardian->addresses()->save($address);
+        }
     }
 
 }

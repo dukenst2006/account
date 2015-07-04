@@ -92,6 +92,7 @@ class RouteServiceProvider extends ServiceProvider {
                 Route::resource('group', 'GroupController', [
                     'except' => ['delete']
                 ]);
+				Route::get('group/{group}/swap', 'GroupController@swap');
 			});
 
 		});
