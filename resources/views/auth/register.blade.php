@@ -3,7 +3,7 @@
 @section('title', 'Account Registration')
 
 @section('content')
-	<div class="login-container row">
+	<div class="p-t-40">
 		<div class="grid simple">
 			<div class="col-md-8 col-md-offset-2 grid-body no-border">
 				<br/>
@@ -18,7 +18,26 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 p-b-10">
+						<p>Once you have an account you can register your children to play with your local group, start your own group and more!  Login with your <span class="bold">favorite social network</span> or start fresh.</p>
+					</div>
+				</div>
+				<div class="row column-seperation">
+					<div class="col-md-4 p-t-40 p-b-40">
+						<a href='/login/{{ \BibleBowl\Auth\ThirdPartyAuthenticator::PROVIDER_FACEBOOK }}' class="btn btn-block btn-info col-md-8">
+							<span class="pull-left"><i class="fa fa-facebook"></i></span>
+							<span class="bold">Login with Facebook</span>
+						</a>
+						<a href='/login/{{ \BibleBowl\Auth\ThirdPartyAuthenticator::PROVIDER_GOOGLE }}' class="btn btn-block btn-danger col-md-8">
+							<span class="pull-left"><i class="fa fa-google-plus"></i></span>
+							<span class="bold">Login with Google</span>
+						</a>
+						<a href='/login/{{ \BibleBowl\Auth\ThirdPartyAuthenticator::PROVIDER_TWITTER }}' class="btn btn-block btn-success col-md-8">
+							<span class="pull-left"><i class="fa fa-twitter"></i></span>
+							<span class="bold">Login with Twitter</span>
+						</a>
+					</div>
+					<div class="col-md-8">
                         <br>
 						@include('partials.messages')
 						{!! Form::open(['method' => 'post']) !!}

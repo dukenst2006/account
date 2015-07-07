@@ -8,7 +8,9 @@
 		<div class="row p-t-60">
 			<div class="col-md-7 col-md-offset-2 tiles white no-padding">
 				<div class="p-t-30 p-l-40 p-r-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
-					<h2 class="normal">Bible Bowl</h2>
+					<div class="text-center p-b-20 xs-p-b-10">
+						<img src="/img/logo-blue.png" style="width: 250px"/>
+					</div>
 					<p>Manage your player information, team rosters and more!  To get started, <strong>login with your favorite social network</strong> or <strong><a href="/register">register a new account</a></strong>.<br></p>
 					@include('partials.messages')
 				</div>

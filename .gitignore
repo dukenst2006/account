@@ -8,3 +8,5 @@
 .idea
 _ide_helper.php
 tests/_output/*
+storage/debugbar
+public/js/*
