@@ -13,23 +13,7 @@ class GroupCreationRequest extends Request {
 	 */
 	public function rules()
 	{
-        $rules = Group::validationRules();
-        //require either used owned address
-        //or address fields
-        if ($this->get('user_owned_address', 0) != 1) {
-            // pull all validation rules except the name
-            $addressRules = array_except(
-                Address::validationRules(),
-                [
-                    'name'
-                ]
-            );
-            $rules = array_merge($rules, $addressRules);
-
-            unset($rules['address_id']);
-        }
-
-		return $rules;
+		return Group::validationRules();
 	}
 
     /**

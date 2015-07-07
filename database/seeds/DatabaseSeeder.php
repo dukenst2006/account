@@ -66,16 +66,18 @@ class DatabaseSeeder extends Seeder {
         /** @var GroupCreator $groupCreator */
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($BKuhlHeadCoach, [
-            'name'          => 'Southeast Christian Church',
-            'type'          => Group::TYPE_TEEN,
-            'address_id'    => $address->id
+            'name'                  => 'Southeast Christian Church',
+            'type'                  => Group::TYPE_TEEN,
+            'address_id'            => $address->id,
+            'meeting_address_id'    => $address->id
         ]);
 
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
         $groupCreator->create($BKuhlHeadCoach, [
-            'name'          => 'Mount Pleasant Christian Church',
-            'type'          => Group::TYPE_TEEN,
-            'address_id'    => $address->id
+            'name'                  => 'Mount Pleasant Christian Church',
+            'type'                  => Group::TYPE_TEEN,
+            'address_id'            => $address->id,
+            'meeting_address_id'    => $address->id
         ]);
     }
 

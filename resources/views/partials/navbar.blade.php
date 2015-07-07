@@ -39,7 +39,6 @@
                             </div>
                             <div class="grouptype" class="faded"> {{ Session::group()->type() }}</div>
                         </div>
-                        @if(Auth::user()->groups()->count() > 1)
                         <div class="iconset top-down-arrow" id="my-groups" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></div>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="my-groups">
                             @foreach(Auth::user()->groups as $group)
@@ -52,8 +51,10 @@
                                 </li>
                                 @endif
                             @endforeach
+                            <li class="create-option">
+                                <a class="btn btn-primary btn-mini" href="/group/create">Add Group</a>
+                            </li>
                         </ul>
-                        @endif
                     </li>
                 @endif
                 <li class="quicklinks"><span class="h-seperate"></span></li>
@@ -62,8 +63,8 @@
                         <div class="iconset top-settings-dark "></div>
                     </a>
                     <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
-                        <li><a href="/account/edit"> My Account</a> </li>
-                        <li><a href="/account/address"> My Addresses</a> </li>
+                        <li><a href="/account/edit">My Account</a> </li>
+                        <li><a href="/account/address">Address Book</a> </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                     </ul>

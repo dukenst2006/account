@@ -27,8 +27,10 @@ class CreateGroupsTable extends Migration {
             $table->string('name');
 			$table->integer('owner_id')->unsigned();
 			$table->foreign('owner_id')->references('id')->on('users');
-            $table->integer('address_id')->unsigned();
-            $table->foreign('address_id')->references('id')->on('addresses');
+			$table->integer('address_id')->unsigned();
+			$table->foreign('address_id')->references('id')->on('addresses');
+			$table->integer('meeting_address_id')->unsigned();
+			$table->foreign('meeting_address_id')->references('id')->on('addresses');
 			$table->timestamps();
 		});
 	}

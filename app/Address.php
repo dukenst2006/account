@@ -56,22 +56,22 @@ class Address extends Model {
 
     public function setNameAttribute ($attribute)
     {
-        $this->attributes['name'] = ucwords(strtolower($attribute));
+        $this->attributes['name'] = ucwords(strtolower(trim($attribute)));
     }
 
     public function setAddressOneAttribute ($attribute)
     {
-        $this->attributes['address_one'] = ucwords(strtolower($attribute));
+        $this->attributes['address_one'] = ucwords(strtolower(trim($attribute)));
     }
 
     public function setAddressTwoAttribute ($attribute)
     {
-        $this->attributes['address_two'] = ucwords(strtolower($attribute));
+        $this->attributes['address_two'] = ucwords(strtolower(trim($attribute)));
     }
 
     public function setCityAttribute ($attribute)
     {
-        $this->attributes['city'] = ucwords(strtolower($attribute));
+        $this->attributes['city'] = ucwords(strtolower(trim($attribute)));
     }
 
 }

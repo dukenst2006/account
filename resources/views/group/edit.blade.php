@@ -2,6 +2,10 @@
 
 @section('title', 'Editing '.$group->name)
 
+@section('includeJs')
+    <script src="/assets/js/group.js" type="text/javascript"></script>
+@endsection
+
 @section('content')
     <div class="content">
         <div class="row">
@@ -14,16 +18,6 @@
                         @include('partials.messages')
                         {!! Form::model($group, ['url' => ['/group/'.$group->id], 'role' => 'form', 'method' => 'PATCH']) !!}
                             @include('group.form')
-                            <div class="row" id="myOwnAddresses">
-                                <div class="col-md-8">
-                                    <div class="controls p-b-20">
-                                        <label>{!! Form::selectAddress('address_id', null, ['class' => 'form-control']) !!}</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 p-t-5">
-                                    <a href="/account/address/create" class="btn btn-white btn-small">New Address</a>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>

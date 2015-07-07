@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Config;
 use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model {
@@ -82,7 +83,17 @@ class Group extends Model {
 
     public function setNameAttribute ($attribute)
     {
-        $this->attributes['name'] = ucwords(strtolower($attribute));
+        $this->attributes['name'] = ucwords(strtolower(trim($attribute)));
+    }
+
+    /**
+     * Registration link to register for this specific group
+     *
+     * @return string
+     */
+    public function registrationLink()
+    {
+        return url('group/'.$this->guid.'/register');
     }
 
 }

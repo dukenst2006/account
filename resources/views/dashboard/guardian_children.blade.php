@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="tiles white m-b-10">
             <div class="tiles-body">
-                <h4>Your <span class="semi-bold">Players</span></h4>
+                <h4>Your <span class="semi-bold">Children</span></h4>
                 <div class="row">
                     @foreach(Auth::user()->players as $index => $player)
                     <div class="col-md-3 @if($index > 0) b-l b-grey @endif p-l-20">

@@ -16,10 +16,10 @@ elixir(function(mix) {
     mix.less('style.less');
     mix.less('responsive.less');
     mix.styles([
-        'css/style.css',
-        'css/responsive.css',
         'assets/plugins/font-awesome/css/font-awesome.css',
-        'assets/css/custom-icon-set.css'
+        'assets/css/custom-icon-set.css',
+        'css/style.css',
+        'css/responsive.css'
     ],  'public/css/core.css', 'public');
 
     // compile backend assets
@@ -46,6 +46,7 @@ elixir(function(mix) {
     mix.version([
         'js/backend.js',
         'js/forms.js',
+        'assets/js/dashboard.js',
         'css/core.css'
     ]);
 });

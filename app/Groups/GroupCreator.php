@@ -28,24 +28,7 @@ class GroupCreator
 
         DB::beginTransaction();
 
-        // create the address if one wasn't provided
-        // relying on validation rules to make sure required stuff is here
-        $addressKeys = [
-            'address_one',
-            'address_two',
-            'city',
-            'state',
-            'zip_code'
-        ];
-        if (!isset($attributes['address_id'])) {
-            $addressAttributes = array_only($addressKeys, $attributes);
-            $address = $this->addressCreator->create($addressAttributes);
-            $attributes['address_id'] = $address->id;
-        }
-
-        // all input without
-        $addressKeys[] = 'user_owned_address';
-        $group = Group::create(array_except($attributes, $addressKeys));
+        $group = Group::create($attributes);
 
         // make the owner a head coach if they aren't already
         if (!$owner->hasRole(Role::HEAD_COACH)) {

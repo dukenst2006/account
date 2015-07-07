@@ -158,12 +158,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function setFirstNameAttribute ($attribute)
 	{
-		$this->attributes['first_name'] = ucwords(strtolower($attribute));
+		$this->attributes['first_name'] = ucwords(strtolower(trim($attribute)));
 	}
 
 	public function setLastNameAttribute ($attribute)
 	{
-		$this->attributes['last_name'] = ucwords(strtolower($attribute));
+		$this->attributes['last_name'] = ucwords(strtolower(trim($attribute)));
 	}
 
 	public function setPhoneAttribute ($attribute)

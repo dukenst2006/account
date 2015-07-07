@@ -48,8 +48,18 @@ a.fa.fa-trash-o {
 
 // --------------------------------------------------
 // group dropdown menu
-.group-section {
-  //margin-right: .5em;
+.dropdown-menu > .create-option {
+  text-align: center;
+  padding: 4px;
+  a {
+    color: #fff;
+    display: inline-block;
+  }
+  // inherit btn-primary
+  a:hover {
+    color: #fff;
+    background-color: #099a8c;
+  }
 }
 .group-menu {
   text-align: left;
@@ -75,6 +85,7 @@ a.fa.fa-trash-o {
   }
   .dropdown-menu > li > a {
     line-height: normal;
+    padding: .5em 1em;
   }
   .iconset.top-down-arrow {
     background-position: -228px -2px;
@@ -83,4 +94,17 @@ a.fa.fa-trash-o {
     margin-left: 0;
     padding: 1em;
   }
+}
+
+// ensure backdrop is visible
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1039;
+}
+.fa-7x {
+  font-size: 7em !important;
 }
