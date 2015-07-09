@@ -7,5 +7,6 @@ function copyToClipboard(el) {
 $(document).ready(function () {
     $(document).on('click', 'input.click-copy', function (e) {
         copyToClipboard(e.target);
+
     });
 });
