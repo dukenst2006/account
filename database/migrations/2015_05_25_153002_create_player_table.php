@@ -20,7 +20,6 @@ class CreatePlayerTable extends Migration {
 			$table->foreign('guardian_id')->references('id')->on('users');
 			$table->string('first_name', 32);
 			$table->string('last_name', 32);
-			$table->string('shirt_size', 3);
 			$table->string('gender', 1);
 			$table->date('birthday');
 			$table->softDeletes();

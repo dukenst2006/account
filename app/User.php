@@ -12,6 +12,45 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Rhumsaa\Uuid\Uuid;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
+/**
+ * BibleBowl\User
+ *
+ * @property integer $id 
+ * @property boolean $status 
+ * @property string $guid 
+ * @property string $email 
+ * @property string $first_name 
+ * @property string $last_name 
+ * @property string $phone 
+ * @property string $gender 
+ * @property string $avatar 
+ * @property string $last_login 
+ * @property string $password 
+ * @property string $remember_token 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read \Illuminate\Database\Eloquent\Collection|UserProvider[] $providers 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Address[] $addresses 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players 
+ * @property-read mixed $full_name 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles 
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereLastLogin($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereUpdatedAt($value)
+ * @method static \BibleBowl\User byProviderId($id)
+ */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	const STATUS_UNCONFIRMED = 0;
@@ -107,28 +146,28 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function providers() {
-		return $this->hasMany('BibleBowl\UserProvider');
+		return $this->hasMany(UserProvider::class);
 	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function addresses() {
-		return $this->hasMany('BibleBowl\Address');
+		return $this->hasMany(Address::class);
 	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function groups() {
-		return $this->hasMany('BibleBowl\Group', 'owner_id')->orderBy('name', 'ASC');
+		return $this->hasMany(Group::class, 'owner_id')->orderBy('name', 'ASC');
 	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function players() {
-		return $this->hasMany('BibleBowl\Player', 'guardian_id')->orderBy('birthday', 'DESC');
+		return $this->hasMany(Player::class, 'guardian_id')->orderBy('birthday', 'DESC');
 	}
 
 	/**

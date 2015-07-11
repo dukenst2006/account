@@ -1,10 +1,37 @@
 <?php namespace BibleBowl;
 
 use Carbon\Carbon;
-use Config;
 use Illuminate\Database\Eloquent\Model;
-use Rhumsaa\Uuid\Uuid;
 
+/**
+ * BibleBowl\Player
+ *
+ * @property integer $id 
+ * @property string $guid 
+ * @property integer $guardian_id 
+ * @property string $first_name 
+ * @property string $last_name 
+ * @property string $shirt_size 
+ * @property string $gender 
+ * @property string $birthday 
+ * @property string $deleted_at 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read User $guardian 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons 
+ * @property-read mixed $full_name 
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuardianId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereBirthday($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereUpdatedAt($value)
+ */
 class Player extends Model {
 
     /**
@@ -13,8 +40,6 @@ class Player extends Model {
      * @var array
      */
     protected $guarded = ['id', 'guid'];
-
-    //protected $dates = ['birthday'];
 
     public static function boot()
     {
@@ -42,7 +67,7 @@ class Player extends Model {
      */
     public function guardian()
     {
-        return $this->belongsTo('BibleBowl\User');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -50,7 +75,7 @@ class Player extends Model {
      */
     public function seasons()
     {
-        return $this->belongsToMany('BibleBowl\Season', 'player_season')
+        return $this->belongsToMany(Season::class, 'player_season')
             ->withPivot('grade', 'shirt_size')
             ->withTimestamps();
     }

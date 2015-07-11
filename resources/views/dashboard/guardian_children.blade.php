@@ -1,21 +1,32 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="tiles white m-b-10">
-            <div class="tiles-body">
+ <div class="tiles white m-b-10">
+        <div class="tiles-body">
+            <div class="pull-left">
                 <h4>Your <span class="semi-bold">Children</span></h4>
-                <div class="row">
-                    @foreach(Auth::user()->players as $index => $player)
-                    <div class="col-md-3 @if($index > 0) b-l b-grey @endif p-l-20">
-                        <h4 class="semi-bold">{{ $player->full_name }}</h4>
-                        <p>{!! HTML::genderIcon($player->gender) !!} {{ $player->gender }}</p>
-                        <p> {{ $player->age() }} years old</p>
-                        <p class="text-center">
-                            <a href="/player/{{ $player->id }}/edit">[ Edit ]</a>
-                        </p>
-                    </div>
-                    @endforeach
-                </div>
             </div>
+            <div class="pull-right">
+                <a class="btn btn-primary btn-cons" href="/player/create">Add another child</a>
+            </div>
+            <table class="table no-more-tables" style="margin-bottom: 0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                    </tr>
+                @foreach(Auth::user()->players as $index => $player)
+                    <tr>
+                        <td class="v-align-middle">
+                            <a href="/player/{{ $player->id }}/edit">{{ $player->full_name }}</a>
+                        </td>
+                        <td class="v-align-middle">
+                            {!! HTML::genderIcon($player->gender) !!} {{ $player->gender }}
+                        </td>
+                        <td class="v-align-middle">
+                            {{ $player->age() }}
+                        </td>
+                    </tr>
+                @endforeach
+                </thead>
+            </table>
         </div>
     </div>
-</div>
