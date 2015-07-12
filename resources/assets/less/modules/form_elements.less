@@ -398,8 +398,10 @@ textarea[class*="span"] {
         padding-left: 25px;
         margin-right: 15px;
         font-size: 13px;
+        margin-bottom: 6px;
         color: #777a80;
         transition: border 0.2s linear 0s,color 0.2s linear 0s;
+        margin-bottom: 10px;
         direction: ltr;
         &:before {
             content: "";
@@ -746,7 +748,6 @@ form legend,.form-view legend {
     margin-right: 10px;
     position: relative;
     top: -4px;
-    width: 100%;
     &.form-bordered {
         .control-group {
             margin: 0;
@@ -795,22 +796,6 @@ form legend,.form-view legend {
             }
         }
     }
-}
-// Bootstrap Form Horizontal override.
-.form-horizontal .control-label,
-.form-horizontal .radio,
-.form-horizontal .checkbox,
-.form-horizontal .radio-inline,
-.form-horizontal .checkbox-inline {
-    padding-top: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-// CheckAllPlayers label override.
-label[for=checkAllPlayers]:before,
-label[for=checkAllPlayers]:after  {
-    margin-top: 7px;
 }
 
 .form-horizontal.form-bordered .help-inline,
