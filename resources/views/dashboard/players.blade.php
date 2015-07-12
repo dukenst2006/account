@@ -36,7 +36,8 @@
                      <div class="col-md-12">
                          <input type="text" class="form-control text-center click-copy" value="{{ Session::group()->registrationLink() }}">
                          <button class="btn btn-block btn-primary btn-copy ripple" type="button">
-                             <i class="fa fa-paste"></i><span>Copy link to clipboard</span>
+                             <i class="fa fa-paste"></i>
+                             <span>Copy link to clipboard</span>
                          </button>
                      </div>
                  </div>
