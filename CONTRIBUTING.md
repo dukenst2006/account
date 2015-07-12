@@ -1,23 +1,28 @@
 ## Local Dev Environment
 
  * Setup [Laravel Homestead](https://github.com/laravel/homestead)
- * Clone this repo to `~/Personal` or wherever you would like it to live
- * Run `npm install` and then `gulp` from project directory (can also run on Homestead)
+ * Clone this repo to `~/Personal` or wherever you would like it to live.
+ * Run `composer install`, `npm install` and then `gulp` from the project directory (can also run on Homestead)
  * Add `192.168.10.10   bbowl.local` to `/etc/hosts` 
  * Configure Homestead by typing `homestead edit`:
-    * Add database `bbowl_management`
+    * Add database `biblebowl`
     * Add a synced folder mapping:
+
 ```
 folders:
     - map: ~/Personal
       to: /var/www/Personal
 ```
+
     * Add a site mapping:
+    
 ```
 sites:
     - map: bbowl.local
       to: /var/www/Personal/biblebowl/public
 ```
+
+ * Run `homestead up`
  * In the project root, create a `.env` file that will house your local configuration.  Use the below code block to populate this file:
 ```
 APP_ENV=local
@@ -53,7 +58,7 @@ GOOGLE_REDIRECT=
 
 GOOGLE_API_KEY=
 ```
- * Run migrations with `php artisan migrate` to build the database
+ * Run migrations with `php artisan migrate --seed` to build the database
  * Open [http://bbowl.local](http://bbowl.local) in your browser
 
 > To enable 3rd party integration, you'll need to setup your own client ids

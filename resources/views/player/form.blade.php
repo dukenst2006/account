@@ -28,17 +28,10 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
-        <label class="form-label">T-Shirt Size</label>
-        <span class="help"></span>
-        <div class="controls p-b-20">
-            {!! Form::selectShirtSize('shirt_size', null, ['class' => 'form-control']) !!}<br/>
-        </div>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
         <label class="form-label">Gender</label>
         <span class="help"></span>
-        <div class="controls">
+        <div class="controls p-b-20">
             @include('partials.forms.gender')
         </div>
     </div>

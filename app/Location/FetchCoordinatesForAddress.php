@@ -61,7 +61,7 @@ class FetchCoordinatesForAddress implements ShouldBeQueued {
         } catch (\RuntimeException $e) {
             //ignore failures if we're local.
             //useful when seeding and not on the internet
-            if (DatabaseSeeder::isSeeding() || (App::environment('local') && $e->getMessage() == 'cURL request retuened following error: Could not resolve host: maps.googleapis.com')) {
+            if (DatabaseSeeder::isSeeding() || (App::environment('local') && $e->getMessage() == 'cURL request returned following error: Could not resolve host: maps.googleapis.com')) {
                 Log::debug('Suppressing error when fetching coordinates for address');
                 return;
             }

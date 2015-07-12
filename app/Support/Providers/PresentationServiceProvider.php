@@ -1,7 +1,10 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use Auth;
+use BibleBowl\Group;
 use BibleBowl\Presentation\Form;
 use BibleBowl\Presentation\Html;
+use View;
 
 class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 {
@@ -37,5 +40,16 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
         });
 
         //for EmailTemplate service provider, see AppServiceProvider
+
+        $this->registerComposers();
+    }
+
+    private function registerComposers()
+    {
+        // on the dashboard, when a user has children load the nearby groups
+        View::creator('dashboard.group_registration', function ($view) {
+            // "First" address is a bit random, the user should control this
+            $view->with('nearbyGroups', Group::nearby(Auth::user()->addresses->first())->get());
+        });
     }
 }

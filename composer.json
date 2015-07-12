@@ -48,6 +48,10 @@
 		"post-create-project-cmd": [
 			"php -r \"copy('.env.example', '.env');\"",
 			"php artisan key:generate"
+		],
+	  	"post-autoload-dump": [
+		  	"art ide-helper:generate",
+		  	"art ide-helper:models"
 		]
 	},
 	"config": {

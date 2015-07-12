@@ -6,7 +6,7 @@
 	<body class="error-body no-top lazy" style="background-image: url('/img/work.jpg')">
 	<div class="container">
 		<div class="row p-t-60">
-			<div class="col-md-7 col-md-offset-2 tiles white no-padding">
+			<div class="col-md-8 col-md-offset-2 tiles white no-padding">
 				<div class="p-t-30 p-l-40 p-r-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
 					<div class="text-center p-b-20 xs-p-b-10">
 						<img src="/img/logo-blue.png" style="width: 250px"/>

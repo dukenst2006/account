@@ -1,8 +1,45 @@
 <?php namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Jackpopp\GeoDistance\GeoDistanceTrait;
 
+/**
+ * BibleBowl\Address
+ *
+ * @property integer $id 
+ * @property integer $user_id 
+ * @property string $name 
+ * @property string $address_one 
+ * @property string $address_two 
+ * @property string $city 
+ * @property string $state 
+ * @property string $zip_code 
+ * @property float $latitude 
+ * @property float $longitude 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property string $deleted_at 
+ * @property-read User $user 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $group 
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereAddressOne($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereAddressTwo($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereZipCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereLatitude($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereLongitude($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereDeletedAt($value)
+ * @method static \BibleBowl\Address within($distance, $measurement = null, $lat = null, $lng = null)
+ * @method static \BibleBowl\Address outside($distance, $measurement = null, $lat = null, $lng = null)
+ */
 class Address extends Model {
+
+    use GeoDistanceTrait;
 
     /**
      * The attributes that are not mass assignable.
@@ -10,6 +47,16 @@ class Address extends Model {
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function getLatColumn()
+    {
+        return $this->getTable().'.latitude';
+    }
+
+    public function getLngColumn()
+    {
+        return $this->getTable().'.longitude';
+    }
 
     /**
      * @return bool
@@ -24,7 +71,7 @@ class Address extends Model {
      */
     public function user()
     {
-        return $this->belongsTo('BibleBowl\User');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -32,7 +79,7 @@ class Address extends Model {
      */
     public function group()
     {
-        return $this->hasMany('BibleBowl\Group');
+        return $this->hasMany(Group::class);
     }
 
     public static function validationRules()

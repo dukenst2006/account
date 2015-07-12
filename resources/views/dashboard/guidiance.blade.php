@@ -3,6 +3,7 @@
         <h4 class="bold">Getting Started</h4>
     </div>
     <div class="grid-body no-border" style="padding-bottom:0;">
+        @if(!Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
         <div class="row">
             <div class="col-md-7 col-sm-7">
                 <h4 class="semi-bold">For Parents</h4>
@@ -14,8 +15,13 @@
                 </div>
             </div>
         </div>
-
-        <div class="row b-grey b-t">
+        @endif
+        @if(!Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
+        <div class="row
+            @if(!Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
+                b-grey b-t
+            @endif
+                ">
             <div class="col-md-7 col-sm-7">
                 <h4 class="semi-bold">For Head Coaches</h4>
                 <p class="text-gray">Add your group so that players can register with you</p>
@@ -26,6 +32,6 @@
                 </div>
             </div>
         </div>
-
+        @endif
     </div>
 </div>

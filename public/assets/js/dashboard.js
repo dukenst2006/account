@@ -5,7 +5,6 @@ function copyToClipboard(el) {
 }
 
 $(document).ready(function () {
-
     /**
      * Click Copy Event.
      */

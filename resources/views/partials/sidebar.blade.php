@@ -7,9 +7,6 @@
             <div class="user-info">
                 <div class="greeting">Welcome</div>
                 <div class="username">{{ Auth::user()->first_name }} <span class="semi-bold">{{ Auth::user()->last_name }}</span></div>
-                <div class="status">Status<a href="#">
-                        <div class="status-icon green"></div>
-                        Online</a></div>
             </div>
         </div>
         <!-- END MINI-PROFILE -->
