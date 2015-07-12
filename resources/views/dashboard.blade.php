@@ -23,12 +23,6 @@
         </div>
     @endif
 
-    @if(Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
-        <div class="col-md-12">
-            @include('dashboard.group_registration')
-        </div>
-    @endif
-
     @if(!Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH) || !Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
     <div class="col-md-6">
         @include('dashboard.guidiance')

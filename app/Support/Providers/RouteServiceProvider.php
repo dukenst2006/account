@@ -89,6 +89,7 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::post('register', 'PlayerRegistrationController@postRegister');
                 });
 
+				Route::get('group/search', 'GroupController@search');
                 Route::resource('group', 'GroupController', [
                     'except' => ['delete']
                 ]);

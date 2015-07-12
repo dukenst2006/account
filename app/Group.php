@@ -60,6 +60,24 @@ class Group extends Model {
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function meetingAddress() {
+        return $this->belongsTo(Address::class, 'meeting_address_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function players() {
+        // if this relation is updated, update Season too
+        return $this->belongsToMany(Player::class)
+            ->withPivot('group_id', 'grade', 'shirt_size')
+            ->withTimestamps()
+            ->orderBy('birthday', 'DESC');
+    }
+
+    /**
      * Query
      *
      * @param Builder $q

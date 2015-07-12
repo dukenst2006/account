@@ -4,7 +4,8 @@ use Auth;
 use BibleBowl\Group;
 use BibleBowl\Presentation\Form;
 use BibleBowl\Presentation\Html;
-use View;
+use Illuminate\View\View;
+use Session;
 
 class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 {
@@ -46,10 +47,28 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 
     private function registerComposers()
     {
-        // on the dashboard, when a user has children load the nearby groups
-        View::creator('dashboard.group_registration', function ($view) {
-            // "First" address is a bit random, the user should control this
-            $view->with('nearbyGroups', Group::nearby(Auth::user()->addresses->first())->get());
+        \View::creator('dashboard.guardian_children', function (View $view) {
+            $season = Session::season();
+            $view->with(
+                'children',
+                Auth::user()->players()
+                    // eager load the current season/group
+                    ->with(
+                        [
+                            'seasons' => function ($q) use ($season) {
+                                $q->where('seasons.id', $season->id);
+                            },
+                            'groups' => function ($q) use ($season) {
+                                $q->wherePivot('season_id', $season->id);
+                            }
+                        ]
+                    )
+                    ->get()
+            );
         });
+
+//            \View::creator('group.search', function (View $view) {
+//                $view->with('searchResults', Group::where('name', 'LIKE', '%'.$request->get('q').'%')->get());
+//            });
     }
 }

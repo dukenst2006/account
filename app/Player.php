@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -76,7 +77,17 @@ class Player extends Model {
     public function seasons()
     {
         return $this->belongsToMany(Season::class, 'player_season')
-            ->withPivot('grade', 'shirt_size')
+            ->withPivot('group_id', 'grade', 'shirt_size')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'player_season')
+            ->withPivot('season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
@@ -120,6 +131,39 @@ class Player extends Model {
     public function getBirthdayAttribute($birthday)
     {
         return Carbon::createFromFormat('Y-m-d', $birthday);
+    }
+
+    /**
+     * If the current player has registered with National Bible Bowl
+     *
+     * @param Season $season
+     *
+     * @return mixed
+     */
+    public function isRegisteredWithNBB(Season $season)
+    {
+        return $this->has('seasons', '=', $season->id)->count() > 0;
+    }
+
+    /**
+     * If the current player has registered with a group
+     *
+     * @param Season $season
+     *
+     * @return Group
+     */
+    public function groupRegisteredWith(Season $season)
+    {
+        return $this->groups()->wherePivot('season_id', $season->id)->first();
+//        $season = $this->seasons()->where('id', $season->id)->get();
+//
+//        if ($season->exists === false) {
+//            return false;
+//        }
+//
+//
+//
+//        return $season->wherePivot('group_id', $group->id)->count();
     }
 
 }

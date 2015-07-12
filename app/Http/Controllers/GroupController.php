@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Session;
 use Auth;
 use BibleBowl\Http\Requests\GroupEditRequest;
@@ -75,6 +76,18 @@ class GroupController extends Controller
 		Session::setGroup(Group::findOrFail($id));
 
 		return redirect('/dashboard');
+	}
+
+	public function search(Request $request)
+	{
+		$groups = Group::where('name', 'LIKE', '%'.$request->get('q').'%')
+			->get();
+
+		$nearbyGroups = Group::nearby(Auth::user()->addresses->first())->with('meetingAddress')->limit(10)->get();
+
+		return view('group.register.search')
+			->with('searchResults', $groups)
+			->with('nearbyGroups', $nearbyGroups);
 	}
 
 }
