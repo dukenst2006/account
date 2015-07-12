@@ -50,8 +50,8 @@
 			"php artisan key:generate"
 		],
 	  	"post-autoload-dump": [
-		  	"art ide-helper:generate",
-		  	"art ide-helper:models"
+		  	"php artisan ide-helper:generate",
+		  	"php artisan ide-helper:models"
 		]
 	},
 	"config": {
