@@ -85,8 +85,8 @@ class RouteServiceProvider extends ServiceProvider {
                     'prefix'	=> 'seasons',
                     'namespace'	=> 'Seasons'
                 ], function () {
-                    Route::get('register', 'PlayerRegistrationController@getRegister');
-                    Route::post('register', 'PlayerRegistrationController@postRegister');
+                    Route::get('register/{groupId?}', 'PlayerRegistrationController@getRegister');
+                    Route::post('register/{groupId?}', 'PlayerRegistrationController@postRegister');
                 });
 
 				Route::get('group/search', 'GroupController@search');

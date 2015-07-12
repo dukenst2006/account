@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Seasons;
 
+use BibleBowl\Group;
 use BibleBowl\Seasons\SeasonRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GuardianOnlyRequest;
@@ -13,9 +14,15 @@ class PlayerRegistrationController extends Controller
     /**
      * @return \Illuminate\View\View
      */
-    public function getRegister()
+    public function getRegister($groupId = null)
     {
-        return view('seasons.player-registration.register');
+		$group = null;
+		if (is_null($groupId) === false) {
+			$group = Group::findOrFail($groupId);
+		}
+
+        return view('seasons.player-registration.register')
+			->withGroup($group);
     }
 
 	/**
