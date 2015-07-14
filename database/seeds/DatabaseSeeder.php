@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder {
         }
 
         // Generate fake player information.
-        $num_players = 25;
+        $num_players = 5;
         $faker = Factory::create();
         for ($i = 1; $i < $num_players; $i++) {
             $BKuhlGuardian = User::find($BKuhlGuardian->id);
