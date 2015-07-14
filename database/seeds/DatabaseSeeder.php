@@ -1,10 +1,12 @@
 <?php
 
+use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Season;
 use BibleBowl\User;
 use BibleBowl\Group;
 use BibleBowl\Address;
 use BibleBowl\Groups\GroupCreator;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -101,6 +103,20 @@ class DatabaseSeeder extends Seeder {
                 'zip_code'		=> '40241'
             ]]);
             $BKuhlGuardian->addresses()->save($address);
+        }
+
+        // Generate fake player information.
+        $num_players = 25;
+        $faker = Factory::create();
+        for ($i = 1; $i < $num_players; $i++) {
+            $BKuhlGuardian = User::find($BKuhlGuardian->id);
+            $playerCreator = App::make(PlayerCreator::class);
+            $playerCreator->create($BKuhlGuardian, [
+                'first_name'    => $faker->firstName,
+                'last_name'     => $faker->lastName,
+                'gender'        => (rand(0, 1)) ? 'M' : 'F',
+                'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            ]);
         }
     }
 
