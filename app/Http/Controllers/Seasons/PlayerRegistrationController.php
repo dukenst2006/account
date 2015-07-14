@@ -6,6 +6,7 @@ use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GuardianOnlyRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
+use Ivory\GoogleMap\Map;
 use Session;
 
 class PlayerRegistrationController extends Controller

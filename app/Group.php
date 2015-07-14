@@ -122,7 +122,7 @@ class Group extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function users() {
+    public function owner() {
         return $this->belongsTo(User::class, 'owner_id');
     }
 

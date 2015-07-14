@@ -121,4 +121,15 @@ class Address extends Model {
         $this->attributes['city'] = ucwords(strtolower(trim($attribute)));
     }
 
+    public function __toString()
+    {
+        return implode(' ', [
+            $this->address_one,
+            $this->address_two,
+            $this->city,
+            $this->state,
+            $this->zip_code
+        ]);
+    }
+
 }

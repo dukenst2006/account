@@ -7,8 +7,39 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="grid simple">
+                @if(is_null($group->exists) === false)
+                        <div class="grid-title no-border">
+                            <h4 class="full-width">You're joining <span class="semi-bold">{{ $group->full_name }}</span></h4>
+                        </div>
+                        <div class="grid-body no-border">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl>
+                                        <dt>Meets at:</dt>
+                                        <dd>
+                                            <a href="http://maps.google.com/?q={{ $group->address }}" title="View on a map" target="_blank">
+                                            @include('partials.address', [
+                                                'address' => $group->address
+                                            ])
+                                            </a>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl>
+                                        <dt>Contact:</dt>
+                                        <dd>
+                                            {{ $group->owner->full_name }}<br/>
+                                            {{ HTML::formatPhone($group->owner->phone) }}
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                @endif
                     <div class="grid-title no-border">
                         <h4>Register for <span class="semi-bold">{{ Session::season()->name }} Season</span></h4>
+                        <p class="muted">Select the players you'd like to register</p>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
@@ -43,11 +74,11 @@
                             @endforeach
                             </tbody>
                         </table>
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <button class="btn btn-primary btn-cons" type="submit">Register</button>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary btn-cons" type="submit">Register</button>
                             </div>
+                        </div>
                         {!! Form::close() !!}
                     </div>
                 </div>
