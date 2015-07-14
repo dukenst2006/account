@@ -11,7 +11,8 @@
 	  	"anhskohbo/no-captcha": "2.*",
 	  	"zizaco/entrust": "dev-laravel-5",
 	  	"alexpechkarev/google-geocoder": "dev-master",
-		"jackpopp/geodistance": "^1.2"
+		"jackpopp/geodistance": "^1.2",
+		"fzaninotto/faker": "^1.5"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",
