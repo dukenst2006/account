@@ -12,8 +12,7 @@
 	  	"zizaco/entrust": "dev-laravel-5",
 	  	"alexpechkarev/google-geocoder": "dev-master",
 		"jackpopp/geodistance": "^1.2",
-		"egeloen/google-map": "^1.4",
-		"fzaninotto/faker": "^1.5"
+		"egeloen/google-map": "^1.4"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",
@@ -22,7 +21,8 @@
 	  	"barryvdh/laravel-debugbar": "^2.0",
 	  	"spatie/laravel-tail": "dev-master",
 	  	"codeception/codeception": "~2.0",
-	    "mockery/mockery": "dev-master@dev"
+	    "mockery/mockery": "dev-master@dev",
+	  	"fzaninotto/faker": "^1.5"
 	},
 	"autoload": {
 		"classmap": [
