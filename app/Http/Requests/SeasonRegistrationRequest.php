@@ -1,6 +1,17 @@
 <?php namespace BibleBowl\Http\Requests;
 
+use Illuminate\Contracts\Validation\Factory;
+
 class SeasonRegistrationRequest extends Request {
+
+    use IncludesCreditCardPayment;
+
+    public function __construct(Factory $factory)
+    {
+        $factory->extend('required_one', function ($attribute, $value, $parameters) {
+            return count(array_column($this->request->get($attribute), 'register')) > 0;
+        });
+    }
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -20,7 +31,7 @@ class SeasonRegistrationRequest extends Request {
 	public function rules()
 	{
         $rules = [];
-
+        $rules['player'] = 'required_one';
         foreach($this->request->get('player') as $playerId => $playerData) {
             $rules['player.'.$playerId.'.grade'] = 'required|min:1';
             $rules['player.'.$playerId.'.shirt_size'] = 'required|min:1';
@@ -32,6 +43,7 @@ class SeasonRegistrationRequest extends Request {
     public function messages()
     {
         $messages = [];
+        $messages['player.required_one'] = 'You must select a player to register';
         foreach($this->request->get('player') as $playerId => $playerData)
         {
             $messages['player.'.$playerId.'.grade.min'] = 'One or more of your players is missing a grade';

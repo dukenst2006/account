@@ -1,11 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Register Group')
+@section('title', 'Find your group')
 
 @section('content')
     <div class="content">
         <div class="grid simple">
             <div class="grid-body no-border">
+                @if(is_null($searchResults))
                 <div class="row">
                     <div class="col-md-12 m-t-20">
                         <h4>Groups <span class="semi-bold">Nearby</span></h4>
@@ -26,6 +27,7 @@
                     @endforeach
                     </thead>
                 </table>
+                @endif
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6 m-t-20">
                         <h4>Don't see your group? <span class="semi-bold">Search for one</span></h4>
@@ -40,7 +42,7 @@
                         {!! Form::close() !!}
                     </div>
                 </div>
-                @if($searchResults->count() > 0)
+                @if(!is_null($searchResults))
                 <table class="table no-more-tables" style="margin-bottom: 0">
                     <thead>
                     @foreach($searchResults as $group)

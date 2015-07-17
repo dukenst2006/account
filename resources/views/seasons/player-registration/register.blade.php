@@ -2,6 +2,10 @@
 
 @section('title', 'Register for '.Session::season()->name.' Season')
 
+@section('includeJs')
+    <script src="/assets/js/register.js" type="text/javascript"></script>
+@endsection
+
 @section('content')
     <div class="content">
         <div class="row">
@@ -74,6 +78,13 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="grid-title no-border">
+                        <h4>Payment</h4>
+                        <p>@todo Add some kind of calculation to show total due</p>
+                    </div>
+                    <div class="grid-body no-border">
+                        @include('billing.credit-card-form')
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary btn-cons" type="submit">Register</button>

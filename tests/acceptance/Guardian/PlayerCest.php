@@ -16,7 +16,6 @@ class GuardianPlayerCest
         $this->firstName .= time();
 
         $I->fillField('last_name', $this->lastName);
-        $I->selectOption('shirt_size', 'XL');
         $I->fillField('birthday', '05/14/2001');
         $I->click('Save');
 

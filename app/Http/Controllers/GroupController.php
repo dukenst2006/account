@@ -78,15 +78,22 @@ class GroupController extends Controller
 		return redirect('/dashboard');
 	}
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return $this
+	 */
 	public function search(Request $request)
 	{
-		$groups = Group::where('name', 'LIKE', '%'.$request->get('q').'%')
-			->get();
+		$searchResults = null;
+		if ($request->has('q')) {
+			$searchResults = Group::where('name', 'LIKE', '%'.$request->get('q').'%')->get();
+		}
 
 		$nearbyGroups = Group::nearby(Auth::user()->addresses->first())->with('meetingAddress')->limit(10)->get();
 
-		return view('group.register.search')
-			->with('searchResults', $groups)
+		return view('group.search')
+			->with('searchResults', $searchResults)
 			->with('nearbyGroups', $nearbyGroups);
 	}
 

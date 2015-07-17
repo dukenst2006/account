@@ -3,6 +3,7 @@
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\User;
+use Carbon\Carbon;
 use Illuminate\Html\FormBuilder;
 
 class Form extends FormBuilder
@@ -177,6 +178,99 @@ class Form extends FormBuilder
         $list = [];
         foreach (Auth::user()->addresses as $address) {
             $list[$address->id] = $address->name.' ('.$address->address_one.')';
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectMonthNumeric($name, $selected = null, $options = array(), $optional = false)
+    {
+        $months = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Aug',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dec'
+        ];
+        $list = [];
+        foreach ($months as $monthId => $month) {
+            $list[$monthId] = $monthId.' - '.$month;
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectMonth($name, $selected = null, $options = array(), $optional = false)
+    {
+        $months = [
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December'
+        ];
+        $list = [];
+        foreach ($months as $monthId => $month) {
+            $list[$monthId] = $month;
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectFutureYear($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [];
+        $currentYear = Carbon::now()->year;
+        for ($x = 1; $x <= 5; $x++) {
+            $currentYear += 1;
+            $list[$currentYear] = $currentYear;
         }
 
         if ($optional) {
