@@ -24,8 +24,8 @@ class AcceptanceTestingSeeder extends Seeder {
 
         $homeAddress = Address::create([
             'name'			=> 'Home',
-            'address_one'	=> 'Acceptance Test Seeder Street',
-            'address_two'	=> (rand(0, 5)) ? 'Apt 5' : null, //for every other address
+            'address_one'	=> '123 Acceptance Test Seeder Street',
+            'address_two'	=> null,
             'city'			=> 'Louisville',
             'state'			=> 'KY',
             'zip_code'		=> '40241'
