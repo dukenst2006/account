@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Address;
 use BibleBowl\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -10,8 +11,6 @@ class AcceptanceTestingSeeder extends Seeder {
 	const USER_LAST_NAME = 'Walters';
 	const USER_EMAIL = 'joe.walters@example.com';
 	const USER_PASSWORD = 'changeme';
-  	const PRIMARY_ADDRESS_ID = 1;
-
 	const UNCONFIRMED_USER_EMAIL = 'unconfirmed-joe.walters@example.com';
 
 	/**
@@ -23,35 +22,32 @@ class AcceptanceTestingSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		$TestUser = User::create([
-			'status'			=> User::STATUS_CONFIRMED,
-			'first_name'		=> self::USER_FIRST_NAME,
-			'last_name'			=> self::USER_LAST_NAME,
-			'email'				=> self::USER_EMAIL,
-			'password'			=> bcrypt(self::USER_PASSWORD),
-	  		'primary_address_id'=> self::PRIMARY_ADDRESS_ID,
-		]);
-		$addresses = ['Home'];
-		foreach ($addresses as $key => $name) {
-			$homeAddress = App::make('BibleBowl\Address', [[
-				'name'			=> $name,
-				'address_one'	=> 'Acceptance Test Seeder Street',
-				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
-				'city'			=> 'Louisville',
-				'state'			=> 'KY',
-				'zip_code'		=> '40241'
-			]]);
-			$TestUser->addresses()->save($homeAddress);
-		}
+        $homeAddress = Address::create([
+            'name'			=> 'Home',
+            'address_one'	=> 'Acceptance Test Seeder Street',
+            'address_two'	=> (rand(0, 5)) ? 'Apt 5' : null, //for every other address
+            'city'			=> 'Louisville',
+            'state'			=> 'KY',
+            'zip_code'		=> '40241'
+        ]);
+
+        $TestUser = User::create([
+          'status'			    => User::STATUS_CONFIRMED,
+          'first_name'		    => self::USER_FIRST_NAME,
+          'last_name'			=> self::USER_LAST_NAME,
+          'email'				=> self::USER_EMAIL,
+          'password'			=> bcrypt(self::USER_PASSWORD),
+          'primary_address_id'  => $homeAddress->id,
+        ]);
+		$TestUser->addresses()->save($homeAddress);
 
 		// used for asserting you can't login without being confirmed
 		User::create([
-			'first_name'		=> self::USER_FIRST_NAME.'-unconfirmed',
-			'last_name'			=> self::USER_LAST_NAME,
-			'email'				=> self::UNCONFIRMED_USER_EMAIL,
-			'password'			=> bcrypt(self::USER_PASSWORD),
-		  	'primary_address_id'=> self::PRIMARY_ADDRESS_ID,
+			'first_name'		    => self::USER_FIRST_NAME.'-unconfirmed',
+			'last_name'			    => self::USER_LAST_NAME,
+			'email'				    => self::UNCONFIRMED_USER_EMAIL,
+			'password'			    => bcrypt(self::USER_PASSWORD),
+		  	'primary_address_id'    => $homeAddress->id,
 		]);
 	}
-
 }
