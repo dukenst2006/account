@@ -33,7 +33,7 @@
                                 <div><div class="fa fa-check"></div> Registered with NBB</div>
                                 <a href="/group/search">Find a group</a>
                             @else
-                                <a href="/group/search">Register</a>
+                                <a href="/group/search" id="registerPlayer-{{ $child->id }}">Register</a>
                             @endif
                         </td>
                     </tr>

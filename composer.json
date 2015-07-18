@@ -4,10 +4,10 @@
 	"keywords": ["bible bowl"],
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.0.*",
+		"laravel/framework": "5.*",
 		"thomaswelton/laravel-gravatar": "^1.0",
 		"laravel/socialite": "^2.0",
-		"illuminate/html": "^5.0",
+		"illuminate/html": "5.*",
 	  	"anhskohbo/no-captcha": "2.*",
 	  	"zizaco/entrust": "dev-laravel-5",
 	  	"alexpechkarev/google-geocoder": "dev-master",

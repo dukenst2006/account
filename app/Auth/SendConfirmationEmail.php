@@ -4,9 +4,9 @@ use Mail;
 use BibleBowl\User;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendConfirmationEmail implements ShouldBeQueued {
+class SendConfirmationEmail implements ShouldQueue {
 
 	use InteractsWithQueue;
 

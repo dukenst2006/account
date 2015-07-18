@@ -34,7 +34,7 @@ class SeasonRegistrationRequest extends Request {
         $rules['player'] = 'required_one';
         foreach($this->request->get('player') as $playerId => $playerData) {
             $rules['player.'.$playerId.'.grade'] = 'required|min:1';
-            $rules['player.'.$playerId.'.shirt_size'] = 'required|min:1';
+            $rules['player.'.$playerId.'.shirtSize'] = 'required|min:1';
         }
 
 		return $rules;
@@ -46,8 +46,14 @@ class SeasonRegistrationRequest extends Request {
         $messages['player.required_one'] = 'You must select a player to register';
         foreach($this->request->get('player') as $playerId => $playerData)
         {
-            $messages['player.'.$playerId.'.grade.min'] = 'One or more of your players is missing a grade';
-            $messages['player.'.$playerId.'.shirt_size.min'] = 'One or more of your players is missing a t-shirt size';
+            // only throw other validation errors if the player was checked
+            if (isset($playerData['registered']) && $playerData['registered'] == 1)
+            {
+                $messages['player.'.$playerId.'.grade.required'] = 'One or more of your players is missing a grade';
+                $messages['player.'.$playerId.'.grade.min'] = 'One or more of your players is missing a grade';
+                $messages['player.'.$playerId.'.shirtSize.required'] = 'One or more of your players is missing a t-shirt size';
+                $messages['player.'.$playerId.'.shirtSize.min'] = 'One or more of your players is missing a t-shirt size';
+            }
         }
         return $messages;
     }

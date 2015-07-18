@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
+use Auth;
 use BibleBowl\Auth\EmailAlreadyInUse;
 use BibleBowl\Auth\ThirdPartyRegistrar;
 use BibleBowl\Auth\ThirdPartyAuthenticator;
@@ -30,7 +31,7 @@ class ThirdPartyAuthController extends AuthController
 				]);
 		}
 
-		$this->auth->login($user);
+		Auth::login($user);
 
 		return redirect()->intended($this->redirectPath());
 	}

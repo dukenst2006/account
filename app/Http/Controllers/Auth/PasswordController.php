@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
+use Password;
 use BibleBowl\Http\Controllers\Controller;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -23,18 +23,8 @@ class PasswordController extends Controller {
 
 	protected $redirectTo = '/login';
 
-	/**
-	 * Create a new password controller instance.
-	 *
-	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
-	 * @param  \Illuminate\Contracts\Auth\PasswordBroker  $passwords
-	 * @return void
-	 */
-	public function __construct(Guard $auth, PasswordBroker $passwords)
+	public function __construct()
 	{
-		$this->auth = $auth;
-		$this->passwords = $passwords;
-
 		$this->middleware('guest');
 	}
 
@@ -48,7 +38,7 @@ class PasswordController extends Controller {
 	{
 		$this->validate($request, ['email' => 'required|email']);
 
-		$response = $this->passwords->sendResetLink($request->only('email'), function($m)
+		$response = Password::sendResetLink($request->only('email'), function($m)
 		{
 			$m->subject($this->getEmailSubject());
 		});

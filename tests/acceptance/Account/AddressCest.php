@@ -20,7 +20,7 @@ class AccountAddressCest
 
         $I->click('New Address');
 
-        $this->name = 'Test '.time();
+        $this->name = 'Test '.rand(1, 400000);
 
         // skip name so we see a validation error
         $I->fillField('address_one', $this->addressOne);

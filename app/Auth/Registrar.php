@@ -43,7 +43,7 @@ class Registrar implements RegistrarContract {
 			$data['avatar'] = Gravatar::get($data['email']);
 		}
 
-		$user = App::make('BibleBowl\User', [$data]);
+		$user = App::make(User::class, [$data]);
 
 		//third party account creation won't have a password
 		if (isset($data['password'])) {

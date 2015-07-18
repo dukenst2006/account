@@ -139,20 +139,20 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-		'BibleBowl\Support\Providers\AppServiceProvider',
-		'BibleBowl\Support\Providers\ConfigServiceProvider',
-		'BibleBowl\Support\Providers\EventServiceProvider',
-		'BibleBowl\Support\Providers\RouteServiceProvider',
-		'BibleBowl\Support\Providers\PresentationServiceProvider',
+		\BibleBowl\Support\Providers\AppServiceProvider::class,
+		\BibleBowl\Support\Providers\ConfigServiceProvider::class,
+		\BibleBowl\Support\Providers\EventServiceProvider::class,
+		\BibleBowl\Support\Providers\RouteServiceProvider::class,
+		\BibleBowl\Support\Providers\PresentationServiceProvider::class,
 
 		/*
 		 * 3rd Party Service Providers...
 		 */
-		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
-		'Laravel\Socialite\SocialiteServiceProvider',
-		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
-		'Zizaco\Entrust\EntrustServiceProvider',
-		'Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider'
+		\Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
+		\Laravel\Socialite\SocialiteServiceProvider::class,
+		\Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+		\Zizaco\Entrust\EntrustServiceProvider::class,
+		\Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider::class
 
 	],
 
@@ -205,14 +205,14 @@ return [
 		/**
 		 * Application facades
 		 */
-		'EmailTemplate'		=> 'BibleBowl\Support\Facades\EmailTemplate',
+		'EmailTemplate'		=> \BibleBowl\Support\Facades\EmailTemplate::class,
 
 		/**
 		 * 3rd party facades
 		 */
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'HTML'		=> 'Illuminate\Html\HtmlFacade',
-		'Gravatar' => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
+		'Gravatar'  => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
 		#'Entrust' => 'Zizaco\Entrust\EntrustFacade'
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 	],

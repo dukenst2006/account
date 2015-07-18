@@ -6,7 +6,6 @@ use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GuardianOnlyRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
-use Ivory\GoogleMap\Map;
 use Session;
 
 class PlayerRegistrationController extends Controller
@@ -29,11 +28,22 @@ class PlayerRegistrationController extends Controller
 	/**
 	 * @return mixed
 	 */
-	public function postRegister(SeasonRegistrationRequest $request, SeasonRegistrar $registrar)
+	public function postRegister(SeasonRegistrationRequest $request, SeasonRegistrar $registrar, $groupId = null)
 	{
 		$this->validate($request, $request->rules());
 
-        $registrar->register(Session::season(), $request->get('player'));
+		// map the POSTed data to the season data required
+		$seasonData = [];
+		foreach ($request->get('player') as $playerId => $playerData) {
+			if (isset($playerData['register']) && $playerData['register'] == 1) {
+				$seasonData[$playerId] = [
+					'grade' 		=> $playerData['grade'],
+					'shirt_size' 	=> $playerData['shirtSize']
+				];
+			}
+		}
+
+        $registrar->register(Session::season(), $seasonData, $groupId);
 
 		return redirect('/dashboard')->withFlashSuccess('Your players have been registered!');
 	}

@@ -67,13 +67,13 @@
                             <tr>
                                 <td>
                                     <div class="checkbox check-default">
-                                        <input id="register-{{ $player->id }}" type="checkbox" name="player[{{ $player->id }}][register]" value="1">
+                                        {!! Form::checkbox("player[".$player->id."][register]", 1, null, [ "id" => "register-".$player->id ]) !!}
                                         <label for="register-{{ $player->id }}"></label>
                                     </div>
                                 </td>
                                 <td>{{ $player->full_name }}</td>
                                 <td>{!! Form::selectGrade('player['.$player->id.'][grade]', null, ['class' => 'form-control']) !!}</td>
-                                <td>{!! Form::selectShirtSize('player['.$player->id.'][shirt_size]', null, ['class' => 'form-control']) !!}</td>
+                                <td>{!! Form::selectShirtSize('player['.$player->id.'][shirtSize]', null, ['class' => 'form-control']) !!}</td>
                             </tr>
                             @endforeach
                             </tbody>

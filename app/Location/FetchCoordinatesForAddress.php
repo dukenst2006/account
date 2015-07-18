@@ -6,9 +6,9 @@ use Log;
 use Geocoder;
 use BibleBowl\Address;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class FetchCoordinatesForAddress implements ShouldBeQueued {
+class FetchCoordinatesForAddress implements ShouldQueue {
 
 	use InteractsWithQueue;
 

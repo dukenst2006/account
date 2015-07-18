@@ -9,7 +9,9 @@
 @section('content')
     <div style="height: 76px"></div>
 
-    @include('partials.messages')
+    <div class="m-l-15 m-r-15">
+        @include('partials.messages')
+    </div>
 
     @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
         <div class="col-md-12 m-b-10">

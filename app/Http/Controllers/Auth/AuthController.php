@@ -1,10 +1,11 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
+use Auth;
 use Event;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\User;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
+use BibleBowl\Auth\Registrar;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 
@@ -21,21 +22,14 @@ class AuthController extends Controller {
 	|
 	*/
 
-	use AuthenticatesAndRegistersUsers;
+	use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
 	protected $redirectTo = '/dashboard';
 
 	protected $loginPath = '/login';
 
-	/**
-	 * Create a new authentication controller instance.
-	 *
-	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
-	 * @param  \Illuminate\Contracts\Auth\Registrar  $registrar
-	 */
-	public function __construct(Guard $auth, Registrar $registrar)
+	public function __construct(Registrar $registrar)
 	{
-		$this->auth = $auth;
 		$this->registrar = $registrar;
 
 		$this->middleware('guest', ['except' => 'getLogout']);
@@ -56,12 +50,12 @@ class AuthController extends Controller {
 
 		$credentials = $request->only('email', 'password');
 
-		if ($this->auth->attempt($credentials, $request->has('remember')))
+		if (Auth::attempt($credentials, $request->has('remember')))
 		{
 			//require email is confirmed before continuing
-			$user = $this->auth->user();
+			$user = Auth::user();
 			if ($user->status == User::STATUS_UNCONFIRMED) {
-				$this->auth->logout();
+				Auth::logout();
 				Event::fire('auth.resend.confirmation', [$user]);
 				return redirect($this->loginPath())
 					->withErrors([
@@ -77,6 +71,16 @@ class AuthController extends Controller {
 			->withErrors([
 				'email' => $this->getFailedLoginMessage(),
 			]);
+	}
+
+	public function validator(array $data)
+	{
+		return $this->registrar->validator($data);
+	}
+
+	public function create(array $data)
+	{
+		return $this->registrar->create($data);
 	}
 
 }
