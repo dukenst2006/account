@@ -69,6 +69,21 @@ class AddressController extends Controller
 		return redirect('/account/address')->withFlashSuccess('Your changes were saved');
 	}
 
+    /**
+     * @param AddressOwnerOnlyRequest $request
+     * @param                         $id
+     *
+     * @return mixed
+     */
+    public function setPrimaryAddressId(AddressOwnerOnlyRequest $request, $id)
+    {
+        $user = Auth::user();
+        $user->update([
+          'primary_address_id'	=> $id,
+        ]);
+        return redirect('/account/address')->withFlashSuccess('Your changes were saved');
+    }
+
 	/**
 	 * @param AddressOwnerOnlyRequest 	$request
 	 * @param                      		$id
