@@ -81,7 +81,9 @@ class AddressController extends Controller
         $user->update([
           'primary_address_id'	=> $id,
         ]);
-        return redirect('/account/address')->withFlashSuccess('Your changes were saved');
+        $address = Address::find($id);
+
+        return redirect('/account/address')->withFlashSuccess('"' . $address->name . '" is now your primary address');
     }
 
 	/**
