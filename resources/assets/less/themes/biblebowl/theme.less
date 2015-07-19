@@ -39,9 +39,41 @@
 .grid-title .tools a.fa:hover {
   color: #333 !important;
 }
+.grid-body {
+  padding: 15px;
+}
+.grid.simple {
+  .grid-title {
+    padding: 8px 10px 2px 10px;
+    border-bottom: 1px solid #eee;
+    color:  @color-white  !important;
+    margin-bottom: 0px;
+    & > .actions {
+      & > .btn {
+        & > i {
+          color:  @color-white  !important;
+        }
+      }
+    }
+    .tools {
+      margin-top: 3px;
+      a {
+        background: transparent;
+      }
+      .config {
+        background: url("@{base-img-url}/icon/portlet-tray.png") no-repeat;
+        width: 23px;
+        height: 23px;
+      }
+    }
+  }
+}
 
 // --------------------------------------------------
-a.fa.fa-trash-o {
+// Icons
+a.fa.fa-trash-o,
+a.fa.fa-star-o,
+a.fa.fa-star {
   cursor: pointer;
 }
 
