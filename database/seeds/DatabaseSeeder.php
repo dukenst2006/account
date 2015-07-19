@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder {
         $this->seedGuardian();
         $this->seedHeadCoach();
 
-		$this->call('AcceptanceTestingSeeder');
+        $this->call('AcceptanceTestingSeeder');
 
         self::$isSeeding = false;
     }
@@ -74,6 +74,14 @@ class DatabaseSeeder extends Seeder {
             'meeting_address_id'    => $address->id
         ]);
 
+        $address = App::make(Address::class, [[
+            'name'			=> 'Church',
+            'address_one'	=> '381 North Bluff Road',
+            'city'			=> 'Greenwood',
+            'state'			=> 'IN',
+            'zip_code'		=> '46142'
+        ]]);
+        $BKuhlHeadCoach->addresses()->save($address);
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
         $groupCreator->create($BKuhlHeadCoach, [
             'name'                  => 'Mount Pleasant Christian Church',
@@ -94,7 +102,7 @@ class DatabaseSeeder extends Seeder {
         ]);
         $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
         foreach ($addresses as $key => $name) {
-            $address = App::make('BibleBowl\Address', [[
+            $address = App::make(Address::class, [[
                 'name'			=> $name,
                 'address_one'	=> '123 Test Street',
                 'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address

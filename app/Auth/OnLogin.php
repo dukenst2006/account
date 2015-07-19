@@ -15,7 +15,7 @@ class OnLogin
         $user->updateLastLogin();
 
         // current session is the most recent
-        Session::setSeason(Season::orderBy('id', 'DESC')->first());
+        Session::setSeason(Season::current()->first());
 
         // if user is a coach set current "Group" upon login
         if ($user->hasRole(Role::HEAD_COACH) && $user->groups->count() > 0) {

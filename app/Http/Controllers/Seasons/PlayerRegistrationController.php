@@ -21,7 +21,7 @@ class PlayerRegistrationController extends Controller
 			$group = Group::findOrFail($groupId);
 		}
 
-        return view('seasons.player-registration.register')
+        return view('seasons.player-registration')
 			->withGroup($group);
     }
 
@@ -45,7 +45,7 @@ class PlayerRegistrationController extends Controller
 
         $registrar->register(Session::season(), $seasonData, $groupId);
 
-		return redirect('/dashboard')->withFlashSuccess('Your players have been registered!');
+		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
 	}
 
 	/**
