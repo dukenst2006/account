@@ -83,14 +83,14 @@ class RouteServiceProvider extends ServiceProvider {
                 ]);
 
                 Route::group([
-                    'prefix'	=> 'seasons',
                     'namespace'	=> 'Seasons'
                 ], function () {
-                    Route::get('register/{groupId?}', 'PlayerRegistrationController@getRegister');
-                    Route::post('register/{groupId?}', 'PlayerRegistrationController@postRegister');
+                    Route::get('register/group/{group?}', 'PlayerRegistrationController@getRegister');
+                    Route::post('register/group/{group?}', 'PlayerRegistrationController@postRegister');
+					Route::get('register/search/group', 'PlayerRegistrationController@findGroupToRegister');
+					Route::get('join/search/group', 'PlayerRegistrationController@findGroupToJoin');
                 });
 
-				Route::get('group/search', 'GroupController@search');
                 Route::resource('group', 'GroupController', [
                     'except' => ['delete']
                 ]);

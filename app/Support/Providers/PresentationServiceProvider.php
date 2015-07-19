@@ -67,8 +67,13 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
             );
         });
 
-//            \View::creator('group.search', function (View $view) {
-//                $view->with('searchResults', Group::where('name', 'LIKE', '%'.$request->get('q').'%')->get());
-//            });
+        \View::creator('group.nearby', function (View $view) {
+            $nearbyGroups = Group::nearby(Auth::user()->addresses->first())
+                ->with('meetingAddress')
+                ->limit(10)
+                ->get();
+            $view->with( 'nearbyGroups', $nearbyGroups);
+        });
+
     }
 }

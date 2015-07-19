@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers\Seasons;
 
+use Input;
 use BibleBowl\Group;
 use BibleBowl\Seasons\SeasonRegistrar;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GuardianOnlyRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
 use Session;
@@ -11,24 +11,51 @@ use Session;
 class PlayerRegistrationController extends Controller
 {
 
+	/**
+	 * @return $this
+	 */
+	public function findGroupToRegister()
+	{
+		$searchResults = null;
+		if (Input::has('q')) {
+			$searchResults = Group::where('name', 'LIKE', '%'.Input::get('q').'%')->get();
+		}
+
+		return view('seasons.registration.register_group')
+			->with('searchResults', $searchResults);
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function findGroupToJoin()
+	{
+		$searchResults = null;
+		if (Input::has('q')) {
+			$searchResults = Group::where('name', 'LIKE', '%'.Input::get('q').'%')->get();
+		}
+
+		return view('seasons.registration.join_group')
+			->with('searchResults', $searchResults);
+	}
+
     /**
      * @return \Illuminate\View\View
      */
-    public function getRegister($groupId = null)
+    public function getRegister($group = null)
     {
-		$group = null;
-		if (is_null($groupId) === false) {
-			$group = Group::findOrFail($groupId);
+		if (is_null($group) === false) {
+			$group = Group::findOrFail($group);
 		}
 
-        return view('seasons.player-registration')
+        return view('seasons.registration.form')
 			->withGroup($group);
     }
 
 	/**
 	 * @return mixed
 	 */
-	public function postRegister(SeasonRegistrationRequest $request, SeasonRegistrar $registrar, $groupId = null)
+	public function postRegister(SeasonRegistrationRequest $request, SeasonRegistrar $registrar, $group = null)
 	{
 		$this->validate($request, $request->rules());
 
@@ -43,20 +70,9 @@ class PlayerRegistrationController extends Controller
 			}
 		}
 
-        $registrar->register(Session::season(), $seasonData, $groupId);
+        $registrar->register(Session::season(), $seasonData, $group);
 
 		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
-	}
-
-	/**
-	 * @param GuardianOnlyRequest $request
-	 *
-	 * @return \Illuminate\View\View
-	 */
-	public function edit(GuardianOnlyRequest $request, $id)
-	{
-		return view('player.edit')
-			->withPlayer(Player::findOrFail($id));
 	}
 
 }

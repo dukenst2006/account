@@ -73,6 +73,11 @@ For this application, tests are broken down by...
  * **Acceptance tests** test the UI/application flow
  * **Functional tests** test the internal workings of the application
  
+### Running Acceptance tests
+ * [Download Selenium](http://www.seleniumhq.org/download/)
+ * Run it with `java -jar /path/to/file`
+ * Run the tests with `./vendor/bin/codecept run acceptance`
+ 
 ### Testing OAuth2 Integration
 
  * obtain the `PROVIDER_CLIENT_ID`/`PROVIDER_CLIENT_SECRET` and add it to the config the `.env` file under the provider you wish to test with
