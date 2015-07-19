@@ -31,9 +31,9 @@
                                 {{ $group->name }}
                             @elseif($child->isRegisteredWithNBB(Session::season()))
                                 <div><div class="fa fa-check"></div> Registered with NBB</div>
-                                <a href="/group/search">Find a group</a>
+                                <a href="/join/search/group">Find a group</a>
                             @else
-                                <a href="/group/search">Register</a>
+                                <a href="/register/search/group">Register</a>
                             @endif
                         </td>
                     </tr>
