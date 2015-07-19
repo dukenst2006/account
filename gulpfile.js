@@ -52,4 +52,7 @@ elixir(function(mix) {
         'assets/js/forms.js',
         'css/core.css'
     ]);
+
+    // Copy font-awesome assets.
+    mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
 });
