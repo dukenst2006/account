@@ -93,7 +93,9 @@ class Group extends Model {
 
         return $q->with([
             'address' => function ($q) use ($miles, $address) {
-                $q->within($miles, 'miles', $address->latitude, $address->longitude);
+                $q->whereNotNull($address->getLatColumn())
+                    ->whereNotNull($address->getLngColumn())
+                    ->within($miles, 'miles', $address->latitude, $address->longitude);
             }
         ]);
     }

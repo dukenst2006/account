@@ -2,6 +2,7 @@
 
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -138,11 +139,11 @@ class Player extends Model {
      *
      * @param Season $season
      *
-     * @return mixed
+     * @return bool
      */
     public function isRegisteredWithNBB(Season $season)
     {
-        return $this->has('seasons', '=', $season->id)->count() > 0;
+        return $this->seasons()->where('seasons.id', $season->id)->count() > 0;
     }
 
     /**
@@ -155,15 +156,18 @@ class Player extends Model {
     public function groupRegisteredWith(Season $season)
     {
         return $this->groups()->wherePivot('season_id', $season->id)->first();
-//        $season = $this->seasons()->where('id', $season->id)->get();
-//
-//        if ($season->exists === false) {
-//            return false;
-//        }
-//
-//
-//
-//        return $season->wherePivot('group_id', $group->id)->count();
+    }
+
+    /**
+     * If the current player has registered with a group
+     *
+     * @param Season $season
+     *
+     * @return bool
+     */
+    public function isRegisteredWithGroup(Season $season)
+    {
+        return $this->groups()->wherePivot('season_id', $season->id)->count() > 0;
     }
 
 }

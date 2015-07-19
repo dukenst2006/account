@@ -58,6 +58,28 @@ class Address extends Model {
         return $this->getTable().'.longitude';
     }
 
+    public function lat($latitude = null)
+    {
+        if ($latitude)
+        {
+            $this->latitude = $latitude;
+            return $this;
+        }
+
+        return $this->latitude;
+    }
+
+    public function lng($longitude = null)
+    {
+        if ($longitude)
+        {
+            $this->longitude = $longitude;
+            return $this;
+        }
+
+        return $this->longitude;
+    }
+
     /**
      * @return bool
      */
