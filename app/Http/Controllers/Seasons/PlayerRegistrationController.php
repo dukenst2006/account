@@ -44,7 +44,6 @@ class PlayerRegistrationController extends Controller
      */
     public function getRegister($group = null)
     {
-		$group = null;
 		if (is_null($group) === false) {
 			$group = Group::findOrFail($group);
 		}

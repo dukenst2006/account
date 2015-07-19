@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6 m-t-20">
                         <h4>Don't see your group? <span class="semi-bold">Search for one</span></h4>
-                        {!! Form::open(['url' => ['/group/search'], 'role' => 'form', 'method' => 'get']) !!}
+                        {!! Form::open(['url' => ['join/search/group'], 'role' => 'form', 'method' => 'get']) !!}
                         <div class="input-group transparent">
                             <input type="text" class="form-control" name="q" placeholder="Search all groups" value="{{ Input::get('q') }}" autofocus>
                               <span class="input-group-addon">
@@ -33,7 +33,7 @@
                                 <span class='muted'>{{ $group->meetingAddress->address_one }} {{ $group->meetingAddress->address_two }} {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }} {{ $group->meetingAddress->zip_code }}</span>
                             </td>
                             <td class="v-align-middle">
-                                <a href="/seasons/register/{{ $group->id }}">Register</a>
+                                <a href="/join/group/{{ $group->id }}">Join</a>
                             </td>
                         </tr>
                     @endforeach
