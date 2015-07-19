@@ -15,7 +15,7 @@
                 <div class="grid simple address-card {{((Auth::user()->primary_address_id === $address->id)) ? ' vertical red' : ''}}">
                     <div class="grid-title">
                         <h4>
-                            <span class="address-name">
+                            <span class="address-name semi-bold">
                                 {{ $address->name }}
                             </span>
                         </h4>
@@ -23,11 +23,11 @@
                             {!! Form::open(['url' => '/account/address/'.$address->id, 'method' => 'delete']) !!}
                             <div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="badge pull-right"><i class="fa fa-gear"></i></span></a>
                                 <ul class="dropdown-menu pull-right">
-                                    <li><a href="/account/address/{{ $address->id }}/edit" class="control">Edit</a></li>
-                                    <li><a onclickmaster="$(this).closest('form').submit();" class="control">Delete</a></li>
                                     @if (Auth::user()->primary_address_id !== $address->id)
                                         <li><a id="set-primary-{{$address->id}}" href="/account/address/{{ $address->id }}/makePrimary">Make Primary</a></li>
                                     @endif
+                                    <li><a href="/account/address/{{ $address->id }}/edit" class="control">Edit</a></li>
+                                    <li><a onclickmaster="$(this).closest('form').submit();" class="control">Delete</a></li>
                                 </ul>
                             </div>
                             {!! Form::close() !!}
