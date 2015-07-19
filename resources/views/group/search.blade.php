@@ -21,7 +21,7 @@
                                 <span class='muted'>{{ $group->meetingAddress->address_one }} {{ $group->meetingAddress->address_two }} {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }} {{ $group->meetingAddress->zip_code }}</span>
                             </td>
                             <td class="v-align-middle">
-                                <a href="/seasons/register/{{ $group->id }}">Register</a>
+                                <a href="/seasons/register/{{ $group->id }}" id="registerGroup-{{ $group->id }}">Select this group</a>
                             </td>
                         </tr>
                     @endforeach

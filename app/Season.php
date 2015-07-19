@@ -36,4 +36,9 @@ class Season extends Model {
             ->orderBy('birthday', 'DESC');
     }
 
+    public function scopeCurrent($query)
+    {
+        return $query->orderBy('id', 'desc');
+    }
+
 }

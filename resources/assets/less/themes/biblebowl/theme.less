@@ -7,6 +7,13 @@
 @import "var.less";
 @import "account.less";
 
+// The default setting for this is inline-block, but selenium
+// isn't seeing it as visible with that setting, so we'll override
+// it for acceptance test purposes (I cringe doing this)
+.checkbox > label {
+  display: block;
+}
+
 // --------------------------------------------------
 // allow all icons to be used inside of delete forms
 

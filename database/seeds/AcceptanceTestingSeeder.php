@@ -1,5 +1,8 @@
 <?php
 
+use BibleBowl\Player;
+use BibleBowl\Address;
+use BibleBowl\Players\PlayerCreator;
 use BibleBowl\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +13,13 @@ class AcceptanceTestingSeeder extends Seeder {
 	const USER_LAST_NAME = 'Walters';
 	const USER_EMAIL = 'joe.walters@example.com';
 	const USER_PASSWORD = 'changeme';
+
+	const GUARDIAN_EMAIL    = 'testUser+guardian@gmail.com';
+	const GUARDIAN_PASSWORD = 'changeme';
+
+	const GUARDIAN_PLAYER_A_FULL_NAME = 'John Watson';
+	const GUARDIAN_PLAYER_B_FULL_NAME = 'Emily Smith';
+	const GUARDIAN_PLAYER_C_FULL_NAME = 'Alex Johnson';
 
 	const UNCONFIRMED_USER_EMAIL = 'unconfirmed-joe.walters@example.com';
 
@@ -31,7 +41,7 @@ class AcceptanceTestingSeeder extends Seeder {
 		]);
 		$addresses = ['Home'];
 		foreach ($addresses as $key => $name) {
-			$homeAddress = App::make('BibleBowl\Address', [[
+			$homeAddress = App::make(Address::class, [[
 				'name'			=> $name,
 				'address_one'	=> '123 Test Street',
 				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
@@ -48,6 +58,52 @@ class AcceptanceTestingSeeder extends Seeder {
 			'last_name'			=> self::USER_LAST_NAME,
 			'email'				=> self::UNCONFIRMED_USER_EMAIL,
 			'password'			=> bcrypt(self::USER_PASSWORD)
+		]);
+
+		$this->seedGuardian();
+	}
+
+	private function seedGuardian()
+	{
+		$testGuardian = User::create([
+			'status'			=> User::STATUS_CONFIRMED,
+			'first_name'		=> 'Test',
+			'last_name'			=> 'Guardian',
+			'email'				=> self::GUARDIAN_EMAIL,
+			'password'			=> bcrypt(self::GUARDIAN_PASSWORD)
+		]);
+		$addresses = ['Home', 'Work'];
+		foreach ($addresses as $key => $name) {
+			$address = App::make(Address::class, [[
+				'name'			=> $name,
+				'address_one'	=> '123 Test Street',
+				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
+				'city'			=> 'Louisville',
+				'state'			=> 'KY',
+				'zip_code'		=> '40241'
+			]]);
+			$testGuardian->addresses()->save($address);
+		}
+
+		$playerCreator = App::make(PlayerCreator::class);
+		$playerCreator->create($testGuardian, [
+			'first_name'    => 'John',
+			'last_name'     => 'Watson',
+			'gender'        => 'M',
+			'birthday'      => '2/24/1988'
+		]);
+		$testGuardian = User::find($testGuardian->id);
+		$playerCreator->create($testGuardian, [
+			'first_name'    => 'Emily',
+			'last_name'     => 'Smith',
+			'gender'        => 'F',
+			'birthday'      => '2/24/1986'
+		]);
+		$playerCreator->create($testGuardian, [
+			'first_name'    => 'Alex',
+			'last_name'     => 'Johnson',
+			'gender'        => 'M',
+			'birthday'      => '6/14/1987'
 		]);
 	}
 
