@@ -28,6 +28,12 @@ class CreateAddressesTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+	    Schema::table('users', function(Blueprint $table)
+        {
+          $table->integer('primary_address_id')->unsigned()->nullable();
+          $table->foreign('primary_address_id')->references('id')->on('addresses');
+        });
 	}
 
 	/**
@@ -37,6 +43,16 @@ class CreateAddressesTable extends Migration {
 	 */
 	public function down()
 	{
+        Schema::table('users', function(Blueprint $table)
+        {
+          $table->dropForeign('users_primary_address_id_foreign');
+        });
+
+        Schema::table('users', function(Blueprint $table)
+        {
+          $table->dropColumn('primary_address_id');
+        });
+
 		Schema::drop('addresses');
 	}
 

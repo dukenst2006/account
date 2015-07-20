@@ -47,6 +47,12 @@ elixir(function(mix) {
         'js/backend.js',
         'js/forms.js',
         'assets/js/dashboard.js',
+        'assets/js/accounts.js',
+        'assets/js/group.js',
+        'assets/js/forms.js',
         'css/core.css'
     ]);
+
+    // Copy font-awesome assets.
+    mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
 });

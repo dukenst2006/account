@@ -71,6 +71,7 @@ class RouteServiceProvider extends ServiceProvider {
                     'namespace'	=> 'Account'
                 ], function () {
                     Route::resource('address', 'AddressController');
+                    Route::get('address/{address}/makePrimary', 'AddressController@setPrimaryAddressId');
                     Route::get('setup', 'SetupController@getSetup');
                     Route::post('setup', 'SetupController@postSetup');
                     Route::get('edit', 'AccountController@edit');
