@@ -31,7 +31,7 @@ class CreateAddressesTable extends Migration {
 
 	    Schema::table('users', function(Blueprint $table)
         {
-          $table->integer('primary_address_id')->unsigned();
+          $table->integer('primary_address_id')->unsigned()->nullable();
           $table->foreign('primary_address_id')->references('id')->on('addresses');
         });
 	}
