@@ -64,6 +64,9 @@ class AuthCest
 
         $I->canSeeCurrentUrlEquals('/dashboard');
 
+        $primaryAddress = $I->grabFromDatabase('users', 'primary_address_id', ['email' => $this->email]);
+        $I->assertNotNull($primaryAddress);
+
         //switch currently logged in user back to the default
         AuthHelper::logout($I);
         AuthHelper::login($I);
