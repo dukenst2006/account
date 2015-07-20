@@ -46,6 +46,7 @@ class SetupController extends Controller
 				'first_name', 'last_name', 'phone', 'gender'
 			])]);
 			$user->addresses()->save($address);
+            $user->update(['primary_address_id' => $address->id]);
 		});
 
 		return redirect('/dashboard');
