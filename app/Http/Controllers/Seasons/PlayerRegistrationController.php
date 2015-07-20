@@ -1,5 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers\Seasons;
 
+use Auth;
+use BibleBowl\Groups\GroupRegistrar;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
 use Input;
 use BibleBowl\Group;
 use BibleBowl\Seasons\SeasonRegistrar;
@@ -12,31 +16,19 @@ class PlayerRegistrationController extends Controller
 {
 
 	/**
-	 * @return $this
+	 * @return \Illuminate\View\View
 	 */
 	public function findGroupToRegister()
 	{
-		$searchResults = null;
-		if (Input::has('q')) {
-			$searchResults = Group::where('name', 'LIKE', '%'.Input::get('q').'%')->get();
-		}
-
-		return view('seasons.registration.register_group')
-			->with('searchResults', $searchResults);
+		return view('seasons.registration.register_find_group');
 	}
 
 	/**
-	 * @return $this
+	 * @return \Illuminate\View\View
 	 */
 	public function findGroupToJoin()
 	{
-		$searchResults = null;
-		if (Input::has('q')) {
-			$searchResults = Group::where('name', 'LIKE', '%'.Input::get('q').'%')->get();
-		}
-
-		return view('seasons.registration.join_group')
-			->with('searchResults', $searchResults);
+		return view('seasons.registration.join_find_group');
 	}
 
     /**
@@ -48,7 +40,7 @@ class PlayerRegistrationController extends Controller
 			$group = Group::findOrFail($group);
 		}
 
-        return view('seasons.registration.form')
+        return view('seasons.registration.register_form')
 			->withGroup($group);
     }
 
@@ -73,6 +65,50 @@ class PlayerRegistrationController extends Controller
         $registrar->register(Session::season(), $seasonData, $group);
 
 		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
+	}
+
+	/**
+	 * @return \Illuminate\View\View
+	 */
+	public function getJoin($group)
+	{
+		return view('seasons.registration.join_form')
+			->withGroup(Group::findOrFail($group))
+			->withPlayers(Auth::user()->players()->registeredWithNBBOnly(Session::season())->get());
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function postJoin(SeasonRegistrationRequest $request, GroupRegistrar $registrar, $group)
+	{
+		$this->validate($request, $request->rules());
+
+		$group = Group::findOrFail($group);
+
+		$registrar->register(Session::season(), $group, array_keys($request->get('player')));
+
+		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
+	}
+
+	public static function viewBindings()
+	{
+		\View::creator('seasons.registration.search_group', function (View $view) {
+			$searchResults = null;
+			if (Input::has('q')) {
+				$searchResults = Group::where('name', 'LIKE', '%'.Input::get('q').'%')->get();
+			}
+			$view->with('searchResults', $searchResults);
+		});
+
+		\View::creator('seasons.registration.register_form', function (View $view) {
+			$season = Session::season();
+			$view->with('players', Auth::user()
+				->players()
+				->notRegisteredWithNBB($season, Auth::user())
+				->get()
+			);
+		});
 	}
 
 }

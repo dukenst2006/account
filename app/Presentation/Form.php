@@ -90,16 +90,16 @@ class Form extends FormBuilder
     {
         $list = [
             'Youth' => [
-                'YS' => 'YS - Small',
-                'YM' => 'YM - Medium',
-                'YL' => 'YL - Large',
+                'YS' => Describer::describeShirtSize('YS'),
+                'YM' => Describer::describeShirtSize('YM'),
+                'YL' => Describer::describeShirtSize('YL'),
             ],
             'Adult' => [
-                'S' => 'S - Small',
-                'M' => 'M - Medium',
-                'L' => 'L - Large',
-                'XL' => 'XL - X-Large',
-                'XXL' => 'XXL - XX-Large',
+                'S' => Describer::describeShirtSize('S'),
+                'M' => Describer::describeShirtSize('M'),
+                'L' => Describer::describeShirtSize('L'),
+                'XL' => Describer::describeShirtSize('XL'),
+                'XXL' => Describer::describeShirtSize('XXL'),
             ],
         ];
 
@@ -142,20 +142,20 @@ class Form extends FormBuilder
     {
         $list = [
             'Elementary School' => [
-                '3' => '3rd',
-                '4' => '4th',
-                '5' => '5th'
+                '3' => Describer::describeGrade(3),
+                '4' => Describer::describeGrade(4),
+                '5' => Describer::describeGrade(5)
             ],
             'Middle School' => [
-                '6' => '6th',
-                '7' => '7th',
-                '8' => '8th'
+                '6' => Describer::describeGrade(6),
+                '7' => Describer::describeGrade(7),
+                '8' => Describer::describeGrade(8)
             ],
             'High School' => [
-                '9' => '9th - Freshman',
-                '10' => '10th - Sophomore',
-                '11' => '11th - Junior',
-                '12' => '12th - Senior'
+                '9' => Describer::describeGrade(9),
+                '10' => Describer::describeGrade(10),
+                '11' => Describer::describeGrade(11),
+                '12' => Describer::describeGrade(12)
             ]
         ];
 

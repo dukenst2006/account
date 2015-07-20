@@ -160,9 +160,30 @@ class Group extends Model {
      *
      * @return string
      */
-    public function registrationLink()
+    public function registrationReferralLink()
     {
         return url('group/'.$this->guid.'/register');
+    }
+
+    /**
+     * Registration link to register for this specific group
+     *
+     * @return string
+     */
+    public function registerLink()
+    {
+        return '/register/group/'.$this->id;
+    }
+
+    /**
+     * Join link to register for this specific group.
+     * Used when the player has already registered with NBB
+     *
+     * @return string
+     */
+    public function joinLink()
+    {
+        return '/join/group/'.$this->id;
     }
 
 }

@@ -211,5 +211,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$scrubber = App::make(Scrubber::class);
 		$this->attributes['phone'] = $scrubber->phone($attribute);
 	}
-
 }

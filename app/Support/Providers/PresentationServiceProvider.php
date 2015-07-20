@@ -1,11 +1,12 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Http\Controllers\DashboardController;
+use BibleBowl\Http\Controllers\Seasons\PlayerRegistrationController;
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\Presentation\Form;
 use BibleBowl\Presentation\Html;
 use Illuminate\View\View;
-use Session;
 
 class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 {
@@ -47,33 +48,16 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 
     private function registerComposers()
     {
-        \View::creator('dashboard.guardian_children', function (View $view) {
-            $season = Session::season();
-            $view->with(
-                'children',
-                Auth::user()->players()
-                    // eager load the current season/group
-                    ->with(
-                        [
-                            'seasons' => function ($q) use ($season) {
-                                $q->where('seasons.id', $season->id);
-                            },
-                            'groups' => function ($q) use ($season) {
-                                $q->wherePivot('season_id', $season->id);
-                            }
-                        ]
-                    )
-                    ->get()
-            );
-        });
+
+        DashboardController::viewBindings();
+        PlayerRegistrationController::viewBindings();
 
         \View::creator('group.nearby', function (View $view) {
             $nearbyGroups = Group::nearby(Auth::user()->addresses->first())
                 ->with('meetingAddress')
-                ->limit(10)
+                ->limit(6)
                 ->get();
-            $view->with( 'nearbyGroups', $nearbyGroups);
+            $view->with('nearbyGroups', $nearbyGroups);
         });
-
     }
 }
