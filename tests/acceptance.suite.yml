@@ -7,9 +7,15 @@
 class_name: AcceptanceTester
 modules:
     enabled:
+        - Db:
+            dsn: 'mysql:host=192.168.10.10;dbname=biblebowl'
+            user: 'homestead'
+            password: 'secret'
+            dump: tests/_data/dump.sql
         - WebDriver:
             url: 'http://bbowl.local'
             browser: 'firefox'
             window_size: 1120x550
             clear_cookies: false
+        - Asserts
         - \Helper\Acceptance
