@@ -42,7 +42,8 @@ class AccountAddressCest
         $I->see($this->name);
 
         //test editing
-        $I->click('(//a[contains(@class,"fa-edit")])[2]');
+        $I->click('.address-card:nth-of-type(2) .address-ops');
+        $I->click('.address-card:nth-of-type(2) .control-edit');
         $this->name = $this->name.time();
         $I->fillField('name', $this->name);
 
@@ -50,7 +51,8 @@ class AccountAddressCest
         $I->see('Your changes were saved');
 
         //test deleting
-        $I->click('(//a[contains(@class,"fa-trash-o")])[2]');
+        $I->click('.address-card:nth-of-type(2) .address-ops');
+        $I->click('.address-card:nth-of-type(2) .control-delete');
 
         $I->see('Your '.$this->name.' address has been deleted');
         $I->dontSee($this->name, 'h4');
