@@ -1,4 +1,6 @@
-var elixir = require('laravel-elixir');
+var gulp = require('gulp'),
+    elixir = require('laravel-elixir'),
+    codecept = require('gulp-codeception');
 
 /*
  |--------------------------------------------------------------------------
@@ -49,4 +51,15 @@ elixir(function(mix) {
         'assets/js/dashboard.js',
         'css/core.css'
     ]);
+
+    // Run Acceptance Tests.
+    mix.task('codecept');
+});
+
+gulp.task('codecept', function() {
+    var options = {
+        debug: false,
+        flags: '--silent --report'
+    };
+    gulp.src('tests/acceptance.suite.yml').pipe(codecept('./vendor/bin/codecept', options));
 });
