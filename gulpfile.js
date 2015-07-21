@@ -14,6 +14,9 @@ var gulp = require('gulp'),
  */
 
 elixir(function(mix) {
+    // Generate test helper classes.
+    mix.task('codecept-build');
+
     //compile core css
     mix.less('style.less');
     mix.less('responsive.less');
@@ -68,4 +71,11 @@ gulp.task('codecept', function() {
         flags: '--silent --report'
     };
     gulp.src('tests/acceptance.suite.yml').pipe(codecept('./vendor/bin/codecept', options));
+});
+
+gulp.task('codecept-build', function() {
+    var options = {
+        build: true,
+    };
+    gulp.src('tests/*.php').pipe(codecept('./vendor/bin/codecept', options));
 });
