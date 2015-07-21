@@ -32,79 +32,84 @@ class AcceptanceTestingSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		$TestUser = User::create([
-			'status'			=> User::STATUS_CONFIRMED,
-			'first_name'		=> self::USER_FIRST_NAME,
-			'last_name'			=> self::USER_LAST_NAME,
-			'email'				=> self::USER_EMAIL,
-			'password'			=> bcrypt(self::USER_PASSWORD)
-		]);
-		$addresses = ['Home'];
-		foreach ($addresses as $key => $name) {
-			$homeAddress = App::make(Address::class, [[
-				'name'			=> $name,
-				'address_one'	=> '123 Test Street',
-				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
-				'city'			=> 'Louisville',
-				'state'			=> 'KY',
-				'zip_code'		=> '40241'
-			]]);
-			$TestUser->addresses()->save($homeAddress);
-		}
+        $homeAddress = Address::create([
+            'name'			=> 'Home',
+            'address_one'	=> '123 Acceptance Test Seeder Street',
+            'address_two'	=> null,
+            'city'			=> 'Louisville',
+            'state'			=> 'KY',
+            'zip_code'		=> '40241'
+        ]);
+
+        $TestUser = User::create([
+          'status'			    => User::STATUS_CONFIRMED,
+          'first_name'		    => self::USER_FIRST_NAME,
+          'last_name'			=> self::USER_LAST_NAME,
+          'email'				=> self::USER_EMAIL,
+          'password'			=> bcrypt(self::USER_PASSWORD),
+          'primary_address_id'  => $homeAddress->id,
+        ]);
+		$TestUser->addresses()->save($homeAddress);
 
 		// used for asserting you can't login without being confirmed
 		User::create([
-			'first_name'		=> self::USER_FIRST_NAME.'-unconfirmed',
-			'last_name'			=> self::USER_LAST_NAME,
-			'email'				=> self::UNCONFIRMED_USER_EMAIL,
-			'password'			=> bcrypt(self::USER_PASSWORD)
+			'first_name'		    => self::USER_FIRST_NAME.'-unconfirmed',
+			'last_name'			    => self::USER_LAST_NAME,
+			'email'				    => self::UNCONFIRMED_USER_EMAIL,
+			'password'			    => bcrypt(self::USER_PASSWORD),
+		  	'primary_address_id'    => $homeAddress->id,
 		]);
 
 		$this->seedGuardian();
 	}
 
-	private function seedGuardian()
-	{
-		$testGuardian = User::create([
-			'status'			=> User::STATUS_CONFIRMED,
-			'first_name'		=> 'Test',
-			'last_name'			=> 'Guardian',
-			'email'				=> self::GUARDIAN_EMAIL,
-			'password'			=> bcrypt(self::GUARDIAN_PASSWORD)
-		]);
-		$addresses = ['Home', 'Work'];
-		foreach ($addresses as $key => $name) {
-			$address = App::make(Address::class, [[
-				'name'			=> $name,
-				'address_one'	=> '123 Test Street',
-				'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
-				'city'			=> 'Louisville',
-				'state'			=> 'KY',
-				'zip_code'		=> '40241'
-			]]);
-			$testGuardian->addresses()->save($address);
-		}
+    private function seedGuardian()
+    {
+        $addresses = ['Home', 'Work'];
+        $testAddresses = array();
 
-		$playerCreator = App::make(PlayerCreator::class);
-		$playerCreator->create($testGuardian, [
-			'first_name'    => 'John',
-			'last_name'     => 'Watson',
-			'gender'        => 'M',
-			'birthday'      => '2/24/1988'
-		]);
-		$testGuardian = User::find($testGuardian->id);
-		$playerCreator->create($testGuardian, [
-			'first_name'    => 'Emily',
-			'last_name'     => 'Smith',
-			'gender'        => 'F',
-			'birthday'      => '2/24/1986'
-		]);
-		$playerCreator->create($testGuardian, [
-			'first_name'    => 'Alex',
-			'last_name'     => 'Johnson',
-			'gender'        => 'M',
-			'birthday'      => '6/14/1987'
-		]);
-	}
+        foreach ($addresses as $key => $name) {
+            $address = Address::create([
+              'name'			=> $name,
+              'address_one'	=> '123 Test Street',
+              'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
+              'city'			=> 'Louisville',
+              'state'			=> 'KY',
+              'zip_code'		=> '40241'
+            ]);
+            $testAddresses[] = $address;
+        }
 
+        $testGuardian = User::create([
+          'status'			    => User::STATUS_CONFIRMED,
+          'first_name'		    => 'Test',
+          'last_name'			    => 'Guardian',
+          'email'				    => self::GUARDIAN_EMAIL,
+          'password'			    => bcrypt(self::GUARDIAN_PASSWORD),
+          'primary_address_id'    => $address->id
+        ]);
+        $testGuardian->addresses()->saveMany($testAddresses);
+
+
+        $playerCreator = App::make(PlayerCreator::class);
+        $playerCreator->create($testGuardian, [
+          'first_name'    => 'John',
+          'last_name'     => 'Watson',
+          'gender'        => 'M',
+          'birthday'      => '2/24/1988'
+        ]);
+        $testGuardian = User::find($testGuardian->id);
+        $playerCreator->create($testGuardian, [
+          'first_name'    => 'Emily',
+          'last_name'     => 'Smith',
+          'gender'        => 'F',
+          'birthday'      => '2/24/1986'
+        ]);
+        $playerCreator->create($testGuardian, [
+          'first_name'    => 'Alex',
+          'last_name'     => 'Johnson',
+          'gender'        => 'M',
+          'birthday'      => '6/14/1987'
+        ]);
+    }
 }

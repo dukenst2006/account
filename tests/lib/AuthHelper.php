@@ -5,6 +5,11 @@ use AcceptanceTester;
 
 class AuthHelper
 {
+    public static function isLoggedIn(AcceptanceTester $I)
+    {
+        $I->see('#user-options');
+    }
+
     public static function logout(AcceptanceTester $I)
     {
         $I->click('#user-options');

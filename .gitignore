@@ -9,6 +9,7 @@
 _ide_helper.php
 tests/_output/*
 tests/_support/*.php
+tests/_support/_generated/*.php
 storage/debugbar
 public/js/*
 _ide_helper_models.php

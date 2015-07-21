@@ -1,16 +1,69 @@
 // Contains CSS related to any /account routes
 // --------------------------------------------------
-
 // Import Vars
 @import "var.less";
+@import "../../mixins.less";
+.address-card {
+  .grid.simple {
 
-// keep cards the same size
-.address-card > .grid-body {
-  height: 99px;
-}
-.address-card > a.button-grid {
-  display: block;
-  padding: 50px 0 104px 0 !important;
-  font-size: 150%;
-  color: #CDCDCD !important;
+    & > a.button-grid {
+      display: block;
+      padding: 42px 0 104px 0 !important;
+      font-size: 150%;
+    }
+    .grid-body {
+      padding: 15px;
+      // keep cards the same size
+      height: 99px;
+      border-bottom: 0;
+    }
+    .grid-title {
+
+      // Primary Address Badge
+      .badge-important {
+        margin-top: 2px;
+      }
+
+      // Address Card contextual links
+      .tools {
+        margin-top: 0;
+
+        .dropdown-toggle {
+          height: 28px;
+          background: transparent;
+          box-shadow: none;
+          padding: 1px 0 0 5px;
+
+          .badge {
+            display: block;
+          }
+
+          .fa-gear {
+            display: block;
+            font-size: 1rem;
+            width: 14px;
+            height: 16px;
+          }
+        }
+        .dropdown-menu {
+
+          li {
+
+            &:hover {
+              #gradient.directional(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));
+              border-right: 1px solid
+            }
+
+            a {
+              width: 100%;
+              height: 31px;
+              margin: 0;
+              text-align: right;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
 }

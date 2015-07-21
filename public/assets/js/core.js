@@ -578,6 +578,9 @@ $('body.open-menu-left .page-content').on('touchstart', function (e) {
         }, 2000);
     });
 
+    // Go Go Tooltips!
+    $('[data-toggle="tooltip"]').tooltip();
+
 })(jQuery);
 
 function blockUI(el) {

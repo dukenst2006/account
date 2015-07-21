@@ -71,6 +71,7 @@ class RouteServiceProvider extends ServiceProvider {
                     'namespace'	=> 'Account'
                 ], function () {
                     Route::resource('address', 'AddressController');
+                    Route::get('address/{address}/makePrimary', 'AddressController@setPrimaryAddressId');
                     Route::get('setup', 'SetupController@getSetup');
                     Route::post('setup', 'SetupController@postSetup');
                     Route::get('edit', 'AccountController@edit');
@@ -84,10 +85,13 @@ class RouteServiceProvider extends ServiceProvider {
                 Route::group([
                     'namespace'	=> 'Seasons'
                 ], function () {
+					Route::get('register/search/group', 'PlayerRegistrationController@findGroupToRegister');
                     Route::get('register/group/{group?}', 'PlayerRegistrationController@getRegister');
                     Route::post('register/group/{group?}', 'PlayerRegistrationController@postRegister');
-					Route::get('register/search/group', 'PlayerRegistrationController@findGroupToRegister');
+
 					Route::get('join/search/group', 'PlayerRegistrationController@findGroupToJoin');
+					Route::get('join/group/{group}', 'PlayerRegistrationController@getJoin');
+					Route::post('join/group/{group}', 'PlayerRegistrationController@postJoin');
                 });
 
                 Route::resource('group', 'GroupController', [

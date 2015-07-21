@@ -12,7 +12,9 @@
                 <span class='muted'>{{ $group->meetingAddress->address_one }} {{ $group->meetingAddress->address_two }} {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }} {{ $group->meetingAddress->zip_code }}</span>
             </td>
             <td class="v-align-middle">
-                <a href="/register/group/{{ $group->id }}">Select this group</a>
+                @foreach($groupLinks as $method => $label)
+                    <a href="{{ $group->{$method}() }}">{{ $label }}</a>
+                @endforeach
             </td>
         </tr>
     @endforeach

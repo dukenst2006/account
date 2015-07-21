@@ -49,6 +49,9 @@ elixir(function(mix) {
         'js/backend.js',
         'js/forms.js',
         'assets/js/dashboard.js',
+        'assets/js/accounts.js',
+        'assets/js/group.js',
+        'assets/js/forms.js',
         'css/core.css'
     ]);
 
@@ -62,4 +65,7 @@ gulp.task('codecept', function() {
         flags: '--silent --report'
     };
     gulp.src('tests/acceptance.suite.yml').pipe(codecept('./vendor/bin/codecept', options));
+
+    // Copy font-awesome assets.
+    mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
 });

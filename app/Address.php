@@ -135,7 +135,11 @@ class Address extends Model {
 
     public function setAddressTwoAttribute ($attribute)
     {
-        $this->attributes['address_two'] = ucwords(strtolower(trim($attribute)));
+        if (!empty($attribute)) {
+            $this->attributes['address_two'] = ucwords(strtolower(trim($attribute)));
+        } else {
+            $this->attributes['address_two'] = null;
+        }
     }
 
     public function setCityAttribute ($attribute)

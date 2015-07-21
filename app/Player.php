@@ -170,4 +170,31 @@ class Player extends Model {
         return $this->groups()->wherePivot('season_id', $season->id)->count() > 0;
     }
 
+    public function scopeNotRegisteredWithNBB(Builder $query, Season $season, User $user)
+    {
+        return $query->where('players.guardian_id', $user->id)
+            ->whereDoesntHave('seasons',
+                function (Builder $query) use ($season) {
+                    $query->where('player_season.season_id', $season->id);
+                });
+    }
+
+    public function scopeRegisteredWithNBBOnly(Builder $query, Season $season)
+    {
+        return $query->whereHas('seasons',
+            function (Builder $query) use ($season) {
+                $query->where('player_season.season_id', $season->id);
+                $query->whereNull('player_season.group_id');
+            });
+    }
+
+    public function scopeRegisteredWithGroup(Builder $query, Season $season, Group $group)
+    {
+        return $query->whereHas('seasons',
+            function (Builder $query) use ($season, $group) {
+                $query->where('player_season.season_id', $season->id);
+                $query->where('player_season.group_id', $group->id);
+            });
+    }
+
 }
