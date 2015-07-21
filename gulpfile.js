@@ -1,4 +1,6 @@
-var elixir = require('laravel-elixir');
+var gulp = require('gulp'),
+    elixir = require('laravel-elixir'),
+    codecept = require('gulp-codeception');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +14,9 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
+    // Generate test helper classes.
+    mix.task('codecept-build');
+
     //compile core css
     mix.less('style.less');
     mix.less('responsive.less');
@@ -55,4 +60,22 @@ elixir(function(mix) {
 
     // Copy font-awesome assets.
     mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
+
+    // Run Acceptance Tests.
+    mix.task('codecept');
+});
+
+gulp.task('codecept', function() {
+    var options = {
+        debug: false,
+        flags: '--silent --report'
+    };
+    gulp.src('tests/acceptance.suite.yml').pipe(codecept('./vendor/bin/codecept', options));
+});
+
+gulp.task('codecept-build', function() {
+    var options = {
+        build: true,
+    };
+    gulp.src('tests/*.php').pipe(codecept('./vendor/bin/codecept', options));
 });
