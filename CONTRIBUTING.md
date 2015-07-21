@@ -89,6 +89,7 @@ Should be something like:
  * `gulp` - _runs all tasks_
  * `gulp watch` - _watch for code changes and recompile assets._
  * `gulp codecept` - _Run the acceptance tests._
+ * `gulp codecept-build`  - _Generate helper classes for tests_
 
  > Selenium must be running when `gulp codecept` is executed.
 
