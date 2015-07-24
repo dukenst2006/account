@@ -12,7 +12,7 @@ class GuardianPlayerRegistrationCest
     {
         $playerName = AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME;
 
-        //AuthHelper::logout($I);
+        AuthHelper::logout($I);
         AuthHelper::login($I, AcceptanceTestingSeeder::GUARDIAN_EMAIL, AcceptanceTestingSeeder::GUARDIAN_PASSWORD);
         $I->amOnPage('/dashboard');
 
@@ -75,10 +75,6 @@ class GuardianPlayerRegistrationCest
         $I->dontSee(AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME);
         $I->dontSee(AcceptanceTestingSeeder::GUARDIAN_PLAYER_B_FULL_NAME);
 
-
-        $I->wait(1); //allows JS to initialize for checkboxes
-        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_C_FULL_NAME);
-        $this->selectPlayer($I, $playerName, 9, 'L');
         $I->click('Register');
         $I->see('Your player(s) have been registered!');
     }
@@ -89,23 +85,26 @@ class GuardianPlayerRegistrationCest
 
         $I->amOnPage('/dashboard');
 
-        $I->click(SeasonRegistrationHelper::dashboardRegistrationLink($playerName));
+        $I->click(SeasonRegistrationHelper::dashboardJoinGroupLink($playerName));
         $I->see('Groups Nearby');
 
         //register with Southeast
         $groupName = 'Southeast Christian Church Bible Bowl';
-        $I->click(SeasonRegistrationHelper::groupSearchSelectGroup($groupName));
+        $I->click(SeasonRegistrationHelper::joinGroupLink($groupName));
+
+        //$I->seeCurrentUrlMatches('"\/join\/group"');
         $I->see($groupName);
-        $I->see('Register for '.$this->getCurrentSeasonLabel());
+        $I->see('Join for '.$this->getCurrentSeasonLabel());
 
-        // verify we're requiring a player to be selected
-        $I->click('Register');
-        $I->see('You must select a player to register');
+        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME);
+        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_B_FULL_NAME);
+        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_C_FULL_NAME);
+        $I->click('Join');
+        $I->see('You must select at least one player');
 
-        $this->unselectAllPlayers($I);
-        $this->selectPlayer($I, $playerName, 11, 'XL');
-        $I->click('Register');
-        $I->see('Your player(s) have been registered!');
+        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME);
+        $I->click('Join');
+        $I->see('Your player(s) have joined a group!');
     }
 
     /**

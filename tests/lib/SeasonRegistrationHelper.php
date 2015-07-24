@@ -7,6 +7,10 @@ class SeasonRegistrationHelper
         return self::playerRow($playerName).'/td/a[contains(text(), "Register")]';
     }
 
+    public static function dashboardJoinGroupLink($playerName) {
+        return self::playerRow($playerName).'/td/a[contains(text(), "Find a group")]';
+    }
+
     public static function selectThisGroupLink($groupName) {
         return self::groupRow($groupName).'/td/a[contains(text(), "Select this group")]';
     }

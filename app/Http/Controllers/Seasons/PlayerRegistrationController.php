@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\Groups\GroupRegistrar;
+use BibleBowl\Http\Requests\GroupJoinRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Input;
@@ -77,10 +78,7 @@ class PlayerRegistrationController extends Controller
 			->withPlayers(Auth::user()->players()->registeredWithNBBOnly(Session::season())->get());
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function postJoin(SeasonRegistrationRequest $request, GroupRegistrar $registrar, $group)
+	public function postJoin(GroupJoinRequest $request, GroupRegistrar $registrar, $group)
 	{
 		$this->validate($request, $request->rules());
 
@@ -88,7 +86,7 @@ class PlayerRegistrationController extends Controller
 
 		$registrar->register(Session::season(), $group, array_keys($request->get('player')));
 
-		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
+		return redirect('/dashboard')->withFlashSuccess('Your player(s) have joined a group!');
 	}
 
 	public static function viewBindings()
