@@ -2,7 +2,7 @@
 
 use Illuminate\Contracts\Validation\Factory;
 
-class SeasonRegistrationRequest extends Request {
+class SeasonRegistrationRequest extends GroupJoinRequest {
 
     use IncludesCreditCardPayment;
 
@@ -13,23 +13,23 @@ class SeasonRegistrationRequest extends Request {
         });
     }
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
         $rules = [];
         $rules['player'] = 'required_one';
         foreach($this->request->get('player') as $playerId => $playerData) {
@@ -37,8 +37,8 @@ class SeasonRegistrationRequest extends Request {
             $rules['player.'.$playerId.'.shirtSize'] = 'required|min:1';
         }
 
-		return $rules;
-	}
+        return $rules;
+    }
 
     public function messages()
     {

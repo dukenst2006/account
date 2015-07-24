@@ -33,7 +33,7 @@
                             {!! Form::close() !!}
                         </div>
                         @if(Auth::user()->primary_address_id === $address->id)
-                            <span data-toggle="tooltip" data-placement="left" title="Super helpful tooltip that Ben can reconfigure to be more helpful." class="badge badge-important pull-right">Primary</span>
+                            <span data-toggle="tooltip" data-placement="left" title="Visible to any groups your children play for." class="badge badge-important pull-right">Primary</span>
                         @endif
                     </div>
                     <div class="grid-body">
