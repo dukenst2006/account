@@ -55,7 +55,7 @@ class GroupController extends Controller
 		$group = Group::findOrFail($id);
         $form = $request->all();
 
-        // If the inactive checkbox is unchecked.
+		// If the inactive checkbox is unchecked.
 		if ($request->inactive === null) {
 			// Group is Active.
 			$form['inactive'] = null;
