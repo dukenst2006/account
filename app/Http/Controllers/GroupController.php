@@ -53,7 +53,7 @@ class GroupController extends Controller
 	public function update(GroupEditRequest $request, $id)
 	{
 		$group = Group::findOrFail($id);
-        $form = $request->all();
+		$form = $request->all();
 
 		// If the inactive checkbox is unchecked.
 		if ($request->inactive === null) {
