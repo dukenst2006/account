@@ -191,6 +191,6 @@ class Group extends Model {
      */
     public function scopeActive()
     {
-        return $this->where('inactive', '=' , null);
+        return $this->whereNull('inactive');
     }
 }
