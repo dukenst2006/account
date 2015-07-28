@@ -56,10 +56,10 @@ class GroupController extends Controller
         $form = $request->all();
 
         // If the inactive checkbox is unchecked.
-        if ($request->inactive === null) {
-            // Group is Active.
-            $form['inactive'] = null;
-        }
+		if ($request->inactive === null) {
+			// Group is Active.
+			$form['inactive'] = null;
+		}
 
 		$group->update($form);
 
