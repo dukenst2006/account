@@ -91,7 +91,7 @@ class Group extends Model {
             $miles = Config::get('biblebowl.groups.nearby');
         }
 
-        return $q->with([
+        return $q->active()->with([
             'address' => function ($q) use ($miles, $address) {
                 $q->whereNotNull($address->getLatColumn())
                     ->whereNotNull($address->getLngColumn())
@@ -186,4 +186,11 @@ class Group extends Model {
         return '/join/group/'.$this->id;
     }
 
+    /**
+     * Query scope for active groups.
+     */
+    public function scopeActive()
+    {
+        return $this->whereNull('inactive');
+    }
 }
