@@ -19,7 +19,7 @@
                         {!! Form::model($group, ['url' => ['/group/'.$group->id], 'role' => 'form', 'method' => 'PATCH']) !!}
                             @include('group.form')
                             <div class="checkbox check-danger b-t b-b b-grey p-t-10 p-b-10">
-                                {!! Form::checkbox('inactive', Carbon\Carbon::now()->toDateTimeString(), null, ['id' => 'group-inactive']) !!}
+                                {!! Form::checkbox('inactive', 1, !$group->isActive(), ['id' => 'group-inactive']) !!}
                                 <label for="group-inactive">Make inactive <span class="muted p-l-10">- prevents others from being able to join this group.</span></label>
                             </div>
                             <div class="row">
