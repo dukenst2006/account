@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -156,6 +157,22 @@ class Group extends Model {
     }
 
     /**
+     * Sets the active/inactive states.
+     *
+     * @param $attribute
+     */
+    public function setInactiveAttribute ($attribute) {
+        if ($attribute == 1) {
+            // Only save a new timestamp if one isn't already set.
+            if (is_null($this->attributes['inactive'])) {
+                $this->attributes['inactive'] = Carbon::now()->toDateTimeString();
+            }
+        }
+        else {
+            $this->attributes['inactive'] = null;
+        }
+    }
+    /**
      * Registration link to register for this specific group
      *
      * @return string
@@ -192,5 +209,14 @@ class Group extends Model {
     public function scopeActive()
     {
         return $this->whereNull('inactive');
+    }
+
+    /**
+     * True if the group is active.
+     *
+     * @return bool
+     */
+    public function isActive() {
+        return is_null($this->inactive) ? true : false;
     }
 }
