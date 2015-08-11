@@ -4,7 +4,7 @@ use Auth;
 use Event;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\User;
-use BibleBowl\Auth\Registrar;
+use BibleBowl\Users\Auth\Registrar;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;

@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Auth;
+<?php namespace BibleBowl\Users\Auth;
 
 use App;
 use DB;

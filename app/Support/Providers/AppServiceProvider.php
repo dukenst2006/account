@@ -1,10 +1,8 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use BibleBowl\Auth\SessionManager;
-use Whoops\Handler\PrettyPageHandler;
+use BibleBowl\Users\Auth\SessionManager;
 use BibleBowl\Presentation\EmailTemplate;
 use Illuminate\Support\ServiceProvider;
-use Whoops\Run;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -15,12 +13,7 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		// whoops page for local dev
-//		if ($this->app->environment('production') === false) {
-//			$whoops = new Run();
-//			$whoops->pushHandler(new PrettyPageHandler);
-//			$whoops->register();
-//		}
+
 	}
 
 	/**
@@ -36,7 +29,7 @@ class AppServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind(
 			\Illuminate\Contracts\Auth\Registrar::class,
-			\BibleBowl\Auth\Registrar::class
+			\BibleBowl\Users\Auth\Registrar::class
 		);
 
         $this->app->singleton(
