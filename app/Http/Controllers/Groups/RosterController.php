@@ -28,8 +28,8 @@ class RosterController extends Controller
 	{
 		$group = Session::group();
 
-		return view('group.roster')
-			->withInactivePlayers($group->players()->inactive()->with('guardian')->get());
+		return view('group.inactive_roster')
+			->withInactivePlayers($group->players()->inactive(Session::season())->with('guardian')->get());
 	}
 
 	public function export()

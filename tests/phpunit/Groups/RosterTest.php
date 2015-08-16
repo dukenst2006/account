@@ -23,10 +23,15 @@ class RosterTest extends TestCase
             ->visit('/roster')
             ->see('Player Roster')
             ->see('Download CSV')
-            ->see($player->full_name);
+            ->see($player->full_name)
 
-        # Test Inactive Players
-        $this->see('1 inactive players');
+            # Test toggling active/inactive players
+            ->click('#deactivate-'.$player->id)
+            ->landOn('/roster')
+            ->see($player->full_name)
+            ->click('#inactive-roster')
+            ->click('#activate-'.$player->id)
+            ->see($player->full_name.' is now active');
     }
 
 }

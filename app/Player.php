@@ -198,33 +198,21 @@ class Player extends Model {
             });
     }
 
-//    /**
-//     * The internals of this method work the same as \BibleBowl\Support\CanDeactivate
-//     * where passing a "1"
-//     *
-//     * @param $attribute
-//     */
-//    public function setInactive ($attribute) {
-//        $inactiveColumn = $this->getInactiveColumn();
-//        if ($attribute == 1) {
-//            // Only save a new timestamp if one isn't already set.
-//            if (is_null($this->attributes[$inactiveColumn])) {
-//                $this->attributes[$inactiveColumn] = Carbon::now()->toDateTimeString();
-//            }
-//        }
-//        else {
-//            $this->attributes[$inactiveColumn] = null;
-//        }
-//
-//
-//        $season->players()
-//            ->wherePivot('season_id', $season->id)
-//            ->updateExistingPivot($playerIds, [
-//                'group_id' => $group->id
-//            ]);
-//    }
+    public function deactive (Season $season) {
+        $season->players()
+            ->wherePivot('season_id', $season->id)
+            ->updateExistingPivot($this->id, [
+                'inactive' => Carbon::now()->toDateTimeString()
+            ]);
+    }
 
-
+    public function activate (Season $season) {
+        $season->players()
+            ->wherePivot('season_id', $season->id)
+            ->updateExistingPivot($this->id, [
+                'inactive' => null
+            ]);
+    }
 
     /**
      * Query scope for active groups.
@@ -234,7 +222,7 @@ class Player extends Model {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
                 $q->where('seasons.id', $season->id);
             })
-            ->whereNull($this->getInactiveColumn());
+            ->whereNull('player_season.inactive');
     }
 
     /**
@@ -245,17 +233,7 @@ class Player extends Model {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
                 $q->where('seasons.id', $season->id);
             })
-            ->whereNotNull($this->getInactiveColumn());
-    }
-
-    /**
-     * Uses the inactive column for
-     *
-     * @return string
-     */
-    public function getInactiveColumn()
-    {
-        return 'player_season.inactive';
+            ->whereNotNull('player_season.inactive');
     }
 
 }

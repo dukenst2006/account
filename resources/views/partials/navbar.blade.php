@@ -29,7 +29,7 @@
         <!-- BEGIN CHAT TOGGLER -->
         <div class="pull-right">
             <ul class="nav quick-section group-section">
-                @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
+                @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
                     <li class="group-menu">
                         <div class="group-menu">
                             <div class="groupname semi-bold"> {{ Session::group()->name }}
