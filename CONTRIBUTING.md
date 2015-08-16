@@ -79,6 +79,9 @@ For this application, tests are broken down by...
  * Run the tests with `./vendor/bin/codecept run acceptance`
  * (Optional) You can also run acceptance tests with `gulp codecept`.
  
+### Running PHPUnit tests
+Some PHPUnit tests utilize Laravel's test helpers and are actually acceptance tests.  To get them running, you'll need to increase [xdebug's max nesting](https://laracasts.com/discuss/channels/general-discussion/l5-maximum-function-nesting-level-of-100-reached-aborting).
+ 
 ### Testing OAuth2 Integration
 
  * obtain the `PROVIDER_CLIENT_ID`/`PROVIDER_CLIENT_SECRET` and add it to the config the `.env` file under the provider you wish to test with

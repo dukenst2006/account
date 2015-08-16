@@ -1,6 +1,7 @@
 <?php namespace BibleBowl;
 
 use Auth;
+use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -195,6 +196,66 @@ class Player extends Model {
                 $query->where('player_season.season_id', $season->id);
                 $query->where('player_season.group_id', $group->id);
             });
+    }
+
+//    /**
+//     * The internals of this method work the same as \BibleBowl\Support\CanDeactivate
+//     * where passing a "1"
+//     *
+//     * @param $attribute
+//     */
+//    public function setInactive ($attribute) {
+//        $inactiveColumn = $this->getInactiveColumn();
+//        if ($attribute == 1) {
+//            // Only save a new timestamp if one isn't already set.
+//            if (is_null($this->attributes[$inactiveColumn])) {
+//                $this->attributes[$inactiveColumn] = Carbon::now()->toDateTimeString();
+//            }
+//        }
+//        else {
+//            $this->attributes[$inactiveColumn] = null;
+//        }
+//
+//
+//        $season->players()
+//            ->wherePivot('season_id', $season->id)
+//            ->updateExistingPivot($playerIds, [
+//                'group_id' => $group->id
+//            ]);
+//    }
+
+
+
+    /**
+     * Query scope for active groups.
+     */
+    public function scopeActive($query, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $q) use ($season) {
+                $q->where('seasons.id', $season->id);
+            })
+            ->whereNull($this->getInactiveColumn());
+    }
+
+    /**
+     * Query scope for inactive groups.
+     */
+    public function scopeInactive($query, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $q) use ($season) {
+                $q->where('seasons.id', $season->id);
+            })
+            ->whereNotNull($this->getInactiveColumn());
+    }
+
+    /**
+     * Uses the inactive column for
+     *
+     * @return string
+     */
+    public function getInactiveColumn()
+    {
+        return 'player_season.inactive';
     }
 
 }

@@ -2,7 +2,7 @@
 
 use Laravel\Socialite\Two\User as ThirdPartyUser;
 use BibleBowl\User;
-use BibleBowl\Auth\ThirdPartyAuthenticator;
+use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
 
 class ThirdPartyAuthTest extends TestCase
 {

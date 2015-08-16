@@ -1,10 +1,10 @@
 <?php namespace BibleBowl;
 
+use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Jackpopp\GeoDistance\GeoDistanceTrait;
 
 /**
  * BibleBowl\Group
@@ -36,10 +36,13 @@ class Group extends Model {
     const TYPE_BEGINNER = 1;
     const TYPE_TEEN = 2;
 
+    use CanDeactivate;
+
     protected $guarded = ['id', 'guid'];
 
     protected $attributes = [
-        'type' => self::TYPE_BEGINNER
+        'type'      => self::TYPE_BEGINNER,
+        'inactive'  => null
     ];
 
     public static function boot()
@@ -72,10 +75,11 @@ class Group extends Model {
      */
     public function players() {
         // if this relation is updated, update Season too
-        return $this->belongsToMany(Player::class)
+        return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps()
-            ->orderBy('birthday', 'DESC');
+            ->orderBy('last_name', 'ASC')
+            ->orderBy('first_name', 'ASC');
     }
 
     /**
@@ -157,22 +161,6 @@ class Group extends Model {
     }
 
     /**
-     * Sets the active/inactive states.
-     *
-     * @param $attribute
-     */
-    public function setInactiveAttribute ($attribute) {
-        if ($attribute == 1) {
-            // Only save a new timestamp if one isn't already set.
-            if (is_null($this->attributes['inactive'])) {
-                $this->attributes['inactive'] = Carbon::now()->toDateTimeString();
-            }
-        }
-        else {
-            $this->attributes['inactive'] = null;
-        }
-    }
-    /**
      * Registration link to register for this specific group
      *
      * @return string
@@ -201,22 +189,5 @@ class Group extends Model {
     public function joinLink()
     {
         return '/join/group/'.$this->id;
-    }
-
-    /**
-     * Query scope for active groups.
-     */
-    public function scopeActive()
-    {
-        return $this->whereNull('inactive');
-    }
-
-    /**
-     * True if the group is active.
-     *
-     * @return bool
-     */
-    public function isActive() {
-        return is_null($this->inactive) ? true : false;
     }
 }

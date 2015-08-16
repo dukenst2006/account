@@ -98,6 +98,8 @@ class RouteServiceProvider extends ServiceProvider {
                     'except' => ['delete']
                 ]);
 				Route::get('group/{group}/swap', 'GroupController@swap');
+				Route::get('roster', 'Groups\RosterController@index');
+				Route::get('roster/export', 'Groups\RosterController@export');
 			});
 
 		});
