@@ -31,7 +31,7 @@ class PlayerController extends Controller
 	public function deactivate(PlayerInactiveToggleRequest $request, $player)
 	{
 		$player = Player::findOrFail($player);
-		$player->deactive(Session::season());
+		$player->deactivate(Session::season());
 
 		return redirect('/roster')->withFlashSuccess($player->full_name.' is now inactive');
 	}

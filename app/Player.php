@@ -198,7 +198,7 @@ class Player extends Model {
             });
     }
 
-    public function deactive (Season $season) {
+    public function deactivate (Season $season) {
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
