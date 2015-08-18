@@ -45,7 +45,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
-		  	"php artisan ide-helper:generate",
+		  	"if [ -f ./vendor/barryvdh/laravel-ide-helper ]; php artisan ide-helper:generate; ./vendor/bin/phpunit; fi",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [
