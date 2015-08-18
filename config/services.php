@@ -20,7 +20,7 @@ return [
 	],
 
 	'mandrill' => [
-		'secret' => '',
+		'secret' => env('MANDRILL_SECRET'),
 	],
 
 	'ses' => [
@@ -30,7 +30,7 @@ return [
 	],
 
 	'stripe' => [
-		'model'  => 'BibleBowl\User',
+		'model'  => \BibleBowl\User::class,
 		'key' => '',
 		'secret' => '',
 	],
