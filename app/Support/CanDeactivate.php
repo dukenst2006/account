@@ -1,0 +1,56 @@
+<?php namespace BibleBowl\Support;
+
+use Carbon\Carbon;
+
+trait CanDeactivate
+{
+    /**
+     * Sets the active/inactive states.
+     *
+     * @param $attribute
+     */
+    public function setInactiveAttribute ($attribute) {
+        $inactiveColumn = $this->getInactiveColumn();
+        if ($attribute == 1) {
+            // Only save a new timestamp if one isn't already set.
+            if (is_null($this->attributes[$inactiveColumn])) {
+                $this->attributes[$inactiveColumn] = Carbon::now()->toDateTimeString();
+            }
+        } else {
+            $this->attributes[$inactiveColumn] = null;
+        }
+    }
+
+    /**
+     * Query scope for active groups.
+     */
+    public function scopeActive()
+    {
+        return $this->whereNull($this->getInactiveColumn());
+    }
+
+    /**
+     * Query scope for inactive groups.
+     */
+    public function scopeInactive()
+    {
+        return $this->whereNotNull($this->getInactiveColumn());
+    }
+
+    /**
+     * True if the group is active.
+     *
+     * @return bool
+     */
+    public function isActive() {
+        return is_null($this->inactive) ? true : false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInactiveColumn()
+    {
+        return 'inactive';
+    }
+}

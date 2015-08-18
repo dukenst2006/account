@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
 use Auth;
-use BibleBowl\Auth\EmailAlreadyInUse;
-use BibleBowl\Auth\ThirdPartyRegistrar;
-use BibleBowl\Auth\ThirdPartyAuthenticator;
+use BibleBowl\Users\Auth\EmailAlreadyInUse;
+use BibleBowl\Users\Auth\ThirdPartyRegistrar;
+use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
 use Illuminate\Http\Request;
 
 class ThirdPartyAuthController extends AuthController
@@ -14,7 +14,7 @@ class ThirdPartyAuthController extends AuthController
 	 * @param $provider
 	 *
 	 * @return mixed
-	 * @throws \BibleBowl\Auth\UnsupportedProvider
+	 * @throws \BibleBowl\Users\Auth\UnsupportedProvider
 	 */
 	public function login(Request $request, $provider, ThirdPartyAuthenticator $authenticator, ThirdPartyRegistrar $registrar) {
 		// If there's no code, get authorization from the provider

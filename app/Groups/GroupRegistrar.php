@@ -15,11 +15,11 @@ class GroupRegistrar
     {
         DB::beginTransaction();
 
-        DB::raw('UPDATE player_season SET group_id = ?, updated_at = ? WHERE player_id IN('.implode(',', $playerIds).') AND season_id = ?', [
-            $group->id,
-            $season->id,
-            Carbon::now()->toDateTimeString()
-        ]);
+        $season->players()
+            ->wherePivot('season_id', $season->id)
+            ->updateExistingPivot($playerIds, [
+                'group_id' => $group->id
+            ]);
 
         DB::commit();
 

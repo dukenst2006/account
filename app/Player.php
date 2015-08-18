@@ -1,6 +1,7 @@
 <?php namespace BibleBowl;
 
 use Auth;
+use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -195,6 +196,44 @@ class Player extends Model {
                 $query->where('player_season.season_id', $season->id);
                 $query->where('player_season.group_id', $group->id);
             });
+    }
+
+    public function deactivate (Season $season) {
+        $season->players()
+            ->wherePivot('season_id', $season->id)
+            ->updateExistingPivot($this->id, [
+                'inactive' => Carbon::now()->toDateTimeString()
+            ]);
+    }
+
+    public function activate (Season $season) {
+        $season->players()
+            ->wherePivot('season_id', $season->id)
+            ->updateExistingPivot($this->id, [
+                'inactive' => null
+            ]);
+    }
+
+    /**
+     * Query scope for active groups.
+     */
+    public function scopeActive($query, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $q) use ($season) {
+                $q->where('seasons.id', $season->id);
+            })
+            ->whereNull('player_season.inactive');
+    }
+
+    /**
+     * Query scope for inactive groups.
+     */
+    public function scopeInactive($query, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $q) use ($season) {
+                $q->where('seasons.id', $season->id);
+            })
+            ->whereNotNull('player_season.inactive');
     }
 
 }

@@ -149,13 +149,13 @@ class Address extends Model {
 
     public function __toString()
     {
-        return implode(' ', [
-            $this->address_one,
-            $this->address_two,
-            $this->city,
-            $this->state,
-            $this->zip_code
-        ]);
+        $address = $this->address_one;
+
+        if (!empty($this->address_two)) {
+            $address .= ' '.$this->address_two;
+        }
+
+        return $address.' '.$this->city.', '.$this->state.' '.$this->zip_code;
     }
 
 }

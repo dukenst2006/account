@@ -1,5 +1,7 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Role;
+use Entrust;
 use Route;
 use Auth;
 use Redirect;
@@ -98,6 +100,14 @@ class RouteServiceProvider extends ServiceProvider {
                     'except' => ['delete']
                 ]);
 				Route::get('group/{group}/swap', 'GroupController@swap');
+
+				# Roster
+				Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
+				Route::get('roster', 'Groups\RosterController@index');
+				Route::get('roster/inactive', 'Groups\RosterController@inactive');
+				Route::get('roster/export', 'Groups\RosterController@export');
+				Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
+				Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
 			});
 
 		});

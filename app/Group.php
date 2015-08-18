@@ -1,9 +1,10 @@
 <?php namespace BibleBowl;
 
+use BibleBowl\Support\CanDeactivate;
+use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Jackpopp\GeoDistance\GeoDistanceTrait;
 
 /**
  * BibleBowl\Group
@@ -35,10 +36,13 @@ class Group extends Model {
     const TYPE_BEGINNER = 1;
     const TYPE_TEEN = 2;
 
+    use CanDeactivate;
+
     protected $guarded = ['id', 'guid'];
 
     protected $attributes = [
-        'type' => self::TYPE_BEGINNER
+        'type'      => self::TYPE_BEGINNER,
+        'inactive'  => null
     ];
 
     public static function boot()
@@ -71,10 +75,11 @@ class Group extends Model {
      */
     public function players() {
         // if this relation is updated, update Season too
-        return $this->belongsToMany(Player::class)
+        return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps()
-            ->orderBy('birthday', 'DESC');
+            ->orderBy('last_name', 'ASC')
+            ->orderBy('first_name', 'ASC');
     }
 
     /**
@@ -91,7 +96,7 @@ class Group extends Model {
             $miles = Config::get('biblebowl.groups.nearby');
         }
 
-        return $q->with([
+        return $q->active()->with([
             'address' => function ($q) use ($miles, $address) {
                 $q->whereNotNull($address->getLatColumn())
                     ->whereNotNull($address->getLngColumn())
@@ -185,5 +190,4 @@ class Group extends Model {
     {
         return '/join/group/'.$this->id;
     }
-
 }

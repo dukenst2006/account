@@ -53,13 +53,20 @@ class GroupController extends Controller
 	public function update(GroupEditRequest $request, $id)
 	{
 		$group = Group::findOrFail($id);
-		$group->update($request->all());
+		$form = $request->all();
+
+		// When the user has not checked the "inactive" checkbox.
+		if (!$request->has('inactive')) {
+			// Group is Active.
+			$form['inactive'] = null;
+		}
+
+		$group->update($form);
 
 		// update the user's session
 		if (Session::group()->id == $group->id) {
 			Session::setGroup($group);
 		}
-
 		return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
 	}
 
