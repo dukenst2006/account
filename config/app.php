@@ -213,7 +213,7 @@ return [
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'HTML'		=> 'Illuminate\Html\HtmlFacade',
 		'Gravatar'  => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
-		#'Entrust' => 'Zizaco\Entrust\EntrustFacade'
+		'Entrust' 	=> 'Zizaco\Entrust\EntrustFacade'
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 	],
 

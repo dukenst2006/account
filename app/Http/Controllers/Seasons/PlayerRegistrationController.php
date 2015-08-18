@@ -94,7 +94,7 @@ class PlayerRegistrationController extends Controller
 		\View::creator('seasons.registration.search_group', function (View $view) {
 			$searchResults = null;
 			if (Input::has('q')) {
-				$searchResults = Group::where('name', 'LIKE', '%'.Input::get('q').'%')->get();
+				$searchResults = Group::active()->where('name', 'LIKE', '%'.Input::get('q').'%')->get();
 			}
 			$view->with('searchResults', $searchResults);
 		});
