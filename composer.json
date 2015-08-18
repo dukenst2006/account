@@ -54,7 +54,7 @@
 		],
 	  	"post-autoload-dump": [
 			"if [ -f ./vendor/barryvdh/laravel-ide-helper ]; php ./artisan ide-helper:generate; fi",
-			"if [ -f ./vendor/barryvdh/laravel-ide-helper ]; php ./artisan ide-helper:models; fi",
+			"if [ -f ./vendor/barryvdh/laravel-ide-helper ]; php ./artisan ide-helper:models; fi"
 		]
 	},
 	"config": {
