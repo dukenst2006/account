@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use Config;
 use BibleBowl\Users\Auth\SessionManager;
 use BibleBowl\Presentation\EmailTemplate;
 use Illuminate\Support\ServiceProvider;
@@ -45,7 +46,7 @@ class AppServiceProvider extends ServiceProvider {
 			return new EmailTemplate();
 		});
 
-		if ($this->app->environment('production') === false) {
+		if (Config::get('app.debug') === true) {
 			$this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 			$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
 			$this->app->register(\Spatie\Tail\TailServiceProvider::class);
