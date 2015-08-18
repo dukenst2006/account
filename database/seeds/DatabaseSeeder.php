@@ -1,11 +1,13 @@
 <?php
 
+use BibleBowl\Player;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Season;
 use BibleBowl\User;
 use BibleBowl\Group;
 use BibleBowl\Address;
 use BibleBowl\Groups\GroupCreator;
+use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +15,12 @@ use Illuminate\Database\Eloquent\Model;
 class DatabaseSeeder extends Seeder {
 
     private static $isSeeding = false;
+
+    const GROUP_NAME = 'Mount Pleasant Christian Church';
+    const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
+
+    /** @var Season */
+    private $season;
 
     /**
      * @return bool
@@ -29,11 +37,14 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        // load ModelFactory.php so functions can be used later
+        factory(User::class);
+
         self::$isSeeding = true;
 
 		Model::unguard();
 
-        Season::create([
+        $this->season = Season::create([
             'name' => date('Y').'-'.(date('y')+1)
         ]);
 
@@ -61,7 +72,7 @@ class DatabaseSeeder extends Seeder {
           'status'			    => User::STATUS_CONFIRMED,
           'first_name'		    => 'Ben',
           'last_name'			=> 'HeadCoach',
-          'email'				=> 'benkuhl+headcoach@gmail.com',
+          'email'				=> self::HEAD_COACH_EMAIL,
           'password'			=> bcrypt('changeme'),
           'primary_address_id'  => $address->id
         ]);
@@ -85,12 +96,7 @@ class DatabaseSeeder extends Seeder {
         ]]);
         $BKuhlHeadCoach->addresses()->save($address);
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
-        $groupCreator->create($BKuhlHeadCoach, [
-            'name'                  => 'Mount Pleasant Christian Church',
-            'type'                  => Group::TYPE_TEEN,
-            'address_id'            => $address->id,
-            'meeting_address_id'    => $address->id
-        ]);
+        $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address);
     }
 
     private function seedGuardian()
@@ -128,6 +134,7 @@ class DatabaseSeeder extends Seeder {
         for ($i = 0; $i < $num_players; $i++) {
             $BKuhlGuardian = User::find($BKuhlGuardian->id);
             $playerCreator = App::make(PlayerCreator::class);
+
             $playerCreator->create($BKuhlGuardian, [
                 'first_name'    => $faker->firstName,
                 'last_name'     => $faker->lastName,
@@ -135,6 +142,37 @@ class DatabaseSeeder extends Seeder {
                 'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
             ]);
         }
+    }
+
+    private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)
+    {
+        $group = $groupCreator->create($headCoach, [
+            'name'                  => self::GROUP_NAME,
+            'type'                  => Group::TYPE_TEEN,
+            'address_id'            => $address->id,
+            'meeting_address_id'    => $address->id
+        ]);
+
+        $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
+        $guardian = seedGuardian();
+        for($x = 0; $x <= 2; $x++)
+        {
+            $player = seedPlayer($guardian);
+            $this->season->players()->attach($player->id, [
+                'group_id'      => $group->id,
+                'grade'         => rand(6, 12),
+                'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+            ]);
+        }
+
+        # Seed inactive player
+        $player = seedPlayer($guardian);
+        $this->season->players()->attach($player->id, [
+            'inactive'      => Carbon::now()->toDateTimeString(),
+            'group_id'      => $group->id,
+            'grade'         => rand(6, 12),
+            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+        ]);
     }
 
 }

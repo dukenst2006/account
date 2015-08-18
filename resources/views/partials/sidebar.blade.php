@@ -12,7 +12,20 @@
         <!-- END MINI-PROFILE -->
         <!-- BEGIN SIDEBAR MENU -->
         <ul>
-            <li class="start"> <a href="/dashboard"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a></li>
+            <li class="start
+            @if(Route::current()->getUri() == 'dashboard')
+                    active
+                @endif">
+                <a href="/dashboard"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a>
+            </li>
+            @if (Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
+                <li class="start
+                @if(Route::current()->getUri() == 'roster')
+                        active
+                    @endif">
+                    <a href="/roster"> <i class="fa fa-users"></i>  <span class="title">Player Roster</span></a>
+                </li>
+            @endif
         </ul>
         <div class="clearfix"></div>
         <!-- END SIDEBAR MENU -->

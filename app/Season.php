@@ -30,7 +30,7 @@ class Season extends Model {
      */
     public function players() {
         // if this relation is updated, update Group too
-        return $this->belongsToMany(Player::class)
+        return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps()
             ->orderBy('birthday', 'DESC');
