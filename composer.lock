@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d89e89afd9b5d9a5177562c60fafd7b4",
+    "hash": "ab5416e9c9ee842d259e35c775fc1054",
     "packages": [
         {
             "name": "alexpechkarev/google-geocoder",
