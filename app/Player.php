@@ -1,7 +1,5 @@
 <?php namespace BibleBowl;
 
-use Auth;
-use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

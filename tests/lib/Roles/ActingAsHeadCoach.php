@@ -1,4 +1,4 @@
-<?php namespace Lib;
+<?php namespace Lib\Roles;
 
 use DatabaseSeeder;
 use BibleBowl\User;
