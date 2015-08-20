@@ -3,7 +3,7 @@
 class RosterTest extends TestCase
 {
 
-    use \Lib\ActingAsHeadCoach;
+    use \Lib\Roles\ActingAsHeadCoach;
 
     public function setUp()
     {

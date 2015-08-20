@@ -89,7 +89,9 @@ class RouteServiceProvider extends ServiceProvider {
                 ], function () {
 					Route::get('register/search/group', 'PlayerRegistrationController@findGroupToRegister');
                     Route::get('register/group/{group?}', 'PlayerRegistrationController@getRegister');
-                    Route::post('register/group/{group?}', 'PlayerRegistrationController@postRegister');
+					Route::post('register/group/{group?}', 'PlayerRegistrationController@postRegister');
+					Route::get('register/{player}/edit', 'PlayerRegistrationController@getRegisterEdit');
+					Route::patch('register/{player}/edit', 'PlayerRegistrationController@postRegisterEdit');
 
 					Route::get('join/search/group', 'PlayerRegistrationController@findGroupToJoin');
 					Route::get('join/group/{group}', 'PlayerRegistrationController@getJoin');

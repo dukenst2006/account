@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder {
 
     const GROUP_NAME = 'Mount Pleasant Christian Church';
     const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
+    const GUARDIAN_EMAIL = 'benkuhl+guardian@gmail.com';
 
     /** @var Season */
     private $season;
@@ -123,7 +124,7 @@ class DatabaseSeeder extends Seeder {
             'status'			  => User::STATUS_CONFIRMED,
             'first_name'		  => 'Ben',
             'last_name'			  => 'Guardian',
-            'email'				  => 'benkuhl+guardian@gmail.com',
+            'email'				  => self::GUARDIAN_EMAIL,
             'password'			  => bcrypt('changeme'),
             'primary_address_id'  => $address->id
         ]);

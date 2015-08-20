@@ -28,9 +28,11 @@
                         <td class="text-center v-align-middle">
                             @if(is_null($group = $child->groupRegisteredWith(Session::season())) === false)
                                 <div><div class="fa fa-check"></div> Registered with NBB</div>
+                                <a href="/register/{{ $child->id }}/edit" id="edit-registration-{{ $child->id }}">Edit Registration</a><br/>
                                 {{ $group->name }}
                             @elseif($child->isRegisteredWithNBB(Session::season()))
                                 <div><div class="fa fa-check"></div> Registered with NBB</div>
+                                <a href="/register/{{ $child->id }}/edit" id="edit-registration-{{ $child->id }}">Edit Registration</a><br/>
                                 <a href="/join/search/group">Find a group</a>
                             @else
                                 <a href="/register/search/group">Register</a>
