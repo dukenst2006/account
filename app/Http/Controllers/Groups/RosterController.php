@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers\Groups;
 
-use Str;
+use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use Session;
-use BibleBowl\Group;
+use Str;
 
 class RosterController extends Controller
 {

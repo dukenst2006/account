@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Users\Auth;
 
-use BibleBowl\Season;
 use BibleBowl\Group;
+use BibleBowl\Season;
 
 class SessionManager extends \Illuminate\Session\SessionManager
 {

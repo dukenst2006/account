@@ -1,20 +1,18 @@
 <?php namespace BibleBowl\Http\Controllers\Seasons;
 
 use Auth;
+use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
+use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupJoinRequest;
 use BibleBowl\Http\Requests\PlayerGuardianOnlyRequest;
-use BibleBowl\Support\Cookies;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\View\View;
-use Input;
-use BibleBowl\Group;
-use BibleBowl\Seasons\SeasonRegistrar;
-use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
+use BibleBowl\Seasons\SeasonRegistrar;
+use BibleBowl\Support\Cookies;
+use Illuminate\View\View;
+use Input;
 use Session;
-use Cookie;
 
 class PlayerRegistrationController extends Controller
 {

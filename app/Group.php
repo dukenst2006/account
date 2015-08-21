@@ -1,7 +1,6 @@
 <?php namespace BibleBowl;
 
 use BibleBowl\Support\CanDeactivate;
-use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

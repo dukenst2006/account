@@ -1,12 +1,11 @@
 <?php namespace BibleBowl\Groups;
 
-use BibleBowl\Season;
-use BibleBowl\Player;
-use Carbon\Carbon;
-use DB;
 use BibleBowl\Group;
+use BibleBowl\Player;
 use BibleBowl\Role;
+use BibleBowl\Season;
 use BibleBowl\User;
+use DB;
 
 class GroupRegistrar
 {

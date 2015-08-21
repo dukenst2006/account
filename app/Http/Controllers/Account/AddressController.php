@@ -1,12 +1,12 @@
 <?php namespace BibleBowl\Http\Controllers\Account;
 
 use Auth;
+use BibleBowl\Address;
+use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\AddressOwnerOnlyRequest;
 use BibleBowl\Location\AddressCreator;
 use Illuminate\Http\Request;
 use Redirect;
-use BibleBowl\Address;
-use BibleBowl\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {

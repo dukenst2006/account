@@ -1,12 +1,12 @@
 <?php namespace BibleBowl\Location;
 
-use DatabaseSeeder;
 use App;
-use Log;
-use Geocoder;
 use BibleBowl\Address;
-use Illuminate\Queue\InteractsWithQueue;
+use DatabaseSeeder;
+use Geocoder;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Log;
 
 class FetchCoordinatesForAddress implements ShouldQueue {
 

@@ -1,11 +1,11 @@
 <?php namespace BibleBowl\Users\Auth;
 
-use Event;
 use App;
-use Gravatar;
 use BibleBowl\User;
-use Validator;
+use Event;
+use Gravatar;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
+use Validator;
 
 class Registrar implements RegistrarContract {
 

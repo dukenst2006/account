@@ -1,12 +1,12 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use Auth;
 use BibleBowl\Role;
 use Entrust;
-use Route;
-use Auth;
-use Redirect;
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
+use Redirect;
+use Route;
 
 class RouteServiceProvider extends ServiceProvider {
 

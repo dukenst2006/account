@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Seasons;
 
-use Config;
 use Carbon\Carbon;
+use Config;
 
 class SeasonCalendar
 {

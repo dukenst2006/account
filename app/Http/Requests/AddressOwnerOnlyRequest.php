@@ -2,7 +2,6 @@
 
 use Auth;
 use BibleBowl\Address;
-use BibleBowl\Http\Requests\Request;
 
 class AddressOwnerOnlyRequest extends Request {
 

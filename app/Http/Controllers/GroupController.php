@@ -1,13 +1,12 @@
 <?php namespace BibleBowl\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Session;
 use Auth;
-use BibleBowl\Http\Requests\GroupEditRequest;
-use BibleBowl\Http\Requests\GroupCreationRequest;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupCreator;
+use BibleBowl\Http\Requests\GroupCreationRequest;
+use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
+use BibleBowl\Http\Requests\GroupEditRequest;
+use Session;
 
 class GroupController extends Controller
 {
