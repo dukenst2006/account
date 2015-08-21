@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-	<body class="error-body no-top lazy" style="background-color: #396fa4;">
+	<body class="error-body no-top lazy" style="background-color: #396fa4 !important;">
 	<div class="container">
 		<div class="row p-t-60">
 			<div class="col-md-8 col-md-offset-2 tiles white no-padding">
