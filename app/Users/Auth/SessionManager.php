@@ -8,6 +8,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
 
     const SEASON = 'season';
     const GROUP = 'group';
+    const REGISTER_WITH_GROUP = 'register_with_group';
 
     /** @var Season */
     protected $season = null;
@@ -53,5 +54,21 @@ class SessionManager extends \Illuminate\Session\SessionManager
     {
         $this->group = $group;
         $this->set(self::GROUP, $group->toArray());
+    }
+
+    /**
+     * @param string $guid
+     */
+    public function setGroupToRegisterWith($guid)
+    {
+        $this->set(self::REGISTER_WITH_GROUP, $guid);
+    }
+
+    /**
+     * @return Group|null
+     */
+    public function getGroupToRegisterWith()
+    {
+        return Group::where('guid', $this->get(self::REGISTER_WITH_GROUP))->first();
     }
 }

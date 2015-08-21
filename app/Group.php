@@ -167,7 +167,7 @@ class Group extends Model {
      */
     public function registrationReferralLink()
     {
-        return url('group/'.$this->guid.'/register');
+        return 'group/'.$this->guid.'/register';
     }
 
     /**

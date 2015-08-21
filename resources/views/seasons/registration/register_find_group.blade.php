@@ -7,6 +7,14 @@
         <div class="grid simple">
             <div class="grid-body no-border">
 
+                @if(!is_null($familiarGroup))
+                    @include('seasons.registration.partials.familiar_group_prompt', [
+                        'group'             => $familiarGroup,
+                        'actionUrl'         => '/register/group/'.$familiarGroup->id,
+                        'actionButton'      => 'Register with '.$familiarGroup->name
+                    ])
+                @endif
+
                 @if(!Input::has('q'))
                     @include('group.nearby', [
                         'groupLinks' => [

@@ -4,6 +4,7 @@ use Auth;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Requests\GroupJoinRequest;
 use BibleBowl\Http\Requests\PlayerGuardianOnlyRequest;
+use BibleBowl\Support\Cookies;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Input;
@@ -13,6 +14,7 @@ use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
 use Session;
+use Cookie;
 
 class PlayerRegistrationController extends Controller
 {
@@ -22,7 +24,8 @@ class PlayerRegistrationController extends Controller
 	 */
 	public function findGroupToRegister()
 	{
-		return view('seasons.registration.register_find_group');
+		return view('seasons.registration.register_find_group')
+            ->with('familiarGroup', Session::getGroupToRegisterWith());
 	}
 
 	/**
@@ -30,7 +33,8 @@ class PlayerRegistrationController extends Controller
 	 */
 	public function findGroupToJoin()
 	{
-		return view('seasons.registration.join_find_group');
+		return view('seasons.registration.join_find_group')
+            ->with('familiarGroup', Session::getGroupToRegisterWith());
 	}
 
     /**
@@ -43,7 +47,7 @@ class PlayerRegistrationController extends Controller
 		}
 
         return view('seasons.registration.register_form')
-			->withGroup($group);
+            ->withGroup($group);
     }
 
 	/**
@@ -119,6 +123,16 @@ class PlayerRegistrationController extends Controller
 		$registrar->register(Session::season(), $group, array_keys($request->get('player')));
 
 		return redirect('/dashboard')->withFlashSuccess('Your player(s) have joined a group!');
+	}
+
+	/**
+	 * Remember the group the user is trying to register for
+	 */
+	public function rememberGroup($guid)
+	{
+        Session::setGroupToRegisterWith($guid);
+
+		return redirect('/');
 	}
 
 	public static function viewBindings()
