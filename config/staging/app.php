@@ -13,6 +13,6 @@ return [
 	|
 	*/
 
-	'url' => 'http://staging-app.biblebowl.org',
+	'url' => 'http://staging-bbowl.benkuhl.com',
 
 ];
