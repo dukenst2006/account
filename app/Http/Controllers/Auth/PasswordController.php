@@ -1,10 +1,10 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
-use Password;
 use BibleBowl\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Password;
 
 class PasswordController extends Controller {
 

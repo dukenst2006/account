@@ -1,10 +1,10 @@
 <?php namespace BibleBowl\Groups;
 
-use BibleBowl\Location\AddressCreator;
-use DB;
 use BibleBowl\Group;
+use BibleBowl\Location\AddressCreator;
 use BibleBowl\Role;
 use BibleBowl\User;
+use DB;
 
 class GroupCreator
 {

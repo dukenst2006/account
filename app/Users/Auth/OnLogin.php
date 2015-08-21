@@ -2,8 +2,8 @@
 
 use BibleBowl\Role;
 use BibleBowl\Season;
-use Session;
 use BibleBowl\User;
+use Session;
 
 class OnLogin
 {

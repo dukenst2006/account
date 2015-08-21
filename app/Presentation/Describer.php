@@ -1,10 +1,7 @@
 <?php namespace BibleBowl\Presentation;
 
-use Auth;
 use BibleBowl\Group;
 use BibleBowl\User;
-use Carbon\Carbon;
-use Illuminate\Html\FormBuilder;
 
 /**
  * Responsible for further describing bits of information

@@ -2,10 +2,6 @@
 
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\User;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Http\Request;
 
 class ConfirmationController extends Controller {
 

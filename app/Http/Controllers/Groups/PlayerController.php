@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers\Groups;
 
-use Session;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\Groups\PlayerInactiveToggleRequest;
 use BibleBowl\Player;
+use Session;
 
 class PlayerController extends Controller
 {

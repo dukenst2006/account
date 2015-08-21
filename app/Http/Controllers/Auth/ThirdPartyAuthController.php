@@ -2,8 +2,8 @@
 
 use Auth;
 use BibleBowl\Users\Auth\EmailAlreadyInUse;
-use BibleBowl\Users\Auth\ThirdPartyRegistrar;
 use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
+use BibleBowl\Users\Auth\ThirdPartyRegistrar;
 use Illuminate\Http\Request;
 
 class ThirdPartyAuthController extends AuthController

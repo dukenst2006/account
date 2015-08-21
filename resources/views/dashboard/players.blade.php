@@ -34,7 +34,7 @@
              <div class="modal-body">
                  <div class="row">
                      <div class="col-md-12">
-                         <input type="text" class="form-control text-center click-copy" value="{{ Session::group()->registrationReferralLink() }}">
+                         <input type="text" class="form-control text-center click-copy" value="{{ url(Session::group()->registrationReferralLink()) }}">
                          <button class="btn btn-block btn-primary btn-copy ripple" type="button">
                              <i class="fa fa-paste"></i>
                              <span>Copy link to clipboard</span>

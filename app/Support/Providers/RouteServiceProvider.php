@@ -1,12 +1,12 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use Auth;
 use BibleBowl\Role;
 use Entrust;
-use Route;
-use Auth;
-use Redirect;
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
+use Redirect;
+use Route;
 
 class RouteServiceProvider extends ServiceProvider {
 
@@ -96,6 +96,9 @@ class RouteServiceProvider extends ServiceProvider {
 					Route::get('join/search/group', 'PlayerRegistrationController@findGroupToJoin');
 					Route::get('join/group/{group}', 'PlayerRegistrationController@getJoin');
 					Route::post('join/group/{group}', 'PlayerRegistrationController@postJoin');
+
+					# the group's registration link
+					Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');
                 });
 
                 Route::resource('group', 'GroupController', [

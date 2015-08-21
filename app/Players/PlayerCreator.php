@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Players;
 
-use DB;
 use BibleBowl\Player;
 use BibleBowl\Role;
 use BibleBowl\User;
+use DB;
 
 class PlayerCreator
 {

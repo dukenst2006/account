@@ -1,11 +1,9 @@
 <?php namespace BibleBowl\Users\Auth;
 
 use App;
-use DB;
-use Gravatar;
 use BibleBowl\User;
+use DB;
 use Validator;
-use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
 class ThirdPartyRegistrar
 {

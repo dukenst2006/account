@@ -4,11 +4,11 @@ use App;
 use BibleBowl\Support\Scrubber;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Rhumsaa\Uuid\Uuid;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 

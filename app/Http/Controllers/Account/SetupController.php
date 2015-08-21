@@ -1,14 +1,14 @@
 <?php namespace BibleBowl\Http\Controllers\Account;
 
 use App;
+use Auth;
+use BibleBowl\Address;
+use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\User;
 use DB;
-use Auth;
 use Illuminate\Http\Request;
 use Redirect;
-use BibleBowl\Address;
-use BibleBowl\Http\Controllers\Controller;
 
 class SetupController extends Controller
 {

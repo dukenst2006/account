@@ -1,8 +1,8 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use Config;
-use BibleBowl\Users\Auth\SessionManager;
 use BibleBowl\Presentation\EmailTemplate;
+use BibleBowl\Users\Auth\SessionManager;
+use Config;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
