@@ -5,6 +5,7 @@ use BibleBowl\Http\Requests\GuardianOnlyRequest;
 use BibleBowl\Player;
 use BibleBowl\Players\PlayerCreator;
 use Illuminate\Http\Request;
+use Session;
 
 class PlayerController extends Controller
 {
@@ -36,8 +37,12 @@ class PlayerController extends Controller
 	 */
 	public function edit(GuardianOnlyRequest $request, $id)
 	{
+        $player = Player::findOrFail($id);
+
 		return view('player.edit')
-			->withPlayer(Player::findOrFail($id));
+			->withPlayer($player)
+            ->with('isRegistered', $isRegistered = $player->isRegisteredWithNBB(Session::season()))
+            ->withRegistration($isRegistered ? $player->registration(Session::season()) : null);
 	}
 
 	/**
@@ -48,9 +53,23 @@ class PlayerController extends Controller
 	 */
 	public function update(GuardianOnlyRequest $request, $id)
 	{
-		$this->validate($request, Player::validationRules());
+        $rules = Player::validationRules();
+        $player = Player::findOrFail($id);
+        $isRegistered = $player->isRegisteredWithNBB(Session::season());
+        if ($isRegistered) {
+            $rules['shirt_size']    = 'required';
+            $rules['grade']         = 'required';
+        }
 
-		Player::findOrFail($id)->update($request->all());
+		$this->validate($request, $rules);
+
+		$player->update($request->except('shirt_size', 'grade'));
+        if ($isRegistered) {
+            $player->seasons()->updateExistingPivot(
+                Session::season()->id,
+                $request->only(['shirt_size', 'grade'])
+            );
+        }
 
 		return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
 	}

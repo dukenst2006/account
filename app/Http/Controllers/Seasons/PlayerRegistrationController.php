@@ -5,7 +5,6 @@ use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupJoinRequest;
-use BibleBowl\Http\Requests\PlayerGuardianOnlyRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
 use BibleBowl\Seasons\SeasonRegistrar;
@@ -69,37 +68,6 @@ class PlayerRegistrationController extends Controller
         $registrar->register(Session::season(), $seasonData, $group);
 
 		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
-	}
-
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function getRegisterEdit($player)
-	{
-		$player = Player::findOrFail($player);
-
-		return view('seasons.registration.edit')
-			->withPlayer($player)
-			->withSeason($player->seasons()->wherePivot('season_id', Session::season()->id)->first());
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function postRegisterEdit(PlayerGuardianOnlyRequest $request, $player)
-	{
-		$this->validate($request, [
-			'shirt_size' 	=> 'required',
-			'grade'			=> 'required'
-		]);
-
-		$player = Player::findOrFail($player);
-		$player->seasons()->updateExistingPivot(
-			Session::season()->id,
-			$request->only(['shirt_size', 'grade'])
-		);
-
-		return redirect('/dashboard')->withFlashSuccess('Registration has been updated');
 	}
 
 	/**
