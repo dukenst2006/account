@@ -146,7 +146,19 @@ class Player extends Model {
     }
 
     /**
-     * If the current player has registered with a group
+     * Get the registration data for this player
+     *
+     * @param Season $season
+     *
+     * @return object
+     */
+    public function registration(Season $season)
+    {
+        return $this->seasons()->wherePivot('season_id', $season->id)->first()->pivot;
+    }
+
+    /**
+     * Group the current player is registered with
      *
      * @param Season $season
      *

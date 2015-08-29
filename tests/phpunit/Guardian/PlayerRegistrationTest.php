@@ -17,7 +17,8 @@ class PlayerRegistrationTest extends TestCase
     public function editExistingRegistration()
     {
         $this->setupAsGuardian();
-        # seeding a player
+
+        # seeding a player - that is registered
         $player = factory(Player::class)
             ->create([
                 'guardian_id' => $this->guardian()->id
@@ -30,11 +31,11 @@ class PlayerRegistrationTest extends TestCase
         # the test
         $this
             ->visit('/dashboard')
-            ->click('#edit-registration-'.$player->id)
+            ->click('#edit-child-'.$player->id)
             ->select(rand(3, 12), 'grade')
             ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
             ->submitForm('Save')
-            ->see('Registration has been updated');
+            ->see('Your changes were saved');
 
         # cleanup
         $player->seasons()->sync([]);
@@ -44,7 +45,7 @@ class PlayerRegistrationTest extends TestCase
     /**
      * @test
      */
-    public function followGroupRegistrationLink()
+    public function canFollowGroupRegistrationLinkAndBeDirectedToRegisterWithTheGroup()
     {
         $group = Group::where('name', DatabaseSeeder::GROUP_NAME)->first();
 
@@ -68,7 +69,7 @@ class PlayerRegistrationTest extends TestCase
     /**
      * @test
      */
-    public function followGroupRegistrationLinkToJoin()
+    public function canFollowGroupRegistrationLinkAndBeDirectedToJoinTheGroup()
     {
         $group = Group::where('name', DatabaseSeeder::GROUP_NAME)->first();
 
