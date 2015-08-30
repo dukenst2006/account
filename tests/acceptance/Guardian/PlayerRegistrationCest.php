@@ -81,7 +81,7 @@ class GuardianPlayerRegistrationCest
 
     public function joinPlayerWithNearbyGroup(AcceptanceTester $I)
     {
-        $playerName = AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME;
+        $playerName = AcceptanceTestingSeeder::GUARDIAN_PLAYER_C_FULL_NAME;
 
         $I->amOnPage('/dashboard');
 
@@ -92,17 +92,14 @@ class GuardianPlayerRegistrationCest
         $groupName = 'Southeast Christian Church Bible Bowl';
         $I->click(SeasonRegistrationHelper::joinGroupLink($groupName));
 
-        //$I->seeCurrentUrlMatches('"\/join\/group"');
         $I->see($groupName);
         $I->see('Join for '.$this->getCurrentSeasonLabel());
 
-        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME);
-        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_B_FULL_NAME);
         $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_C_FULL_NAME);
         $I->click('Join');
         $I->see('You must select at least one player');
 
-        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_A_FULL_NAME);
+        $this->selectPlayer($I, AcceptanceTestingSeeder::GUARDIAN_PLAYER_C_FULL_NAME);
         $I->click('Join');
         $I->see('Your player(s) have joined a group!');
     }

@@ -2,6 +2,8 @@
 
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Session;
 use Str;
 
@@ -28,9 +30,37 @@ class RosterController extends Controller
 	{
 		$group = Session::group();
 
-		return view('group.inactive_roster')
+		return view('group.roster.inactive')
 			->withInactivePlayers($group->players()->inactive(Session::season())->with('guardian')->get());
 	}
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function map()
+    {
+        $group = Session::group();
+        $season = Session::season();
+
+        // eager load the active players for each guardian
+        $guardians = $group->guardians($season)
+            ->with([
+                'primaryAddress',
+                'players' => function (HasMany $q) use ($season, $group) {
+                    $q->join('player_season', 'player_season.player_id', '=', 'players.id')
+                        ->active($season);
+                        $q->whereHas('groups', function (Builder $q) use ($group) {
+                            $q->where('groups.id', $group->id);
+                        });
+                }
+            ])
+            ->get();
+
+        return view('group.roster.map')
+            ->withGroup($group)
+            ->with('meetingAddress',$group->meetingAddress)
+            ->withGuardians($guardians);
+    }
 
 	public function export()
 	{

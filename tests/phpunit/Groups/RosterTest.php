@@ -34,4 +34,17 @@ class RosterTest extends TestCase
             ->see($player->full_name.' is now active');
     }
 
+    /**
+     * @test
+     */
+    public function viewMap()
+    {
+        $guardian = $this->group->guardians($this->season())->first();
+
+        $this
+            ->visit('/roster/map')
+            ->see('Player Map')
+            ->see($guardian->last_name.' Family');
+    }
+
 }

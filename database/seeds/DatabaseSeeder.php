@@ -88,13 +88,11 @@ class DatabaseSeeder extends Seeder {
             'meeting_address_id'    => $address->id
         ]);
 
-        $address = App::make(Address::class, [[
-            'name'			=> 'Church',
-            'address_one'	=> '381 North Bluff Road',
-            'city'			=> 'Greenwood',
-            'state'			=> 'IN',
-            'zip_code'		=> '46142'
-        ]]);
+        $address = factory(Address::class)->create([
+            'name'      => 'Church',
+            'latitude'  => '38.316334',
+            'longitude' => '-85.573143',
+        ]);
         $BKuhlHeadCoach->addresses()->save($address);
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
         $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address);
@@ -104,31 +102,22 @@ class DatabaseSeeder extends Seeder {
     {
         $faker = Factory::create();
         $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
-        $saved_addresses = array();
-
+        $savedAddresses = [];
         foreach ($addresses as $key => $name) {
-            $address = Address::create([
-              'name'			=> $name,
-              'address_one'	    => $faker->buildingNumber . ' ' . $faker->streetName . ' ' . $faker->streetSuffix,
-              'address_two'	    => (rand(0, 5)) ? $faker->secondaryAddress : null, // randomized
-              'latitude'        => $faker->latitude,
-              'longitude'       => $faker->longitude,
-              'city'			=> 'Louisville',
-              'state'			=> 'KY',
-              'zip_code'		=> '40241'
+            $savedAddresses[] = factory(Address::class)->create([
+                'name' => $name
             ]);
-            $saved_addresses[] = $address;
         }
 
         $BKuhlGuardian = User::create([
-            'status'			  => User::STATUS_CONFIRMED,
-            'first_name'		  => 'Ben',
-            'last_name'			  => 'Guardian',
-            'email'				  => self::GUARDIAN_EMAIL,
-            'password'			  => bcrypt('changeme'),
-            'primary_address_id'  => $address->id
+            'status'			    => User::STATUS_CONFIRMED,
+            'first_name'		    => 'Ben',
+            'last_name'			    => 'Guardian',
+            'email'				    => self::GUARDIAN_EMAIL,
+            'password'			    => bcrypt('changeme'),
+            'primary_address_id'    => $savedAddresses[0]->id
         ]);
-        $BKuhlGuardian->addresses()->saveMany($saved_addresses);
+        $BKuhlGuardian->addresses()->saveMany($savedAddresses);
 
         // Generate fake player information.
         $num_players = 5;
@@ -155,7 +144,10 @@ class DatabaseSeeder extends Seeder {
         ]);
 
         $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
-        $guardian = seedGuardian();
+        $guardian = seedGuardian([], [
+            'latitude'  => '38.301815',
+            'longitude' => '-85.597701',
+        ]);
         for($x = 0; $x <= 2; $x++)
         {
             $player = seedPlayer($guardian);
