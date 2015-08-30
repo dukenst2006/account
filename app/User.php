@@ -96,7 +96,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 		//assign a guid for each user
 		static::creating(function ($user) {
-			$user->guid = uniqid();
+			$user->guid = Uuid::uuid4();
 			return true;
 		});
 	}
@@ -148,6 +148,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function providers() {
 		return $this->hasMany(UserProvider::class);
 	}
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function primaryAddress() {
+        return $this->hasOne(Address::class, 'id', 'primary_address_id');
+    }
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany

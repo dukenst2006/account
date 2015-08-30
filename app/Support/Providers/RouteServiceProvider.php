@@ -105,10 +105,11 @@ class RouteServiceProvider extends ServiceProvider {
 				Route::get('group/{group}/swap', 'GroupController@swap');
 
 				# Roster
-				Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
+				//Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
 				Route::get('roster', 'Groups\RosterController@index');
 				Route::get('roster/inactive', 'Groups\RosterController@inactive');
-				Route::get('roster/export', 'Groups\RosterController@export');
+                Route::get('roster/export', 'Groups\RosterController@export');
+                Route::get('roster/map', 'Groups\RosterController@map');
 				Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
 				Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
 			});

@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Rhumsaa\Uuid\Uuid;
 use BibleBowl\Support\CanDeactivate;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
@@ -50,7 +51,7 @@ class Group extends Model {
 
         //assign a guid for each user
         static::creating(function ($group) {
-            $group->guid = uniqid();
+            $group->guid = Uuid::uuid4();
             return true;
         });
     }
@@ -79,6 +80,44 @@ class Group extends Model {
             ->withTimestamps()
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC');
+    }
+
+    /**
+     * @return Builder
+     */
+    public function guardians(Season $season)
+    {
+        $group = $this;
+        return User::whereHas('players', function (Builder $q) use ($season, $group) {
+                $q->join('player_season', 'player_season.player_id', '=', 'players.id')
+                    ->active($season)
+                    ->whereHas('groups', function (Builder $q) use ($season, $group) {
+                    $q->where('group_id', $group->id);
+                    $q->where('season_id', $season->id);
+                });
+            });
+    }
+
+    /**
+     * Query scope for active groups.
+     */
+    public function scopeActiveGuardians($query, Group $group, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $q) use ($season) {
+            $q->where('seasons.id', $season->id);
+        })
+            ->whereNull('player_season.inactive');
+    }
+
+    /**
+     * Query scope for inactive groups.
+     */
+    public function scopeInactiveGuardians($query, Group $group, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $q) use ($season) {
+            $q->where('seasons.id', $season->id);
+        })
+            ->whereNotNull('player_season.inactive');
     }
 
     /**

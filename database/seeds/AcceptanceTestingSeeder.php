@@ -63,33 +63,29 @@ class AcceptanceTestingSeeder extends Seeder {
 		$this->seedGuardian();
 	}
 
+    /**
+     * This Guardian gains the role of "Guardian" when acceptance tests run
+     */
     private function seedGuardian()
     {
         $addresses = ['Home', 'Work'];
         $testAddresses = array();
 
         foreach ($addresses as $key => $name) {
-            $address = Address::create([
-              'name'			=> $name,
-              'address_one'	=> '123 Test Street',
-              'address_two'	=> ($key%2 == 0) ? 'Apt 5' : null, //for every other address
-              'city'			=> 'Louisville',
-              'state'			=> 'KY',
-              'zip_code'		=> '40241'
+            $testAddresses[] = factory(Address::class)->create([
+                'name' => $name
             ]);
-            $testAddresses[] = $address;
         }
 
         $testGuardian = User::create([
-          'status'			    => User::STATUS_CONFIRMED,
-          'first_name'		    => 'Test',
+          'status'			        => User::STATUS_CONFIRMED,
+          'first_name'		        => 'Test',
           'last_name'			    => 'Guardian',
           'email'				    => self::GUARDIAN_EMAIL,
           'password'			    => bcrypt(self::GUARDIAN_PASSWORD),
-          'primary_address_id'    => $address->id
+          'primary_address_id'      => $testAddresses[0]->id
         ]);
         $testGuardian->addresses()->saveMany($testAddresses);
-
 
         $playerCreator = App::make(PlayerCreator::class);
         $playerCreator->create($testGuardian, [

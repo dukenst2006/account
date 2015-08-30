@@ -23,7 +23,11 @@
                 @if(Route::current()->getUri() == 'roster')
                         active
                     @endif">
-                    <a href="/roster"> <i class="fa fa-users"></i>  <span class="title">Player Roster</span></a>
+                    <a href="/roster"> <i class="fa fa-users"></i>  <span class="title">Player Roster</span> </a>
+                </li>
+                <li @if(Route::current()->getUri() == 'roster/map')
+                        class="active"
+                    @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
                 </li>
             @endif
         </ul>

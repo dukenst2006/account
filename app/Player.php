@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Rhumsaa\Uuid\Uuid;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -48,7 +49,7 @@ class Player extends Model {
 
         //assign a guid for each user
         static::creating(function ($player) {
-            $player->guid = uniqid();
+            $player->guid = Uuid::uuid4();
             return true;
         });
     }

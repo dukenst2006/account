@@ -23,7 +23,10 @@ class PlayerRegistrationTest extends TestCase
             ->create([
                 'guardian_id' => $this->guardian()->id
             ]);
-        $player->seasons()->attach($this->season());
+        $player->seasons()->attach($this->season(), [
+            'grade'         => 6,
+            'shirt_size'    => 'L'
+        ]);
         $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
             $q->where('seasons.id', Season::first()->id);
         })->first();
