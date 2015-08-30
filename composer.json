@@ -12,7 +12,6 @@
 	  	"zizaco/entrust": "dev-laravel-5",
 	  	"alexpechkarev/google-geocoder": "dev-master",
 		"jackpopp/geodistance": "^1.2",
-		"egeloen/google-map": "^1.4",
 		"ramsey/uuid": "~2.8"
 	},
 	"require-dev": {

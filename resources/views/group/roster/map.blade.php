@@ -72,7 +72,13 @@
                 icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
                 title: "{{ $guardian->last_name }} Family",
                 infoWindow: {
-                    content: "<h4 class='bold'>{{ $guardian->last_name }} Family</h4><p>{!! HTML::address($guardian->primaryAddress) !!}</p><p>{!! HTML::formatPhone($guardian->phone) !!}</p>{!! $playerList !!}"
+                    content: "<h4 class='bold'>{{ $guardian->last_name }} Family</h4>"+
+                        "<p>{!! HTML::address($guardian->primaryAddress) !!}</p>"+
+                        "<p><i class='fa fa-envelope-o'></i> <a href='mailto:{{ $guardian->email }}'>{{ $guardian->email }}</a><br/>"+
+                        @if (!is_null($guardian->phone))
+                        "<i class='fa fa-phone'></i> <a href='tel:+1{{ $guardian->phone }}'>{!! HTML::formatPhone($guardian->phone) !!}</a></p>"+
+                        @endif
+                        "{!! $playerList !!}"
                 }
             });
         @endforeach
