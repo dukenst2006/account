@@ -23,12 +23,12 @@
                                 @endif>
                                     <a href="/group/{{ $group->id }}/edit">Profile</a>
                                 </li>
-                                <li
+                                {{--<li
                                 @if(Route::current()->getUri() == 'group/{group}/integrations')
                                     class="active bold"
                                 @endif>
                                     <a href="#">Integrations</a>
-                                </li>
+                                </li>--}}
                             </ul>
                         </div>
                     </div>
