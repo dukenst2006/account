@@ -32,9 +32,11 @@
                 @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
                     <li class="group-menu">
                         <div class="group-menu">
-                            <div class="groupname semi-bold"> {{ Session::group()->name }}
+                            <div class="groupname semi-bold">
                                 @if(Session::group()->isOwner(Auth::user()))
-                                    <a href="/group/{{ Session::group()->id }}/edit" class="fa fa-edit"></a>
+                                    <a href="/group/{{ Session::group()->id }}/edit">{{ Session::group()->name }}</a>
+                                @else
+                                    {{ Session::group()->name }}
                                 @endif
                             </div>
                             <div class="grouptype" class="faded"> {{ Session::group()->type() }}</div>

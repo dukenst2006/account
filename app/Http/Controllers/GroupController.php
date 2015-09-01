@@ -66,7 +66,7 @@ class GroupController extends Controller
 		if (Session::group()->id == $group->id) {
 			Session::setGroup($group);
 		}
-		return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
+		return redirect('/group/'.$group->id.'/edit')->withFlashSuccess('Your changes were saved');
 	}
 
 	/**
