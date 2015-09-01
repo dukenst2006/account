@@ -11,7 +11,7 @@
 @endsection
 
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-10 form-group">
         <label class="form-label">Name</label>
         <span class="help"></span>
         <div class="controls p-b-20">
@@ -22,27 +22,35 @@
         </div>
     </div>
 </div>
-<h4>Mailing <span class="semi-bold">Address</span></h4>
-<p>The address where you can be reached.</p>
 <div class="row">
-    <div class="col-md-8">
-        <div class="controls p-b-20">
-            <label>{!! Form::selectAddress('address_id', null, ['class' => 'form-control']) !!}</label>
+    <div class="col-md-8 form-group">
+        <label class="form-label">Mailing Address</label>
+        <span class="help">The address where your group can be reached.</span>
+        <div class="controls p-b-10 row">
+            <div class="col-md-10">
+                <div class="controls">
+                    <label>{!! Form::selectAddress('address_id', null, ['class' => 'form-control']) !!}</label>
+                </div>
+            </div>
+            <div class="col-md-2 p-t-10">
+                <a href="/account/address/create" class="btn btn-white btn-small">New Address</a>
+            </div>
         </div>
-    </div>
-    <div class="col-md-4 p-t-5">
-        <a href="/account/address/create" class="btn btn-white btn-small">New Address</a>
     </div>
 </div>
-<h4>Meeting <span class="semi-bold">Location</span></h4>
-<p>The address where your group usually meets.</p>
 <div class="row">
-    <div class="col-md-8">
-        <div class="controls p-b-20">
-            <label>{!! Form::selectAddress('meeting_address_id', null, ['class' => 'form-control']) !!}</label>
+    <div class="col-md-8 form-group">
+        <label class="form-label">Meeting Location</label>
+        <span class="help">The address where your group usually meets.</span>
+        <div class="controls p-b-20 row">
+            <div class="col-md-10">
+                <div class="controls">
+                    <label>{!! Form::selectAddress('meeting_address_id', null, ['class' => 'form-control']) !!}</label>
+                </div>
+            </div>
+            <div class="col-md-2 p-t-10">
+                <a href="/account/address/create" class="btn btn-white btn-small">New Address</a>
+            </div>
         </div>
-    </div>
-    <div class="col-md-4 p-t-5">
-        <a href="/account/address/create" class="btn btn-white btn-small">New Address</a>
     </div>
 </div>
