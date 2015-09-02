@@ -66,7 +66,10 @@
                     </a>
                     <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
                         <li><a href="/account/edit">My Account</a> </li>
-                        <li><a href="/account/address">Address Book</a> </li>
+                        <li><a href="/account/address">My Address Book</a> </li>
+                        @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
+                            <li><a href="/account/notifications">My Notifications</a> </li>
+                        @endif
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                     </ul>
