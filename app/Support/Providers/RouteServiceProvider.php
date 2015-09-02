@@ -76,8 +76,12 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::get('address/{address}/makePrimary', 'AddressController@setPrimaryAddressId');
                     Route::get('setup', 'SetupController@getSetup');
                     Route::post('setup', 'SetupController@postSetup');
+
                     Route::get('edit', 'AccountController@edit');
                     Route::patch('update', 'AccountController@update');
+
+                    Route::get('notifications', 'NotificationController@edit');
+                    Route::patch('notifications', 'NotificationController@update');
                 });
 
                 Route::resource('player', 'PlayerController', [

@@ -42,6 +42,6 @@ trait ActingAsHeadCoach
 
     public function headCoach()
     {
-        return $this->headcoach;
+        return $this->headCoach;
     }
 }

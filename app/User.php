@@ -2,6 +2,7 @@
 
 use App;
 use BibleBowl\Support\Scrubber;
+use BibleBowl\Users\Settings;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -23,7 +24,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property string $last_name 
  * @property string $phone 
  * @property string $gender 
- * @property string $avatar 
+ * @property string $avatar
+ * @property Settings $settings
  * @property string $last_login 
  * @property string $password 
  * @property string $remember_token 
@@ -186,6 +188,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return is_null($this->first_name) || is_null($this->last_name);
 	}
+
+    public function getSettingsAttribute($value)
+    {
+        if (is_null($value)) {
+            return App::make(Settings::class);
+        }
+
+        return App::make(Settings::class, [(array)json_decode($value)]);
+    }
+
+    /**
+     * @param Settings $value
+     */
+    public function setSettingsAttribute(Settings $value)
+    {
+        $this->attributes['settings'] = $value->toJson();
+    }
 
 	/**
 	 * @return string
