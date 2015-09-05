@@ -165,10 +165,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany(Address::class);
 	}
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups() {
+        return $this->belongsToMany(Group::class)->orderBy('name', 'ASC');
+    }
+
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function groups() {
+	public function ownedGroups() {
 		return $this->hasMany(Group::class, 'owner_id')->orderBy('name', 'ASC');
 	}
 
