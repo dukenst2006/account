@@ -34,6 +34,15 @@ class CreateGroupsTable extends Migration {
 			$table->foreign('meeting_address_id')->references('id')->on('addresses');
 			$table->timestamps();
 		});
+
+        Schema::create('group_user', function(Blueprint $table)
+        {
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->integer('group_id')->unsigned()->nullable();
+            $table->foreign('group_id')->references('id')->on('groups');
+        });
 	}
 
 	/**
@@ -43,7 +52,8 @@ class CreateGroupsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('groups');
+        Schema::drop('group_user');
+        Schema::drop('groups');
 	}
 
 }

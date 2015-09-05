@@ -167,6 +167,13 @@ class Group extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function users() {
+        return $this->hasMany(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function owner() {
         return $this->belongsTo(User::class, 'owner_id');
     }
