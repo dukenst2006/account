@@ -2,10 +2,21 @@
 
 @section('title', 'Login')
 
+@section('after-styles-end')
+    <style type="text/css">
+        .copyright {
+            color: #fff;
+        }
+        body {
+            background: no-repeat url('/img/login-background.png') 50% 50% !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 	<body class="error-body no-top lazy" style="background-color: #396fa4 !important;">
-	<div class="container">
-		<div class="row p-t-60">
+	<div class="container" style="margin-top: 10%;">
+		<div class="row">
 			<div class="col-md-8 col-md-offset-2 tiles white no-padding">
 				<div class="p-t-30 p-l-40 p-r-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
 					<div class="text-center p-b-20 xs-p-b-10">
@@ -16,7 +27,7 @@
 				</div>
 				<div class="tiles grey text-black">
 					<div class="row p-t-20 p-b-20">
-						<div class="col-md-5 p-l-30">
+						<div class="col-sm-5 col-sm-offset-0 col-md-5 col-md-offset-0 col-xs-10 col-xs-offset-1 p-l-30">
 							<a href='/login/{{ \BibleBowl\Users\Auth\ThirdPartyAuthenticator::PROVIDER_FACEBOOK }}' class="btn btn-block btn-info col-md-8">
 								<span class="pull-left"><i class="fa fa-facebook"></i></span>
 								<span class="bold">Login with Facebook</span>
@@ -30,10 +41,11 @@
 								<span class="bold">Login with Twitter</span>
 							</a>
 						</div>
-						<div class="col-md-7 p-l-10 p-r-10">
+						<div class="col-sm-6 col-sm-offset-0 col-md-6 col-md-offset-0 col-xs-10 col-xs-offset-1 p-l-10 p-r-10">
+                            <div class="hidden-xl hidden-lg hidden-md hidden-sm text-center p-b-15">&nbsp;</div>
                             {!! Form::open(['class' => 'login-form', 'role' => 'form']) !!}
 								<div class="row">
-									<div class="form-group col-md-10">
+									<div class="form-group col-md-11 col-sm-11 col-xs-10 col-xs-offset-1">
 										<label class="form-label">Email</label>
 										<div class="controls">
 											<div class="input-with-icon right">
@@ -44,7 +56,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="form-group col-md-10">
+									<div class="form-group col-md-11 col-sm-11 col-xs-10 col-xs-offset-1">
 										<label class="form-label">Password</label>
 										<span class="help"></span>
 										<div class="controls">
@@ -56,7 +68,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="control-group col-md-10">
+									<div class="control-group col-md-11 col-sm-11 col-xs-10 col-xs-offset-1">
 										<div class="checkbox checkbox check-success">
 											<div class="row">
 												<div class="col-md-6 pull-left">
@@ -71,8 +83,8 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-10">
-										<button class="btn btn-primary btn-cons pull-right" type="submit">Login</button>
+									<div class="col-md-12 text-center p-t-15">
+										<button class="btn btn-primary btn-cons" type="submit">Login</button>
 									</div>
 								</div>
                             {!! Form::close() !!}
