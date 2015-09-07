@@ -18,14 +18,17 @@ class SendConfirmationEmail implements ShouldQueue {
 	 */
 	public function handle(User $user)
 	{
-		Mail::send('emails.email-confirmation',
+		Mail::send(
+            'emails.email-confirmation',
 			[
 				'user' => $user
 			],
 			function(Message $message) use ($user)
 			{
-				$message->to($user->email)->subject('Bible Bowl Account Email Confirmation');
-			});
+				$message->to($user->email, $user->full_name)
+                    ->subject('Bible Bowl Account Email Confirmation');
+			}
+        );
 	}
 
 }

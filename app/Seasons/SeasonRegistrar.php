@@ -3,6 +3,7 @@
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Season;
+use BibleBowl\User;
 use DB;
 
 class SeasonRegistrar
@@ -22,7 +23,7 @@ class SeasonRegistrar
      * @param Season $season
      * @param array  $playerData
      */
-    public function register(Season $season, array $playerData, $groupId)
+    public function register(Season $season, $groupId, User $guardian, array $playerData)
     {
         DB::beginTransaction();
 
@@ -32,7 +33,7 @@ class SeasonRegistrar
 
         // register the players with the group
         if (!is_null($groupId)) {
-            $this->groupRegistrar->register($season, Group::findOrFail($groupId), array_keys($playerData));
+            $this->groupRegistrar->register($season, Group::findOrFail($groupId), $guardian, array_keys($playerData));
         }
 
         DB::commit();

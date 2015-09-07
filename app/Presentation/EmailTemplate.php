@@ -16,6 +16,6 @@ class EmailTemplate
             $label = $url;
         }
 
-        return '<a href="'.$url.'" target="_blank" class="sectionRegularInfoTextTDLink" style="color: #a8b0b9;text-decoration: underline;outline: none;font-weight: bold;">'.$label.'</a>';
+        return '<a href="'.$url.'" target="_blank" class="sectionRegularInfoTextTDLink" style="color: #0d638f;text-decoration: underline;outline: none;">'.$label.'</a>';
     }
 }
