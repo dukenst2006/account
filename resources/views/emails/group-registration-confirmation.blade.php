@@ -65,5 +65,6 @@
             </td>
             <!--================ End of the section ============-->
         </tr>
+        @include('emails.unsubscribe-notifications')
     </table>
 @endsection
