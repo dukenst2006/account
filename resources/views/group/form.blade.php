@@ -1,29 +1,15 @@
 
-@section('after-styles-end')
-    <style type="text/css">
-        #name-suffix > input {
-            border-right: none;
-        }
-        #name-suffix > span {
-            background-color: #fff;
-        }
-    </style>
-@endsection
-
 <div class="row">
-    <div class="col-md-10 form-group">
+    <div class="col-md-12 form-group">
         <label class="form-label">Name</label>
         <span class="help"></span>
         <div class="controls p-b-20">
-            <div class="input-group" id="name-suffix">
-                {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
-                <span class="input-group-addon"></span>
-            </div>
+            {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-8 form-group">
+    <div class="col-md-11 form-group">
         <label class="form-label">Mailing Address</label>
         <span class="help">The address where your group can be reached.</span>
         <div class="controls p-b-10 row">
@@ -39,7 +25,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-8 form-group">
+    <div class="col-md-11 form-group">
         <label class="form-label">Meeting Location</label>
         <span class="help">The address where your group usually meets.</span>
         <div class="controls p-b-20 row">

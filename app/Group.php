@@ -34,7 +34,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Group extends Model {
     const TYPE_BEGINNER = 1;
+    const TYPE_BEGINNER_DESCRIPTION = 'Beginner';
     const TYPE_TEEN = 2;
+    const TYPE_TEEN_DESCRIPTION = 'Teen';
 
     use CanDeactivate;
 
@@ -154,17 +156,6 @@ class Group extends Model {
     }
 
     /**
-     * Append the appropriate suffix to the
-     * group name
-     *
-     * @return string
-     */
-    public function getFullNameAttribute()
-    {
-        return $this->name.' '.$this->type();
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function users() {
@@ -184,10 +175,10 @@ class Group extends Model {
     public function type()
     {
         if ($this->status == self::TYPE_BEGINNER) {
-            return 'Beginner Bowl';
+            return self::TYPE_BEGINNER_DESCRIPTION;
         }
 
-        return 'Bible Bowl';
+        return self::TYPE_TEEN_DESCRIPTION;
     }
 
     /**

@@ -68,7 +68,7 @@ class RosterController extends Controller
 		$players = $group->players()->active(Session::season())->with('guardian')->get();
 
 		header('Content-Type: text/csv');
-		header('Content-Disposition: attachment;filename="'.str_replace(' ', '_', $group->type().' Roster').'-'.str_replace(' ', '_', $group->name).'-'.date("m.d.y").'.csv"');
+		header('Content-Disposition: attachment;filename="'.str_replace(' ', '_', $group->shortType().' Roster').'-'.str_replace(' ', '_', $group->name).'-'.date("m.d.y").'.csv"');
 
 		$output = fopen('php://output', 'w');
 

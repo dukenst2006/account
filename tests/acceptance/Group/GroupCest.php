@@ -26,7 +26,7 @@ class GroupCest
         $I->see($this->name);
 
         //test editing
-        $I->click('(//div[contains(@class,"groupname")]/a[contains(@class,"fa-edit")])');
+        $I->click('//div[contains(@class,"groupname")]/a');
         $this->name = $this->name.time();
         $I->fillField('name', $this->name);
 
@@ -34,14 +34,14 @@ class GroupCest
         $I->see('Your changes were saved');
 
         // Test inactive state.
-        $I->click('(//div[contains(@class,"groupname")]/a[contains(@class,"fa-edit")])');
+        $I->click('//div[contains(@class,"groupname")]/a');
         $I->click('label[for=group-inactive]');
         $I->click('Save');
         $group = $I->grabFromDatabase('groups', 'inactive', ['name' => $this->name]);
         $I->assertNotNull($group);
 
         // Test active state.
-        $I->click('(//div[contains(@class,"groupname")]/a[contains(@class,"fa-edit")])');
+        $I->click('//div[contains(@class,"groupname")]/a');
         $I->click('label[for=group-inactive]');
         $I->click('Save');
         $group = $I->grabFromDatabase('groups', 'inactive', ['name' => $this->name]);

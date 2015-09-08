@@ -20,7 +20,7 @@ class GuardianPlayerRegistrationCest
         $I->see('Groups Nearby');
 
         //register with Southeast
-        $groupName = 'Southeast Christian Church Bible Bowl';
+        $groupName = 'Southeast Christian Church';
         $I->click(SeasonRegistrationHelper::selectThisGroupLink($groupName));
         $I->see($groupName);
         $I->see('Register for '.$this->getCurrentSeasonLabel());
@@ -46,7 +46,7 @@ class GuardianPlayerRegistrationCest
 
         $I->click(SeasonRegistrationHelper::dashboardRegistrationLink($playerName));
 
-        $groupName = 'Mount Pleasant Christian Church Bible Bowl';
+        $groupName = 'Mount Pleasant Christian Church';
         $I->fillField('q', 'Mount');
         $I->pressKey('input[name="q"]',WebDriverKeys::ENTER);
         $I->click(SeasonRegistrationHelper::selectThisGroupLink($groupName));
@@ -89,7 +89,7 @@ class GuardianPlayerRegistrationCest
         $I->see('Groups Nearby');
 
         //register with Southeast
-        $groupName = 'Southeast Christian Church Bible Bowl';
+        $groupName = 'Southeast Christian Church';
         $I->click(SeasonRegistrationHelper::joinGroupLink($groupName));
 
         $I->see($groupName);
