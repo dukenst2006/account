@@ -8,7 +8,6 @@ use BibleBowl\Http\Requests\GroupJoinRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Player;
 use BibleBowl\Seasons\SeasonRegistrar;
-use BibleBowl\Support\Cookies;
 use Illuminate\View\View;
 use Input;
 use Session;
@@ -65,7 +64,7 @@ class PlayerRegistrationController extends Controller
 			}
 		}
 
-        $registrar->register(Session::season(), $seasonData, $group);
+        $registrar->register(Session::season(), $group, Auth::user(), $seasonData);
 
 		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
 	}
@@ -86,7 +85,7 @@ class PlayerRegistrationController extends Controller
 
 		$group = Group::findOrFail($group);
 
-		$registrar->register(Session::season(), $group, array_keys($request->get('player')));
+		$registrar->register(Session::season(), $group, Auth::user(), array_keys($request->get('player')));
 
 		return redirect('/dashboard')->withFlashSuccess('Your player(s) have joined a group!');
 	}
