@@ -2,10 +2,6 @@
 
 @section('title', 'Editing '.$group->name)
 
-@section('includeJs')
-    <script src="/assets/js/group.js" type="text/javascript"></script>
-@endsection
-
 @section('content')
     <div class="content">
         <div class="row">

@@ -1,5 +1,5 @@
 <div class="grid-title no-border">
-    <h4 class="full-width">You're joining <span class="semi-bold">{{ $group->full_name }}</span></h4>
+    <h4 class="full-width">You're joining <span class="semi-bold">{{ $group->name }} ({{ $group->type() }})</span></h4>
 </div>
 <div class="grid-body no-border">
     <div class="row">

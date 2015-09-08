@@ -39,7 +39,7 @@
                                     {{ Session::group()->name }}
                                 @endif
                             </div>
-                            <div class="grouptype" class="faded"> {{ Session::group()->type() }}</div>
+                            <div class="grouptype" class="faded"> {{ Session::group()->type() }} Bible Bowl</div>
                         </div>
                         <div class="iconset top-down-arrow" id="my-groups" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></div>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="my-groups">
@@ -48,7 +48,7 @@
                                 <li>
                                     <a href="/group/{{ $group->id }}/swap">
                                         <div class="groupname semi-bold"> {{ $group->name }} </div>
-                                        <span class="grouptype" class="faded"> {{ $group->type() }}</span>
+                                        <span class="grouptype" class="faded"> {{ $group->type() }} Bible Bowl</span>
                                     </a>
                                 </li>
                                 @endif

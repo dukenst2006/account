@@ -66,7 +66,7 @@ class PlayerRegistrationTest extends TestCase
 
         $this->visit('/register/search/group')
             ->click('Register with '.$group->name)
-            ->see($group->full_name);
+            ->see($group->name);
     }
 
     /**
@@ -90,7 +90,7 @@ class PlayerRegistrationTest extends TestCase
 
         $this->visit('/join/search/group')
             ->click('Join '.$group->name)
-            ->see($group->full_name);
+            ->see($group->name);
     }
 
 }

@@ -2,10 +2,6 @@
 
 @section('title', 'New Group')
 
-@section('includeJs')
-    <script src="/assets/js/group.js" type="text/javascript"></script>
-@endsection
-
 @section('content')
     <div class="content">
         <div class="row">
@@ -18,10 +14,10 @@
                         @include('partials.messages')
                         {!! Form::open(['url' => ['/group'], 'role' => 'form']) !!}
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12 form-group">
                                     <label class="form-label">Group Type</label>
                                     <span class="help"></span>
-                                    <div class="controls p-b-20">
+                                    <div class="controls p-b-10">
                                         {!! Form::selectGroupType('type', null, ['class' => 'form-control']) !!}<br/>
                                     </div>
                                 </div>

@@ -8,8 +8,8 @@
     @foreach($nearbyGroups as $group)
         <tr>
             <td class="v-align-middle">
-                <strong>{{ $group->full_name }}</strong><br/>
-                <span class='muted'>{{ $group->meetingAddress->address_one }} {{ $group->meetingAddress->address_two }} {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }} {{ $group->meetingAddress->zip_code }}</span>
+                <strong>{{ $group->name }} ({{ $group->type() }})</strong><br/>
+                <span class='muted'><span class="fa fa-map-marker"></span> Meets @ {{ $group->meetingAddress }}</span>
             </td>
             <td class="v-align-middle">
                 @foreach($groupLinks as $method => $label)
