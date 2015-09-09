@@ -3,6 +3,7 @@
 	"description": "Bible Bowl management application",
 	"keywords": ["bible bowl"],
 	"type": "project",
+    "license": "proprietary",
 	"require": {
 		"laravel/framework": "5.*",
 		"thomaswelton/laravel-gravatar": "^1.0",
