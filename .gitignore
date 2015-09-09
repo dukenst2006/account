@@ -1,6 +1,5 @@
 /vendor
 /node_modules
-/public/build/*
 /resources/tmp
 /public/css/*.css
 /public/css/*.map
