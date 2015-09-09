@@ -4,7 +4,7 @@
 <div class="grid-body no-border">
     <div class="row">
         <div class="col-md-6">
-            <dl>ads
+            <dl>
                 <dt>Meets at:</dt>
                 <dd>
                     <a href="http://maps.google.com/?q={{ $group->address }}" title="View on a map" target="_blank">
