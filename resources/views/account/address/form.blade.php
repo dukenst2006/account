@@ -10,26 +10,10 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <label class="form-label">City</label>
-        <span class="help"></span>
-        <div class="controls p-b-20">
-            {!! Form::text('city', null, ['class' => 'form-control', 'maxlength' => 64]) !!}
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <label class="form-label">State</label>
-        <span class="help"></span>
-        <div class="controls p-b-20">
-            {!! Form::selectState('state', null, ['class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="col-md-6">
         <label class="form-label">Zip Code</label>
-        <span class="help"></span>
         <div class="controls">
             {!! Form::text('zip_code', null, ['class' => 'form-control', 'maxlength' => 16]) !!}
         </div>
     </div>
+    <div class="col-md-6"></div>
 </div>

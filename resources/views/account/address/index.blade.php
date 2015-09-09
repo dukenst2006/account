@@ -11,7 +11,7 @@
         @include('partials.messages')
         <div class="row">
         @foreach(Auth::user()->addresses as $address)
-            <div class="col-md-3 col-vlg-3 m-b-10 address-card">
+            <div class="col-md-4 col-vlg-4 m-b-10 address-card">
                 <div class="grid simple {{((Auth::user()->primary_address_id === $address->id)) ? ' vertical red' : ''}}">
                     <div class="grid-title">
                         <h4>

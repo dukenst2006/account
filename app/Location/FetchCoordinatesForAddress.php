@@ -44,8 +44,21 @@ class FetchCoordinatesForAddress implements ShouldQueue {
             );
 
             if ($response->status == 'OK') {
+
                 $address->latitude = $response->results[0]->geometry->location->lat;
                 $address->longitude = $response->results[0]->geometry->location->lng;
+
+                # Figure out the city/state
+                foreach ($response->results[0]->address_components as $addressParts) {
+                    if (property_exists($addressParts, 'types') && is_array($addressParts->types)) {
+                        if (in_array('administrative_area_level_1', $addressParts->types)) {
+                            $address->state = $addressParts->short_name;
+                        } else if (in_array('locality', $addressParts->types)) {
+                            $address->city = $addressParts->long_name;
+                        }
+                    }
+                }
+
                 $address->save();
             } elseif ($response->status == 'ZERO_RESULTS') {
                 return;
