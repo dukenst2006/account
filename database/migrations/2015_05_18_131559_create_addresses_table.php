@@ -20,8 +20,8 @@ class CreateAddressesTable extends Migration {
 			$table->string('name', 32);
 			$table->string('address_one', 255);
 			$table->string('address_two', 255)->nullable();
-			$table->string('city', 64);
-			$table->string('state', 2);
+			$table->string('city', 64)->nullable();
+			$table->string('state', 2)->nullable();
 			$table->string('zip_code', 16);
 			$table->double('latitude')->nullable();
 			$table->double('longitude')->nullable();

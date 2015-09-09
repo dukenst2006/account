@@ -110,8 +110,6 @@ class Address extends Model {
             'name'			=> 'required|max:32',
             'address_one'	=> 'required|max:255',
             'address_two'	=> 'max:255',
-            'city'			=> 'required|min:3|max:255',
-            'state'			=> 'required',
             'zip_code'		=> 'required'
         ];
     }

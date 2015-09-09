@@ -7,8 +7,6 @@ class AccountAddressCest
     protected $name;
     protected $addressOne = '123 My Street';
     protected $addressTwo = 'Apt 6';
-    protected $city = 'Louisville';
-    protected $state = 'KY';
     protected $zipCode = 40241;
 
     public function manageAddresses(AcceptanceTester $I)
@@ -25,8 +23,6 @@ class AccountAddressCest
         // skip name so we see a validation error
         $I->fillField('address_one', $this->addressOne);
         $I->fillField('address_two', $this->addressTwo);
-        $I->fillField('city', $this->city);
-        $I->selectOption('state', $this->state);
         $I->fillField('zip_code', $this->zipCode);
 
         $I->click('Save');
