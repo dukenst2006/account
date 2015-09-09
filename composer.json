@@ -12,7 +12,8 @@
 	  	"zizaco/entrust": "dev-laravel-5",
 	  	"alexpechkarev/google-geocoder": "dev-master",
 		"jackpopp/geodistance": "^1.2",
-		"ramsey/uuid": "~2.8"
+		"ramsey/uuid": "~2.8",
+		"aws/aws-sdk-php": "~3.0"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",
