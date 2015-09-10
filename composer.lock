@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3e98b1bbe40605d28ab853650f491ebb",
+    "hash": "b2da9ea8184a7e10c5d48b1706186f36",
     "packages": [
         {
             "name": "alexpechkarev/google-geocoder",
@@ -2679,16 +2679,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v2.0.5",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "753106cd1f9c724d05bb48728bc652231174e279"
+                "reference": "23672cbbe78278ff1fdb258caa0b1de7b5d0bc0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/753106cd1f9c724d05bb48728bc652231174e279",
-                "reference": "753106cd1f9c724d05bb48728bc652231174e279",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/23672cbbe78278ff1fdb258caa0b1de7b5d0bc0c",
+                "reference": "23672cbbe78278ff1fdb258caa0b1de7b5d0bc0c",
                 "shasum": ""
             },
             "require": {
@@ -2700,7 +2700,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -2729,7 +2729,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2015-07-09 14:51:59"
+            "time": "2015-09-09 11:39:27"
         },
         {
             "name": "barryvdh/laravel-ide-helper",

@@ -56,8 +56,6 @@ class AuthCest
         $I->fillField('phone', 1234567890);
         $I->fillField('address_one', '123 Test STreet');
         $I->fillField('address_two', 'Apt 1');
-        $I->fillField('city', 'Louisville');
-        $I->selectOption('state', 'Kentucky');
         $I->fillField('zip_code', '40241');
 
         $I->click('Save');
