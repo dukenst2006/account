@@ -36,7 +36,8 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		unset($data['password_confirmation']);
+        unset($data['g-recaptcha-response']);
+        unset($data['password_confirmation']);
 
 		//use Gravatar if a user has one
 		if (!isset($data['avatar']) && Gravatar::exists($data['email'])) {
