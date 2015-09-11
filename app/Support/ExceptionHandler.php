@@ -2,7 +2,7 @@
 
 use Exception;
 
-class ExceptionHandler extends \Bugsnag\BugsnagLaravel\BugsnagExceptionHandler {
+class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler {
 
 	/**
 	 * A list of the exception types that should not be reported.

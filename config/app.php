@@ -153,7 +153,6 @@ return [
 		\Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 		\Zizaco\Entrust\EntrustServiceProvider::class,
 		\Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider::class,
-        \Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class
 
 	],
 
@@ -215,7 +214,6 @@ return [
 		'HTML'		=> 'Illuminate\Html\HtmlFacade',
 		'Gravatar'  => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
 		'Entrust' 	=> 'Zizaco\Entrust\EntrustFacade',
-        #'Bugsnag'   => Bugsnag\BugsnagLaravel\BugsnagFacade::class
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 	],
 
