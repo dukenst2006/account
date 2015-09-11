@@ -79,7 +79,7 @@ class AuthController extends Controller {
      */
     public function postRegister(Request $request)
     {
-        $validator = $this->validator($request->except('g-recaptcha-response'));
+        $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
             $this->throwValidationException(
