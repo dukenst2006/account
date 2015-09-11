@@ -73,6 +73,25 @@ class AuthController extends Controller {
 			]);
 	}
 
+    /**
+     * Excluding recaptcha is the only thing unique about this from the
+     * parent trait
+     */
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->except('g-recaptcha-response'));
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        Auth::login($this->create($request->except('g-recaptcha-response')));
+
+        return redirect($this->redirectPath());
+    }
+
 	public function validator(array $data)
 	{
 		return $this->registrar->validator($data);
