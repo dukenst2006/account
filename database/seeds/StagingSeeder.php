@@ -50,7 +50,7 @@ class StagingSeeder extends Seeder {
             'first_name'		    => 'Josiah',
             'last_name'			=> 'HeadCoach',
             'email'				=> 'jgorman+headcoach@biblebowl.org',
-            'password'			=> bcrypt('changeme'),
+            'password'			=> bcrypt('biblebowl'),
             'primary_address_id'  => $address->id
         ]);
         $headCoach->addresses()->save($address);
@@ -90,7 +90,7 @@ class StagingSeeder extends Seeder {
             'first_name'		    => 'Josiah',
             'last_name'			    => 'Guardian',
             'email'				    => 'jgorman+guardian@biblebowl.org',
-            'password'			    => bcrypt('changeme'),
+            'password'			    => bcrypt('biblebowl'),
             'primary_address_id'    => $savedAddresses[0]->id
         ]);
         $guardian->addresses()->saveMany($savedAddresses);
@@ -127,7 +127,7 @@ class StagingSeeder extends Seeder {
             'first_name'		    => 'Keith',
             'last_name'			    => 'HeadCoach',
             'email'				    => 'ksmith+headcoach@biblebowl.org',
-            'password'			    => bcrypt('changeme'),
+            'password'			    => bcrypt('biblebowl'),
             'primary_address_id'  => $address->id
         ]);
         $headCoach->addresses()->save($address);
@@ -167,7 +167,7 @@ class StagingSeeder extends Seeder {
             'first_name'		    => 'Keith',
             'last_name'			    => 'Guardian',
             'email'				    => 'ksmith+guardian@biblebowl.org',
-            'password'			    => bcrypt('changeme'),
+            'password'			    => bcrypt('biblebowl'),
             'primary_address_id'    => $savedAddresses[0]->id
         ]);
         $guardian->addresses()->saveMany($savedAddresses);
