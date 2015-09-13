@@ -118,6 +118,14 @@ class RouteServiceProvider extends ServiceProvider {
 				Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
 			});
 
+            # legal
+            Route::get('terms-of-use', function () {
+                return view('legal/terms-of-use');
+            });
+            Route::get('privacy-policy', function () {
+                return view('legal/privacy-policy');
+            });
+
 		});
 
 

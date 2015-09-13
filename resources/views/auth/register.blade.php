@@ -3,7 +3,8 @@
 @section('title', 'Account Registration')
 
 @section('content')
-	<div class="p-t-40">
+    @include('partials.logo-header')
+    <div class="p-t-40">
 		<div class="grid simple">
 			<div class="col-md-8 col-md-offset-2 grid-body no-border">
 				<br/>

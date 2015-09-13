@@ -4,6 +4,10 @@
 
 @section('after-styles-end')
     <style type="text/css">
+        #footer a,
+        #footer {
+            color: #fff;
+        }
         .copyright {
             color: #fff;
         }

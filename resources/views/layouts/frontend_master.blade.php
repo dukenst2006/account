@@ -22,7 +22,11 @@
 <div id="footer">
     <div class="error-container">
         <br/><br/><br/><br/><br/>
-        <div class="copyright"> <?=date('Y')?> <i class="fa fa-copyright"></i> Bible Bowl </div>
+        <div class="copyright"> <?=date('Y')?> <i class="fa fa-copyright"></i> Bible Bowl</div>
+        <div class="text-center p-b-20">
+            <a href="/privacy-policy">Privacy Policy</a> &middot;
+            <a href="/terms-of-use">Terms of Use</a>
+        </div>
     </div>
 </div>
 @yield('scripts')

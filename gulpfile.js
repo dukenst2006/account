@@ -53,7 +53,6 @@ elixir(function(mix) {
         'js/forms.js',
         'assets/js/dashboard.js',
         'assets/js/accounts.js',
-        'assets/js/group.js',
         'assets/js/forms.js',
         'css/core.css'
     ]);
@@ -62,7 +61,7 @@ elixir(function(mix) {
     mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
 
     // Run Acceptance Tests.
-    mix.task('codecept');
+    //mix.task('codecept');
 });
 
 gulp.task('codecept', function() {

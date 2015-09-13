@@ -8,9 +8,8 @@
 @endsection
 
 @section('content')
-    <br/>
-    <br/>
-    <div class="row">
+    @include('partials.logo-header')
+    <div class="p-t-40">
         <div class="grid simple">
             <div class="col-md-8 col-md-offset-2 grid-body no-border">
                 <br/>
@@ -18,7 +17,7 @@
                     <div class="col-md-8">
                         <div class="page-title">
                             <h3>Account <span class="semi-bold">Information</span></h3>
-                            <p>You're almost there!</p>
+                            <p>Keep it up, you're almost there!</p>
                         </div>
                     </div>
                     <div class="col-md-4"></div>
