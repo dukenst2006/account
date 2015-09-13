@@ -29,7 +29,7 @@
                         {!! Form::open(['method' => 'post']) !!}
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label class="form-label">Name<span class="text-error">*</span></label>
+                                <label class="form-label">Name</label>
                                 <span class="help"></span>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -43,14 +43,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label class="form-label">Phone<span class="text-error">*</span></label>
+                                <label class="form-label">Phone</label>
                                 <span class="help"></span>
                                 <div class="controls p-b-20">
                                     {!! Form::text('phone', null, ['class' => 'form-control', 'id' => 'phone', 'maxlength' => 10]) !!}<br/>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Gender<span class="text-error">*</span></label>
+                                <label class="form-label">Gender</label>
                                 <span class="help"></span>
                                 <div class="controls">
                                     @include('partials.forms.gender')
