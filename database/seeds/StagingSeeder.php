@@ -24,8 +24,13 @@ class StagingSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        $this->season = Season::first();
+
         $this->seedJosiahGuardian();
         $this->seedJosiahHeadCoach();
+
+        $this->seedKeithGuardian();
+        $this->seedKeithHeadCoach();
     }
 
     private function seedJosiahHeadCoach()
