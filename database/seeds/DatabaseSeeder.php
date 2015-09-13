@@ -53,6 +53,7 @@ class DatabaseSeeder extends Seeder {
         $this->seedHeadCoach();
 
         $this->call('AcceptanceTestingSeeder');
+        $this->call('StagingSeeder');
 
         self::$isSeeding = false;
     }
