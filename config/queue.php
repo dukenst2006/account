@@ -53,7 +53,7 @@ return [
 			'driver' => 'sqs',
             'key'    => env('SQS_KEY'),
             'secret' => env('SQS_SECRET'),
-            'queue'  => 'default',
+            'queue'  => env('SQS_QUEUE', 'default'),
 			'region' => 'us-east-1',
 		],
 
