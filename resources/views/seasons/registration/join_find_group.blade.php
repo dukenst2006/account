@@ -4,29 +4,21 @@
 
 @section('content')
     <div class="content">
+
+        @if(!Input::has('q') && count($nearbyGroups) > 0)
+            <h4>Select a <span class="semi-bold">Group Nearby</span></h4>
+            @include('group.nearby', [
+                'actionUrl' => '/join/'.$program->slug.'/group/[ID]',
+                'actionButton' => 'Join this group'
+            ])
+        @endif
+
+            <h4>Find <span class="semi-bold">Your Group</span></h4>
         <div class="grid simple">
             <div class="grid-body no-border">
-
-                @if(!is_null($familiarGroup))
-                    @include('seasons.registration.partials.familiar_group_prompt', [
-                        'group'             => $familiarGroup,
-                        'actionUrl'         => '/join/group/'.$familiarGroup->id,
-                        'actionButton'      => 'Join '.$familiarGroup->name
-                    ])
-                @endif
-
-                @if(!Input::has('q'))
-                    @include('group.nearby', [
-                        'groupLinks' => [
-                            'joinLink' => 'Join this group'
-                        ]
-                    ])
-                @endif
-
                 @include('seasons.registration.search_group', [
-                    'groupLinks' => [
-                        'joinLink' => 'Join this group'
-                    ]
+                    'actionUrl' => '/join/'.$program->slug.'/group/[ID]',
+                    'actionButton' => 'Join this group'
                 ])
             </div>
         </div>

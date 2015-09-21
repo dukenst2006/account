@@ -78,7 +78,7 @@ class Player extends Model {
     public function seasons()
     {
         return $this->belongsToMany(Season::class, 'player_season')
-            ->withPivot('group_id', 'grade', 'shirt_size')
+            ->withPivot('program_id', 'group_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
@@ -88,7 +88,17 @@ class Player extends Model {
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'player_season')
-            ->withPivot('season_id', 'grade', 'shirt_size')
+            ->withPivot('program_id', 'season_id', 'grade', 'shirt_size')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class, 'player_season')
+            ->withPivot('group_id', 'season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 

@@ -15,7 +15,7 @@ class GroupEditRequest extends GroupCreatorOnlyRequest {
 		return array_except(
             Group::validationRules(),
             [
-                'type',
+                'program_id',
                 'owner_id'
             ]
         );

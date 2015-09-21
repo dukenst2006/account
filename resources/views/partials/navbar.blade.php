@@ -39,16 +39,16 @@
                                     {{ Session::group()->name }}
                                 @endif
                             </div>
-                            <div class="grouptype" class="faded"> {{ Session::group()->type() }} Bible Bowl</div>
+                            <div class="grouptype" class="faded"> {{ Session::group()->program->name }}</div>
                         </div>
                         <div class="iconset top-down-arrow" id="my-groups" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></div>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="my-groups">
-                            @foreach(Auth::user()->groups as $group)
+                            @foreach(Auth::user()->groups()->with('program')->get() as $group)
                                 @if($group->id != Session::group()->id)
                                 <li>
                                     <a href="/group/{{ $group->id }}/swap">
                                         <div class="groupname semi-bold"> {{ $group->name }} </div>
-                                        <span class="grouptype" class="faded"> {{ $group->type() }} Bible Bowl</span>
+                                        <span class="grouptype" class="faded"> {{ $group->program->name }}</span>
                                     </a>
                                 </li>
                                 @endif

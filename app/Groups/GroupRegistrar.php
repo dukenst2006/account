@@ -16,12 +16,13 @@ class GroupRegistrar
     {
         DB::beginTransaction();
 
-        $season->players()
-            ->where('guardian_id', $guardian->id)
-            ->wherePivot('season_id', $season->id)
-            ->updateExistingPivot($playerIds, [
-                'group_id' => $group->id
-            ]);
+        foreach ($playerIds as $playerId) {
+            $season->players()
+                ->where('guardian_id', $guardian->id)
+                ->updateExistingPivot($playerId, [
+                    'group_id' => $group->id
+                ]);
+        }
 
         // Since this email is queued, we need to get pivot data now and include it with $players
         // because once it actually gets processed $players won't be an object making it more
@@ -35,6 +36,7 @@ class GroupRegistrar
             $players[] = $player;
         }
 
+        // setting this value so that it's avialable in the toArray() so queued mail can use it
         $guardian->full_name = $guardian->full_name;
 
         /** @var User $user */

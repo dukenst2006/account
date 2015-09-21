@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Program;
 use BibleBowl\Player;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Season;
@@ -59,7 +60,7 @@ class StagingSeeder extends Seeder {
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($headCoach, [
             'name'                  => 'Cincinnati Homeschoolers',
-            'type'                  => Group::TYPE_TEEN,
+            'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
         ]);
@@ -136,7 +137,7 @@ class StagingSeeder extends Seeder {
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($headCoach, [
             'name'                  => 'Florida Homeschoolers',
-            'type'                  => Group::TYPE_TEEN,
+            'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
         ]);
@@ -191,7 +192,7 @@ class StagingSeeder extends Seeder {
     {
         $group = $groupCreator->create($headCoach, [
             'name'                  => $groupName,
-            'type'                  => Group::TYPE_TEEN,
+            'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
         ]);
@@ -206,6 +207,7 @@ class StagingSeeder extends Seeder {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
                 'group_id'      => $group->id,
+                'program_id'    => $group->program->id,
                 'grade'         => rand(6, 12),
                 'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
             ]);
@@ -215,6 +217,7 @@ class StagingSeeder extends Seeder {
         $player = seedPlayer($guardian);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
+            'program_id'    => $group->program->id,
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]

@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Support;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 trait CanDeactivate
 {
@@ -24,17 +25,17 @@ trait CanDeactivate
     /**
      * Query scope for active groups.
      */
-    public function scopeActive()
+    public function scopeActive(Builder $query)
     {
-        return $this->whereNull($this->getInactiveColumn());
+        return $query->whereNull($this->getInactiveColumn());
     }
 
     /**
      * Query scope for inactive groups.
      */
-    public function scopeInactive()
+    public function scopeInactive(Builder $query)
     {
-        return $this->whereNotNull($this->getInactiveColumn());
+        return $query->whereNotNull($this->getInactiveColumn());
     }
 
     /**

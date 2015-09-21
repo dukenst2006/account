@@ -4,19 +4,21 @@
 
 @section('content')
     <div class="content">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="grid simple">
-                    @include('seasons.registration.partials.group_profile', [
-                        'group' => $group
-                    ])
-                    <div class="grid-title no-border">
-                        <h4>Join for <span class="semi-bold">{{ Session::season()->name }} Season</span></h4>
-                        <p class="muted">Select the players who will be playing with this group</p>
+        @include('partials.messages')
+        <h4>Join for <span class="semi-bold">{{ Session::season()->name }} Season</span></h4>
+        <div class="grid simple">
+            <div class="grid-body no-border" style="padding-bottom: 10px; padding-top: 20px">
+                @include('seasons.registration.completed-steps.group', [
+                    'action'    => 'join',
+                    'group'     => $group
+                ])
+                <div class="row b-t b-grey m-b-15"></div>
+                {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
+                <div class="row">
+                    <div class="col-md-2">
+                        Players
                     </div>
-                    <div class="grid-body no-border">
-                        @include('partials.messages')
-                        {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
+                    <div class="col-md-10 p-b-10">
                         <table class="table no-more-tables">
                             <thead>
                             <tr>
@@ -31,8 +33,8 @@
                                 <tr>
                                     <td>
                                         <div class="checkbox check-default">
-                                            {!! Form::checkbox("player[".$player->id."]", 1, (Session::hasOldInput() && !Input::has("player[".$player->id."]") ? false : true), [ "id" => "register-".$player->id ]) !!}
-                                            <label for="register-{{ $player->id }}"></label>
+                                            {!! Form::checkbox("player[".$player->id."][register]", 1, (Session::hasOldInput() && !Input::has("player[".$player->id."][register]") ? false : true), [ "id" => "player".$player->id.'register' ]) !!}
+                                            <label for="player{{ $player->id }}register"></label>
                                         </div>
                                     </td>
                                     <td>{{ $player->full_name }}</td>
@@ -43,15 +45,13 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="grid-body no-border">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <button class="btn btn-primary btn-cons" type="submit">Join</button>
-                            </div>
-                        </div>
-                        {!! Form::close() !!}
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-primary btn-cons" type="submit">Join</button>
                     </div>
                 </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
