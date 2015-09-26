@@ -12,7 +12,7 @@
     ])
 
     @include('emails.theme.text-block', [
-        'body' => ($playerCount > 1 ? 'A few players have' : 'A player has').' just registered for <strong>'. $group->name .' ('. $group->type() .')</strong>.  You can see where they live in relation to where your group meets on the '. EmailTemplate::link(url('roster/map'), 'Player Map') .'.'
+        'body' => ($playerCount > 1 ? 'A few players have' : 'A player has').' just registered for <strong>'. $group->name .' ('. $group->program->name .')</strong>.  You can see where they live in relation to where your group meets on the '. EmailTemplate::link(url('roster/map'), 'Player Map') .'.'
     ])
 
     <table width="600" align="center" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0" class="table600">

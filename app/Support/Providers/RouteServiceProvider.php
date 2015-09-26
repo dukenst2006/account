@@ -91,13 +91,16 @@ class RouteServiceProvider extends ServiceProvider {
                 Route::group([
                     'namespace'	=> 'Seasons'
                 ], function () {
-					Route::get('register/search/group', 'PlayerRegistrationController@findGroupToRegister');
-                    Route::get('register/group/{group?}', 'PlayerRegistrationController@getRegister');
-					Route::post('register/group/{group?}', 'PlayerRegistrationController@postRegister');
+                    # action = join|register
+                    Route::get('{action}/program', 'PlayerRegistrationController@program');
 
-					Route::get('join/search/group', 'PlayerRegistrationController@findGroupToJoin');
-					Route::get('join/group/{group}', 'PlayerRegistrationController@getJoin');
-					Route::post('join/group/{group}', 'PlayerRegistrationController@postJoin');
+					Route::get('register/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToRegister');
+                    Route::get('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@getRegister');
+					Route::post('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@postRegister');
+
+					Route::get('join/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToJoin');
+					Route::get('join/{programSlug}/group/{group}', 'PlayerRegistrationController@getJoin');
+					Route::post('join/{programSlug}/group/{group}', 'PlayerRegistrationController@postJoin');
 
 					# the group's registration link
 					Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');

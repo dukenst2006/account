@@ -6,6 +6,7 @@ use BibleBowl\Groups\GroupCreator;
 use BibleBowl\Http\Requests\GroupCreationRequest;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Http\Requests\GroupEditRequest;
+use BibleBowl\Program;
 use Session;
 
 class GroupController extends Controller
@@ -16,7 +17,13 @@ class GroupController extends Controller
 	 */
 	public function create()
 	{
-		return view('group.create');
+        $programs = [];
+        foreach (Program::all() as $program) {
+            $programs[$program->id] = $program.'';
+        }
+
+		return view('group.create')
+            ->withPrograms($programs);
 	}
 
 	/**

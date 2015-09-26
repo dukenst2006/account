@@ -30,21 +30,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereMeetingAddressId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereUpdatedAt($value)
- * @method static \BibleBowl\Group nearby($address, $miles = null)
+ * @method static \BibleBowl\Group near($address, $miles = null)
  */
 class Group extends Model {
-    const TYPE_BEGINNER = 1;
-    const TYPE_BEGINNER_DESCRIPTION = 'Beginner';
-    const TYPE_TEEN = 2;
-    const TYPE_TEEN_DESCRIPTION = 'Teen';
-
     use CanDeactivate;
 
     protected $guarded = ['id', 'guid'];
 
     protected $attributes = [
-        'type'      => self::TYPE_BEGINNER,
-        'inactive'  => null
+        'program_id'    => Program::BEGINNER,
+        'inactive'      => null
     ];
 
     public static function boot()
@@ -101,9 +96,21 @@ class Group extends Model {
     }
 
     /**
+     * Query groups by beginner or teen
+     */
+    public function scopeByProgram(Builder $query, $program)
+    {
+        if (is_string($program)) {
+            $program = Program::where('slug', $program)->first()->id;
+        }
+
+        return $query->where('groups.program_id', $program);
+    }
+
+    /**
      * Query scope for active groups.
      */
-    public function scopeActiveGuardians($query, Group $group, Season $season)
+    public function scopeActiveGuardians(Builder $query, Group $group, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
             $q->where('seasons.id', $season->id);
@@ -114,7 +121,7 @@ class Group extends Model {
     /**
      * Query scope for inactive groups.
      */
-    public function scopeInactiveGuardians($query, Group $group, Season $season)
+    public function scopeInactiveGuardians(Builder $query, Group $group, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
             $q->where('seasons.id', $season->id);
@@ -131,7 +138,7 @@ class Group extends Model {
      *
      * @return $this
      */
-    public function scopeNearby(Builder $q, Address $address, $miles = null) {
+    public function scopeNear(Builder $q, Address $address, $miles = null) {
         if (is_null($miles)) {
             $miles = Config::get('biblebowl.groups.nearby');
         }
@@ -149,7 +156,7 @@ class Group extends Model {
     {
         return [
             'name'			=> 'required|max:128',
-            'type'	        => 'required',
+            'program_id'    => 'required',
             'owner_id'		=> 'required|exists:users,id',
             'address_id'	=> 'required|exists:addresses,id'
         ];
@@ -170,15 +177,10 @@ class Group extends Model {
     }
 
     /**
-     * @return string
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function type()
-    {
-        if ($this->status == self::TYPE_BEGINNER) {
-            return self::TYPE_BEGINNER_DESCRIPTION;
-        }
-
-        return self::TYPE_TEEN_DESCRIPTION;
+    public function program() {
+        return $this->belongsTo(Program::class);
     }
 
     /**

@@ -23,7 +23,8 @@ class CreateGroupsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('guid')->unique()->index();
-            $table->boolean('type');
+            $table->integer('program_id')->unsigned();
+            $table->foreign('program_id')->references('id')->on('programs');
             $table->string('name');
 			$table->integer('owner_id')->unsigned();
 			$table->foreign('owner_id')->references('id')->on('users');

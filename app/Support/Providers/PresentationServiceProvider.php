@@ -51,13 +51,5 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 
         DashboardController::viewBindings();
         PlayerRegistrationController::viewBindings();
-
-        \View::creator('group.nearby', function (View $view) {
-            $nearbyGroups = Group::nearby(Auth::user()->addresses->first())
-                ->with('meetingAddress')
-                ->limit(6)
-                ->get();
-            $view->with('nearbyGroups', $nearbyGroups);
-        });
     }
 }

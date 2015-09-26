@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Program;
 use BibleBowl\Player;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Season;
@@ -84,7 +85,7 @@ class DatabaseSeeder extends Seeder {
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($BKuhlHeadCoach, [
             'name'                  => 'Southeast Christian Church',
-            'type'                  => Group::TYPE_TEEN,
+            'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
         ]);
@@ -126,12 +127,21 @@ class DatabaseSeeder extends Seeder {
             $BKuhlGuardian = User::find($BKuhlGuardian->id);
             $playerCreator = App::make(PlayerCreator::class);
 
-            $playerCreator->create($BKuhlGuardian, [
+            $player = $playerCreator->create($BKuhlGuardian, [
                 'first_name'    => $faker->firstName,
                 'last_name'     => $faker->lastName,
                 'gender'        => (rand(0, 1)) ? 'M' : 'F',
                 'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
             ]);
+
+            // every other player pre-register for a reason
+            if($i % 2) {
+                $this->season->players()->attach($player->id, [
+                    'program_id'    => Program::TEEN,
+                    'grade'         => rand(6, 12),
+                    'shirt_size'    => 'S'
+                ]);
+            }
         }
     }
 
@@ -139,7 +149,7 @@ class DatabaseSeeder extends Seeder {
     {
         $group = $groupCreator->create($headCoach, [
             'name'                  => self::GROUP_NAME,
-            'type'                  => Group::TYPE_TEEN,
+            'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
         ]);
@@ -153,6 +163,7 @@ class DatabaseSeeder extends Seeder {
         {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
+                'program_id'    => $group->program->id,
                 'group_id'      => $group->id,
                 'grade'         => rand(6, 12),
                 'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
@@ -163,6 +174,7 @@ class DatabaseSeeder extends Seeder {
         $player = seedPlayer($guardian);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
+            'program_id'    => $group->program->id,
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]

@@ -1,22 +1,22 @@
 <div class="row">
-    <div class="col-md-12 m-t-20">
-        <h4>Groups <span class="semi-bold">Nearby</span></h4>
-    </div>
-</div>
-<table class="table no-more-tables" style="margin-bottom: 0">
-    <thead>
-    @foreach($nearbyGroups as $group)
-        <tr>
-            <td class="v-align-middle">
-                <strong>{{ $group->name }} ({{ $group->type() }})</strong><br/>
-                <span class='muted'><span class="fa fa-map-marker"></span> Meets @ {{ $group->meetingAddress }}</span>
-            </td>
-            <td class="v-align-middle">
-                @foreach($groupLinks as $method => $label)
-                    <a href="{{ $group->{$method}() }}">{{ $label }}</a>
-                @endforeach
-            </td>
-        </tr>
+    @foreach($nearbyGroups as $index => $group)
+        <div class="col-md-4 col-sm-6">
+            <div class="grid simple">
+                <div class="grid-body">
+                    <h5><span class="semi-bold">{{ $group->name }}</span></h5>
+                    <address>
+                        {!! HTML::address($group->meetingAddress) !!}
+                    </address>
+                    <div class="p-t-10 text-center">
+                        <a href="{{ str_replace('[ID]', $group->id, $actionUrl) }}" class="btn btn-primary btn-sm btn-small" id="select-nearby-group-{{ $group->id }}">{{ $actionButton }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if($index % 3 == 2)
+            <div class="clearfix visible-md-block"></div>
+        @elseif($index % 2 == 1)
+            <div class="clearfix visible-sm-block"></div>
+        @endif
     @endforeach
-    </thead>
-</table>
+</div>

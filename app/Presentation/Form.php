@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\Group;
+use BibleBowl\Program;
 use BibleBowl\User;
 use Carbon\Carbon;
 use Illuminate\Html\FormBuilder;
@@ -101,27 +102,6 @@ class Form extends FormBuilder
                 'XL' => Describer::describeShirtSize('XL'),
                 'XXL' => Describer::describeShirtSize('XXL'),
             ],
-        ];
-
-        if ($optional) {
-            array_unshift($list, 'Select One...');
-        }
-
-        return $this->select($name, $list, $selected, $options);
-    }
-
-    /**
-     * @param       $name
-     * @param null  $selected
-     * @param array $options
-     *
-     * @return string
-     */
-    public function selectGroupType($name, $selected = null, $options = array(), $optional = false)
-    {
-        $list = [
-            Group::TYPE_BEGINNER => 'Beginner (3rd-5th grade)',
-            Group::TYPE_TEEN => 'Teen (6th-12th grade)'
         ];
 
         if ($optional) {
