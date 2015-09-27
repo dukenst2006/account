@@ -2,10 +2,8 @@
 
 @section('title', 'Account Registration')
 
-@section('scripts')
-    <script src="/assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="{!! elixir('js/forms.js') !!}" type="text/javascript"></script>
-@endsection
+@includeJs(/assets/plugins/jquery-1.8.3.min.js)
+@includeJs(elixir('js/forms.js'))
 
 @section('content')
     @include('partials.logo-header')

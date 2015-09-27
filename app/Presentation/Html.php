@@ -8,6 +8,11 @@ class Html extends HtmlBuilder
     const GENDER_MALE = 'M';
     const GENDER_FEMALE = 'F';
 
+    public static $includeJs = [];
+    public static $includeCss = [];
+    public static $js = '';
+    public static $css = '';
+
     /**
      * Render a gender icon
      *

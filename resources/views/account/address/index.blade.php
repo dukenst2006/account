@@ -2,9 +2,7 @@
 
 @section('title', 'My Addresses')
 
-@section('includeJs')
-    <script src="/assets/js/accounts.js" type="text/javascript"></script>
-@endsection
+@includeJs(/assets/js/accounts.js)
 
 @section('content')
     <div class="content sm-gutter">

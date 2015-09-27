@@ -9,9 +9,10 @@
     <title>@yield('title')</title>
     @yield('meta')
 
-    @yield('before-styles-end')
     <link href="{!! elixir('css/core.css') !!}" rel="stylesheet" type="text/css"/>
-    @yield('after-styles-end')
+    @foreach(\BibleBowl\Presentation\Html::$includeCss as $pathToCss)
+        <link href="{!! $pathToCss !!}" rel="stylesheet" type="text/css"/>
+    @endforeach
 </head>
 <body class="error-body no-top lazy">
 
@@ -29,6 +30,11 @@
         </div>
     </div>
 </div>
-@yield('scripts')
+@foreach(\BibleBowl\Presentation\Html::$includeJs as $pathToJs)
+    <script src="{!! $pathToJs !!}" type="text/javascript"></script>
+@endforeach
+<script type="text/javascript">
+    {!! \BibleBowl\Presentation\Html::$js !!}
+</script>
 </body>
 </html>

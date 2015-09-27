@@ -28,6 +28,16 @@ class Describer
         return $grades[$grade];
     }
 
+    public static function describeGender($gender)
+    {
+        $genders = [
+            'M' => 'Male',
+            'F' => 'Female'
+        ];
+
+        return $genders[$gender];
+    }
+
     public static function describeGradeShort($grade)
     {
         $grades = [

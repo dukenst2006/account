@@ -1,5 +1,7 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Presentation\Html;
+use Blade;
 use BibleBowl\Presentation\EmailTemplate;
 use BibleBowl\Users\Auth\SessionManager;
 use Config;
@@ -14,7 +16,30 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-
+        Blade::directive('includeCss', function($path) {
+            if (str_contains($path, 'elixir')) {
+                return "<?php \\".Html::class."::\$includeCss[] = ".$path."; ?>";
+            }
+            return "<?php \\".Html::class."::\$includeCss[] = \"".trim($path, '()')."\"; ?>";
+        });
+        Blade::directive('includeJs', function($path) {
+            if (str_contains($path, 'elixir')) {
+                return "<?php \\".Html::class."::\$includeJs[] = ".$path."; ?>";
+            }
+            return "<?php \\".Html::class."::\$includeJs[] = \"".trim($path, '()')."\"; ?>";
+        });
+        Blade::directive('js', function() {
+            return "<?php ob_start(); ?>";
+        });
+        Blade::directive('endjs', function() {
+            return "<?php \\".Html::class."::\$js .= ob_get_clean(); ?>";
+        });
+        Blade::directive('css', function() {
+            return "<?php ob_start(); ?>";
+        });
+        Blade::directive('endcss', function() {
+            return "<?php \\".Html::class."::\$css .= ob_get_clean(); ?>";
+        });
 	}
 
 	/**

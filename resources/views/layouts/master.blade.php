@@ -9,9 +9,10 @@
     <title>@yield('title')</title>
     @yield('meta')
 
-    @yield('before-styles-end')
     <link href="{!! elixir('css/core.css') !!}" rel="stylesheet" type="text/css"/>
-    @yield('after-styles-end')
+    @foreach(\BibleBowl\Presentation\Html::$includeCss as $pathToCss)
+        <link href="{!! $pathToCss !!}" rel="stylesheet" type="text/css"/>
+    @endforeach
 </head>
 <body>
 
@@ -30,11 +31,13 @@
     <!--[if lt IE 9]>
     <script src="/assets/plugins/respond.js"></script>
     <![endif]-->
-
+    <script src="/assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>
     <script src="{!! elixir('js/backend.js') !!}" type="text/javascript"></script>
-    @yield('includeJs')
+    @foreach(\BibleBowl\Presentation\Html::$includeJs as $pathToJs)
+        <script src="{!! $pathToJs !!}" type="text/javascript"></script>
+    @endforeach
     <script type="text/javascript">
-        @yield('js')
+        {!! \BibleBowl\Presentation\Html::$js !!}
     </script>
 </body>
 </html>

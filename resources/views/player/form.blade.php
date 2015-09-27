@@ -1,17 +1,13 @@
-@section('before-styles-end')
-    <link href="/assets/plugins/bootstrap-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css"/>
-@endsection
-@section('includeJs')
-    <script src="/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-@endsection
-@section('js')
+@includeCss(/assets/plugins/bootstrap-datepicker/css/datepicker.min.css)
+@includeJs(/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js)
+@js
     $(document).ready(function () {
         $('.input-append.date').datepicker({
             autoclose: true,
             todayHighlight: true
         });
     });
-@endsection
+@endjs
 
 <div class="row">
     <div class="col-md-12">

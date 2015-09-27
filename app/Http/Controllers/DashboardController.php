@@ -1,13 +1,18 @@
 <?php namespace BibleBowl\Http\Controllers;
 
 use Auth;
+use BibleBowl\Players\PlayerMetricsRepository;
 use Illuminate\View\View;
 use Session;
 
 class DashboardController extends Controller
 {
-	public function __construct()
+    private $playerMetrics;
+
+	public function __construct(PlayerMetricsRepository $playerMetrics)
 	{
+        $this->playerMetrics = $playerMetrics;
+
 		$this->middleware('requires.setup');
 	}
 
@@ -18,7 +23,16 @@ class DashboardController extends Controller
 	 */
 	public function index()
 	{
-		return view('dashboard');
+        $view = view('dashboard');
+        if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH)) {
+            $view->with('rosterOverview', [
+                'playerStats' => $this->playerMetrics->playerStats(
+                    Session::season(),
+                    Session::group()
+            )   ]);
+        }
+
+		return $view;
 	}
 
 	public static function viewBindings()

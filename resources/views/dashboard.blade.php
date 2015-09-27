@@ -2,9 +2,7 @@
 
 @section('title', 'Dashboard')
 
-@section('includeJs')
-    <script src="{!! elixir('assets/js/dashboard.js') !!}" type="text/javascript"></script>
-@endsection
+@includeJs(elixir('assets/js/dashboard.js'))
 
 @section('content')
     <div style="height: 76px"></div>
@@ -13,9 +11,9 @@
         @include('partials.messages')
     </div>
 
-    @if(Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
+    @if(isset($rosterOverview))
         <div class="col-md-12 m-b-10">
-            @include('dashboard.players')
+            @include('dashboard.roster_overview', $rosterOverview)
         </div>
     @endif
 

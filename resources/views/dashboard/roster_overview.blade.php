@@ -6,17 +6,16 @@
         <div class="pull-right p-t-10">
             <button class="btn btn-info" data-toggle="modal" data-target="#playerRegistrationLinkModal">Registration Link</button>
         </div>
+        <div class="clearfix"></div>
         <div class="row">
-            @foreach(Auth::user()->players as $index => $player)
-            <div class="col-md-3 @if($index > 0) b-l b-grey @endif p-l-20">
-                <h4 class="semi-bold">{{ $player->full_name }}</h4>
-                <p>{!! HTML::genderIcon($player->gender) !!} {{ $player->gender }}</p>
-                <p> {{ $player->age() }} years old</p>
-                <p class="text-center">
-                    <a href="/player/{{ $player->id }}/edit">[ Edit ]</a>
-                </p>
+            <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-6 col-xs-offset-0">
+                <span>By Gender</span>
+                <div id="rosterByGender" style="height: 200px"></div>
             </div>
-            @endforeach
+            <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-6 col-xs-offset-0">
+                <span>By Grade</span>
+                <div id="rosterByGrade" style="height: 200px"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -45,3 +44,32 @@
          </div>
      </div>
  </div>
+@includeCss(/assets/plugins/jquery-morris-chart/css/morris.css)
+
+@if(App::environment('local'))
+    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
+@else
+    @includeJs(/assets/plugins/raphael/raphael-2.1.0-min.js)
+@endif
+
+@includeJs(/assets/plugins/jquery-morris-chart/js/morris.min.js)
+@js
+    Morris.Donut({
+        element: 'rosterByGender',
+        resize: true,
+        data: [
+        @foreach($playerStats['byGender'] as $idx => $genderData)
+            {label: "{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}", value: {{ $genderData['total'] }}},
+        @endforeach
+        ]
+    });
+
+    Morris.Donut({
+        element: 'rosterByGrade',
+        data: [
+        @foreach($playerStats['byGrade'] as $idx => $genderData)
+            {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($genderData['grade']) }}", value: {{ $genderData['total'] }}},
+        @endforeach
+        ]
+    });
+@endjs
