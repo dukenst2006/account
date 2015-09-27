@@ -110,7 +110,7 @@ class GroupJoinTest extends TestCase
     public function cantJoinTwice()
     {
         $group = Group::where('program_id', Program::TEEN)->firstOrFail();
-        $player = $this->guardian()->players->first();
+        $player = $this->guardian()->players->get(2);
         $player->seasons()->attach($this->season(), [
             'group_id'      => $group->id,
             'program_id'    => Program::TEEN,

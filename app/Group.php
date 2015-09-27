@@ -108,7 +108,7 @@ class Group extends Model {
     }
 
     /**
-     * Query scope for active groups.
+     * Query scope for active guardians.
      */
     public function scopeActiveGuardians(Builder $query, Group $group, Season $season)
     {
@@ -119,7 +119,7 @@ class Group extends Model {
     }
 
     /**
-     * Query scope for inactive groups.
+     * Query scope for inactive guardians.
      */
     public function scopeInactiveGuardians(Builder $query, Group $group, Season $season)
     {

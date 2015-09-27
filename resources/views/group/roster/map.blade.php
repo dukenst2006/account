@@ -23,12 +23,9 @@
     <div id="map" class="demo-map overlay-fixed"></div>
 @endsection
 
-@section('includeJs')
-    <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
-    <script src="/assets/plugins/jquery-gmap/gmaps.js" type="text/javascript"></script>
-@endsection
-
-@section('js')
+@includeJs(http://maps.google.com/maps/api/js?sensor=true)
+@includeJs(/assets/plugins/jquery-gmap/gmaps.js)
+@js
     $(document).ready(function() {
         $('#map').height($('.page-container').height());
         $( window ).resize(function() {
@@ -90,4 +87,4 @@
             map.zoomIn(1);
         });
     });
-@endsection
+@endjs
