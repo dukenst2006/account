@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers;
 
 use Auth;
-use BibleBowl\Players\PlayerMetricsRepository;
+use BibleBowl\Reporting\PlayerMetricsRepository;
 use Illuminate\View\View;
 use Session;
 

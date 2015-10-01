@@ -184,6 +184,13 @@ class Group extends Model {
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function seasons() {
+        return $this->hasMany(Season::class);
+    }
+
+    /**
      * @param User $user
      *
      * @return bool

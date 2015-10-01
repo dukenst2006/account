@@ -58,7 +58,7 @@
         element: 'rosterByGender',
         resize: true,
         data: [
-        @foreach($playerStats['byGender'] as $idx => $genderData)
+        @foreach($playerStats['byGender'] as $genderData)
             {label: "{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}", value: {{ $genderData['total'] }}},
         @endforeach
         ]
@@ -67,8 +67,8 @@
     Morris.Donut({
         element: 'rosterByGrade',
         data: [
-        @foreach($playerStats['byGrade'] as $idx => $genderData)
-            {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($genderData['grade']) }}", value: {{ $genderData['total'] }}},
+        @foreach($playerStats['byGrade'] as $gradeData)
+            {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}", value: {{ $gradeData['total'] }}},
         @endforeach
         ]
     });

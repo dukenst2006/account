@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder {
     private static $isSeeding = false;
 
     const GROUP_NAME = 'Mount Pleasant Christian Church';
+    const DIRECTOR_EMAIL = 'benkuhl+director@gmail.com';
     const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
     const GUARDIAN_EMAIL = 'benkuhl+guardian@gmail.com';
 
@@ -46,10 +47,14 @@ class DatabaseSeeder extends Seeder {
 
 		Model::unguard();
 
+        Season::create([
+            'name' => (date('Y')-1).'-'.date('y')
+        ]);
         $this->season = Season::create([
             'name' => date('Y').'-'.(date('y')+1)
         ]);
 
+        $this->seedDirector();
         $this->seedGuardian();
         $this->seedHeadCoach();
 
@@ -57,6 +62,31 @@ class DatabaseSeeder extends Seeder {
         $this->call('StagingSeeder');
 
         self::$isSeeding = false;
+    }
+
+    private function seedDirector()
+    {
+        $address = Address::create([
+            'name'			=> 'Home',
+            'address_one'	=> '11025 Eagles Cove Dr.',
+            'address_two'   => null,
+            'latitude'      => '38.2515659',
+            'longitude'     => '-85.615241',
+            'city'			=> 'Louisville',
+            'state'			=> 'KY',
+            'zip_code'		=> '40241'
+        ]);
+        $director = User::create([
+            'status'			=> User::STATUS_CONFIRMED,
+            'first_name'		=> 'Ben',
+            'last_name'			=> 'Director',
+            'email'				=> self::DIRECTOR_EMAIL,
+            'password'			=> bcrypt('changeme'),
+            'primary_address_id'  => $address->id
+        ]);
+        $director->addresses()->save($address);
+
+        $director->attachRole(\BibleBowl\Role::DIRECTOR_ID);
     }
 
     private function seedHeadCoach()

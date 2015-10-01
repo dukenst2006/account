@@ -20,5 +20,7 @@ use Zizaco\Entrust\EntrustPermission;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Permission whereUpdatedAt($value)
  */
 class Permission extends EntrustPermission {
+    const VIEW_REPORTS = 'view-reports';
+
     protected $guarded = ['id'];
 }

@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Support\Providers;
 
 use Auth;
+use BibleBowl\Permission;
 use BibleBowl\Role;
 use Entrust;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -119,6 +120,10 @@ class RouteServiceProvider extends ServiceProvider {
                 Route::get('roster/map', 'Groups\RosterController@map');
 				Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
 				Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
+
+                # Reporting
+                #Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
+                Route::controller('/reports', 'ReportsController');
 			});
 
             # legal
