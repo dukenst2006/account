@@ -29,11 +29,17 @@ class Season extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function players() {
-        // if this relation is updated, update Group too
+        // if this relation is updated, update Player too
         return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps()
             ->orderBy('birthday', 'DESC');
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'player_season')
+            ->orderBy('name', 'ASC');
     }
 
     public function scopeCurrent($query)

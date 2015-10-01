@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Players;
+<?php namespace BibleBowl\Reporting;
 
 use BibleBowl\Player;
 use DB;

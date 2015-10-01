@@ -13,7 +13,7 @@ class AddRoles extends Migration {
 	 */
 	public function up()
 	{
-		Role::create([
+		$director = Role::create([
 			'name'			=> Role::DIRECTOR,
 			'display_name' 	=> 'National Director',
 		]);
@@ -21,7 +21,7 @@ class AddRoles extends Migration {
 			'name'			=> Role::HEAD_COACH,
 			'display_name' 	=> 'Head Coach',
 		]);
-		Role::create([
+		$boardMember = Role::create([
 			'name'			=> Role::BOARD_MEMBER,
 			'display_name' 	=> 'Board Member',
 		]);
@@ -42,11 +42,12 @@ class AddRoles extends Migration {
 			'display_name' 	=> 'Parent/Guardian',
 		]);
 
-//		$manageChildren = Permission::create([
-//			'name'			=> Permission::MANAGE_CHILDREN,
-//			'display_name'	=> 'Manage children'
-//		]);
-//		$parent->attachPermission($manageChildren);
+		$viewReports = Permission::create([
+			'name'			=> Permission::VIEW_REPORTS,
+			'display_name'	=> 'View Reports'
+		]);
+        $director->attachPermission($viewReports);
+        $boardMember->attachPermission($viewReports);
 	}
 
 	/**

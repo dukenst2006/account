@@ -27,11 +27,38 @@ class StagingSeeder extends Seeder {
 	{
         $this->season = Season::first();
 
+        $this->seedJosiahDirector();
         $this->seedJosiahGuardian();
         $this->seedJosiahHeadCoach();
 
+        $this->seedKeithBoardMember();
         $this->seedKeithGuardian();
         $this->seedKeithHeadCoach();
+    }
+
+    private function seedJosiahDirector()
+    {
+        $address = Address::create([
+            'name'			=> 'Home',
+            'address_one'	=> '178 Balsam Ct',
+            'address_two'   => null,
+            'latitude'      => '39.29114',
+            'longitude'     => '-84.476249',
+            'city'			=> 'Cincinnati',
+            'state'			=> 'OH',
+            'zip_code'		=> '45246'
+        ]);
+        $director = User::create([
+            'status'			=> User::STATUS_CONFIRMED,
+            'first_name'		=> 'Josiah',
+            'last_name'			=> 'Director',
+            'email'				=> 'jgorman+director@biblebowl.org',
+            'password'			=> bcrypt('changeme'),
+            'primary_address_id'  => $address->id
+        ]);
+        $director->addresses()->save($address);
+
+        $director->attachRole(\BibleBowl\Role::DIRECTOR_ID);
     }
 
     private function seedJosiahHeadCoach()
@@ -109,6 +136,31 @@ class StagingSeeder extends Seeder {
                 'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
             ]);
         }
+    }
+
+    private function seedKeithBoardMember()
+    {
+        $address = Address::create([
+            'name'			=> 'Home',
+            'address_one'	=> '5900 Casa Del Rey Cir',
+            'address_two'   => null,
+            'latitude'      => '28.470933',
+            'longitude'     => '-81.425187',
+            'city'			=> 'Orlando',
+            'state'			=> 'FL',
+            'zip_code'		=> '32809'
+        ]);
+        $boardMember = User::create([
+            'status'			=> User::STATUS_CONFIRMED,
+            'first_name'		=> 'Josiah',
+            'last_name'			=> 'Director',
+            'email'				=> 'ksmith+boardmember@biblebowl.org',
+            'password'			=> bcrypt('changeme'),
+            'primary_address_id'  => $address->id
+        ]);
+        $boardMember->addresses()->save($address);
+
+        $boardMember->attachRole(\BibleBowl\Role::BOARD_MEMBER_ID);
     }
 
     private function seedKeithHeadCoach()

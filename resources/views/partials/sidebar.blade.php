@@ -30,6 +30,23 @@
                     @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
                 </li>
             @endif
+            @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
+                <li class="
+            @if(starts_with(Route::current()->getUri(), 'reports'))
+                        active
+                    @endif">
+                    <a href="javascript:;"> <i class="icon-custom-chart"></i>  <span class="title">Reports</span><span class="arrow
+                        @if(starts_with(Route::current()->getUri(), 'reports'))
+                            open
+                        @endif"></span></a>
+                    <ul class="sub-menu">
+                        <li
+                        @if(ends_with(Route::current()->getUri(), 'growth'))
+                        class="active"
+                        @endif> <a href="/reports/growth">Growth</a></li>
+                    </ul>
+                </li>
+            @endif
         </ul>
         <div class="clearfix"></div>
         <!-- END SIDEBAR MENU -->
