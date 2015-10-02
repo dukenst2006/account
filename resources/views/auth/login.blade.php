@@ -2,8 +2,7 @@
 
 @section('title', 'Login')
 
-@section('after-styles-end')
-    <style type="text/css">
+@css
         #footer a,
         #footer {
             color: #fff;
@@ -14,8 +13,7 @@
         body {
             background: no-repeat url('/img/login-background.png') 50% 50% !important;
         }
-    </style>
-@endsection
+@endcss
 
 @section('content')
 	<body class="error-body no-top lazy" style="background-color: #396fa4 !important;">

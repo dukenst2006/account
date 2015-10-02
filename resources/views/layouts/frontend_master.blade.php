@@ -13,6 +13,12 @@
     @foreach(\BibleBowl\Presentation\Html::$includeCss as $pathToCss)
         <link href="{!! $pathToCss !!}" rel="stylesheet" type="text/css"/>
     @endforeach
+
+    @if (isset(\BibleBowl\Presentation\Html::$css))
+        <style type="text/css">
+            {!! \BibleBowl\Presentation\Html::$css !!}
+        </style>
+    @endif
 </head>
 <body class="error-body no-top lazy">
 

@@ -20,7 +20,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 p-b-10">
-						<p>Once you have an account you can register your children to play with your local group, start your own group and more!  Login with your <span class="bold">favorite social network</span> or start fresh.</p>
+						<p>Once you have an account you can register your students to play with your local group, start your own group and more!  Login with your <span class="bold">favorite social network</span> or start fresh.</p>
 					</div>
 				</div>
 				<div class="row column-seperation">

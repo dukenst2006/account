@@ -31,6 +31,7 @@
                 </li>
             @endif
             @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
+                <p class="menu-title">ADMIN</p>
                 <li class="
             @if(starts_with(Route::current()->getUri(), 'reports'))
                         active

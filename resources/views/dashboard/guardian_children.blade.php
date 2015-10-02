@@ -1,10 +1,10 @@
  <div class="tiles white m-b-10">
     <div class="tiles-body">
         <div class="pull-left">
-            <h4>Your <span class="semi-bold">Children</span></h4>
+            <h4>Your <span class="semi-bold">Students</span></h4>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary btn-cons" href="/player/create">Add another child</a>
+            <a class="btn btn-primary btn-cons" href="/player/create">Add another student</a>
         </div>
         <table class="table no-more-tables" style="margin-bottom: 0">
             <thead>

@@ -29,6 +29,7 @@
                             </tr>
                             </thead>
                             <tbody>
+                        @if(count($active_players) > 0)
                             @foreach($active_players as $player)
                             <tr>
                                 <td class="v-align-middle">{{ $player->full_name }}</td>
@@ -37,10 +38,15 @@
                                 <td class="v-align-middle text-center">{{ \BibleBowl\Presentation\Describer::describeGrade($player->pivot->grade) }}</td>
                                 <td class="v-align-middle text-center">{{ $player->pivot->shirt_size }}</td>
                                 <td class="v-align-middle text-center">
-                                    <a href="/player/{{ $player->id }}/deactivate" id="deactivate-{{ $player->id }}" data-toggle="tooltip" data-placement="left" title="Use this option of this player is no longer participating this season.">Deactivate</a>
+                                    <a href="/player/{{ $player->id }}/deactivate" id="deactivate-{{ $player->id }}" data-toggle="tooltip" data-placement="left" title="Use this option if this player is no longer participating this season.">Deactivate</a>
                                 </td>
                             </tr>
                             @endforeach
+                        @else
+                            <tr>
+                                <td class="text-center" colspan="7"><div class="muted m-t-40" style="font-style: italic">No players have registered yet</div></td>
+                            </tr>
+                        @endif
                             </tbody>
                         </table>
 

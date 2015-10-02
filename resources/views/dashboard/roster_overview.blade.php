@@ -8,6 +8,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="row">
+            @if(isset($playerStats['byGender']) && count($playerStats['byGender']) > 0)
             <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-6 col-xs-offset-0">
                 <span>By Gender</span>
                 <div id="rosterByGender" style="height: 200px"></div>
@@ -16,6 +17,38 @@
                 <span>By Grade</span>
                 <div id="rosterByGrade" style="height: 200px"></div>
             </div>
+                @includeCss(/assets/plugins/jquery-morris-chart/css/morris.css)
+
+                @if(App::environment('local'))
+                    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
+                @else
+                    @includeJs(/assets/plugins/raphael/raphael-2.1.0-min.js)
+                @endif
+
+                @includeJs(/assets/plugins/jquery-morris-chart/js/morris.min.js)
+                @js
+                    Morris.Donut({
+                        element: 'rosterByGender',
+                        resize: true,
+                        data: [
+                        @foreach($playerStats['byGender'] as $genderData)
+                            {label: "{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}", value: {{ $genderData['total'] }}},
+                        @endforeach
+                        ]
+                    });
+
+                    Morris.Donut({
+                        element: 'rosterByGrade',
+                        data: [
+                        @foreach($playerStats['byGrade'] as $gradeData)
+                            {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}", value: {{ $gradeData['total'] }}},
+                        @endforeach
+                        ]
+                    });
+                @endjs
+            @else
+                <div class="p-t-40 p-b-40 text-center muted" style="font-style:italic">Once some players have registered, you'll see some useful stuff here</div>
+            @endif
         </div>
     </div>
 </div>
@@ -44,32 +77,3 @@
          </div>
      </div>
  </div>
-@includeCss(/assets/plugins/jquery-morris-chart/css/morris.css)
-
-@if(App::environment('local'))
-    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
-@else
-    @includeJs(/assets/plugins/raphael/raphael-2.1.0-min.js)
-@endif
-
-@includeJs(/assets/plugins/jquery-morris-chart/js/morris.min.js)
-@js
-    Morris.Donut({
-        element: 'rosterByGender',
-        resize: true,
-        data: [
-        @foreach($playerStats['byGender'] as $genderData)
-            {label: "{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}", value: {{ $genderData['total'] }}},
-        @endforeach
-        ]
-    });
-
-    Morris.Donut({
-        element: 'rosterByGrade',
-        data: [
-        @foreach($playerStats['byGrade'] as $gradeData)
-            {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}", value: {{ $gradeData['total'] }}},
-        @endforeach
-        ]
-    });
-@endjs
