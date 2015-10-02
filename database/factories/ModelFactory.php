@@ -61,6 +61,8 @@ function seedGuardian($attrs = [], $addressAttrs = [])
     $attrs['primary_address_id'] = $address->id;
 
     $user = factory(User::class)->create($attrs);
+    $address->user_id = $user->id;
+    $address->save();
     $user->attachRole(Role::GUARDIAN_ID);
     return $user;
 }
