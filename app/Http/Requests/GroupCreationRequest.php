@@ -6,15 +6,25 @@ use BibleBowl\Group;
 
 class GroupCreationRequest extends Request {
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return Group::validationRules();
-	}
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return Group::validationRules();
+    }
+
+    /**
+     * Get the validation messages that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return Group::validationMessages();
+    }
 
     /**
      * @return array

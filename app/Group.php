@@ -5,6 +5,7 @@ use BibleBowl\Support\CanDeactivate;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 
 /**
  * BibleBowl\Group
@@ -154,11 +155,35 @@ class Group extends Model {
 
     public static function validationRules()
     {
+        // Check to see if a group is a duplicate by looking at the location where they meet (zip code or city/state
+        // and their program/name
+        Validator::extend('isnt_duplicate', function($attribute, $value, $parameters, $validator) {
+            $meetingAddress = Address::findOrFail($validator->getData()['meeting_address_id']);
+            $group = Group::where('name', $value)
+                ->where('program_id', $validator->getData()['program_id'])
+                ->whereHas('meetingAddress', function ($query) use ($meetingAddress) {
+                $query->orWhere(function ($query) use ($meetingAddress) {
+                    $query->where('city', '=', $meetingAddress->city);
+                    $query->where('state', '=', $meetingAddress->state);
+                })
+                ->where('zip_code', '=', $meetingAddress->zip_code);
+            })->first();
+
+            return is_null($group);
+        });
+
         return [
-            'name'			=> 'required|max:128',
+            'name'			=> 'required|max:128|isnt_duplicate',
             'program_id'    => 'required',
             'owner_id'		=> 'required|exists:users,id',
             'address_id'	=> 'required|exists:addresses,id'
+        ];
+    }
+
+    public static function validationMessages()
+    {
+        return [
+            'name.isnt_duplicate' => "This group already exists, please contact that group's owner"
         ];
     }
 
