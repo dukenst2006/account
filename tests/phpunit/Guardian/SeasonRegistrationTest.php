@@ -67,7 +67,7 @@ class SeasonRegistrationTest extends TestCase
             'shirt_size'    => 'L'
         ]);
         $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
-            $q->where('seasons.id', Season::first()->id);
+            $q->where('seasons.id', Season::orderBy('id', 'DESC')->first()->id);
         })->first();
 
         # the test

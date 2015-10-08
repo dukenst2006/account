@@ -27,11 +27,9 @@
                     <dl>
                         <dt>Head Coach:</dt>
                         <dd>
-                            {{ $group->owner->full_name }}<br/>
-                            @if(!is_null($group->owner->phone))
-                                <a href='tel:+1{{ $group->owner->phone }}'>{{ HTML::formatPhone($group->owner->phone) }}</a><br/>
-                            @endif
-                            <a href="mailto:{{ $group->owner->email }}">{{ $group->owner->email }}</a>
+                            @include('partials.user-contact', [
+                                'user' => $group->owner
+                            ])
                         </dd>
                     </dl>
                 </div>

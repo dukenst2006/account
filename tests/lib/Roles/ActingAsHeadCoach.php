@@ -21,7 +21,7 @@ trait ActingAsHeadCoach
     {
         $this->headCoach = User::where('email', DatabaseSeeder::HEAD_COACH_EMAIL)->first();
         $this->group = Group::where('name', DatabaseSeeder::GROUP_NAME)->first();
-        $this->season = Season::first();
+        $this->season = Season::orderBy('id', 'DESC')->first();
 
         $this->actingAs($this->headCoach)
             ->withSession([

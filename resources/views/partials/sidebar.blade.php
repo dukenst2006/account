@@ -32,21 +32,31 @@
             @endif
             @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
                 <p class="menu-title">ADMIN</p>
-                <li class="
-            @if(starts_with(Route::current()->getUri(), 'reports'))
-                        active
-                    @endif">
-                    <a href="javascript:;"> <i class="icon-custom-chart"></i>  <span class="title">Reports</span><span class="arrow
-                        @if(starts_with(Route::current()->getUri(), 'reports'))
-                            open
-                        @endif"></span></a>
-                    <ul class="sub-menu">
-                        <li
-                        @if(ends_with(Route::current()->getUri(), 'growth'))
-                        class="active"
-                        @endif> <a href="/reports/growth">Growth</a></li>
-                    </ul>
-                </li>
+                @if (Auth::user()->can(\BibleBowl\Permission::ADMIN_SEARCH_GROUPS))
+                    <li class="
+                        @if(Route::current()->getUri() == 'admin/groups')
+                            active
+                        @endif">
+                        <a href="/admin/groups"> <i class="fa fa-group"></i> <span class="title">Groups</span></a>
+                    </li>
+                @endif
+                @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
+                    <li class="
+                        @if(starts_with(Route::current()->getUri(), 'admin/reports'))
+                            active
+                        @endif">
+                        <a href="javascript:;"> <i class="icon-custom-chart"></i> <span class="title">Reports</span><span class="arrow
+                            @if(starts_with(Route::current()->getUri(), 'admin/reports'))
+                                open
+                            @endif"></span></a>
+                        <ul class="sub-menu">
+                            <li
+                            @if(ends_with(Route::current()->getUri(), 'growth'))
+                            class="active"
+                            @endif> <a href="/admin/reports/growth">Growth</a></li>
+                        </ul>
+                    </li>
+                @endif
             @endif
         </ul>
         <div class="clearfix"></div>

@@ -25,7 +25,7 @@ class StagingSeeder extends Seeder {
 	 */
 	public function run()
 	{
-        $this->season = Season::first();
+        $this->season = Season::orderBy('id', 'DESC')->first();
 
         $this->seedJosiahDirector();
         $this->seedJosiahGuardian();

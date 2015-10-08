@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php namespace BibleBowl\Http\Controllers\Admin;
 
 use Auth;
 use BibleBowl\Group;

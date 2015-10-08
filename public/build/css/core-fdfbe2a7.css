@@ -8414,6 +8414,9 @@ td.visible-print {
 .theme .grid.simple > .bar .active {
   background-color: #f9fafc;
 }
+.theme span.pagination {
+  margin: 0;
+}
 .theme .grid.simple .grid-title .tools a.remove,
 .theme .grid.solid .grid-title .tools a.remove {
   background-position: -66px -38px;
@@ -8653,6 +8656,9 @@ span.required {
 }
 .grid.simple > .bar .active {
   background-color: #f9fafc;
+}
+span.pagination {
+  margin: 0;
 }
 .grid.simple .grid-title .tools a.remove,
 .grid.solid .grid-title .tools a.remove {
@@ -16866,6 +16872,9 @@ body.rtl .footer-widget {
 .theme .grid.simple > .bar .active {
   background-color: #f9fafc;
 }
+.theme span.pagination {
+  margin: 0;
+}
 .theme .grid.simple .grid-title .tools a.remove,
 .theme .grid.solid .grid-title .tools a.remove {
   background-position: -66px -38px;
@@ -17105,6 +17114,9 @@ span.required {
 }
 .grid.simple > .bar .active {
   background-color: #f9fafc;
+}
+span.pagination {
+  margin: 0;
 }
 .grid.simple .grid-title .tools a.remove,
 .grid.solid .grid-title .tools a.remove {
