@@ -43,6 +43,8 @@ class Group extends Model {
         'inactive'      => null
     ];
 
+    protected $dates = ['inactive', 'updated_at', 'created_at'];
+
     public static function boot()
     {
         parent::boot();
@@ -223,6 +225,16 @@ class Group extends Model {
     public function isOwner(User $user)
     {
         return $user->id == $this->owner_id;
+    }
+
+    public function isActive()
+    {
+        return is_null($this->inactive);
+    }
+
+    public function isInactive()
+    {
+        return $this->isActive() === false;
     }
 
     public function setNameAttribute ($attribute)

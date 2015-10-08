@@ -122,8 +122,21 @@ class RouteServiceProvider extends ServiceProvider {
 				Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
 
                 # Reporting
-                #Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
-                Route::controller('/reports', 'ReportsController');
+                Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS], Redirect::to('/dashboard'));
+
+                # ------------------------------------------------
+                # Admin Routes
+                # ------------------------------------------------
+                Route::group([
+                    'prefix'	=> 'admin',
+                    'namespace'	=> 'Admin'
+                ], function () {
+                    Route::controller('reports', 'ReportsController');
+
+                    Entrust::routeNeedsPermission('admin/groups/*', [Permission::ADMIN_SEARCH_GROUPS], Redirect::to('/dashboard'));
+                    Route::get('groups', 'GroupController@index');
+                    Route::get('groups/{groupId}', 'GroupController@show');
+                });
 			});
 
             # legal

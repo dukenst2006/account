@@ -14,7 +14,8 @@
 	  	"alexpechkarev/google-geocoder": "dev-master",
 		"jackpopp/geodistance": "^1.2",
 		"ramsey/uuid": "~2.8",
-		"aws/aws-sdk-php": "~3.0"
+		"aws/aws-sdk-php": "~3.0",
+		"landish/pagination": "~1.0"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",

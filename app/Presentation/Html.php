@@ -2,6 +2,7 @@
 
 use BibleBowl\Address;
 use Illuminate\Html\HtmlBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Html extends HtmlBuilder
 {
@@ -57,6 +58,23 @@ class Html extends HtmlBuilder
         }
 
         return $html.'<br/>'.$address->city.', '.$address->state.' '.$address->zip_code.'</address>';
+    }
+
+    public function pagination(LengthAwarePaginator $paginator) {
+        $numStartedOnPage = $paginator->perPage()*($paginator->currentPage() - 1);
+        $numEndedOnPage = $numStartedOnPage+$paginator->perPage();
+        if ($numStartedOnPage == 0) {
+            $numStartedOnPage = 1;
+        } elseif($numStartedOnPage > 0) {
+            $numStartedOnPage += 1;
+        }
+        if ($numEndedOnPage > $paginator->total()) {
+            $numEndedOnPage = $paginator->total();
+        }
+        return '<div class="row">'.
+                    '<div class="col-sm-6">Showing <b>'.number_format($numStartedOnPage).' to '.number_format($numEndedOnPage).'</b> of '.number_format($paginator->total()).' entries</div>'.
+                    '<div class="col-sm-6 text-right">'.(new \BibleBowl\Presentation\Pagination($paginator))->render().'</div>'.
+                '</div>';
     }
 
 }

@@ -42,12 +42,16 @@ class AddRoles extends Migration {
 			'display_name' 	=> 'Parent/Guardian',
 		]);
 
-		$viewReports = Permission::create([
-			'name'			=> Permission::VIEW_REPORTS,
-			'display_name'	=> 'View Reports'
-		]);
-        $director->attachPermission($viewReports);
-        $boardMember->attachPermission($viewReports);
+        $viewReports = Permission::create([
+            'name'			=> Permission::VIEW_REPORTS,
+            'display_name'	=> 'View Reports'
+        ]);
+        $searchGroups = Permission::create([
+            'name'			=> Permission::ADMIN_SEARCH_GROUPS,
+            'display_name'	=> 'Admin Search Groups'
+        ]);
+        $director->attachPermissions([$viewReports, $searchGroups]);
+        $boardMember->attachPermissions([$viewReports, $searchGroups]);
 	}
 
 	/**
