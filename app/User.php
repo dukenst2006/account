@@ -90,7 +90,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-	protected $dates = ['birthday'];
+	protected $dates = ['birthday', 'last_login'];
 
 	public static function boot()
 	{

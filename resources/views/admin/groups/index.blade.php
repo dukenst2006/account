@@ -44,7 +44,7 @@
                                     {{ $group->program->abbreviation }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $group->owner->full_name }}
+                                    <a href="/admin/users/{{ $group->owner->id }}">{{ $group->owner->full_name }}</a>
                                 </td>
                             </tr>
                         @endforeach

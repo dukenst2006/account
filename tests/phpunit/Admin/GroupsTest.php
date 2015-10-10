@@ -26,7 +26,7 @@ class GroupsTest extends TestCase
         $this
             ->visit('/admin/groups')
             ->see('Southeast')
-            ->type('Mount', 'q')
+            ->visit('/admin/groups?q=Mount')
             ->click($this->group->name)
             ->landOn('/admin/groups/'.$this->group->id);
     }

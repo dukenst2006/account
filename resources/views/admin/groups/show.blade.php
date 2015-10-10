@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Groups')
+@section('title', $group->name)
 
 @section('content')
     <div class="content">
@@ -16,7 +16,8 @@
                             <div class="col-md-6">
                                 <h5><i class="fa fa-user"></i> <span class="semi-bold">Owner</span></h5>
                                 @include('partials.user-contact', [
-                                    'user' => $group->owner
+                                    'user' => $group->owner,
+                                    'adminLink' => true
                                 ])
                             </div>
                             <div class="col-md-3">

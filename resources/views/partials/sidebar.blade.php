@@ -30,14 +30,20 @@
                     @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
                 </li>
             @endif
-            @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
+            @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS) || Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR))
                 <p class="menu-title">ADMIN</p>
-                @if (Auth::user()->can(\BibleBowl\Permission::ADMIN_SEARCH_GROUPS))
+                @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR))
                     <li class="
                         @if(Route::current()->getUri() == 'admin/groups')
                             active
                         @endif">
                         <a href="/admin/groups"> <i class="fa fa-group"></i> <span class="title">Groups</span></a>
+                    </li>
+                    <li class="
+                        @if(Route::current()->getUri() == 'admin/users')
+                            active
+                        @endif">
+                        <a href="/admin/users"> <i class="fa fa-user"></i> <span class="title">Users</span></a>
                     </li>
                 @endif
                 @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))

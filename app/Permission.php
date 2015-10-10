@@ -21,7 +21,7 @@ use Zizaco\Entrust\EntrustPermission;
  */
 class Permission extends EntrustPermission {
     const VIEW_REPORTS = 'view-reports';
-    const ADMIN_SEARCH_GROUPS = 'admin-search-groups';
+    const MANAGE_ROLES = 'manage-roles';
 
     protected $guarded = ['id'];
 }
