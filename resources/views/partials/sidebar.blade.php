@@ -34,10 +34,16 @@
                 <p class="menu-title">ADMIN</p>
                 @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR))
                     <li class="
+                        @if(Route::current()->getUri() == 'admin/players')
+                            active
+                        @endif">
+                        <a href="/admin/players"> <i class="fa fa-users"></i> <span class="title">Players</span></a>
+                    </li>
+                    <li class="
                         @if(Route::current()->getUri() == 'admin/groups')
                             active
                         @endif">
-                        <a href="/admin/groups"> <i class="fa fa-group"></i> <span class="title">Groups</span></a>
+                        <a href="/admin/groups"> <i class="fa fa-home"></i> <span class="title">Groups</span></a>
                     </li>
                     <li class="
                         @if(Route::current()->getUri() == 'admin/users')

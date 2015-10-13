@@ -1,5 +1,7 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use App;
+use Gravatar;
 use BibleBowl\Presentation\Html;
 use Blade;
 use BibleBowl\Presentation\EmailTemplate;
@@ -40,6 +42,10 @@ class AppServiceProvider extends ServiceProvider {
         Blade::directive('endcss', function() {
             return "<?php \\".Html::class."::\$css .= ob_get_clean(); ?>";
         });
+
+        if (App::environment('testing', 'local') === false) {
+            Gravatar::setDefaultImage(url('img/default-avatar.png'));
+        }
 	}
 
 	/**

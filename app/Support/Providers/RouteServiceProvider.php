@@ -131,6 +131,10 @@ class RouteServiceProvider extends ServiceProvider {
                     Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
                     Route::controller('reports', 'ReportsController');
 
+                    Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR]);
+                    Route::get('players', 'PlayerController@index');
+                    Route::get('players/{playerId}', 'PlayerController@show');
+
                     Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR]);
                     Route::get('groups', 'GroupController@index');
                     Route::get('groups/{groupId}', 'GroupController@show');
