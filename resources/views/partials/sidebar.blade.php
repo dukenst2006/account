@@ -1,4 +1,9 @@
-<!-- BEGIN SIDEBAR -->
+<?php
+
+// absolute terrible location for this... but it works
+Gravatar::setDefaultImage(url('img/default-avatar.png'))
+
+?><!-- BEGIN SIDEBAR -->
 <div class="page-sidebar" id="main-menu">
     <!-- BEGIN MINI-PROFILE -->
     <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
