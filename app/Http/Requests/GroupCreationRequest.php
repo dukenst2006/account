@@ -13,7 +13,9 @@ class GroupCreationRequest extends Request {
      */
     public function rules()
     {
-        return Group::validationRules();
+        return array_merge(Group::validationRules(), [
+                'amHeadCoach' => 'required'
+            ]);
     }
 
     /**
@@ -23,7 +25,9 @@ class GroupCreationRequest extends Request {
      */
     public function messages()
     {
-        return Group::validationMessages();
+        return array_merge(Group::validationMessages(), [
+            'amHeadCoach.required' => 'Only the Head Coach may create this group'
+        ]);
     }
 
     /**

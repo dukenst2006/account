@@ -110,6 +110,7 @@ class RouteServiceProvider extends ServiceProvider {
                 Route::resource('group', 'GroupController', [
                     'except' => ['delete']
                 ]);
+                Route::get('group/create/search', 'GroupController@searchBeforeCreate');
 				Route::get('group/{group}/swap', 'GroupController@swap');
 
 				# Roster

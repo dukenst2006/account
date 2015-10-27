@@ -1,10 +1,12 @@
 <?php
 
 use Faker\Generator;
+use BibleBowl\Program;
 use BibleBowl\User;
 use BibleBowl\Player;
 use BibleBowl\Role;
 use BibleBowl\Address;
+use BibleBowl\Groups\GroupCreator;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +39,6 @@ $factory->define(Player::class, function (Generator $faker) {
         'birthday'          => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
     ];
 });
-
 
 $factory->define(Address::class, function (Generator $faker) {
     return [
@@ -73,7 +74,21 @@ function seedGuardian($attrs = [], $addressAttrs = [])
 function seedPlayer(User $user)
 {
     $player = factory(Player::class)->create([
-            'guardian_id' => $user->id
-        ]);
+        'guardian_id' => $user->id
+    ]);
     return $player;
+}
+
+/**
+ * @return \BibleBowl\Player
+ */
+function seedGroup(User $headCoach)
+{
+    $group = app(GroupCreator::class);
+    return $group->create($headCoach, [
+        'name'                  => 'Group '.microtime(),
+        'program_id'            => Program::TEEN,
+        'address_id'            => $headCoach->primary_address_id,
+        'meeting_location_id'   => $headCoach->primary_address_id
+    ]);
 }

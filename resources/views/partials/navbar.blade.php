@@ -54,7 +54,7 @@
                                 @endif
                             @endforeach
                             <li class="create-option">
-                                <a class="btn btn-primary btn-mini" href="/group/create">Add Group</a>
+                                <a class="btn btn-primary btn-mini" href="/group/create/search">Add Group</a>
                             </li>
                         </ul>
                     </li>

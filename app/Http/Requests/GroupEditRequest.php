@@ -12,8 +12,10 @@ class GroupEditRequest extends GroupCreatorOnlyRequest {
 	 */
 	public function rules()
 	{
+        $isEditingExistingGroup = $this->route('group') > 0;
+
 		return array_except(
-            Group::validationRules(),
+            Group::validationRules($isEditingExistingGroup),
             [
                 'program_id',
                 'owner_id'

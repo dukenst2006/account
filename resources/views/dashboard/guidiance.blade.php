@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-5 col-sm-5">
                 <div class="m-t-20">
-                    <a class="btn btn-primary btn-cons" href="/group/create">Add my group</a>
+                    <a class="btn btn-primary btn-cons" href="/group/create/search">Add my group</a>
                 </div>
             </div>
         </div>
