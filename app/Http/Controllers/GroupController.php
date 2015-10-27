@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers;
 
+use Input;
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupCreator;
@@ -11,6 +12,24 @@ use Session;
 
 class GroupController extends Controller
 {
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function searchBeforeCreate()
+    {
+        $groups = [];
+        if (Input::has('q')) {
+            $groups = Group::where('name', 'LIKE', '%'.Input::get('q').'%')
+                ->with('meetingAddress', 'program')
+                ->orderBy('name', 'ASC')
+                ->get();
+        }
+
+        return view('/group/create-search', [
+            'groups' => $groups
+        ]);
+    }
 
 	/**
 	 * @return \Illuminate\View\View
@@ -31,7 +50,9 @@ class GroupController extends Controller
 	 */
 	public function store(GroupCreationRequest $request, GroupCreator $groupCreator)
 	{
-		$group = $groupCreator->create(Auth::user(), $request->all());
+		$group = $groupCreator->create(Auth::user(), $request->except([
+            'amHeadCoach'
+        ]));
 
 		// log the user in under this group
 		Session::setGroup($group);

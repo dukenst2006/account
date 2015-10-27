@@ -1,21 +1,12 @@
 <?php namespace BibleBowl\Groups;
 
 use BibleBowl\Group;
-use BibleBowl\Location\AddressCreator;
 use BibleBowl\Role;
 use BibleBowl\User;
 use DB;
 
 class GroupCreator
 {
-    /** @var AddressCreator */
-    protected $addressCreator;
-
-    public function __construct(AddressCreator $addressCreator)
-    {
-        $this->addressCreator = $addressCreator;
-    }
-
     /**
      * @param User  $owner
      * @param array $attributes

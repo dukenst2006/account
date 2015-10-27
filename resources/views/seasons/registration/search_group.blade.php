@@ -36,11 +36,9 @@
             @endif
         @endforeach
         @else
-            <tr>
-                <td class="text-center">
-                    <div class="p-t-20 p-b-10 muted">No groups found</div>
-                </td>
-            </tr>
+            <div class="text-center">
+                <div class="p-t-20 p-b-10 muted">No groups found</div>
+            <div>
         @endif
     </div>
 @endif

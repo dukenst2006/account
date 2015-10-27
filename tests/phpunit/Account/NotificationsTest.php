@@ -27,7 +27,7 @@ class NotificationsTest extends TestCase
             ->see('Your changes were saved');
 
         $userSettings = User::findOrFail($this->headCoach()->id)->settings;
-        PHPUnit_Framework_Assert::assertFalse($userSettings->shouldBeNotifiedWhenUserJoinsGroup());
+        $this->assertFalse($userSettings->shouldBeNotifiedWhenUserJoinsGroup());
 
         $this
             ->visit('/account/notifications')
@@ -36,7 +36,7 @@ class NotificationsTest extends TestCase
             ->see('Your changes were saved');
 
         $userSettings = User::findOrFail($this->headCoach()->id)->settings;
-        PHPUnit_Framework_Assert::assertTrue($userSettings->shouldBeNotifiedWhenUserJoinsGroup());
+        $this->assertTrue($userSettings->shouldBeNotifiedWhenUserJoinsGroup());
     }
 
 }

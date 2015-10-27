@@ -155,10 +155,10 @@ class Group extends Model {
         ]);
     }
 
-    public static function validationRules()
+    public static function validationRules($groupAlreadyExists = false)
     {
         // Check to see if a group is a duplicate by looking at the location where they meet (zip code or city/state
-        // and their program/name
+        // and their program/name when the group is created
         Validator::extend('isnt_duplicate', function($attribute, $value, $parameters, $validator) {
             $meetingAddress = Address::findOrFail($validator->getData()['meeting_address_id']);
             $group = Group::where('name', $value)
@@ -175,7 +175,7 @@ class Group extends Model {
         });
 
         return [
-            'name'			=> 'required|max:128|isnt_duplicate',
+            'name'			=> 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
             'program_id'    => 'required',
             'owner_id'		=> 'required|exists:users,id',
             'address_id'	=> 'required|exists:addresses,id'

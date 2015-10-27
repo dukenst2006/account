@@ -146,6 +146,7 @@ class DatabaseSeeder extends Seeder {
             'first_name'		    => 'Ben',
             'last_name'			    => 'Guardian',
             'email'				    => self::GUARDIAN_EMAIL,
+            'phone'                 => '5553546789',
             'password'			    => bcrypt('changeme'),
             'primary_address_id'    => $savedAddresses[0]->id
         ]);

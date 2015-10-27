@@ -111,12 +111,17 @@ class GroupJoinTest extends TestCase
     {
         $group = Group::where('program_id', Program::TEEN)->firstOrFail();
         $player = $this->guardian()->players->get(2);
-        $player->seasons()->attach($this->season(), [
-            'group_id'      => $group->id,
-            'program_id'    => Program::TEEN,
-            'grade'         => 6,
-            'shirt_size'    => 'L'
-        ]);
+
+        # Sometimes it'll find a player belonging to the current season
+        if (!$player->seasons->contains($this->season()->id)) {
+            $player->seasons()->attach($this->season(), [
+                'group_id'      => $group->id,
+                'program_id'    => Program::TEEN,
+                'grade'         => 6,
+                'shirt_size'    => 'L'
+            ]);
+        }
+
         $this->visit('/join/teen/group/'.$group->id)
             ->dontSee($player->full_name);
 

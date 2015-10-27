@@ -24,7 +24,12 @@
                             </div>
                             @include('group.form')
                             <div class="row">
-                                <div class="col-md-6 text-center">
+                                <div class="col-md-12 text-center m-b-20">
+                                    <label><input type="checkbox" name="amHeadCoach"> I am the <strong>Head Coach</strong> of this group</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>
                                 </div>
                             </div>
