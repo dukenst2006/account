@@ -118,26 +118,30 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectGrade($name, $selected = null, $options = array(), $optional = false)
+    public function selectGrade($name, $selected = null, $options = array(), $optional = false, $programId = null)
     {
-        $list = [
-            'Elementary School' => [
-                '3' => Describer::describeGrade(3),
-                '4' => Describer::describeGrade(4),
-                '5' => Describer::describeGrade(5)
-            ],
-            'Middle School' => [
-                '6' => Describer::describeGrade(6),
-                '7' => Describer::describeGrade(7),
-                '8' => Describer::describeGrade(8)
-            ],
-            'High School' => [
-                '9' => Describer::describeGrade(9),
-                '10' => Describer::describeGrade(10),
-                '11' => Describer::describeGrade(11),
-                '12' => Describer::describeGrade(12)
-            ]
+        $middleSchool = [
+            '3' => Describer::describeGrade(3),
+            '4' => Describer::describeGrade(4),
+            '5' => Describer::describeGrade(5)
         ];
+        $highSchool = [
+            '6' => Describer::describeGrade(6),
+            '7' => Describer::describeGrade(7),
+            '8' => Describer::describeGrade(8),
+            '9' => Describer::describeGrade(9),
+            '10' => Describer::describeGrade(10),
+            '11' => Describer::describeGrade(11),
+            '12' => Describer::describeGrade(12)
+        ];
+
+        if ($programId == Program::BEGINNER) {
+            $list = $middleSchool;
+        } elseif ($programId == Program::TEEN) {
+            $list = $highSchool;
+        } else {
+            $list = array_merge($middleSchool, $highSchool);
+        }
 
         if ($optional) {
             array_unshift($list, 'Select One...');
