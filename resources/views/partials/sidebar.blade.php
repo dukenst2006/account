@@ -59,19 +59,10 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                 @endif
                 @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
                     <li class="
-                        @if(starts_with(Route::current()->getUri(), 'admin/reports'))
+                        @if(str_contains(Route::current()->uri(), 'reports/growth'))
                             active
                         @endif">
-                        <a href="javascript:;"> <i class="icon-custom-chart"></i> <span class="title">Reports</span><span class="arrow
-                            @if(starts_with(Route::current()->getUri(), 'admin/reports'))
-                                open
-                            @endif"></span></a>
-                        <ul class="sub-menu">
-                            <li
-                            @if(ends_with(Route::current()->getUri(), 'growth'))
-                            class="active"
-                            @endif> <a href="/admin/reports/growth">Growth</a></li>
-                        </ul>
+                        <a href="/admin/reports/growth"> <i class="icon-custom-chart"></i> <span class="title">Growth</span></a>
                     </li>
                 @endif
             @endif
