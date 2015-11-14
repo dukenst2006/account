@@ -186,6 +186,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany(Player::class, 'guardian_id')->orderBy('birthday', 'DESC');
 	}
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournaments() {
+        return $this->hasMany(Tournament::class)->orderBy('start', 'ASC');
+    }
+
 	/**
 	 * Determines if this user still lacks basic account information
 	 *

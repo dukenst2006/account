@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use BibleBowl\Tournament;
 
 class DatabaseSeeder extends Seeder {
 
@@ -43,6 +44,8 @@ class DatabaseSeeder extends Seeder {
         // load ModelFactory.php so functions can be used later
         factory(User::class);
 
+        $this->call('ProductionSeeder');
+
         self::$isSeeding = true;
 
 		Model::unguard();
@@ -54,16 +57,29 @@ class DatabaseSeeder extends Seeder {
             'name' => date('Y').'-'.(date('y')+1)
         ]);
 
-        $this->seedDirector();
+        $director = $this->seedDirector();
         $this->seedGuardian();
         $this->seedHeadCoach();
 
         $this->call('AcceptanceTestingSeeder');
         $this->call('StagingSeeder');
 
+        Tournament::create([
+            'season_id'             => $this->season->id,
+            'name'                  => 'My Test Tournament',
+            'start'                 => Carbon::now()->addMonths(5)->format('m/d/Y'),
+            'end'                   => Carbon::now()->addMonths(7)->format('m/d/Y'),
+            'registration_start'    => Carbon::now()->addMonths(3)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->addMonths(4)->format('m/d/Y'),
+            'creator_id'            => $director->id
+        ]);
+
         self::$isSeeding = false;
     }
 
+    /**
+     * @return User
+     */
     private function seedDirector()
     {
         $address = Address::create([
@@ -87,6 +103,8 @@ class DatabaseSeeder extends Seeder {
         $director->addresses()->save($address);
 
         $director->attachRole(\BibleBowl\Role::DIRECTOR_ID);
+
+        return $director;
     }
 
     private function seedHeadCoach()

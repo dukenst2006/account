@@ -35,7 +35,7 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                     @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
                 </li>
             @endif
-            @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS) || Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR))
+            @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS) || Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->can(\BibleBowl\Permission::CREATE_TOURNAMENTS))
                 <p class="menu-title">ADMIN</p>
                 @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR))
                     <li class="
@@ -55,6 +55,14 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                             active
                         @endif">
                         <a href="/admin/users"> <i class="fa fa-user"></i> <span class="title">Users</span></a>
+                    </li>
+                @endif
+                @if (Auth::user()->can(\BibleBowl\Permission::CREATE_TOURNAMENTS))
+                    <li class="
+                        @if(Route::current()->getUri() == 'admin/tournaments')
+                            active
+                        @endif">
+                        <a href="/admin/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
                     </li>
                 @endif
                 @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
