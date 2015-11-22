@@ -2,6 +2,7 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Presentation\Describer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Rhumsaa\Uuid\Uuid;
@@ -139,25 +140,25 @@ class Tournament extends Model
         return Carbon::createFromFormat('Y-m-d', $registration_end);
     }
 
+    public function isRegistrationOpen()
+    {
+        $now = Carbon::now();
+        return $now->gte($this->registration_start) && $now->lte($this->registration_end);
+    }
+
     /**
      * Get date span
      */
     public function dateSpan()
     {
-        $start = $this->start;
-        $end = $this->end;
+        return Describer::dateSpan($this->start, $this->end);
+    }
 
-        // Jul 11-15, 2015
-        if ($start->format('mY') == $end->format('mY')) {
-            return $start->format('M j - '.$end->format('j').', Y');
-        } else
-
-        // Jun 28 - Jul 4, 2015
-        if ($start->format('Y') == $end->format('Y')) {
-            return $start->format('M j - ').$end->format('M j, Y');
-        }
-
-        // Dec 28 2014 - Jan 2, 2015
-        return $end->format('M j, Y').' - '.$end->format('M j, Y');
+    /**
+     * Get date span
+     */
+    public function registrationDateSpan()
+    {
+        return Describer::dateSpan($this->registration_start, $this->registration_end);
     }
 }

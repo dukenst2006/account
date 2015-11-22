@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5ecc166006fbb55f59e810fb31ac22b9",
+    "hash": "55e9540d370e1bf14227133d38fe8131",
     "packages": [
         {
             "name": "alexpechkarev/google-geocoder",
@@ -171,6 +171,47 @@
                 "sdk"
             ],
             "time": "2015-10-07 17:09:53"
+        },
+        {
+            "name": "bkuhl/easychimp",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bkuhl/easychimp.git",
+                "reference": "eb65b8c5d30291d1ed8571cc00973746426d2b25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bkuhl/easychimp/zipball/eb65b8c5d30291d1ed8571cc00973746426d2b25",
+                "reference": "eb65b8c5d30291d1ed8571cc00973746426d2b25",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.0",
+                "pacely/mailchimp-apiv3": "dev-master",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.3",
+                "symfony/var-dumper": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Easychimp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Kuhl",
+                    "email": "benkuhl@gmail.com"
+                }
+            ],
+            "time": "2015-11-21 20:27:17"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -1524,6 +1565,58 @@
                 "php"
             ],
             "time": "2015-09-19 14:15:08"
+        },
+        {
+            "name": "pacely/mailchimp-apiv3",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pacely/mailchimp-api-v3.git",
+                "reference": "48c28f058b21a756eadcb743b193d64438037c7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pacely/mailchimp-api-v3/zipball/48c28f058b21a756eadcb743b193d64438037c7d",
+                "reference": "48c28f058b21a756eadcb743b193d64438037c7d",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "illuminate/support": "~5.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mailchimp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Magnussen",
+                    "email": "chris@hirvi.no"
+                }
+            ],
+            "description": "Simple API wrapper for Mailchimp API V3",
+            "keywords": [
+                "api",
+                "mailchimp",
+                "php",
+                "v3"
+            ],
+            "time": "2015-11-21 12:39:58"
         },
         {
             "name": "psr/http-message",
@@ -4744,7 +4837,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "zizaco/entrust": 20,
         "alexpechkarev/google-geocoder": 20,

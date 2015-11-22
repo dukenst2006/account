@@ -27,6 +27,9 @@ class ProductionSeeder extends Seeder {
         EventType::create([
             'name'          => 'Double Elimination'
         ]);
+        EventType::create([
+            'name'          => 'BuzzOff'
+        ]);
 
         $this->createRolesAndPermissions();
     }

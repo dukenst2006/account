@@ -44,6 +44,25 @@ class TournamentsTest extends TestCase
     /**
      * @test
      */
+    public function canEditTournament()
+    {
+        $tournament = Tournament::findOrFail(1);
+        $newName = $tournament->name.time();
+        $this
+            ->visit('/admin/tournaments/1/edit')
+            ->type($newName, 'name')
+            ->press('Save')
+            ->see($tournament->name);
+
+        # Cleaning up
+        $tournament->update([
+            'name' => $tournament->name
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function viewUser()
     {
         $tournament = Tournament::first();

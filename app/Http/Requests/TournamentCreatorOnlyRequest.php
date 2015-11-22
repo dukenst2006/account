@@ -13,9 +13,9 @@ class TournamentCreatorOnlyRequest extends Request {
 	 */
 	public function authorize()
 	{
-        return Tournament::where('id', $this->route('group'))
+        return Tournament::where('id', $this->route('tournament'))
             ->where('creator_id', Auth::id())
-            ->exists();
+            ->exists() === false;
 	}
 
 	/**

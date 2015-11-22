@@ -144,7 +144,10 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::get('users', 'UserController@index');
                     Route::get('users/{userId}', 'UserController@show');
 
-                    Route::resource('tournaments', 'TournamentsController');
+					Route::resource('tournaments', 'TournamentsController');
+					Route::resource('tournaments.events', 'Tournaments\EventsController', [
+						'except' => ['index']
+					]);
                 });
 			});
 

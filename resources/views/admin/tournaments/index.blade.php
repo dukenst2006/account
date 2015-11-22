@@ -20,7 +20,8 @@
                     <thead>
                         <tr>
                             <th class="col-md-4">Name</th>
-                            <th class="col-md-4 text-center">Season</th>
+                            <th class="col-md-2 text-center">Status</th>
+                            <th class="col-md-2 text-center">Season</th>
                             <th class="col-md-4 text-center">Dates</th>
                         </tr>
                     </thead>
@@ -30,7 +31,13 @@
                             <tr>
                                 <td>
                                     <a href="/admin/tournaments/{{ $tournament->id }}" class="semi-bold">{{ $tournament->name }}</a><br/>
-
+                                </td>
+                                <td class="text-center">
+                                    @if($tournament->active)
+                                        <span class="text-success">Active</span>
+                                    @else
+                                        <span class="text-danger">Inactive</span>
+                                    @endif
                                 </td>
                                 <td class="text-center">{{ $tournament->season->name }}</td>
                                 <td class="text-center">{{ $tournament->dateSpan() }}</td>

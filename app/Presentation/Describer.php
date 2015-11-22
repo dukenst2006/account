@@ -2,6 +2,7 @@
 
 use BibleBowl\Group;
 use BibleBowl\User;
+use Carbon\Carbon;
 
 /**
  * Responsible for further describing bits of information
@@ -69,6 +70,29 @@ class Describer
             'XXL' => 'XXL - XX-Large'
         ];
         return $sizes[$size];
+    }
+
+    /**
+     * Display a date span
+     *
+     * @param Carbon $start
+     * @param Carbon $end
+     * @return string
+     */
+    public static function dateSpan(Carbon $start, Carbon $end)
+    {
+        // Jul 11-15, 2015
+        if ($start->format('mY') == $end->format('mY')) {
+            return $start->format('M j - '.$end->format('j').', Y');
+        } else
+
+            // Jun 28 - Jul 4, 2015
+            if ($start->format('Y') == $end->format('Y')) {
+                return $start->format('M j - ').$end->format('M j, Y');
+            }
+
+        // Dec 28 2014 - Jan 2, 2015
+        return $end->format('M j, Y').' - '.$end->format('M j, Y');
     }
 
 }
