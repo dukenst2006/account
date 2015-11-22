@@ -47,4 +47,11 @@ class Season extends Model {
         return $query->orderBy('id', 'desc');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournaments() {
+        return $this->hasMany(Tournament::class);
+    }
+
 }

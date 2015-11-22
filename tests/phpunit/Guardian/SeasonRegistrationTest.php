@@ -148,7 +148,7 @@ class SeasonRegistrationTest extends TestCase
      */
     public function canRegisterWithoutGroup()
     {
-        $player = $this->guardian()->players->first();
+        $player = $this->guardian()->players()->whereDoesntHave('seasons')->first();
 
         $this->visit('/register/teen/group')
             ->see($player->full_name)

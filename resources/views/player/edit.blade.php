@@ -42,8 +42,8 @@
                                 <button class="btn btn-primary btn-cons" type="submit">Save</button>
                             </div>
                         </div>
-                        {!! Form::close() !!}
                     </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
