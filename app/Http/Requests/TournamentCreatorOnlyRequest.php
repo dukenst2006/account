@@ -1,7 +1,6 @@
 <?php namespace BibleBowl\Http\Requests;
 
 use Auth;
-use BibleBowl\Group;
 use BibleBowl\Tournament;
 
 class TournamentCreatorOnlyRequest extends Request {

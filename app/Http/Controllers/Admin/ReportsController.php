@@ -1,14 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
-use Auth;
-use BibleBowl\Group;
-use BibleBowl\Groups\GroupCreator;
-use BibleBowl\Http\Requests\GroupCreationRequest;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
-use BibleBowl\Http\Requests\GroupEditRequest;
-use BibleBowl\Program;
 use BibleBowl\Reporting\MetricsRepository;
-use Session;
 
 class ReportsController extends Controller
 {

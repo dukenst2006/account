@@ -2,7 +2,6 @@
 
 use Auth;
 use BibleBowl\Permission;
-use BibleBowl\Player;
 
 class TournamentCreateRequest extends Request {
 

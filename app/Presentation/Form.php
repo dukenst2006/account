@@ -1,9 +1,7 @@
 <?php namespace BibleBowl\Presentation;
 
 use Auth;
-use BibleBowl\Group;
 use BibleBowl\Program;
-use BibleBowl\User;
 use Carbon\Carbon;
 use Illuminate\Html\FormBuilder;
 

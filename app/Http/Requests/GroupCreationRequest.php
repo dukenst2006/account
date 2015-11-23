@@ -1,7 +1,6 @@
 <?php namespace BibleBowl\Http\Requests;
 
 use Auth;
-use BibleBowl\Address;
 use BibleBowl\Group;
 
 class GroupCreationRequest extends Request {

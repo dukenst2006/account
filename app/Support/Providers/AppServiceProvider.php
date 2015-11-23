@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use BibleBowl\Presentation\Html;
-use Blade;
 use BibleBowl\Presentation\EmailTemplate;
+use BibleBowl\Presentation\Html;
 use BibleBowl\Users\Auth\SessionManager;
+use Blade;
 use Config;
 use Illuminate\Support\ServiceProvider;
 

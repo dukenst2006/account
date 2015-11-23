@@ -1,6 +1,5 @@
 <?php namespace BibleBowl\Http\Requests;
 
-use BibleBowl\Address;
 use BibleBowl\Group;
 
 class GroupEditRequest extends GroupCreatorOnlyRequest {

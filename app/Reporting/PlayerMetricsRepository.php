@@ -1,9 +1,8 @@
 <?php namespace BibleBowl\Reporting;
 
-use BibleBowl\Player;
-use DB;
 use BibleBowl\Group;
 use BibleBowl\Season;
+use DB;
 
 class PlayerMetricsRepository
 {

@@ -1,14 +1,12 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
+use Auth;
 use BibleBowl\Competition\TournamentCreator;
+use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\Tournament;
-use Auth;
-use BibleBowl\Group;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
-use BibleBowl\Http\Requests\GroupEditRequest;
 use Session;
 
 class TournamentsController extends Controller

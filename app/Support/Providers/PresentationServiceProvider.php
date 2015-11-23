@@ -1,12 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use Auth;
-use BibleBowl\Group;
 use BibleBowl\Http\Controllers\DashboardController;
 use BibleBowl\Http\Controllers\Seasons\PlayerRegistrationController;
 use BibleBowl\Presentation\Form;
 use BibleBowl\Presentation\Html;
-use Illuminate\View\View;
 
 class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 {

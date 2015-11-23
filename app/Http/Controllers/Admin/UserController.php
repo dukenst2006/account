@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
-use Input;
 use BibleBowl\User;
+use Input;
 
 class UserController extends Controller
 {

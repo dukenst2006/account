@@ -1,7 +1,5 @@
 <?php
 
-use BibleBowl\User;
-
 class InfoTest extends TestCase
 {
 

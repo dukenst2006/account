@@ -1,8 +1,8 @@
 <?php namespace BibleBowl\Reporting;
 
 use BibleBowl\Program;
-use DB;
 use BibleBowl\Season;
+use DB;
 
 class MetricsRepository
 {

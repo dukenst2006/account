@@ -1,6 +1,5 @@
 <?php namespace BibleBowl\Http\Controllers;
 
-use Input;
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupCreator;
@@ -8,6 +7,7 @@ use BibleBowl\Http\Requests\GroupCreationRequest;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Program;
+use Input;
 use Session;
 
 class GroupController extends Controller

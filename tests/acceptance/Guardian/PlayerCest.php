@@ -1,7 +1,5 @@
 <?php
 
-use Lib\AuthHelper;
-
 class GuardianPlayerCest
 {
     protected $firstName = 'Lucy';

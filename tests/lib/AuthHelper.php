@@ -1,7 +1,7 @@
 <?php namespace Lib;
 
-use AcceptanceTestingSeeder;
 use AcceptanceTester;
+use AcceptanceTestingSeeder;
 
 class AuthHelper
 {

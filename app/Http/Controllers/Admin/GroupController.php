@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
-use Input;
 use BibleBowl\Group;
+use Input;
 
 class GroupController extends Controller
 {

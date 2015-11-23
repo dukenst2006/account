@@ -1,13 +1,12 @@
 <?php namespace BibleBowl\Groups;
 
-use Illuminate\Mail\Message;
-use Mail;
 use BibleBowl\Group;
-use BibleBowl\Player;
 use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\User;
 use DB;
+use Illuminate\Mail\Message;
+use Mail;
 
 class GroupRegistrar
 {

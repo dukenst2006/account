@@ -1,7 +1,7 @@
 <?php
 
-use Carbon\Carbon;
 use BibleBowl\Tournament;
+use Carbon\Carbon;
 
 class TournamentsTest extends TestCase
 {

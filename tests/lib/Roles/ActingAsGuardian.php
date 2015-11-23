@@ -1,10 +1,9 @@
 <?php namespace Lib\Roles;
 
-use DatabaseSeeder;
-use BibleBowl\User;
-use BibleBowl\Group;
 use BibleBowl\Season;
+use BibleBowl\User;
 use BibleBowl\Users\Auth\SessionManager;
+use DatabaseSeeder;
 
 trait ActingAsGuardian
 {

@@ -1,7 +1,5 @@
 <?php namespace BibleBowl\Competition;
 
-use BibleBowl\Group;
-use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
 use BibleBowl\User;

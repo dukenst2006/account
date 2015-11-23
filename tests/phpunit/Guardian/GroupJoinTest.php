@@ -1,9 +1,7 @@
 <?php
 
-use BibleBowl\Program;
 use BibleBowl\Group;
-use BibleBowl\Season;
-use BibleBowl\Player;
+use BibleBowl\Program;
 use BibleBowl\Users\Auth\SessionManager;
 
 class GroupJoinTest extends TestCase

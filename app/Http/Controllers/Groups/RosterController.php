@@ -1,6 +1,5 @@
 <?php namespace BibleBowl\Http\Controllers\Groups;
 
-use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;

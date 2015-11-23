@@ -1,10 +1,10 @@
 <?php namespace BibleBowl;
 
-use Rhumsaa\Uuid\Uuid;
 use BibleBowl\Support\CanDeactivate;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Rhumsaa\Uuid\Uuid;
 use Validator;
 
 /**

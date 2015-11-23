@@ -1,7 +1,5 @@
 <?php namespace BibleBowl\Presentation;
 
-use BibleBowl\Group;
-use BibleBowl\User;
 use Carbon\Carbon;
 
 /**

@@ -1,7 +1,5 @@
 <?php namespace BibleBowl\Http\Requests\Groups;
 
-use BibleBowl\Address;
-use BibleBowl\Group;
 use BibleBowl\Http\Requests\Request;
 use Session;
 

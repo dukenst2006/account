@@ -1,9 +1,9 @@
 <?php namespace BibleBowl;
 
-use Rhumsaa\Uuid\Uuid;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * BibleBowl\Player
