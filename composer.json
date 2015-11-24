@@ -16,7 +16,7 @@
 		"ramsey/uuid": "~2.8",
 		"aws/aws-sdk-php": "~3.0",
 		"landish/pagination": "~1.0",
-		"bkuhl/easychimp": "~0.1"
+		"bkuhl/easychimp": "dev-master"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",
@@ -63,6 +63,5 @@
 	},
 	"config": {
 		"preferred-install": "dist"
-	},
-	"minimum-stability": "dev"
+	}
 }

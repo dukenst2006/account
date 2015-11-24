@@ -1,17 +1,15 @@
 <?php
 
 use BibleBowl\Program;
-use BibleBowl\Player;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Season;
 use BibleBowl\User;
-use BibleBowl\Group;
 use BibleBowl\Address;
 use BibleBowl\Groups\GroupCreator;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use BibleBowl\Role;
 
 class StagingSeeder extends Seeder {
 
@@ -26,6 +24,8 @@ class StagingSeeder extends Seeder {
 	public function run()
 	{
         $this->season = Season::orderBy('id', 'DESC')->first();
+
+        $this->updateMailchimpIds();
 
         $this->seedJosiahDirector();
         $this->seedJosiahGuardian();
@@ -58,7 +58,8 @@ class StagingSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
-        $director->attachRole(\BibleBowl\Role::DIRECTOR_ID);
+        $role = Role::findOrFail(Role::DIRECTOR_ID);
+        $director->attachRole($role);
     }
 
     private function seedJosiahHeadCoach()
@@ -160,7 +161,8 @@ class StagingSeeder extends Seeder {
         ]);
         $boardMember->addresses()->save($address);
 
-        $boardMember->attachRole(\BibleBowl\Role::BOARD_MEMBER_ID);
+        $role = Role::findOrFail(Role::BOARD_MEMBER_ID);
+        $boardMember->attachRole($role);
     }
 
     private function seedKeithHeadCoach()
@@ -273,6 +275,28 @@ class StagingSeeder extends Seeder {
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+        ]);
+    }
+
+    /**
+     * Update the mailchimp ids so they match the staging list instead of production
+     */
+    private function updateMailchimpIds()
+    {
+        Role::findOrFail(Role::LEAGUE_COORDINATOR_ID)->update([
+            'mailchimp_interest_id' => '4548244911'
+        ]);
+        Role::findOrFail(Role::HEAD_COACH_ID)->update([
+            'mailchimp_interest_id' => 'cea4f8e0dd'
+        ]);
+        Role::findOrFail(Role::COACH_ID)->update([
+            'mailchimp_interest_id' => 'e11132acbf'
+        ]);
+        Role::findOrFail(Role::QUIZMASTER_ID)->update([
+            'mailchimp_interest_id' => 'e58faebc7c'
+        ]);
+        Role::findOrFail(Role::GUARDIAN_ID)->update([
+            'mailchimp_interest_id' => '295ac3a88c'
         ]);
     }
 

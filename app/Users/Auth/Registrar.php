@@ -5,9 +5,12 @@ use BibleBowl\User;
 use Event;
 use Gravatar;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Validator;
 
 class Registrar implements RegistrarContract {
+
+	use DispatchesJobs;
 
 	/**
 	 * Get a validator for an incoming registration request.

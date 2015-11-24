@@ -27,7 +27,7 @@ class RosterTest extends TestCase
 
             # Test toggling active/inactive players
             ->click('#deactivate-'.$player->id)
-            ->landOn('/roster')
+            ->seePageIs('/roster')
             ->see($player->full_name)
             ->click('#inactive-roster')
             ->click('#activate-'.$player->id)

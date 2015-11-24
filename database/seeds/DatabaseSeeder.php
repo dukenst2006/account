@@ -13,6 +13,7 @@ use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use BibleBowl\Tournament;
+use BibleBowl\Role;
 
 class DatabaseSeeder extends Seeder {
 
@@ -62,7 +63,10 @@ class DatabaseSeeder extends Seeder {
         $this->seedHeadCoach();
 
         $this->call('AcceptanceTestingSeeder');
-        $this->call('StagingSeeder');
+
+        if (app()->environment('staging')) {
+            $this->call('StagingSeeder');
+        }
 
         Tournament::create([
             'season_id'             => $this->season->id,
@@ -102,7 +106,7 @@ class DatabaseSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
-        $director->attachRole(\BibleBowl\Role::DIRECTOR_ID);
+        $director->attachRole(Role::findOrFail(Role::DIRECTOR_ID));
 
         return $director;
     }

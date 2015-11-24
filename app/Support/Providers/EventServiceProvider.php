@@ -3,6 +3,10 @@
 use BibleBowl\Location\FetchCoordinatesForAddress;
 use BibleBowl\Users\Auth\OnLogin;
 use BibleBowl\Users\Auth\SendConfirmationEmail;
+use BibleBowl\Users\Communication\AddInterestOnMailingList;
+use BibleBowl\Users\Communication\AddToMailingList;
+use BibleBowl\Users\Communication\RemoveInterestOnMailingList;
+use BibleBowl\Users\Communication\UpdateSubscriberInformation;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -22,6 +26,18 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'auth.resend.confirmation' => [
 			SendConfirmationEmail::class
+		],
+		'user.role.added' => [
+			AddInterestOnMailingList::class
+		],
+		'user.role.removed' => [
+			RemoveInterestOnMailingList::class
+		],
+		'eloquent.created: BibleBowl\User' => [
+			AddToMailingList::class
+		],
+		'eloquent.updated: BibleBowl\User' => [
+			UpdateSubscriberInformation::class
 		],
 		'eloquent.created: BibleBowl\Address' => [
 			FetchCoordinatesForAddress::class

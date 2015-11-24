@@ -2,8 +2,10 @@
 
 @section('body')
     <?php
+        // Serialized objects need to be re-instantiated in order
+        // to have a successful database connection
         $primaryAddress = \BibleBowl\Address::findOrFail($guardian['primary_address_id']);
-        $group = App::make(\BibleBowl\Group::class, [$group]);
+        $group = \BibleBowl\Group::findOrFail($groupId);
         $playerCount = count($players);
     ?>
 
@@ -49,7 +51,7 @@
                                         <td valign="top" align="center" height="10" bgcolor="#f4f4f4" class="sectionRegularInfoTextTD" style="border-collapse: collapse;color: #6e777e;font-family: Arial, Tahoma, Verdana, sans-serif;font-size: 13px;font-weight: lighter;padding: 0;margin: 0;text-align: left;line-height: 165%;letter-spacing: 0;">
                                             <strong>{{ $player['full_name'] }}</strong><br/>
                                             Gender: {{ $player['gender'] }}<br/>
-                                            Age: {{ $player['age'] }}<br/>
+                                            Age: {{ $player->age() }}<br/>
                                             Grade: {{ \BibleBowl\Presentation\Describer::describeGrade($player['grade']) }}<br/>
                                             T-Shirt size: {{ \BibleBowl\Presentation\Describer::describeShirtSize($player['shirt_size']) }}
                                         </td>

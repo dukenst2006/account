@@ -35,7 +35,7 @@ class GroupRegistrar
             $players[] = $player;
         }
 
-        // setting this value so that it's avialable in the toArray() so queued mail can use it
+        // setting this value so that it's available in the toArray() so queued mail can use it
         $guardian->full_name = $guardian->full_name;
 
         /** @var User $user */
@@ -45,7 +45,7 @@ class GroupRegistrar
                 Mail::queue(
                     'emails.group-registration-confirmation',
                     [
-                        'group'     => $group,
+                        'groupId'   => $group->id,
                         'guardian'  => $guardian,
                         'players'   => $players
                     ],

@@ -21,7 +21,8 @@ class PlayerCreator
 
         $player = Player::create($attributes);
         if (!$guardian->hasRole(Role::GUARDIAN)) {
-            $guardian->attachRole(Role::GUARDIAN_ID);
+            $role = Role::findOrFail(Role::GUARDIAN_ID);
+            $guardian->attachRole($role);
         }
 
         DB::commit();

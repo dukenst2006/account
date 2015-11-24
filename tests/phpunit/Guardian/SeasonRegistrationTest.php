@@ -38,7 +38,7 @@ class SeasonRegistrationTest extends TestCase
         $this
             ->visit($group->registrationReferralLink())
             ->followRedirects()
-            ->landOn('/login');
+            ->seePageIs('/login');
 
         $this->setupAsGuardian();
         $this->withSession([
@@ -47,7 +47,7 @@ class SeasonRegistrationTest extends TestCase
         ]);
 
         $this->visit('/register/'.$group->program->slug.'/search/group')
-            ->landOn('/register/'.$group->program->slug.'/group/'.$group->id)
+            ->seePageIs('/register/'.$group->program->slug.'/group/'.$group->id)
             ->see($group->name);
     }
 
@@ -93,7 +93,7 @@ class SeasonRegistrationTest extends TestCase
             ->see("Which program are you registering player(s) for?")
             ->see('Beginner Bible Bowl')
             ->click('Teen Bible Bowl')
-            ->landOn('/register/teen/search/group');
+            ->seePageIs('/register/teen/search/group');
     }
 
     /**
@@ -106,7 +106,7 @@ class SeasonRegistrationTest extends TestCase
         $this->visit('/register/'.$group->program->slug.'/search/group')
             ->see("Find Your Group")
             ->click('select-nearby-group-'.$group->id)
-            ->landOn('/register/'.$group->program->slug.'/group/'.$group->id);
+            ->seePageIs('/register/'.$group->program->slug.'/group/'.$group->id);
     }
 
     /**
@@ -125,7 +125,7 @@ class SeasonRegistrationTest extends TestCase
             ->type('Southeast', 'q')
             ->press('Search')
             ->click($joinLaterButton)
-            ->landOn('/register/teen/group');
+            ->seePageIs('/register/teen/group');
     }
 
     /**
@@ -137,10 +137,10 @@ class SeasonRegistrationTest extends TestCase
 
         $this->visit('/register/teen/group/'.$group->id)
             ->click('#program-change')
-            ->landOn('/register/program')
+            ->seePageIs('/register/program')
             ->visit('/register/teen/group/'.$group->id)
             ->click('#group-change')
-            ->landOn('/register/teen/search/group?noRedirect=1');
+            ->seePageIs('/register/teen/search/group?noRedirect=1');
     }
 
     /**

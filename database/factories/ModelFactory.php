@@ -64,7 +64,9 @@ function seedGuardian($attrs = [], $addressAttrs = [])
     $user = factory(User::class)->create($attrs);
     $address->user_id = $user->id;
     $address->save();
-    $user->attachRole(Role::GUARDIAN_ID);
+
+    $role = Role::findOrFail(Role::GUARDIAN_ID);
+    $user->attachRole($role);
     return $user;
 }
 

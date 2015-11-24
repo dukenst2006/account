@@ -1,9 +1,12 @@
 <?php namespace BibleBowl;
 
 use App;
+use BibleBowl\Location\Communication\AddAsRoleOnMailingList;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\Users\Settings;
 use Carbon\Carbon;
+use DatabaseSeeder;
+use Event;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -29,7 +32,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property string $last_login 
  * @property string $password 
  * @property string $remember_token 
- * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at 
  * @property-read \Illuminate\Database\Eloquent\Collection|UserProvider[] $providers 
  * @property-read \Illuminate\Database\Eloquent\Collection|Address[] $addresses 
@@ -58,7 +61,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	const STATUS_UNCONFIRMED = 0;
 	const STATUS_CONFIRMED = 1;
 
-	use Authenticatable, CanResetPassword, EntrustUserTrait;
+	use Authenticatable,
+		CanResetPassword,
+		EntrustUserTrait {
+			EntrustUserTrait::attachRole as traitAttachRole;
+			EntrustUserTrait::detachRole as traitDetachRole;
+		}
 
 	/**
 	 * The database table used by the model.
@@ -250,5 +258,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		/** @var Scrubber $scrubber */
 		$scrubber = App::make(Scrubber::class);
 		$this->attributes['phone'] = $scrubber->phone($attribute);
+	}
+
+	public function attachRole(Role $role)
+	{
+		if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
+			Event::fire('user.role.added', [$this, $role]);
+		}
+
+		$this->traitAttachRole($role);
+	}
+
+	public function detachRole(Role $role)
+	{
+		if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
+			Event::fire('user.role.removed', [$this, $role]);
+		}
+
+		$this->traitDetachRole($role);
 	}
 }

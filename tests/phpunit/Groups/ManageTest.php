@@ -26,7 +26,7 @@ class ManageTest extends TestCase
             ->visit('/group/create/search?q=South')
             ->see('Southeast Christian Church')
             ->click("I don't see my group")
-            ->landOn('/group/create');
+            ->seePageIs('/group/create');
     }
 
     /**
@@ -47,7 +47,7 @@ class ManageTest extends TestCase
             ->type($groupName, 'name')
             ->check('amHeadCoach')
             ->press('Save')
-            ->landOn('/dashboard')
+            ->seePageIs('/dashboard')
             ->see($groupName.' has been created');
 
         $this->deleteLastGroup();

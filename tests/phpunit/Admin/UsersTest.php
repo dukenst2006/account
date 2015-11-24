@@ -23,9 +23,9 @@ class UsersTest extends TestCase
     {
         $this
             ->visit('/admin/users')
-            ->see('Keith Guardian')
+            ->see('Ben Guardian')
             ->visit('/admin/groups?q=Josiah')
-            ->dontSee('Keith Guardian');
+            ->dontSee('Ben Guardian');
     }
 
     /**

@@ -153,6 +153,7 @@ return [
 		\Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 		\Zizaco\Entrust\EntrustServiceProvider::class,
 		\Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider::class,
+		\Easychimp\ServiceProvider::class
 
 	],
 

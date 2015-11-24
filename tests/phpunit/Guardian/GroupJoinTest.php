@@ -35,7 +35,7 @@ class GroupJoinTest extends TestCase
         $this
             ->visit($group->registrationReferralLink())
             ->followRedirects()
-            ->landOn('/login');
+            ->seePageIs('/login');
 
         $this->setupAsGuardian();
         $this->withSession([
@@ -44,7 +44,7 @@ class GroupJoinTest extends TestCase
         ]);
 
         $this->visit('/join/'.$group->program->slug.'/search/group')
-            ->landOn('/join/'.$group->program->slug.'/group/'.$group->id)
+            ->seePageIs('/join/'.$group->program->slug.'/group/'.$group->id)
             ->see($group->name);
     }
 
@@ -58,7 +58,7 @@ class GroupJoinTest extends TestCase
         $this->visit('/join/'.$group->program->slug.'/search/group')
             ->see("Find Your Group")
             ->click('select-nearby-group-'.$group->id)
-            ->landOn('/join/'.$group->program->slug.'/group/'.$group->id);
+            ->seePageIs('/join/'.$group->program->slug.'/group/'.$group->id);
     }
 
     /**
@@ -71,7 +71,7 @@ class GroupJoinTest extends TestCase
         $this->visit('/join/teen/group/'.$group->id)
             ->dontSeeLink('/join/program')
             ->click('#group-change')
-            ->landOn('/join/teen/search/group?noRedirect=1');
+            ->seePageIs('/join/teen/search/group?noRedirect=1');
     }
 
     /**
@@ -86,7 +86,7 @@ class GroupJoinTest extends TestCase
             ->see($player->full_name)
             ->seeIsChecked('player'.$player->id.'register')
             ->press('Join')
-            ->landOn('/dashboard')
+            ->seePageIs('/dashboard')
             ->see('Your player(s) have joined a group!');
 
         $this->assertCount(1, $player->seasons);

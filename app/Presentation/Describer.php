@@ -7,8 +7,6 @@ use Carbon\Carbon;
  */
 class Describer
 {
-    private static $grades = [];
-
     public static function describeGrade($grade)
     {
         $grades = [
@@ -24,7 +22,11 @@ class Describer
             '12' => '12th - Senior'
         ];
 
-        return $grades[$grade];
+        if (array_key_exists($grade, $grades)) {
+            return $grades[$grade];
+        }
+
+        return $grade;
     }
 
     public static function describeGender($gender)
@@ -52,7 +54,11 @@ class Describer
             '12' => '12th'
         ];
 
-        return $grades[$grade];
+        if (array_key_exists($grade, $grades)) {
+            return $grades[$grade];
+        }
+
+        return $grade;
     }
 
     public static function describeShirtSize($size)
@@ -67,7 +73,12 @@ class Describer
             'XL' => 'XL - X-Large',
             'XXL' => 'XXL - XX-Large'
         ];
-        return $sizes[$size];
+
+        if (array_key_exists($size, $sizes)) {
+            return $sizes[$size];
+        }
+
+        return $size;
     }
 
     /**

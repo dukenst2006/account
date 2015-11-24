@@ -36,6 +36,7 @@ class ThirdPartyAuthTest extends TestCase
     public function loginViaOAuth2()
     {
         Mail::shouldReceive('send');
+        $this->expectsEvents('auth.registered');
 
         $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
             'code' => uniqid()

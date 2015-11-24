@@ -28,7 +28,7 @@ class GroupsTest extends TestCase
             ->see('Southeast')
             ->visit('/admin/groups?q=Mount')
             ->click($this->group->name)
-            ->landOn('/admin/groups/'.$this->group->id);
+            ->seePageIs('/admin/groups/'.$this->group->id);
     }
 
     /**

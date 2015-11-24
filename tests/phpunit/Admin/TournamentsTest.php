@@ -34,7 +34,7 @@ class TournamentsTest extends TestCase
             ->type($soon, 'registration_start')
             ->type($soon, 'registration_end')
             ->press('Save')
-            ->landOn('/admin/tournaments')
+            ->seePageIs('/admin/tournaments')
             ->see($name);
 
         # Cleaning up

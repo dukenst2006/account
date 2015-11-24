@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\Player;
+use BibleBowl\Role;
 use BibleBowl\Address;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\User;
@@ -61,6 +61,10 @@ class AcceptanceTestingSeeder extends Seeder {
 		]);
 
 		$this->seedGuardian();
+
+		if (app()->environment('local')) {
+			$this->updateMailchimpIds();
+		}
 	}
 
     /**
@@ -108,4 +112,26 @@ class AcceptanceTestingSeeder extends Seeder {
           'birthday'      => '6/14/1987'
         ]);
     }
+
+	/**
+	 * Update the mailchimp ids so they match the staging list instead of production
+	 */
+	private function updateMailchimpIds()
+	{
+		Role::findOrFail(Role::LEAGUE_COORDINATOR_ID)->update([
+				'mailchimp_interest_id' => 'da431848e5'
+		]);
+		Role::findOrFail(Role::HEAD_COACH_ID)->update([
+				'mailchimp_interest_id' => '8eb76f09f0'
+		]);
+		Role::findOrFail(Role::COACH_ID)->update([
+				'mailchimp_interest_id' => 'd531b08cdb'
+		]);
+		Role::findOrFail(Role::QUIZMASTER_ID)->update([
+				'mailchimp_interest_id' => 'bddc8cb120'
+		]);
+		Role::findOrFail(Role::GUARDIAN_ID)->update([
+				'mailchimp_interest_id' => 'f29d2ce1ef'
+		]);
+	}
 }
