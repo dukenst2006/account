@@ -1,11 +1,11 @@
 <?php namespace BibleBowl\Http\Controllers\Admin\Tournaments;
 
-use Auth;
-use BibleBowl\Competition\TournamentCreator;
+use BibleBowl\EventType;
+use BibleBowl\Event;
 use BibleBowl\Group;
+use BibleBowl\Http\Controllers\Admin\Controller;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Http\Requests\GroupEditRequest;
-use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Tournament;
 use Session;
@@ -13,34 +13,29 @@ use Session;
 class EventsController extends Controller
 {
 
-//    public function show($tournamentId)
-//    {
-//        return view('/admin/tournaments/events/show', [
-//            'tournament' => Tournament::findOrFail($tournamentId)
-//        ]);
-//    }
-
-
 	/**
 	 * @return \Illuminate\View\View
 	 */
-	public function create()
+	public function create($tournamentId)
 	{
-		return view('admin.tournaments.events.create');
+		return view('admin.tournaments.events.create')
+				->withTournament(Tournament::findOrFail($tournamentId))
+				->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function store(TournamentCreateRequest $request, TournamentCreator $tournamentCreator)
+	public function store(TournamentCreatorOnlyRequest $request, $tournamentId)
 	{
-		$tournament = $tournamentCreator->create(
-            Auth::user(),
-            Session::season(),
-            $request->all()
-        );
+		$request->merge([
+			'tournament_id' => $tournamentId
+		]);
+		$this->validate($request, EventType::validationRules());
 
-		return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
+		Event::create($request->except('_token'));
+
+		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event has been created');
 	}
 
 	/**
@@ -48,51 +43,32 @@ class EventsController extends Controller
 	 *
 	 * @return \Illuminate\View\View
 	 */
-	public function edit(TournamentCreatorOnlyRequest $request, $id)
+	public function edit(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
 	{
-		return view('admin.tournaments.edit')
-			->withTournament(Tournament::findOrFail($id));
+		return view('admin.tournaments.events.edit')
+			->withTournament(Tournament::findOrFail($tournamentId))
+			->withEvent(Event::findOrFail($eventId));
 	}
 
 	/**
-	 * @param GroupEditRequest 		$request
-	 * @param                     	$id
+	 * @param TournamentCreatorOnlyRequest  $request
+	 * @param                     			$id
 	 *
 	 * @return mixed
 	 */
-	public function update(GroupEditRequest $request, $id)
+	public function update(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
 	{
-		$group = Group::findOrFail($id);
-		$form = $request->all();
+		$event = Event::findOrFail($eventId);
+		$event->update($request->except('_token'));
 
-		// When the user has not checked the "inactive" checkbox.
-		if (!$request->has('inactive')) {
-			// Group is Active.
-			$form['inactive'] = null;
-		}
-
-		$group->update($form);
-
-		// update the user's session
-		if (Session::group()->id == $group->id) {
-			Session::setGroup($group);
-		}
-		return redirect('/group/'.$group->id.'/edit')->withFlashSuccess('Your changes were saved');
+		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Your changes were saved');
 	}
 
-	/**
-	 * Swap the current user's group for another
-	 *
-	 * @param GroupCreatorOnlyRequest $request
-	 * @param                         $id
-	 *
-	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-	 */
-	public function swap(GroupCreatorOnlyRequest $request, $id)
+	public function destroy($tournamentId, $eventId)
 	{
-		Session::setGroup(Group::findOrFail($id));
+		Event::findOrFail($eventId)->delete();
 
-		return redirect('/dashboard');
+		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event deleted');
 	}
 
 }

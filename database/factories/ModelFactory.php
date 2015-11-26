@@ -7,6 +7,9 @@ use BibleBowl\Player;
 use BibleBowl\Role;
 use BibleBowl\Address;
 use BibleBowl\Groups\GroupCreator;
+use BibleBowl\Tournament;
+use BibleBowl\Season;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +53,18 @@ $factory->define(Address::class, function (Generator $faker) {
         'city'			    => $faker->city,
         'state'			    => $faker->stateAbbr,
         'zip_code'		    => $faker->postcode
+    ];
+});
+
+$factory->define(Tournament::class, function (Generator $faker) {
+    return [
+        'name'                  => $faker->word,
+        'season_id'	            => Season::current()->id,
+        'start'	                => Carbon::now()->addMonth(1),
+        'end'                   => Carbon::now()->addDays(14),
+        'registration_start'    => Carbon::now()->subMonth(1),
+        'registration_end'		=> Carbon::now()->subDays(14),
+        'creator_id'			=> User::where('email', DatabaseSeeder::DIRECTOR_EMAIL)->first()->id
     ];
 });
 

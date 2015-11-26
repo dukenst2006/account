@@ -48,14 +48,21 @@
                                 </div>
                                 <table class="table no-more-tables">
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Type</th>
                                         <th class="text-center">Price</th>
+                                        <th width="20%"></th>
                                     </tr>
-                                    @foreach ($tournament->events as $event)
+                                    @foreach ($tournament->events()->with('type')->get() as $event)
+                                        {!! Form::open(['url' => '/admin/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
                                         <tr>
-                                            <td><a href="/admin/tournaments/event/{{ $event->id }}">{{ $event->type->name }}</a></td>
-                                            <td class="text-center">{{ is_null($event->price_per_participant) ? '-' : '$'.money_format($event->price_per_participant) }} / {{ ucwords($event->type->participant_type) }}</td>
+                                            <td>{{ $event->type->name }}</td>
+                                            <td class="text-center">{{ $event->displayPrice() }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
+                                                <a class="fa fa-trash-o p-l-20" onclick="$(this).closest('form').submit();" id="delete-{{ $event->id }}"></a>
+                                            </td>
                                         </tr>
+                                        {!! Form::close() !!}
                                     @endforeach
                                 </table>
                             </div>

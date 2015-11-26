@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Presentation;
 
 use Auth;
+use BibleBowl\EventType;
 use BibleBowl\Program;
 use Carbon\Carbon;
 use Illuminate\Html\FormBuilder;
@@ -253,6 +254,31 @@ class Form extends FormBuilder
         for ($x = 1; $x <= 5; $x++) {
             $currentYear += 1;
             $list[$currentYear] = $currentYear;
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectParticipantType($name, $selected = null, $options = array(), $optional = false)
+    {
+        $participantTypes = [
+            EventType::PARTICIPANT_PLAYER   => 'Individual Players',
+            EventType::PARTICIPANT_TEAM     => 'Teams'
+        ];
+        $list = [];
+        foreach ($participantTypes as $type => $label) {
+            $list[$type] = $label;
         }
 
         if ($optional) {

@@ -12,46 +12,36 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        {!! Form::open(['url' => '/admin/tournaments', 'role' => 'form']) !!}
+                        {!! Form::open(['route' => ['admin.tournaments.events.store', $tournament->id], 'role' => 'form']) !!}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Tournament
+                                </div>
+                                <div class="col-md-10 p-b-10">
+                                    <h4 class="semi-bold no-margin">
+                                        {{ $tournament->name }}
+                                    </h4>
+                                    <p>{{ $tournament->dateSpan() }}</p>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12 form-group">
-                                    <label class="form-label">Name <span class="required">*</span></label>
+                                    <label class="form-label">Event Type <span class="required">*</span></label>
                                     <span class="help"></span>
                                     <div class="controls">
-                                        {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
+                                        @foreach($eventTypes as $eventType)
+                                            <div class="radio">
+                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id]) !!}
+                                                <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> (priced per {{ $eventType->participant_type }})</label>
+                                            </div>
+                                            <br/>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="form-label">Tournament Dates <span class="required">*</span></label>
-                                    <div class="controls p-b-20">
-                                        <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) ? $tournament->start->format('m/d/Y') : \Carbon\Carbon::now()->format('m/d/Y')) }}">
-                                            {!! Form::text('start', (isset($tournament) ? $tournament->start->format('m/d/Y') : null), ['class' => 'form-control', 'placeholder' => 'Start']) !!}
-                                            <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                        </div> -
-                                        <div class="input-append success date m-l-50" style='width:100px' data-date="{{ (isset($tournament) ? $tournament->end->format('m/d/Y') : \Carbon\Carbon::now()->format('m/d/Y')) }}">
-                                            {!! Form::text('end', (isset($tournament) ? $tournament->end->format('m/d/Y') : null), ['class' => 'form-control', 'placeholder' => 'End']) !!}
-                                            <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 p-b-30">
-                                    <label class="form-label">Registration Dates <span class="required">*</span></label>
-                                    <div class="controls p-b-20">
-                                        <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) ? $tournament->start->format('m/d/Y') : \Carbon\Carbon::now()->format('m/d/Y')) }}">
-                                            {!! Form::text('registration_start', (isset($tournament) ? $tournament->registration_start->format('m/d/Y') : null), ['class' => 'form-control', 'placeholder' => 'Start']) !!}
-                                            <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                        </div> -
-                                        <div class="input-append success date m-l-50" style='width:100px' data-date="{{ (isset($tournament) ? $tournament->end->format('m/d/Y') : \Carbon\Carbon::now()->format('m/d/Y')) }}">
-                                            {!! Form::text('registration_end', (isset($tournament) ? $tournament->registration_end->format('m/d/Y') : null), ['class' => 'form-control', 'placeholder' => 'End']) !!}
-                                            <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                            @include('admin.tournaments.events.form')
+
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>

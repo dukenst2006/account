@@ -19,16 +19,20 @@ class ProductionSeeder extends Seeder {
 	public function run()
 	{
         EventType::create([
-            'name'          => 'Round Robin'
+            'participant_type'  => EventType::PARTICIPANT_TEAM,
+            'name'              => 'Round Robin'
         ]);
         EventType::create([
-            'name'          => 'Quote Bee'
+            'participant_type'  => EventType::PARTICIPANT_PLAYER,
+            'name'              => 'Quote Bee'
         ]);
         EventType::create([
-            'name'          => 'Double Elimination'
+            'participant_type'  => EventType::PARTICIPANT_TEAM,
+            'name'              => 'Double Elimination'
         ]);
         EventType::create([
-            'name'          => 'BuzzOff'
+            'participant_type'  => EventType::PARTICIPANT_PLAYER,
+            'name'              => 'BuzzOff'
         ]);
 
         $this->createRolesAndPermissions();

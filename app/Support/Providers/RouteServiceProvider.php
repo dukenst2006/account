@@ -146,7 +146,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 					Route::resource('tournaments', 'TournamentsController');
 					Route::resource('tournaments.events', 'Tournaments\EventsController', [
-						'except' => ['index']
+						'except' => ['index', 'show']
 					]);
                 });
 			});

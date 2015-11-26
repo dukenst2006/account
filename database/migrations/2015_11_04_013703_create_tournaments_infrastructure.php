@@ -26,9 +26,9 @@ class CreateTournamentsInfrastructure extends Migration
             $table->date('end');
             $table->date('registration_start');
             $table->date('registration_end');
+            $table->string('url');
             $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users');
-            $table->string('url');
             $table->timestamps();
         });
 
