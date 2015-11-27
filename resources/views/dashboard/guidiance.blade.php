@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-5 col-sm-5">
                 <div class="m-t-20">
-                    <a class="btn btn-primary btn-cons" href="/player/create">Add my student(s)</a>
+                    <a class="btn btn-primary btn-cons" href="/player/create" id="add-students">Add my student(s)</a>
                 </div>
             </div>
         </div>
