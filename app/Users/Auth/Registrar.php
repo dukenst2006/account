@@ -23,7 +23,7 @@ class Registrar implements RegistrarContract {
 		$rules = array_only(User::validationRules(), ['email', 'password']);
 		$rules['password'] = 'required|'.$rules['password'];
 
-		if (!App::environment('local')) {
+		if (!App::environment('local', 'testing')) {
 			$rules['g-recaptcha-response'] = 'required|captcha';
 		}
 

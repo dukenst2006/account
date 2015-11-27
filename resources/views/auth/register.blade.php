@@ -68,11 +68,11 @@
 									</div>
 								</div>
 							</div>
-							@if(!App::environment('local'))
+							@if(!App::environment('local', 'testing'))
 							<div class="row">
 								<div class="col-md-3"></div>
 								<div class="col-md-5 text-center">
-									{!! app('captcha')->display(); !!}
+									{!! app('captcha')->display() !!}
 									<br/>
 								</div>
 								<div class="col-md-3"></div>
