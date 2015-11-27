@@ -7,7 +7,7 @@ class GroupsTest extends TestCase
 
     protected $group;
 
-    use \Lib\Roles\ActingAsDirector;
+    use \Helpers\ActingAsDirector;
 
     public function setUp()
     {

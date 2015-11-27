@@ -3,7 +3,7 @@
 class InfoTest extends TestCase
 {
 
-    use \Lib\Roles\ActingAsGuardian;
+    use \Helpers\ActingAsGuardian;
 
     public function setUp()
     {

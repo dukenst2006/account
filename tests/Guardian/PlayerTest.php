@@ -9,7 +9,7 @@ class PlayerTest extends TestCase
     protected $firstName = 'Lucy';
     protected $lastName = 'Tharn';
 
-    use \Lib\Roles\ActingAsGuardian;
+    use \Helpers\ActingAsGuardian;
 
     public function setUp()
     {

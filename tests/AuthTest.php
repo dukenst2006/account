@@ -6,7 +6,7 @@ use Laravel\Socialite\Two\User as ThirdPartyUser;
 
 class AuthTest extends TestCase
 {
-    use \Lib\Roles\ActingAsGuardian;
+    use \Helpers\ActingAsGuardian;
 
     protected $password = 'asdfasdf';
 

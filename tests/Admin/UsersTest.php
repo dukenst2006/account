@@ -7,7 +7,7 @@ class UsersTest extends TestCase
 
     protected $user;
 
-    use \Lib\Roles\ActingAsDirector;
+    use \Helpers\ActingAsDirector;
 
     public function setUp()
     {

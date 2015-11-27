@@ -1,4 +1,4 @@
-<?php namespace Lib\Roles;
+<?php namespace Helpers;
 
 use BibleBowl\Group;
 use BibleBowl\Season;

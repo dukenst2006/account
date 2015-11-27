@@ -9,7 +9,7 @@ class AddressTest extends TestCase
     protected $addressTwo = 'Apt 6';
     protected $zipCode = 40241;
 
-    use \Lib\Roles\ActingAsGuardian;
+    use \Helpers\ActingAsGuardian;
 
     public function setUp()
     {

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 class TournamentsTest extends TestCase
 {
 
-    use \Lib\Roles\ActingAsDirector;
+    use \Helpers\ActingAsDirector;
 
     public function setUp()
     {

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class SeasonRegistrationTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
-    use \Lib\Roles\ActingAsGuardian;
+    use \Helpers\ActingAsGuardian;
 
     public function setUp()
     {

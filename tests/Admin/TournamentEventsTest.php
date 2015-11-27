@@ -8,7 +8,7 @@ use BibleBowl\Event;
 class TournamentEventsTest extends TestCase
 {
 
-    use \Lib\Roles\ActingAsDirector;
+    use \Helpers\ActingAsDirector;
 
     public function setUp()
     {

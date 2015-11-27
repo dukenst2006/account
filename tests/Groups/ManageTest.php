@@ -5,7 +5,7 @@ use BibleBowl\Group;
 class ManageTest extends TestCase
 {
 
-    use \Lib\Roles\ActingAsHeadCoach;
+    use \Helpers\ActingAsHeadCoach;
 
     public function setUp()
     {

@@ -1,24 +1,24 @@
-<?php namespace Lib\Roles;
+<?php namespace Helpers;
 
 use BibleBowl\Season;
 use BibleBowl\User;
 use BibleBowl\Users\Auth\SessionManager;
 use DatabaseSeeder;
 
-trait ActingAsDirector
+trait ActingAsGuardian
 {
     /** @var User */
-    private $director;
+    private $guardian;
 
     /** @var Season */
     private $season;
 
-    public function setupAsDirector()
+    public function setupAsGuardian()
     {
-        $this->director = User::where('email', DatabaseSeeder::DIRECTOR_EMAIL)->first();
+        $this->guardian = User::where('email', DatabaseSeeder::GUARDIAN_EMAIL)->first();
         $this->season = Season::orderBy('id', 'DESC')->first();
 
-        $this->actingAs($this->director)
+        $this->actingAs($this->guardian)
             ->withSession([
                 SessionManager::SEASON  => $this->season->toArray()
             ]);
@@ -29,8 +29,8 @@ trait ActingAsDirector
         return $this->season;
     }
 
-    public function director()
+    public function guardian()
     {
-        return $this->director;
+        return $this->guardian;
     }
 }

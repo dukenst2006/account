@@ -7,7 +7,7 @@ use BibleBowl\Users\Auth\SessionManager;
 class GroupJoinTest extends TestCase
 {
 
-    use \Lib\Roles\ActingAsGuardian;
+    use \Helpers\ActingAsGuardian;
 
     public function setUp()
     {
