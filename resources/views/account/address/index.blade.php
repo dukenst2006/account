@@ -3,6 +3,7 @@
 @section('title', 'My Addresses')
 
 @includeJs(/assets/js/accounts.js)
+@includeCss(/css/account.css)
 
 @section('content')
     <div class="content sm-gutter">
@@ -24,8 +25,8 @@
                                     @if (Auth::user()->primary_address_id !== $address->id)
                                         <li><a id="set-primary-{{$address->id}}" href="/account/address/{{ $address->id }}/makePrimary" class="control-set-default">Make Primary</a></li>
                                     @endif
-                                    <li><a href="/account/address/{{ $address->id }}/edit" class="control-edit">Edit</a></li>
-                                    <li><a onclick="$(this).closest('form').submit();" class="control-delete">Delete</a></li>
+                                    <li><a href="/account/address/{{ $address->id }}/edit" id='edit-{{ $address->id }}' class="control-edit">Edit</a></li>
+                                    <li><a onclick="$(this).closest('form').submit();" id='delete-{{ $address->id }}' class="control-delete">Delete</a></li>
                                 </ul>
                             </div>
                             {!! Form::close() !!}
