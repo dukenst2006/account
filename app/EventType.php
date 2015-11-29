@@ -4,6 +4,22 @@ namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * BibleBowl\EventType
+ *
+ * @property integer $id
+ * @property string $participant_type
+ * @property string $name
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-write mixed $price_per_participant
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereParticipantType($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereUpdatedAt($value)
+ */
 class EventType extends Model
 {
     const PARTICIPANT_TEAM = 'team';

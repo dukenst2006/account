@@ -8,20 +8,20 @@ use Rhumsaa\Uuid\Uuid;
 /**
  * BibleBowl\Player
  *
- * @property integer $id 
- * @property string $guid 
- * @property integer $guardian_id 
- * @property string $first_name 
- * @property string $last_name 
- * @property string $shirt_size 
- * @property string $gender 
- * @property string $birthday 
- * @property string $deleted_at 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read User $guardian 
- * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons 
- * @property-read mixed $full_name 
+ * @property integer $id
+ * @property string $guid
+ * @property integer $guardian_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $shirt_size
+ * @property string $gender
+ * @property string $birthday
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read User $guardian
+ * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
+ * @property-read mixed $full_name
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuardianId($value)
@@ -33,6 +33,13 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|Program[] $programs
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegisteredWithNBB($season, $user)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithNBBOnly($season)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithGroup($season, $group)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
  */
 class Player extends Model {
 

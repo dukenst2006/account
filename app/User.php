@@ -1,12 +1,10 @@
 <?php namespace BibleBowl;
 
 use App;
-use BibleBowl\Location\Communication\AddAsRoleOnMailingList;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\Users\Settings;
 use Carbon\Carbon;
 use DatabaseSeeder;
-use Event;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -19,27 +17,27 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 /**
  * BibleBowl\User
  *
- * @property integer $id 
- * @property boolean $status 
- * @property string $guid 
- * @property string $email 
- * @property string $first_name 
- * @property string $last_name 
- * @property string $phone 
- * @property string $gender 
+ * @property integer $id
+ * @property boolean $status
+ * @property string $guid
+ * @property string $email
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $phone
+ * @property string $gender
  * @property string $avatar
  * @property Settings $settings
- * @property string $last_login 
- * @property string $password 
- * @property string $remember_token 
+ * @property string $last_login
+ * @property string $password
+ * @property string $remember_token
  * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Illuminate\Database\Eloquent\Collection|UserProvider[] $providers 
- * @property-read \Illuminate\Database\Eloquent\Collection|Address[] $addresses 
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups 
- * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players 
- * @property-read mixed $full_name 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles 
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|UserProvider[] $providers
+ * @property-read \Illuminate\Database\Eloquent\Collection|Address[] $addresses
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
+ * @property-read mixed $full_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGuid($value)
@@ -55,6 +53,12 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereUpdatedAt($value)
  * @method static \BibleBowl\User byProviderId($id)
+ * @property integer $primary_address_id
+ * @property-read Address $primaryAddress
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $ownedGroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePrimaryAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 

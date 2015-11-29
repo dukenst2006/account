@@ -5,6 +5,27 @@ namespace BibleBowl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * BibleBowl\Program
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $abbreviation
+ * @property string $slug
+ * @property string $description
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $providers
+ * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereAbbreviation($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
+ */
 class Program extends Model
 {
     const BEGINNER = 1;

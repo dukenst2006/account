@@ -10,18 +10,18 @@ use Validator;
 /**
  * BibleBowl\Group
  *
- * @property integer $id 
- * @property string $guid 
- * @property boolean $type 
- * @property string $name 
- * @property integer $owner_id 
- * @property integer $address_id 
- * @property integer $meeting_address_id 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read Address $address 
- * @property-read mixed $full_name 
- * @property-read User $users 
+ * @property integer $id
+ * @property string $guid
+ * @property boolean $type
+ * @property string $name
+ * @property integer $owner_id
+ * @property integer $address_id
+ * @property integer $meeting_address_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read Address $address
+ * @property-read mixed $full_name
+ * @property-read User $users
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereType($value)
@@ -32,6 +32,20 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereUpdatedAt($value)
  * @method static \BibleBowl\Group near($address, $miles = null)
+ * @property integer $program_id
+ * @property \Carbon\Carbon $inactive
+ * @property-read Address $meetingAddress
+ * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
+ * @property-read User $owner
+ * @property-read Program $program
+ * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereProgramId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereInactive($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group byProgram($program)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group activeGuardians($group, $season)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactiveGuardians($group, $season)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group active()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
  */
 class Group extends Model {
     use CanDeactivate;

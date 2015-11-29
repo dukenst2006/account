@@ -6,21 +6,21 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
 /**
  * BibleBowl\Address
  *
- * @property integer $id 
- * @property integer $user_id 
- * @property string $name 
- * @property string $address_one 
- * @property string $address_two 
- * @property string $city 
- * @property string $state 
- * @property string $zip_code 
- * @property float $latitude 
- * @property float $longitude 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property string $deleted_at 
- * @property-read User $user 
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $group 
+ * @property integer $id
+ * @property integer $user_id
+ * @property string $name
+ * @property string $address_one
+ * @property string $address_two
+ * @property string $city
+ * @property string $state
+ * @property string $zip_code
+ * @property float $latitude
+ * @property float $longitude
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property-read User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $group
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereName($value)

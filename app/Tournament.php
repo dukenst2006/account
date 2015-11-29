@@ -7,6 +7,39 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Rhumsaa\Uuid\Uuid;
 
+/**
+ * BibleBowl\Tournament
+ *
+ * @property integer $id
+ * @property string $guid
+ * @property integer $season_id
+ * @property string $name
+ * @property boolean $active
+ * @property string $start
+ * @property string $end
+ * @property string $registration_start
+ * @property string $registration_end
+ * @property string $url
+ * @property integer $creator_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-read Season $season
+ * @property-read User $creator
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereSeasonId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereStart($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereEnd($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereRegistrationStart($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereRegistrationEnd($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereCreatorId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereUpdatedAt($value)
+ */
 class Tournament extends Model
 {
     const ACTIVE = 1;
