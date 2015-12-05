@@ -70,8 +70,8 @@
                     </div>
                 </div>
                 <div class="text-center muted p-t-20" style="font-style:italic; font-size: 90%;">
-                        Last Updated: {{ $tournament->updated_at->format('F j, Y, g:i a') }} |
-                        Created: {{ $tournament->created_at->format('F j, Y, g:i a') }}
+                        Last Updated: {{ $tournament->updated_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }} |
+                        Created: {{ $tournament->created_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }}
                 </div>
             </div>
         </div>

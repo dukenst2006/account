@@ -28,7 +28,7 @@ class CreateSeasonsTable extends Migration {
             $table->integer('group_id')->unsigned()->nullable();
             $table->string('grade');
             $table->string('shirt_size', 3);
-            $table->dateTime('inactive')->nullable();
+            $table->timestamp('inactive')->nullable();
             $table->timestamps();
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->foreign('program_id')->references('id')->on('programs');

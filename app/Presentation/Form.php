@@ -5,9 +5,34 @@ use BibleBowl\EventType;
 use BibleBowl\Program;
 use Carbon\Carbon;
 use Illuminate\Html\FormBuilder;
+use DateTimeZone;
+use DateTime;
 
 class Form extends FormBuilder
 {
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectTimezone($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [];
+        foreach(DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, 'US') as $timezoneIdentifier) {
+            $timezone = new DateTimeZone($timezoneIdentifier);
+            $offsetInHours = $timezone->getoffset(new DateTime()) / (3600);
+            $list[$timezoneIdentifier] = '(UTC '.$offsetInHours.':00) '.$timezoneIdentifier;
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
 
     /**
      * @param       $name

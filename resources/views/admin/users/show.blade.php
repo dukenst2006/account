@@ -110,10 +110,10 @@
                 <div class="text-center muted p-t-20" style="font-style:italic; font-size: 90%;">Last Login: @if(is_null($user->last_login))
                             never
                         @else
-                            {{ $user->last_login->format('F j, Y, g:i a') }}
+                            {{ $user->last_login->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }}
                         @endif |
-                        Last Updated: {{ $user->updated_at->format('F j, Y, g:i a') }} |
-                        Created: {{ $user->created_at->format('F j, Y, g:i a') }}
+                        Last Updated: {{ $user->updated_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }} |
+                        Created: {{ $user->created_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }}
                 </div>
             </div>
         </div>

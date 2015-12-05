@@ -42,7 +42,7 @@
                             <div class="col-md-6">
                                 <label class="form-label">Phone</label>
                                 <span class="help"></span>
-                                <div class="controls p-b-20">
+                                <div class="controls">
                                     {!! Form::text('phone', null, ['class' => 'form-control', 'id' => 'phone', 'maxlength' => 10]) !!}<br/>
                                 </div>
                             </div>
@@ -51,6 +51,15 @@
                                 <span class="help"></span>
                                 <div class="controls">
                                     @include('partials.forms.gender')
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Timezone</label>
+                                <span class="help"></span>
+                                <div class="controls p-b-20">
+                                    {!! Form::selectTimezone('timezone', null, ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
                                 </div>
                             </div>
                         </div>

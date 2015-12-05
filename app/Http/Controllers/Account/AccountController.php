@@ -36,6 +36,14 @@ class AccountController extends Controller
 			'gender'		=> $request->get('gender')
 		]);
 
+		// update user timezone
+		$user = Auth::user();
+		$settings = $user->settings;
+		$settings->setTimezone($request->input('timezone'));
+		$user->update([
+				'settings' => $settings
+		]);
+
 		return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
 	}
 

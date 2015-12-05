@@ -42,6 +42,14 @@ class SetupController extends Controller
 			$user->gender = $request->get('gender');
 			$user->save();
 
+			// set timezone
+			$settings = $user->settings;
+			$settings->setTimezone($request->input('timezone'));
+			$user->update([
+				'settings' => $settings
+			]);
+
+			// add user address
 			$address = App::make(Address::class, [$request->except([
 				'first_name', 'last_name', 'phone', 'gender'
 			])]);

@@ -25,9 +25,9 @@ class CreateUsersTable extends Migration {
 			$table->bigInteger('phone')->unsigned()->nullable();
 			$table->string('gender', 1)->nullable();
 			$table->string('avatar', 255);
-			$table->dateTime('last_login')->nullable();
+			$table->timestamp('last_login')->nullable();
 			$table->string('password', 60)->nullable();
-            $table->text('settings')->nullable();
+			$table->text('settings')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
 		});

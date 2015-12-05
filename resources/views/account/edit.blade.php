@@ -5,7 +5,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-offset-3 col-md-6">
+            <div class="col-md-offset-2 col-md-8">
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <h4>Edit <span class="semi-bold">My Account</span></h4>
@@ -68,6 +68,15 @@
                                 </div>
                             </div>
                             @endif
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="form-label">Timezone</label>
+                                    <span class="help"></span>
+                                    <div class="controls p-b-20">
+                                        {!! Form::selectTimezone('timezone', old('timezone', Auth::user()->settings->timeszone()), ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>
