@@ -37,9 +37,9 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="text-center muted p-t-20" style="font-style:italic; font-size: 90%;">Last Updated: {{ $group->updated_at->format('F j, Y, g:i a') }} | Created: {{ $group->created_at->format('F j, Y, g:i a') }}</div>
+                        <div class="text-center muted p-t-20" style="font-style:italic; font-size: 90%;">Last Updated: {{ $group->updated_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }} | Created: {{ $group->created_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }}</div>
                         @if($group->isInactive())
-                            <span class="center text-error">Inactive as of {{ $group->inactive->format('m/d/Y at g:i a') }}</span>
+                            <span class="center text-error">Inactive as of {{ $group->inactive->timezone(Auth::user()->settings->timeszone())->format('m/d/Y at g:i a') }}</span>
                         @endif
                     </div>
                 </div>
