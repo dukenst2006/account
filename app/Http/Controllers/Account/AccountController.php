@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers\Account;
 
 use Auth;
+use BibleBowl\Event;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\User;
@@ -41,8 +42,10 @@ class AccountController extends Controller
 		$settings = $user->settings;
 		$settings->setTimezone($request->input('timezone'));
 		$user->update([
-				'settings' => $settings
+			'settings' => $settings
 		]);
+
+		event('user.profile.updated', $user);
 
 		return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
 	}

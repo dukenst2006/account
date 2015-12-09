@@ -33,11 +33,11 @@ class EventServiceProvider extends ServiceProvider {
 		'user.role.removed' => [
 			RemoveInterestOnMailingList::class
 		],
+		'user.profile.updated' => [
+			UpdateSubscriberInformation::class
+		],
 		'eloquent.created: BibleBowl\User' => [
 			AddToMailingList::class
-		],
-		'eloquent.updated: BibleBowl\User' => [
-			UpdateSubscriberInformation::class
 		],
 		'eloquent.created: BibleBowl\Address' => [
 			FetchCoordinatesForAddress::class
