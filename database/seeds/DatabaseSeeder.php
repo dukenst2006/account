@@ -1,7 +1,8 @@
 <?php
 
 use BibleBowl\Program;
-use BibleBowl\Player;
+use BibleBowl\TeamSet;
+use BibleBowl\Team;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Season;
 use BibleBowl\User;
@@ -149,7 +150,8 @@ class DatabaseSeeder extends Seeder {
         ]);
         $BKuhlHeadCoach->addresses()->save($address);
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
-        $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address);
+        $group = $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address);
+        $this->seedTeamSet($group);
     }
 
     private function seedGuardian()
@@ -232,6 +234,29 @@ class DatabaseSeeder extends Seeder {
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
         ]);
+
+        return $group;
+    }
+
+    private function seedTeamSet(Group $group)
+    {
+        $teamSet = TeamSet::create([
+            'group_id'      => $group->id,
+            'season_id'     => $this->season->id,
+            'name'          => 'League Teams'
+        ]);
+        $players = $group->players;
+        for ($x = 1; $x <= 2; $x++) {
+            $team = Team::create([
+                'team_set_id'   => $teamSet->id,
+                'name'          => 'Team '.$x
+            ]);
+
+            foreach ($players->random(2) as $player) {
+                $team->players()->attach($player->id);
+            }
+        }
+
     }
 
 }

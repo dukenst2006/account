@@ -19,9 +19,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
- * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
+ * @property integer $group_id
+ * @property integer $season_id
+ * @property-read Group $group
+ * @property-read Season $season
+ * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
  */
-class Season extends Model {
+class TeamSet extends Model {
 
     /**
      * The attributes that are not mass assignable.
@@ -30,40 +36,37 @@ class Season extends Model {
      */
     protected $guarded = ['id'];
 
+    public static function validationRules()
+    {
+        return [
+            'name'  => 'required|max:64'
+        ];
+    }
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function players() {
-        // if this relation is updated, update Player too
-        return $this->belongsToMany(Player::class, 'player_season')
-            ->withPivot('group_id', 'grade', 'shirt_size')
-            ->withTimestamps()
-            ->orderBy('birthday', 'DESC');
+    public function group() {
+        return $this->belongsTo(Group::class);
     }
 
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'player_season')
-            ->orderBy('name', 'ASC');
-    }
-
-    public function scopeCurrent($query)
-    {
-        return $query->orderBy('id', 'desc');
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function season() {
+        return $this->belongsTo(Season::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function tournaments() {
-        return $this->hasMany(Tournament::class);
+    public function teams() {
+        return $this->hasMany(Team::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function teamSets() {
-        return $this->hasMany(TeamSet::class);
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords(strtolower($name));
     }
 
 }

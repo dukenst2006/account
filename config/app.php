@@ -26,7 +26,9 @@ return [
 	|
 	*/
 
-	'url' => 'http://manage.biblebowl.org',
+	'url' => 'http://account.biblebowl.org',
+
+	'title' => 'Bible Bowl Management',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -153,7 +155,8 @@ return [
 		\Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 		\Zizaco\Entrust\EntrustServiceProvider::class,
 		\Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider::class,
-		\Easychimp\ServiceProvider::class
+		\Easychimp\ServiceProvider::class,
+		\Barryvdh\DomPDF\ServiceProvider::class,
 
 	],
 

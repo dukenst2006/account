@@ -36,11 +36,20 @@ class Event extends Model
 
     public function setPricePerParticipantAttribute($price)
     {
-        if ($price = '' || intval($price) == 0) {
+        if ($price == '' || intval($price) == 0) {
             $this->attributes['price_per_participant'] = null;
         } else {
             $this->attributes['price_per_participant'] = $price;
         }
+    }
+
+    public function getPricePerParticipantAttribute()
+    {
+        if (is_null($this->attributes['price_per_participant'])) {
+            return null;
+        }
+
+        return money_format('%.2n', $this->attributes['price_per_participant']);
     }
 
     /**

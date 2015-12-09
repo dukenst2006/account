@@ -40,6 +40,7 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithGroup($season, $group)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
+ * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  */
 class Player extends Model {
 
@@ -80,7 +81,7 @@ class Player extends Model {
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function seasons()
     {
@@ -90,7 +91,7 @@ class Player extends Model {
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function groups()
     {
@@ -100,12 +101,21 @@ class Player extends Model {
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function programs()
     {
         return $this->belongsToMany(Program::class, 'player_season')
             ->withPivot('group_id', 'season_id', 'grade', 'shirt_size')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class)
             ->withTimestamps();
     }
 

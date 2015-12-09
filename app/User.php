@@ -88,6 +88,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		'status' => self::STATUS_UNCONFIRMED
 	];
 
+	protected $casts = [
+		'settings' => Settings::class
+	];
+
 	/**
 	 * The attributes that are guarded against mass assignment.
 	 *
@@ -221,7 +225,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return App::make(Settings::class);
         }
 
-        return App::make(Settings::class, [(array)json_decode($value)]);
+        return App::make(Settings::class, [$this->fromJson($value)]);
     }
 
     /**

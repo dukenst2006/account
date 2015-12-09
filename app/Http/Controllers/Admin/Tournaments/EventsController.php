@@ -59,7 +59,7 @@ class EventsController extends Controller
 	public function update(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
 	{
 		$event = Event::findOrFail($eventId);
-		$event->update($request->except('_token'));
+		$event->update($request->except('_token', '_method'));
 
 		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Your changes were saved');
 	}

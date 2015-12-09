@@ -4,6 +4,13 @@ use Illuminate\Support\Fluent;
 
 class Settings extends Fluent
 {
+    public function __construct($attributes = [])
+    {
+        if (!is_null($attributes)) {
+            parent::__construct($attributes);
+        }
+    }
+
     public function timeszone()
     {
         return $this->get('timezone', 'America/Kentucky/Louisville');

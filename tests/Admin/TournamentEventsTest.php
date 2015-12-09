@@ -26,7 +26,7 @@ class TournamentEventsTest extends TestCase
         $this
             ->visit('/admin/tournaments/1')
             ->click('Add Event')
-            ->check('event_type_id')
+            ->select(3, 'event_type_id')
             ->type($price, 'price_per_participant')
             ->press('Save')
             ->seePageIs('/admin/tournaments/1')

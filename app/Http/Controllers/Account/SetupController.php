@@ -51,7 +51,7 @@ class SetupController extends Controller
 
 			// add user address
 			$address = App::make(Address::class, [$request->except([
-				'first_name', 'last_name', 'phone', 'gender'
+				'first_name', 'last_name', 'phone', 'gender', 'timezone'
 			])]);
 			$user->addresses()->save($address);
             $user->update(['primary_address_id' => $address->id]);

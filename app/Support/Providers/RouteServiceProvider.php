@@ -85,9 +85,18 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::patch('notifications', 'NotificationController@update');
                 });
 
-                Route::resource('player', 'PlayerController', [
-                    'except' => ['delete']
-                ]);
+				Route::resource('player', 'PlayerController', [
+					'except' => ['delete']
+				]);
+
+				Route::group([
+					'namespace'	=> 'Teams'
+				], function () {
+					Route::resource('team', 'TeamSetController', [
+						'only' => ['show', 'index', 'create', 'store']
+					]);
+					Route::get('team/{id}/download', 'TeamSetController@download');
+				});
 
                 Route::group([
                     'namespace'	=> 'Seasons'

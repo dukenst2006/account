@@ -28,11 +28,17 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                 @if(Route::current()->getUri() == 'roster')
                         active
                     @endif">
-                    <a href="/roster"> <i class="fa fa-users"></i>  <span class="title">Player Roster</span> </a>
+                    <a href="/roster"> <i class="fa fa-user"></i>  <span class="title">Player Roster</span> </a>
                 </li>
                 <li @if(Route::current()->getUri() == 'roster/map')
                         class="active"
                     @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
+                </li>
+                <li class="start
+                @if(Route::current()->getUri() == 'team')
+                        active
+                    @endif">
+                    <a href="/team"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
             @endif
             @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS) || Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->can(\BibleBowl\Permission::CREATE_TOURNAMENTS))

@@ -46,6 +46,7 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactiveGuardians($group, $season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group active()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
+ * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  */
 class Group extends Model {
     use CanDeactivate;
@@ -229,6 +230,13 @@ class Group extends Model {
      */
     public function seasons() {
         return $this->hasMany(Season::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function teamSets() {
+        return $this->hasMany(TeamSet::class);
     }
 
     /**
