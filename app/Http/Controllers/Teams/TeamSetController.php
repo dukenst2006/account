@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
+use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
 use BibleBowl\TeamSet;
 use Illuminate\Http\Request;
 use Session;
@@ -46,16 +47,29 @@ class TeamSetController extends Controller
 	/**
 	 * @return \Illuminate\View\View
 	 */
-	public function show($id)
+	public function show(TeamSetGroupOnlyRequest $request, $id)
 	{
+		dd($id);
 		return view('teamset.show')
 				->with('teamSet', TeamSet::findOrFail($id));
 	}
 
 	/**
+	 * @param  	$request
+	 * @param                     	$id
+	 *
+	 * @return mixed
+	 */
+	public function update(TeamSetGroupOnlyRequest $request, $id)
+	{
+		$teamSet = TeamSet::findOrFail($id);
+		$teamSet->update($request->only('name'));
+	}
+
+	/**
 	 * @param $id
 	 */
-	public function download($id)
+	public function pdf(TeamSetGroupOnlyRequest $request, $id)
 	{
 		/** @var TeamSet $teamSet */
 		$teamSet = TeamSet::with('teams.players')->findOrFail($id);

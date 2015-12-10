@@ -28,12 +28,20 @@ class AppServiceProvider extends ServiceProvider {
             }
             return "<?php \\".Html::class."::\$includeJs[] = \"".trim($path, '()')."\"; ?>";
         });
-        Blade::directive('js', function() {
-            return "<?php ob_start(); ?>";
-        });
-        Blade::directive('endjs', function() {
-            return "<?php \\".Html::class."::\$js .= ob_get_clean(); ?>";
-        });
+		Blade::directive('js', function() {
+			return "<?php ob_start(); ?>";
+		});
+		Blade::directive('endjs', function() {
+			return "<?php \\".Html::class."::\$js .= ob_get_clean(); ?>";
+		});
+
+		Blade::directive('jsData', function() {
+			return "<?php ob_start(); ?>";
+		});
+		Blade::directive('endjsData', function() {
+			return "<?php \\".Html::class."::\$jsData .= ob_get_clean(); ?>";
+		});
+
         Blade::directive('css', function() {
             return "<?php ob_start(); ?>";
         });

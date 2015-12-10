@@ -10,8 +10,14 @@ class Html extends HtmlBuilder
     const GENDER_FEMALE = 'F';
 
     public static $includeJs = [];
+
     public static $includeCss = [];
+
     public static $js = '';
+
+    /** @var string Data to pass to JS */
+    public static $jsData = '';
+
     public static $css = '';
 
     /**

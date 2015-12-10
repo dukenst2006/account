@@ -4,5 +4,7 @@
   "assets/js/dashboard.js": "assets/js/dashboard-c72f80d4.js",
   "assets/js/accounts.js": "assets/js/accounts-2f31aed7.js",
   "assets/js/forms.js": "assets/js/forms-aafd11e1.js",
-  "css/core.css": "css/core-516745da.css"
+  "css/core.css": "css/core-516745da.css",
+  "css/teamsets.css": "css/teamsets-98ad94c4.css",
+  "js/teamsets.js": "js/teamsets-98c99bca.js"
 }

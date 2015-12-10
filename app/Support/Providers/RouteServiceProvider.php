@@ -93,9 +93,9 @@ class RouteServiceProvider extends ServiceProvider {
 					'namespace'	=> 'Teams'
 				], function () {
 					Route::resource('team', 'TeamSetController', [
-						'only' => ['show', 'index', 'create', 'store']
+						'only' => ['show', 'index', 'create', 'store', 'update']
 					]);
-					Route::get('team/{id}/download', 'TeamSetController@download');
+					Route::get('team/{team}/pdf', 'TeamSetController@pdf');
 				});
 
                 Route::group([

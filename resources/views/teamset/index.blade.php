@@ -29,7 +29,7 @@
                                     <a href="/team/{{ $teamSet->id }}" class="semi-bold">{{ $teamSet->name }}</a>
                                 </td>
                                 <td>
-                                    <a href="/team/{{ $teamSet->id }}/download" class="fa fa-download"></a>
+                                    <a href="/team/{{ $teamSet->id }}/pdf" class="fa fa-download"></a>
                                 </td>
                             </tr>
                         @endforeach

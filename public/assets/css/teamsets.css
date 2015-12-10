@@ -1,0 +1,9 @@
+.edit-header {
+    height: inherit !important;
+    font-size: 24px !important;
+    margin: 10px 0 !important;
+    font-family: 'Open Sans' !important;
+    font-weight: 600 !important;
+    color: #505458 !important;
+    margin-bottom: 2px !important;
+}

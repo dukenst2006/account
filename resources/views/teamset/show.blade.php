@@ -1,16 +1,24 @@
 @extends('layouts.master')
 
-@section('title', $teamSet->name)
+@section('title', 'Editing '.$teamSet->name)
 
 @section('content')
-    <div class="content">
-        <div class="grid simple">
-            <div class="grid-title no-border">
-                <h3 class="semi-bold p-t-10 p-b-10 m-l-15">{{ $teamSet->name }}</h3>
-                <div class="b-grey b-b m-t-10"></div>
-            </div>
-            <div class="grid-body no-border p-t-20">
-            </div>
-        </div>
+    <div class="content" id="page">
+        @include('teamset.edit-teams')
     </div>
 @endsection
+
+@if(app()->environment('production', 'staging'))
+    @includeJs(https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js)
+    @includeJs(https://cdn.jsdelivr.net/vue.validator/2.0.0-alpha.6/vue-validator.min.js)
+@else
+    @includeJs(/assets/plugins/vuejs/vue-1.0.10.min.js)
+    @includeJs(/assets/plugins/vuejs/vue-2.0.0-alpha.6-validator.min.js)
+@endif
+
+@includeJs(elixir('js/teamsets.js'))
+@includeCss(elixir('css/teamsets.css'))
+
+@jsData
+    var teamSet = {!! $teamSet->toJson() !!}
+@endjsData

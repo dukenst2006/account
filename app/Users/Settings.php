@@ -6,7 +6,7 @@ class Settings extends Fluent
 {
     public function __construct($attributes = [])
     {
-        if (!is_null($attributes)) {
+        if ($attributes !== null) {
             parent::__construct($attributes);
         }
     }
