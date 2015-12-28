@@ -246,14 +246,19 @@ class DatabaseSeeder extends Seeder {
             'name'          => 'League Teams'
         ]);
         $players = $group->players;
-        for ($x = 1; $x <= 2; $x++) {
+        for ($x = 1; $x <= 8; $x++) {
             $team = Team::create([
                 'team_set_id'   => $teamSet->id,
                 'name'          => 'Team '.$x
             ]);
 
-            foreach ($players->random(2) as $player) {
-                $team->players()->attach($player->id);
+            $playerCount = ($x <= 3 ? $x - 1 : 0);
+            if ($playerCount > 0) {
+                foreach ($players->random($playerCount) as $player) {
+                    if (is_object($player)) {
+                        $team->players()->attach($player->id);
+                    }
+                }
             }
         }
 

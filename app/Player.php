@@ -51,6 +51,10 @@ class Player extends Model {
      */
     protected $guarded = ['id', 'guid'];
 
+    protected $appends = ['full_name'];
+
+    protected $hidden = ['id','first_name','last_name'];
+
     public static function boot()
     {
         parent::boot();
@@ -115,7 +119,7 @@ class Player extends Model {
      */
     public function teams()
     {
-        return $this->belongsToMany(Team::class)
+        return $this->belongsToMany(Team::class, 'team_player')
             ->withTimestamps();
     }
 
@@ -207,6 +211,14 @@ class Player extends Model {
     public function isRegisteredWithGroup(Season $season)
     {
         return $this->groups()->wherePivot('season_id', $season->id)->count() > 0;
+    }
+
+    public function scopeNotOnTeamSet(Builder $query, TeamSet $teamSet)
+    {
+        return $query->whereDoesntHave('teams',
+            function (Builder $query) use ($teamSet) {
+                $query->where('teams.team_set_id', $teamSet->id);
+            });
     }
 
     public function scopeNotRegisteredWithNBB(Builder $query, Season $season, User $user)

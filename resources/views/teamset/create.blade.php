@@ -12,7 +12,7 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        {!! Form::open(['url' => ['/team'], 'role' => 'form']) !!}
+                        {!! Form::open(['url' => ['/teamsets'], 'role' => 'form']) !!}
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label class="form-label">Name</label>

@@ -1,6 +1,7 @@
 <?php namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * BibleBowl\Season
@@ -61,7 +62,14 @@ class TeamSet extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function teams() {
-        return $this->hasMany(Team::class);
+        $seasonId = $this->season_id;
+        return $this->hasMany(Team::class)
+            ->with([
+                'players.seasons' => function (BelongsToMany $query) use ($seasonId) {
+                    $query->where('season_id', $seasonId);
+                    $query->withPivot('grade');
+                }
+            ]);
     }
 
     public function setNameAttribute($name)

@@ -3,8 +3,11 @@
 @section('title', 'Editing '.$teamSet->name)
 
 @section('content')
-    <div class="content" id="page">
-        @include('teamset.edit-teams')
+    <div class="content" id="page" v-cloak>
+        @include('teamset.edit-teamset', [
+            'players'   => $players,
+            'teamSet'   => $teamSet
+        ])
     </div>
 @endsection
 

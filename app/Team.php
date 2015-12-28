@@ -36,14 +36,20 @@ class Team extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function teamSet() {
-        return $this->belongsTo(TeamSet::class);
+        return $this->belongsTo(TeamSet::class)
+            ->orderBy('name', 'ASC');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function players() {
-        return $this->belongsToMany(Player::class, 'team_player');
+        $seasonId = $this->teamSet->season_id;
+        return $this->belongsToMany(Player::class, 'team_player')
+            ->withTimestamps()
+            ->with(['seasons' => function ($query) use ($seasonId) {
+                $query->where('season_id', $seasonId);
+            }]);
     }
 
 }

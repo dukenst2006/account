@@ -11,7 +11,7 @@
                         <h4 class="semi-bold">Teams</h4>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="/team/create" class="btn btn-primary">New Teams</a>
+                        <a href="/teamsets/create" class="btn btn-primary">New Teams</a>
                     </div>
                 </div>
                 <table class="table table-condensed">
@@ -26,10 +26,10 @@
                         @foreach ($teamSets as $teamSet)
                             <tr>
                                 <td>
-                                    <a href="/team/{{ $teamSet->id }}" class="semi-bold">{{ $teamSet->name }}</a>
+                                    <a href="/teamsets/{{ $teamSet->id }}" class="semi-bold">{{ $teamSet->name }}</a>
                                 </td>
                                 <td>
-                                    <a href="/team/{{ $teamSet->id }}/pdf" class="fa fa-download"></a>
+                                    <a href="/teamsets/{{ $teamSet->id }}/pdf" class="fa fa-download"></a>
                                 </td>
                             </tr>
                         @endforeach

@@ -41,7 +41,7 @@ class TeamSetController extends Controller
 
 		$teamSet = TeamSet::create($request->all());
 
-		return redirect('/team')->withFlashSuccess($teamSet->name.' has been added');
+		return redirect('/teamsets')->withFlashSuccess($teamSet->name.' has been added');
 	}
 
 	/**
@@ -49,9 +49,10 @@ class TeamSetController extends Controller
 	 */
 	public function show(TeamSetGroupOnlyRequest $request, $id)
 	{
-		dd($id);
+		$teamSet = TeamSet::findOrFail($id);
 		return view('teamset.show')
-				->with('teamSet', TeamSet::findOrFail($id));
+				->with('teamSet', $teamSet)
+				->withPlayers(Session::group()->players()->notOnTeamSet($teamSet)->get());
 	}
 
 	/**
@@ -64,6 +65,8 @@ class TeamSetController extends Controller
 	{
 		$teamSet = TeamSet::findOrFail($id);
 		$teamSet->update($request->only('name'));
+
+		return response()->json();
 	}
 
 	/**

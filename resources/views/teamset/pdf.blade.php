@@ -31,6 +31,7 @@
                 border-collapse: collapse;
             }
             .cell {
+                vertical-align: top;
                 border: 0.0001em solid #000;
             }
             .header {
@@ -44,7 +45,7 @@
             }
             .players {
                 text-align: center;
-                padding: 4px;
+                padding: 4px 4px 8px 4px;
                 line-height: 190%;
             }
             .row {
@@ -83,9 +84,13 @@
                 <td class="cell">
                     <div class="header">{{ $team->name }}</div>
                     <div class="players">
-                        @foreach($team->players as $player)
-                            {{ $player->full_name }} ({{ \BibleBowl\Presentation\Describer::describeGradeShort($player->seasons()->wherePivot('season_id', $teamSet->season_id)->first()->pivot->grade) }})<br/>
-                        @endforeach
+                        @if($team->players->count() > 0)
+                            @foreach($team->players as $player)
+                                {{ $player->full_name }} ({{ \BibleBowl\Presentation\Describer::describeGradeShort($player->seasons()->wherePivot('season_id', $teamSet->season_id)->first()->pivot->grade) }})<br/>
+                            @endforeach
+                        @else
+                            &nbsp; <!-- Ensure there's some spacing -->
+                        @endif
                     </div>
                 </td>
             @endforeach

@@ -1,9 +1,127 @@
 .edit-header {
     height: inherit !important;
-    font-size: 24px !important;
-    margin: 10px 0 !important;
+    font-size: 23px !important;
+    padding: 0 !important;
+    margin: 2px !important;
     font-family: 'Open Sans' !important;
     font-weight: 600 !important;
     color: #505458 !important;
     margin-bottom: 2px !important;
+}
+.team {
+    margin-top: 1em;
+}
+.players {
+    list-style-type: none;
+    padding-left: 0;
+}
+.beingDragged {
+    padding: 8px 10px 2px;
+    margin-bottom: 5px;
+    border: 2px dashed #ccc;
+    height: 34px;
+}
+.players > li:not(.beingDragged) {
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    margin-bottom: .3em;
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#eee');
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+    background: -moz-linear-gradient(top,  #fff,  #eee);
+
+    border-radius: 3px;
+
+    -moz-transition: border-color 0.3s ease-out;
+    -o-transition: border-color 0.3s ease-out;
+    -webkit-transition: border-color 0.3s ease-out;
+    -ms-transition: border-color 0.3s ease-out;
+    transition: border-color 0.3s ease-out;
+    cursor: pointer;
+}
+    .players > li:hover {
+        border-color: #999;
+    }
+    .players label {
+        margin: 0;
+        font-size: 90%;
+        cursor: pointer;
+    }
+.team {
+    position: relative;
+    padding: .5em 1em;
+    background-color: #f5f5f5;
+}
+.team ul.players {
+    min-height: 130px !important;
+}
+.team h5 {
+    margin: 0 0 .5em 0;
+    font-weight: bold;
+    text-align: center;
+}
+.team .delete {
+    position: absolute;
+    top: .5em;
+    right: .5em;
+    display: none;
+    cursor: pointer;
+    font-size: 120%;
+}
+.team:hover .delete {
+    display: block;
+}
+h3 > .fa-edit {
+    cursor: pointer;
+    font-size: 60%;
+    color: #999;
+}
+.grade-12 > label {
+    color: #4a47ff;
+}
+.grade-11 > label {
+    color: #b60000;
+}
+.grade-10 > label {
+    color: #672491;
+}
+.grade-9 > label {
+    color: #115a5d;
+}
+.grade-8 > label {
+    color: #c25b0f;
+}
+.grade-7 > label {
+    color: #2e9ea8;
+}
+.grade-6 > label {
+    color: #b050ad;
+}
+.grade-12 label:before {
+    content: "12";
+    padding-right: 4px;
+}
+.grade-11 label:before {
+    content: "11";
+    padding-right: 4px;
+}
+.grade-10 label:before {
+    content: "10";
+    padding-right: 4px;
+}
+.grade-9 label:before {
+    content: "9";
+    padding-right: 12px;
+}
+.grade-8 label:before {
+    content: "8";
+    padding-right: 12px;
+}
+.grade-7 label:before {
+    content: "7";
+    padding-right: 12px;
+}
+.grade-6 label:before {
+    content: "6";
+    padding-right: 12px;
 }

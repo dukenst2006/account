@@ -1,6 +1,7 @@
 <?php
 
 use BibleBowl\TeamSet;
+use BibleBowl\Team;
 use BibleBowl\Group;
 use BibleBowl\Users\Auth\SessionManager;
 
@@ -22,7 +23,7 @@ class TeamsTest extends TestCase
     public function canViewPdf()
     {
         $this
-            ->visit('/team/1/pdf')
+            ->visit('/teamsets/1/pdf')
             ->assertResponseOk();
     }
 
@@ -41,12 +42,93 @@ class TeamsTest extends TestCase
         $teamSet = TeamSet::findOrFail(1);
 
         $this
-            ->patch('/team/'.$teamSet->id, [
+            ->patch('/teamsets/'.$teamSet->id, [
                 'name' => $name = time()
             ])
             ->assertEquals($name, TeamSet::findOrFail($teamSet->id)->name);
 
         $teamSet->save();
+    }
+
+    /**
+     * @test
+     */
+    public function canManageTeams()
+    {
+        // avoiding CSRF token issue
+        $this->withoutMiddleware();
+
+        $group = Group::findOrFail(2);
+        $this->withSession([
+            SessionManager::GROUP   => $group->toArray()
+        ]);
+
+        $teamSet = TeamSet::findOrFail(1);
+
+        // create a team
+        $this
+            ->post('/teamsets/'.$teamSet->id.'/createTeam', [
+                'name' => $name = time()
+            ])
+            ->assertResponseOk();
+
+        $team = $teamSet->teams->last();
+        $this->assertEquals($name, $team->name);
+
+        // attach a player to this team to ensure that doesn't break deletion
+        $team->players()->attach($group->players()->first()->id);
+
+        // delete the team
+        $this
+            ->delete('/teams/'.$team->id)
+            ->assertResponseOk();
+
+        $this->assertNull(Team::find($team->id));
+    }
+
+    /**
+     * @test
+     */
+    public function canManagePlayers()
+    {
+        // avoiding CSRF token issue
+        $this->withoutMiddleware();
+
+        $group = Group::findOrFail(2);
+        $this->withSession([
+            SessionManager::GROUP   => $group->toArray()
+        ]);
+
+        $teamSet = TeamSet::findOrFail(1);
+        $team = $teamSet->teams()->first();
+        $playerId = $group->players()->first()->id;
+        $startCount = $team->players()->count();
+
+        // add a player
+        $this
+            ->post('/teams/'.$team->id.'/addPlayer', [
+                'playerId' => $playerId
+            ])
+            ->assertResponseOk();
+
+        $this->assertEquals($startCount+1, $team->players()->count());
+
+        // verify the correct player was added and that we have record of
+        // the DateTime of that event
+        $player = $team->players()->first();
+        $this->assertEquals($playerId, $player->id);
+        $this->assertNotEquals('0000-00-00 00:00:00', $player->created_at);
+        $this->assertNotEquals('0000-00-00 00:00:00', $player->updated_at);
+
+        // remove a player
+        $this
+            ->post('/teams/'.$team->id.'/removePlayer', [
+                'playerId' => $playerId
+            ])
+            ->assertResponseOk();
+
+        // verify we're at the same count we were when we started
+        $this->assertEquals($startCount, $team->players()->count());
     }
 
 }

@@ -38,7 +38,7 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                 @if(Route::current()->getUri() == 'team')
                         active
                     @endif">
-                    <a href="/team"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
+                    <a href="/teamsets"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
             @endif
             @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS) || Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->can(\BibleBowl\Permission::CREATE_TOURNAMENTS))

@@ -12,17 +12,7 @@ class TeamSetGroupOnlyRequest extends Request {
      */
     public function authorize()
     {
-        return Session::group()->id == TeamSet::findOrFail($this->route('team'))->group_id;
-    }
-
-    public function rules()
-    {
-        return [];
-    }
-
-    public function messages()
-    {
-        return [];
+        return Session::group()->id == TeamSet::findOrFail($this->route('teamsets'))->group_id;
     }
 
 }
