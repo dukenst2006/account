@@ -104,9 +104,31 @@ var vm = new Vue({
              items: 'li',
              revert: 100,
              opacity: .7,
+             stop: function (e, ui) {
+                 // Update the order of the players on the team so they always
+                 // reflect the order that they were dragged in
+                 var teamEl = $(ui.item[0]).closest('.team'),
+                     teamId = parseInt(teamEl.attr('data-teamId')),
+                     playerItems = $('li', teamEl),
+                     sortOrder = [];
+
+                 // don't re-order if it's on the roster
+                 if ($(ui.item[0]).closest('#roster').length) {
+                     return;
+                 }
+
+                 // 1 person teams don't need player order
+                 if (playerItems.length > 0) {
+                     playerItems.each(function (idx, player) {
+                         sortOrder[idx+1] = $(player).attr('data-playerId');
+                     });
+                     updatePlayerOrder(teamId, sortOrder);
+                 }
+             },
              receive: function (e, ui) {
-                 var teamId = parseInt($(ui.item[0]).closest('.team').attr('data-teamId')),
-                 playerId = parseInt($(ui.item[0]).attr('data-playerId'));
+                 var teamEl = $(ui.item[0]).closest('.team'),
+                     teamId = parseInt(teamEl.attr('data-teamId')),
+                     playerId = parseInt($(ui.item[0]).attr('data-playerId'));
 
                  // if an item is dragged away from a team, remove the player
                  if (ui.hasOwnProperty('sender') && ui.sender != null) {
@@ -117,11 +139,15 @@ var vm = new Vue({
                      }
                  }
 
-                 console.log($(ui.item[0]).closest('.team').attr('data-teamId'));
+                 //do nothing if player was dragged to the roster
+                 if ($(ui.item[0]).closest('#roster').length) {
+                     return;
+                 }
+
                  //if no teams exist, create one when the first player is dragged
                  if (!$.isNumeric(teamId)) {
                      createTeam('Team 1', function (teamId) {
-                         $(ui.item[0]).closest('.team').attr('data-teamid', teamId);
+                         teamEl.attr('data-teamid', teamId);
 
                          // Even though this is called later, it needs to be
                          // here since the teamId in the dom needs to be updated
@@ -159,6 +185,11 @@ var vm = new Vue({
                      initSortable();
                  });
              }
+         });
+     },
+     updatePlayerOrder = function(teamId, order) {
+         $.post('/teams/'+teamId+'/updateOrder/', {
+             sortOrder: order
          });
      },
      addPlayerToTeam = function(teamId, playerId) {

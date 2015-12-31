@@ -1,4 +1,4 @@
-<div v-for="team in teamSet.teams" class="col-sm-2 col-md-4 col-lg-4">
+<div v-for="team in teamSet.teams" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div id="team-{{ team.id }}" class="team col-md-12" data-teamId="{{ team.id }}">
         <div class="delete fa fa-trash-o" data-toggle="modal" data-target="#teamDeleteConfirmation-{{ team.id }}" data-team-name="{{ team.name }}"></div>
         <h5>

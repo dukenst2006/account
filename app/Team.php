@@ -36,8 +36,7 @@ class Team extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function teamSet() {
-        return $this->belongsTo(TeamSet::class)
-            ->orderBy('name', 'ASC');
+        return $this->belongsTo(TeamSet::class);
     }
 
     /**
@@ -46,10 +45,12 @@ class Team extends Model {
     public function players() {
         $seasonId = $this->teamSet->season_id;
         return $this->belongsToMany(Player::class, 'team_player')
+            ->withPivot('order')
             ->withTimestamps()
             ->with(['seasons' => function ($query) use ($seasonId) {
                 $query->where('season_id', $seasonId);
-            }]);
+            }])
+            ->orderBy('team_player.order', 'ASC');
     }
 
 }

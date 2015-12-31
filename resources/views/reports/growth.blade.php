@@ -26,9 +26,9 @@
 @includeCss(/assets/plugins/jquery-morris-chart/css/morris.css)
 
 @if(App::environment('local'))
-    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
-@else
     @includeJs(/assets/plugins/raphael/raphael-2.1.0-min.js)
+@else
+    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
 @endif
 
 @includeJs(/assets/plugins/jquery-morris-chart/js/morris.min.js)

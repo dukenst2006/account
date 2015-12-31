@@ -101,6 +101,7 @@ class RouteServiceProvider extends ServiceProvider {
 					Route::delete('teams/{team}', 'TeamController@deleteTeam');
 					Route::post('teams/{team}/addPlayer', 'TeamController@addPlayer');
 					Route::post('teams/{team}/removePlayer', 'TeamController@removePlayer');
+					Route::post('teams/{team}/updateOrder', 'TeamController@updateOrder');
 				});
 
                 Route::group([

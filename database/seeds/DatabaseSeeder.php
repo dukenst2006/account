@@ -254,9 +254,11 @@ class DatabaseSeeder extends Seeder {
 
             $playerCount = ($x <= 3 ? $x - 1 : 0);
             if ($playerCount > 0) {
-                foreach ($players->random($playerCount) as $player) {
+                foreach ($players->random($playerCount) as $idx => $player) {
                     if (is_object($player)) {
-                        $team->players()->attach($player->id);
+                        $team->players()->attach($player->id, [
+                            'order' => $idx+1
+                        ]);
                     }
                 }
             }

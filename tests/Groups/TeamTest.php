@@ -131,4 +131,39 @@ class TeamsTest extends TestCase
         $this->assertEquals($startCount, $team->players()->count());
     }
 
+    /**
+     * @test
+     */
+    public function canReorderPlayers()
+    {
+        // avoiding CSRF token issue
+        $this->withoutMiddleware();
+
+        $group = Group::findOrFail(2);
+        $this->withSession([
+            SessionManager::GROUP   => $group->toArray()
+        ]);
+
+        $teamSet = TeamSet::findOrFail(1);
+        $team = $teamSet->teams->get(2);
+        $startingPlayerOrder = [
+            $team->players->first()->id,
+            $team->players->get(1)->id
+        ];
+
+        $this
+            ->post('/teams/'.$team->id.'/updateOrder', [
+                'sortOrder' => [
+                    $startingPlayerOrder[1],
+                    $startingPlayerOrder[0]
+                ]
+            ])
+            ->assertResponseOk();
+
+        $team = Team::findOrFail($team->id);
+
+        $this->assertEquals($startingPlayerOrder[1], $team->players->first()->id);
+        $this->assertEquals($startingPlayerOrder[0], $team->players->get(1)->id);
+    }
+
 }

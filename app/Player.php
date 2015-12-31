@@ -120,6 +120,7 @@ class Player extends Model {
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_player')
+            ->withPivot('order')
             ->withTimestamps();
     }
 

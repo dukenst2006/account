@@ -59,13 +59,34 @@ class TeamController extends Controller
 
 	/**
 	 * @param  	$request
-	 * @param                     	$id
+	 * @param   $id
 	 *
 	 * @return mixed
 	 */
 	public function removePlayer(TeamGroupOnlyRequest $request, $id)
 	{
 		$request->team()->players()->detach($request->get('playerId'));
+
+		return response()->json();
+	}
+
+	/**
+	 * Update the order of players on a team
+	 *
+	 * @param  	$request
+	 * @param   $id
+	 *
+	 * @return mixed
+	 */
+	public function updateOrder(TeamGroupOnlyRequest $request, $id)
+	{
+		DB::transaction(function () use($request) {
+			foreach($request->input('sortOrder') as $index => $playerId) {
+				$request->team()->players()->updateExistingPivot($playerId, [
+					'order' => $index
+				]);
+			}
+		});
 
 		return response()->json();
 	}

@@ -38,6 +38,7 @@ class AddTeams extends Migration
             $table->foreign('team_id')->references('id')->on('teams');
             $table->integer('player_id')->unsigned();
             $table->foreign('player_id')->references('id')->on('players');
+            $table->tinyInteger('order')->unsigned();
             $table->timestamps();
         });
     }
