@@ -19,7 +19,8 @@ class CreateUserProvidersTable extends Migration {
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->string('provider');
 			$table->string('provider_id');
-			$table->timestamps();
+			$table->timestamp('updated_at')->nullable();
+			$table->timestamp('created_at')->useCurrent();
 			$table->unique(['provider', 'provider_id']);
 		});
 	}

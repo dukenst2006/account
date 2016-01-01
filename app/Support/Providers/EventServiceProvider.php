@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-		'auth.login' => [
+		\Illuminate\Auth\Events\Login::class => [
 			OnLogin::class,
 		],
 		'auth.registered' => [

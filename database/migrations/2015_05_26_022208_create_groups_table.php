@@ -33,7 +33,8 @@ class CreateGroupsTable extends Migration {
 			$table->foreign('address_id')->references('id')->on('addresses');
 			$table->integer('meeting_address_id')->unsigned();
 			$table->foreign('meeting_address_id')->references('id')->on('addresses');
-			$table->timestamps();
+			$table->timestamp('updated_at')->nullable();
+			$table->timestamp('created_at')->useCurrent();
 		});
 
         Schema::create('group_user', function(Blueprint $table)

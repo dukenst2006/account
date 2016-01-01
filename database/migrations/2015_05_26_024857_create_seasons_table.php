@@ -16,7 +16,8 @@ class CreateSeasonsTable extends Migration {
         {
             $table->increments('id');
             $table->string('name', 10)->unique();
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Schema::create('player_season', function(Blueprint $table)
@@ -29,7 +30,8 @@ class CreateSeasonsTable extends Migration {
             $table->string('grade');
             $table->string('shirt_size', 3);
             $table->timestamp('inactive')->nullable();
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->foreign('program_id')->references('id')->on('programs');
             $table->foreign('player_id')->references('id')->on('players');

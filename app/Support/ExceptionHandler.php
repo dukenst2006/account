@@ -1,6 +1,10 @@
 <?php namespace BibleBowl\Support;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Foundation\Validation\ValidationException;
 
 class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler {
 
@@ -10,7 +14,10 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler {
 	 * @var array
 	 */
 	protected $dontReport = [
-		'Symfony\Component\HttpKernel\Exception\HttpException'
+		AuthorizationException::class,
+		HttpException::class,
+		ModelNotFoundException::class,
+		ValidationException::class,
 	];
 
 	/**

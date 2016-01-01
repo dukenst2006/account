@@ -20,7 +20,8 @@ class CreateProgramTable extends Migration
             $table->string('abbreviation', 10)->unique();
             $table->string('slug', 10)->unique();
             $table->string('description', 24);
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Program::create([

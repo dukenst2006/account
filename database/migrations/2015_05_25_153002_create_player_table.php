@@ -22,8 +22,8 @@ class CreatePlayerTable extends Migration {
 			$table->string('last_name', 32);
 			$table->string('gender', 1);
 			$table->date('birthday');
-			$table->softDeletes();
-			$table->timestamps();
+			$table->timestamp('updated_at')->nullable();
+			$table->timestamp('created_at')->useCurrent();
 		});
 	}
 

@@ -29,7 +29,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->string('url');
             $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users');
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Schema::create('event_types', function(Blueprint $table)
@@ -37,7 +38,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->increments('id');
             $table->string('participant_type', 16);
             $table->string('name', 64)->unique();
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Schema::create('events', function(Blueprint $table)
@@ -48,7 +50,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->integer('event_type_id')->unsigned();
             $table->foreign('event_type_id')->references('id')->on('event_types');
             $table->float('price_per_participant')->nullable();
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

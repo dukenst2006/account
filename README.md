@@ -13,4 +13,4 @@ This app integrates with:
 ### Requirements
 
  * PHP 5.6+
- * MySql
+ * MySql 5.7+

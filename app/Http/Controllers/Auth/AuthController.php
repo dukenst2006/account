@@ -26,8 +26,6 @@ class AuthController extends Controller {
 
 	protected $redirectTo = '/dashboard';
 
-	protected $loginPath = '/login';
-
 	public function __construct(Registrar $registrar)
 	{
 		$this->registrar = $registrar;

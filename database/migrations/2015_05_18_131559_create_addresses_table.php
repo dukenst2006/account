@@ -25,7 +25,8 @@ class CreateAddressesTable extends Migration {
 			$table->string('zip_code', 16);
 			$table->double('latitude')->nullable();
 			$table->double('longitude')->nullable();
-			$table->timestamps();
+			$table->timestamp('updated_at')->nullable();
+			$table->timestamp('created_at')->useCurrent();
 			$table->softDeletes();
 		});
 

@@ -20,7 +20,8 @@ class AddTeams extends Migration
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->string('name', 64);
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Schema::create('teams', function(Blueprint $table)
@@ -29,7 +30,8 @@ class AddTeams extends Migration
             $table->integer('team_set_id')->unsigned();
             $table->foreign('team_set_id')->references('id')->on('team_sets');
             $table->string('name', 64);
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Schema::create('team_player', function(Blueprint $table)
@@ -39,7 +41,8 @@ class AddTeams extends Migration
             $table->integer('player_id')->unsigned();
             $table->foreign('player_id')->references('id')->on('players');
             $table->tinyInteger('order')->unsigned();
-            $table->timestamps();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
