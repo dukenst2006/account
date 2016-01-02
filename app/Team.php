@@ -53,4 +53,12 @@ class Team extends Model {
             ->orderBy('team_player.order', 'ASC');
     }
 
+    protected static function boot() {
+        parent::boot();
+
+        static::deleting(function($team) {
+            $team->players()->sync([]);
+        });
+    }
+
 }

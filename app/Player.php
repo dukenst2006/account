@@ -85,6 +85,14 @@ class Player extends Model {
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function teamSet()
+    {
+        return $this->hasManyThrough(Team::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function seasons()

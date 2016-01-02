@@ -92,9 +92,7 @@ class RouteServiceProvider extends ServiceProvider {
 				Route::group([
 					'namespace'	=> 'Teams'
 				], function () {
-					Route::resource('teamsets', 'TeamSetController', [
-						'only' => ['show', 'index', 'create', 'store', 'update']
-					]);
+					Route::resource('teamsets', 'TeamSetController');
 					Route::get('teamsets/{teamsets}/pdf', 'TeamSetController@pdf');
 					Route::post('teamsets/{teamsets}/createTeam', 'TeamController@createTeam');
 

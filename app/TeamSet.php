@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -59,6 +60,22 @@ class TeamSet extends Model {
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function players() {
+        return $this->hasManyThrough(Team::class);
+    }
+
+    /**
+     * @param Builder $query
+     * @param Season $season
+     */
+    public function scopeSeason(Builder $query, Season $season)
+    {
+        $query->where('season_id', $season->id);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function teams() {
@@ -75,6 +92,14 @@ class TeamSet extends Model {
     public function setNameAttribute($name)
     {
         $this->attributes['name'] = ucwords(strtolower($name));
+    }
+
+    protected static function boot() {
+        parent::boot();
+
+        static::deleting(function($teamSet) {
+            $teamSet->teams()->delete();
+        });
     }
 
 }

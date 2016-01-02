@@ -166,4 +166,27 @@ class TeamsTest extends TestCase
         $this->assertEquals($startingPlayerOrder[0], $team->players->get(1)->id);
     }
 
+    /**
+     * @test
+     */
+    public function canCopyAndDeleteTeamSets()
+    {
+        // avoiding CSRF token issue
+        $this->withoutMiddleware();
+
+        $teamSetName = 'Team Copy '.time();
+        $this
+            ->visit('/teamsets/create')
+            ->type($teamSetName, 'name')
+            ->select(1, 'teamSet')
+            ->press('Save')
+            ->see($teamSetName);
+
+        $teamSet = TeamSet::where('name', $teamSetName)->get()->first();
+        $this->assertGreaterThan(0, $teamSet->teams()->count());
+
+        $this->call('DELETE', '/teamset/'.$teamSet->id);
+        $this->dontSee($teamSetName);
+    }
+
 }

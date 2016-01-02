@@ -22,6 +22,17 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(count($teamSetOptions) > 1)
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label class="form-label">Create From Teams</label>
+                                    <span class="help">Rather than starting from scratch, you can start with a copy of some of your existing teams</span>
+                                    <div class="controls p-b-10">
+                                        {!! Form::select('teamSet', $teamSetOptions, null, ['class' => 'form-control']) !!}<br/>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>

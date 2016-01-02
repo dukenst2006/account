@@ -1,8 +1,10 @@
 <?php namespace BibleBowl\Http\Controllers\Teams;
 
+use DB;
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
+use BibleBowl\Team;
 use BibleBowl\TeamSet;
 use Illuminate\Http\Request;
 use Session;
@@ -16,7 +18,7 @@ class TeamSetController extends Controller
 	public function index()
 	{
 		return view('teamset.index')
-				->with('teamSets', Session::group()->teamSets);
+				->with('teamSets', Session::group()->teamSets()->season(Session::season())->get());
 	}
 
 	/**
@@ -24,7 +26,11 @@ class TeamSetController extends Controller
 	 */
 	public function create()
 	{
-		return view('teamset.create');
+		$teamSets = Session::group()->teamSets()->season(Session::season())->lists('name', 'id')->toArray();
+		array_unshift($teamSets, '');
+
+		return view('teamset.create')
+			->with('teamSetOptions', $teamSets);
 	}
 
 	/**
@@ -39,9 +45,32 @@ class TeamSetController extends Controller
 
 		$this->validate($request, TeamSet::validationRules());
 
-		$teamSet = TeamSet::create($request->all());
+		DB::transaction(function () use($request) {
+			$teamSet = TeamSet::create($request->except('teamSet'));
 
-		return redirect('/teamsets')->withFlashSuccess($teamSet->name.' has been added');
+			// Copy the teams and players from the selected TeamSet
+			if (is_numeric($request->input('teamSet')) && $request->input('teamSet') > 0) {
+				$copyFrom = TeamSet::findOrFail($request->input('teamSet'));
+				foreach ($copyFrom->teams as $copyFromTeam) {
+					$team = Team::create([
+						'team_set_id'	=> $teamSet->id,
+						'name'			=> $copyFromTeam->name
+					]);
+					$players = [];
+					foreach ($copyFromTeam->players as $player) {
+						$players[$player->id] = [
+							'order' => $player->pivot->order
+						];
+					}
+
+					if (count($players) > 0) {
+						$team->players()->attach($players);
+					}
+				}
+			}
+		});
+
+		return redirect('/teamsets')->withFlashSuccess('Teams have been added');
 	}
 
 	/**
@@ -70,7 +99,9 @@ class TeamSetController extends Controller
 	}
 
 	/**
+	 * @param TeamSetGroupOnlyRequest $request
 	 * @param $id
+	 * @return \Illuminate\Http\Response
 	 */
 	public function pdf(TeamSetGroupOnlyRequest $request, $id)
 	{
@@ -85,6 +116,17 @@ class TeamSetController extends Controller
 			'lastUpdated'	=> $teamSet->updated_at->timezone(Auth::user()->settings->timeszone())
 		]);
 		return $pdf->stream();
+	}
+
+	/**
+	 * @param TeamSetGroupOnlyRequest $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(TeamSetGroupOnlyRequest $request)
+	{
+		TeamSet::findOrFail($request->input('id'))->delete();
+
+		return redirect('/teamsets')->withFlashSuccess('Teams have been deleted');
 	}
 
 }

@@ -49,13 +49,6 @@ class AppServiceProvider extends ServiceProvider {
         Blade::directive('endcss', function() {
             return "<?php \\".Html::class."::\$css .= ob_get_clean(); ?>";
         });
-
-		/**
-		 * Model events
-		 */
-		Team::deleting(function (Team $team) {
-			$team->players()->sync([]);
-		});
 	}
 
 	/**

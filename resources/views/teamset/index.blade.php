@@ -3,6 +3,7 @@
 @section('title', 'Teams')
 
 @section('content')
+    @include('partials.messages')
     <div class="content">
         <div class="grid simple">
             <div class="grid-body">
@@ -18,19 +19,22 @@
                     <thead>
                         <tr>
                             <th class="col-md-4">Name</th>
-                            <th class="col-md-4">Options</th>
+                            <th class="col-md-4 text-center">Options</th>
                         </tr>
                     </thead>
                     <tbody>
                     @if(count($teamSets) > 0)
                         @foreach ($teamSets as $teamSet)
                             <tr>
-                                <td>
+                                <td style="vertical-align: middle">
                                     <a href="/teamsets/{{ $teamSet->id }}" class="semi-bold">{{ $teamSet->name }}</a>
                                 </td>
-                                <td>
-                                    <a href="/teamsets/{{ $teamSet->id }}/pdf" class="fa fa-download"></a>
+                                {!! Form::open(['action' => ['Teams\TeamSetController@destroy', $teamSet->id], 'method' => 'delete']) !!}
+                                <td class="text-center">
+                                    <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-white btn-xs btn-mini"><i class="fa fa-download"></i> PDF</a>
+                                    <button class="btn btn-white btn-xs btn-mini"><i class="fa fa-trash-o"></i> Delete</button>
                                 </td>
+                                {!! Form::close() !!}
                             </tr>
                         @endforeach
                     @endif
