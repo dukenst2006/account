@@ -6,26 +6,33 @@ var vm = new Vue({
     el: '#page',
     data: {
         // When true, user can edit the teamSet name
-        isEditingName: false,
-        newName: null,
+        isEditingTeamSet: false,
+        // Array index of the team being edited
+        isEditingTeamIndex: null,
+        newTeamSetName: null,
+        newTeamName: null,
         teamSet: teamSet,
         teamSetRules: {
             required: false,
-            maxlength: 64
+            maxlength: 32
+        },
+        teamRules: {
+            required: false,
+            maxlength: 16
         }
     },
     methods: {
         saveTeamSetName: function () {
             if(this.$teamSetValidation.valid) {
-                this.doneEditing();
-                this.teamSet.name = this.newName;
+                this.doneEditingTeamSetName();
+                this.teamSet.name = this.newTeamSetName;
                 var self = this;
 
                 $.ajax({
                     url: '/teamsets/'+self.teamSet.id,
                     type: 'PATCH',
                     data: {
-                        'name': self.newName
+                        'name': self.newTeamSetName
                     },
                     error: function(r) {
                         Messenger().post({
@@ -33,24 +40,50 @@ var vm = new Vue({
                             type: 'error',
                             hideAfter: 3
                         });
-                        self.editing();
+                        self.editingTeamSetName();
                     }
                 });
             }
         },
-        editing: function () {
-            this.isEditingName = true;
+        editingTeamSetName: function () {
+            this.isEditingTeamSet = true;
 
-            if (this.newName === null) {
-                this.newName = this.teamSet.name;
+            if (this.newTeamSetName === null) {
+                this.newTeamSetName = this.teamSet.name;
             }
 
             Vue.nextTick(function () {
                 $('#teamSetName').focus();
             });
         },
+        doneEditingTeamSetName: function () {
+            this.isEditingTeamSet = false;
+        },
+        saveTeamName: function () {
+            var error = null,
+                team = this.teamSet.teams[this.isEditingTeamIndex];
+
+            if (team.name.length == 0) {
+                Messenger().post({
+                    message: 'A name is required.',
+                    type: 'error',
+                    hideAfter: 3
+                });
+                return;
+            }
+
+            this.isEditingTeamIndex = null;
+            updateTeam(team.id, team.name);
+        },
+        editingTeamName: function (idx, event) {
+            this.isEditingTeamIndex = idx;
+
+            Vue.nextTick(function () {
+                $('input', $(event.target).parent()).focus();
+            });
+        },
         doneEditing: function () {
-            this.isEditingName = false;
+            this.isEditingTeamSet = false;
         },
         addTeam: function () {
             // Add the team before waiting on the ajax response
@@ -184,6 +217,15 @@ var vm = new Vue({
                  callback(data, function () {
                      initSortable();
                  });
+             }
+         });
+     },
+     updateTeam = function (teamId, teamName) {
+         $.ajax({
+             type: 'patch',
+             url: '/teams/' + teamId,
+             data: {
+                 name: teamName
              }
          });
      },

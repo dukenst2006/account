@@ -19,7 +19,7 @@ class AddTeams extends Migration
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
-            $table->string('name', 64);
+            $table->string('name', 32);
             $table->timestamps();
         });
 
@@ -28,7 +28,7 @@ class AddTeams extends Migration
             $table->increments('id');
             $table->integer('team_set_id')->unsigned();
             $table->foreign('team_set_id')->references('id')->on('team_sets');
-            $table->string('name', 64);
+            $table->string('name', 16);
             $table->timestamps();
         });
 

@@ -1,7 +1,9 @@
 <div v-for="team in teamSet.teams" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div id="team-{{ team.id }}" class="team col-md-12" data-teamId="{{ team.id }}">
+        <div class="edit fa fa-edit" @click="editingTeamName($index, $event)" @blur="doneEditingTeamName()"></div>
         <div class="delete fa fa-trash-o" data-toggle="modal" data-target="#teamDeleteConfirmation-{{ team.id }}" data-team-name="{{ team.name }}"></div>
-        <h5>
+        <input v-if="isEditingTeamIndex == $index" type="text" v-model="team.name" class="bold m-l-15 edit-team-name" @keyup.enter="saveTeamName()" @keyup.esc="isEditingTeamIndex = null" @blur="isEditingTeamIndex = null" maxlength="16"/>
+        <h5 v-if="isEditingTeamIndex != $index">
             {{ team.name }}
         </h5>
         <ul class="players">

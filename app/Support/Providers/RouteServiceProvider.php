@@ -94,12 +94,16 @@ class RouteServiceProvider extends ServiceProvider {
 				], function () {
 					Route::resource('teamsets', 'TeamSetController');
 					Route::get('teamsets/{teamsets}/pdf', 'TeamSetController@pdf');
-					Route::post('teamsets/{teamsets}/createTeam', 'TeamController@createTeam');
+					Route::post('teamsets/{teamsets}/createTeam', 'TeamController@store');
 
-					Route::delete('teams/{team}', 'TeamController@deleteTeam');
-					Route::post('teams/{team}/addPlayer', 'TeamController@addPlayer');
-					Route::post('teams/{team}/removePlayer', 'TeamController@removePlayer');
-					Route::post('teams/{team}/updateOrder', 'TeamController@updateOrder');
+					Route::resource('teams', 'TeamController', [
+						'only' => ['update', 'destroy']
+					]);
+
+					//Route::delete('teams/{team}', 'TeamController@deleteTeam');
+					Route::post('teams/{teams}/addPlayer', 'TeamController@addPlayer');
+					Route::post('teams/{teams}/removePlayer', 'TeamController@removePlayer');
+					Route::post('teams/{teams}/updateOrder', 'TeamController@updateOrder');
 				});
 
                 Route::group([

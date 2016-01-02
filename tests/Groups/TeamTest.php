@@ -78,6 +78,16 @@ class TeamsTest extends TestCase
         // attach a player to this team to ensure that doesn't break deletion
         $team->players()->attach($group->players()->first()->id);
 
+        // update the team name
+        $newTeamName = uniqid();
+        $this
+            ->patch('/teams/'.$team->id, [
+                'name' => $newTeamName
+            ])
+            ->assertResponseOk();
+
+        $this->assertEquals($newTeamName, Team::find($team->id)->name);
+
         // delete the team
         $this
             ->delete('/teams/'.$team->id)

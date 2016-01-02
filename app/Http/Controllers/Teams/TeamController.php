@@ -15,7 +15,7 @@ class TeamController extends Controller
 	 *
 	 * @return mixed
 	 */
-	public function createTeam(TeamSetGroupOnlyRequest $request)
+	public function store(TeamSetGroupOnlyRequest $request)
 	{
 		$request->merge([
 			'team_set_id' => $request->route('teamsets')
@@ -36,10 +36,24 @@ class TeamController extends Controller
 	 *
 	 * @return mixed
 	 */
-	public function deleteTeam(TeamGroupOnlyRequest $request)
+	public function update(TeamGroupOnlyRequest $request)
 	{
-		$team = Team::findOrFail($request->route('team'));
-		$team->delete();
+		$request->team()->update([
+			'name' => $request->input('name')
+		]);
+
+		return response()->json();
+	}
+
+	/**
+	 * @param  	$request
+	 * @param                     	$id
+	 *
+	 * @return mixed
+	 */
+	public function destroy(TeamGroupOnlyRequest $request)
+	{
+		$request->team()->delete();
 
 		return response()->json();
 	}
