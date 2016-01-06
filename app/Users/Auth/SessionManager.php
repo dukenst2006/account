@@ -97,6 +97,11 @@ class SessionManager extends \Illuminate\Session\SessionManager
         $this->set(self::ADMIN_USER, $adminId);
     }
 
+    public function forgetAdminStatus()
+    {
+        $this->forget(self::ADMIN_USER);
+    }
+
     /**
      * Determine if the current user has access to an admin
      */

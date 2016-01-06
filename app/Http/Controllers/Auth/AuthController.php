@@ -99,6 +99,7 @@ class AuthController extends Controller {
 			$adminUser = Session::adminUser();
 
 			Session::switchUser($adminUser);
+			Session::forgetAdminStatus();
 
 			return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$adminUser->full_name);
 		}
