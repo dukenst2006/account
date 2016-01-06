@@ -9,10 +9,10 @@
             <div class="grid-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="semi-bold">Teams</h4>
+                        <h4 class="semi-bold">Team Sets</h4>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="/teamsets/create" class="btn btn-primary">New Teams</a>
+                        <a href="/teamsets/create" class="btn btn-primary">New Team Set</a>
                     </div>
                 </div>
                 <table class="table table-condensed">
