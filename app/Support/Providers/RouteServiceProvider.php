@@ -146,18 +146,21 @@ class RouteServiceProvider extends ServiceProvider {
                     'prefix'	=> 'admin',
                     'namespace'	=> 'Admin'
                 ], function () {
-                    Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
-                    Route::controller('reports', 'ReportsController');
+					Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
+					Route::get('players', 'PlayerController@index');
 
-                    Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR]);
+                    Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('players', 'PlayerController@index');
                     Route::get('players/{playerId}', 'PlayerController@show');
 
-                    Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR]);
+                    Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('groups', 'GroupController@index');
                     Route::get('groups/{groupId}', 'GroupController@show');
 
-                    Entrust::routeNeedsRole('admin/users/*', [Role::DIRECTOR]);
+					Entrust::routeNeedsPermission('admin/switchUser', [Permission::SWITCH_ACCOUNTS]);
+					Route::get('switchUser/{userId}', 'UserController@switchUser');
+
+                    //Entrust::routeNeedsRole('admin/users/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('users', 'UserController@index');
                     Route::get('users/{userId}', 'UserController@show');
 

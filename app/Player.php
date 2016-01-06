@@ -41,6 +41,7 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
  */
 class Player extends Model {
 

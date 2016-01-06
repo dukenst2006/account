@@ -73,6 +73,10 @@ class ProductionSeeder extends Seeder {
             'display_name' 	        => 'Parent/Guardian',
             'mailchimp_interest_id' => '999d70a260'
         ]);
+        $admin = Role::create([
+            'name'			=> Role::ADMIN,
+            'display_name' 	=> 'Admin',
+        ]);
 
         $viewReports = Permission::create([
             'name'			=> Permission::VIEW_REPORTS,
@@ -86,6 +90,11 @@ class ProductionSeeder extends Seeder {
             'name'			=> Permission::CREATE_TOURNAMENTS,
             'display_name'	=> 'Create Tournaments'
         ]);
+        $switchAccounts = Permission::create([
+            'name'			=> Permission::SWITCH_ACCOUNTS,
+            'display_name'	=> 'Switch Accounts'
+        ]);
+        $admin->attachPermissions([$viewReports, $manageRoles, $createTournaments, $switchAccounts]);
         $director->attachPermissions([$viewReports, $manageRoles, $createTournaments]);
         $boardMember->attachPermissions([$viewReports]);
     }

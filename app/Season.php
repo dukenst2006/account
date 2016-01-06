@@ -44,6 +44,7 @@ class Season extends Model {
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'player_season')
+            ->withPivot('season_id', 'grade', 'shirt_size')
             ->orderBy('name', 'ASC');
     }
 

@@ -3,6 +3,9 @@
 @section('title', $user->full_name)
 
 @section('content')
+    <?
+    dd(Auth::user()->can(\BibleBowl\Permission::SWITCH_ACCOUNTS));
+    ?>
     <div class="content">
         <div class="grid simple">
             <div class="grid-title no-border">
@@ -20,6 +23,10 @@
                         <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                         @if($user->status == \BibleBowl\User::STATUS_UNCONFIRMED)
                             <span class="text-muted">(unconfirmed)</span>
+                        @endif
+                        <br/>
+                        @if(Auth::user()->can(\BibleBowl\Permission::SWITCH_ACCOUNTS))
+                            <a href="/admin/switchUser/{{ $user->id }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-exchange"></i> Login as this user</a>
                         @endif
                     </div>
                 </div>

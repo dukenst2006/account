@@ -12,7 +12,10 @@ class OnLogin
 
     public function handle(User $user)
     {
-        $user->updateLastLogin();
+        // skip when an admin is logging in as this user
+        if(!Session::canSwitchToAdmin()) {
+            $user->updateLastLogin();
+        }
 
         // current session is the most recent
         Session::setSeason(Season::current()->first());

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder {
     private static $isSeeding = false;
 
     const GROUP_NAME = 'Mount Pleasant Christian Church';
-    const DIRECTOR_EMAIL = 'benkuhl+director@gmail.com';
+    const DIRECTOR_EMAIL = 'benkuhl+admin@gmail.com';
     const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
     const GUARDIAN_EMAIL = 'benkuhl+guardian@gmail.com';
 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder {
             'name' => date('Y').'-'.(date('y')+1)
         ]);
 
-        $director = $this->seedDirector();
+        $director = $this->seedAdmin();
         $this->seedGuardian();
         $this->seedHeadCoach();
 
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder {
     /**
      * @return User
      */
-    private function seedDirector()
+    private function seedAdmin()
     {
         $address = Address::create([
             'name'			=> 'Home',
@@ -107,6 +107,7 @@ class DatabaseSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
+        $director->attachRole(Role::findOrFail(Role::ADMIN_ID));
         $director->attachRole(Role::findOrFail(Role::DIRECTOR_ID));
 
         return $director;

@@ -44,6 +44,10 @@ class Role extends EntrustRole {
     const GUARDIAN              = 'guardian';
     const GUARDIAN_ID           = 7;
 
+    const ADMIN                 = 'admin';
+    const ADMIN_ID              = 8;
+
+
     protected $guarded = ['id'];
 
     public function hasMailchimpInterest()

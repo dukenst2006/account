@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
+use Session;
 use BibleBowl\User;
 use Input;
 
@@ -26,6 +27,22 @@ class UserController extends Controller
         return view('/admin/users/show', [
             'user' => User::findOrFail($userId)
         ]);
+    }
+
+    /**
+     * Allow the admin to switch users
+     *
+     * @param $userId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function switchUser($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        Session::switchUser($user);
+
+        return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.", log out to switch back");
     }
 
 }

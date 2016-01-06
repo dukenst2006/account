@@ -14,6 +14,7 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                 <div class="username">{{ Auth::user()->first_name }} <span class="semi-bold">{{ Auth::user()->last_name }}</span></div>
             </div>
         </div>
+        <br/>
         <!-- END MINI-PROFILE -->
         <!-- BEGIN SIDEBAR MENU -->
         <ul>
@@ -41,9 +42,13 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                     <a href="/teamsets"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
             @endif
-            @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS) || Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->can(\BibleBowl\Permission::CREATE_TOURNAMENTS))
+            @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->can([
+                \BibleBowl\Permission::VIEW_REPORTS,
+                \BibleBowl\Permission::MANAGE_USERS,
+                \BibleBowl\Permission::CREATE_TOURNAMENTS
+            ]))
                 <p class="menu-title">ADMIN</p>
-                @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR))
+                @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->hasRole(\BibleBowl\Role::ADMIN))
                     <li class="
                         @if(Route::current()->getUri() == 'admin/players')
                             active

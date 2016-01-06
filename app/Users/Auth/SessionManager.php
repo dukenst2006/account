@@ -1,7 +1,9 @@
 <?php namespace BibleBowl\Users\Auth;
 
+use Auth;
 use BibleBowl\Group;
 use BibleBowl\Season;
+use BibleBowl\User;
 
 class SessionManager extends \Illuminate\Session\SessionManager
 {
@@ -9,12 +11,26 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const SEASON = 'season';
     const GROUP = 'group';
     const REGISTER_WITH_GROUP = 'register_with_group';
+    const ADMIN_USER = 'admin_user';
 
     /** @var Season */
     protected $season = null;
 
     /** @var Group */
     protected $group = null;
+
+    /**
+     * Clear session items
+     */
+    public function switchUser(User $user)
+    {
+        $this->rememberAdminStatus(Auth::user()->id);
+
+        // when switching from a head coach, gotta clear the group
+        $this->setGroup(null);
+
+        Auth::loginUsingId($user->id);
+    }
 
     /**
      * @return Season
@@ -50,10 +66,14 @@ class SessionManager extends \Illuminate\Session\SessionManager
         return $this->group;
     }
 
-    public function setGroup(Group $group)
+    public function setGroup(Group $group = null)
     {
         $this->group = $group;
-        $this->set(self::GROUP, $group->toArray());
+        if (!is_null($group)) {
+            $group = $group->toArray();
+        }
+
+        $this->set(self::GROUP, $group);
     }
 
     /**
@@ -70,5 +90,23 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function getGroupToRegisterWith()
     {
         return Group::where('guid', $this->get(self::REGISTER_WITH_GROUP))->first();
+    }
+
+    public function rememberAdminStatus($adminId)
+    {
+        $this->set(self::ADMIN_USER, $adminId);
+    }
+
+    /**
+     * Determine if the current user has access to an admin
+     */
+    public function canSwitchToAdmin()
+    {
+        return (bool) $this->get(self::ADMIN_USER);
+    }
+
+    public function adminUser()
+    {
+        return User::findOrFail($this->get(self::ADMIN_USER));
     }
 }

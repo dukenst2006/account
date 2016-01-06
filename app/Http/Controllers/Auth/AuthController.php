@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
+use Session;
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\User;
@@ -22,7 +23,9 @@ class AuthController extends Controller {
 	|
 	*/
 
-	use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+	use AuthenticatesAndRegistersUsers, ThrottlesLogins {
+		AuthenticatesAndRegistersUsers::getLogout as originalLogout;
+	}
 
 	protected $redirectTo = '/dashboard';
 
@@ -81,6 +84,26 @@ class AuthController extends Controller {
 	public function create(array $data)
 	{
 		return $this->registrar->create($data);
+	}
+
+	/**
+	 * Log the user out of the application.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getLogout()
+	{
+		// logging out as a previous admin switches you
+		// back to your original account
+		if (Session::canSwitchToAdmin()) {
+			$adminUser = Session::adminUser();
+
+			Session::switchUser($adminUser);
+
+			return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$adminUser->full_name);
+		}
+
+		return $this->originalLogout();
 	}
 
 }
