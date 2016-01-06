@@ -43,7 +43,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function canSwitchAccounts()
+    public function adminsCanSwitchUsers()
     {
         $guardian = User::whereEmail(DatabaseSeeder::GUARDIAN_EMAIL)->first();
 
