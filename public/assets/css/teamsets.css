@@ -155,11 +155,3 @@ h3 > .fa-edit {
     content: "6";
     padding-right: 12px;
 }
-#touch-warning {
-    display: none;
-}
-@media only screen and (max-device-width : 1024px)  {
-    #touch-warning {
-        display: block;
-    }
-}
