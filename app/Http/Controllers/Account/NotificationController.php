@@ -32,5 +32,4 @@ class NotificationController extends Controller
 
         return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
     }
-
 }

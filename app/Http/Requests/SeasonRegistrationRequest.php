@@ -2,7 +2,8 @@
 
 use Illuminate\Contracts\Validation\Factory;
 
-class SeasonRegistrationRequest extends GroupJoinRequest {
+class SeasonRegistrationRequest extends GroupJoinRequest
+{
 
     use IncludesCreditCardPayment;
 
@@ -32,7 +33,7 @@ class SeasonRegistrationRequest extends GroupJoinRequest {
     {
         $rules = [];
         $rules['player'] = 'required_one';
-        foreach($this->request->get('player') as $playerId => $playerData) {
+        foreach ($this->request->get('player') as $playerId => $playerData) {
             $rules['player.'.$playerId.'.grade'] = 'required|min:1';
             $rules['player.'.$playerId.'.shirtSize'] = 'required|min:1';
         }
@@ -44,11 +45,9 @@ class SeasonRegistrationRequest extends GroupJoinRequest {
     {
         $messages = [];
         $messages['player.required_one'] = 'You must select a player to register';
-        foreach($this->request->get('player') as $playerId => $playerData)
-        {
+        foreach ($this->request->get('player') as $playerId => $playerData) {
             // only throw other validation errors if the player was checked
-            if (isset($playerData['registered']) && $playerData['registered'] == 1)
-            {
+            if (isset($playerData['registered']) && $playerData['registered'] == 1) {
                 $messages['player.'.$playerId.'.grade.required'] = 'One or more of your players is missing a grade';
                 $messages['player.'.$playerId.'.grade.min'] = 'One or more of your players is missing a grade';
                 $messages['player.'.$playerId.'.shirtSize.required'] = 'One or more of your players is missing a t-shirt size';
@@ -57,5 +56,4 @@ class SeasonRegistrationRequest extends GroupJoinRequest {
         }
         return $messages;
     }
-
 }

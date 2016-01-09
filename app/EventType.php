@@ -31,15 +31,16 @@ class EventType extends Model
     {
         return [
             'tournament_id'         => 'required',
-            'event_type_id'	        => 'required',
-            'price_per_participant'	=> 'numeric'
+            'event_type_id'            => 'required',
+            'price_per_participant'    => 'numeric'
         ];
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function events() {
+    public function events()
+    {
         return $this->hasMany(Event::class);
     }
 

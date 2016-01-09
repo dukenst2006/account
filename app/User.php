@@ -60,164 +60,172 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePrimaryAddressId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+{
 
-	const STATUS_UNCONFIRMED = 0;
-	const STATUS_CONFIRMED = 1;
+    const STATUS_UNCONFIRMED = 0;
+    const STATUS_CONFIRMED = 1;
 
-	use Authenticatable,
-		CanResetPassword,
-		EntrustUserTrait {
-			EntrustUserTrait::attachRole as traitAttachRole;
-			EntrustUserTrait::detachRole as traitDetachRole;
-		}
+    use Authenticatable,
+        CanResetPassword,
+        EntrustUserTrait {
+            EntrustUserTrait::attachRole as traitAttachRole;
+            EntrustUserTrait::detachRole as traitDetachRole;
+        }
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
-	/**
-	 * The default attributes for this model.
-	 *
-	 * @var []
-	 */
-	protected $attributes = [
-		'status' => self::STATUS_UNCONFIRMED
-	];
+    /**
+     * The default attributes for this model.
+     *
+     * @var []
+     */
+    protected $attributes = [
+        'status' => self::STATUS_UNCONFIRMED
+    ];
 
-	protected $casts = [
-		'settings' => Settings::class
-	];
+    protected $casts = [
+        'settings' => Settings::class
+    ];
 
-	/**
-	 * The attributes that are guarded against mass assignment.
-	 *
-	 * @var array
-	 */
-	protected $guarded = ['id', 'guid', 'remember_token', 'password'];
+    /**
+     * The attributes that are guarded against mass assignment.
+     *
+     * @var array
+     */
+    protected $guarded = ['id', 'guid', 'remember_token', 'password'];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token'];
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['password', 'remember_token'];
 
-	protected $dates = ['birthday', 'last_login'];
+    protected $dates = ['birthday', 'last_login'];
 
-	public static function boot()
-	{
-		parent::boot();
+    public static function boot()
+    {
+        parent::boot();
 
-		//assign a guid for each user
-		static::creating(function ($user) {
-			$user->guid = Uuid::uuid4();
-			return true;
-		});
-	}
+        //assign a guid for each user
+        static::creating(function ($user) {
+            $user->guid = Uuid::uuid4();
+            return true;
+        });
+    }
 
-	public static function validationRules(User $userBeingUpdated = null)
-	{
-		$rules = [
-			'first_name'	=> 'required|max:32',
-			'last_name'		=> 'required|max:32',
-			'email'			=> 'required|email|max:255|unique:users',
-			'password'		=> 'confirmed|min:6|max:60',
-			'phone'			=> 'required|integer|digits:10',
-			'gender'		=> 'required'
-		];
+    public static function validationRules(User $userBeingUpdated = null)
+    {
+        $rules = [
+            'first_name'    => 'required|max:32',
+            'last_name'        => 'required|max:32',
+            'email'            => 'required|email|max:255|unique:users',
+            'password'        => 'confirmed|min:6|max:60',
+            'phone'            => 'required|integer|digits:10',
+            'gender'        => 'required'
+        ];
 
-		if (!is_null($userBeingUpdated)) {
-			$rules['email'] .= ',email,'.$userBeingUpdated->id;
-		}
+        if (!is_null($userBeingUpdated)) {
+            $rules['email'] .= ',email,'.$userBeingUpdated->id;
+        }
 
-		return $rules;
-	}
+        return $rules;
+    }
 
-	public function updateLastLogin()
-	{
-		return $this->update([
-			'last_login' => Carbon::now()
-		]);
-	}
+    public function updateLastLogin()
+    {
+        return $this->update([
+            'last_login' => Carbon::now()
+        ]);
+    }
 
-	/**
-	 * Find a user by its provider id
-	 *
-	 * @param $id
-	 *
-	 * @return mixed
-	 */
-	public function scopeByProviderId(Builder $query, $id)
-	{
-		return $query->whereHas('providers',
-			function (Builder $query) use ($id) {
-				$query->where('provider_id', $id);
-			})
-			->first();
-	}
-
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function providers() {
-		return $this->hasMany(UserProvider::class);
-	}
+    /**
+     * Find a user by its provider id
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function scopeByProviderId(Builder $query, $id)
+    {
+        return $query->whereHas('providers',
+            function (Builder $query) use ($id) {
+                $query->where('provider_id', $id);
+            })
+            ->first();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function primaryAddress() {
+    public function providers()
+    {
+        return $this->hasMany(UserProvider::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function primaryAddress()
+    {
         return $this->hasOne(Address::class, 'id', 'primary_address_id');
     }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function addresses() {
-		return $this->hasMany(Address::class);
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function groups() {
+    public function groups()
+    {
         return $this->belongsToMany(Group::class)->orderBy('name', 'ASC');
     }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function ownedGroups() {
-		return $this->hasMany(Group::class, 'owner_id')->orderBy('name', 'ASC');
-	}
-
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function players() {
-		return $this->hasMany(Player::class, 'guardian_id')->orderBy('birthday', 'DESC');
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ownedGroups()
+    {
+        return $this->hasMany(Group::class, 'owner_id')->orderBy('name', 'ASC');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function tournaments() {
+    public function players()
+    {
+        return $this->hasMany(Player::class, 'guardian_id')->orderBy('birthday', 'DESC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournaments()
+    {
         return $this->hasMany(Tournament::class)->orderBy('start', 'ASC');
     }
 
-	/**
-	 * Determines if this user still lacks basic account information
-	 *
-	 * @return bool
-	 */
-	public function requiresSetup()
-	{
-		return is_null($this->first_name) || is_null($this->last_name);
-	}
+    /**
+     * Determines if this user still lacks basic account information
+     *
+     * @return bool
+     */
+    public function requiresSetup()
+    {
+        return is_null($this->first_name) || is_null($this->last_name);
+    }
 
     public function getSettingsAttribute($value)
     {
@@ -236,53 +244,53 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $this->attributes['settings'] = $value->toJson();
     }
 
-	/**
-	 * @return string
-	 */
-	public function getFullNameAttribute()
-	{
-		return $this->first_name.' '.$this->last_name;
-	}
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
 
-	public function setEmailAttribute ($attribute)
-	{
-		/** @var Scrubber $scrubber */
-		$scrubber = App::make(Scrubber::class);
-		$this->attributes['email'] = $scrubber->email($attribute);
-	}
+    public function setEmailAttribute($attribute)
+    {
+        /** @var Scrubber $scrubber */
+        $scrubber = App::make(Scrubber::class);
+        $this->attributes['email'] = $scrubber->email($attribute);
+    }
 
-	public function setFirstNameAttribute ($attribute)
-	{
-		$this->attributes['first_name'] = ucwords(strtolower(trim($attribute)));
-	}
+    public function setFirstNameAttribute($attribute)
+    {
+        $this->attributes['first_name'] = ucwords(strtolower(trim($attribute)));
+    }
 
-	public function setLastNameAttribute ($attribute)
-	{
-		$this->attributes['last_name'] = ucwords(strtolower(trim($attribute)));
-	}
+    public function setLastNameAttribute($attribute)
+    {
+        $this->attributes['last_name'] = ucwords(strtolower(trim($attribute)));
+    }
 
-	public function setPhoneAttribute ($attribute)
-	{
-		/** @var Scrubber $scrubber */
-		$scrubber = App::make(Scrubber::class);
-		$this->attributes['phone'] = $scrubber->phone($attribute);
-	}
+    public function setPhoneAttribute($attribute)
+    {
+        /** @var Scrubber $scrubber */
+        $scrubber = App::make(Scrubber::class);
+        $this->attributes['phone'] = $scrubber->phone($attribute);
+    }
 
-	public function attachRole(Role $role)
-	{
-		if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
-			Event::fire('user.role.added', [$this, $role]);
-		}
+    public function attachRole(Role $role)
+    {
+        if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
+            Event::fire('user.role.added', [$this, $role]);
+        }
 
-		$this->traitAttachRole($role);
-	}
+        $this->traitAttachRole($role);
+    }
 
-	public function detachRole(Role $role)
-	{
-		if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
-			Event::fire('user.role.removed', [$this, $role]);
-		}
+    public function detachRole(Role $role)
+    {
+        if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
+            Event::fire('user.role.removed', [$this, $role]);
+        }
 
-		$this->traitDetachRole($role);
-	}
+        $this->traitDetachRole($role);
+    }
 }

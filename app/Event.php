@@ -30,7 +30,8 @@ class Event extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tournament() {
+    public function tournament()
+    {
         return $this->belongsTo(Tournament::class);
     }
 
@@ -55,7 +56,8 @@ class Event extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function type() {
+    public function type()
+    {
         return $this->belongsTo(EventType::class, 'event_type_id');
     }
 
@@ -66,7 +68,7 @@ class Event extends Model
 
     public function displayPrice()
     {
-        if($this->isFree()) {
+        if ($this->isFree()) {
             echo '-';
         } else {
             // Display cost without the ".00"
@@ -79,6 +81,5 @@ class Event extends Model
 
             echo '$'. $price.' / '.$this->type->participant_type;
         }
-
     }
 }

@@ -198,5 +198,4 @@ class TeamsTest extends TestCase
         $this->call('DELETE', '/teamset/'.$teamSet->id);
         $this->dontSee($teamSetName);
     }
-
 }

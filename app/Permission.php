@@ -19,7 +19,8 @@ use Zizaco\Entrust\EntrustPermission;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Permission whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Permission whereUpdatedAt($value)
  */
-class Permission extends EntrustPermission {
+class Permission extends EntrustPermission
+{
     const VIEW_REPORTS          = 'view-reports';
     const MANAGE_ROLES          = 'manage-roles';
     const CREATE_TOURNAMENTS    = 'create-tournaments';

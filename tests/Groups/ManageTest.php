@@ -97,7 +97,6 @@ class ManageTest extends TestCase
             ->press('Save');
         $group = Group::findOrFail($this->group()->id);
         $this->assertNull($group->inactive);
-
     }
 
     private function deleteLastGroup()
@@ -106,5 +105,4 @@ class ManageTest extends TestCase
         $group->users()->sync([]);
         $group->delete();
     }
-
 }

@@ -8,7 +8,6 @@ class PlayerController extends Controller
 
     public function index()
     {
-
         $players = Player::where('first_name', 'LIKE', '%'.Input::get('q').'%')
             ->orWhere('last_name', 'LIKE', '%'.Input::get('q').'%')
             ->orWhereHas('guardian', function ($q) {
@@ -32,5 +31,4 @@ class PlayerController extends Controller
             'player' => Player::findOrFail($playerId)
         ]);
     }
-
 }

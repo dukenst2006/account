@@ -10,54 +10,54 @@ use BibleBowl\Users\Communication\UpdateSubscriberInformation;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-class EventServiceProvider extends ServiceProvider {
+class EventServiceProvider extends ServiceProvider
+{
 
-	/**
-	 * The event handler mappings for the application.
-	 *
-	 * @var array
-	 */
-	protected $listen = [
-		'auth.login' => [
-			OnLogin::class,
-		],
-		'auth.registered' => [
-			SendConfirmationEmail::class
-		],
-		'auth.resend.confirmation' => [
-			SendConfirmationEmail::class
-		],
-		'user.role.added' => [
-			AddInterestOnMailingList::class
-		],
-		'user.role.removed' => [
-			RemoveInterestOnMailingList::class
-		],
-		'user.profile.updated' => [
-			UpdateSubscriberInformation::class
-		],
-		'eloquent.created: BibleBowl\User' => [
-			AddToMailingList::class
-		],
-		'eloquent.created: BibleBowl\Address' => [
-			FetchCoordinatesForAddress::class
-		],
-		'eloquent.updated: BibleBowl\Address' => [
-			FetchCoordinatesForAddress::class
-		]
-	];
+    /**
+     * The event handler mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'auth.login' => [
+            OnLogin::class,
+        ],
+        'auth.registered' => [
+            SendConfirmationEmail::class
+        ],
+        'auth.resend.confirmation' => [
+            SendConfirmationEmail::class
+        ],
+        'user.role.added' => [
+            AddInterestOnMailingList::class
+        ],
+        'user.role.removed' => [
+            RemoveInterestOnMailingList::class
+        ],
+        'user.profile.updated' => [
+            UpdateSubscriberInformation::class
+        ],
+        'eloquent.created: BibleBowl\User' => [
+            AddToMailingList::class
+        ],
+        'eloquent.created: BibleBowl\Address' => [
+            FetchCoordinatesForAddress::class
+        ],
+        'eloquent.updated: BibleBowl\Address' => [
+            FetchCoordinatesForAddress::class
+        ]
+    ];
 
-	/**
-	 * Register any other events for your application.
-	 *
-	 * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-	 * @return void
-	 */
-	public function boot(DispatcherContract $events)
-	{
-		parent::boot($events);
+    /**
+     * Register any other events for your application.
+     *
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public function boot(DispatcherContract $events)
+    {
+        parent::boot($events);
 
-		//
-	}
-
+        //
+    }
 }

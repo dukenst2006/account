@@ -44,5 +44,4 @@ class UserController extends Controller
 
         return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.", log out to switch back");
     }
-
 }

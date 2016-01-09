@@ -2,15 +2,16 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class EmailTemplate extends Facade {
+class EmailTemplate extends Facade
+{
 
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor()
+    {
         return 'email.template';
     }
-
 }

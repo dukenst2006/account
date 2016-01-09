@@ -41,7 +41,6 @@ class GroupRegistrar
         /** @var User $user */
         foreach ($group->users()->with('roles')->get() as $user) {
             if ($user->hasRole(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
-
                 Mail::queue(
                     'emails.group-registration-confirmation',
                     [
@@ -49,8 +48,7 @@ class GroupRegistrar
                         'guardian'  => $guardian,
                         'players'   => $players
                     ],
-                    function(Message $message) use ($group, $user, $players)
-                    {
+                    function (Message $message) use ($group, $user, $players) {
                         $message->to($user->email, $user->full_name)
                             ->subject('New '.$group->full_name.' Registration'.(count($players) > 1 ? 's' : ''));
                     }

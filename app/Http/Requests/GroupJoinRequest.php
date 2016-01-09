@@ -1,18 +1,19 @@
 <?php namespace BibleBowl\Http\Requests;
 
-class GroupJoinRequest extends Request {
+class GroupJoinRequest extends Request
+{
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return [
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
             'player' => 'required'
         ];
-	}
+    }
 
     public function messages()
     {
@@ -20,5 +21,4 @@ class GroupJoinRequest extends Request {
             'player.required' => 'You must select at least one player'
         ];
     }
-
 }

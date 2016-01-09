@@ -3,7 +3,8 @@
 use Auth;
 use BibleBowl\Tournament;
 
-class TournamentEditRequest extends TournamentCreateRequest {
+class TournamentEditRequest extends TournamentCreateRequest
+{
 
     /**
      * Determine if the user is authorized to make this request.
@@ -28,5 +29,4 @@ class TournamentEditRequest extends TournamentCreateRequest {
             'active'                  => 'required'
         ]);
     }
-
 }

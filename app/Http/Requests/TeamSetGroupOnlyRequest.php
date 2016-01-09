@@ -3,7 +3,8 @@
 use BibleBowl\TeamSet;
 use Session;
 
-class TeamSetGroupOnlyRequest extends Request {
+class TeamSetGroupOnlyRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
@@ -14,5 +15,4 @@ class TeamSetGroupOnlyRequest extends Request {
     {
         return Session::group()->id == TeamSet::findOrFail($this->route('teamsets'))->group_id;
     }
-
 }

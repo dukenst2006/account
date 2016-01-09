@@ -86,6 +86,4 @@ class AuthTest extends TestCase
 
         return $this;
     }
-
-
 }

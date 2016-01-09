@@ -30,7 +30,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet season($season)
  */
-class TeamSet extends Model {
+class TeamSet extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -49,21 +50,24 @@ class TeamSet extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function group() {
+    public function group()
+    {
         return $this->belongsTo(Group::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function season() {
+    public function season()
+    {
         return $this->belongsTo(Season::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function players() {
+    public function players()
+    {
         return $this->hasManyThrough(Team::class);
     }
 
@@ -79,7 +83,8 @@ class TeamSet extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function teams() {
+    public function teams()
+    {
         $seasonId = $this->season_id;
         return $this->hasMany(Team::class)
             ->with([
@@ -95,12 +100,12 @@ class TeamSet extends Model {
         $this->attributes['name'] = ucwords(strtolower($name));
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($teamSet) {
+        static::deleting(function ($teamSet) {
             $teamSet->teams()->delete();
         });
     }
-
 }

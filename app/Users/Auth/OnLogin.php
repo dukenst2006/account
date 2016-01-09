@@ -13,7 +13,7 @@ class OnLogin
     public function handle(User $user)
     {
         // skip when an admin is logging in as this user
-        if(!Session::canSwitchToAdmin()) {
+        if (!Session::canSwitchToAdmin()) {
             $user->updateLastLogin();
         }
 

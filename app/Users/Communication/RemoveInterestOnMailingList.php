@@ -7,9 +7,10 @@ use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class RemoveInterestOnMailingList implements ShouldQueue {
+class RemoveInterestOnMailingList implements ShouldQueue
+{
 
-	use InteractsWithQueue;
+    use InteractsWithQueue;
 
     /** @var Easychimp */
     protected $mailchimp;
@@ -20,14 +21,14 @@ class RemoveInterestOnMailingList implements ShouldQueue {
     }
 
     /**
-	 * Handle the event.
-	 *
-	 * @param   User    $user
+     * Handle the event.
+     *
+     * @param   User    $user
      * @param   Role    $role
-	 * @return void
-	 */
-	public function handle(User $user, Role $role)
-	{
+     * @return void
+     */
+    public function handle(User $user, Role $role)
+    {
         if (DatabaseSeeder::isSeeding() || app()->environment('testing')) {
             return;
         }
@@ -58,6 +59,5 @@ class RemoveInterestOnMailingList implements ShouldQueue {
                 ]
             );
         }
-	}
-
+    }
 }

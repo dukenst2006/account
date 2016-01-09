@@ -56,5 +56,4 @@ class UsersTest extends TestCase
             ->visit('/logout')
             ->assertEquals($this->director()->email, $this->app['auth.driver']->user()->email);
     }
-
 }

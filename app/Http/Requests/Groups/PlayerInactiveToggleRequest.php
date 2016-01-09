@@ -3,7 +3,8 @@
 use BibleBowl\Http\Requests\Request;
 use Session;
 
-class PlayerInactiveToggleRequest extends Request {
+class PlayerInactiveToggleRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
@@ -26,5 +27,4 @@ class PlayerInactiveToggleRequest extends Request {
             //
         ];
     }
-
 }

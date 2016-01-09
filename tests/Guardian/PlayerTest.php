@@ -60,5 +60,4 @@ class PlayerTest extends TestCase
         // cleanup
         $player->save();
     }
-
 }

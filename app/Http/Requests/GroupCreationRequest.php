@@ -3,7 +3,8 @@
 use Auth;
 use BibleBowl\Group;
 
-class GroupCreationRequest extends Request {
+class GroupCreationRequest extends Request
+{
 
     /**
      * Get the validation rules that apply to the request.
@@ -42,5 +43,4 @@ class GroupCreationRequest extends Request {
 
         return parent::all();
     }
-
 }

@@ -6,9 +6,10 @@ use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class AddToMailingList implements ShouldQueue {
+class AddToMailingList implements ShouldQueue
+{
 
-	use InteractsWithQueue;
+    use InteractsWithQueue;
 
     /** @var Easychimp */
     protected $mailchimp;
@@ -19,13 +20,13 @@ class AddToMailingList implements ShouldQueue {
     }
 
     /**
-	 * Handle the event.
-	 *
-	 * @param  User  $user
-	 * @return void
-	 */
-	public function handle(User $user)
-	{
+     * Handle the event.
+     *
+     * @param  User  $user
+     * @return void
+     */
+    public function handle(User $user)
+    {
         if (DatabaseSeeder::isSeeding() || app()->environment('testing')) {
             return;
         }
@@ -43,6 +44,5 @@ class AddToMailingList implements ShouldQueue {
                 $user->last_name
             );
         }
-	}
-
+    }
 }

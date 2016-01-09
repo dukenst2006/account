@@ -3,7 +3,8 @@
 use BibleBowl\Team;
 use Session;
 
-class TeamGroupOnlyRequest extends Request {
+class TeamGroupOnlyRequest extends Request
+{
 
     protected $team;
 
@@ -22,5 +23,4 @@ class TeamGroupOnlyRequest extends Request {
     {
         return $this->team;
     }
-
 }

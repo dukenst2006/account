@@ -41,7 +41,8 @@ class Program extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function providers() {
+    public function providers()
+    {
         return $this->hasMany(Group::class);
     }
 
@@ -53,7 +54,8 @@ class Program extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function players() {
+    public function players()
+    {
         // if this relation is updated, update Season too
         return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('season_id', 'group_id', 'grade', 'shirt_size')

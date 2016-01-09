@@ -21,7 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  */
-class Season extends Model {
+class Season extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -33,7 +34,8 @@ class Season extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function players() {
+    public function players()
+    {
         // if this relation is updated, update Player too
         return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
@@ -56,15 +58,16 @@ class Season extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function tournaments() {
+    public function tournaments()
+    {
         return $this->hasMany(Tournament::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function teamSets() {
+    public function teamSets()
+    {
         return $this->hasMany(TeamSet::class);
     }
-
 }

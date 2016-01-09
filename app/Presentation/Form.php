@@ -21,7 +21,7 @@ class Form extends FormBuilder
     public function selectTimezone($name, $selected = null, $options = array(), $optional = false)
     {
         $list = [];
-        foreach(DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, 'US') as $timezoneIdentifier) {
+        foreach (DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, 'US') as $timezoneIdentifier) {
             $timezone = new DateTimeZone($timezoneIdentifier);
             $offsetInHours = $timezone->getoffset(new DateTime()) / (3600);
             $list[$timezoneIdentifier] = '(UTC '.$offsetInHours.':00) '.$timezoneIdentifier;

@@ -9,69 +9,69 @@ use Illuminate\Routing\Router;
 use Redirect;
 use Route;
 
-class RouteServiceProvider extends ServiceProvider {
+class RouteServiceProvider extends ServiceProvider
+{
 
-	/**
-	 * This namespace is applied to the controller routes in your routes file.
-	 *
-	 * In addition, it is set as the URL generator's root namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'BibleBowl\Http\Controllers';
+    /**
+     * This namespace is applied to the controller routes in your routes file.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'BibleBowl\Http\Controllers';
 
-	/**
-	 * Define your route model bindings, pattern filters, etc.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function boot(Router $router)
-	{
-		//
-		
-		parent::boot($router);
-	}
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    public function boot(Router $router)
+    {
+        //
 
-	/**
-	 * Define the routes for the application.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function map(Router $router)
-	{
-		$router->group(['namespace' => $this->namespace], function(Router $router)
-		{
-			# Default Routes for different users
-			Route::get('/', function () {
-				if (Auth::guest()) {
-					return Redirect::to('login');
-				}
+        parent::boot($router);
+    }
 
-				return Redirect::to('dashboard');
-			});
+    /**
+     * Define the routes for the application.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    public function map(Router $router)
+    {
+        $router->group(['namespace' => $this->namespace], function (Router $router) {
+            # Default Routes for different users
+            Route::get('/', function () {
+                if (Auth::guest()) {
+                    return Redirect::to('login');
+                }
 
-			# Authentication Routes
-			Route::get('login', 'Auth\AuthController@getLogin');
-			Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@login');
-			Route::post('login', 'Auth\AuthController@postLogin');
-			Route::get('register/confirm/{guid}', 'Auth\ConfirmationController@getConfirm');
-			Route::get('register', 'Auth\AuthController@getRegister');
-			Route::post('register', 'Auth\AuthController@postRegister');
-			Route::controllers([
-				'password' => 'Auth\PasswordController',
-			]);
+                return Redirect::to('dashboard');
+            });
 
-			# Must be logged in to access these routes
-			Route::group(['middleware' => 'auth'], function () {
-				Route::get('logout', 'Auth\AuthController@getLogout');
+            # Authentication Routes
+            Route::get('login', 'Auth\AuthController@getLogin');
+            Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@login');
+            Route::post('login', 'Auth\AuthController@postLogin');
+            Route::get('register/confirm/{guid}', 'Auth\ConfirmationController@getConfirm');
+            Route::get('register', 'Auth\AuthController@getRegister');
+            Route::post('register', 'Auth\AuthController@postRegister');
+            Route::controllers([
+                'password' => 'Auth\PasswordController',
+            ]);
 
-				Route::get('dashboard', 'DashboardController@index');
+            # Must be logged in to access these routes
+            Route::group(['middleware' => 'auth'], function () {
+                Route::get('logout', 'Auth\AuthController@getLogout');
+
+                Route::get('dashboard', 'DashboardController@index');
 
                 Route::group([
-                    'prefix'	=> 'account',
-                    'namespace'	=> 'Account'
+                    'prefix'    => 'account',
+                    'namespace'    => 'Account'
                 ], function () {
                     Route::resource('address', 'AddressController');
                     Route::get('address/{address}/makePrimary', 'AddressController@setPrimaryAddressId');
@@ -85,69 +85,69 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::patch('notifications', 'NotificationController@update');
                 });
 
-				Route::resource('player', 'PlayerController', [
-					'except' => ['delete']
-				]);
-
-				Route::group([
-					'namespace'	=> 'Teams'
-				], function () {
-					Route::resource('teamsets', 'TeamSetController');
-					Route::get('teamsets/{teamsets}/pdf', 'TeamSetController@pdf');
-					Route::post('teamsets/{teamsets}/createTeam', 'TeamController@store');
-
-					Route::resource('teams', 'TeamController', [
-						'only' => ['update', 'destroy']
-					]);
-
-					//Route::delete('teams/{team}', 'TeamController@deleteTeam');
-					Route::post('teams/{teams}/addPlayer', 'TeamController@addPlayer');
-					Route::post('teams/{teams}/removePlayer', 'TeamController@removePlayer');
-					Route::post('teams/{teams}/updateOrder', 'TeamController@updateOrder');
-				});
+                Route::resource('player', 'PlayerController', [
+                    'except' => ['delete']
+                ]);
 
                 Route::group([
-                    'namespace'	=> 'Seasons'
+                    'namespace'    => 'Teams'
+                ], function () {
+                    Route::resource('teamsets', 'TeamSetController');
+                    Route::get('teamsets/{teamsets}/pdf', 'TeamSetController@pdf');
+                    Route::post('teamsets/{teamsets}/createTeam', 'TeamController@store');
+
+                    Route::resource('teams', 'TeamController', [
+                        'only' => ['update', 'destroy']
+                    ]);
+
+                    //Route::delete('teams/{team}', 'TeamController@deleteTeam');
+                    Route::post('teams/{teams}/addPlayer', 'TeamController@addPlayer');
+                    Route::post('teams/{teams}/removePlayer', 'TeamController@removePlayer');
+                    Route::post('teams/{teams}/updateOrder', 'TeamController@updateOrder');
+                });
+
+                Route::group([
+                    'namespace'    => 'Seasons'
                 ], function () {
                     # action = join|register
                     Route::get('{action}/program', 'PlayerRegistrationController@program');
 
-					Route::get('register/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToRegister');
+                    Route::get('register/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToRegister');
                     Route::get('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@getRegister');
-					Route::post('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@postRegister');
+                    Route::post('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@postRegister');
 
-					Route::get('join/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToJoin');
-					Route::get('join/{programSlug}/group/{group}', 'PlayerRegistrationController@getJoin');
-					Route::post('join/{programSlug}/group/{group}', 'PlayerRegistrationController@postJoin');
+                    Route::get('join/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToJoin');
+                    Route::get('join/{programSlug}/group/{group}', 'PlayerRegistrationController@getJoin');
+                    Route::post('join/{programSlug}/group/{group}', 'PlayerRegistrationController@postJoin');
 
-					# the group's registration link
-					Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');
+                    # the group's registration link
+                    Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');
                 });
 
                 Route::resource('group', 'GroupController', [
                     'except' => ['delete']
                 ]);
                 Route::get('group/create/search', 'GroupController@searchBeforeCreate');
-				Route::get('group/{group}/swap', 'GroupController@swap');
+                Route::get('group/{group}/swap', 'GroupController@swap');
 
-				# Roster
-				//Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
-				Route::get('roster', 'Groups\RosterController@index');
-				Route::get('roster/inactive', 'Groups\RosterController@inactive');
+                # Roster
+                //Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
+                Route::get('roster', 'Groups\RosterController@index');
+                Route::get('roster/inactive', 'Groups\RosterController@inactive');
                 Route::get('roster/export', 'Groups\RosterController@export');
                 Route::get('roster/map', 'Groups\RosterController@map');
-				Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
-				Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
+                Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
+                Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
 
                 # ------------------------------------------------
                 # Admin Routes
                 # ------------------------------------------------
                 Route::group([
-                    'prefix'	=> 'admin',
-                    'namespace'	=> 'Admin'
+                    'prefix'    => 'admin',
+                    'namespace'    => 'Admin'
                 ], function () {
-					Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
-					Route::get('players', 'PlayerController@index');
+                    Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
+                    Route::get('players', 'PlayerController@index');
 
                     Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('players', 'PlayerController@index');
@@ -157,19 +157,19 @@ class RouteServiceProvider extends ServiceProvider {
                     Route::get('groups', 'GroupController@index');
                     Route::get('groups/{groupId}', 'GroupController@show');
 
-					Entrust::routeNeedsPermission('admin/switchUser/*', [Permission::SWITCH_ACCOUNTS]);
-					Route::get('switchUser/{userId}', 'UserController@switchUser');
+                    Entrust::routeNeedsPermission('admin/switchUser/*', [Permission::SWITCH_ACCOUNTS]);
+                    Route::get('switchUser/{userId}', 'UserController@switchUser');
 
                     Entrust::routeNeedsRole('admin/users/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('users', 'UserController@index');
                     Route::get('users/{userId}', 'UserController@show');
 
-					Route::resource('tournaments', 'TournamentsController');
-					Route::resource('tournaments.events', 'Tournaments\EventsController', [
-						'except' => ['index', 'show']
-					]);
+                    Route::resource('tournaments', 'TournamentsController');
+                    Route::resource('tournaments.events', 'Tournaments\EventsController', [
+                        'except' => ['index', 'show']
+                    ]);
                 });
-			});
+            });
 
             # legal
             Route::get('terms-of-use', function () {
@@ -179,9 +179,6 @@ class RouteServiceProvider extends ServiceProvider {
                 return view('legal/privacy-policy');
             });
 
-		});
-
-
-	}
-
+        });
+    }
 }

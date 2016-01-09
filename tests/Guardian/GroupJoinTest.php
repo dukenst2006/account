@@ -126,5 +126,4 @@ class GroupJoinTest extends TestCase
         // unjoin player
         $player->seasons()->sync([]);
     }
-
 }

@@ -8,18 +8,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Log;
 
-class FetchCoordinatesForAddress implements ShouldQueue {
+class FetchCoordinatesForAddress implements ShouldQueue
+{
 
-	use InteractsWithQueue;
+    use InteractsWithQueue;
 
-	/**
-	 * Handle the event.
-	 *
-	 * @param  Address  $address
-	 * @return void
-	 */
-	public function handle(Address $address)
-	{
+    /**
+     * Handle the event.
+     *
+     * @param  Address  $address
+     * @return void
+     */
+    public function handle(Address $address)
+    {
         try {
             // object was serialized, so get a new one with DB connectivity
             $address = Address::findOrFail($address->id);
@@ -44,7 +45,6 @@ class FetchCoordinatesForAddress implements ShouldQueue {
             );
 
             if ($response->status == 'OK') {
-
                 $address->latitude = $response->results[0]->geometry->location->lat;
                 $address->longitude = $response->results[0]->geometry->location->lng;
 
@@ -53,7 +53,7 @@ class FetchCoordinatesForAddress implements ShouldQueue {
                     if (property_exists($addressParts, 'types') && is_array($addressParts->types)) {
                         if (in_array('administrative_area_level_1', $addressParts->types)) {
                             $address->state = $addressParts->short_name;
-                        } else if (in_array('locality', $addressParts->types)) {
+                        } elseif (in_array('locality', $addressParts->types)) {
                             $address->city = $addressParts->long_name;
                         }
                     }
@@ -80,6 +80,5 @@ class FetchCoordinatesForAddress implements ShouldQueue {
             }
             throw $e;
         }
-	}
-
+    }
 }

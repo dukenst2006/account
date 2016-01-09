@@ -43,7 +43,8 @@ use Rhumsaa\Uuid\Uuid;
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
  */
-class Player extends Model {
+class Player extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -70,10 +71,10 @@ class Player extends Model {
     public static function validationRules()
     {
         return [
-            'first_name'	=> 'required|max:32',
-            'last_name'		=> 'required|max:32',
-            'gender'		=> 'required',
-            'birthday'		=> 'required|date'
+            'first_name'    => 'required|max:32',
+            'last_name'        => 'required|max:32',
+            'gender'        => 'required',
+            'birthday'        => 'required|date'
         ];
     }
 
@@ -258,7 +259,8 @@ class Player extends Model {
             });
     }
 
-    public function deactivate (Season $season) {
+    public function deactivate(Season $season)
+    {
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
@@ -266,7 +268,8 @@ class Player extends Model {
             ]);
     }
 
-    public function activate (Season $season) {
+    public function activate(Season $season)
+    {
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
@@ -295,5 +298,4 @@ class Player extends Model {
             })
             ->whereNotNull('player_season.inactive');
     }
-
 }

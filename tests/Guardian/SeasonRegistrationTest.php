@@ -212,7 +212,8 @@ class SeasonRegistrationTest extends TestCase
         $player->seasons()->sync([]);
     }
 
-    private function assertPlayerWasRegistered(Player $player) {
+    private function assertPlayerWasRegistered(Player $player)
+    {
         // Because the selects don't actually populate their fields, we
         // expect the grade for the player to not be populated and thus
         // throwing this error when viewing the dashboard
@@ -237,5 +238,4 @@ class SeasonRegistrationTest extends TestCase
         // Having to remove this because the above error is clearing this from the session
         //->see('Your player(s) have been registered!');
     }
-
 }

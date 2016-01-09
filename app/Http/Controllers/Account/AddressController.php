@@ -11,63 +11,63 @@ use Redirect;
 class AddressController extends Controller
 {
 
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function index()
-	{
-		return view('account.address.index');
-	}
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('account.address.index');
+    }
 
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function create()
-	{
-		return view('account.address.create');
-	}
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('account.address.create');
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function store(Request $request, AddressCreator $addressCreator)
-	{
+    /**
+     * @return mixed
+     */
+    public function store(Request $request, AddressCreator $addressCreator)
+    {
         $request->merge([
             'user_id' => Auth::id()
         ]);
         
-		$this->validate($request, Address::validationRules(), Address::validationMessages());
+        $this->validate($request, Address::validationRules(), Address::validationMessages());
 
-		$address = $addressCreator->create($request->except('redirectUrl'));
+        $address = $addressCreator->create($request->except('redirectUrl'));
 
-		return redirect($request->get('redirectUrl'))->withFlashSuccess('Your '.$address->name.' address has been created');
-	}
+        return redirect($request->get('redirectUrl'))->withFlashSuccess('Your '.$address->name.' address has been created');
+    }
 
-	/**
-	 * @param AddressOwnerOnlyRequest $request
-	 *
-	 * @return \Illuminate\View\View
-	 */
-	public function edit(AddressOwnerOnlyRequest $request, $id)
-	{
-		return view('account.address.edit')
-				->withAddress(Address::findOrFail($id));
-	}
+    /**
+     * @param AddressOwnerOnlyRequest $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit(AddressOwnerOnlyRequest $request, $id)
+    {
+        return view('account.address.edit')
+                ->withAddress(Address::findOrFail($id));
+    }
 
-	/**
-	 * @param AddressOwnerOnlyRequest $request
-	 * @param                         $id
-	 *
-	 * @return mixed
-	 */
-	public function update(AddressOwnerOnlyRequest $request, $id)
-	{
-		$this->validate($request, Address::validationRules(), Address::validationMessages());
+    /**
+     * @param AddressOwnerOnlyRequest $request
+     * @param                         $id
+     *
+     * @return mixed
+     */
+    public function update(AddressOwnerOnlyRequest $request, $id)
+    {
+        $this->validate($request, Address::validationRules(), Address::validationMessages());
 
-		Address::findOrFail($id)->update($request->all());
+        Address::findOrFail($id)->update($request->all());
 
-		return redirect('/account/address')->withFlashSuccess('Your changes were saved');
-	}
+        return redirect('/account/address')->withFlashSuccess('Your changes were saved');
+    }
 
     /**
      * @param AddressOwnerOnlyRequest $request
@@ -79,24 +79,23 @@ class AddressController extends Controller
     {
         $user = Auth::user();
         $user->update([
-          'primary_address_id'	=> $id,
+          'primary_address_id'    => $id,
         ]);
         $address = Address::find($id);
 
         return redirect('/account/address')->withFlashSuccess('"' . $address->name . '" is now your primary address');
     }
 
-	/**
-	 * @param AddressOwnerOnlyRequest 	$request
-	 * @param                      		$id
-	 *
-	 * @return mixed
-	 */
-	public function destroy(AddressOwnerOnlyRequest $request, $id)
-	{
-		$address = Address::find($id);
-		$address->delete();
-		return redirect('/account/address')->withFlashSuccess('Your '.$address->name.' address has been deleted');
-	}
-
+    /**
+     * @param AddressOwnerOnlyRequest 	$request
+     * @param                      		$id
+     *
+     * @return mixed
+     */
+    public function destroy(AddressOwnerOnlyRequest $request, $id)
+    {
+        $address = Address::find($id);
+        $address->delete();
+        return redirect('/account/address')->withFlashSuccess('Your '.$address->name.' address has been deleted');
+    }
 }

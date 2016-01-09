@@ -9,100 +9,99 @@ use DB;
 class TeamController extends Controller
 {
 
-	/**
-	 * @param  	$request
-	 * @param                     	$id
-	 *
-	 * @return mixed
-	 */
-	public function store(TeamSetGroupOnlyRequest $request)
-	{
-		$request->merge([
-			'team_set_id' => $request->route('teamsets')
-		]);
+    /**
+     * @param  	$request
+     * @param                     	$id
+     *
+     * @return mixed
+     */
+    public function store(TeamSetGroupOnlyRequest $request)
+    {
+        $request->merge([
+            'team_set_id' => $request->route('teamsets')
+        ]);
 
-		$this->validate($request, [
-			'name' => 'required'
-		]);
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
 
-		$team = Team::create($request->except('_token'));
+        $team = Team::create($request->except('_token'));
 
-		return response()->json($team);
-	}
+        return response()->json($team);
+    }
 
-	/**
-	 * @param  	$request
-	 * @param                     	$id
-	 *
-	 * @return mixed
-	 */
-	public function update(TeamGroupOnlyRequest $request)
-	{
-		$request->team()->update([
-			'name' => $request->input('name')
-		]);
+    /**
+     * @param  	$request
+     * @param                     	$id
+     *
+     * @return mixed
+     */
+    public function update(TeamGroupOnlyRequest $request)
+    {
+        $request->team()->update([
+            'name' => $request->input('name')
+        ]);
 
-		return response()->json();
-	}
+        return response()->json();
+    }
 
-	/**
-	 * @param  	$request
-	 * @param                     	$id
-	 *
-	 * @return mixed
-	 */
-	public function destroy(TeamGroupOnlyRequest $request)
-	{
-		$request->team()->delete();
+    /**
+     * @param  	$request
+     * @param                     	$id
+     *
+     * @return mixed
+     */
+    public function destroy(TeamGroupOnlyRequest $request)
+    {
+        $request->team()->delete();
 
-		return response()->json();
-	}
+        return response()->json();
+    }
 
-	/**
-	 * @param  	$request
-	 * @param                     	$id
-	 *
-	 * @return mixed
-	 */
-	public function addPlayer(TeamGroupOnlyRequest $request, $id)
-	{
-		$request->team()->players()->attach($request->get('playerId'));
+    /**
+     * @param  	$request
+     * @param                     	$id
+     *
+     * @return mixed
+     */
+    public function addPlayer(TeamGroupOnlyRequest $request, $id)
+    {
+        $request->team()->players()->attach($request->get('playerId'));
 
-		return response()->json();
-	}
+        return response()->json();
+    }
 
-	/**
-	 * @param  	$request
-	 * @param   $id
-	 *
-	 * @return mixed
-	 */
-	public function removePlayer(TeamGroupOnlyRequest $request, $id)
-	{
-		$request->team()->players()->detach($request->get('playerId'));
+    /**
+     * @param  	$request
+     * @param   $id
+     *
+     * @return mixed
+     */
+    public function removePlayer(TeamGroupOnlyRequest $request, $id)
+    {
+        $request->team()->players()->detach($request->get('playerId'));
 
-		return response()->json();
-	}
+        return response()->json();
+    }
 
-	/**
-	 * Update the order of players on a team
-	 *
-	 * @param  	$request
-	 * @param   $id
-	 *
-	 * @return mixed
-	 */
-	public function updateOrder(TeamGroupOnlyRequest $request, $id)
-	{
-		DB::transaction(function () use($request) {
-			foreach($request->input('sortOrder') as $index => $playerId) {
-				$request->team()->players()->updateExistingPivot($playerId, [
-					'order' => $index
-				]);
-			}
-		});
+    /**
+     * Update the order of players on a team
+     *
+     * @param  	$request
+     * @param   $id
+     *
+     * @return mixed
+     */
+    public function updateOrder(TeamGroupOnlyRequest $request, $id)
+    {
+        DB::transaction(function () use ($request) {
+            foreach ($request->input('sortOrder') as $index => $playerId) {
+                $request->team()->players()->updateExistingPivot($playerId, [
+                    'order' => $index
+                ]);
+            }
+        });
 
-		return response()->json();
-	}
-
+        return response()->json();
+    }
 }

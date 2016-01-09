@@ -72,5 +72,4 @@ class AddressTest extends TestCase
         // bypassing caching, see above comments
         $this->assertEquals(0, Address::where('id', $address->id)->count());
     }
-
 }

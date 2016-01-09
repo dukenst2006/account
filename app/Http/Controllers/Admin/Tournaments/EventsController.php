@@ -13,62 +13,61 @@ use Session;
 class EventsController extends Controller
 {
 
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function create($tournamentId)
-	{
-		return view('admin.tournaments.events.create')
-				->withTournament(Tournament::findOrFail($tournamentId))
-				->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
-	}
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function create($tournamentId)
+    {
+        return view('admin.tournaments.events.create')
+                ->withTournament(Tournament::findOrFail($tournamentId))
+                ->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function store(TournamentCreatorOnlyRequest $request, $tournamentId)
-	{
-		$request->merge([
-			'tournament_id' => $tournamentId
-		]);
-		$this->validate($request, EventType::validationRules());
+    /**
+     * @return mixed
+     */
+    public function store(TournamentCreatorOnlyRequest $request, $tournamentId)
+    {
+        $request->merge([
+            'tournament_id' => $tournamentId
+        ]);
+        $this->validate($request, EventType::validationRules());
 
-		Event::create($request->except('_token'));
+        Event::create($request->except('_token'));
 
-		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event has been created');
-	}
+        return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event has been created');
+    }
 
-	/**
-	 * @param TournamentCreatorOnlyRequest $request
-	 *
-	 * @return \Illuminate\View\View
-	 */
-	public function edit(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
-	{
-		return view('admin.tournaments.events.edit')
-			->withTournament(Tournament::findOrFail($tournamentId))
-			->withEvent(Event::findOrFail($eventId));
-	}
+    /**
+     * @param TournamentCreatorOnlyRequest $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
+    {
+        return view('admin.tournaments.events.edit')
+            ->withTournament(Tournament::findOrFail($tournamentId))
+            ->withEvent(Event::findOrFail($eventId));
+    }
 
-	/**
-	 * @param TournamentCreatorOnlyRequest  $request
-	 * @param                     			$id
-	 *
-	 * @return mixed
-	 */
-	public function update(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
-	{
-		$event = Event::findOrFail($eventId);
-		$event->update($request->except('_token', '_method'));
+    /**
+     * @param TournamentCreatorOnlyRequest  $request
+     * @param                     			$id
+     *
+     * @return mixed
+     */
+    public function update(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
+    {
+        $event = Event::findOrFail($eventId);
+        $event->update($request->except('_token', '_method'));
 
-		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Your changes were saved');
-	}
+        return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Your changes were saved');
+    }
 
-	public function destroy($tournamentId, $eventId)
-	{
-		Event::findOrFail($eventId)->delete();
+    public function destroy($tournamentId, $eventId)
+    {
+        Event::findOrFail($eventId)->delete();
 
-		return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event deleted');
-	}
-
+        return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event deleted');
+    }
 }

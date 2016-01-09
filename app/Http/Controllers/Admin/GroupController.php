@@ -24,5 +24,4 @@ class GroupController extends Controller
             'group' => Group::findOrFail($groupId)
         ]);
     }
-
 }

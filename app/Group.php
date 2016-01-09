@@ -48,7 +48,8 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  */
-class Group extends Model {
+class Group extends Model
+{
     use CanDeactivate;
 
     protected $guarded = ['id', 'guid'];
@@ -74,21 +75,24 @@ class Group extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function address() {
+    public function address()
+    {
         return $this->belongsTo(Address::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function meetingAddress() {
+    public function meetingAddress()
+    {
         return $this->belongsTo(Address::class, 'meeting_address_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function players() {
+    public function players()
+    {
         // if this relation is updated, update Season too
         return $this->belongsToMany(Player::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
@@ -156,7 +160,8 @@ class Group extends Model {
      *
      * @return $this
      */
-    public function scopeNear(Builder $q, Address $address, $miles = null) {
+    public function scopeNear(Builder $q, Address $address, $miles = null)
+    {
         if (is_null($miles)) {
             $miles = Config::get('biblebowl.groups.nearby');
         }
@@ -174,7 +179,7 @@ class Group extends Model {
     {
         // Check to see if a group is a duplicate by looking at the location where they meet (zip code or city/state
         // and their program/name when the group is created
-        Validator::extend('isnt_duplicate', function($attribute, $value, $parameters, $validator) {
+        Validator::extend('isnt_duplicate', function ($attribute, $value, $parameters, $validator) {
             $meetingAddress = Address::findOrFail($validator->getData()['meeting_address_id']);
             $group = Group::where('name', $value)
                 ->where('program_id', $validator->getData()['program_id'])
@@ -190,10 +195,10 @@ class Group extends Model {
         });
 
         return [
-            'name'			=> 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
+            'name'            => 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
             'program_id'    => 'required',
-            'owner_id'		=> 'required|exists:users,id',
-            'address_id'	=> 'required|exists:addresses,id'
+            'owner_id'        => 'required|exists:users,id',
+            'address_id'    => 'required|exists:addresses,id'
         ];
     }
 
@@ -207,35 +212,40 @@ class Group extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function owner() {
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function program() {
+    public function program()
+    {
         return $this->belongsTo(Program::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function seasons() {
+    public function seasons()
+    {
         return $this->hasMany(Season::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function teamSets() {
+    public function teamSets()
+    {
         return $this->hasMany(TeamSet::class);
     }
 
@@ -259,7 +269,7 @@ class Group extends Model {
         return $this->isActive() === false;
     }
 
-    public function setNameAttribute ($attribute)
+    public function setNameAttribute($attribute)
     {
         $this->attributes['name'] = ucwords(strtolower(trim($attribute)));
     }
