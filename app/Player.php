@@ -72,9 +72,9 @@ class Player extends Model
     {
         return [
             'first_name'    => 'required|max:32',
-            'last_name'        => 'required|max:32',
+            'last_name'     => 'required|max:32',
             'gender'        => 'required',
-            'birthday'        => 'required|date'
+            'birthday'      => 'required|date'
         ];
     }
 

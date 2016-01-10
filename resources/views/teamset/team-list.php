@@ -1,3 +1,6 @@
+<div v-show="teamSet.teams.length == 0" class="text-center p-t-40" id="no-teams">
+    To get started you'll need to add your first team by clicking "+ Add Team"
+</div>
 <div v-for="team in teamSet.teams" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div id="team-{{ team.id }}" class="team col-md-12" data-teamId="{{ team.id }}">
         <div class="edit fa fa-edit" @click="editingTeamName($index, $event)" @blur="doneEditingTeamName()"></div>
@@ -6,6 +9,9 @@
         <h5 v-if="isEditingTeamIndex != $index">
             {{ team.name }}
         </h5>
+        <div class="drag-here" v-cloak v-show="team.players.length == 0 && $index == 0">
+            Drag players here
+        </div>
         <ul class="players">
             <li v-for="player in team.players" class="grade-{{ player.seasons[0].pivot.grade }}" data-playerId="{{ player.seasons[0].pivot.player_id }}">
                 <label>{{ player.full_name }}</label>

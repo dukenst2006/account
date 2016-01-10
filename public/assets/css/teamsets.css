@@ -18,7 +18,7 @@
 .beingDragged {
     padding: 8px 10px 2px;
     margin-bottom: 5px;
-    border: 2px dashed #ccc;
+    border: 2px dotted #ccc;
     height: 34px;
 }
 .players > li:not(.beingDragged) {
@@ -60,9 +60,23 @@
     padding: 2px !important;
     background-color: #fff !important;
 }
-.team ul.players {
+.team .players {
+    z-index: 200;
     min-height: 130px !important;
 }
+
+.team .drag-here {
+    z-index: 100;
+    position: absolute;
+    width: 86%; /* because of absolute, we can't go 100% */
+    text-align: center;
+    padding-top: 4em;
+    border: 2px dashed #ccc;
+    height: 130px;
+    font-style: italic;
+    color: #ccc;
+}
+
 .team h5 {
     margin: 0 0 .5em 0;
     font-weight: bold;
@@ -154,4 +168,9 @@ h3 > .fa-edit {
 .grade-6 label:before {
     content: "6";
     padding-right: 12px;
+}
+#no-teams {
+    font-size: 110%;
+    font-style: italic;
+    color: #ccc;
 }

@@ -1457,6 +1457,15 @@ var vm = new Vue({
                      teamId = parseInt(teamEl.attr('data-teamId')),
                      playerId = parseInt($(ui.item[0]).attr('data-playerId'));
 
+                 // can't rely on vuejs since players copied from
+                 // roster don't get populated in team.players
+                 // using playerId verifies a player was actually
+                 // added to the team
+                 if ($.isNumeric(playerId)) {
+                     // hide help if it's visible
+                     $('> .drag-here', teamEl).hide();
+                 }
+
                  // if an item is dragged away from a team, remove the player
                  if (ui.hasOwnProperty('sender') && ui.sender != null) {
                      var senderTeamId = parseInt(ui.sender.closest('.team').data('teamid'));
