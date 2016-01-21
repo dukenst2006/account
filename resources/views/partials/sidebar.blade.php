@@ -84,6 +84,14 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                         <a href="/admin/reports/growth"> <i class="icon-custom-chart"></i> <span class="title">Growth</span></a>
                     </li>
                 @endif
+                @if (Auth::user()->can(\BibleBowl\Permission::MANAGE_SETTINGS))
+                    <li class="
+                        @if(Route::current()->getUri() == 'admin/settings')
+                            active
+                        @endif">
+                        <a href="/admin/settings"> <i class="fa fa-gears"></i> <span class="title">Settings</span></a>
+                    </li>
+                @endif
             @endif
         </ul>
         <div class="clearfix"></div>

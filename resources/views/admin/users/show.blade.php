@@ -3,9 +3,6 @@
 @section('title', $user->full_name)
 
 @section('content')
-    <?
-    dd(Auth::user()->can(\BibleBowl\Permission::SWITCH_ACCOUNTS));
-    ?>
     <div class="content">
         <div class="grid simple">
             <div class="grid-title no-border">

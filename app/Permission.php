@@ -26,6 +26,7 @@ class Permission extends EntrustPermission
     const CREATE_TOURNAMENTS    = 'create-tournaments';
     const MANAGE_USERS          = 'manage-users';
     const SWITCH_ACCOUNTS       = 'switch-accounts';
+    const MANAGE_SETTINGS       = 'manage-settings';
 
     protected $guarded = ['id'];
 }

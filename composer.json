@@ -5,7 +5,7 @@
 	"type": "project",
     "license": "proprietary",
 	"require": {
-		"laravel/framework": "5.*",
+		"laravel/framework": "5.1.*",
 		"thomaswelton/laravel-gravatar": "^1.0",
 		"laravel/socialite": "^2.0",
 		"illuminate/html": "5.*",
@@ -17,7 +17,8 @@
 		"aws/aws-sdk-php": "~3.0",
 		"landish/pagination": "~1.0",
 		"bkuhl/easychimp": "dev-master",
-		"barryvdh/laravel-dompdf": "0.6.*"
+		"barryvdh/laravel-dompdf": "0.6.*",
+		"anlutro/l4-settings": "0.*"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",

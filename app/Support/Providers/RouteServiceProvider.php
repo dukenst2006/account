@@ -149,7 +149,7 @@ class RouteServiceProvider extends ServiceProvider
                     Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
                     Route::get('players', 'PlayerController@index');
 
-                    Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR, Role::ADMIN]);
+                    Entrust::routeNeedsRole('players/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('players', 'PlayerController@index');
                     Route::get('players/{playerId}', 'PlayerController@show');
 
@@ -168,6 +168,10 @@ class RouteServiceProvider extends ServiceProvider
                     Route::resource('tournaments.events', 'Tournaments\EventsController', [
                         'except' => ['index', 'show']
                     ]);
+
+                    Entrust::routeNeedsPermission('settings', [Permission::MANAGE_SETTINGS]);
+                    Route::get('settings', 'SettingsController@edit');
+                    Route::patch('settings', 'SettingsController@update');
                 });
             });
 

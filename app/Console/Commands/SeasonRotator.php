@@ -1,10 +1,8 @@
 <?php namespace BibleBowl\Console\Commands;
 
-use App;
 use BibleBowl\Season;
-use BibleBowl\Seasons\SeasonCalendar;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Setting;
 
 class SeasonRotator extends Command
 {
@@ -32,13 +30,10 @@ class SeasonRotator extends Command
      */
     public function fire()
     {
-        /** @var \BibleBowl\Seasons\SeasonCalendar $seasonCalendar */
-        $seasonCalendar = App::make(SeasonCalendar::class);
-
         // if it ends today, start the new season
-        $endDate = $seasonCalendar->endDate();
-        $startDate = $seasonCalendar->startDate();
-        if ($endDate->eq(Carbon::today())) {
+        $endDate = Setting::seasonEnd();
+        if ($endDate->isBirthday()) {
+            $startDate = Setting::seasonStart();
             Season::firstOrCreate([
                 'name' => $startDate->format("Y-").($startDate->addYear()->format("y"))
             ]);
