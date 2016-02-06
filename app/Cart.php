@@ -7,6 +7,7 @@ use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Shop\UnrecognizedPurchaseEventException;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * BibleBowl\Cart
@@ -35,8 +36,12 @@ use DB;
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel findByUser($userId)
  * @property string $post_purchase_event
  */
-class Cart extends ShopCartModel
+class Cart extends Model
 {
+    protected $fillable = [
+        'user_id'
+    ];
+
     protected $casts = [
         'metadata' => 'array',
     ];
@@ -90,5 +95,54 @@ class Cart extends ShopCartModel
         DB::beginTransaction();
         $this->postPurchaseEvent()->fire();
         DB::commit();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    /**
+     * @param string    $sku
+     * @param float     $price
+     * @param int       $quantity
+     * @return Item
+     */
+    public function add($sku, $price, $quantity = 1)
+    {
+        return $this->items()->create([
+            'sku'       => $sku,
+            'quantity'  => $quantity,
+            'price'     => $price
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function total()
+    {
+        return number_format($this->items()->sum(DB::raw('quantity * price')), 2);
+    }
+
+    /**
+     * @return $this
+     */
+    public function clear()
+    {
+        $this->items()->delete();
+
+        return $this;
     }
 }

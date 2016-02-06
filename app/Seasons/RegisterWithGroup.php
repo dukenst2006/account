@@ -18,7 +18,7 @@ class RegisterWithGroup
         $this->groupRegistrar = $groupRegistrar;
     }
 
-    public function handle(Season $season, Registration $registration)
+    public function handle(Season $season, SeasonalRegistration $registration)
     {
         // a group may not have been specified
         if ($registration->hasGroup() === false) {

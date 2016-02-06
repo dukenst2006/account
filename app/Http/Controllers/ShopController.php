@@ -21,8 +21,7 @@ class ShopController extends Controller
      */
     public function viewCart()
     {
-        return view('cart')
-            ->withCart(Cart::current());
+        return view('cart');
     }
 
     /**

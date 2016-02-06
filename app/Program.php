@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
  * @property float $registration_fee
+ * @property-read mixed $product_sku
  */
 class Program extends Model
 {

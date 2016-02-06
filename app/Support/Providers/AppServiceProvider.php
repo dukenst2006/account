@@ -1,8 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Cart;
 use BibleBowl\Presentation\EmailTemplate;
 use BibleBowl\Presentation\Html;
-use BibleBowl\Team;
+use Auth;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
 use Config;
@@ -94,12 +95,15 @@ class AppServiceProvider extends ServiceProvider
             \BibleBowl\Users\Auth\Registrar::class
         );
 
-        $this->app->singleton(
-            'session',
-            function ($app) {
-                return new SessionManager($app);
-            }
-        );
+        $this->app->singleton('session', function ($app) {
+            return new SessionManager($app);
+        });
+
+        $this->app->singleton(Cart::class, function ($app) {
+            return Cart::firstOrCreate([
+                'user_id' => Auth::user()->id
+            ]);
+        });
 
         // putting this in the PresentServiceProvider causes issues
         $this->app->bind('email.template', function () {

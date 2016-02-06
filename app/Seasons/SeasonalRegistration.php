@@ -5,7 +5,7 @@ namespace BibleBowl\Seasons;
 use BibleBowl\Group;
 use Illuminate\Support\Fluent;
 
-class Registration extends Fluent
+class SeasonalRegistration extends Fluent
 {
     protected $attributes = [
         'players' => []

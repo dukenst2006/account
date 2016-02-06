@@ -8,7 +8,7 @@ use DB;
 class RegisterWithNationalOffice
 {
 
-    public function handle(Season $season, Registration $registration)
+    public function handle(Season $season, SeasonalRegistration $registration)
     {
         DB::beginTransaction();
 

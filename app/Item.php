@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use Amsgames\LaravelShop\Models\ShopItemModel;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * BibleBowl\Item
@@ -37,9 +38,22 @@ use Amsgames\LaravelShop\Models\ShopItemModel;
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel whereSKU($sku)
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel findBySKU($sku)
  */
-class Item extends ShopItemModel
+class Item extends Model
 {
-    public function getDisplayNameAttribute()
+    protected $fillable = [
+        'cart_id',
+        'sku',
+        'price',
+        'quantity'
+    ];
+
+    /**
+     * Build a user friendly display name based
+     * on the SKU
+     *
+     * @return string
+     */
+    public function name()
     {
         // if it's a seasonal registration
         $seasonalRegistrationPrefix = 'SEASON_REG_';
@@ -49,5 +63,13 @@ class Item extends ShopItemModel
         }
 
         return $this->sku;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
     }
 }

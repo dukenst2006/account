@@ -158,7 +158,6 @@ return [
 		\Easychimp\ServiceProvider::class,
 		\Barryvdh\DomPDF\ServiceProvider::class,
 		\anlutro\LaravelSettings\ServiceProvider::class,
-		\Amsgames\LaravelShop\LaravelShopProvider::class,
 
 	],
 
@@ -213,6 +212,7 @@ return [
 		 */
 		'EmailTemplate'		=> \BibleBowl\Support\Facades\EmailTemplate::class,
 		'Setting' 			=> \BibleBowl\Support\Facades\SettingsManager::class,
+		'Cart' 				=> \BibleBowl\Support\Facades\ShoppingCart::class,
 
 		/**
 		 * 3rd party facades

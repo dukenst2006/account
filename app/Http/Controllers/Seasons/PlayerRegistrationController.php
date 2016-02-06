@@ -1,20 +1,18 @@
 <?php namespace BibleBowl\Http\Controllers\Seasons;
 
 use Auth;
-use BibleBowl\Cart;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupJoinRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Program;
-use BibleBowl\Seasons\Registration;
+use BibleBowl\Seasons\SeasonalRegistration;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
-use BibleBowl\Seasons\RegisterWithNationalOffice;
 use Illuminate\View\View;
 use Input;
 use Session;
-use Clear;
+use Cart;
 
 class PlayerRegistrationController extends Controller
 {
@@ -84,7 +82,7 @@ class PlayerRegistrationController extends Controller
      */
     public function postRegister(
         SeasonRegistrationRequest $request,
-        Registration $registration,
+        SeasonalRegistration $registration,
         SeasonalRegistrationPaymentReceived $seasonalRegistrationPaymentReceived,
         $programSlug,
         $group = null
@@ -106,13 +104,14 @@ class PlayerRegistrationController extends Controller
          * Add the compiled registration information to the cart
          * so it can be processed once payment has gone through
          */
-        $cart = Cart::current()->clear();
+        $cart = Cart::clear();
         $seasonalRegistrationPaymentReceived->setRegistration($registration);
         $cart->setPostPurchaseEvent($seasonalRegistrationPaymentReceived)->save();
-        $cart->add([
-            'sku'       => $program->product_sku,
-            'price'     => $program->registration_fee
-        ], $registration->numberOfPlayers());
+        $cart->add(
+            $program->product_sku,
+            $program->registration_fee,
+            $registration->numberOfPlayers()
+        );
 
         return redirect('/cart');
     }

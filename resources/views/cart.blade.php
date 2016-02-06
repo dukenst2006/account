@@ -7,23 +7,23 @@
         <div class="grid simple">
             <div class="grid-body no-border">
                 @include('partials.messages')
-                <div class="row m-t-20">
+                <div class="row m-t-10">
                     <div class="col-md-12">
                         <div class="row table-header">
                             <div class="col-md-7 col-sm-8 col-xs-8">Item</div>
                             <div class="col-md-2 col-sm-2 col-xs-2 text-center">Qty</div>
                             <div class="col-md-3 col-sm-2 col-xs-2 text-center">Price</div>
                         </div>
-                        @foreach ($cart->items as $item)
+                        @foreach (Cart::items()->get() as $item)
                         <div class="row table-row">
                             <div class="col-md-7 col-sm-8 col-xs-8">
-                                {{ $item->displayName }}
+                                {{ $item->name() }}
                             </div>
                             <div class="col-md-2 col-sm-2 col-xs-2 text-center">
                                 {{ number_format($item->quantity) }}
                             </div>
                             <div class="col-md-3 col-sm-2 col-xs-2 text-center">
-                                {{ $item->displayPrice }}
+                                ${{ $item->price }}
                             </div>
                         </div>
                         @endforeach
@@ -33,7 +33,7 @@
                                 <strong>Total:</strong>
                             </div>
                             <div class="col-md-3 col-sm-2 col-xs-2 p-t-10 b-t b-grey text-center">
-                                {{ $cart->displayTotal }}
+                                ${{ Cart::total() }}
                             </div>
                         </div>
                         {!! Form::open(['class' => 'form-horizontal', 'role' => 'form', 'id' => 'payment-form']) !!}

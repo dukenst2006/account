@@ -73,7 +73,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use Authenticatable,
         CanResetPassword,
-        ShopUserTrait,
         EntrustUserTrait {
             EntrustUserTrait::attachRole as traitAttachRole;
             EntrustUserTrait::detachRole as traitDetachRole;
@@ -205,6 +204,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function ownedGroups()
     {
         return $this->hasMany(Group::class, 'owner_id')->orderBy('name', 'ASC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
     }
 
     /**

@@ -9,7 +9,7 @@ class SeasonalRegistrationPaymentReceived extends PostPurchaseEvent
 {
     const EVENT = 'seasonal.registration';
 
-    /** @var Registration */
+    /** @var SeasonalRegistration */
     protected $registration;
 
     public function __construct($attributes = [])
@@ -20,19 +20,19 @@ class SeasonalRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * @param Registration $registration
+     * @param SeasonalRegistration $registration
      */
-    public function setRegistration(Registration $registration)
+    public function setRegistration(SeasonalRegistration $registration)
     {
         parent::setEventData($registration);
     }
 
     /**
-     * @return Registration
+     * @return SeasonalRegistration
      */
     public function registration()
     {
-        return app(Registration::class, [$this->eventData()]);
+        return app(SeasonalRegistration::class, [$this->eventData()]);
     }
 
     /**
