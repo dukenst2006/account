@@ -69,6 +69,9 @@ class RouteServiceProvider extends ServiceProvider
 
                 Route::get('dashboard', 'DashboardController@index');
 
+                Route::get('cart', 'ShopController@viewCart');
+                Route::post('cart', 'ShopController@processPayment');
+
                 Route::group([
                     'prefix'    => 'account',
                     'namespace'    => 'Account'

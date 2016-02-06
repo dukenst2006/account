@@ -18,6 +18,32 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /*
+         * specific library inclusion
+         */
+        Blade::directive('includeVueJs', function () {
+            if(app()->environment('production', 'staging')) {
+                return "<?php
+                \\".Html::class."::\$includeJs[] = \"https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js\";
+                \\".Html::class."::\$includeJs[] = \"https://cdn.jsdelivr.net/vue.validator/2.0.0-alpha.6/vue-validator.min.js\";
+                ?>";
+            } else {
+                return "<?php
+                \\".Html::class."::\$includeJs[] = \"/assets/plugins/vuejs/vue-1.0.10.min.js\";
+                \\".Html::class."::\$includeJs[] = \"/assets/plugins/vuejs/vue-2.0.0-alpha.6-validator.min.js\";
+                ?>";
+            }
+        });
+        Blade::directive('includeStripeJs', function () {
+            return "<?php
+                \\".Html::class."::\$includeJs[] = \"https://js.stripe.com/v2/\";
+                \\".Html::class."::\$js .= \"Stripe.setPublishableKey('".getenv('STRIPE_PUBLIC_KEY')."');\"
+                ?>";
+        });
+
+        /**
+         * Generic reusable components
+         */
         Blade::directive('includeCss', function ($path) {
             if (str_contains($path, 'elixir')) {
                 return "<?php \\".Html::class."::\$includeCss[] = ".$path."; ?>";

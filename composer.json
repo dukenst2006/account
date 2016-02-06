@@ -18,7 +18,8 @@
 		"landish/pagination": "~1.0",
 		"bkuhl/easychimp": "dev-master",
 		"barryvdh/laravel-dompdf": "0.6.*",
-		"anlutro/l4-settings": "0.*"
+		"anlutro/l4-settings": "0.*",
+		"amsgames/laravel-shop": "0.2.*"
 	},
 	"require-dev": {
 	    "filp/whoops": "dev-master",

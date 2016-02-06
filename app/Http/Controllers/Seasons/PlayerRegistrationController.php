@@ -1,16 +1,20 @@
 <?php namespace BibleBowl\Http\Controllers\Seasons;
 
 use Auth;
+use BibleBowl\Cart;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupJoinRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Program;
-use BibleBowl\Seasons\SeasonRegistrar;
+use BibleBowl\Seasons\Registration;
+use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
+use BibleBowl\Seasons\RegisterWithNationalOffice;
 use Illuminate\View\View;
 use Input;
 use Session;
+use Clear;
 
 class PlayerRegistrationController extends Controller
 {
@@ -78,25 +82,39 @@ class PlayerRegistrationController extends Controller
     /**
      * @return mixed
      */
-    public function postRegister(SeasonRegistrationRequest $request, SeasonRegistrar $registrar, $programSlug, $group = null)
-    {
+    public function postRegister(
+        SeasonRegistrationRequest $request,
+        Registration $registration,
+        SeasonalRegistrationPaymentReceived $seasonalRegistrationPaymentReceived,
+        $programSlug,
+        $group = null
+    ) {
         $this->validate($request, $request->rules());
+
+        # Ensure any other browser tabs that might
+        $registration->setGroup(Group::findOrFail($group));
 
         // map the POSTed data to the season data required
         $program = Program::where('slug', $programSlug)->firstOrFail();
-        $seasonData = [];
         foreach ($request->get('player') as $playerId => $playerData) {
             if (isset($playerData['register']) && $playerData['register'] == 1) {
-                $seasonData[$playerId] = [
-                    'grade'        => $playerData['grade'],
-                    'shirt_size'    => $playerData['shirtSize']
-                ];
+                $registration->addPlayer($playerId, $playerData['grade'], $playerData['shirtSize']);
             }
         }
 
-        $registrar->register(Session::season(), $group, Auth::user(), $program, $seasonData);
+        /**
+         * Add the compiled registration information to the cart
+         * so it can be processed once payment has gone through
+         */
+        $cart = Cart::current()->clear();
+        $seasonalRegistrationPaymentReceived->setRegistration($registration);
+        $cart->setPostPurchaseEvent($seasonalRegistrationPaymentReceived)->save();
+        $cart->add([
+            'sku'       => $program->product_sku,
+            'price'     => $program->registration_fee
+        ], $registration->numberOfPlayers());
 
-        return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
+        return redirect('/cart');
     }
 
     /**

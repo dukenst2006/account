@@ -2,7 +2,6 @@
 
 use App;
 use BibleBowl\User;
-use Event;
 use Gravatar;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -57,7 +56,7 @@ class Registrar implements RegistrarContract
 
         $user->save();
 
-        Event::fire('auth.registered', [$user]);
+        event('auth.registered', [$user]);
 
         return $user;
     }

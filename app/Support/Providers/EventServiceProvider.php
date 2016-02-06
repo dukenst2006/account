@@ -1,6 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
 use BibleBowl\Location\FetchCoordinatesForAddress;
+use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
+use BibleBowl\Seasons\RegisterWithNationalOffice;
+use BibleBowl\Seasons\RegisterWithGroup;
 use BibleBowl\Users\Auth\OnLogin;
 use BibleBowl\Users\Auth\SendConfirmationEmail;
 use BibleBowl\Users\Communication\AddInterestOnMailingList;
@@ -45,6 +48,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'eloquent.updated: BibleBowl\Address' => [
             FetchCoordinatesForAddress::class
+        ],
+        SeasonalRegistrationPaymentReceived::EVENT => [
+            RegisterWithNationalOffice::class,
+            RegisterWithGroup::class
         ]
     ];
 

@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
+ * @property float $registration_fee
  */
 class Program extends Model
 {
@@ -62,6 +63,14 @@ class Program extends Model
             ->withTimestamps()
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC');
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductSkuAttribute()
+    {
+        return 'SEASON_REG_'.strtoupper($this->slug);
     }
 
     public function __toString()

@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Amsgames\LaravelShop\Traits\ShopUserTrait;
 use App;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\Users\Settings;
@@ -59,6 +60,10 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePrimaryAddressId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
+ * @property-read \BibleBowl\Cart $cart
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Order[] $orders
+ * @property-read mixed $shop_id
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -68,6 +73,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use Authenticatable,
         CanResetPassword,
+        ShopUserTrait,
         EntrustUserTrait {
             EntrustUserTrait::attachRole as traitAttachRole;
             EntrustUserTrait::detachRole as traitDetachRole;

@@ -29,10 +29,15 @@ class SettingsController extends Controller
      */
     public function update(SettingsUpdateRequest $request)
     {
-        Setting::setSeasonEnd(Carbon::createFromTimestamp(strtotime($request->get('season_end'))));
-        Setting::save();
+        DB::transaction(function () use ($request) {
+            Setting::setSeasonEnd(Carbon::createFromTimestamp(strtotime($request->get('season_end'))));
+            Setting::save();
 
-        // update programs
+            // update programs
+            foreach ($request->get('program') as $programId => $toUpdate) {
+                Program::where('id', $programId)->update($toUpdate);
+            }
+        });
 
         return redirect('/admin/settings/')->withFlashSuccess('Your changes were saved');
     }

@@ -27,6 +27,11 @@ $(document).ready(function () {
         }
     });
 
+    // disable mousewheel for number fields
+    $('input[type=number]').on('mousewheel', function(e){
+        $(this).blur();
+    });
+
     $(".inside").children('input').blur(function () {
         $(this).parent().children('.add-on').removeClass('input-focus');
     });

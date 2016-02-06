@@ -157,7 +157,8 @@ return [
 		\Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider::class,
 		\Easychimp\ServiceProvider::class,
 		\Barryvdh\DomPDF\ServiceProvider::class,
-		\anlutro\LaravelSettings\ServiceProvider::class
+		\anlutro\LaravelSettings\ServiceProvider::class,
+		\Amsgames\LaravelShop\LaravelShopProvider::class,
 
 	],
 
@@ -221,6 +222,7 @@ return [
 		'Gravatar'  => \Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
 		'Entrust' 	=> \Zizaco\Entrust\EntrustFacade::class,
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
+		'Shop'      => \Amsgames\LaravelShop\LaravelShopFacade::class,
 	],
 
 ];

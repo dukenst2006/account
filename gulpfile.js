@@ -64,6 +64,7 @@ elixir(function(mix) {
         'assets/js/dashboard.js',
         'assets/js/accounts.js',
         'assets/js/forms.js',
+        'assets/js/payment.js',
         'css/core.css',
         'css/teamsets.css',
         'js/teamsets.js'

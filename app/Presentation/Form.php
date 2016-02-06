@@ -21,6 +21,19 @@ class Form extends FormBuilder
      */
     public function money($name, $value = null, $options = array())
     {
+        return $this->number($name, $value, $options);
+    }
+
+    /**
+     * Create a file input field.
+     *
+     * @param  string  $name
+     * @param  array   $value
+     * @param  array   $options
+     * @return string
+     */
+    public function number($name, $value = null, $options = array())
+    {
         $defaults = [
             'step' => 'any'
         ];

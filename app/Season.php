@@ -52,7 +52,7 @@ class Season extends Model
 
     public function scopeCurrent($query)
     {
-        return $query->orderBy('id', 'desc');
+        return $query->orderBy('id', 'desc')->limit(1);
     }
 
     /**

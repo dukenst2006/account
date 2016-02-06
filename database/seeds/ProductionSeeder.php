@@ -9,6 +9,7 @@ use BibleBowl\Group;
 use BibleBowl\EventType;
 use Illuminate\Database\Seeder;
 use BibleBowl\Program;
+use BibleBowl\OrderStatus;
 
 class ProductionSeeder extends Seeder {
 
@@ -53,6 +54,40 @@ class ProductionSeeder extends Seeder {
         ]);
 
         $this->createRolesAndPermissions();
+
+        # statuses for the store
+        DB::table('order_statuses')->insert([
+            [
+                'code' 				=> OrderStatus::IN_CREATION,
+                'name' 				=> 'In creation',
+                'description' => 'Order being created.',
+            ],
+            [
+                'code' 				=> OrderStatus::PENDING,
+                'name' 				=> 'Pending',
+                'description' => 'Created / placed order pending payment or similar.',
+            ],
+            [
+                'code' 				=> OrderStatus::IN_PROCESS,
+                'name' 				=> 'In process',
+                'description' => 'Completed order in process of shipping or revision.',
+            ],
+            [
+                'code' 				=> OrderStatus::COMPLETED,
+                'name' 				=> 'Completed',
+                'description' => 'Completed order. Payment and other processes have been made.',
+            ],
+            [
+                'code' 				=> OrderStatus::FAILED,
+                'name' 				=> 'Failed',
+                'description' => 'Failed order. Payment or other process failed.',
+            ],
+            [
+                'code' 				=> OrderStatus::CANCELED,
+                'name' 				=> 'Canceled',
+                'description' => 'Canceled order.',
+            ],
+        ]);
     }
 
     private function createRolesAndPermissions()
