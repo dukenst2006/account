@@ -2,6 +2,7 @@
 
 use BibleBowl\Group;
 use BibleBowl\Program;
+use BibleBowl\User;
 use BibleBowl\Users\Auth\SessionManager;
 
 class GroupJoinTest extends TestCase
@@ -71,7 +72,7 @@ class GroupJoinTest extends TestCase
         $this->visit('/join/teen/group/'.$group->id)
             ->dontSeeLink('/join/program')
             ->click('#group-change')
-            ->seePageIs('/join/teen/search/group?noRedirect=1');
+            ->seePageIs('/join/teen/search/group');
     }
 
     /**
@@ -79,7 +80,7 @@ class GroupJoinTest extends TestCase
      */
     public function canJoinGroup()
     {
-        $player = $this->guardian()->players()->has('seasons')->first();
+        $player = $this->guardian->players()->has('seasons')->first();
         $group = Group::where('program_id', Program::TEEN)->firstOrFail();
 
         $this->visit('/join/teen/group/'.$group->id)

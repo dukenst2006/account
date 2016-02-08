@@ -2,6 +2,7 @@
 
 use BibleBowl\Group;
 use BibleBowl\Player;
+use BibleBowl\Program;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Season;
 use BibleBowl\Users\Auth\SessionManager;
@@ -132,7 +133,6 @@ class SeasonRegistrationTest extends TestCase
         $this->visit('/register/players')
             ->dontSee($player->full_name);
     }
-
 //
 //    /**
 //     * @test
