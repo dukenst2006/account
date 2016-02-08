@@ -54,7 +54,7 @@
                             <div><div class="fa fa-check"></div> Registered with NBB</div>
                             <a href="/join/{{ $program->slug }}/search/group">Find a group</a>
                         @else
-                            <a href="/register/program">Register</a>
+                            <a href="/register/players">Register</a>
                         @endif
                     </td>
                     <td class="text-center v-align-middle">

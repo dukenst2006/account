@@ -20,7 +20,8 @@ class CreateProgramTable extends Migration
             $table->string('abbreviation', 10)->unique();
             $table->string('slug', 10)->unique();
             $table->decimal('registration_fee', '5', 2);
-            $table->string('description', 24);
+            $table->tinyInteger('min_grade')->unsigned();
+            $table->tinyInteger('max_grade')->unsigned();
             $table->timestamps();
         });
     }

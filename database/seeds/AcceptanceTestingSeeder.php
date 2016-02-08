@@ -77,7 +77,12 @@ class AcceptanceTestingSeeder extends Seeder {
 
         foreach ($addresses as $key => $name) {
             $testAddresses[] = factory(Address::class)->create([
-                'name' => $name
+                'name' => $name,
+				'latitude'      => '38.2515659',
+				'longitude'     => '-85.615241',
+				'city'			=> 'Louisville',
+				'state'			=> 'KY',
+				'zip_code'		=> '40241'
             ]);
         }
 

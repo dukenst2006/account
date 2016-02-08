@@ -25,7 +25,8 @@ class ProductionSeeder extends Seeder {
             'abbreviation'      => 'Beginner',
             'slug'              => 'beginner',
             'registration_fee'  => '25.00',
-            'description'       => 'Grades 3 - 5'
+            'min_grade'         => 3,
+            'max_grade'         => 5
         ]);
 
         Program::create([
@@ -33,7 +34,8 @@ class ProductionSeeder extends Seeder {
             'abbreviation'      => 'Teen',
             'slug'              => 'teen',
             'registration_fee'  => '35.00',
-            'description'       => 'Grades 6 - 12'
+            'min_grade'         => 6,
+            'max_grade'         => 12
         ]);
 
         EventType::create([

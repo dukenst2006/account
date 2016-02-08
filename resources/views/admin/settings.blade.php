@@ -58,7 +58,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-usd"></i>
                                 				    </span>
-                                                    {!! Form::money("program[".$program->id."][fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
+                                                    {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
                                                 </div>
                                             </td>
                                         </tr>

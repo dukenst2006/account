@@ -5,8 +5,10 @@ use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupJoinRequest;
+use BibleBowl\Http\Requests\PlayerRegistrationRequest;
 use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Program;
+use BibleBowl\Season;
 use BibleBowl\Seasons\SeasonalRegistration;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use Illuminate\View\View;
@@ -16,15 +18,70 @@ use Cart;
 
 class PlayerRegistrationController extends Controller
 {
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function getPlayers()
+    {
+        $season = Season::current()->first();
+        return view('seasons.registration.players')
+            ->withSeason($season)
+            ->withPlayers(Auth::user()
+                ->players()
+                ->notRegisteredWithNBB($season, Auth::user())
+                ->get());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function postPlayers(
+        PlayerRegistrationRequest $request,
+        SeasonalRegistration $registration,
+        SeasonalRegistrationPaymentReceived $seasonalRegistrationPaymentReceived
+    ) {
+
+        // map the POSTed data to the season data required
+        foreach ($request->get('player') as $playerId => $playerData) {
+            if (isset($playerData['register']) && $playerData['register'] == 1) {
+                $registration->addPlayer($playerId, $playerData['grade'], $playerData['shirtSize']);
+            }
+        }
+
+        // if they followed a link to get to the registration
+        // auto-associate them with this group
+        $familiarGroup = Session::getGroupToRegisterWith();
+        if (is_null($familiarGroup) === false) {
+            $registration->setGroup($familiarGroup->program, $familiarGroup);
+        }
+
+        // save in session so we can show this info on
+        // the summary page
+        Session::setSeasonalRegistration($registration);
+
+        // Add the compiled registration information to the cart
+        // so it can be processed once payment has gone through
+        $cart = Cart::clear();
+        #$seasonalRegistrationPaymentReceived->setRegistration($registration);
+        #$cart->setPostPurchaseEvent($seasonalRegistrationPaymentReceived)->save();
+        foreach ($registration->programs() as $program) {
+            $cart->add(
+                $program->sku,
+                $program->registration_fee,
+                $registration->numberOfPlayers($program)
+            );
+        }
+
+        return redirect('/register/summary');
+    }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function program($action)
+    public function summary()
     {
-        return view('seasons.registration.program')
-            ->withAction($action)
-            ->withPrograms(Program::all());
+        return view('seasons.registration.summary')
+            ->withRegistration(Session::seasonalRegistration());
     }
 
     /**
@@ -76,6 +133,54 @@ class PlayerRegistrationController extends Controller
             ->with('program', Program::where('slug', $programSlug)->firstOrFail())
             ->withGroup($group);
     }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function chooseGroup($programSlug, $groupId = null)
+    {
+        /** @var SeasonalRegistration $registration */
+        $registration = Session::seasonalRegistration();
+        $program = Program::where('slug', $programSlug)->firstOrFail();
+
+        if ($groupId == null) {
+            $registration->noGroupFound($program);
+        } else {
+            $registration->setGroup(
+                $program,
+                Group::findOrFail($groupId)
+            );
+        }
+
+        Session::setSeasonalRegistration($registration);
+
+        return redirect('/register/summary');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+//    /**
+//     * @return \Illuminate\View\View
+//     */
+//    public function getRegister($programSlug, $group = null)
+//    {
+//        if (is_null($group) === false) {
+//            $group = Group::findOrFail($group);
+//        }
+//
+//        return view('seasons.registration.register_form')
+//            ->with('program', Program::where('slug', $programSlug)->firstOrFail())
+//            ->withGroup($group);
+//    }
 
     /**
      * @return mixed

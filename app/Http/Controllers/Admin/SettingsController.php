@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
+use DB;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Http\Requests\SettingsUpdateRequest;
 use BibleBowl\Program;

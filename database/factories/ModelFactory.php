@@ -3,6 +3,7 @@
 use Faker\Generator;
 use BibleBowl\Program;
 use BibleBowl\User;
+use BibleBowl\Group;
 use BibleBowl\Player;
 use BibleBowl\Role;
 use BibleBowl\Address;

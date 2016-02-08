@@ -2,7 +2,7 @@
 
 use Illuminate\Contracts\Validation\Factory;
 
-class SeasonRegistrationRequest extends GroupJoinRequest
+class PlayerRegistrationRequest extends GroupJoinRequest
 {
 
     public function __construct(Factory $factory)

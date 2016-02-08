@@ -2,7 +2,7 @@
 
 use BibleBowl\Group;
 use BibleBowl\Player;
-use BibleBowl\Program;
+use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Season;
 use BibleBowl\Users\Auth\SessionManager;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +25,7 @@ class SeasonRegistrationTest extends TestCase
     /**
      * @test
      */
-    public function followingRegistrationLinkSkipsGroupSelection()
+    public function followingRegistrationLinkDefaultsToSelectedGroup()
     {
         // since only the guardian login is seeded, we can tear down
         // to "log out"
@@ -46,54 +46,65 @@ class SeasonRegistrationTest extends TestCase
             SessionManager::REGISTER_WITH_GROUP => $group->guid
         ]);
 
-        $this->visit('/register/'.$group->program->slug.'/search/group')
-            ->seePageIs('/register/'.$group->program->slug.'/group/'.$group->id)
+        $this->visit('/register/players')
+            ->select('12', 'player[1][grade]')
+            ->press('Continue')
             ->see($group->name);
     }
 
     /**
      * @test
      */
-    public function editExistingRegistration()
+    public function canRegisterPlayers()
     {
-        # seeding a player - that is registered
-        $player = factory(Player::class)
-            ->create([
-                'guardian_id' => $this->guardian()->id
-            ]);
-        $player->seasons()->attach($this->season(), [
-            'program_id'    => Program::TEEN,
-            'grade'         => 6,
-            'shirt_size'    => 'L'
-        ]);
-        $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
-            $q->where('seasons.id', Season::orderBy('id', 'DESC')->first()->id);
-        })->first();
+        $this->visit('/dashboard')
+            ->click('Register')
+            ->select('5', 'player[1][grade]')
+            ->select('10', 'player[2][grade]')
+            ->press('Continue')
 
-        # the test
-        $this
-            ->visit('/dashboard')
-            ->click('#edit-child-'.$player->id)
-            ->select(rand(3, 12), 'grade')
-            ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
-            ->submitForm('Save')
-            ->see('Your changes were saved');
+            // make sure there's no option to continue until
+            // we've searched for groups
+            ->dontSee('Continue to payment')
 
-        # cleanup
-        $player->seasons()->sync([]);
-        $player->delete();
+            // verify it sorted the players into each program
+            ->see('Join Beginner Group')
+            ->see('Join Teen Group');
     }
 
     /**
      * @test
      */
-    public function canSelectProgram()
+    public function canRegisterPlayersForAllPrograms()
     {
-        $this->visit('/register/program')
-            ->see("Which program are you registering player(s) for?")
-            ->see('Beginner Bible Bowl')
-            ->click('Teen Bible Bowl')
-            ->seePageIs('/register/teen/search/group');
+        $nearbyGroup = Group::where('name', DatabaseSeeder::GROUP_NAME)->firstOrFail();
+
+        $this->visit('/register/players')
+            ->select('5', 'player[1][grade]')
+            ->select('10', 'player[2][grade]')
+            ->press('Continue')
+
+            // No beginner groups exist, so we'll test joining
+            // without belonging to a group
+            ->click('Join Beginner Group')
+            ->type('Southeast', 'q')
+            ->press('Search')
+            ->click('Join Later')
+            ->seePageIs('/register/summary')
+
+            // verify we're suggesting to find a group
+            ->see("You didn't find a beginner group.  Do you want to")
+
+            ->click('Join Teen Group')
+
+            // verify nearby groups are being suggested
+            ->click('#select-nearby-group-'.$nearbyGroup->id)
+            ->seePageIs('/register/summary')
+            ->see($nearbyGroup->name)
+
+            ->click('Continue to payment')
+
+            ->seePageIs('/cart');
     }
 
     /**
@@ -101,97 +112,11 @@ class SeasonRegistrationTest extends TestCase
      */
     public function canSearchForGroups()
     {
-        $group = Group::where('name', 'Southeast Christian Church')->firstOrFail();
-
-        $this->visit('/register/'.$group->program->slug.'/search/group')
-            ->see("Find Your Group")
-            ->click('select-nearby-group-'.$group->id)
-            ->seePageIs('/register/'.$group->program->slug.'/group/'.$group->id);
-    }
-
-    /**
-     * @test
-     */
-    public function canGoToRegistrationWithoutAGroupAfterSearching()
-    {
-        $joinLaterButton = 'Join a Group Later';
-
         $this->visit('/register/teen/search/group')
-            ->see("Find Your Group")
-
-            // should only see this after searching
-            ->dontSee($joinLaterButton)
-
             ->type('Southeast', 'q')
             ->press('Search')
-            ->click($joinLaterButton)
-            ->seePageIs('/register/teen/group');
-    }
-
-    /**
-     * @test
-     */
-    public function canChangeProgramOrGroup()
-    {
-        $group = Group::where('program_id', Program::TEEN)->firstOrFail();
-
-        $this->visit('/register/teen/group/'.$group->id)
-            ->click('#program-change')
-            ->seePageIs('/register/program')
-            ->visit('/register/teen/group/'.$group->id)
-            ->click('#group-change')
-            ->seePageIs('/register/teen/search/group?noRedirect=1');
-    }
-
-    /**
-     * @test
-     */
-    public function canRegisterWithoutGroup()
-    {
-        $player = $this->guardian()->players()->whereDoesntHave('seasons')->first();
-
-        $this->visit('/register/teen/group')
-            ->see($player->full_name)
-            ->seeIsChecked('player'.$player->id.'register');
-//            ->select('9', 'player['.$player->id.'][grade]')
-//            ->select('L', 'player['.$player->id.'][shirtSize]')
-
-        $this->assertPlayerWasRegistered($player);
-
-        $registrationData = $player->seasons->first()->pivot;
-        $this->assertCount(1, $player->seasons);
-        $this->assertEquals(Program::TEEN, $registrationData->program_id);
-
-        // unregister player
-        $player->seasons()->sync([]);
-    }
-
-    /**
-     * @test
-     */
-    public function canRegisterWithGroup()
-    {
-        $player = $this->guardian()->players()->whereDoesntHave('seasons')->first();
-
-        $group = Group::where('program_id', Program::TEEN)->firstOrFail();
-
-        Mail::shouldReceive('queue')->once();
-        $this->visit('/register/teen/group/'.$group->id)
-            ->see($player->full_name)
-            ->seeIsChecked('player'.$player->id.'register');
-//            ->select('9', 'player['.$player->id.'][grade]')
-//            ->select('L', 'player['.$player->id.'][shirtSize]')
-
-        $this->assertPlayerWasRegistered($player);
-
-        $this->assertCount(1, $player->seasons);
-
-        $registrationData = $player->seasons->first()->pivot;
-        $this->assertEquals($group->id, $registrationData->group_id);
-        $this->assertEquals($group->program_id, $registrationData->program_id);
-
-        // unregister player
-        $player->seasons()->sync([]);
+            ->see('Southeast Christian Church')
+            ->dontSee('Mount Pleasant Christian Church');
     }
 
     /**
@@ -199,43 +124,46 @@ class SeasonRegistrationTest extends TestCase
      */
     public function cantRegisterTwice()
     {
-        $player = $this->guardian()->players()->whereDoesntHave('seasons')->first();
-        $player->seasons()->attach($this->season(), [
-            'program_id'    => Program::TEEN,
-            'grade'         => 6,
-            'shirt_size'    => 'L'
-        ]);
-        $this->visit('/register/teen/group')
+        $guardian = $this->guardian();
+        $player = Player::registeredWithNBBOnly(Season::current()->first())
+            ->whereHas('guardian', function ($q) use ($guardian) {
+                $q->where('id', $guardian->id);
+            })->first();
+        $this->visit('/register/players')
             ->dontSee($player->full_name);
-
-        // unregister player
-        $player->seasons()->sync([]);
     }
 
-    private function assertPlayerWasRegistered(Player $player)
-    {
-        // Because the selects don't actually populate their fields, we
-        // expect the grade for the player to not be populated and thus
-        // throwing this error when viewing the dashboard
-        try {
-            $this->press('Register');
-        } catch (\Exception $e) {
-            $this->assertEquals('A request to [http://localhost/dashboard] failed. Received status code [500].', $e->getMessage());
-        }
-        // Update the grade for this player so they'll display on the dashboard
-        // Also assert at least 1 row was updated (the player being successfully updated)
-        $this->assertEquals($player->seasons()->updateExistingPivot($this->season()->id, [
-            'grade' => 9
-        ]), 1);
-        // delete players we "didn't mean to register" and thus don't have a correct grade
-        DB::statement('DELETE FROM player_season WHERE grade = 0');
-
-        // we'll reload the dashboard to verify everything shows correctly
-        // since our redirect threw the above exception
-        $this
-            ->visit('/dashboard');
-
-        // Having to remove this because the above error is clearing this from the session
-        //->see('Your player(s) have been registered!');
-    }
+//
+//    /**
+//     * @test
+//     */
+//    public function editExistingRegistration()
+//    {
+//        # seeding a player - that is registered
+//        $player = factory(Player::class)
+//            ->create([
+//                'guardian_id' => $this->guardian()->id
+//            ]);
+//        $player->seasons()->attach($this->season(), [
+//            'program_id'    => Program::TEEN,
+//            'grade'         => 6,
+//            'shirt_size'    => 'L'
+//        ]);
+//        $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
+//            $q->where('seasons.id', Season::orderBy('id', 'DESC')->first()->id);
+//        })->first();
+//
+//        # the test
+//        $this
+//            ->visit('/dashboard')
+//            ->click('#edit-child-'.$player->id)
+//            ->select(rand(3, 12), 'grade')
+//            ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
+//            ->submitForm('Save')
+//            ->see('Your changes were saved');
+//
+//        # cleanup
+//        $player->seasons()->sync([]);
+//        $player->delete();
+//    }
 }

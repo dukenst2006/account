@@ -99,6 +99,7 @@ class AppServiceProvider extends ServiceProvider
             return new SessionManager($app);
         });
 
+        // always get the cart for the current user
         $this->app->singleton(Cart::class, function ($app) {
             return Cart::firstOrCreate([
                 'user_id' => Auth::user()->id

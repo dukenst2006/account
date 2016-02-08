@@ -3,11 +3,19 @@
 namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
+use BibleBowl\Player;
+use BibleBowl\Program;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 
 class SeasonalRegistration extends Fluent
 {
+    protected $players = null;
+
+    protected $programs = null;
+
     protected $attributes = [
+        'groups' => [],
         'players' => []
     ];
 
@@ -17,31 +25,85 @@ class SeasonalRegistration extends Fluent
     /**
      * @param Group $group
      */
-    public function setGroup(Group $group)
+    public function setGroup(Program $program, Group $group)
     {
-        $this->groupId = $group->id;
+        $this->attributes['groups'][$program->id] = $group->id;
     }
 
     /**
-     * @return Group
+     * User looked, but couldn't find their group
+     *
+     * @param Group $group
      */
-    public function group()
+    public function noGroupFound(Program $program)
     {
-        if ($this->group == null) {
-            $this->group = Group::findOrFail($this->groupId);
+        $this->attributes['groups'][$program->id] = false;
+    }
+
+    /**
+     * @return Program
+     */
+    public function programs()
+    {
+        if ($this->programs == null) {
+            $programs = [];
+            foreach (Program::all() as $program) {
+                if ($this->numberOfPlayers($program) > 0) {
+                    $programs[] = $program;
+                }
+            }
+            $this->programs = $programs;
         }
 
-        return $this->group;
+        return $this->programs;
+    }
+
+    /**
+     * @param Program $program
+     * @return Group
+     */
+    public function group(Program $program)
+    {
+        return Group::findOrFail($this->groups[$program->id]);
     }
 
     /**
      * Determine if this registration has specified a group
      *
+     * @param Program $program
      * @return bool
      */
-    public function hasGroup()
+    public function hasGroup(Program $program)
     {
-        return $this->groupId != null;
+        return isset($this->groups[$program->id]) && $this->groups[$program->id] > 0;
+    }
+
+    /**
+     * If this registration has attempted to find their
+     * group yet for a given program
+     *
+     * @param Program $program
+     * @return bool
+     */
+    public function hasLookedForGroup(Program $program)
+    {
+        return isset($this->groups[$program->id]) &&  (
+            $this->groups[$program->id] === false || $this->hasGroup($program)
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLookedForAllGroups()
+    {
+        foreach($this->programs() as $program) {
+            if ($this->hasLookedForGroup($program) === false) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -58,18 +120,58 @@ class SeasonalRegistration extends Fluent
     }
 
     /**
-     * @return []
+     * Get players for a given program
+     *
+     * @return Collection
      */
-    public function players()
+    public function players(Program $program)
     {
-        return $this->get('players', []);
+        return Player::whereIn('id', array_keys($this->playerInfo($program)->toArray()))->get();
+    }
+
+    /**
+     * Get player's registration information that are
+     * eligible for a given program
+     *
+     * @return Collection
+     */
+    public function playerInfo(Program $program)
+    {
+        if ($this->players == null) {
+            /** @var Collection $players */
+            $this->players = app(Collection::class, [
+                $this->get('players', [])
+            ]);
+        }
+
+        return $this->players->filter(function ($player) use ($program) {
+            if ($player['grade'] >= $program->min_grade && $player['grade'] <= $program->max_grade) {
+                return $player;
+            }
+        });
     }
 
     /**
      * @return int
      */
-    public function numberOfPlayers()
+    public function grade($playerId)
     {
-        return count($this->players());
+        return $this->attributes['players'][$playerId]['grade'];
+    }
+
+    /**
+     * @return string
+     */
+    public function shirtSize($playerId)
+    {
+        return $this->attributes['players'][$playerId]['shirt_size'];
+    }
+
+    /**
+     * @return int
+     */
+    public function numberOfPlayers(Program $program)
+    {
+        return $this->playerInfo($program)->count();
     }
 }

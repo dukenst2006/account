@@ -3,6 +3,7 @@
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\Season;
+use BibleBowl\Seasons\SeasonalRegistration;
 use BibleBowl\User;
 
 class SessionManager extends \Illuminate\Session\SessionManager
@@ -12,6 +13,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const GROUP = 'group';
     const REGISTER_WITH_GROUP = 'register_with_group';
     const ADMIN_USER = 'admin_user';
+    const SEASONAL_REGISTRATION = 'seasonal_registration';
 
     /** @var Season */
     protected $season = null;
@@ -74,6 +76,23 @@ class SessionManager extends \Illuminate\Session\SessionManager
         }
 
         $this->set(self::GROUP, $group);
+    }
+
+    /**
+     * @param SeasonalRegistration $seasonalRegistration
+     */
+    public function setSeasonalRegistration(SeasonalRegistration $seasonalRegistration)
+    {
+        $this->set(self::SEASONAL_REGISTRATION, $seasonalRegistration->toArray());
+    }
+
+    /**
+     * @return SeasonalRegistration
+     */
+    public function seasonalRegistration()
+    {
+        $registrationInfo = $this->get(self::SEASONAL_REGISTRATION, []);
+        return app(SeasonalRegistration::class, [$registrationInfo]);
     }
 
     /**

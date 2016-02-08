@@ -194,7 +194,7 @@ class Form extends FormBuilder
         } elseif ($programId == Program::TEEN) {
             $list = $highSchool;
         } else {
-            $list = array_merge($middleSchool, $highSchool);
+            $list = $middleSchool + $highSchool;
         }
 
         if ($optional) {

@@ -16,6 +16,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
+        // prevent the same assets from being loaded each pageload
+        \BibleBowl\Presentation\Html::$includeCss = [];
+        \BibleBowl\Presentation\Html::$includeJs = [];
+        \BibleBowl\Presentation\Html::$js = '';
+        \BibleBowl\Presentation\Html::$jsData = '';
+        \BibleBowl\Presentation\Html::$css = '';
+
         return $app;
     }
 }
