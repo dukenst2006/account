@@ -62,8 +62,8 @@ class PlayerRegistrationController extends Controller
         // Add the compiled registration information to the cart
         // so it can be processed once payment has gone through
         $cart = Cart::clear();
-        #$seasonalRegistrationPaymentReceived->setRegistration($registration);
-        #$cart->setPostPurchaseEvent($seasonalRegistrationPaymentReceived)->save();
+        $seasonalRegistrationPaymentReceived->setRegistration($registration);
+        $cart->setPostPurchaseEvent($seasonalRegistrationPaymentReceived)->save();
         foreach ($registration->programs() as $program) {
             $cart->add(
                 $program->sku,
@@ -89,12 +89,6 @@ class PlayerRegistrationController extends Controller
      */
     public function findGroupToRegister($programSlug)
     {
-        // follow registration links
-        $familiarGroup = $this->groupToRedirectTo($programSlug);
-        if (!is_null($familiarGroup)) {
-            return redirect('/register/'.$programSlug.'/group/'.$familiarGroup->id);
-        }
-
         $program = Program::slug($programSlug)->firstOrFail();
         return view('seasons.registration.register_find_group')
             ->with('program', $program)

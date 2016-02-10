@@ -122,7 +122,7 @@ class SeasonalRegistration extends Fluent
     /**
      * Get players for a given program
      *
-     * @return Collection
+     * @return Player[]|Collection
      */
     public function players(Program $program)
     {

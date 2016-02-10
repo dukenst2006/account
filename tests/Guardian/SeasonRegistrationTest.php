@@ -2,8 +2,6 @@
 
 use BibleBowl\Group;
 use BibleBowl\Player;
-use BibleBowl\Program;
-use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Season;
 use BibleBowl\Users\Auth\SessionManager;
 use Illuminate\Database\Eloquent\Builder;
@@ -105,7 +103,15 @@ class SeasonRegistrationTest extends TestCase
 
             ->click('Continue to payment')
 
-            ->seePageIs('/cart');
+            ->seePageIs('/cart')
+            ->press('Submit')
+            ->see('Your player(s) have been registered!')
+
+            // verify we can't re-register those players
+            ->visit('/register/players')
+            ->dontSee('David Webb')
+            ->dontSee('Ethan Smith');
+
     }
 
     /**
@@ -133,37 +139,23 @@ class SeasonRegistrationTest extends TestCase
         $this->visit('/register/players')
             ->dontSee($player->full_name);
     }
-//
-//    /**
-//     * @test
-//     */
-//    public function editExistingRegistration()
-//    {
-//        # seeding a player - that is registered
-//        $player = factory(Player::class)
-//            ->create([
-//                'guardian_id' => $this->guardian()->id
-//            ]);
-//        $player->seasons()->attach($this->season(), [
-//            'program_id'    => Program::TEEN,
-//            'grade'         => 6,
-//            'shirt_size'    => 'L'
-//        ]);
-//        $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
-//            $q->where('seasons.id', Season::orderBy('id', 'DESC')->first()->id);
-//        })->first();
-//
-//        # the test
-//        $this
-//            ->visit('/dashboard')
-//            ->click('#edit-child-'.$player->id)
-//            ->select(rand(3, 12), 'grade')
-//            ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
-//            ->submitForm('Save')
-//            ->see('Your changes were saved');
-//
-//        # cleanup
-//        $player->seasons()->sync([]);
-//        $player->delete();
-//    }
+
+    /**
+     * @test
+     */
+    public function editExistingRegistration()
+    {
+        $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
+            $q->where('seasons.id', Season::current()->first()->id);
+        })->first();
+
+        # the test
+        $this
+            ->visit('/dashboard')
+            ->click('#edit-child-'.$player->id)
+            ->select(rand(3, 12), 'grade')
+            ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
+            ->submitForm('Save')
+            ->see('Your changes were saved');
+    }
 }

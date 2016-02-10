@@ -4,6 +4,7 @@ use BibleBowl\Http\Requests\PaymentRequest;
 use DB;
 use Cart;
 use BibleBowl\Player;
+use Illuminate\Http\Request;
 
 /**
  * The main concept behind this controller is that other
@@ -26,7 +27,7 @@ class ShopController extends Controller
     /**
      * @return mixed
      */
-    public function processPayment(PaymentRequest $request)
+    public function processPayment(Request $request)
     {
         Cart::triggerPostPurchaseEvent();
 

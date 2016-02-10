@@ -20,21 +20,24 @@ class RegisterWithGroup
 
     public function handle(Season $season, SeasonalRegistration $registration)
     {
-        // a group may not have been specified
-        if ($registration->hasGroup() === false) {
-            return;
-        }
-
         DB::beginTransaction();
 
-        $playerIds = array_keys($registration->players());
-        $guardian = Player::findOrFail($playerIds[0])->guardian;
-        $this->groupRegistrar->register(
-            $season,
-            $registration->group(),
-            $guardian,
-            $playerIds
-        );
+        foreach ($registration->programs() as $program) {
+            // a group may not have been specified
+            if ($registration->hasGroup($program) === false) {
+                continue;
+            }
+
+            $playerIds = array_keys($registration->playerInfo($program));
+            $group = $registration->group($program);
+            $guardian = Player::findOrFail($playerIds[0])->guardian;
+            $this->groupRegistrar->register(
+                $season,
+                $group,
+                $guardian,
+                $playerIds
+            );
+        }
 
         DB::commit();
     }

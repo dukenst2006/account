@@ -40,6 +40,9 @@
                                     </div>
                                 </div>
                                 {!! Form::open(['class' => 'form-horizontal', 'role' => 'form', 'id' => 'payment-form']) !!}
+                                @if(app()->environment('testing'))
+                                    {!! Form::hidden('stripeToken', uniqid()) !!}}
+                                @endif
                                 <h4 class="m-t-20">Payment</h4>
                                 <p>Checks and other forms of payment are not accepted.</p>
                                 <div class="alert alert-danger payment-errors" style="display: none;"></div>
