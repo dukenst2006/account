@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use Amsgames\LaravelShop\Models\ShopCartModel;
+use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Shop\UnrecognizedPurchaseEventException;
@@ -54,7 +55,8 @@ class Cart extends Model
      * @var array
      */
     protected $postPurchaseEvents = [
-        SeasonalRegistrationPaymentReceived::EVENT => SeasonalRegistrationPaymentReceived::class
+        ProgramRegistrationPaymentReceived::EVENT => ProgramRegistrationPaymentReceived::class,
+        SeasonalRegistrationPaymentReceived::EVENT => SeasonalRegistrationPaymentReceived::class,
     ];
 
     /**

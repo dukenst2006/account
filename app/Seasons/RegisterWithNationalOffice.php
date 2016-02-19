@@ -15,8 +15,6 @@ class RegisterWithNationalOffice
         foreach ($registration->programs() as $program)
         {
             foreach ($registration->playerInfo($program) as $playerId => $seasonData) {
-                $seasonData['program_id'] = $program->id;
-
                 $season->players()->attach($playerId, $seasonData);
             }
         }

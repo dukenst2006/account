@@ -100,7 +100,7 @@ class Player extends Model
     public function seasons()
     {
         return $this->belongsToMany(Season::class, 'player_season')
-            ->withPivot('program_id', 'group_id', 'grade', 'shirt_size')
+            ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
@@ -110,7 +110,7 @@ class Player extends Model
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'player_season')
-            ->withPivot('program_id', 'season_id', 'grade', 'shirt_size')
+            ->withPivot('season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
@@ -119,7 +119,7 @@ class Player extends Model
      */
     public function programs()
     {
-        return $this->belongsToMany(Program::class, 'player_season')
+        return $this->hasManyThrough(Program::class, Group::class, 'player_season')
             ->withPivot('group_id', 'season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
@@ -176,28 +176,9 @@ class Player extends Model
         return Carbon::createFromFormat('Y-m-d', $birthday);
     }
 
-    /**
-     * If the current player has registered with National Bible Bowl
-     *
-     * @param Season $season
-     *
-     * @return bool
-     */
-    public function isRegisteredWithNBB(Season $season)
+    public function scopePendingRegistrationPayment(Builder $query)
     {
-        return $this->seasons()->where('seasons.id', $season->id)->count() > 0;
-    }
-
-    /**
-     * Get the registration data for this player
-     *
-     * @param Season $season
-     *
-     * @return object
-     */
-    public function registration(Season $season)
-    {
-        return $this->seasons()->wherePivot('season_id', $season->id)->first()->pivot;
+        return $query->where('player_season.paid', false);
     }
 
     /**

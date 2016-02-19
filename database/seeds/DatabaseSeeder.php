@@ -201,11 +201,11 @@ class DatabaseSeeder extends Seeder {
             'gender'        => 'F',
             'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
-        $this->season->players()->attach($player->id, [
-            'program_id'    => Program::TEEN,
-            'grade'         => '11',
-            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
-        ]);
+//        $this->season->players()->attach($player->id, [
+//            'program_id'    => Program::TEEN,
+//            'grade'         => '11',
+//            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+//        ]);
 
         $player = $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Brad',
@@ -213,11 +213,11 @@ class DatabaseSeeder extends Seeder {
             'gender'        => 'M',
             'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
-        $this->season->players()->attach($player->id, [
-            'program_id'    => Program::BEGINNER,
-            'grade'         => '6',
-            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
-        ]);
+//        $this->season->players()->attach($player->id, [
+//            'program_id'    => Program::BEGINNER,
+//            'grade'         => '6',
+//            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+//        ]);
     }
 
     private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)
@@ -239,7 +239,6 @@ class DatabaseSeeder extends Seeder {
         {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
-                'program_id'    => $group->program->id,
                 'group_id'      => $group->id,
                 'grade'         => rand(6, 12),
                 'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
@@ -254,7 +253,6 @@ class DatabaseSeeder extends Seeder {
         ]);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
-            'program_id'    => $group->program->id,
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]

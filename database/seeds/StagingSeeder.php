@@ -261,7 +261,6 @@ class StagingSeeder extends Seeder {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
                 'group_id'      => $group->id,
-                'program_id'    => $group->program->id,
                 'grade'         => rand(6, 12),
                 'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
             ]);
@@ -271,7 +270,6 @@ class StagingSeeder extends Seeder {
         $player = seedPlayer($guardian);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
-            'program_id'    => $group->program->id,
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]

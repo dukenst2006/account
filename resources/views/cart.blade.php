@@ -43,7 +43,7 @@
                                 @if(app()->environment('testing'))
                                     {!! Form::hidden('stripeToken', uniqid()) !!}}
                                 @endif
-                                <h4 class="m-t-20">Payment</h4>
+                                <h4 class="m-t-20">Payment Method</h4>
                                 <p>Checks and other forms of payment are not accepted.</p>
                                 <div class="alert alert-danger payment-errors" style="display: none;"></div>
                                 <div class="row m-t-10">
@@ -55,13 +55,13 @@
                                     </div>
                                 </div>
                                 <div class="row m-t-10">
-                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                    <div class="col-md-2 col-sm-4 col-xs-4">
                                         {!! Form::text('cvc', old('cvc'), ['placeholder' => 'CVC', 'class' => 'form-control', 'pattern' => "[0-9]*", 'required', 'data-stripe' => 'cvc']) !!}
                                     </div>
-                                    <div class="col-md-5 col-sm-5 col-xs-4">
+                                    <div class="col-md-5 col-sm-4 col-xs-4">
                                         {!! Form::selectMonthNumeric('expMonth', old('expMonth'), ['class' => 'form-control', 'data-stripe' => 'exp-month']) !!}
                                     </div>
-                                    <div class="col-md-5 col-sm-5 col-xs-4">
+                                    <div class="col-md-5 col-sm-4 col-xs-4">
                                         {!! Form::selectYear('expYear', date('Y'), date('Y')+5, old('expYear'), ['class' => 'form-control', 'data-stripe' => 'exp-year'], false) !!}
                                     </div>
                                 </div>

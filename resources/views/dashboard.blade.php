@@ -13,13 +13,13 @@
 
     @if(isset($rosterOverview))
         <div class="col-md-12 m-b-10">
-            @include('dashboard.roster_overview', $rosterOverview)
+            @include('dashboard.roster-overview', $rosterOverview)
         </div>
     @endif
 
     @if(Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
         <div class="col-md-12 m-b-10">
-            @include('dashboard.guardian_children')
+            @include('dashboard.guardian-children')
         </div>
     @endif
 
@@ -27,5 +27,11 @@
     <div class="col-md-6">
         @include('dashboard.guidiance')
     </div>
+    @endif
+
+    @if(isset($playersPendingPayment) && $playersPendingPayment->count() > 0)
+        <div class="col-md-6">
+            @include('dashboard.registration-payment')
+        </div>
     @endif
 @endsection

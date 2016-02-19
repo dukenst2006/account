@@ -29,7 +29,9 @@ class DashboardController extends Controller
                 'playerStats' => $this->playerMetrics->playerStats(
                     Session::season(),
                     Session::group()
-            )   ]);
+                )
+            ]);
+            $view->with('playersPendingPayment',  Session::group()->players()->pendingRegistrationPayment()->get());
         }
 
         return $view;

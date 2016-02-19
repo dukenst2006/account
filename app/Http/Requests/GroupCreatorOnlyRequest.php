@@ -1,6 +1,8 @@
 <?php namespace BibleBowl\Http\Requests;
 
 use Auth;
+use BibleBowl\Role;
+use Session;
 use BibleBowl\Group;
 
 class GroupCreatorOnlyRequest extends Request
@@ -13,7 +15,12 @@ class GroupCreatorOnlyRequest extends Request
      */
     public function authorize()
     {
-        return Group::where('id', $this->route('group'))
+        $groupId = $this->route('group');
+        if (Auth::user()->hasRole(Role::HEAD_COACH)) {
+            $groupId = Session::group()->id;
+        }
+
+        return Group::where('id', $groupId)
             ->where('owner_id', Auth::id())
             ->exists();
     }

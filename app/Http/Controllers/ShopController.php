@@ -29,6 +29,7 @@ class ShopController extends Controller
      */
     public function processPayment(Request $request)
     {
+        //@todo require token
         Cart::triggerPostPurchaseEvent();
 
         return redirect('/dashboard')->withFlashSuccess(Cart::postPurchaseEvent()->successMessage());

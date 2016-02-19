@@ -61,7 +61,7 @@ class Program extends Model
     public function players()
     {
         // if this relation is updated, update Season too
-        return $this->belongsToMany(Player::class, 'player_season')
+        return $this->hasManyThrough(Player::class, Group::class, 'player_season')
             ->withPivot('season_id', 'group_id', 'grade', 'shirt_size')
             ->withTimestamps()
             ->orderBy('last_name', 'ASC')

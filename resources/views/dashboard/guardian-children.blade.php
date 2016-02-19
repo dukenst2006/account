@@ -19,10 +19,9 @@
                 </tr>
             @foreach($children as $child)
                 <?php
-                $isRegisteredWithNBB = $child->isRegisteredWithNBB(Session::season());
-                if ($isRegisteredWithNBB) {
-                    $registration = $child->registration(Session::season());
-                }
+                $group = $child->groupRegisteredWith(Session::season());
+                $registration = $group->pivot;
+                $isRegistered = $group !== null;
                 ?>
                 <tr>
                     <td class="v-align-middle">
@@ -34,29 +33,23 @@
                     <td class="text-center v-align-middle">
                         {{ $child->age() }}
                     </td>
-                    @if($isRegisteredWithNBB)
+                    @if($isRegistered)
                         <td class="text-center v-align-middle">
                             {{ \BibleBowl\Presentation\Describer::describeGradeShort($registration->grade) }}
                         </td>
                         <td class="text-center v-align-middle">
                             {{ $registration->shirt_size }}
                         </td>
+                        <td class="text-center v-align-middle">
+                            <a href="/join/{{ $program->slug }}/search/group">Register</a>
+                        </td>
                     @else
                         <td class="text-center v-align-middle">-</td>
                         <td class="text-center v-align-middle">-</td>
-                    @endif
-                    <td class="text-center v-align-middle">
-                        @if(is_null($group = $child->groupRegisteredWith(Session::season())) === false)
-                            <div><div class="fa fa-check"></div> Registered with NBB</div>
-                            {{ $group->name }}
-                        @elseif($isRegisteredWithNBB)
-                            <?php $program = \BibleBowl\Program::findOrFail($registration->program_id) ?>
-                            <div><div class="fa fa-check"></div> Registered with NBB</div>
-                            <a href="/join/{{ $program->slug }}/search/group">Find a group</a>
-                        @else
+                        <td class="text-center v-align-middle">
                             <a href="/register/players">Register</a>
-                        @endif
-                    </td>
+                        </td>
+                    @endif
                     <td class="text-center v-align-middle">
                         <a href="/player/{{ $child->id }}/edit" class="fa fa-edit" id="edit-child-{{ $child->id }}"></a>
                     </td>

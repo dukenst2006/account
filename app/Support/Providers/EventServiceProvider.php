@@ -1,7 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
 use BibleBowl\Location\FetchCoordinatesForAddress;
+use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
+use BibleBowl\Seasons\RecordSeasonalRegistrationPayment;
 use BibleBowl\Seasons\RegisterWithNationalOffice;
 use BibleBowl\Seasons\RegisterWithGroup;
 use BibleBowl\Users\Auth\OnLogin;
@@ -52,6 +54,9 @@ class EventServiceProvider extends ServiceProvider
         SeasonalRegistrationPaymentReceived::EVENT => [
             RegisterWithNationalOffice::class,
             RegisterWithGroup::class
+        ],
+        ProgramRegistrationPaymentReceived::EVENT => [
+            RecordSeasonalRegistrationPayment::class
         ]
     ];
 

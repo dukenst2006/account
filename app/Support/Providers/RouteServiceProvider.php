@@ -103,7 +103,6 @@ class RouteServiceProvider extends ServiceProvider
                         'only' => ['update', 'destroy']
                     ]);
 
-                    //Route::delete('teams/{team}', 'TeamController@deleteTeam');
                     Route::post('teams/{teams}/addPlayer', 'TeamController@addPlayer');
                     Route::post('teams/{teams}/removePlayer', 'TeamController@removePlayer');
                     Route::post('teams/{teams}/updateOrder', 'TeamController@updateOrder');
@@ -112,6 +111,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::group([
                     'namespace'    => 'Seasons'
                 ], function () {
+                    Route::get('players/pay', 'PlayerRegistrationController@getPayPlayerRegistration');
+                    Route::post('players/pay', 'PlayerRegistrationController@postPayPlayerRegistration');
+
                     Route::get('register/players', 'PlayerRegistrationController@getPlayers');
                     Route::post('register/players', 'PlayerRegistrationController@postPlayers');
                     Route::get('register/summary', 'PlayerRegistrationController@summary');
@@ -140,7 +142,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('group/{group}/swap', 'GroupController@swap');
 
                 # Roster
-                //Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
+                Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
                 Route::get('roster', 'Groups\RosterController@index');
                 Route::get('roster/inactive', 'Groups\RosterController@inactive');
                 Route::get('roster/export', 'Groups\RosterController@export');
@@ -156,9 +158,8 @@ class RouteServiceProvider extends ServiceProvider
                     'namespace'    => 'Admin'
                 ], function () {
                     Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
-                    Route::get('players', 'PlayerController@index');
 
-                    Entrust::routeNeedsRole('players/*', [Role::DIRECTOR, Role::ADMIN]);
+                    Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('players', 'PlayerController@index');
                     Route::get('players/{playerId}', 'PlayerController@show');
 
@@ -173,12 +174,13 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('users', 'UserController@index');
                     Route::get('users/{userId}', 'UserController@show');
 
+                    Entrust::routeNeedsPermission('admin/tournaments', [Permission::CREATE_TOURNAMENTS]);
                     Route::resource('tournaments', 'TournamentsController');
                     Route::resource('tournaments.events', 'Tournaments\EventsController', [
                         'except' => ['index', 'show']
                     ]);
 
-                    Entrust::routeNeedsPermission('settings', [Permission::MANAGE_SETTINGS]);
+                    Entrust::routeNeedsPermission('admin/settings', [Permission::MANAGE_SETTINGS]);
                     Route::get('settings', 'SettingsController@edit');
                     Route::patch('settings', 'SettingsController@update');
                 });
