@@ -1,11 +1,10 @@
 <?php
 
-use BibleBowl\Program;
 use BibleBowl\Group;
 use BibleBowl\Player;
+use BibleBowl\Program;
 use BibleBowl\Season;
 use BibleBowl\Users\Auth\SessionManager;
-use Illuminate\Database\Eloquent\Builder;
 
 class SeasonRegistrationTest extends TestCase
 {

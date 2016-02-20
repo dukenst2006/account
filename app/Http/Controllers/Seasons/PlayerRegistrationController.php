@@ -4,20 +4,14 @@ use Auth;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
-use BibleBowl\Http\Requests\GroupJoinRequest;
 use BibleBowl\Http\Requests\PlayerRegistrationRequest;
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Program;
 use BibleBowl\Season;
-use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\GroupRegistration;
-use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
+use DB;
 use Illuminate\View\View;
 use Input;
 use Session;
-use DB;
 
 class PlayerRegistrationController extends Controller
 {
@@ -91,20 +85,6 @@ class PlayerRegistrationController extends Controller
             ->with('program', $program)
             ->with('nearbyGroups', $nearbyGroups);
     }
-
-//    /**
-//     * @return \Illuminate\View\View
-//     */
-//    public function getRegister($programSlug, $group = null)
-//    {
-//        if (is_null($group) === false) {
-//            $group = Group::findOrFail($group);
-//        }
-//
-//        return view('seasons.registration.register_form')
-//            ->with('program', Program::where('slug', $programSlug)->firstOrFail())
-//            ->withGroup($group);
-//    }
 
     /**
      * @return \Illuminate\View\View

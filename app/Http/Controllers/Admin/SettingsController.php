@@ -1,11 +1,11 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
-use DB;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Http\Requests\SettingsUpdateRequest;
 use BibleBowl\Program;
-use Carbon\Carbon;
 use BibleBowl\User;
+use Carbon\Carbon;
+use DB;
 use Setting;
 
 class SettingsController extends Controller

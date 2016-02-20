@@ -1,6 +1,5 @@
 <?php namespace BibleBowl\Http\Controllers\Auth;
 
-use Session;
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\User;
@@ -9,6 +8,7 @@ use Event;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
+use Session;
 
 class AuthController extends Controller
 {

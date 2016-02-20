@@ -1,9 +1,9 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use Auth;
 use BibleBowl\Cart;
 use BibleBowl\Presentation\EmailTemplate;
 use BibleBowl\Presentation\Html;
-use Auth;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
 use Config;

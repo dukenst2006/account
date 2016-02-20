@@ -1,7 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Account;
 
 use Auth;
-use BibleBowl\Event;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\User;

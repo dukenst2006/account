@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Requests;
 
-use BibleBowl\Permission;
 use Auth;
+use BibleBowl\Permission;
 
 class SettingsUpdateRequest extends GroupJoinRequest
 {

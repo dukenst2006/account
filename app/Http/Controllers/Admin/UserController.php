@@ -1,8 +1,8 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
-use Session;
 use BibleBowl\User;
 use Input;
+use Session;
 
 class UserController extends Controller
 {

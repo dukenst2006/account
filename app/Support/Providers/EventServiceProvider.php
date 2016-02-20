@@ -2,10 +2,10 @@
 
 use BibleBowl\Location\FetchCoordinatesForAddress;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
-use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Seasons\RecordSeasonalRegistrationPayment;
-use BibleBowl\Seasons\RegisterWithNationalOffice;
 use BibleBowl\Seasons\RegisterWithGroup;
+use BibleBowl\Seasons\RegisterWithNationalOffice;
+use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Users\Auth\OnLogin;
 use BibleBowl\Users\Auth\SendConfirmationEmail;
 use BibleBowl\Users\Communication\AddInterestOnMailingList;

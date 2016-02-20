@@ -1,8 +1,8 @@
 <?php namespace BibleBowl\Http\Controllers\Teams;
 
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
 use BibleBowl\Http\Requests\TeamGroupOnlyRequest;
+use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
 use BibleBowl\Team;
 use DB;
 

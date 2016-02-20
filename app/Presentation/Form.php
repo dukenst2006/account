@@ -4,9 +4,9 @@ use Auth;
 use BibleBowl\EventType;
 use BibleBowl\Program;
 use Carbon\Carbon;
-use Illuminate\Html\FormBuilder;
-use DateTimeZone;
 use DateTime;
+use DateTimeZone;
+use Illuminate\Html\FormBuilder;
 
 class Form extends FormBuilder
 {

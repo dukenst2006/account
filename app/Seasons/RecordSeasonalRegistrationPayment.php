@@ -1,12 +1,12 @@
 <?php namespace BibleBowl\Seasons;
 
-use Illuminate\Support\Collection;
-use Session;
 use BibleBowl\Group;
 use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\User;
 use DB;
+use Illuminate\Support\Collection;
+use Session;
 
 class RecordSeasonalRegistrationPayment
 {

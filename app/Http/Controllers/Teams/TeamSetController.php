@@ -1,11 +1,11 @@
 <?php namespace BibleBowl\Http\Controllers\Teams;
 
-use DB;
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
 use BibleBowl\Team;
 use BibleBowl\TeamSet;
+use DB;
 use Illuminate\Http\Request;
 use Session;
 

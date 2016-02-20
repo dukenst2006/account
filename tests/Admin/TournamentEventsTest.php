@@ -1,8 +1,5 @@
 <?php
 
-use BibleBowl\Tournament;
-use Carbon\Carbon;
-use BibleBowl\Competition\TournamentCreator;
 use BibleBowl\Event;
 
 class TournamentEventsTest extends TestCase

@@ -1,9 +1,8 @@
 <?php namespace BibleBowl\Http\Controllers;
 
-use BibleBowl\Http\Requests\PaymentRequest;
-use DB;
-use Cart;
 use BibleBowl\Player;
+use Cart;
+use DB;
 use Illuminate\Http\Request;
 
 /**

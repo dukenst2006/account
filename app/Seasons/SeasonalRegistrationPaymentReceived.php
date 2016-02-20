@@ -2,8 +2,8 @@
 
 namespace BibleBowl\Seasons;
 
-use Session;
 use BibleBowl\Shop\PostPurchaseEvent;
+use Session;
 
 class SeasonalRegistrationPaymentReceived extends PostPurchaseEvent
 {

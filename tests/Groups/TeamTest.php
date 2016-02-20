@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\TeamSet;
-use BibleBowl\Team;
 use BibleBowl\Group;
+use BibleBowl\Team;
+use BibleBowl\TeamSet;
 use BibleBowl\Users\Auth\SessionManager;
 
 class TeamsTest extends TestCase
