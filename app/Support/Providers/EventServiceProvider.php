@@ -51,10 +51,6 @@ class EventServiceProvider extends ServiceProvider
         'eloquent.updated: BibleBowl\Address' => [
             FetchCoordinatesForAddress::class
         ],
-        SeasonalRegistrationPaymentReceived::EVENT => [
-            RegisterWithNationalOffice::class,
-            RegisterWithGroup::class
-        ],
         ProgramRegistrationPaymentReceived::EVENT => [
             RecordSeasonalRegistrationPayment::class
         ]

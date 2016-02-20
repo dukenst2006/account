@@ -55,7 +55,6 @@ class Cart extends Model
      */
     protected $postPurchaseEvents = [
         ProgramRegistrationPaymentReceived::EVENT => ProgramRegistrationPaymentReceived::class,
-        SeasonalRegistrationPaymentReceived::EVENT => SeasonalRegistrationPaymentReceived::class,
     ];
 
     /**
