@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
     public static function viewBindings()
     {
-        \View::creator('dashboard.guardian_children', function (View $view) {
+        \View::creator('dashboard.guardian-children', function (View $view) {
             $season = Session::season();
             $view->with(
                 'children',

@@ -2,14 +2,14 @@
 
 namespace BibleBowl\Seasons;
 
-use BibleBowl\Season;
+use Session;
 use BibleBowl\Shop\PostPurchaseEvent;
 
 class SeasonalRegistrationPaymentReceived extends PostPurchaseEvent
 {
     const EVENT = 'seasonal.registration';
 
-    /** @var SeasonalRegistration */
+    /** @var GroupRegistration */
     protected $registration;
 
     public function __construct($attributes = [])
@@ -20,19 +20,19 @@ class SeasonalRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * @param SeasonalRegistration $registration
+     * @param GroupRegistration $registration
      */
-    public function setRegistration(SeasonalRegistration $registration)
+    public function setRegistration(GroupRegistration $registration)
     {
         parent::setEventData($registration);
     }
 
     /**
-     * @return SeasonalRegistration
+     * @return GroupRegistration
      */
     public function registration()
     {
-        return app(SeasonalRegistration::class, [$this->eventData()]);
+        return app(GroupRegistration::class, [$this->eventData()]);
     }
 
     /**
@@ -54,7 +54,7 @@ class SeasonalRegistrationPaymentReceived extends PostPurchaseEvent
     public function fire()
     {
         event($this->event(), [
-            Season::current()->first(),
+            Session::season(),
             $this->registration()
         ]);
     }

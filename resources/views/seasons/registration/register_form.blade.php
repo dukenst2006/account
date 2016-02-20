@@ -8,11 +8,11 @@
         <h4>Your <span class="semi-bold">{{ Session::season()->name }} Registration</span></h4>
         <div class="grid simple">
             <div class="grid-body no-border" style="padding-bottom: 10px; padding-top: 20px">
-                @include('seasons.registration.completed-steps.program', [
+                @include('seasons.registration.partials.program', [
                     'program' => $program
                 ])
                 <div class="row b-t b-grey m-b-15"></div>
-                @include('seasons.registration.completed-steps.group', [
+                @include('seasons.registration.partials.group', [
                     'action'    => 'register',
                     'group'     => $group
                 ])

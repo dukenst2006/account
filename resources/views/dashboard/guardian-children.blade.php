@@ -20,7 +20,6 @@
             @foreach($children as $child)
                 <?php
                 $group = $child->groupRegisteredWith(Session::season());
-                $registration = $group->pivot;
                 $isRegistered = $group !== null;
                 ?>
                 <tr>
@@ -35,13 +34,13 @@
                     </td>
                     @if($isRegistered)
                         <td class="text-center v-align-middle">
-                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($registration->grade) }}
+                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($group->pivot->grade) }}
                         </td>
                         <td class="text-center v-align-middle">
-                            {{ $registration->shirt_size }}
+                            {{ $group->pivot->shirt_size }}
                         </td>
                         <td class="text-center v-align-middle">
-                            <a href="/join/{{ $program->slug }}/search/group">Register</a>
+                            <div><div class="fa fa-check"></div> Registered with {{ $group->name }}</div>
                         </td>
                     @else
                         <td class="text-center v-align-middle">-</td>

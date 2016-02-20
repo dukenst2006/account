@@ -18,7 +18,7 @@ class RegisterWithGroup
         $this->groupRegistrar = $groupRegistrar;
     }
 
-    public function handle(Season $season, SeasonalRegistration $registration)
+    public function handle(Season $season, GroupRegistration $registration)
     {
         DB::beginTransaction();
 

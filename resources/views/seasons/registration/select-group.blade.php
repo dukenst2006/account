@@ -15,15 +15,15 @@
         <h4>Find <span class="semi-bold">Your {{ $program->abbreviation }} Group</span></h4>
         <div class="grid simple">
             <div class="grid-body no-border">
-                @include('seasons.registration.search_group', [
+                @include('seasons.registration.partials.group-search', [
                     'actionUrl' => '/register/'.$program->slug.'/group/[ID]',
                     'actionButton' => 'Select this group'
                 ])
 
                 @if(Input::has('q'))
                 <div class="form-actions text-center" style="margin-right: -11px !important; margin-left: -11px !important;">
-                    <p>You can always join your group later if you can't find them here</p>
-                    <a href="/register/{{ $program->slug }}/group" class="btn btn-primary btn-cons">Join Later</a>
+                    <p>If you can't find the {{ strtolower($program->abbreviation) }} group you're looking for, the <strong>Head Coach</strong> may not have created it or it may be inactive.</p>
+                    <a href="/register/{{ $program->slug }}/later" class="btn btn-primary btn-cons">Register Later</a>
                 </div>
                 @endif
             </div>

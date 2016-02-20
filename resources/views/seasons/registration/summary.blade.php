@@ -14,21 +14,17 @@
                             <h3>{{ $program->name }}</h3>
                         </div>
                         <div class="col-md-6 text-right m-t-5">
-                        @if($registration->hasLookedForGroup($program) === false)
+                        @if($registration->hasGroup($program) === false)
                             <a href="/register/{{ $program->slug }}/search/group" class="btn btn-primary btn-cons">Join {{ $program->abbreviation }} Group</a>
                         @endif
                         </div>
                     </div>
-                    @if($registration->hasLookedForGroup($program))
+                    @if($registration->hasGroup($program))
                     <div class="gray-box">
-                        @if($registration->hasGroup($program))
-                            @include('seasons.registration.completed-steps.group', [
-                                'action'    => 'register',
-                                'group'     => $registration->group($program)
-                            ])
-                        @else
-                            <div class="text-center"><i>You didn't find a {{ strtolower($program->abbreviation) }} group.  Do you want to <a href="/register/{{ $program->slug }}/search/group">try again</a>?</i></div>
-                        @endif
+                        @include('seasons.registration.partials.group', [
+                            'action'    => 'register',
+                            'group'     => $registration->group($program)
+                        ])
                     </div>
                     @endif
                     <table class="table no-more-tables">
@@ -50,9 +46,9 @@
                         </tbody>
                     </table>
                 @endforeach
-                @if ($registration->hasLookedForAllGroups())
+                @if ($registration->hasFoundAllGroups())
                 <div class="text-center">
-                    <a href="/cart" class="btn btn-primary btn-cons">Continue to payment</a>
+                    <a href="/register/submit" class="btn btn-primary btn-cons">Submit Registration</a>
                 </div>
                 @endif
             </div>

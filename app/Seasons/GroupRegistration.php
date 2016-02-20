@@ -8,7 +8,7 @@ use BibleBowl\Program;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 
-class SeasonalRegistration extends Fluent
+class GroupRegistration extends Fluent
 {
     protected $players = null;
 
@@ -25,19 +25,35 @@ class SeasonalRegistration extends Fluent
     /**
      * @param Group $group
      */
-    public function setGroup(Program $program, Group $group)
+    public function addGroup(Group $group)
     {
-        $this->attributes['groups'][$program->id] = $group->id;
+        $this->attributes['groups'][$group->program_id] = $group->id;
     }
 
     /**
-     * User looked, but couldn't find their group
-     *
-     * @param Group $group
+     * @param Program $program
+     * @return Group
      */
-    public function noGroupFound(Program $program)
+    public function group(Program $program)
     {
-        $this->attributes['groups'][$program->id] = false;
+        return Group::findOrFail($this->attributes['groups'][$program->id]);
+    }
+
+    /**
+     * @return Group[]
+     */
+    public function groups()
+    {
+        return Group::whereIn('id', array_values($this->attributes['groups']))->get();
+    }
+
+    /**
+     * @param Program $program
+     * @return bool
+     */
+    public function hasGroup(Program $program)
+    {
+        return isset($this->attributes['groups'][$program->id]);
     }
 
     /**
@@ -59,46 +75,12 @@ class SeasonalRegistration extends Fluent
     }
 
     /**
-     * @param Program $program
-     * @return Group
-     */
-    public function group(Program $program)
-    {
-        return Group::findOrFail($this->groups[$program->id]);
-    }
-
-    /**
-     * Determine if this registration has specified a group
-     *
-     * @param Program $program
      * @return bool
      */
-    public function hasGroup(Program $program)
-    {
-        return isset($this->groups[$program->id]) && $this->groups[$program->id] > 0;
-    }
-
-    /**
-     * If this registration has attempted to find their
-     * group yet for a given program
-     *
-     * @param Program $program
-     * @return bool
-     */
-    public function hasLookedForGroup(Program $program)
-    {
-        return isset($this->groups[$program->id]) &&  (
-            $this->groups[$program->id] === false || $this->hasGroup($program)
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasLookedForAllGroups()
+    public function hasFoundAllGroups()
     {
         foreach($this->programs() as $program) {
-            if ($this->hasLookedForGroup($program) === false) {
+            if ($this->hasGroup($program) === false) {
                 return false;
             }
         }
@@ -117,6 +99,14 @@ class SeasonalRegistration extends Fluent
             'grade'         => $grade,
             'shirt_size'    => $shirtSize
         ];
+    }
+
+    /**
+     * Remove given players from registration
+     */
+    public function removePlayers(Program $program)
+    {
+        $this->attributes['players'] = array_except($this->attributes['players'], $this->playerInfo($program)->keys()->toArray());
     }
 
     /**

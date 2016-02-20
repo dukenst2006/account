@@ -44,37 +44,29 @@
                                 <th>Season</th>
                                 <th class="text-center">Grade</th>
                                 <th class="text-center">T-Shirt Size</th>
-                                <th class="text-center">Participated</th>
                                 <th class="text-center">Group</th>
                             </tr>
                             @foreach ($player->seasons()->orderBy('id', 'desc')->get() as $season)
                                 <?php
-                                $isRegisteredWithNBB = $player->isRegisteredWithNBB($season);
-                                if ($isRegisteredWithNBB) {
-                                    $registration = $player->registration($season);
-                                }
+                                $groupRegisteredWith = $player->groupRegisteredWith($season);
+                                $isRegistered = $groupRegisteredWith !== null;
                                 ?>
                                 <tr>
                                     <td>{{ $season->name }}</td>
-                                    @if($isRegisteredWithNBB)
+                                    @if($isRegistered)
                                         <td class="text-center">
-                                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($registration->grade) }}
+                                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $registration->shirt_size }}
+                                            {{ $groupRegisteredWith->pivot->shirt_size }}
                                         </td>
                                     @else
                                         <td class="text-center">-</td>
                                         <td class="text-center">-</td>
                                     @endif
                                     <td class="text-center">
-                                        @if($isRegisteredWithNBB)
-                                            <div class="fa fa-check"></div>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if(is_null($group = $player->groupRegisteredWith($season)) === false)
-                                            <a href="/admin/groups/{{ $group->id }}">{{ $group->name }}</a>
+                                        @if($isRegistered)
+                                            <a href="/admin/groups/{{ $groupRegisteredWith->id }}">{{ $groupRegisteredWith->name }}</a>
                                         @endif
                                     </td>
                                 </tr>

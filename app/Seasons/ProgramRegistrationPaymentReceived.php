@@ -11,7 +11,7 @@ class ProgramRegistrationPaymentReceived extends PostPurchaseEvent
 {
     const EVENT = 'seasonal.registration.payment';
 
-    /** @var SeasonalRegistration */
+    /** @var GroupRegistration */
     protected $registration;
 
     public function __construct($attributes = [])

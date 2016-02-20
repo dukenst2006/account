@@ -38,11 +38,12 @@ class PlayerController extends Controller
     public function edit(GuardianOnlyRequest $request, $id)
     {
         $player = Player::findOrFail($id);
+        $groupRegisteredWith = $player->groupRegisteredWith(Session::season());
 
         return view('player.edit')
             ->withPlayer($player)
-            ->with('isRegistered', $isRegistered = $player->isRegisteredWithNBB(Session::season()))
-            ->withRegistration($isRegistered ? $player->registration(Session::season()) : null);
+            ->with('isRegistered', $groupRegisteredWith !== null)
+            ->withRegistration($groupRegisteredWith);
     }
 
     /**
@@ -55,7 +56,7 @@ class PlayerController extends Controller
     {
         $rules = Player::validationRules();
         $player = Player::findOrFail($id);
-        $isRegistered = $player->isRegisteredWithNBB(Session::season());
+        $isRegistered = $player->isRegisteredWithGroup(Session::season());
         if ($isRegistered) {
             $rules['shirt_size']    = 'required';
             $rules['grade']         = 'required';

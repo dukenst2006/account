@@ -213,22 +213,13 @@ class Player extends Model
             });
     }
 
-    public function scopeNotRegisteredWithNBB(Builder $query, Season $season, User $user)
+    public function scopeNotRegistered(Builder $query, Season $season, User $user)
     {
         return $query->where('players.guardian_id', $user->id)
             ->whereDoesntHave('seasons',
                 function (Builder $query) use ($season) {
                     $query->where('player_season.season_id', $season->id);
                 });
-    }
-
-    public function scopeRegisteredWithNBBOnly(Builder $query, Season $season)
-    {
-        return $query->whereHas('seasons',
-            function (Builder $query) use ($season) {
-                $query->where('player_season.season_id', $season->id);
-                $query->whereNull('player_season.group_id');
-            });
     }
 
     public function scopeRegisteredWithGroup(Builder $query, Season $season, Group $group)

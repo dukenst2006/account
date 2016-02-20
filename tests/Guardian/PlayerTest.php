@@ -10,6 +10,7 @@ class PlayerTest extends TestCase
     protected $lastName = 'Tharn';
 
     use \Helpers\ActingAsGuardian;
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     public function setUp()
     {
@@ -35,11 +36,6 @@ class PlayerTest extends TestCase
             ->type($this->firstName, 'first_name')
             ->press('Save')
             ->see($this->firstName.' '.$this->lastName.' has been added');
-
-        // cleanup
-        $player = Player::where('first_name', $this->firstName)->where('last_name', $this->lastName)->first();
-        $player->seasons()->sync([]);
-        $player->delete();
     }
 
     /**
@@ -56,8 +52,5 @@ class PlayerTest extends TestCase
             ->press('Save')
             ->see('Your changes were saved')
             ->see($newName);
-
-        // cleanup
-        $player->save();
     }
 }

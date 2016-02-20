@@ -2,7 +2,6 @@
 
 namespace BibleBowl;
 
-use Amsgames\LaravelShop\Models\ShopCartModel;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
