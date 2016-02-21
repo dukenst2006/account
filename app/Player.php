@@ -42,6 +42,8 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player pendingRegistrationPayment()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegistered($season, $user)
  */
 class Player extends Model
 {
@@ -250,7 +252,7 @@ class Player extends Model
     }
 
     /**
-     * Query scope for active groups.
+     * Query scope for inactive groups.
      */
     public function scopeActive($query, Season $season)
     {
@@ -261,7 +263,7 @@ class Player extends Model
     }
 
     /**
-     * Query scope for inactive groups.
+     * Query scope for inactive players.
      */
     public function scopeInactive($query, Season $season)
     {

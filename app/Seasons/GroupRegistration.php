@@ -10,7 +10,7 @@ use Illuminate\Support\Fluent;
 
 class GroupRegistration extends Fluent
 {
-    protected $players = null;
+    public static $gradesWithProgramChoice = [6];
 
     protected $programs = null;
 
@@ -127,18 +127,19 @@ class GroupRegistration extends Fluent
      */
     public function playerInfo(Program $program)
     {
-        if ($this->players == null) {
-            /** @var Collection $players */
-            $this->players = app(Collection::class, [
-                $this->get('players', [])
-            ]);
+        $players = [];
+        foreach($this->get('players', []) as $playerId => $playerData) {
+            // if a parent has overridden the default grade
+            if (isset($this->attributes['programOverride'][$playerId])) {
+                if ($this->attributes['programOverride'][$playerId] == $program->id) {
+                    $players[$playerId] = $playerData;
+                }
+            } elseif ($playerData['grade'] >= $program->min_grade && $playerData['grade'] <= $program->max_grade) {
+                $players[$playerId] = $playerData;
+            }
         }
 
-        return $this->players->filter(function ($player) use ($program) {
-            if ($player['grade'] >= $program->min_grade && $player['grade'] <= $program->max_grade) {
-                return $player;
-            }
-        });
+        return app(Collection::class, [$players]);
     }
 
     /**
@@ -163,5 +164,44 @@ class GroupRegistration extends Fluent
     public function numberOfPlayers(Program $program)
     {
         return $this->playerInfo($program)->count();
+    }
+
+    /**
+     * Determine if a player in this group requires the parent
+     * to choose which program they belong to
+     *
+     * @return boolean
+     */
+    public function requiresProgramSelection()
+    {
+        foreach ($this->attributes['players'] as $player) {
+            if (in_array($player['grade'], self::$gradesWithProgramChoice)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function overrideProgram($playerId, $programId)
+    {
+        $this->attributes['programOverride'][$playerId] = $programId;
+    }
+
+    /**
+     * Get players for a given program
+     *
+     * @return Player[]|Collection
+     */
+    public function playersWithOptionalProgramSelection()
+    {
+        $playerIds = [];
+        foreach ($this->attributes['players'] as $playerId => $playerData) {
+            if (in_array($playerData['grade'], self::$gradesWithProgramChoice)) {
+                $playerIds[] = $playerId;
+            }
+        }
+
+        return Player::whereIn('id', $playerIds)->get();
     }
 }

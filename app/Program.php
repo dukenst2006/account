@@ -2,6 +2,7 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Presentation\Describer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $product_sku
  * @property boolean $min_grade
  * @property boolean $max_grade
+ * @property-read mixed $sku
  */
 class Program extends Model
 {
@@ -78,6 +80,6 @@ class Program extends Model
 
     public function __toString()
     {
-        return $this->name.' ('.$this->description.')';
+        return $this->name.' ('.Describer::describeGradeShort($this->min_grade).'-'.Describer::describeGradeShort($this->max_grade).' grades)';
     }
 }

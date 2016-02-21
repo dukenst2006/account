@@ -119,17 +119,11 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('register/summary', 'PlayerRegistrationController@summary');
                     Route::get('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@chooseGroup');
                     Route::get('register/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToRegister');
-                    Route::get('register/submit', 'PlayerRegistrationController@submit');
-                    # action = join|register
-                    //Route::get('register/program', 'PlayerRegistrationController@program');
-
-                    Route::get('register/{programSlug}/later', 'PlayerRegistrationController@later');
-                    //Route::get('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@getRegister');
                     Route::post('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@postRegister');
-
-//                    Route::get('join/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToJoin');
-//                    Route::get('join/{programSlug}/group/{group}', 'PlayerRegistrationController@getJoin');
-//                    Route::post('join/{programSlug}/group/{group}', 'PlayerRegistrationController@postJoin');
+                    Route::get('register/{programSlug}/later', 'PlayerRegistrationController@later');
+                    Route::get('register/submit', 'PlayerRegistrationController@submit');
+                    Route::get('register/program', 'PlayerRegistrationController@getChooseProgram');
+                    Route::post('register/program', 'PlayerRegistrationController@postChooseProgram');
 
                     # the group's registration link
                     Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');

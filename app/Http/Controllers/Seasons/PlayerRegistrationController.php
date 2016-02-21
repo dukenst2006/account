@@ -5,6 +5,7 @@ use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\PlayerRegistrationRequest;
+use BibleBowl\Http\Requests\Request;
 use BibleBowl\Program;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
@@ -53,6 +54,46 @@ class PlayerRegistrationController extends Controller
 
         // save in session so we can show this info on
         // the summary page
+        Session::setGroupRegistration($registration);
+
+        // sometimes parents can override the program selection
+        if ($registration->requiresProgramSelection()) {
+            return redirect('/register/program');
+        }
+
+        return redirect('/register/summary');
+    }
+    /**
+     * Prompt the parent/guardian to override certain programs
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getChooseProgram()
+    {
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+
+        return view('seasons.registration.partials.choose-program')
+            ->withPrograms(Program::all())
+            ->withRegistration($registration)
+            ->withPlayers($registration->playersWithOptionalProgramSelection());
+    }
+
+    /**
+     * Add program override for players to the registration
+     *
+     * @return mixed
+     */
+    public function postChooseProgram(Request $request)
+    {
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+
+        // map the POSTed data to the season data required
+        foreach ($request->get('player') as $playerId => $programId) {
+            $registration->overrideProgram($playerId, $programId);
+        }
+
         Session::setGroupRegistration($registration);
 
         return redirect('/register/summary');

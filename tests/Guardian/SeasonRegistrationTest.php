@@ -4,6 +4,8 @@ use BibleBowl\Group;
 use BibleBowl\Player;
 use BibleBowl\Program;
 use BibleBowl\Season;
+use BibleBowl\Seasons\GroupRegistration;
+use BibleBowl\User;
 use BibleBowl\Users\Auth\SessionManager;
 
 class SeasonRegistrationTest extends TestCase
@@ -116,51 +118,78 @@ class SeasonRegistrationTest extends TestCase
             ->visit('/register/players')
             ->dontSee('David Webb')
             ->dontSee('Ethan Smith');
-
     }
 
-//    /**
-//     * @test
-//     */
-//    public function canSearchForGroups()
-//    {
-//        $this->visit('/register/teen/search/group')
-//            ->type('Southeast', 'q')
-//            ->press('Search')
-//            ->see('Southeast Christian Church')
-//            ->dontSee('Mount Pleasant Christian Church');
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function cantRegisterTwice()
-//    {
-//        $guardian = $this->guardian();
-//        $player = Player::registeredWithNBBOnly(Season::current()->first())
-//            ->whereHas('guardian', function ($q) use ($guardian) {
-//                $q->where('id', $guardian->id);
-//            })->first();
-//        $this->visit('/register/players')
-//            ->dontSee($player->full_name);
-//    }
-//
-//    /**
-//     * @test
-//     */
-//    public function editExistingRegistration()
-//    {
-//        $player = $this->guardian()->players()->whereHas('seasons', function (Builder $q) {
-//            $q->where('seasons.id', Season::current()->first()->id);
-//        })->first();
-//
-//        # the test
-//        $this
-//            ->visit('/dashboard')
-//            ->click('#edit-child-'.$player->id)
-//            ->select(rand(3, 12), 'grade')
-//            ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
-//            ->submitForm('Save')
-//            ->see('Your changes were saved');
-//    }
+    /**
+     * @test
+     */
+    public function canSearchForGroups()
+    {
+        $this->visit('/register/teen/search/group')
+            ->type('Southeast', 'q')
+            ->press('Search')
+            ->see('Southeast Christian Church')
+            ->dontSee('Mount Pleasant Christian Church');
+    }
+
+    /**
+     * @test
+     */
+    public function sixthGradersCanBeAddedToBeginnerOrTeen()
+    {
+        $this->visit('/register/players')
+            ->see('David Webb')
+            ->select('6', 'player[1][grade]')
+            ->press('Continue')
+            ->seePageIs('/register/program')
+            ->see('David Webb')
+            ->select(Program::BEGINNER, 'player[1]')
+            ->press('Continue');
+
+        // assert the player is classified as beginner
+        $beginner = Program::findOrFail(Program::BEGINNER);
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+        $this->arrayHasKey(1, $registration->playerInfo($beginner));
+    }
+
+    /**
+     * @test
+     */
+    public function cantRegisterTwice()
+    {
+        // get a player for this season that is registered
+        $currentSeason = $this->season();
+        $player = Player::whereHas('seasons', function ($q) use ($currentSeason) {
+            $q->where('seasons.id', $currentSeason->id);
+        })->firstOrFail();
+        $this->guardian = $player->guardian;
+        $this->actingAs($this->guardian);
+
+        $this->visit('/register/players')
+            ->dontSee($player->full_name);
+    }
+
+    /**
+     * @test
+     */
+    public function editExistingRegistration()
+    {
+        // get a player for this season that is registered
+        $currentSeason = $this->season();
+        $player = Player::whereHas('seasons', function ($q) use ($currentSeason) {
+            $q->where('seasons.id', $currentSeason->id);
+        })->firstOrFail();
+        $this->guardian = $player->guardian;
+        $this->actingAs($this->guardian);
+
+        # the test
+        $this
+            ->visit('/dashboard')
+            ->click('#edit-child-'.$player->id)
+            ->select(rand(3, 12), 'grade')
+            ->select(array_rand(['S', 'M', 'L', 'XL']), 'shirt_size')
+            ->submitForm('Save')
+            ->see('Your changes were saved');
+    }
 }
