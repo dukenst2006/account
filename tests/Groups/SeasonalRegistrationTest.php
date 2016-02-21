@@ -21,7 +21,7 @@ class SeasonalRegistrationTest extends TestCase
      */
     public function canRegisterPlayers()
     {
-        $startingCount = $this->group()->players()->wherePivot('paid', 0)->count();
+        $startingCount = $this->group()->players()->active($this->season())->wherePivot('paid', 0)->count();
         $this->assertGreaterThan(0, $startingCount);
         $this
             ->visit('/players/pay')
