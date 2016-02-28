@@ -175,7 +175,11 @@ class Player extends Model
      */
     public function getBirthdayAttribute($birthday)
     {
-        return Carbon::createFromFormat('Y-m-d', $birthday);
+        if (!$birthday instanceof Carbon) {
+            return Carbon::createFromFormat('Y-m-d', $birthday);
+        }
+
+        return $birthday;
     }
 
     public function scopePendingRegistrationPayment(Builder $query)

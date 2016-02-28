@@ -129,9 +129,21 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');
                 });
 
+                # group routes
                 Route::resource('group', 'GroupController', [
                     'except' => ['delete']
                 ]);
+                Route::group([
+                    'prefix'    => 'group/{group}/settings',
+                    'namespace'    => 'Groups'
+                ], function () {
+                    Route::get('email', 'SettingsController@editEmail');
+                    Route::post('email', 'SettingsController@postEmail');
+                    Route::post('test-email', 'SettingsController@sendTestEmail');
+                    Route::get('integrations', 'SettingsController@editIntegrations');
+                    Route::post('integrations', 'SettingsController@postIntegrations');
+                });
+
                 Route::get('group/create/search', 'GroupController@searchBeforeCreate');
                 Route::get('group/{group}/swap', 'GroupController@swap');
 

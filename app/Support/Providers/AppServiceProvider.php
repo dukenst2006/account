@@ -41,6 +41,19 @@ class AppServiceProvider extends ServiceProvider
                 \\".Html::class."::\$js .= \"Stripe.setPublishableKey('".getenv('STRIPE_PUBLIC_KEY')."');\"
                 ?>";
         });
+        Blade::directive('includeRichTextEditor', function () {
+            return "<?php
+                \\".Html::class."::\$includeCss[] = \"/assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css\";
+                \\".Html::class."::\$includeJs[] = \"/assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js\";
+                \\".Html::class."::\$includeJs[] = \"/assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js\";
+                ?>";
+        });
+        Blade::directive('includeNotifications', function () {
+            return "<?php
+                \\".Html::class."::\$includeCss[] = \"/css/notifications.css\";
+                \\".Html::class."::\$includeJs[] = \"/js/notifications.js\";
+                ?>";
+        });
 
         /**
          * Generic reusable components
@@ -113,7 +126,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (Config::get('app.debug') === true) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             $this->app->register(\Spatie\Tail\TailServiceProvider::class);
         }
     }

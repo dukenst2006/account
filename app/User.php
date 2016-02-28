@@ -1,6 +1,5 @@
 <?php namespace BibleBowl;
 
-use Amsgames\LaravelShop\Traits\ShopUserTrait;
 use App;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\Users\Settings;
@@ -240,13 +239,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return is_null($this->first_name) || is_null($this->last_name);
     }
 
+    /**
+     * @param $value
+     * @return Settings
+     */
     public function getSettingsAttribute($value)
     {
         if (is_null($value)) {
-            return App::make(Settings::class);
+            return app(Settings::class);
         }
 
-        return App::make(Settings::class, [$this->fromJson($value)]);
+        return app(Settings::class, [$this->fromJson($value)]);
     }
 
     /**

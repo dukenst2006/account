@@ -25,12 +25,24 @@ elixir(function(mix) {
         'css/responsive.css'
     ],  'public/css/core.css', 'public');
 
+    mix.scripts([
+        'assets/plugins/jquery-notifications/js/messenger.js',
+        'assets/plugins/jquery-notifications/js/messenger-theme-flat.js',
+    ],  'public/js/notifications.js', 'public');
+    mix.styles([
+        'assets/plugins/jquery-notifications/css/messenger.css',
+        'assets/plugins/jquery-notifications/css/messenger-theme-flat.css',
+    ],  'public/css/notifications.css', 'public');
+
     // compile assets for managing teams
     mix.scripts([
         'assets/plugins/jquery-notifications/js/messenger.js',
         'assets/plugins/jquery-notifications/js/messenger-theme-flat.js',
         'assets/js/teamsets.js'
     ],  'public/js/teamsets.js', 'public');
+    mix.scripts([
+        'assets/js/group-email-settings.js'
+    ],  'public/js/group-email-settings.js', 'public');
     mix.styles([
         'assets/plugins/jquery-notifications/css/messenger.css',
         'assets/plugins/jquery-notifications/css/messenger-theme-flat.css',

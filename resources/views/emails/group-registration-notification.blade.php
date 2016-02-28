@@ -10,7 +10,7 @@
     ?>
 
     @include('emails.theme.header', [
-        'header' => 'Player Registration Confirmation'
+        'header' => 'Registration Confirmation'
     ])
 
     @include('emails.theme.text-block', [

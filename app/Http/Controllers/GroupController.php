@@ -57,7 +57,9 @@ class GroupController extends Controller
         // log the user in under this group
         Session::setGroup($group);
 
-        return redirect('/dashboard')->withFlashSuccess($group->name.' has been created');
+        // direct the user to their email settings so
+        // they can customize their welcome email
+        return redirect('/group/'.$group->id.'/settings/email')->withFlashSuccess($group->name.' has been created');
     }
 
     /**

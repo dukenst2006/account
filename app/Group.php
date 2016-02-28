@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use BibleBowl\Groups\Settings;
 use BibleBowl\Support\CanDeactivate;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,7 +66,7 @@ class Group extends Model
     {
         parent::boot();
 
-        //assign a guid for each user
+        //assign a guid for each group
         static::creating(function ($group) {
             $group->guid = Uuid::uuid4();
             return true;
@@ -152,7 +153,7 @@ class Group extends Model
     }
 
     /**
-     * Query
+     * Get groups near a another address
      *
      * @param Builder $q
      * @param Address $address
@@ -295,13 +296,27 @@ class Group extends Model
     }
 
     /**
-     * Join link to register for this specific group.
-     * Used when the player has already registered with NBB
-     *
-     * @return string
+     * @param $value
+     * @return Settings
      */
-    public function joinLink()
+    public function getSettingsAttribute($value)
     {
-        return '/join/group/'.$this->id;
+        if (is_null($value)) {
+            return app(Settings::class);
+        }
+
+        return app(Settings::class, [json_decode($value, true)]);
+    }
+
+    /**
+     * @param Settings $value
+     */
+    public function setSettingsAttribute($value)
+    {
+        if ($value instanceof Settings) {
+            $this->attributes['settings'] = $value->toJson();
+        } else {
+            $this->attributes['settings'] = json_encode($value);
+        }
     }
 }

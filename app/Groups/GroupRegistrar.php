@@ -11,6 +11,13 @@ use Mail;
 
 class GroupRegistrar
 {
+    /** @var RegistrationConfirmation */
+    protected $registrationConfirmation;
+
+    public function __construct(RegistrationConfirmation $registrationConfirmation)
+    {
+        $this->registrationConfirmation = $registrationConfirmation;
+    }
 
     public function register(Season $season, User $guardian, GroupRegistration $registration)
     {
@@ -41,7 +48,7 @@ class GroupRegistrar
             foreach ($group->users()->with('roles')->get() as $user) {
                 if ($user->hasRole(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
                     Mail::queue(
-                        'emails.group-registration-confirmation',
+                        'emails.group-registration-notification',
                         [
                             'groupId'   => $group->id,
                             'guardian'  => $guardian,
@@ -49,11 +56,13 @@ class GroupRegistrar
                         ],
                         function (Message $message) use ($group, $user, $players) {
                             $message->to($user->email, $user->full_name)
-                                ->subject('New '.$group->full_name.' Registration'.(count($players) > 1 ? 's' : ''));
+                                ->subject('New '.$group->name.' Registration'.(count($players) > 1 ? 's' : ''));
                         }
                     );
                 }
             }
+
+            $this->registrationConfirmation->send($guardian, $group, $registration);
         }
 
         DB::commit();

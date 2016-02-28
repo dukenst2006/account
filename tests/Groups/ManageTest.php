@@ -4,7 +4,7 @@ use BibleBowl\Group;
 
 class ManageTest extends TestCase
 {
-
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsHeadCoach;
 
     public function setUp()
@@ -46,11 +46,11 @@ class ManageTest extends TestCase
 
             ->type($groupName, 'name')
             ->check('amHeadCoach')
-            ->press('Save')
-            ->seePageIs('/dashboard')
+            ->press('Save');
+        $group = Group::orderBy('id', 'DESC')->first();
+        $this
+            ->seePageIs('/group/'.$group->id.'/settings/email')
             ->see($groupName.' has been created');
-
-        $this->deleteLastGroup();
     }
 
     /**
@@ -99,10 +99,32 @@ class ManageTest extends TestCase
         $this->assertNull($group->inactive);
     }
 
-    private function deleteLastGroup()
+    /**
+     * @test
+     */
+    public function editGroupEmailSettings()
     {
-        $group = Group::all()->last();
-        $group->users()->sync([]);
-        $group->delete();
+        $html = "<b>something</b>";
+        $this
+            ->visit('/group/'.$this->group()->id.'/settings/email')
+            ->type($html, 'welcome-email')
+            ->press('Save')
+            ->see('Your email settings have been saved');
+
+        $group = Group::findOrFail($this->group()->id);
+        $this->assertEquals($html, $group->settings->registrationEmailContents());
+    }
+
+    /**
+     * @test
+     */
+    public function sendTestWelcomeEmail()
+    {
+        // avoiding CSRF token issue
+        $this->withoutMiddleware();
+
+        $this
+            ->post('/group/'.$this->group()->id.'/settings/test-email')
+            ->assertResponseOk();
     }
 }
