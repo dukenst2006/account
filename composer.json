@@ -16,7 +16,7 @@
 		"ramsey/uuid": "~2.8",
 		"aws/aws-sdk-php": "~3.0",
 		"landish/pagination": "~1.0",
-		"bkuhl/easychimp": "dev-master",
+		"bkuhl/easychimp": "0.*",
 		"barryvdh/laravel-dompdf": "0.6.*",
 		"anlutro/l4-settings": "0.*"
 	},

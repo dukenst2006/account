@@ -127,4 +127,25 @@ class ManageTest extends TestCase
             ->post('/group/'.$this->group()->id.'/settings/test-email')
             ->assertResponseOk();
     }
+
+    /**
+     * @test
+     */
+    public function editIntegrationSettings()
+    {
+        $apiKey = md5(time()).'-us1';
+        $listId = '34adf2345wd';
+        $this
+            ->visit('/group/'.$this->group()->id.'/settings/integrations')
+            ->check('mailchimp-enabled')
+            ->type($apiKey, 'mailchimp-key')
+            ->type($listId, 'mailchimp-list-id')
+            ->press('Save')
+            ->see('Your integration settings have been saved');
+
+        $group = Group::findOrFail($this->group()->id);
+        $this->assertTrue($group->settings->mailchimpEnabled());
+        $this->assertEquals($apiKey, $group->settings->mailchimpKey());
+        $this->assertEquals($listId, $group->settings->mailchimpListId());
+    }
 }

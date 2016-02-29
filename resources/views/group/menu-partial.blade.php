@@ -11,4 +11,10 @@
         @endif>
         <a href="/group/{{ $group->id }}/settings/email">E-mail Settings</a>
     </li>
+    <li
+        @if($selected == 'integrations')
+            class="active bold"
+        @endif>
+        <a href="/group/{{ $group->id }}/settings/integrations">Integrations</a>
+    </li>
 </ul>

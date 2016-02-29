@@ -25,7 +25,7 @@
                         {!! Form::open(['role' => 'form', 'method' => 'POST']) !!}
                             <div class="row">
                                 <div class="col-md-12">
-                                    {!! Form::textarea('welcome-email', $settings->registrationEmailContents(), ['id' => 'text-editor', 'style' => 'width: 100%']) !!}
+                                    {!! Form::textarea('welcome-email', old('welcome-email', $settings->registrationEmailContents()), ['id' => 'text-editor', 'style' => 'width: 100%']) !!}
                                 </div>
                             </div>
                             <div class="row">
