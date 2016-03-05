@@ -52,5 +52,27 @@ class UpdateSubscriberInformation implements ShouldQueue
             $user->last_name,
             $interests
         );
+
+        // also do this for each group
+        // group members don't get classified by interest
+        foreach ($user->groups()->active()->get() as $group) {
+            if ($group->settings->shouldUpdateSubscribers()) {
+
+                /** @var Easychimp $mailchimp */
+                $mailchimp = app(Easychimp::class, [
+                    $group->settings->mailchimpKey()
+                ]);
+                $list = $mailchimp->mailingList($group->settings->mailchimpListId());
+
+                if ($user->isDirty('email')) {
+                    $list->unsubscribe($user->getOriginal('email'));
+                }
+                $list->updateSubscriber(
+                    $user->email,
+                    $user->first_name,
+                    $user->last_name
+                );
+            }
+        }
     }
 }

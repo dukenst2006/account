@@ -33,6 +33,14 @@ class Settings extends Fluent
         return strlen($this->registrationEmailContents()) > 0;
     }
 
+    public function shouldUpdateSubscribers()
+    {
+        return
+            $this->mailchimpEnabled() &&
+            $this->mailchimpKey() != null &&
+            $this->mailchimpListId() != null;
+    }
+
     public function mailchimpEnabled()
     {
         return $this->get('mailchimpEnabled', false);

@@ -21,7 +21,7 @@
                     <div class="grid-body no-border p-t-20">
                         @include('partials.messages')
                         <h4 class="semi-bold">Mailchimp</h4>
-                        <p>If enabled, this integration will automatically add parents/guardians to your mailing list as they register.</p>
+                        <p>If enabled, this integration will automatically add parents/guardians to <a href="http://mailchimp.com/features/" target="_blank">your mailing list</a> as they register.</p>
                         {!! Form::open(['role' => 'form', 'method' => 'POST']) !!}
                             <div class="row form-group">
                                 <div class="col-md-12">
@@ -33,15 +33,15 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-md-6">
-                                    <label class="form-label">API Key</label>
+                                    <label class="form-label">API Key <a href="http://kb.mailchimp.com/accounts/management/about-api-keys" target="_blank"><i class="fa fa-question-circle"></i></a></label>
                                     <span class="help">We'll verify this key is valid when you save</span>
                                     <div class="controls">
                                         {!! Form::text('mailchimp-key', old('mailchimp-key', $settings->mailchimpKey()), ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Mailing List ID</label>
-                                    <span class="help">The ID of the list to add parents/guardians to</span>
+                                    <label class="form-label">Mailing List ID <a href="http://kb.mailchimp.com/lists/managing-subscribers/find-your-list-id" target="_blank"><i class="fa fa-question-circle"></i></a></label>
+                                    <span class="help">The ID of the mailing list</span>
                                     <div class="controls p-b-20">
                                         {!! Form::text('mailchimp-list-id', old('mailchimp-list-id', $settings->mailchimpListId()), ['class' => 'form-control', 'maxlength' => 24]) !!}<br/>
                                     </div>

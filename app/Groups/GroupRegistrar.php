@@ -67,6 +67,11 @@ class GroupRegistrar
 
         DB::commit();
 
+        event('players.registered.with.group', [
+            $group,
+            $guardian
+        ]);
+
         return $group;
     }
 }

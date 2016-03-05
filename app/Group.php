@@ -319,4 +319,12 @@ class Group extends Model
             $this->attributes['settings'] = json_encode($value);
         }
     }
+
+    /**
+     *
+     */
+    public function mailingList()
+    {
+
+    }
 }

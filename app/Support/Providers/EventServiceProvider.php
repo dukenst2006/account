@@ -3,13 +3,9 @@
 use BibleBowl\Location\FetchCoordinatesForAddress;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\RecordSeasonalRegistrationPayment;
-use BibleBowl\Seasons\RegisterWithGroup;
-use BibleBowl\Seasons\RegisterWithNationalOffice;
-use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Users\Auth\OnLogin;
 use BibleBowl\Users\Auth\SendConfirmationEmail;
 use BibleBowl\Users\Communication\AddInterestOnMailingList;
-use BibleBowl\Users\Communication\AddToMailingList;
 use BibleBowl\Users\Communication\RemoveInterestOnMailingList;
 use BibleBowl\Users\Communication\UpdateSubscriberInformation;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -43,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
             UpdateSubscriberInformation::class
         ],
         'eloquent.created: BibleBowl\User' => [
-            AddToMailingList::class
+            \BibleBowl\Users\Communication\AddToMailingList::class,
         ],
         'eloquent.created: BibleBowl\Address' => [
             FetchCoordinatesForAddress::class
@@ -52,8 +48,11 @@ class EventServiceProvider extends ServiceProvider
             FetchCoordinatesForAddress::class
         ],
         ProgramRegistrationPaymentReceived::EVENT => [
-            RecordSeasonalRegistrationPayment::class
-        ]
+            RecordSeasonalRegistrationPayment::class,
+        ],
+        'players.registered.with.group' => [
+            \BibleBowl\Groups\Communication\AddToMailingList::class,
+        ],
     ];
 
     /**
