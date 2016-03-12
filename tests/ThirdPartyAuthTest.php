@@ -88,5 +88,4 @@ class ThirdPartyAuthTest extends TestCase
                 ->count() > 0;
         $this->assertFalse($createdUser);
     }
-
 }

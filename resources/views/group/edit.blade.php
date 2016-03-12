@@ -12,20 +12,9 @@
                     </div>
                     <div class="bar">
                         <div class="bar-inner">
-                            <ul>
-                                <li
-                                @if(Route::current()->getUri() == 'group/{group}/edit')
-                                    class="active bold"
-                                @endif>
-                                    <a href="/group/{{ $group->id }}/edit">Profile</a>
-                                </li>
-                                {{--<li
-                                @if(Route::current()->getUri() == 'group/{group}/integrations')
-                                    class="active bold"
-                                @endif>
-                                    <a href="#">Integrations</a>
-                                </li>--}}
-                            </ul>
+                            @include('group.menu-partial', [
+                                'selected' => 'profile'
+                            ])
                         </div>
                     </div>
                     <div class="grid-body no-border p-t-20"></div>

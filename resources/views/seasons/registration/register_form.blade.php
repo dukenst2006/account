@@ -8,11 +8,11 @@
         <h4>Your <span class="semi-bold">{{ Session::season()->name }} Registration</span></h4>
         <div class="grid simple">
             <div class="grid-body no-border" style="padding-bottom: 10px; padding-top: 20px">
-                @include('seasons.registration.completed-steps.program', [
+                @include('seasons.registration.partials.program', [
                     'program' => $program
                 ])
                 <div class="row b-t b-grey m-b-15"></div>
-                @include('seasons.registration.completed-steps.group', [
+                @include('seasons.registration.partials.group', [
                     'action'    => 'register',
                     'group'     => $group
                 ])
@@ -50,18 +50,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="row b-t b-grey m-b-15"></div>
-                <div class="row">
-                    <div class="col-md-2">
-                        Payment
-                    </div>
-                    <div class="col-md-10 p-b-10">
-                        @todo Add some kind of calculation to show total due
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <button class="btn btn-primary btn-cons" type="submit">Register</button>
+                        <button class="btn btn-primary btn-cons" type="submit">Continue to payment</button>
                     </div>
                 </div>
                 {!! Form::close() !!}

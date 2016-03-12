@@ -4,182 +4,220 @@ use Auth;
 use BibleBowl\Group;
 use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupJoinRequest;
-use BibleBowl\Http\Requests\SeasonRegistrationRequest;
+use BibleBowl\Http\Requests\PlayerRegistrationRequest;
+use BibleBowl\Http\Requests\Request;
 use BibleBowl\Program;
-use BibleBowl\Seasons\SeasonRegistrar;
+use BibleBowl\Season;
+use BibleBowl\Seasons\GroupRegistration;
+use DB;
 use Illuminate\View\View;
 use Input;
 use Session;
 
 class PlayerRegistrationController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
-    public function program($action)
+    public function getPlayers()
     {
-        return view('seasons.registration.program')
-            ->withAction($action)
-            ->withPrograms(Program::all());
-    }
-
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function findGroupToRegister($programSlug)
-	{
-        // follow registration links
-        $familiarGroup = $this->groupToRedirectTo($programSlug);
-        if (!is_null($familiarGroup)) {
-            return redirect('/register/'.$programSlug.'/group/'.$familiarGroup->id);
-        }
-
-        $program = Program::slug($programSlug)->firstOrFail();
-		return view('seasons.registration.register_find_group')
-            ->with('program', $program)
-            ->with('nearbyGroups', $this->findNearbyGroups($program));
-	}
-
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function findGroupToJoin($programSlug)
-	{
-        // follow registration links
-        $familiarGroup = $this->groupToRedirectTo($programSlug);
-        if (!is_null($familiarGroup)) {
-            return redirect('/join/'.$programSlug.'/group/'.$familiarGroup->id);
-        }
-
-        $program = Program::slug($programSlug)->firstOrFail();
-
-		return view('seasons.registration.join_find_group')
-            ->with('program', $program)
-            ->with('nearbyGroups', $this->findNearbyGroups($program))
-            ->with('familiarGroup', Session::getGroupToRegisterWith());
-	}
-
-    /**
-     * @return \Illuminate\View\View
-     */
-    public function getRegister($programSlug, $group = null)
-    {
-        if (is_null($group) === false) {
-			$group = Group::findOrFail($group);
-		}
-
-        return view('seasons.registration.register_form')
-            ->with('program', Program::where('slug', $programSlug)->firstOrFail())
-            ->withGroup($group);
-    }
-
-	/**
-	 * @return mixed
-	 */
-	public function postRegister(SeasonRegistrationRequest $request, SeasonRegistrar $registrar, $programSlug, $group = null)
-	{
-		$this->validate($request, $request->rules());
-
-		// map the POSTed data to the season data required
-        $program = Program::where('slug', $programSlug)->firstOrFail();
-		$seasonData = [];
-		foreach ($request->get('player') as $playerId => $playerData) {
-			if (isset($playerData['register']) && $playerData['register'] == 1) {
-				$seasonData[$playerId] = [
-					'grade' 		=> $playerData['grade'],
-					'shirt_size' 	=> $playerData['shirtSize']
-				];
-			}
-		}
-
-        $registrar->register(Session::season(), $group, Auth::user(), $program, $seasonData);
-
-		return redirect('/dashboard')->withFlashSuccess('Your player(s) have been registered!');
-	}
-
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function getJoin($programSlug, $group)
-	{
-		return view('seasons.registration.join_form')
-			->withGroup(Group::findOrFail($group))
-			->withPlayers(Auth::user()->players()->registeredWithNBBOnly(Session::season())->get());
-	}
-
-	public function postJoin(GroupJoinRequest $request, GroupRegistrar $registrar, $programSlug, $group)
-	{
-		$this->validate($request, $request->rules());
-
-		$group = Group::findOrFail($group);
-
-		$registrar->register(Session::season(), $group, Auth::user(), array_keys($request->get('player')));
-
-		return redirect('/dashboard')->withFlashSuccess('Your player(s) have joined a group!');
-	}
-
-	/**
-	 * Remember the group the user is trying to register for
-	 */
-	public function rememberGroup($guid)
-	{
-        Session::setGroupToRegisterWith($guid);
-
-		return redirect('/');
-	}
-
-	public static function viewBindings()
-	{
-		\View::creator('seasons.registration.search_group', function (View $view) {
-            $searchResults = null;
-			if (Input::has('q')) {
-				$searchResults = Group::where('program_id', $view->getData()['program']->id)
-                    ->active()
-                    ->where('name', 'LIKE', '%'.Input::get('q').'%')
-                    ->get();
-			}
-			$view->with('searchResults', $searchResults);
-		});
-
-        \View::creator('seasons.registration.register_form', function (View $view) {
-            $season = Session::season();
-            $view->with('players', Auth::user()
+        $season = Session::season();
+        return view('seasons.registration.players')
+            ->withSeason($season)
+            ->withPlayers(Auth::user()
                 ->players()
-                ->notRegisteredWithNBB($season, Auth::user())
-                ->get()
-            );
-        });
-	}
+                ->notRegistered($season, Auth::user())
+                ->get());
+    }
 
     /**
-     * Find groups nearby based on the group type
+     * @return mixed
      */
-    private function findNearbyGroups(Program $program) {
-        return Group::where('program_id', $program->id)
+    public function postPlayers(
+        PlayerRegistrationRequest $request,
+        GroupRegistration $registration
+    ) {
+
+        // map the POSTed data to the season data required
+        foreach ($request->get('player') as $playerId => $playerData) {
+            if (isset($playerData['register']) && $playerData['register'] == 1) {
+                $registration->addPlayer($playerId, $playerData['grade'], $playerData['shirtSize']);
+            }
+        }
+
+        // if they followed a link to get to the registration
+        // auto-associate them with this group
+        $familiarGroup = Session::getGroupToRegisterWith();
+        if ($familiarGroup !== null) {
+            $registration->addGroup($familiarGroup);
+        }
+
+        // save in session so we can show this info on
+        // the summary page
+        Session::setGroupRegistration($registration);
+
+        // sometimes parents can override the program selection
+        if ($registration->requiresProgramSelection()) {
+            return redirect('/register/program');
+        }
+
+        return redirect('/register/summary');
+    }
+    /**
+     * Prompt the parent/guardian to override certain programs
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getChooseProgram()
+    {
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+
+        return view('seasons.registration.partials.choose-program')
+            ->withPrograms(Program::all())
+            ->withRegistration($registration)
+            ->withPlayers($registration->playersWithOptionalProgramSelection());
+    }
+
+    /**
+     * Add program override for players to the registration
+     *
+     * @return mixed
+     */
+    public function postChooseProgram(Request $request)
+    {
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+
+        // map the POSTed data to the season data required
+        foreach ($request->get('player') as $playerId => $programId) {
+            $registration->overrideProgram($playerId, $programId);
+        }
+
+        Session::setGroupRegistration($registration);
+
+        return redirect('/register/summary');
+    }
+
+    /**
+     * Show the parent/guardian a summary of their registration
+     *
+     * @return \Illuminate\View\View
+     */
+    public function summary()
+    {
+        return view('seasons.registration.summary')
+            ->withRegistration(Session::groupRegistration());
+    }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function findGroupToRegister($programSlug)
+    {
+        $program = Program::slug($programSlug)->firstOrFail();
+        $nearbyGroups = Group::where('program_id', $program->id)
             ->near(Auth::user()->addresses->first())
             ->with('meetingAddress')
             ->limit(6)
             ->get();
+
+        return view('seasons.registration.select-group')
+            ->with('program', $program)
+            ->with('nearbyGroups', $nearbyGroups);
     }
 
     /**
-     * Get the group this user should be redirected to
-     *
-     * @param $programSlug
-     *
-     * @return \BibleBowl\Users\Auth\Group|null
+     * @return \Illuminate\View\View
      */
-    private function groupToRedirectTo($programSlug)
+    public function chooseGroup($programSlug, $groupId)
     {
-        // if followed a registration link and the program matches, skip this step
-        $familiarGroup = Session::getGroupToRegisterWith();
-        if (is_null($familiarGroup) === false && $programSlug == $familiarGroup->program->slug && Input::has('noRedirect') === false) {
-            return $familiarGroup;
-        }
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+        $registration->addGroup(Group::findOrFail($groupId));
 
-        return null;
+        Session::setGroupRegistration($registration);
+
+        return redirect('/register/summary');
     }
 
+    /**
+     * Remember the group the user is trying to register for
+     */
+    public function rememberGroup($guid)
+    {
+        Session::setGroupToRegisterWith($guid);
+
+        return redirect('/');
+    }
+
+    /**
+     * Submit the player's seasonal registration
+     */
+    public function submit(GroupRegistrar $groupRegistrar)
+    {
+        $groupRegistrar->register(
+            Session::season(),
+            Auth::user(),
+            Session::groupRegistration()
+        );
+
+        return redirect('/dashboard')->withFlashSuccess('Your registration has been submitted!');
+    }
+
+    /**
+     * If the group isn't found this step will direct
+     * the parent to a later
+     */
+    public function later($programSlug)
+    {
+        /** @var GroupRegistration $registration */
+        $registration = Session::groupRegistration();
+
+        $playersRemovedFromProgram = null;
+        $continueRegistration = false;
+        foreach (Program::all() as $program) {
+            // don't register players in this program
+            if ($program->slug == $programSlug && $registration->numberOfPlayers($program) > 0) {
+                $registration->removePlayers($program);
+                $playersRemovedFromProgram = $program;
+            }
+
+            // only continue if other programs have players
+            if ($registration->numberOfPlayers($program) > 0) {
+                $continueRegistration = true;
+            }
+        }
+
+        Session::setGroupRegistration($registration);
+
+        if ($continueRegistration) {
+            return redirect('/register/summary')
+                ->withFlashSuccess('Your '.$playersRemovedFromProgram->abbreviation.' players have been removed from this registration');
+        }
+
+        return redirect('/dashboard');
+    }
+
+    public static function viewBindings()
+    {
+        \View::creator('seasons.registration.partials.group-search', function (View $view) {
+            $searchResults = null;
+            if (Input::has('q')) {
+                $searchResults = Group::where('program_id', $view->getData()['program']->id)
+                    ->active()
+                    ->where('name', 'LIKE', '%'.Input::get('q').'%')
+                    ->get();
+            }
+            $view->with('searchResults', $searchResults);
+        });
+
+        \View::creator('seasons.registration.register_form', function (View $view) {
+            $view->with('players', Auth::user()
+                ->players()
+                ->notRegisteredWithNBB(Session::season(), Auth::user())
+                ->get()
+            );
+        });
+    }
 }

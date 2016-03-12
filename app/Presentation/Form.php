@@ -4,12 +4,42 @@ use Auth;
 use BibleBowl\EventType;
 use BibleBowl\Program;
 use Carbon\Carbon;
-use Illuminate\Html\FormBuilder;
-use DateTimeZone;
 use DateTime;
+use DateTimeZone;
+use Illuminate\Html\FormBuilder;
 
 class Form extends FormBuilder
 {
+
+    /**
+     * Create a file input field.
+     *
+     * @param  string  $name
+     * @param  array   $value
+     * @param  array   $options
+     * @return string
+     */
+    public function money($name, $value = null, $options = array())
+    {
+        return $this->number($name, $value, $options);
+    }
+
+    /**
+     * Create a file input field.
+     *
+     * @param  string  $name
+     * @param  array   $value
+     * @param  array   $options
+     * @return string
+     */
+    public function number($name, $value = null, $options = array())
+    {
+        $defaults = [
+            'step' => 'any'
+        ];
+        $options = array_merge($defaults, $options);
+        return $this->input('number', $name, $value, $options);
+    }
 
     /**
      * @param       $name
@@ -21,7 +51,7 @@ class Form extends FormBuilder
     public function selectTimezone($name, $selected = null, $options = array(), $optional = false)
     {
         $list = [];
-        foreach(DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, 'US') as $timezoneIdentifier) {
+        foreach (DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, 'US') as $timezoneIdentifier) {
             $timezone = new DateTimeZone($timezoneIdentifier);
             $offsetInHours = $timezone->getoffset(new DateTime()) / (3600);
             $list[$timezoneIdentifier] = '(UTC '.$offsetInHours.':00) '.$timezoneIdentifier;
@@ -164,7 +194,7 @@ class Form extends FormBuilder
         } elseif ($programId == Program::TEEN) {
             $list = $highSchool;
         } else {
-            $list = array_merge($middleSchool, $highSchool);
+            $list = $middleSchool + $highSchool;
         }
 
         if ($optional) {

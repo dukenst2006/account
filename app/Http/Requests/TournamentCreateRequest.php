@@ -3,17 +3,18 @@
 use Auth;
 use BibleBowl\Permission;
 
-class TournamentCreateRequest extends Request {
+class TournamentCreateRequest extends Request
+{
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return Auth::user()->can(Permission::CREATE_TOURNAMENTS);
-	}
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return Auth::user()->can(Permission::CREATE_TOURNAMENTS);
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -47,5 +48,4 @@ class TournamentCreateRequest extends Request {
             'url.url'                       => 'url'
         ];
     }
-
 }

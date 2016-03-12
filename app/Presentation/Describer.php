@@ -93,15 +93,15 @@ class Describer
         // Jul 11-15, 2015
         if ($start->format('mY') == $end->format('mY')) {
             return $start->format('M j - '.$end->format('j').', Y');
-        } else
+        } else {
 
             // Jun 28 - Jul 4, 2015
             if ($start->format('Y') == $end->format('Y')) {
                 return $start->format('M j - ').$end->format('M j, Y');
             }
+        }
 
         // Dec 28 2014 - Jan 2, 2015
         return $end->format('M j, Y').' - '.$end->format('M j, Y');
     }
-
 }

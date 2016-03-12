@@ -13,4 +13,9 @@ This app integrates with:
 ### Requirements
 
  * PHP 5.6+
- * MySql 5.7+
+ * MySql
+ 
+ 
+### L 5.2 Upgrade
+
+ * Adjust season registration and settings to use array validation

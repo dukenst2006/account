@@ -109,7 +109,23 @@ a.fa.fa-star-o,
 a.fa.fa-star {
   cursor: pointer;
 }
-
+// --------------------------------------------------
+// Grid Tables
+.table-header {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  > div {
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+}
+.table-row {
+  border-top: 1px solid #e5e9ec;
+  > div {
+    padding: 10px 12px !important;
+  }
+}
 
 // --------------------------------------------------
 // group dropdown menu
@@ -215,6 +231,11 @@ dd {
   }
 }
 
+.gray-box {
+  background-color: #f2f4f6;
+  padding: 1em;
+}
+
 // Checkbox Overrides.
 .checkbox {
   label {
@@ -241,4 +262,11 @@ label[for=checkAllPlayers]:after  {
   padding-top: 0;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+// hide up/down arrows for number fields
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -1,8 +1,5 @@
 <?php
 
-use BibleBowl\Tournament;
-use Carbon\Carbon;
-use BibleBowl\Competition\TournamentCreator;
 use BibleBowl\Event;
 
 class TournamentEventsTest extends TestCase
@@ -14,7 +11,8 @@ class TournamentEventsTest extends TestCase
     {
         parent::setUp();
 
-        $this->setupAsDirector();;
+        $this->setupAsDirector();
+        ;
     }
 
     /**
@@ -22,7 +20,7 @@ class TournamentEventsTest extends TestCase
      */
     public function canCreateEvent()
     {
-        $price = rand(10, 100).'.'.rand(1,99);
+        $price = rand(10, 100).'.'.rand(1, 99);
         $this
             ->visit('/admin/tournaments/1')
             ->click('Add Event')
@@ -39,7 +37,7 @@ class TournamentEventsTest extends TestCase
     public function canEditEvent()
     {
         $event = Event::orderBy('created_at', 'DESC')->first();
-        $newPrice = rand(1,100);
+        $newPrice = rand(1, 100);
         $this
             ->visit('/admin/tournaments/1')
             ->click('#edit-'.$event->id)
@@ -65,5 +63,4 @@ class TournamentEventsTest extends TestCase
             ->click('#delete-'.$event->id)
             ->see($event->name);
     }
-
 }

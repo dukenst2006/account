@@ -23,7 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Group $teamSet
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Team whereTeamSetId($value)
  */
-class Team extends Model {
+class Team extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -35,14 +36,16 @@ class Team extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function teamSet() {
+    public function teamSet()
+    {
         return $this->belongsTo(TeamSet::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function players() {
+    public function players()
+    {
         $seasonId = $this->teamSet->season_id;
         return $this->belongsToMany(Player::class, 'team_player')
             ->withPivot('order')
@@ -53,4 +56,12 @@ class Team extends Model {
             ->orderBy('team_player.order', 'ASC');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($team) {
+            $team->players()->sync([]);
+        });
+    }
 }

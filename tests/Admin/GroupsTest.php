@@ -36,10 +36,8 @@ class GroupsTest extends TestCase
      */
     public function viewGroup()
     {
-
         $this
             ->visit('/admin/groups/'.$this->group->id)
             ->see($this->group->owner->full_name);
     }
-
 }

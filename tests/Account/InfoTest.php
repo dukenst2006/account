@@ -31,5 +31,4 @@ class InfoTest extends TestCase
             ->type($originalPhone, 'phone')
             ->press('Save');
     }
-
 }

@@ -46,5 +46,4 @@ class RosterTest extends TestCase
             ->see('Player Map')
             ->see($guardian->last_name.' Family');
     }
-
 }

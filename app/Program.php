@@ -2,6 +2,7 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Presentation\Describer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
+ * @property float $registration_fee
+ * @property-read mixed $product_sku
+ * @property boolean $min_grade
+ * @property boolean $max_grade
+ * @property-read mixed $sku
  */
 class Program extends Model
 {
@@ -41,7 +47,8 @@ class Program extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function providers() {
+    public function providers()
+    {
         return $this->hasMany(Group::class);
     }
 
@@ -53,17 +60,26 @@ class Program extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function players() {
+    public function players()
+    {
         // if this relation is updated, update Season too
-        return $this->belongsToMany(Player::class, 'player_season')
+        return $this->hasManyThrough(Player::class, Group::class, 'player_season')
             ->withPivot('season_id', 'group_id', 'grade', 'shirt_size')
             ->withTimestamps()
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC');
     }
 
+    /**
+     * @return string
+     */
+    public function getSkuAttribute()
+    {
+        return 'SEASON_REG_'.strtoupper($this->slug);
+    }
+
     public function __toString()
     {
-        return $this->name.' ('.$this->description.')';
+        return $this->name.' ('.Describer::describeGradeShort($this->min_grade).'-'.Describer::describeGradeShort($this->max_grade).' grades)';
     }
 }

@@ -71,5 +71,4 @@ class TournamentsTest extends TestCase
             ->visit('/admin/tournaments/'.$tournament->id)
             ->see($tournament->name);
     }
-
 }

@@ -41,8 +41,12 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player pendingRegistrationPayment()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegistered($season, $user)
  */
-class Player extends Model {
+class Player extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -69,10 +73,10 @@ class Player extends Model {
     public static function validationRules()
     {
         return [
-            'first_name'	=> 'required|max:32',
-            'last_name'		=> 'required|max:32',
-            'gender'		=> 'required',
-            'birthday'		=> 'required|date'
+            'first_name'    => 'required|max:32',
+            'last_name'     => 'required|max:32',
+            'gender'        => 'required',
+            'birthday'      => 'required|date'
         ];
     }
 
@@ -85,12 +89,20 @@ class Player extends Model {
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function teamSet()
+    {
+        return $this->hasManyThrough(Team::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function seasons()
     {
         return $this->belongsToMany(Season::class, 'player_season')
-            ->withPivot('program_id', 'group_id', 'grade', 'shirt_size')
+            ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
@@ -100,7 +112,7 @@ class Player extends Model {
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'player_season')
-            ->withPivot('program_id', 'season_id', 'grade', 'shirt_size')
+            ->withPivot('season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
@@ -109,7 +121,7 @@ class Player extends Model {
      */
     public function programs()
     {
-        return $this->belongsToMany(Program::class, 'player_season')
+        return $this->hasManyThrough(Program::class, Group::class, 'player_season')
             ->withPivot('group_id', 'season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
@@ -163,31 +175,16 @@ class Player extends Model {
      */
     public function getBirthdayAttribute($birthday)
     {
-        return Carbon::createFromFormat('Y-m-d', $birthday);
+        if (!$birthday instanceof Carbon) {
+            return Carbon::createFromFormat('Y-m-d', $birthday);
+        }
+
+        return $birthday;
     }
 
-    /**
-     * If the current player has registered with National Bible Bowl
-     *
-     * @param Season $season
-     *
-     * @return bool
-     */
-    public function isRegisteredWithNBB(Season $season)
+    public function scopePendingRegistrationPayment(Builder $query)
     {
-        return $this->seasons()->where('seasons.id', $season->id)->count() > 0;
-    }
-
-    /**
-     * Get the registration data for this player
-     *
-     * @param Season $season
-     *
-     * @return object
-     */
-    public function registration(Season $season)
-    {
-        return $this->seasons()->wherePivot('season_id', $season->id)->first()->pivot;
+        return $query->where('player_season.paid', false);
     }
 
     /**
@@ -222,22 +219,13 @@ class Player extends Model {
             });
     }
 
-    public function scopeNotRegisteredWithNBB(Builder $query, Season $season, User $user)
+    public function scopeNotRegistered(Builder $query, Season $season, User $user)
     {
         return $query->where('players.guardian_id', $user->id)
             ->whereDoesntHave('seasons',
                 function (Builder $query) use ($season) {
                     $query->where('player_season.season_id', $season->id);
                 });
-    }
-
-    public function scopeRegisteredWithNBBOnly(Builder $query, Season $season)
-    {
-        return $query->whereHas('seasons',
-            function (Builder $query) use ($season) {
-                $query->where('player_season.season_id', $season->id);
-                $query->whereNull('player_season.group_id');
-            });
     }
 
     public function scopeRegisteredWithGroup(Builder $query, Season $season, Group $group)
@@ -249,7 +237,8 @@ class Player extends Model {
             });
     }
 
-    public function deactivate (Season $season) {
+    public function deactivate(Season $season)
+    {
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
@@ -257,7 +246,8 @@ class Player extends Model {
             ]);
     }
 
-    public function activate (Season $season) {
+    public function activate(Season $season)
+    {
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
@@ -266,7 +256,7 @@ class Player extends Model {
     }
 
     /**
-     * Query scope for active groups.
+     * Query scope for inactive groups.
      */
     public function scopeActive($query, Season $season)
     {
@@ -277,7 +267,7 @@ class Player extends Model {
     }
 
     /**
-     * Query scope for inactive groups.
+     * Query scope for inactive players.
      */
     public function scopeInactive($query, Season $season)
     {
@@ -286,5 +276,4 @@ class Player extends Model {
             })
             ->whereNotNull('player_season.inactive');
     }
-
 }

@@ -21,6 +21,10 @@
                         @if($user->status == \BibleBowl\User::STATUS_UNCONFIRMED)
                             <span class="text-muted">(unconfirmed)</span>
                         @endif
+                        <br/>
+                        @if(Auth::user()->can(\BibleBowl\Permission::SWITCH_ACCOUNTS))
+                            <a href="/admin/switchUser/{{ $user->id }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-exchange"></i> Login as this user</a>
+                        @endif
                     </div>
                 </div>
                 <div class="b-grey b-b m-t-10"></div>
@@ -68,37 +72,29 @@
                                 <th class="text-center">Grade</th>
                                 <th class="text-center">T-Shirt Size</th>
                                 <th class="text-center">{{ Session::season()->name }} Registration</th>
-                                <th class="text-center">Group</th>
                             </tr>
                             @foreach ($user->players as $player)
                                 <?php
-                                $isRegisteredWithNBB = $player->isRegisteredWithNBB(Session::season());
-                                if ($isRegisteredWithNBB) {
-                                    $registration = $player->registration(Session::season());
-                                }
+                                $groupRegisteredWith = $player->groupRegisteredWith(Session::season());
+                                $isRegistered = $groupRegisteredWith !== null;
                                 ?>
                                 <tr>
                                     <td><a href="/admin/players/{{ $player->id }}">{{ $player->full_name }}</a></td>
                                     <td class="text-center">{!! HTML::genderIcon($player->gender) !!}</td>
-                                    @if($isRegisteredWithNBB)
+                                    @if($isRegistered)
                                         <td class="text-center">
-                                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($registration->grade) }}
+                                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $registration->shirt_size }}
+                                            {{ $groupRegisteredWith->pivot->shirt_size }}
                                         </td>
                                     @else
                                         <td class="text-center">-</td>
                                         <td class="text-center">-</td>
                                     @endif
                                     <td class="text-center">
-                                        @if($isRegisteredWithNBB)
-                                            <div class="fa fa-check"></div>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if(is_null($group = $player->groupRegisteredWith(Session::season())) === false)
-                                            <a href="/admin/groups/{{ $group->id }}">{{ $group->name }}</a>
+                                        @if($isRegistered)
+                                            <a href="/admin/groups/{{ $groupRegisteredWith->id }}">{{ $groupRegisteredWith->name }}</a>
                                         @endif
                                     </td>
                                 </tr>

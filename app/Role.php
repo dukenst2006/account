@@ -22,7 +22,8 @@ use Zizaco\Entrust\EntrustRole;
  * @property string $mailchimp_interest_id
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Role whereMailchimpInterestId($value)
  */
-class Role extends EntrustRole {
+class Role extends EntrustRole
+{
     const DIRECTOR              = 'director';
     const DIRECTOR_ID           = 1;
 
@@ -43,6 +44,10 @@ class Role extends EntrustRole {
 
     const GUARDIAN              = 'guardian';
     const GUARDIAN_ID           = 7;
+
+    const ADMIN                 = 'admin';
+    const ADMIN_ID              = 8;
+
 
     protected $guarded = ['id'];
 

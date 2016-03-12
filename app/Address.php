@@ -37,7 +37,8 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @method static \BibleBowl\Address within($distance, $measurement = null, $lat = null, $lng = null)
  * @method static \BibleBowl\Address outside($distance, $measurement = null, $lat = null, $lng = null)
  */
-class Address extends Model {
+class Address extends Model
+{
 
     use GeoDistanceTrait;
 
@@ -60,8 +61,7 @@ class Address extends Model {
 
     public function lat($latitude = null)
     {
-        if ($latitude)
-        {
+        if ($latitude) {
             $this->latitude = $latitude;
             return $this;
         }
@@ -71,8 +71,7 @@ class Address extends Model {
 
     public function lng($longitude = null)
     {
-        if ($longitude)
-        {
+        if ($longitude) {
             $this->longitude = $longitude;
             return $this;
         }
@@ -107,10 +106,10 @@ class Address extends Model {
     public static function validationRules()
     {
         return [
-            'name'			=> 'required|max:32',
-            'address_one'	=> 'required|max:255',
-            'address_two'	=> 'max:255',
-            'zip_code'		=> 'required'
+            'name'            => 'required|max:32',
+            'address_one'    => 'required|max:255',
+            'address_two'    => 'max:255',
+            'zip_code'        => 'required'
         ];
     }
 
@@ -121,17 +120,17 @@ class Address extends Model {
         ];
     }
 
-    public function setNameAttribute ($attribute)
+    public function setNameAttribute($attribute)
     {
         $this->attributes['name'] = ucwords(strtolower(trim($attribute)));
     }
 
-    public function setAddressOneAttribute ($attribute)
+    public function setAddressOneAttribute($attribute)
     {
         $this->attributes['address_one'] = ucwords(strtolower(trim($attribute)));
     }
 
-    public function setAddressTwoAttribute ($attribute)
+    public function setAddressTwoAttribute($attribute)
     {
         if (!empty($attribute)) {
             $this->attributes['address_two'] = ucwords(strtolower(trim($attribute)));
@@ -140,7 +139,7 @@ class Address extends Model {
         }
     }
 
-    public function setCityAttribute ($attribute)
+    public function setCityAttribute($attribute)
     {
         $this->attributes['city'] = ucwords(strtolower(trim($attribute)));
     }
@@ -155,5 +154,4 @@ class Address extends Model {
 
         return $address.' '.$this->city.', '.$this->state.' '.$this->zip_code;
     }
-
 }

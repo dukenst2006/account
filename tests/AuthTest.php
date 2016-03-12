@@ -1,8 +1,6 @@
 <?php
 
 use BibleBowl\User;
-use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
-use Laravel\Socialite\Two\User as ThirdPartyUser;
 
 class AuthTest extends TestCase
 {
@@ -86,6 +84,4 @@ class AuthTest extends TestCase
 
         return $this;
     }
-
-
 }

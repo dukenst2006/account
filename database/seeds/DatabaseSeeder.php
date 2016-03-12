@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder {
     private static $isSeeding = false;
 
     const GROUP_NAME = 'Mount Pleasant Christian Church';
-    const DIRECTOR_EMAIL = 'benkuhl+director@gmail.com';
+    const DIRECTOR_EMAIL = 'benkuhl+admin@gmail.com';
     const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
     const GUARDIAN_EMAIL = 'benkuhl+guardian@gmail.com';
 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder {
             'name' => date('Y').'-'.(date('y')+1)
         ]);
 
-        $director = $this->seedDirector();
+        $director = $this->seedAdmin();
         $this->seedGuardian();
         $this->seedHeadCoach();
 
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder {
     /**
      * @return User
      */
-    private function seedDirector()
+    private function seedAdmin()
     {
         $address = Address::create([
             'name'			=> 'Home',
@@ -107,6 +107,7 @@ class DatabaseSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
+        $director->attachRole(Role::findOrFail(Role::ADMIN_ID));
         $director->attachRole(Role::findOrFail(Role::DIRECTOR_ID));
 
         return $director;
@@ -157,6 +158,7 @@ class DatabaseSeeder extends Seeder {
     private function seedGuardian()
     {
         $faker = Factory::create();
+        $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
         $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
         $savedAddresses = [];
         foreach ($addresses as $key => $name) {
@@ -177,27 +179,45 @@ class DatabaseSeeder extends Seeder {
         $BKuhlGuardian->addresses()->saveMany($savedAddresses);
 
         // Generate fake player information.
-        $num_players = 5;
-        for ($i = 0; $i < $num_players; $i++) {
-            $BKuhlGuardian = User::find($BKuhlGuardian->id);
-            $playerCreator = App::make(PlayerCreator::class);
+        $playerCreator = App::make(PlayerCreator::class);
+        $playerCreator->create($BKuhlGuardian, [
+            'first_name'    => 'David',
+            'last_name'     => 'Webb',
+            'gender'        => 'M',
+            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+        ]);
 
-            $player = $playerCreator->create($BKuhlGuardian, [
-                'first_name'    => $faker->firstName,
-                'last_name'     => $faker->lastName,
-                'gender'        => (rand(0, 1)) ? 'M' : 'F',
-                'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
-            ]);
+        $BKuhlGuardian = User::findOrFail($BKuhlGuardian->id);
+        $playerCreator->create($BKuhlGuardian, [
+            'first_name'    => 'Ethan',
+            'last_name'     => 'Smith',
+            'gender'        => 'M',
+            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+        ]);
 
-            // every other player pre-register for a reason
-            if($i % 2) {
-                $this->season->players()->attach($player->id, [
-                    'program_id'    => Program::TEEN,
-                    'grade'         => rand(6, 12),
-                    'shirt_size'    => 'S'
-                ]);
-            }
-        }
+        $player = $playerCreator->create($BKuhlGuardian, [
+            'first_name'    => 'Olivia',
+            'last_name'     => 'Brown',
+            'gender'        => 'F',
+            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+        ]);
+//        $this->season->players()->attach($player->id, [
+//            'program_id'    => Program::TEEN,
+//            'grade'         => '11',
+//            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+//        ]);
+
+        $player = $playerCreator->create($BKuhlGuardian, [
+            'first_name'    => 'Brad',
+            'last_name'     => 'Anderson',
+            'gender'        => 'M',
+            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+        ]);
+//        $this->season->players()->attach($player->id, [
+//            'program_id'    => Program::BEGINNER,
+//            'grade'         => '6',
+//            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+//        ]);
     }
 
     private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)
@@ -214,11 +234,11 @@ class DatabaseSeeder extends Seeder {
             'latitude'  => '38.301815',
             'longitude' => '-85.597701',
         ]);
+
         for($x = 0; $x <= 2; $x++)
         {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
-                'program_id'    => $group->program->id,
                 'group_id'      => $group->id,
                 'grade'         => rand(6, 12),
                 'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
@@ -227,9 +247,12 @@ class DatabaseSeeder extends Seeder {
 
         # Seed inactive player
         $player = seedPlayer($guardian);
+        $player->update([
+            'first_name' => 'Inactive',
+            'first_name' => 'Joe'
+        ]);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
-            'program_id'    => $group->program->id,
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
             'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]

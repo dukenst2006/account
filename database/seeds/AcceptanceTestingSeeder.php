@@ -77,7 +77,12 @@ class AcceptanceTestingSeeder extends Seeder {
 
         foreach ($addresses as $key => $name) {
             $testAddresses[] = factory(Address::class)->create([
-                'name' => $name
+                'name' => $name,
+				'latitude'      => '38.2515659',
+				'longitude'     => '-85.615241',
+				'city'			=> 'Louisville',
+				'state'			=> 'KY',
+				'zip_code'		=> '40241'
             ]);
         }
 
@@ -119,19 +124,19 @@ class AcceptanceTestingSeeder extends Seeder {
 	private function updateMailchimpIds()
 	{
 		Role::findOrFail(Role::LEAGUE_COORDINATOR_ID)->update([
-				'mailchimp_interest_id' => 'da431848e5'
+			'mailchimp_interest_id' => 'da431848e5'
 		]);
 		Role::findOrFail(Role::HEAD_COACH_ID)->update([
-				'mailchimp_interest_id' => '8eb76f09f0'
+			'mailchimp_interest_id' => '8eb76f09f0'
 		]);
 		Role::findOrFail(Role::COACH_ID)->update([
-				'mailchimp_interest_id' => 'd531b08cdb'
+			'mailchimp_interest_id' => 'd531b08cdb'
 		]);
 		Role::findOrFail(Role::QUIZMASTER_ID)->update([
-				'mailchimp_interest_id' => 'bddc8cb120'
+			'mailchimp_interest_id' => 'bddc8cb120'
 		]);
 		Role::findOrFail(Role::GUARDIAN_ID)->update([
-				'mailchimp_interest_id' => 'f29d2ce1ef'
+			'mailchimp_interest_id' => 'f29d2ce1ef'
 		]);
 	}
 }

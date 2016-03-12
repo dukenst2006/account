@@ -157,6 +157,7 @@ return [
 		\Alexpechkarev\GoogleGeocoder\GoogleGeocoderServiceProvider::class,
 		\Easychimp\ServiceProvider::class,
 		\Barryvdh\DomPDF\ServiceProvider::class,
+		\anlutro\LaravelSettings\ServiceProvider::class,
 
 	],
 
@@ -210,15 +211,18 @@ return [
 		 * Application facades
 		 */
 		'EmailTemplate'		=> \BibleBowl\Support\Facades\EmailTemplate::class,
+		'Setting' 			=> \BibleBowl\Support\Facades\SettingsManager::class,
+		'Cart' 				=> \BibleBowl\Support\Facades\ShoppingCart::class,
 
 		/**
 		 * 3rd party facades
 		 */
-		'Form'		=> 'Illuminate\Html\FormFacade',
-		'HTML'		=> 'Illuminate\Html\HtmlFacade',
-		'Gravatar'  => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
-		'Entrust' 	=> 'Zizaco\Entrust\EntrustFacade',
+		'Form'		=> \Illuminate\Html\FormFacade::class,
+		'HTML'		=> \Illuminate\Html\HtmlFacade::class,
+		'Gravatar'  => \Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
+		'Entrust' 	=> \Zizaco\Entrust\EntrustFacade::class,
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
+		'Shop'      => \Amsgames\LaravelShop\LaravelShopFacade::class,
 	],
 
 ];

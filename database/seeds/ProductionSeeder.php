@@ -8,6 +8,8 @@ use BibleBowl\User;
 use BibleBowl\Group;
 use BibleBowl\EventType;
 use Illuminate\Database\Seeder;
+use BibleBowl\Program;
+use BibleBowl\OrderStatus;
 
 class ProductionSeeder extends Seeder {
 
@@ -18,6 +20,24 @@ class ProductionSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        Program::create([
+            'name'              => 'Beginner Bible Bowl',
+            'abbreviation'      => 'Beginner',
+            'slug'              => 'beginner',
+            'registration_fee'  => '25.00',
+            'min_grade'         => 3,
+            'max_grade'         => 5
+        ]);
+
+        Program::create([
+            'name'              => 'Teen Bible Bowl',
+            'abbreviation'      => 'Teen',
+            'slug'              => 'teen',
+            'registration_fee'  => '35.00',
+            'min_grade'         => 6,
+            'max_grade'         => 12
+        ]);
+
         EventType::create([
             'participant_type'  => EventType::PARTICIPANT_TEAM,
             'name'              => 'Round Robin'
@@ -73,6 +93,10 @@ class ProductionSeeder extends Seeder {
             'display_name' 	        => 'Parent/Guardian',
             'mailchimp_interest_id' => '999d70a260'
         ]);
+        $admin = Role::create([
+            'name'			=> Role::ADMIN,
+            'display_name' 	=> 'Admin',
+        ]);
 
         $viewReports = Permission::create([
             'name'			=> Permission::VIEW_REPORTS,
@@ -86,7 +110,16 @@ class ProductionSeeder extends Seeder {
             'name'			=> Permission::CREATE_TOURNAMENTS,
             'display_name'	=> 'Create Tournaments'
         ]);
-        $director->attachPermissions([$viewReports, $manageRoles, $createTournaments]);
+        $switchAccounts = Permission::create([
+            'name'			=> Permission::SWITCH_ACCOUNTS,
+            'display_name'	=> 'Switch Accounts'
+        ]);
+        $settings = Permission::create([
+            'name'			=> Permission::MANAGE_SETTINGS,
+            'display_name'	=> 'Manage Settings'
+        ]);
+        $admin->attachPermissions([$viewReports, $manageRoles, $createTournaments, $switchAccounts, $settings]);
+        $director->attachPermissions([$viewReports, $manageRoles, $createTournaments, $settings]);
         $boardMember->attachPermissions([$viewReports]);
     }
 

@@ -62,7 +62,6 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
 
     private function registerComposers()
     {
-
         DashboardController::viewBindings();
         PlayerRegistrationController::viewBindings();
     }

@@ -19,7 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereUpdatedAt($value)
  */
-class UserProvider extends Model {
+class UserProvider extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -35,5 +36,4 @@ class UserProvider extends Model {
     {
         return $this->belongsTo('BibleBowl\User');
     }
-
 }

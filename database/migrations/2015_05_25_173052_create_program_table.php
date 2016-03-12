@@ -20,23 +20,8 @@ class CreateProgramTable extends Migration
             $table->string('abbreviation', 10)->unique();
             $table->string('slug', 10)->unique();
             $table->string('description', 24);
-            $table->timestamp('updated_at')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
-
-        Program::create([
-            'name'          => 'Beginner Bible Bowl',
-            'abbreviation'  => 'Beginner',
-            'slug'          => 'beginner',
-            'description'   => 'Grades 3 - 5'
-        ]);
-
-        Program::create([
-            'name'          => 'Teen Bible Bowl',
-            'abbreviation'  => 'Teen',
-            'slug'          => 'teen',
-            'description'   => 'Grades 6 - 12'
-        ]);
     }
 
     /**

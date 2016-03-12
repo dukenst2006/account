@@ -31,51 +31,50 @@ class TournamentsController extends Controller
     }
 
 
-	/**
-	 * @return \Illuminate\View\View
-	 */
-	public function create()
-	{
-		return view('admin.tournaments.create');
-	}
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('admin.tournaments.create');
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function store(TournamentCreateRequest $request, TournamentCreator $tournamentCreator)
-	{
-		$tournament = $tournamentCreator->create(
+    /**
+     * @return mixed
+     */
+    public function store(TournamentCreateRequest $request, TournamentCreator $tournamentCreator)
+    {
+        $tournament = $tournamentCreator->create(
             Auth::user(),
             Session::season(),
             $request->all()
         );
 
-		return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
-	}
+        return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
+    }
 
-	/**
-	 * @param TournamentCreatorOnlyRequest $request
-	 *
-	 * @return \Illuminate\View\View
-	 */
-	public function edit(TournamentCreatorOnlyRequest $request, $id)
-	{
-		return view('admin.tournaments.edit')
-			->withTournament(Tournament::findOrFail($id));
-	}
+    /**
+     * @param TournamentCreatorOnlyRequest $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit(TournamentCreatorOnlyRequest $request, $id)
+    {
+        return view('admin.tournaments.edit')
+            ->withTournament(Tournament::findOrFail($id));
+    }
 
-	/**
-	 * @param GroupEditRequest 		$request
-	 * @param                     	$id
-	 *
-	 * @return mixed
-	 */
-	public function update(TournamentEditRequest $request, $id)
-	{
-		$tournament = Tournament::findOrFail($id);
-		$tournament->update($request->all());
+    /**
+     * @param GroupEditRequest 		$request
+     * @param                     	$id
+     *
+     * @return mixed
+     */
+    public function update(TournamentEditRequest $request, $id)
+    {
+        $tournament = Tournament::findOrFail($id);
+        $tournament->update($request->all());
 
-		return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
-	}
-
+        return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
+    }
 }

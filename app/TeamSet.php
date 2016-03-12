@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -27,8 +28,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet season($season)
  */
-class TeamSet extends Model {
+class TeamSet extends Model
+{
 
     /**
      * The attributes that are not mass assignable.
@@ -47,21 +50,41 @@ class TeamSet extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function group() {
+    public function group()
+    {
         return $this->belongsTo(Group::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function season() {
+    public function season()
+    {
         return $this->belongsTo(Season::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function players()
+    {
+        return $this->hasManyThrough(Team::class);
+    }
+
+    /**
+     * @param Builder $query
+     * @param Season $season
+     */
+    public function scopeSeason(Builder $query, Season $season)
+    {
+        $query->where('season_id', $season->id);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function teams() {
+    public function teams()
+    {
         $seasonId = $this->season_id;
         return $this->hasMany(Team::class)
             ->with([
@@ -77,4 +100,12 @@ class TeamSet extends Model {
         $this->attributes['name'] = ucwords(strtolower($name));
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($teamSet) {
+            $teamSet->teams()->delete();
+        });
+    }
 }

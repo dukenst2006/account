@@ -38,5 +38,4 @@ class NotificationsTest extends TestCase
         $userSettings = User::findOrFail($this->headCoach()->id)->settings;
         $this->assertTrue($userSettings->shouldBeNotifiedWhenUserJoinsGroup());
     }
-
 }

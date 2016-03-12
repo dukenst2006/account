@@ -10,7 +10,8 @@ trait CanDeactivate
      *
      * @param $attribute
      */
-    public function setInactiveAttribute ($attribute) {
+    public function setInactiveAttribute($attribute)
+    {
         $inactiveColumn = $this->getInactiveColumn();
         if ($attribute == 1) {
             // Only save a new timestamp if one isn't already set.
@@ -43,7 +44,8 @@ trait CanDeactivate
      *
      * @return bool
      */
-    public function isActive() {
+    public function isActive()
+    {
         return is_null($this->inactive) ? true : false;
     }
 

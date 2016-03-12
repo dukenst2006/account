@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\TeamSet;
-use BibleBowl\Team;
 use BibleBowl\Group;
+use BibleBowl\Team;
+use BibleBowl\TeamSet;
 use BibleBowl\Users\Auth\SessionManager;
 
 class TeamsTest extends TestCase
@@ -77,6 +77,16 @@ class TeamsTest extends TestCase
 
         // attach a player to this team to ensure that doesn't break deletion
         $team->players()->attach($group->players()->first()->id);
+
+        // update the team name
+        $newTeamName = uniqid();
+        $this
+            ->patch('/teams/'.$team->id, [
+                'name' => $newTeamName
+            ])
+            ->assertResponseOk();
+
+        $this->assertEquals($newTeamName, Team::find($team->id)->name);
 
         // delete the team
         $this
@@ -166,4 +176,26 @@ class TeamsTest extends TestCase
         $this->assertEquals($startingPlayerOrder[0], $team->players->get(1)->id);
     }
 
+    /**
+     * @test
+     */
+    public function canCopyAndDeleteTeamSets()
+    {
+        // avoiding CSRF token issue
+        $this->withoutMiddleware();
+
+        $teamSetName = 'Team Copy '.time();
+        $this
+            ->visit('/teamsets/create')
+            ->type($teamSetName, 'name')
+            ->select(1, 'teamSet')
+            ->press('Save')
+            ->see($teamSetName);
+
+        $teamSet = TeamSet::where('name', $teamSetName)->get()->first();
+        $this->assertGreaterThan(0, $teamSet->teams()->count());
+
+        $this->call('DELETE', '/teamset/'.$teamSet->id);
+        $this->dontSee($teamSetName);
+    }
 }

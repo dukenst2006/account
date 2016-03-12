@@ -40,4 +40,20 @@ class UsersTest extends TestCase
             ->see($user->full_name);
     }
 
+    /**
+     * @test
+     */
+    public function adminsCanSwitchUsers()
+    {
+        $guardian = User::whereEmail(DatabaseSeeder::GUARDIAN_EMAIL)->first();
+
+        $this
+            ->visit('/dashboard')
+            ->visit('/admin/switchUser/'.$guardian->id)
+            ->assertEquals($guardian->email, $this->app['auth.driver']->user()->email);
+
+        $this
+            ->visit('/logout')
+            ->assertEquals($this->director()->email, $this->app['auth.driver']->user()->email);
+    }
 }

@@ -31,9 +31,8 @@ class ThirdPartyAuthController extends AuthController
 				]);
 		}
 
-		Auth::login($user);
+        Auth::login($user);
 
-		return redirect()->intended($this->redirectPath());
-	}
-
+        return redirect()->intended($this->redirectPath());
+    }
 }

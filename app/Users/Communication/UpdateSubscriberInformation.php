@@ -7,9 +7,10 @@ use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class UpdateSubscriberInformation implements ShouldQueue {
+class UpdateSubscriberInformation implements ShouldQueue
+{
 
-	use InteractsWithQueue;
+    use InteractsWithQueue;
 
     /** @var Easychimp */
     protected $mailchimp;
@@ -20,13 +21,13 @@ class UpdateSubscriberInformation implements ShouldQueue {
     }
 
     /**
-	 * Handle the event.
-	 *
-	 * @param  User  $user
-	 * @return void
-	 */
-	public function handle(User $user)
-	{
+     * Handle the event.
+     *
+     * @param  User  $user
+     * @return void
+     */
+    public function handle(User $user)
+    {
         if (DatabaseSeeder::isSeeding() || app()->environment('testing')) {
             return;
         }
@@ -51,6 +52,27 @@ class UpdateSubscriberInformation implements ShouldQueue {
             $user->last_name,
             $interests
         );
-	}
 
+        // also do this for each group
+        // group members don't get classified by interest
+        foreach ($user->groups()->active()->get() as $group) {
+            if ($group->settings->shouldUpdateSubscribers()) {
+
+                /** @var Easychimp $mailchimp */
+                $mailchimp = app(Easychimp::class, [
+                    $group->settings->mailchimpKey()
+                ]);
+                $list = $mailchimp->mailingList($group->settings->mailchimpListId());
+
+                if ($user->isDirty('email')) {
+                    $list->unsubscribe($user->getOriginal('email'));
+                }
+                $list->updateSubscriber(
+                    $user->email,
+                    $user->first_name,
+                    $user->last_name
+                );
+            }
+        }
+    }
 }

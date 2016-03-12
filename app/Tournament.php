@@ -67,21 +67,24 @@ class Tournament extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function events() {
+    public function events()
+    {
         return $this->hasMany(Event::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function season() {
+    public function season()
+    {
         return $this->belongsTo(Season::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function creator() {
+    public function creator()
+    {
         return $this->belongsTo(User::class);
     }
 

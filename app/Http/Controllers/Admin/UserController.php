@@ -2,6 +2,7 @@
 
 use BibleBowl\User;
 use Input;
+use Session;
 
 class UserController extends Controller
 {
@@ -28,4 +29,19 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Allow the admin to switch users
+     *
+     * @param $userId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function switchUser($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        Session::switchUser($user);
+
+        return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.", log out to switch back");
+    }
 }

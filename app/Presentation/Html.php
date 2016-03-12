@@ -66,12 +66,13 @@ class Html extends HtmlBuilder
         return $html.'<br/>'.$address->city.', '.$address->state.' '.$address->zip_code.'</address>';
     }
 
-    public function pagination(LengthAwarePaginator $paginator) {
+    public function pagination(LengthAwarePaginator $paginator)
+    {
         $numStartedOnPage = $paginator->perPage()*($paginator->currentPage() - 1);
         $numEndedOnPage = $numStartedOnPage+$paginator->perPage();
         if ($numStartedOnPage == 0) {
             $numStartedOnPage = 1;
-        } elseif($numStartedOnPage > 0) {
+        } elseif ($numStartedOnPage > 0) {
             $numStartedOnPage += 1;
         }
         if ($numEndedOnPage > $paginator->total()) {
@@ -82,5 +83,4 @@ class Html extends HtmlBuilder
                     '<div class="col-sm-6 text-right">'.(new \BibleBowl\Presentation\Pagination($paginator))->render().'</div>'.
                 '</div>';
     }
-
 }
