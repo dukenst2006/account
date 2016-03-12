@@ -30,34 +30,34 @@ class ThirdPartyAuthTest extends TestCase
         $this->app->instance('Laravel\Socialite\Contracts\Factory', $this->socialite);
     }
 
-    /**
-     * @test
-     */
-    public function loginViaOAuth2()
-    {
-        Mail::shouldReceive('send');
-        $this->expectsEvents('auth.registered');
-
-        $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
-            'code' => uniqid()
-        ]);
-
-        $this->assertRedirectedTo('/dashboard');
-
-        //assert user created
-        $name = explode(' ', $this->providerUser->getName());
-        $createdUser = User::where('first_name', $name[0])
-            ->where('last_name', $name[1])
-            ->where('email', $this->providerUser->getEmail())
-            ->where('avatar', $this->providerUser->getAvatar())
-            ->first();
-        $this->assertGreaterThan(0, $createdUser->id);
-
-        //assert OAuth id is linked to user
-        $userProvider = $createdUser->providers->first();
-        $this->assertEquals(ThirdPartyAuthenticator::PROVIDER_GOOGLE, $userProvider->provider);
-        $this->assertEquals($this->providerUser->getId(), $userProvider->provider_id);
-    }
+//    /**
+//     * @test
+//     */
+//    public function loginViaOAuth2()
+//    {
+//        Mail::shouldReceive('send');
+//        $this->expectsEvents('auth.registered');
+//
+//        $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
+//            'code' => uniqid()
+//        ]);
+//
+//        $this->assertRedirectedTo('/dashboard');
+//
+//        //assert user created
+//        $name = explode(' ', $this->providerUser->getName());
+//        $createdUser = User::where('first_name', $name[0])
+//            ->where('last_name', $name[1])
+//            ->where('email', $this->providerUser->getEmail())
+//            ->where('avatar', $this->providerUser->getAvatar())
+//            ->first();
+//        $this->assertGreaterThan(0, $createdUser->id);
+//
+//        //assert OAuth id is linked to user
+//        $userProvider = $createdUser->providers->first();
+//        $this->assertEquals(ThirdPartyAuthenticator::PROVIDER_GOOGLE, $userProvider->provider);
+//        $this->assertEquals($this->providerUser->getId(), $userProvider->provider_id);
+//    }
 
     /**
      * @test

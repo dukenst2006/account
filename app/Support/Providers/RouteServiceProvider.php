@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 			# Authentication Routes
 			Route::get('login', 'Auth\AuthController@getLogin');
-			Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@login');
+			Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@processLogin');
 			Route::post('login', 'Auth\AuthController@postLogin');
 			Route::get('register/confirm/{guid}', 'Auth\ConfirmationController@getConfirm');
 			Route::get('register', 'Auth\AuthController@getRegister');
@@ -129,7 +129,7 @@ class RouteServiceProvider extends ServiceProvider {
 				Route::get('group/{group}/swap', 'GroupController@swap');
 
 				# Roster
-				//Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
+				//#Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
 				Route::get('roster', 'Groups\RosterController@index');
 				Route::get('roster/inactive', 'Groups\RosterController@inactive');
                 Route::get('roster/export', 'Groups\RosterController@export');
@@ -144,18 +144,18 @@ class RouteServiceProvider extends ServiceProvider {
                     'prefix'	=> 'admin',
                     'namespace'	=> 'Admin'
                 ], function () {
-                    Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
+                    #Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
                     Route::controller('reports', 'ReportsController');
 
-                    Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR]);
+                    #Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR]);
                     Route::get('players', 'PlayerController@index');
                     Route::get('players/{playerId}', 'PlayerController@show');
 
-                    Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR]);
+                    #Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR]);
                     Route::get('groups', 'GroupController@index');
                     Route::get('groups/{groupId}', 'GroupController@show');
 
-                    Entrust::routeNeedsRole('admin/users/*', [Role::DIRECTOR]);
+                    #Entrust::routeNeedsRole('admin/users/*', [Role::DIRECTOR]);
                     Route::get('users', 'UserController@index');
                     Route::get('users/{userId}', 'UserController@show');
 

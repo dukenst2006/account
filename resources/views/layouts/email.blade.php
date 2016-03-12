@@ -141,7 +141,7 @@
                                     <!--=== Add your logoGraphic to "logo.PSD",  and center your logo vertically as I did by default (this ensures to have some space at top and bottom as a padding) ===-->
                                     <!--=== Then, save it as a JPG, and you're done ==-->
                                     <td valign="middle" align="left" bgcolor="#ffffff" class="pictureAlternativeTextTD" style="border-collapse: collapse;color: #bbbbbb;font-family: sans-serif;font-size: 10px;padding: 0;margin: 0;">
-                                        <a href="{{ url() }}" target="_blank" class="buttonsAndImagesLink" style="color: #bbbbbb;text-decoration: none;outline: none;">
+                                        <a href="{{ url()->full() }}" target="_blank" class="buttonsAndImagesLink" style="color: #bbbbbb;text-decoration: none;outline: none;">
                                             <img src="{{ url('img/logo.png') }}" style="display:block;" alt="IMAGE HERE" border="0" align="top" hspace="0" vspace="0" width="150" height="100">
                                         </a>
                                     </td>

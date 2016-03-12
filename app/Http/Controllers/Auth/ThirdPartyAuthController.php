@@ -16,7 +16,7 @@ class ThirdPartyAuthController extends AuthController
 	 * @return mixed
 	 * @throws \BibleBowl\Users\Auth\UnsupportedProvider
 	 */
-	public function login(Request $request, $provider, ThirdPartyAuthenticator $authenticator, ThirdPartyRegistrar $registrar) {
+	public function processLogin(Request $request, $provider, ThirdPartyAuthenticator $authenticator, ThirdPartyRegistrar $registrar) {
 		// If there's no code, get authorization from the provider
 		if (!$request->has('code')) {
 			return $authenticator->getAuthorization($provider);
@@ -25,7 +25,7 @@ class ThirdPartyAuthController extends AuthController
 		try {
 			$user = $authenticator->findOrCreateUser($provider);
 		} catch (EmailAlreadyInUse $e) {
-			return redirect($this->loginPath())
+			return redirect('/login')
 				->withErrors([
 					'email' => $e->getMessage(),
 				]);

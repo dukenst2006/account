@@ -34,41 +34,36 @@ class AuthController extends Controller {
 	}
 
 	/**
-	 * Handle a login request to the application.
+	 * Send the response after the user was authenticated.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
+	 * @param  bool  $throttles
 	 * @return \Illuminate\Http\Response
 	 */
-	public function postLogin(Request $request)
+	protected function handleUserWasAuthenticated(Request $request, $throttles)
 	{
-		$this->validate($request, [
-			'email' 	=> 'required|email',
-			'password'  => 'required',
-		]);
-
-		$credentials = $request->only('email', 'password');
-
-		if (Auth::attempt($credentials, $request->has('remember')))
-		{
-			//require email is confirmed before continuing
-			$user = Auth::user();
-			if ($user->status == User::STATUS_UNCONFIRMED) {
-				Auth::logout();
-				Event::fire('auth.resend.confirmation', [$user]);
-				return redirect($this->loginPath())
-					->withErrors([
-						'email' => "Your email address is not yet confirmed.  We've resent your confirmation email.",
-					]);
-			}
-
-			return redirect()->intended($this->redirectPath());
+		if ($throttles) {
+			$this->clearLoginAttempts($request);
 		}
 
-		return redirect($this->loginPath())
-			->withInput($request->only('email', 'remember'))
-			->withErrors([
-				'email' => $this->getFailedLoginMessage(),
-			]);
+		//require email is confirmed before continuing
+		$user = Auth::user();
+		if ($user->status == User::STATUS_UNCONFIRMED) {
+			Auth::logout();
+			Event::fire('auth.resend.confirmation', [$user]);
+
+			return redirect()->back()
+				->withInput($request->only($this->loginUsername(), 'remember'))
+				->withErrors([
+					'email' => "Your email address is not yet confirmed.  We've resent your confirmation email.",
+				]);
+		}
+
+		if (method_exists($this, 'authenticated')) {
+			return $this->authenticated($request, Auth::guard($this->getGuard())->user());
+		}
+
+		return redirect()->intended($this->redirectPath());
 	}
 
 	public function validator(array $data)

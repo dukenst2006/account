@@ -3,6 +3,7 @@
 use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\User;
+use Illuminate\Auth\Events\Login;
 use Session;
 
 class OnLogin
@@ -10,16 +11,16 @@ class OnLogin
     /** Even name is defined by Laravel */
     const EVENT = 'auth.login';
 
-    public function handle(User $user)
+    public function handle(Login $login)
     {
-        $user->updateLastLogin();
+        $login->user->updateLastLogin();
 
         // current session is the most recent
         Session::setSeason(Season::current()->first());
 
         // if user is a coach set current "Group" upon login
-        if ($user->hasRole(Role::HEAD_COACH) && $user->groups->count() > 0) {
-            Session::setGroup($user->groups->first());
+        if ($login->user->hasRole(Role::HEAD_COACH) && $login->user->groups->count() > 0) {
+            Session::setGroup($login->user->groups->first());
         }
     }
 }
