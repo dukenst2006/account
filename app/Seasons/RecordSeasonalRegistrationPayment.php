@@ -15,7 +15,7 @@ class RecordSeasonalRegistrationPayment
      */
     public function handle(Collection $players)
     {
-        $playerIds = $players->lists('id')->toArray();
+        $playerIds = $players->pluck('id')->toArray();
         DB::update('UPDATE player_season SET paid = 1 WHERE group_id = ? AND player_id IN('.implode(',', $playerIds).')', [
             Session::group()->id
         ]);

@@ -32,9 +32,6 @@ class TeamsTest extends TestCase
      */
     public function canUpdateTeamSetName()
     {
-        // avoiding CSRF token issue
-        $this->withoutMiddleware();
-
         $this->withSession([
             SessionManager::GROUP   => Group::findOrFail(2)->toArray()
         ]);
@@ -55,9 +52,6 @@ class TeamsTest extends TestCase
      */
     public function canManageTeams()
     {
-        // avoiding CSRF token issue
-        $this->withoutMiddleware();
-
         $group = Group::findOrFail(2);
         $this->withSession([
             SessionManager::GROUP   => $group->toArray()
@@ -101,9 +95,6 @@ class TeamsTest extends TestCase
      */
     public function canManagePlayers()
     {
-        // avoiding CSRF token issue
-        $this->withoutMiddleware();
-
         $group = Group::findOrFail(2);
         $this->withSession([
             SessionManager::GROUP   => $group->toArray()
@@ -146,9 +137,6 @@ class TeamsTest extends TestCase
      */
     public function canReorderPlayers()
     {
-        // avoiding CSRF token issue
-        $this->withoutMiddleware();
-
         $group = Group::findOrFail(2);
         $this->withSession([
             SessionManager::GROUP   => $group->toArray()
@@ -181,9 +169,6 @@ class TeamsTest extends TestCase
      */
     public function canCopyAndDeleteTeamSets()
     {
-        // avoiding CSRF token issue
-        $this->withoutMiddleware();
-
         $teamSetName = 'Team Copy '.time();
         $this
             ->visit('/teamsets/create')
@@ -195,7 +180,8 @@ class TeamsTest extends TestCase
         $teamSet = TeamSet::where('name', $teamSetName)->get()->first();
         $this->assertGreaterThan(0, $teamSet->teams()->count());
 
-        $this->call('DELETE', '/teamset/'.$teamSet->id);
-        $this->dontSee($teamSetName);
+        $this->call('DELETE', '/teamsets/'.$teamSet->id);
+
+        $this->assertRedirectedTo('/teamsets');
     }
 }

@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet season($season)
  */
 class TeamSet extends Model
 {
@@ -105,7 +104,9 @@ class TeamSet extends Model
         parent::boot();
 
         static::deleting(function ($teamSet) {
-            $teamSet->teams()->delete();
+            foreach ($teamSet->teams as $team) {
+                $team->delete();
+            }
         });
     }
 }

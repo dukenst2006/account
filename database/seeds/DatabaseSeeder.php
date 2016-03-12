@@ -50,8 +50,6 @@ class DatabaseSeeder extends Seeder {
 
         self::$isSeeding = true;
 
-		Model::unguard();
-
         Season::create([
             'name' => (date('Y')-1).'-'.date('y')
         ]);

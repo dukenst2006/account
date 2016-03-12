@@ -26,7 +26,7 @@ class TeamSetController extends Controller
      */
     public function create()
     {
-        $teamSets = Session::group()->teamSets()->season(Session::season())->lists('name', 'id')->toArray();
+        $teamSets = Session::group()->teamSets()->season(Session::season())->pluck('name', 'id')->toArray();
         array_unshift($teamSets, '');
 
         return view('teamset.create')
@@ -124,7 +124,8 @@ class TeamSetController extends Controller
      */
     public function destroy(TeamSetGroupOnlyRequest $request)
     {
-        TeamSet::findOrFail($request->input('id'))->delete();
+        //dd($request->route('teamsets'), TeamSet::findOrFail($request->route('teamsets')));
+        TeamSet::findOrFail($request->route('teamsets'))->delete();
 
         return redirect('/teamsets')->withFlashSuccess('Teams have been deleted');
     }

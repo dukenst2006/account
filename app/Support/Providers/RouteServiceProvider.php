@@ -43,6 +43,8 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace], function (Router $router) {
+            Route::auth();
+
             # Default Routes for different users
             Route::get('/', function () {
                 if (Auth::guest()) {
@@ -54,14 +56,16 @@ class RouteServiceProvider extends ServiceProvider
 
             # Authentication Routes
             Route::get('login', 'Auth\AuthController@getLogin');
-            Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@login');
+            Route::get('login/{provider}', 'Auth\ThirdPartyAuthController@processLogin');
             Route::post('login', 'Auth\AuthController@postLogin');
             Route::get('register/confirm/{guid}', 'Auth\ConfirmationController@getConfirm');
             Route::get('register', 'Auth\AuthController@getRegister');
             Route::post('register', 'Auth\AuthController@postRegister');
-            Route::controllers([
-                'password' => 'Auth\PasswordController',
-            ]);
+
+            // Password Reset Routes...
+            $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+            $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+            $this->post('password/reset', 'Auth\PasswordController@reset');
 
             # Must be logged in to access these routes
             Route::group(['middleware' => 'auth'], function () {
@@ -164,7 +168,7 @@ class RouteServiceProvider extends ServiceProvider
                     'namespace'	=> 'Admin'
                 ], function () {
                     #Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
-                    Route::controller('reports', 'ReportsController');
+                    Route::get('reports/growth', 'ReportsController@getGrowth');
 
                     #Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR]);
                     Route::get('players', 'PlayerController@index');

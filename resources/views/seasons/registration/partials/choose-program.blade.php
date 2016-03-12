@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ $player->full_name }}</td>
                         <td>{{ BibleBowl\Presentation\Describer::describeGrade($registration->grade($player->id)) }}</td>
-                        <td>{!! Form::select('player['.$player->id.']', $programs->lists('name', 'id'), old('player['.$player->id.']', \BibleBowl\Program::TEEN), ['class' => 'form-control']) !!}</td>
+                        <td>{!! Form::select('player['.$player->id.']', $programs->pluck('name', 'id'), old('player['.$player->id.']', \BibleBowl\Program::TEEN), ['class' => 'form-control']) !!}</td>
                     </tr>
                     @endforeach
                     </tbody>

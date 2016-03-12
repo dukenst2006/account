@@ -120,9 +120,6 @@ class ManageTest extends TestCase
      */
     public function sendTestWelcomeEmail()
     {
-        // avoiding CSRF token issue
-        $this->withoutMiddleware();
-
         $this
             ->post('/group/'.$this->group()->id.'/settings/test-email')
             ->assertResponseOk();
