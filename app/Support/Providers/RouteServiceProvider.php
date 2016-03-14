@@ -3,7 +3,6 @@
 use Auth;
 use BibleBowl\Permission;
 use BibleBowl\Role;
-use Entrust;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Redirect;

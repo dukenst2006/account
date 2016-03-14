@@ -31,8 +31,7 @@ return [
 
 	'stripe' => [
 		'model'  => \BibleBowl\User::class,
-		'key' => '',
-		'secret' => '',
+		'secret' => env('STRIPE_SECRET'),
 	],
 
 	/*

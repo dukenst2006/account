@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class EventType extends Model
 {

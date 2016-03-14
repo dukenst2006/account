@@ -2,6 +2,9 @@
 
 use BibleBowl\Group;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Omnipay\Stripe\Message\PurchaseRequest;
+use Omnipay\Stripe\Message\Response;
+use BibleBowl\Receipt;
 
 class SeasonalRegistrationTest extends TestCase
 {
@@ -21,6 +24,15 @@ class SeasonalRegistrationTest extends TestCase
      */
     public function canRegisterPlayers()
     {
+        $transactionId = uniqid();
+
+        $response = Mockery::mock(Response::class);
+        $response->shouldReceive('isSuccessful')->andReturn(true);
+        $response->shouldReceive('getTransactionReference')->andReturn($transactionId);
+        $purchaseRequest = Mockery::mock(PurchaseRequest::class);
+        $purchaseRequest->shouldReceive('send')->andReturn($response);
+        Omnipay::shouldReceive('purchase')->andReturn($purchaseRequest);
+
         $startingCount = $this->group()->players()->active($this->season())->wherePivot('paid', 0)->count();
         $this->assertGreaterThan(0, $startingCount);
         $this
@@ -30,5 +42,11 @@ class SeasonalRegistrationTest extends TestCase
             ->press('Submit')
             ->see('Payment has been received!');
         $this->assertEquals($startingCount, $this->group()->players()->wherePivot('paid', true)->count());
+
+        // verify the transaction was recorded
+        $receipt = Receipt::where('payment_reference_number', $transactionId)->first();
+        $this->assertTrue($receipt->exists);
+
+        $this->assertGreaterThan(0, $receipt->items->count());
     }
 }

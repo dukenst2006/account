@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \BibleBowl\User $user
  * @property-read \BibleBowl\Cart $cart
- * @property-read \BibleBowl\Order $order
+ * @property-read \BibleBowl\Receipt $order
  * @property-read mixed $has_object
  * @property-read mixed $object
  * @property-read mixed $display_name
@@ -37,6 +37,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $shop_url
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel whereSKU($sku)
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel findBySKU($sku)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereCartId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereSku($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item wherePrice($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereQuantity($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Item extends Model
 {

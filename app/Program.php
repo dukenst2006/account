@@ -31,6 +31,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $min_grade
  * @property boolean $max_grade
  * @property-read mixed $sku
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereRegistrationFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMinGrade($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMaxGrade($value)
+ * @mixin \Eloquent
  */
 class Program extends Model
 {

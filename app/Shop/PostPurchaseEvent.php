@@ -11,7 +11,7 @@ abstract class PostPurchaseEvent extends Fluent
     /**
      * @return string
      */
-    abstract public function successMessage();
+    abstract public function successStep();
 
     /**
      * @param $event

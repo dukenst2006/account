@@ -158,6 +158,7 @@ return [
 		\Easychimp\ServiceProvider::class,
 		\Barryvdh\DomPDF\ServiceProvider::class,
 		\anlutro\LaravelSettings\ServiceProvider::class,
+		\Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
 
 	],
 
@@ -222,7 +223,7 @@ return [
 		'Gravatar'  => \Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
 		'Entrust' 	=> \Zizaco\Entrust\EntrustFacade::class,
 		#'Socialize' => 'Laravel\Socialite\Facades\Socialite',
-		'Shop'      => \Amsgames\LaravelShop\LaravelShopFacade::class,
+		'Omnipay' 	=> \Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
 	],
 
 ];

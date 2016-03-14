@@ -44,6 +44,7 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player pendingRegistrationPayment()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegistered($season, $user)
+ * @mixin \Eloquent
  */
 class Player extends Model
 {
@@ -146,6 +147,16 @@ class Player extends Model
         }
 
         return null;
+    }
+
+    public function setFirstNameAttribute($attribute)
+    {
+        $this->attributes['first_name'] = ucwords(strtolower(trim($attribute)));
+    }
+
+    public function setLastNameAttribute($attribute)
+    {
+        $this->attributes['last_name'] = ucwords(strtolower(trim($attribute)));
     }
 
     /**

@@ -41,6 +41,11 @@ class Team extends Model
         return $this->belongsTo(TeamSet::class);
     }
 
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords(strtolower($name));
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

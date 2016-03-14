@@ -18,6 +18,7 @@ use Zizaco\Entrust\EntrustPermission;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Permission whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Permission whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Permission whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Permission extends EntrustPermission
 {

@@ -1,9 +1,13 @@
 <?php namespace BibleBowl\Http\Controllers;
 
+use Auth;
+use BibleBowl\Http\Requests\PaymentRequest;
 use BibleBowl\Player;
+use BibleBowl\Shop\PaymentFailed;
+use BibleBowl\Shop\PaymentProcessor;
 use Cart;
 use DB;
-use Illuminate\Http\Request;
+use Omnipay;
 
 /**
  * The main concept behind this controller is that other
@@ -26,11 +30,28 @@ class ShopController extends Controller
     /**
      * @return mixed
      */
-    public function processPayment(Request $request)
+    public function processPayment(PaymentRequest $request, PaymentProcessor $paymentProcessor)
     {
-        //@todo require token
-        Cart::triggerPostPurchaseEvent();
+        $postPurchaseEvent = Cart::postPurchaseEvent();
 
-        return redirect('/dashboard')->withFlashSuccess(Cart::postPurchaseEvent()->successMessage());
+        DB::beginTransaction();
+
+        try {
+            if ($transactionId = $paymentProcessor->pay(
+                Auth::user(),
+                $request->input('stripeToken'),
+                Cart::total(),
+                Cart::receiptItems()
+            )) {
+                $postPurchaseEvent->fire();
+            }
+            DB::commit();
+        } catch (PaymentFailed $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+
+
+        return $postPurchaseEvent->successStep();
     }
 }

@@ -5,6 +5,7 @@ namespace BibleBowl\Seasons;
 use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\Shop\PostPurchaseEvent;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 class ProgramRegistrationPaymentReceived extends PostPurchaseEvent
@@ -38,14 +39,13 @@ class ProgramRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * Success message to display to the user after this
-     * was purchased
+     * The step to execute immediately after payment is accepted
      *
-     * @return string
+     * @return Response
      */
-    public function successMessage()
+    public function successStep()
     {
-        return 'Payment has been received!';
+        return redirect('/dashboard')->withFlashSuccess('Payment has been received!');
     }
 
     /**

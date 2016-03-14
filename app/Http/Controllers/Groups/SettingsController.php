@@ -2,19 +2,12 @@
 
 use Auth;
 use BibleBowl\Group;
-use BibleBowl\Groups\GroupCreator;
 use BibleBowl\Groups\RegistrationConfirmation;
 use BibleBowl\Groups\Settings;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupCreationRequest;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
-use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\MailchimpIntegrationRequest;
-use BibleBowl\Program;
-use Easychimp\Easychimp;
-use Input;
 use Session;
-use Validator;
 
 class SettingsController extends Controller
 {

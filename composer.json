@@ -18,13 +18,15 @@
 		"landish/pagination": "~1.0",
 		"bkuhl/easychimp": "0.*",
 		"barryvdh/laravel-dompdf": "0.6.*",
-		"anlutro/l4-settings": "0.*"
+		"anlutro/l4-settings": "0.*",
+		"ignited/laravel-omnipay": "2.*",
+		"omnipay/stripe": "^2.3"
 	},
 	"require-dev": {
 		"symfony/dom-crawler": "~3.0",
 		"symfony/css-selector": "~3.0",
 	    "filp/whoops": "dev-master",
-	  	"barryvdh/laravel-ide-helper": "^2.0",
+	  	"barryvdh/laravel-ide-helper": "2.*",
 	  	"doctrine/dbal": "^2.5",
 	  	"barryvdh/laravel-debugbar": "^2.0",
 	  	"spatie/laravel-tail": "dev-master",

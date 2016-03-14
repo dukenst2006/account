@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event wherePricePerParticipant($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Event extends Model
 {

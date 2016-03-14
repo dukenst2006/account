@@ -6,7 +6,6 @@ use DatabaseSeeder;
 use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Collection;
 
 class AddToMailingList implements ShouldQueue
 {

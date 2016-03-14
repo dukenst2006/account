@@ -6,8 +6,6 @@ use BibleBowl\Group;
 use BibleBowl\Player;
 use BibleBowl\Program;
 use BibleBowl\Seasons\GroupRegistration;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Fluent;
 
 /**
  * This class is a mock of a group registration

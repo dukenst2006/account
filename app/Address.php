@@ -36,6 +36,8 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereDeletedAt($value)
  * @method static \BibleBowl\Address within($distance, $measurement = null, $lat = null, $lng = null)
  * @method static \BibleBowl\Address outside($distance, $measurement = null, $lat = null, $lng = null)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
+ * @mixin \Eloquent
  */
 class Address extends Model
 {
@@ -142,6 +144,14 @@ class Address extends Model
     public function setCityAttribute($attribute)
     {
         $this->attributes['city'] = ucwords(strtolower(trim($attribute)));
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
     }
 
     public function __toString()

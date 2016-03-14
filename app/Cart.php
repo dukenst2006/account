@@ -5,7 +5,7 @@ namespace BibleBowl;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
-use BibleBowl\Shop\UnrecognizedPurchaseEventException;
+use BibleBowl\Shop\UnrecognizedPurchaseEvent;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -67,7 +67,7 @@ class Cart extends Model
     {
         // fail quick if we can't handle this event
         if (!array_key_exists($event->event(), $this->postPurchaseEvents)) {
-            throw new UnrecognizedPurchaseEventException(get_class($event).': '.$event->event());
+            throw new UnrecognizedPurchaseEvent(get_class($event).': '.$event->event());
         }
 
         $this->metadata = $event->toArray();
@@ -85,16 +85,6 @@ class Cart extends Model
             $this->postPurchaseEvents[$this->metadata['event']],
             [$this->metadata]
         );
-    }
-
-    /**
-     * @return []
-     */
-    public function triggerPostPurchaseEvent()
-    {
-        DB::beginTransaction();
-        $this->postPurchaseEvent()->fire();
-        DB::commit();
     }
 
     /**
@@ -133,7 +123,7 @@ class Cart extends Model
      */
     public function total()
     {
-        return number_format($this->items()->sum(DB::raw('quantity * price')), 2);
+        return $this->items()->sum(DB::raw('quantity * price'));
     }
 
     /**
@@ -144,5 +134,22 @@ class Cart extends Model
         $this->items()->delete();
 
         return $this;
+    }
+
+    /**
+     * @return ReceiptItem[]|\Illuminate\Support\Collection
+     */
+    public function receiptItems()
+    {
+        $receiptItems = collect();
+        foreach ($this->items()->get() as $item) {
+            $receiptItems[] = app(ReceiptItem::class, [[
+                'sku'           => $item->sku,
+                'description'   => $item->name(),
+                'price'         => $item->price,
+                'quantity'      => $item->quantity
+            ]]);
+        }
+        return $receiptItems;
     }
 }

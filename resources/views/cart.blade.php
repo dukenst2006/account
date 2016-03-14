@@ -8,9 +8,9 @@
             <div class="col-md-offset-2 col-md-8">
                 <h4>Payment</h4>
                 <div class="grid simple">
-                    <div class="grid-body no-border">
+                    <div class="grid-body no-border p-b-10">
                         @include('partials.messages')
-                        <div class="row m-t-10">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="row table-header">
                                     <div class="col-md-7 col-sm-8 col-xs-8">Item</div>
@@ -36,7 +36,7 @@
                                         <strong>Total:</strong>
                                     </div>
                                     <div class="col-md-3 col-sm-2 col-xs-2 p-t-10 b-t b-grey text-center">
-                                        ${{ Cart::total() }}
+                                        ${{ number_format(Cart::total(), 2) }}
                                     </div>
                                 </div>
                                 {!! Form::open(['class' => 'form-horizontal', 'role' => 'form', 'id' => 'payment-form']) !!}
@@ -80,5 +80,5 @@
     </div>
 @endsection
 
-@includeJs(elixir('assets/js/payment.js'))
 @includeStripeJs()
+@includeJs(elixir('assets/js/payment.js'))

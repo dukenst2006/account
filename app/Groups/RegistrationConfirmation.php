@@ -6,8 +6,8 @@ use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
 use BibleBowl\User;
 use DB;
-use Mail;
 use Illuminate\Mail\Message;
+use Mail;
 
 class RegistrationConfirmation
 {

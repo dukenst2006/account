@@ -61,7 +61,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
  * @property-read \BibleBowl\Cart $cart
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Order[] $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $orders
  * @property-read mixed $shop_id
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
@@ -219,6 +219,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function players()
     {
         return $this->hasMany(Player::class, 'guardian_id')->orderBy('birthday', 'DESC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
     }
 
     /**
