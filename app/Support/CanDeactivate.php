@@ -13,6 +13,12 @@ trait CanDeactivate
     public function setInactiveAttribute($attribute)
     {
         $inactiveColumn = $this->getInactiveColumn();
+
+        // strip table name
+        if (str_contains($inactiveColumn, '.')) {
+            $inactiveColumn = explode('.', $inactiveColumn)[1];
+        }
+
         if ($attribute == 1) {
             // Only save a new timestamp if one isn't already set.
             if (is_null($this->attributes[$inactiveColumn])) {
