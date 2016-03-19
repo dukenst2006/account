@@ -2,6 +2,8 @@
 
 use Auth;
 use BibleBowl\Permission;
+use BibleBowl\Program;
+use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Role;
 use Illuminate\View\View;
@@ -11,9 +13,12 @@ class DashboardController extends Controller
 {
     private $playerMetrics;
 
-    public function __construct(PlayerMetricsRepository $playerMetrics)
+    private $metrics;
+
+    public function __construct(PlayerMetricsRepository $playerMetrics, MetricsRepository $metrics)
     {
         $this->playerMetrics = $playerMetrics;
+        $this->metrics = $metrics;
 
         $this->middleware('requires.setup');
     }
@@ -25,16 +30,25 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $season = Session::season();
         $view = view('dashboard');
 
         if (Auth::user()->hasRole(Role::HEAD_COACH)) {
             $view->with('rosterOverview', [
                 'playerStats' => $this->playerMetrics->playerStats(
-                    Session::season(),
+                    $season,
                     Session::group()
                 )
             ]);
             $view->with('playersPendingPayment',  Session::group()->players()->pendingRegistrationPayment()->get());
+        }
+
+        if (Auth::user()->can(Permission::VIEW_REPORTS)) {
+            $view->with('seasonOverview', [
+                'groupCount' => $this->metrics->groupCount($season),
+                'playerCount' => $this->metrics->playerCount($season),
+                'averageGroupSize' => $this->metrics->averageGroupSize($season)
+            ]);
         }
 
         return $view;

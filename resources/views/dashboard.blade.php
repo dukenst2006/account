@@ -23,10 +23,16 @@
         </div>
     @endif
 
+    @if(isset($seasonOverview))
+        <div class="col-md-6">
+            @include('dashboard.season-overview', $seasonOverview)
+        </div>
+    @endif
+
     @if(!Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH) || !Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN))
-    <div class="col-md-6">
-        @include('dashboard.guidiance')
-    </div>
+        <div class="col-md-6">
+            @include('dashboard.guidiance')
+        </div>
     @endif
 
     @if(isset($playersPendingPayment) && $playersPendingPayment->count() > 0)

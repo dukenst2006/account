@@ -54,6 +54,6 @@ trait CanDeactivate
      */
     public function getInactiveColumn()
     {
-        return 'inactive';
+        return $this->getTable().'.inactive';
     }
 }

@@ -1,11 +1,43 @@
 <?php namespace BibleBowl\Reporting;
 
+use BibleBowl\Group;
 use BibleBowl\Program;
 use BibleBowl\Season;
 use DB;
 
 class MetricsRepository
 {
+
+    public function groupCount($season) {
+        return $season
+            ->groups()
+            ->active()
+            ->count();
+    }
+    
+    public function playerCount($season) {
+        return $season
+            ->players()
+            ->active($season)
+            ->count();
+    }
+
+    public function averageGroupSize(Season $season)
+    {
+        $average = DB::select('SELECT AVG(groupData.player_count) AS avg FROM (
+          SELECT
+                COUNT(player_season.id) AS player_count
+            FROM groups
+            INNER JOIN player_season ON (
+                player_season.season_id = '.$season->id.' AND
+                player_season.group_id = groups.id AND
+                player_season.inactive IS NULL
+            )
+            WHERE groups.inactive IS NULL
+        ) groupData');
+        return (int)round($average[0]->avg);
+    }
+
     public function historicalGroupSummaryByProgram()
     {
         return Season::orderBy('seasons.created_at', 'DESC')
