@@ -25,7 +25,7 @@ class SettingsUpdateRequest extends GroupJoinRequest
     {
         return [
             'season_end'    => 'required',
-            //'program.*.fee' => 'required' @todo Uncomment this
+            'program.*.fee' => 'required'
         ];
     }
 

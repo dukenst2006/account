@@ -9,14 +9,3 @@ This app integrates with:
  * Mailchimp - A running list of registered users and their roles are kept up to date on Mailchimp
  * Facebook, Twitter and Google+ - Allows users to login with any of these services
  * Stripe for accepting payments
-
-
-### Requirements
-
- * PHP 5.6+
- * MySql
- 
- 
-### L 5.2 Upgrade
-
- * Adjust season registration and settings to use array validation
