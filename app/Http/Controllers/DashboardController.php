@@ -1,7 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers;
 
 use Auth;
+use BibleBowl\Permission;
 use BibleBowl\Reporting\PlayerMetricsRepository;
+use BibleBowl\Role;
 use Illuminate\View\View;
 use Session;
 
@@ -24,7 +26,8 @@ class DashboardController extends Controller
     public function index()
     {
         $view = view('dashboard');
-        if (Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH)) {
+
+        if (Auth::user()->hasRole(Role::HEAD_COACH)) {
             $view->with('rosterOverview', [
                 'playerStats' => $this->playerMetrics->playerStats(
                     Session::season(),

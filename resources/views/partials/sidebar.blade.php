@@ -76,12 +76,29 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                         <a href="/admin/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
                     </li>
                 @endif
+                <?php $isReportsOpen = false; ?>
                 @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
-                    <li class="
-                        @if(str_contains(Route::current()->uri(), 'reports/growth'))
-                            active
-                        @endif">
-                        <a href="/admin/reports/growth"> <i class="icon-custom-chart"></i> <span class="title">Growth</span></a>
+                    @if(str_contains(Route::current()->uri(), 'reports/growth'))
+                        <?php $isReportsOpen = true; ?>
+                    @endif
+                    <li
+                        @if(starts_with(Route::current()->uri(), 'admin/reports'))
+                            class="active @if($isReportsOpen) open @endif"
+                        @endif> <a href="javascript:;"> <i class="fa icon-custom-chart"></i> <span class="title">Reports</span> <span class="arrow @if($isReportsOpen) open @endif"></span> </a>
+                        <ul class="sub-menu">
+                            <li
+                                @if(str_contains(Route::current()->uri(), 'reports/growth'))
+                                    class="active"
+                                @endif>
+                                <a href="/admin/reports/growth">Growth</a>
+                            </li>
+                            <li
+                                @if(str_contains(Route::current()->uri(), 'reports/players'))
+                                    class="active"
+                                @endif>
+                                <a href="/admin/reports/players">Players</a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
                 @if (Auth::user()->can(\BibleBowl\Permission::MANAGE_SETTINGS))

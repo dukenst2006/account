@@ -7,12 +7,12 @@
         <div class="grid white simple">
             <div class="grid-body no-border">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-6 col-sm-12 p-t-20">
                         <h4>Growth of <span class="semi-bold">Groups per Season</span></h4>
                         <p>Total number of groups who had players registered with them, regardless of their player's active/inactive status</p>
                         <div id="groupsByProgram" style="height: 200px"></div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-6 col-sm-12 p-t-20">
                         <h4>Growth of <span class="semi-bold">Players per Season</span></h4>
                         <p>"Quitters" are players who started off the season playing and then became "inactive" throughout the season</p>
                         <div id="playersByProgram" style="height: 200px"></div>
@@ -23,15 +23,7 @@
     </div>
 @endsection
 
-@includeCss(/assets/plugins/jquery-morris-chart/css/morris.css)
-
-@if(App::environment('local'))
-    @includeJs(/assets/plugins/raphael/raphael-2.1.0-min.js)
-@else
-    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
-@endif
-
-@includeJs(/assets/plugins/jquery-morris-chart/js/morris.min.js)
+@includeMorris
 @js
     <?php
     $beginnerColor = '#0AA699';

@@ -35,6 +35,22 @@ class AppServiceProvider extends ServiceProvider
                 ?>";
             }
         });
+        Blade::directive('includeMorris', function () {
+            $html = "<?php".PHP_EOL;
+
+            if (app()->environment('local')) {
+                $html .= "\\".Html::class."::\$includeJs[] .= \"/assets/plugins/raphael/raphael-2.1.0-min.js\";";
+            } else {
+                $html .= "\\".Html::class."::\$includeJs[] .= \"http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js\";";
+            }
+
+            $html .= "
+                \\".Html::class."::\$includeJs[] .= \"/assets/plugins/jquery-morris-chart/js/morris.min.js\";
+                \\".Html::class."::\$includeCss[] .= \"/assets/plugins/jquery-morris-chart/css/morris.css\";
+                ?>";
+
+            return $html;
+        });
         Blade::directive('includeStripeJs', function () {
             return "<?php
                 \\".Html::class."::\$includeJs[] = \"https://js.stripe.com/v2/\";

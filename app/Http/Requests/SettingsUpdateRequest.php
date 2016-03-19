@@ -24,15 +24,15 @@ class SettingsUpdateRequest extends GroupJoinRequest
     public function rules()
     {
         return [
-            'season_end'    => 'required',
-            'program.*.fee' => 'required'
+            'season_end'                    => 'required',
+            'program.*.registration_fee'    => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'program.*.fee.required' => 'One of the programs is missing a fee'
+            'program.*.fee.registration_fee' => 'One of the programs is missing a fee'
         ];
     }
 }

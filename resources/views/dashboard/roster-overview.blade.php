@@ -17,15 +17,7 @@
                 <span>By Grade</span>
                 <div id="rosterByGrade" style="height: 200px"></div>
             </div>
-                @includeCss(/assets/plugins/jquery-morris-chart/css/morris.css)
-
-                @if(App::environment('local'))
-                    @includeJs(/assets/plugins/raphael/raphael-2.1.0-min.js)
-                @else
-                    @includeJs(http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js)
-                @endif
-
-                @includeJs(/assets/plugins/jquery-morris-chart/js/morris.min.js)
+                @includeMorris
                 @js
                     Morris.Donut({
                         element: 'rosterByGender',
