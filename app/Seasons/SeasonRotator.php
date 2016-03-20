@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Console\Commands;
+<?php namespace BibleBowl\Seasons;
 
 use BibleBowl\Season;
 use Illuminate\Console\Command;

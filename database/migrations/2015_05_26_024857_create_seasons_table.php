@@ -26,7 +26,7 @@ class CreateSeasonsTable extends Migration {
             $table->integer('season_id')->unsigned();
             $table->integer('player_id')->unsigned();
             $table->integer('group_id')->unsigned();
-            $table->boolean('paid');
+            $table->timestamp('paid')->nullable();
             $table->string('grade');
             $table->string('shirt_size', 3);
             $table->timestamp('inactive')->nullable();

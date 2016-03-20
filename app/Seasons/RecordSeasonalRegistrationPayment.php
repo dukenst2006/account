@@ -4,6 +4,7 @@ use BibleBowl\Group;
 use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\User;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Collection;
 use Session;
@@ -16,7 +17,9 @@ class RecordSeasonalRegistrationPayment
     public function handle(Collection $players)
     {
         $playerIds = $players->pluck('id')->toArray();
-        DB::update('UPDATE player_season SET paid = 1 WHERE group_id = ? AND player_id IN('.implode(',', $playerIds).')', [
+        $now = Carbon::now();
+        DB::update('UPDATE player_season SET paid = ? WHERE group_id = ? AND player_id IN('.implode(',', $playerIds).')', [
+            $now->toDateTimeString(),
             Session::group()->id
         ]);
     }

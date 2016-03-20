@@ -2,6 +2,7 @@
 
 use BibleBowl\Groups\Settings;
 use BibleBowl\Support\CanDeactivate;
+use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -150,6 +151,20 @@ class Group extends Model
             $q->where('seasons.id', $season->id);
         })
             ->whereNotNull('player_season.inactive');
+    }
+
+    /**
+     * Query scope for inactive guardians.
+     */
+    public function scopeHasPendingRegistrationPayments(Builder $query, Carbon $pendingSince = null)
+    {
+        return $query->whereHas('players', function (Builder $q) use ($pendingSince) {
+            if ($pendingSince == null) {
+                $q->where('player_season.created_at', '>', $pendingSince->toDateTimeString());
+            }
+
+            $q->whereNull('player_season.paid');
+        });
     }
 
     /**
@@ -318,13 +333,5 @@ class Group extends Model
         } else {
             $this->attributes['settings'] = json_encode($value);
         }
-    }
-
-    /**
-     *
-     */
-    public function mailingList()
-    {
-
     }
 }

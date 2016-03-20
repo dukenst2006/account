@@ -33,7 +33,7 @@ $app->singleton(
 
 $app->singleton(
 	\Illuminate\Contracts\Console\Kernel::class,
-	\BibleBowl\Console\Kernel::class
+	\BibleBowl\Support\Providers\ConsoleKernel::class
 );
 
 $app->singleton(

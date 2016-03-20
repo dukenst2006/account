@@ -49,7 +49,7 @@ class AddReceiptTables extends Migration
      */
     public function down()
     {
-        Schema::drop('receipts');
         Schema::drop('receipt_items');
+        Schema::drop('receipts');
     }
 }

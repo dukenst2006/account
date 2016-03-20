@@ -195,7 +195,7 @@ class Player extends Model
 
     public function scopePendingRegistrationPayment(Builder $query)
     {
-        return $query->where('player_season.paid', false);
+        return $query->whereNull('player_season.paid');
     }
 
     /**
