@@ -11,7 +11,7 @@
                     <div class="col-md-6">
                         <h4 class="semi-bold">Groups</h4>
                     </div>
-                    <div class="input-group transparent col-md-2 col-md-offset-10">
+                    <div class="input-group transparent col-md-3 col-md-offset-9">
                         <input type="text" class="form-control" placeholder="Search by name" name="q" value="{{ Input::get('q') }}"/>
                         <span class="input-group-addon">
                             <i class="fa fa-search"></i>
@@ -37,7 +37,7 @@
                                         <span class="text-error">Inactive</span>
                                     @endif
                                     <div>
-                                        <i class="fa fa-map-marker"></i> Meets at <a href="https://www.google.com/maps?q={{ $group->meetingAddress }}" target="_blank">{{ $group->meetingAddress }}</a>
+                                        {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }}
                                     </div>
                                 </td>
                                 <td class="text-center">

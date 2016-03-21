@@ -2,6 +2,7 @@
 
 use BibleBowl\Group;
 use Input;
+use Session;
 
 class GroupController extends Controller
 {
@@ -20,8 +21,14 @@ class GroupController extends Controller
 
     public function show($groupId)
     {
+        $season = Session::season();
+        $group = Group::findOrFail($groupId);
         return view('/admin/groups/show', [
-            'group' => Group::findOrFail($groupId)
+            'group'                 => $group,
+            'season'                => $season,
+            'activePlayers'         => $group->players()->with('guardian')->active($season)->get(),
+            'inactivePlayers'       => $group->players()->with('guardian')->inactive($season)->get(),
+            'pendingPaymentPlayers' => $group->players()->with('guardian')->pendingRegistrationPayment($season)->get()
         ]);
     }
 }

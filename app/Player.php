@@ -113,7 +113,7 @@ class Player extends Model
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'player_season')
-            ->withPivot('season_id', 'grade', 'shirt_size')
+            ->withPivot('season_id', 'grade', 'shirt_size', 'inactive')
             ->withTimestamps();
     }
 
@@ -193,9 +193,10 @@ class Player extends Model
         return $birthday;
     }
 
-    public function scopePendingRegistrationPayment(Builder $query)
+    public function scopePendingRegistrationPayment(Builder $query, Season $season)
     {
-        return $query->whereNull('player_season.paid');
+        return $query->whereNull('player_season.paid')
+            ->active($season);
     }
 
     /**

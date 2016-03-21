@@ -20,12 +20,13 @@ class GroupRegistrationController extends Controller
      */
     public function getPayPlayerRegistration()
     {
+        $season = Session::season();
         $group = Session::group();
         return view('seasons.registration.pay', [
             'group' => $group,
             'players' => $group->players()
-                ->pendingRegistrationPayment()
-                ->active(Session::season())
+                ->pendingRegistrationPayment($season)
+                ->active($season)
                 ->get()
         ]);
     }
