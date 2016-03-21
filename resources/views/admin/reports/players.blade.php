@@ -8,11 +8,11 @@
             <div class="grid-body no-border">
                 <div class="row">
                     <div class="col-md-6 p-t-20">
-                        <h2>{{ $currentSeason->name }} Player Statistics</h2>
+                        <h2>Player Statistics</h2>
                         <p>All figures are based on active players</p>
                     </div>
                     <div class="col-md-6 p-t-30 text-right">
-                        <div class="btn-group"> <a class="btn btn-info dropdown-toggle btn-demo-space" data-toggle="dropdown" href="#"> Season <span class="caret"></span> </a>
+                        <div class="btn-group"> <a class="btn btn-info dropdown-toggle btn-demo-space" data-toggle="dropdown" href="#"> {{ $currentSeason->name }} Season <span class="caret"></span> </a>
                             <ul class="dropdown-menu">
                                 @foreach ($seasons as $season)
                                     <li><a href="?seasonId={{ $season->id }}">{{ $season->name }}</a></li>

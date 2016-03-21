@@ -44,6 +44,16 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function canViewGroupsWithOutstandingRegistrationFees()
+    {
+        $this
+            ->visit('/admin/groups/outstanding-registration-fees')
+            ->assertResponseOk();
+    }
+
+    /**
+     * @test
+     */
     public function receivesNotificationsForOutstandingRegistrationFees()
     {
         Mail::shouldReceive('queue')->once();

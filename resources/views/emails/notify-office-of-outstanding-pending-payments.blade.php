@@ -15,9 +15,9 @@
     ])
 
     <?php
-    $text = 'is <strong>'.EmailTemplate::link(url('/fix-this-url'), number_format($groupCount).'</strong> group');
+    $text = 'is <strong>'.EmailTemplate::link(url('/admin/groups/outstanding-registration-fees'), number_format($groupCount).'</strong> group');
         if ($groupCount > 1) {
-            $text = 'are <strong>'.EmailTemplate::link(url('/fix-this-url'), number_format($groupCount).'</strong> groups');
+            $text = 'are <strong>'.EmailTemplate::link(url('/admin/groups/outstanding-registration-fees'), number_format($groupCount).'</strong> groups');
         }
     ?>
     @include('emails.theme.text-block', [

@@ -13,7 +13,7 @@ class ReportsController extends Controller
      */
     public function getGrowth(MetricsRepository $metrics)
     {
-        return view('reports.growth', [
+        return view('admin.reports.growth', [
             'groupSummaryByProgram' => $metrics->historicalGroupSummaryByProgram(),
             'playerSummaryByProgram' => $metrics->historicalPlayerSummaryByProgram()
         ]);
@@ -26,7 +26,7 @@ class ReportsController extends Controller
     {
         $seasons = Season::orderBy('id', 'DESC')->get();
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : $seasons->first();
-        return view('reports.players', [
+        return view('admin.reports.players', [
             'currentSeason' => $currentSeason,
             'seasons'       => $seasons,
             'playerStats'   => $metrics->playerStats($currentSeason)

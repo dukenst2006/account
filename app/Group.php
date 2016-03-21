@@ -156,13 +156,13 @@ class Group extends Model
     /**
      * Query scope for inactive guardians.
      */
-    public function scopeHasPendingRegistrationPayments(Builder $query, Carbon $pendingSince = null)
+    public function scopeHasPendingRegistrationPayments(Builder $query, Carbon $pendingSince = null, $playerCount = null)
     {
         return $query->whereHas('players', function (Builder $q) use ($pendingSince) {
-            if ($pendingSince == null) {
+            if ($pendingSince != null) {
                 $q->where('player_season.created_at', '>', $pendingSince->toDateTimeString());
             }
-
+            
             $q->whereNull('player_season.paid');
         });
     }

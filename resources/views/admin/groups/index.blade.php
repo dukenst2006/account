@@ -23,7 +23,6 @@
                     <thead>
                         <tr>
                             <th class="col-md-6">Name</th>
-                            <th class="col-md-3 text-center">Program</th>
                             <th class="col-md-3 text-center">Owner</th>
                         </tr>
                     </thead>
@@ -37,11 +36,8 @@
                                         <span class="text-error">Inactive</span>
                                     @endif
                                     <div>
-                                        {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }}
+                                        {{ $group->meetingAddress->city }}, {{ $group->meetingAddress->state }} - {{ $group->program->abbreviation }}
                                     </div>
-                                </td>
-                                <td class="text-center">
-                                    {{ $group->program->abbreviation }}
                                 </td>
                                 <td class="text-center">
                                     <a href="/admin/users/{{ $group->owner->id }}">{{ $group->owner->full_name }}</a>

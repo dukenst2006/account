@@ -176,6 +176,7 @@ class RouteServiceProvider extends ServiceProvider
 
                     #Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR, Role::ADMIN]);
                     Route::get('groups', 'GroupController@index');
+                    Route::get('groups/outstanding-registration-fees', 'GroupController@outstandingRegistrationFees');
                     Route::get('groups/{groupId}', 'GroupController@show');
 
                     #Entrust::routeNeedsPermission('admin/switchUser/*', [Permission::SWITCH_ACCOUNTS]);
