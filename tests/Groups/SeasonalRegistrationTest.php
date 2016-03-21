@@ -33,7 +33,7 @@ class SeasonalRegistrationTest extends TestCase
         $purchaseRequest->shouldReceive('send')->andReturn($response);
         Omnipay::shouldReceive('purchase')->andReturn($purchaseRequest);
 
-        $startingCount = $this->group()->players()->active($this->season())->wherePivot('paid', 0)->count();
+        $startingCount = $this->group()->players()->active($this->season())->whereRaw('player_season.paid IS NULL')->count();
         $this->assertGreaterThan(0, $startingCount);
         $this
             ->visit('/players/pay')
@@ -41,12 +41,21 @@ class SeasonalRegistrationTest extends TestCase
             ->seePageIs('/cart')
             ->press('Submit')
             ->see('Payment has been received!');
-        $this->assertEquals($startingCount, $this->group()->players()->wherePivot('paid', true)->count());
+        $this->assertEquals($startingCount, $this->group()->players()->whereRaw('player_season.paid IS NOT NULL')->count());
 
         // verify the transaction was recorded
         $receipt = Receipt::where('payment_reference_number', $transactionId)->first();
         $this->assertTrue($receipt->exists);
 
         $this->assertGreaterThan(0, $receipt->items->count());
+    }
+
+    /**
+     * @test
+     */
+    public function receivesNotificationsForPastDueRegistrationFees()
+    {
+        Mail::shouldReceive('queue')->once();
+        Artisan::call(\BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments::COMMAND);
     }
 }

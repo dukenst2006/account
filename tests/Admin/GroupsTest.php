@@ -40,4 +40,13 @@ class GroupsTest extends TestCase
             ->visit('/admin/groups/'.$this->group->id)
             ->see($this->group->owner->full_name);
     }
+
+    /**
+     * @test
+     */
+    public function receivesNotificationsForOutstandingRegistrationFees()
+    {
+        Mail::shouldReceive('queue')->once();
+        Artisan::call(\BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments::COMMAND);
+    }
 }
