@@ -47,7 +47,7 @@ class TeamController extends Controller
 
     /**
      * @param  	$request
-     * @param                     	$id
+     * @param   $id
      *
      * @return mixed
      */
@@ -60,13 +60,16 @@ class TeamController extends Controller
 
     /**
      * @param  	$request
-     * @param                     	$id
+     * @param   $id
      *
      * @return mixed
      */
     public function addPlayer(TeamGroupOnlyRequest $request, $id)
     {
-        $request->team()->players()->attach($request->get('playerId'));
+        // prevent duplicates
+        if ($request->team()->players()->where('player_id', $request->get('playerId'))->count() == 0) {
+            $request->team()->players()->attach($request->get('playerId'));
+        }
 
         return response()->json();
     }

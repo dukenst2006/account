@@ -124,7 +124,6 @@ class TeamSetController extends Controller
      */
     public function destroy(TeamSetGroupOnlyRequest $request)
     {
-        //dd($request->route('teamsets'), TeamSet::findOrFail($request->route('teamsets')));
         TeamSet::findOrFail($request->route('teamsets'))->delete();
 
         return redirect('/teamsets')->withFlashSuccess('Teams have been deleted');
