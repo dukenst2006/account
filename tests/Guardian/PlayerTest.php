@@ -2,6 +2,10 @@
 
 use BibleBowl\Player;
 use BibleBowl\Users\Auth\SessionManager;
+use Carbon\Carbon;
+use BibleBowl\User;
+use BibleBowl\Program;
+use BibleBowl\Season;
 
 class PlayerTest extends TestCase
 {
@@ -52,5 +56,37 @@ class PlayerTest extends TestCase
             ->press('Save')
             ->see('Your changes were saved')
             ->see($newName);
+    }
+
+    /**
+     * @test
+     */
+    public function guardianCantAlwaysEditBirthday()
+    {
+        /** @var Player $player */
+        $player = $this->guardian->players()->first();
+        $player->birthday = Carbon::now()->format('m/d/Y');
+        $this->assertTrue($player->seasons()->count() == 0);
+
+        // admins can edit
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('hasRole')->andReturn(true);
+        //$this->assertTrue($player->isBirthdayEditable($user));
+
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('hasRole')->andReturn(false);
+
+        // can't edit after a few months
+        $player->created_at = Carbon::now()->subMonths(4)->subDays(2);
+        $this->assertFalse($player->isBirthdayEditable($user));
+
+        // can't edit after first season
+        $player->created_at = Carbon::now();
+        Season::current()->first()->players()->attach($player->id, [
+            'grade'         => '11',
+            'shirt_size'    => 'M',
+            'group_id'      => 1
+        ]);
+        $this->assertTrue($player->isBirthdayEditable($user));
     }
 }

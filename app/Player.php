@@ -82,6 +82,30 @@ class Player extends Model
     }
 
     /**
+     * Determine if a player's birthday can be edited
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isBirthdayEditable(User $user)
+    {
+        // some people can always edit it
+        if ($user->hasRole([
+            Role::ADMIN,
+            Role::DIRECTOR
+        ])) {
+            return true;
+        }
+
+        // can only be edited by guardian for a time period
+        if ($this->created_at->gte(Carbon::now()->subMonths(4))) {
+            return true;
+        }
+
+        return $this->seasons()->count() >= 1;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function guardian()

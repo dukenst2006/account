@@ -193,29 +193,19 @@ class DatabaseSeeder extends Seeder {
             'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
 
-        $player = $playerCreator->create($BKuhlGuardian, [
+        $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Olivia',
             'last_name'     => 'Brown',
             'gender'        => 'F',
             'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
-//        $this->season->players()->attach($player->id, [
-//            'program_id'    => Program::TEEN,
-//            'grade'         => '11',
-//            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
-//        ]);
 
-        $player = $playerCreator->create($BKuhlGuardian, [
+        $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Brad',
             'last_name'     => 'Anderson',
             'gender'        => 'M',
             'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
-//        $this->season->players()->attach($player->id, [
-//            'program_id'    => Program::BEGINNER,
-//            'grade'         => '6',
-//            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
-//        ]);
     }
 
     private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)

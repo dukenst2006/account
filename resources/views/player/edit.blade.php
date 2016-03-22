@@ -5,7 +5,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-offset-3 col-md-6">
+            <div class="col-md-offset-2 col-md-8">
                 <div class="grid simple">
                     {!! Form::model($player, ['url' => ['/player/'.$player->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
                     <div class="grid-title no-border">
