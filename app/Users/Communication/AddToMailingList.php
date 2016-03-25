@@ -43,6 +43,14 @@ class AddToMailingList implements ShouldQueue
                 $user->first_name,
                 $user->last_name
             );
+        } else {
+            // if the recipient was on the mailing list before this software was put
+            // in place, we might need to update their name
+            $list->updateSubscriber(
+                $user->email,
+                $user->first_name,
+                $user->last_name
+            );
         }
     }
 }
