@@ -46,7 +46,7 @@ class GroupRegistrar
 
             /** @var User $user */
             foreach ($group->users()->with('roles')->get() as $user) {
-                if ($user->hasRole(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
+                if ($user->is(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
                     Mail::queue(
                         'emails.group-registration-notification',
                         [

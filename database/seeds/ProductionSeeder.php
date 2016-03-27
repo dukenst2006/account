@@ -3,7 +3,7 @@
 use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\Role;
-use BibleBowl\Permission;
+use BibleBowl\Ability;
 use BibleBowl\User;
 use BibleBowl\Group;
 use BibleBowl\EventType;
@@ -55,72 +55,41 @@ class ProductionSeeder extends Seeder {
             'name'              => 'BuzzOff'
         ]);
 
-        $this->createRolesAndPermissions();
-    }
+        Bouncer::allow(Role::DIRECTOR)->to(Ability::VIEW_REPORTS);
+        Bouncer::allow(Role::DIRECTOR)->to(Ability::MANAGE_ROLES);
+        Bouncer::allow(Role::DIRECTOR)->to(Ability::CREATE_TOURNAMENTS);
+        Bouncer::allow(Role::DIRECTOR)->to(Ability::MANAGE_SETTINGS);
 
-    private function createRolesAndPermissions()
-    {
-        $director = Role::create([
-            'name'			=> Role::DIRECTOR,
-            'display_name' 	=> 'National Director',
-        ]);
-        $boardMember = Role::create([
-            'name'			=> Role::BOARD_MEMBER,
-            'display_name' 	=> 'Board Member',
-        ]);
-        Role::create([
-            'name'			        => Role::LEAGUE_COORDINATOR,
-            'display_name' 	        => 'League Coordinator',
-            'mailchimp_interest_id' => 'f02726e8a2'
-        ]);
-        Role::create([
-            'name'			        => Role::HEAD_COACH,
-            'display_name' 	        => 'Head Coach',
-            'mailchimp_interest_id' => '3aead42125'
-        ]);
-        Role::create([
-            'name'			        => Role::COACH,
-            'display_name' 	        => 'Coach',
-            'mailchimp_interest_id' => '133cdf6794'
-        ]);
-        Role::create([
-            'name'			        => Role::QUIZMASTER,
-            'display_name' 	        => 'Quizmaster',
-            'mailchimp_interest_id' => 'beed6e2cb0'
-        ]);
-        Role::create([
-            'name'			        => Role::GUARDIAN,
-            'display_name' 	        => 'Parent/Guardian',
-            'mailchimp_interest_id' => '999d70a260'
-        ]);
-        $admin = Role::create([
-            'name'			=> Role::ADMIN,
-            'display_name' 	=> 'Admin',
-        ]);
+        Bouncer::allow(Role::BOARD_MEMBER)->to(Ability::VIEW_REPORTS);
 
-        $viewReports = Permission::create([
-            'name'			=> Permission::VIEW_REPORTS,
-            'display_name'	=> 'View Reports'
+        //@todo change these to ::create
+        Bouncer::allow(Role::LEAGUE_COORDINATOR);
+        Bouncer::allow(Role::HEAD_COACH);
+        Bouncer::allow(Role::COACH);
+        Bouncer::allow(Role::QUIZMASTER);
+        Bouncer::allow(Role::GUARDIAN);
+
+        Bouncer::allow(Role::ADMIN)->to(Ability::VIEW_REPORTS);
+        Bouncer::allow(Role::ADMIN)->to(Ability::MANAGE_ROLES);
+        Bouncer::allow(Role::ADMIN)->to(Ability::CREATE_TOURNAMENTS);
+        Bouncer::allow(Role::ADMIN)->to(Ability::SWITCH_ACCOUNTS);
+        Bouncer::allow(Role::ADMIN)->to(Ability::MANAGE_SETTINGS);
+
+        Role::where('name', Role::LEAGUE_COORDINATOR)->update([
+            'mailchimp_interest_id' => 'da431848e5'
         ]);
-        $manageRoles = Permission::create([
-            'name'			=> Permission::MANAGE_ROLES,
-            'display_name'	=> 'Manage User Roles'
+        Role::where('name', Role::HEAD_COACH)->update([
+            'mailchimp_interest_id' => '8eb76f09f0'
         ]);
-        $createTournaments = Permission::create([
-            'name'			=> Permission::CREATE_TOURNAMENTS,
-            'display_name'	=> 'Create Tournaments'
+        Role::where('name', Role::COACH)->update([
+            'mailchimp_interest_id' => 'd531b08cdb'
         ]);
-        $switchAccounts = Permission::create([
-            'name'			=> Permission::SWITCH_ACCOUNTS,
-            'display_name'	=> 'Switch Accounts'
+        Role::where('name', Role::QUIZMASTER)->update([
+            'mailchimp_interest_id' => 'bddc8cb120'
         ]);
-        $settings = Permission::create([
-            'name'			=> Permission::MANAGE_SETTINGS,
-            'display_name'	=> 'Manage Settings'
+        Role::where('name', Role::GUARDIAN)->update([
+            'mailchimp_interest_id' => 'f29d2ce1ef'
         ]);
-        $admin->attachPermissions([$viewReports, $manageRoles, $createTournaments, $switchAccounts, $settings]);
-        $director->attachPermissions([$viewReports, $manageRoles, $createTournaments, $settings]);
-        $boardMember->attachPermissions([$viewReports]);
     }
 
 }

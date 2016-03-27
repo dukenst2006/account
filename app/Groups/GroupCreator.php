@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Groups;
 
+use Bouncer;
 use BibleBowl\Group;
 use BibleBowl\Role;
 use BibleBowl\User;
@@ -23,9 +24,8 @@ class GroupCreator
         $owner->groups()->attach($group->id);
 
         // make the owner a head coach if they aren't already
-        if (!$owner->hasRole(Role::HEAD_COACH)) {
-            $role = Role::findOrFail(Role::HEAD_COACH_ID);
-            $owner->attachRole($role);
+        if ($owner->isNot(Role::HEAD_COACH)) {
+            $owner->assign(Role::HEAD_COACH);
         }
 
         DB::commit();

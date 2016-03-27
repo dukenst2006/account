@@ -2,12 +2,15 @@
 
 use Auth;
 use BibleBowl\Cart;
+use BibleBowl\Ability;
 use BibleBowl\Presentation\EmailTemplate;
 use BibleBowl\Presentation\Html;
+use BibleBowl\Role;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
 use Config;
 use Illuminate\Support\ServiceProvider;
+use Silber\Bouncer\Database\Models;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Models::setRolesModel(Role::class);
+        Models::setAbilitiesModel(Ability::class);
+
         /*
          * specific library inclusion
          */

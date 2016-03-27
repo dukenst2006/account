@@ -22,34 +22,17 @@ use Zizaco\Entrust\EntrustRole;
  * @property string $mailchimp_interest_id
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Role whereMailchimpInterestId($value)
  */
-class Role extends EntrustRole
+class Role extends \Silber\Bouncer\Database\Role
 {
-    const DIRECTOR              = 'director';
-    const DIRECTOR_ID           = 1;
-
-    const BOARD_MEMBER          = 'board-member';
-    const BOARD_MEMBER_ID       = 2;
-
-    const LEAGUE_COORDINATOR    = 'league-coordinator';
-    const LEAGUE_COORDINATOR_ID = 3;
-
-    const HEAD_COACH            = 'head-coach';
-    const HEAD_COACH_ID         = 4;
-
-    const COACH                 = 'coach';
-    const COACH_ID              = 5;
-
-    const QUIZMASTER            = 'quizmaster';
-    const QUIZMASTER_ID         = 6;
-
-    const GUARDIAN              = 'guardian';
-    const GUARDIAN_ID           = 7;
-
-    const ADMIN                 = 'admin';
-    const ADMIN_ID              = 8;
-
-
-    protected $guarded = ['id'];
+    const DIRECTOR                  = 'director';
+    const BOARD_MEMBER              = 'board-member';
+    const LEAGUE_COORDINATOR        = 'league-coordinator';
+    //const TOURNAMENT_COORDINATOR    = 'tournament-coordinator';
+    const HEAD_COACH                = 'head-coach';
+    const COACH                     = 'coach';
+    const QUIZMASTER                = 'quizmaster';
+    const GUARDIAN                  = 'guardian';
+    const ADMIN                     = 'admin';
 
     public function hasMailchimpInterest()
     {

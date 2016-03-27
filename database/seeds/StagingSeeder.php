@@ -58,8 +58,7 @@ class StagingSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
-        $role = Role::findOrFail(Role::DIRECTOR_ID);
-        $director->attachRole($role);
+        $director->assign(Role::DIRECTOR);
     }
 
     private function seedJosiahHeadCoach()
@@ -161,8 +160,7 @@ class StagingSeeder extends Seeder {
         ]);
         $boardMember->addresses()->save($address);
 
-        $role = Role::findOrFail(Role::BOARD_MEMBER_ID);
-        $boardMember->attachRole($role);
+        $boardMember->assign(Role::BOARD_MEMBER);
     }
 
     private function seedKeithHeadCoach()
@@ -281,19 +279,19 @@ class StagingSeeder extends Seeder {
      */
     private function updateMailchimpIds()
     {
-        Role::findOrFail(Role::LEAGUE_COORDINATOR_ID)->update([
+        Role::where('name', Role::LEAGUE_COORDINATOR)->update([
             'mailchimp_interest_id' => '4548244911'
         ]);
-        Role::findOrFail(Role::HEAD_COACH_ID)->update([
+        Role::where('name', Role::HEAD_COACH)->update([
             'mailchimp_interest_id' => 'cea4f8e0dd'
         ]);
-        Role::findOrFail(Role::COACH_ID)->update([
+        Role::where('name', Role::COACH)->update([
             'mailchimp_interest_id' => 'e11132acbf'
         ]);
-        Role::findOrFail(Role::QUIZMASTER_ID)->update([
+        Role::where('name', Role::QUIZMASTER)->update([
             'mailchimp_interest_id' => 'e58faebc7c'
         ]);
-        Role::findOrFail(Role::GUARDIAN_ID)->update([
+        Role::where('name', Role::GUARDIAN)->update([
             'mailchimp_interest_id' => '295ac3a88c'
         ]);
     }

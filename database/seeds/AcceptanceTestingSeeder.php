@@ -123,19 +123,19 @@ class AcceptanceTestingSeeder extends Seeder {
 	 */
 	private function updateMailchimpIds()
 	{
-		Role::findOrFail(Role::LEAGUE_COORDINATOR_ID)->update([
+		Role::where('name', Role::LEAGUE_COORDINATOR)->update([
 			'mailchimp_interest_id' => 'da431848e5'
 		]);
-		Role::findOrFail(Role::HEAD_COACH_ID)->update([
+		Role::where('name', Role::HEAD_COACH)->update([
 			'mailchimp_interest_id' => '8eb76f09f0'
 		]);
-		Role::findOrFail(Role::COACH_ID)->update([
+		Role::where('name', Role::COACH)->update([
 			'mailchimp_interest_id' => 'd531b08cdb'
 		]);
-		Role::findOrFail(Role::QUIZMASTER_ID)->update([
+		Role::where('name', Role::QUIZMASTER)->update([
 			'mailchimp_interest_id' => 'bddc8cb120'
 		]);
-		Role::findOrFail(Role::GUARDIAN_ID)->update([
+		Role::where('name', Role::GUARDIAN)->update([
 			'mailchimp_interest_id' => 'f29d2ce1ef'
 		]);
 	}

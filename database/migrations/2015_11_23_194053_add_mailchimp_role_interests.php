@@ -14,7 +14,7 @@ class AddMailchimpRoleInterests extends Migration
     {
         Schema::table('roles', function(Blueprint $table)
         {
-            $table->string('mailchimp_interest_id', 65)->nullable()->unique()->after('description');
+            $table->string('mailchimp_interest_id', 65)->nullable()->unique()->after('name');
         });
     }
 

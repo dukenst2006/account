@@ -105,8 +105,8 @@ class DatabaseSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
-        $director->attachRole(Role::findOrFail(Role::ADMIN_ID));
-        $director->attachRole(Role::findOrFail(Role::DIRECTOR_ID));
+        $director->assign(Role::ADMIN);
+        $director->assign(Role::DIRECTOR);
 
         return $director;
     }

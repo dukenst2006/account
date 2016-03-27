@@ -12,7 +12,7 @@ class GuardianOnlyRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user()->hasRole(\BibleBowl\Role::GUARDIAN);
+        return Auth::user()->is(\BibleBowl\Role::GUARDIAN);
     }
 
     /**

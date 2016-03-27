@@ -12,6 +12,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rhumsaa\Uuid\Uuid;
+use Silber\Bouncer\Database\HasRoles;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 /**
@@ -72,9 +74,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use Authenticatable,
         CanResetPassword,
-        EntrustUserTrait {
-            EntrustUserTrait::attachRole as traitAttachRole;
-            EntrustUserTrait::detachRole as traitDetachRole;
+        HasRolesAndAbilities {
+            HasRolesAndAbilities::assign as parentAssign;
+            HasRolesAndAbilities::retract as parentRetract;
         }
 
     /**
@@ -300,21 +302,33 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $this->attributes['phone'] = $scrubber->phone($attribute);
     }
 
-    public function attachRole(Role $role)
+    /**
+     * Assign the given role to the model.
+     *
+     * @param  \Silber\Bouncer\Database\Role|string  $role
+     * @return $this
+     */
+    public function assign($role)
     {
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
             Event::fire('user.role.added', [$this, $role]);
         }
-
-        $this->traitAttachRole($role);
+        
+        return $this->parentAssign($role);
     }
 
-    public function detachRole(Role $role)
+    /**
+     * Retract the given role from the model.
+     *
+     * @param  \Silber\Bouncer\Database\Role|string  $role
+     * @return $this
+     */
+    public function retract($role)
     {
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
             Event::fire('user.role.removed', [$this, $role]);
         }
-
-        $this->traitDetachRole($role);
+        
+        return $this->parentRetract($role);
     }
 }

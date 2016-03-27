@@ -24,7 +24,7 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                 @endif">
                 <a href="/dashboard"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a>
             </li>
-            @if (Auth::user()->hasRole(\BibleBowl\Role::HEAD_COACH))
+            @if (Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
                 <li class="start
                 @if(Route::current()->getUri() == 'roster')
                         active
@@ -42,13 +42,13 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                     <a href="/teamsets"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
             @endif
-            @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->can([
-                \BibleBowl\Permission::VIEW_REPORTS,
-                \BibleBowl\Permission::MANAGE_USERS,
-                \BibleBowl\Permission::CREATE_TOURNAMENTS
-            ]))
+            @if (Auth::user()->is(\BibleBowl\Role::DIRECTOR) ||
+                \Bouncer::allows(BibleBowl\Ability::VIEW_REPORTS) ||
+                \Bouncer::allows(BibleBowl\Ability::MANAGE_USERS) ||
+                \Bouncer::allows(BibleBowl\Ability::CREATE_TOURNAMENTS)
+            )
                 <p class="menu-title">ADMIN</p>
-                @if (Auth::user()->hasRole(\BibleBowl\Role::DIRECTOR) || Auth::user()->hasRole(\BibleBowl\Role::ADMIN))
+                @if (Auth::user()->is(\BibleBowl\Role::DIRECTOR, \BibleBowl\Role::ADMIN))
                     <li class="
                         @if(Route::current()->getUri() == 'admin/players')
                             active
@@ -68,16 +68,16 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                         <a href="/admin/users"> <i class="fa fa-user"></i> <span class="title">Users</span></a>
                     </li>
                 @endif
-                @if (Auth::user()->can(\BibleBowl\Permission::CREATE_TOURNAMENTS))
+                @can(BibleBowl\Ability::CREATE_TOURNAMENTS)
                     <li class="
                         @if(Route::current()->getUri() == 'admin/tournaments')
                             active
                         @endif">
                         <a href="/admin/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
                     </li>
-                @endif
+                @endcan
                 <?php $isReportsOpen = false; ?>
-                @if (Auth::user()->can(\BibleBowl\Permission::VIEW_REPORTS))
+                @can(BibleBowl\Ability::VIEW_REPORTS)
                     @if(str_contains(Route::current()->uri(), 'reports/growth'))
                         <?php $isReportsOpen = true; ?>
                     @endif
@@ -100,15 +100,15 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                             </li>
                         </ul>
                     </li>
-                @endif
-                @if (Auth::user()->can(\BibleBowl\Permission::MANAGE_SETTINGS))
+                @endcan
+                @can(BibleBowl\Ability::MANAGE_SETTINGS)
                     <li class="
                         @if(Route::current()->getUri() == 'admin/settings')
                             active
                         @endif">
                         <a href="/admin/settings"> <i class="fa fa-gears"></i> <span class="title">Settings</span></a>
                     </li>
-                @endif
+                @endcan
             @endif
         </ul>
         <div class="clearfix"></div>

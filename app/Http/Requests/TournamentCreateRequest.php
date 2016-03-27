@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Requests;
 
-use Auth;
-use BibleBowl\Permission;
+use Bouncer;
+use BibleBowl\Ability;
 
 class TournamentCreateRequest extends Request
 {
@@ -13,7 +13,7 @@ class TournamentCreateRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user()->can(Permission::CREATE_TOURNAMENTS);
+        return Bouncer::allows(Ability::CREATE_TOURNAMENTS);
     }
 
     /**

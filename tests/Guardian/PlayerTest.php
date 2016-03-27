@@ -70,11 +70,11 @@ class PlayerTest extends TestCase
 
         // admins can edit
         $user = Mockery::mock(User::class);
-        $user->shouldReceive('hasRole')->andReturn(true);
-        //$this->assertTrue($player->isBirthdayEditable($user));
+        $user->shouldReceive('is')->andReturn(true);
+        $this->assertTrue($player->isBirthdayEditable($user));
 
         $user = Mockery::mock(User::class);
-        $user->shouldReceive('hasRole')->andReturn(false);
+        $user->shouldReceive('is')->andReturn(false);
 
         // can't edit after a few months
         $player->created_at = Carbon::now()->subMonths(4)->subDays(2);

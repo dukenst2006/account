@@ -22,7 +22,7 @@ class MailchimpIntegrationRequest extends GroupCreatorOnlyRequest
     public function authorize()
     {
         $groupId = $this->route('group');
-        if (Auth::user()->hasRole(Role::HEAD_COACH)) {
+        if (Auth::user()->is(Role::HEAD_COACH)) {
             $groupId = Session::group()->id;
         }
 

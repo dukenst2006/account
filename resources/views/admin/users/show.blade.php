@@ -22,7 +22,7 @@
                             <span class="text-muted">(unconfirmed)</span>
                         @endif
                         <br/>
-                        @if(Auth::user()->can(\BibleBowl\Permission::SWITCH_ACCOUNTS))
+                        @if(\Bouncer::allows(BibleBowl\Ability::SWITCH_ACCOUNTS))
                             <a href="/admin/switchUser/{{ $user->id }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-exchange"></i> Login as this user</a>
                         @endif
                     </div>
@@ -48,7 +48,7 @@
                         </ul>
                     </div>
                     <div class="col-md-5 col-sm-6">
-                        @if($user->hasRole(\BibleBowl\Role::HEAD_COACH))
+                        @if($user->is(\BibleBowl\Role::HEAD_COACH))
                             <h5><i class="fa fa-house"></i> <span class="semi-bold">Groups</span></h5>
                             <ul>
                                 @foreach ($user->groups()->with('program')->get() as $group)
@@ -63,7 +63,7 @@
                 </div>
                 <div class="row m-t-10">
                     <div class="col-md-12">
-                        @if($user->hasRole(\BibleBowl\Role::GUARDIAN))
+                        @if($user->is(\BibleBowl\Role::GUARDIAN))
                             <h5><i class="fa fa-users"></i> <span class="semi-bold">Students</span></h5>
                         <table class="table no-more-tables">
                             <tr>

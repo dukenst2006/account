@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Requests;
 
-use Auth;
-use BibleBowl\Permission;
+use Bouncer;
+use BibleBowl\Ability;
 
 class SettingsUpdateRequest extends GroupJoinRequest
 {
@@ -13,7 +13,7 @@ class SettingsUpdateRequest extends GroupJoinRequest
      */
     public function authorize()
     {
-        return Auth::user()->can(Permission::MANAGE_SETTINGS);
+        return Bouncer::allows(Ability::MANAGE_SETTINGS);
     }
 
     /**

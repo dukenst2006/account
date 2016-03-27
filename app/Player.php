@@ -90,10 +90,7 @@ class Player extends Model
     public function isBirthdayEditable(User $user)
     {
         // some people can always edit it
-        if ($user->hasRole([
-            Role::ADMIN,
-            Role::DIRECTOR
-        ])) {
+        if ($user->is(Role::ADMIN, Role::DIRECTOR)) {
             return true;
         }
 

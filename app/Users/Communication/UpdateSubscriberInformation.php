@@ -42,7 +42,7 @@ class UpdateSubscriberInformation implements ShouldQueue
         // need to make sure their interests are up to date
         $interests = [];
         foreach (Role::whereNotNull('mailchimp_interest_id')->get() as $role) {
-            $interests[$role->mailchimp_interest_id] = $user->hasRole($role->name);
+            $interests[$role->mailchimp_interest_id] = $user->is($role->name);
         }
 
         // will add or update depending on whether the email addresses
