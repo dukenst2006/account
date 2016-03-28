@@ -67,28 +67,27 @@ class ProductionSeeder extends Seeder {
 
         Bouncer::allow(Role::BOARD_MEMBER)->to(Ability::VIEW_REPORTS);
 
-        //@todo change these to ::create
-        Bouncer::allow(Role::LEAGUE_COORDINATOR);
         Bouncer::allow(Role::HEAD_COACH)->to([
             Ability::MANAGE_ROSTER,
             Ability::MANAGE_TEAMS
         ]);
-        Bouncer::allow(Role::COACH);
+            Role::create([
+                'name'                  => Role::COACH,
+                'mailchimp_interest_id' => 'd531b08cdb'
+            ]);
+            Role::create([
+                'name'                  => Role::LEAGUE_COORDINATOR,
+                'mailchimp_interest_id' => 'da431848e5'
+            ]);
+            Role::create([
+                'name'                  => Role::QUIZMASTER,
+                'mailchimp_interest_id' => 'bddc8cb120'
+            ]);
         Bouncer::allow(Role::QUIZMASTER);
         Bouncer::allow(Role::GUARDIAN)->to(Ability::REGISTER_PLAYERS);
 
-
-        Role::where('name', Role::LEAGUE_COORDINATOR)->update([
-            'mailchimp_interest_id' => 'da431848e5'
-        ]);
         Role::where('name', Role::HEAD_COACH)->update([
             'mailchimp_interest_id' => '8eb76f09f0'
-        ]);
-        Role::where('name', Role::COACH)->update([
-            'mailchimp_interest_id' => 'd531b08cdb'
-        ]);
-        Role::where('name', Role::QUIZMASTER)->update([
-            'mailchimp_interest_id' => 'bddc8cb120'
         ]);
         Role::where('name', Role::GUARDIAN)->update([
             'mailchimp_interest_id' => 'f29d2ce1ef'

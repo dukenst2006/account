@@ -4,7 +4,7 @@
             <h4>Player <span class="semi-bold">Roster Overview</span></h4>
         </div>
         <div class="pull-right p-t-10">
-            <button class="btn btn-info" data-toggle="modal" data-target="#playerRegistrationLinkModal">Registration Link</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#playerRegistrationLinkModal">Get Registration Link</button>
         </div>
         <div class="clearfix"></div>
         <div class="row">
