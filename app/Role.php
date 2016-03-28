@@ -24,7 +24,6 @@ use Zizaco\Entrust\EntrustRole;
  */
 class Role extends \Silber\Bouncer\Database\Role
 {
-    const DIRECTOR                  = 'director';
     const BOARD_MEMBER              = 'board-member';
     const LEAGUE_COORDINATOR        = 'league-coordinator';
     //const TOURNAMENT_COORDINATOR    = 'tournament-coordinator';

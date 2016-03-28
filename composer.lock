@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "883e31a25f38eed7569980434b674ca2",
-    "content-hash": "dec05825e5ab34c5493391d0e070706c",
+    "hash": "8c48ad852cb29691f7874e0c6f6ee078",
+    "content-hash": "37fe86a820317e920891b2fc910b5181",
     "packages": [
         {
             "name": "alexpechkarev/google-geocoder",
@@ -2280,16 +2280,16 @@
         },
         {
             "name": "silber/bouncer",
-            "version": "v0.1.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JosephSilber/bouncer.git",
-                "reference": "badf3107c1b801d42e36be93cc639d1e7356f391"
+                "reference": "ff5da311103daa649ae03f3d5e65e7f5827a192c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JosephSilber/bouncer/zipball/badf3107c1b801d42e36be93cc639d1e7356f391",
-                "reference": "badf3107c1b801d42e36be93cc639d1e7356f391",
+                "url": "https://api.github.com/repos/JosephSilber/bouncer/zipball/ff5da311103daa649ae03f3d5e65e7f5827a192c",
+                "reference": "ff5da311103daa649ae03f3d5e65e7f5827a192c",
                 "shasum": ""
             },
             "require": {
@@ -2332,7 +2332,7 @@
                 "permissions",
                 "roles"
             ],
-            "time": "2016-02-24 02:35:11"
+            "time": "2016-03-13 15:05:08"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2506,16 +2506,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.3",
+            "version": "v2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "78c468665c9568c3faaa9c416a7134308f2d85c3"
+                "reference": "47d2d8cade9b1c3987573d2943bb9352536cdb87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/78c468665c9568c3faaa9c416a7134308f2d85c3",
-                "reference": "78c468665c9568c3faaa9c416a7134308f2d85c3",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/47d2d8cade9b1c3987573d2943bb9352536cdb87",
+                "reference": "47d2d8cade9b1c3987573d2943bb9352536cdb87",
                 "shasum": ""
             },
             "require": {
@@ -2562,7 +2562,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-01-27 05:14:19"
+            "time": "2016-03-07 14:04:32"
         },
         {
             "name": "symfony/finder",
@@ -2615,20 +2615,21 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v2.8.3",
+            "version": "v2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "6f4e41c41e7d352ed9adf71ff6f2ec1756490a1b"
+                "reference": "06d6b2c755b2f34ce21e688b62072e9c625709c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6f4e41c41e7d352ed9adf71ff6f2ec1756490a1b",
-                "reference": "6f4e41c41e7d352ed9adf71ff6f2ec1756490a1b",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/06d6b2c755b2f34ce21e688b62072e9c625709c4",
+                "reference": "06d6b2c755b2f34ce21e688b62072e9c625709c4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9",
+                "symfony/polyfill-mbstring": "~1.1",
                 "symfony/polyfill-php54": "~1.0",
                 "symfony/polyfill-php55": "~1.0"
             },
@@ -2665,7 +2666,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2016-02-28 16:20:50"
+            "time": "2016-03-27 12:57:53"
         },
         {
             "name": "symfony/http-kernel",
@@ -5736,6 +5737,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "silber/bouncer": 20,
         "alexpechkarev/google-geocoder": 20,
         "filp/whoops": 20,
         "spatie/laravel-tail": 20

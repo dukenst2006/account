@@ -46,7 +46,9 @@
                         <td class="text-center v-align-middle">-</td>
                         <td class="text-center v-align-middle">-</td>
                         <td class="text-center v-align-middle">
-                            <a href="/register/players">Register</a>
+                            @can(BibleBowl\Ability::REGISTER_PLAYERS)
+                                <a href="/register/players">Register</a>
+                            @endcan
                         </td>
                     @endif
                     <td class="text-center v-align-middle">

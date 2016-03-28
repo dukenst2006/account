@@ -24,7 +24,7 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                 @endif">
                 <a href="/dashboard"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a>
             </li>
-            @if (Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+            @can(BibleBowl\Ability::MANAGE_ROSTER)
                 <li class="start
                 @if(Route::current()->getUri() == 'roster')
                         active
@@ -35,39 +35,48 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                         class="active"
                     @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
                 </li>
+            @endcan
+            @can(BibleBowl\Ability::MANAGE_TEAMS)
                 <li class="start
                 @if(Route::current()->getUri() == 'team')
                         active
                     @endif">
                     <a href="/teamsets"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
-            @endif
-            @if (Auth::user()->is(\BibleBowl\Role::DIRECTOR) ||
-                \Bouncer::allows(BibleBowl\Ability::VIEW_REPORTS) ||
-                \Bouncer::allows(BibleBowl\Ability::MANAGE_USERS) ||
-                \Bouncer::allows(BibleBowl\Ability::CREATE_TOURNAMENTS)
+            @endcan
+            @if(
+                Bouncer::allows(BibleBowl\Ability::MANAGE_GROUPS) ||
+                Bouncer::allows(BibleBowl\Ability::MANAGE_PLAYERS) ||
+                Bouncer::allows(BibleBowl\Ability::MANAGE_USERS) ||
+                Bouncer::allows(BibleBowl\Ability::CREATE_TOURNAMENTS) ||
+                Bouncer::allows(BibleBowl\Ability::VIEW_REPORTS) ||
+                Bouncer::allows(BibleBowl\Ability::MANAGE_SETTINGS)
             )
                 <p class="menu-title">ADMIN</p>
-                @if (Auth::user()->is(\BibleBowl\Role::DIRECTOR, \BibleBowl\Role::ADMIN))
-                    <li class="
-                        @if(Route::current()->getUri() == 'admin/players')
-                            active
-                        @endif">
-                        <a href="/admin/players"> <i class="fa fa-users"></i> <span class="title">Players</span></a>
-                    </li>
+                @can(BibleBowl\Ability::MANAGE_GROUPS)
                     <li class="
                         @if(Route::current()->getUri() == 'admin/groups')
                             active
                         @endif">
                         <a href="/admin/groups"> <i class="fa fa-home"></i> <span class="title">Groups</span></a>
                     </li>
+                @endcan
+                @can(BibleBowl\Ability::MANAGE_PLAYERS)
+                <li class="
+                            @if(Route::current()->getUri() == 'admin/players')
+                        active
+                    @endif">
+                    <a href="/admin/players"> <i class="fa fa-users"></i> <span class="title">Players</span></a>
+                </li>
+                @endcan
+                @can(BibleBowl\Ability::MANAGE_USERS)
                     <li class="
                         @if(Route::current()->getUri() == 'admin/users')
                             active
                         @endif">
                         <a href="/admin/users"> <i class="fa fa-user"></i> <span class="title">Users</span></a>
                     </li>
-                @endif
+                @endcan
                 @can(BibleBowl\Ability::CREATE_TOURNAMENTS)
                     <li class="
                         @if(Route::current()->getUri() == 'admin/tournaments')

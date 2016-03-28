@@ -8,13 +8,13 @@ use DatabaseSeeder;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Rhumsaa\Uuid\Uuid;
-use Silber\Bouncer\Database\HasRoles;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 /**
  * BibleBowl\User
@@ -66,13 +66,16 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $orders
  * @property-read mixed $shop_id
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Model implements AuthorizableContract,
+                                    AuthenticatableContract,
+                                    CanResetPasswordContract
 {
 
     const STATUS_UNCONFIRMED = 0;
     const STATUS_CONFIRMED = 1;
 
-    use Authenticatable,
+    use Authorizable,
+        Authenticatable,
         CanResetPassword,
         HasRolesAndAbilities {
             HasRolesAndAbilities::assign as parentAssign;

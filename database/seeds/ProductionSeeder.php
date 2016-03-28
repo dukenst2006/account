@@ -54,26 +54,29 @@ class ProductionSeeder extends Seeder {
             'participant_type'  => EventType::PARTICIPANT_PLAYER,
             'name'              => 'BuzzOff'
         ]);
-
-        Bouncer::allow(Role::DIRECTOR)->to(Ability::VIEW_REPORTS);
-        Bouncer::allow(Role::DIRECTOR)->to(Ability::MANAGE_ROLES);
-        Bouncer::allow(Role::DIRECTOR)->to(Ability::CREATE_TOURNAMENTS);
-        Bouncer::allow(Role::DIRECTOR)->to(Ability::MANAGE_SETTINGS);
+        Bouncer::allow(Role::ADMIN)->to([
+            Ability::VIEW_REPORTS,
+            Ability::MANAGE_ROLES,
+            Ability::MANAGE_USERS,
+            Ability::MANAGE_GROUPS,
+            Ability::MANAGE_PLAYERS,
+            Ability::CREATE_TOURNAMENTS,
+            Ability::SWITCH_ACCOUNTS,
+            Ability::MANAGE_SETTINGS
+        ]);
 
         Bouncer::allow(Role::BOARD_MEMBER)->to(Ability::VIEW_REPORTS);
 
         //@todo change these to ::create
         Bouncer::allow(Role::LEAGUE_COORDINATOR);
-        Bouncer::allow(Role::HEAD_COACH);
+        Bouncer::allow(Role::HEAD_COACH)->to([
+            Ability::MANAGE_ROSTER,
+            Ability::MANAGE_TEAMS
+        ]);
         Bouncer::allow(Role::COACH);
         Bouncer::allow(Role::QUIZMASTER);
-        Bouncer::allow(Role::GUARDIAN);
+        Bouncer::allow(Role::GUARDIAN)->to(Ability::REGISTER_PLAYERS);
 
-        Bouncer::allow(Role::ADMIN)->to(Ability::VIEW_REPORTS);
-        Bouncer::allow(Role::ADMIN)->to(Ability::MANAGE_ROLES);
-        Bouncer::allow(Role::ADMIN)->to(Ability::CREATE_TOURNAMENTS);
-        Bouncer::allow(Role::ADMIN)->to(Ability::SWITCH_ACCOUNTS);
-        Bouncer::allow(Role::ADMIN)->to(Ability::MANAGE_SETTINGS);
 
         Role::where('name', Role::LEAGUE_COORDINATOR)->update([
             'mailchimp_interest_id' => 'da431848e5'

@@ -20,10 +20,16 @@
  */
 class Ability extends \Silber\Bouncer\Database\Ability
 {
-    const VIEW_REPORTS          = 'view-reports';
     const MANAGE_ROLES          = 'manage-roles';
-    const CREATE_TOURNAMENTS    = 'create-tournaments';
+    const MANAGE_ROSTER         = 'manage-roster';
+    const MANAGE_TEAMS          = 'manage-teams';
     const MANAGE_USERS          = 'manage-users';
+    const MANAGE_GROUPS         = 'manage-groups';
+    // all players on a national level
+    const MANAGE_PLAYERS        = 'manage-players';
+    const REGISTER_PLAYERS      = 'register-players';
+    const CREATE_TOURNAMENTS    = 'create-tournaments';
     const SWITCH_ACCOUNTS       = 'switch-accounts';
     const MANAGE_SETTINGS       = 'manage-settings';
+    const VIEW_REPORTS          = 'view-reports';
 }

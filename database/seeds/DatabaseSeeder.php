@@ -106,7 +106,6 @@ class DatabaseSeeder extends Seeder {
         $director->addresses()->save($address);
 
         $director->assign(Role::ADMIN);
-        $director->assign(Role::DIRECTOR);
 
         return $director;
     }

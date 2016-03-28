@@ -96,7 +96,8 @@ class RouteServiceProvider extends ServiceProvider
                 ]);
 
                 Route::group([
-                    'namespace'    => 'Teams'
+                    'namespace'    => 'Teams',
+                    'middleware' => ['can:'.Ability::MANAGE_TEAMS]
                 ], function () {
                     Route::resource('teamsets', 'TeamSetController');
                     Route::get('teamsets/{teamsets}/pdf', 'TeamSetController@pdf');
@@ -151,13 +152,16 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('group/{group}/swap', 'GroupController@swap');
 
 				# Roster
-				//#Entrust::routeNeedsRole('roster/*', [Role::HEAD_COACH]);
-                Route::get('roster', 'Groups\RosterController@index');
-                Route::get('roster/inactive', 'Groups\RosterController@inactive');
-                Route::get('roster/export', 'Groups\RosterController@export');
-                Route::get('roster/map', 'Groups\RosterController@map');
-                Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
-                Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
+                Route::group([
+                    'middleware' => ['can:'.Ability::MANAGE_ROSTER]
+                ], function () {
+                    Route::get('roster', 'Groups\RosterController@index');
+                    Route::get('roster/inactive', 'Groups\RosterController@inactive');
+                    Route::get('roster/export', 'Groups\RosterController@export');
+                    Route::get('roster/map', 'Groups\RosterController@map');
+                    Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
+                    Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
+                });
 
                 # ------------------------------------------------
                 # Admin Routes
@@ -166,35 +170,56 @@ class RouteServiceProvider extends ServiceProvider
                     'prefix'	=> 'admin',
                     'namespace'	=> 'Admin'
                 ], function () {
-                    #Entrust::routeNeedsPermission('reports/*', [Permission::VIEW_REPORTS]);
-                    Route::get('reports/growth', 'ReportsController@getGrowth');
-                    Route::get('reports/players', 'ReportsController@getPlayers');
 
-                    #Entrust::routeNeedsRole('admin/players/*', [Role::DIRECTOR]);
-                    Route::get('players', 'PlayerController@index');
-                    Route::get('players/{playerId}', 'PlayerController@show');
+                    Route::group([
+                        'middleware' => ['can:'.Ability::MANAGE_GROUPS]
+                    ], function () {
+                        Route::get('groups', 'GroupController@index');
+                        Route::get('groups/outstanding-registration-fees', 'GroupController@outstandingRegistrationFees');
+                        Route::get('groups/{groupId}', 'GroupController@show');
+                    });
 
-                    #Entrust::routeNeedsRole('admin/groups/*', [Role::DIRECTOR, Role::ADMIN]);
-                    Route::get('groups', 'GroupController@index');
-                    Route::get('groups/outstanding-registration-fees', 'GroupController@outstandingRegistrationFees');
-                    Route::get('groups/{groupId}', 'GroupController@show');
+                    Route::group([
+                        'middleware' => ['can:'.Ability::MANAGE_PLAYERS]
+                    ], function () {
+                        Route::get('players', 'PlayerController@index');
+                        Route::get('players/{playerId}', 'PlayerController@show');
+                    });
 
-                    #Entrust::routeNeedsPermission('admin/switchUser/*', [Permission::SWITCH_ACCOUNTS]);
-                    Route::get('switchUser/{userId}', 'UserController@switchUser');
+                    Route::group([
+                        'middleware' => ['can:'.Ability::MANAGE_USERS]
+                    ], function () {
+                        Route::get('users', 'UserController@index');
+                        Route::get('users/{userId}', 'UserController@show');
+                    });
 
-                    #Entrust::routeNeedsRole('admin/users/*', [Role::DIRECTOR, Role::ADMIN]);
-                    Route::get('users', 'UserController@index');
-                    Route::get('users/{userId}', 'UserController@show');
+                    Route::group([
+                        'middleware' => ['can:'.Ability::SWITCH_ACCOUNTS]
+                    ], function () {
+                        Route::get('switchUser/{userId}', 'UserController@switchUser');
+                    });
 
-                    #Entrust::routeNeedsPermission('admin/tournaments', [Permission::CREATE_TOURNAMENTS]);
-                    Route::resource('tournaments', 'TournamentsController');
-                    Route::resource('tournaments.events', 'Tournaments\EventsController', [
-                        'except' => ['index', 'show']
-                    ]);
+                    Route::group([
+                        'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
+                    ], function () {
+                        Route::resource('tournaments', 'TournamentsController');
+                        Route::resource('tournaments.events', 'Tournaments\EventsController', [
+                            'except' => ['index', 'show']
+                        ]);
+                    });
+                    Route::group([
+                        'middleware' => ['can:'.Ability::VIEW_REPORTS]
+                    ], function () {
+                        Route::get('reports/growth', 'ReportsController@getGrowth');
+                        Route::get('reports/players', 'ReportsController@getPlayers');
+                    });
 
-                    #Entrust::routeNeedsPermission('admin/settings', [Permission::MANAGE_SETTINGS]);
-                    Route::get('settings', 'SettingsController@edit');
-                    Route::patch('settings', 'SettingsController@update');
+                    Route::group([
+                        'middleware' => ['can:'.Ability::MANAGE_SETTINGS]
+                    ], function () {
+                        Route::get('settings', 'SettingsController@edit');
+                        Route::patch('settings', 'SettingsController@update');
+                    });
                 });
             });
 

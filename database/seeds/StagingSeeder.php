@@ -58,7 +58,7 @@ class StagingSeeder extends Seeder {
         ]);
         $director->addresses()->save($address);
 
-        $director->assign(Role::DIRECTOR);
+        $director->assign(Role::ADMIN);
     }
 
     private function seedJosiahHeadCoach()
