@@ -27,6 +27,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
      */
     protected function schedule(Schedule $schedule)
     {
+
         $schedule->command(SeasonRotator::COMMAND)
             ->daily();
 

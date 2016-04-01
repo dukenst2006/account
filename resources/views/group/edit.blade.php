@@ -24,7 +24,7 @@
                             @include('group.form')
                             <div class="checkbox check-danger">
                                 {!! Form::checkbox('inactive', 1, !$group->isActive(), ['id' => 'group-inactive']) !!}
-                                <label for="group-inactive">Make inactive <span class="muted p-l-10">- prevents others from being able to join this group.</span></label>
+                                <label for="group-inactive">Inactive <span class="muted p-l-10">- prevents others from being able to join this group.</span></label>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-center p-t-40">

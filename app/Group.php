@@ -143,6 +143,16 @@ class Group extends Model
     }
 
     /**
+     * Groups with no players for a given season
+     */
+    public function scopeWithoutActivePlayers(Builder $query, Season $season)
+    {
+        return $query->whereDoesntHave('players', function (Builder $q) use ($season) {
+            $q->active($season);
+        });
+    }
+
+    /**
      * Query scope for inactive guardians.
      */
     public function scopeInactiveGuardians(Builder $query, Group $group, Season $season)

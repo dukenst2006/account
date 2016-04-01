@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Seasons;
 
+use BibleBowl\Group;
 use BibleBowl\Season;
 use Illuminate\Console\Command;
 use Setting;
@@ -28,7 +29,7 @@ class SeasonRotator extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function fire(AutomatedGroupDeactivator $groupDeactivator)
     {
         // if it ends today, start the new season
         $endDate = Setting::seasonEnd();
@@ -37,6 +38,11 @@ class SeasonRotator extends Command
             Season::firstOrCreate([
                 'name' => $startDate->format("Y-").($startDate->addYear()->format("y"))
             ]);
+
+            // since the season rotated today, deactivate inactive groups from last season
+            $lastSeason = Season::orderBy('id', 'DESC')->skip(1)->first();
+
+            $groupDeactivator->deactivateInactiveGroups($lastSeason);
         }
     }
 }
