@@ -7,8 +7,6 @@ php:
 env:
   DOCKER_COMPOSE_VERSION: 1.6.2
 before_install:
-  - export DOCKER_REPO="${TRAVIS_REPO_SLUG,,}"
-  - export IMAGE_SLUG="$TRAVIS_BRANCH.${TRAVIS_COMMIT::8}.${TRAVIS_BUILD_ID}"
   # Upgrade docker/docker-compose versions so we can use v2 of the Dockerfile format
   - docker -v
   - sudo apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install docker-engine
@@ -55,6 +53,6 @@ after_success:
   - docker exec -it $(docker-compose ps -q fpm) php artisan route:cache
   - docker exec -it $(docker-compose ps -q fpm) php artisan config:cache
   # Deployable image tags must be in format: [service].[branch].[commit-hash].[timestamp]
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "${DOCKER_REPO}:fpm" "${DOCKER_REPO}:fpm.${IMAGE_SLUG}" && docker push "${DOCKER_REPO}:fpm.${IMAGE_SLUG}" ; fi
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "biblebowl/account:fpm" "biblebowl/account:fpm.${TRAVIS_COMMIT::8}" && docker push "biblebowl/account:fpm.${TRAVIS_COMMIT::8}" ; fi
 after_script:
 - docker images
