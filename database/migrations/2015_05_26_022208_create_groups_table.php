@@ -33,7 +33,7 @@ class CreateGroupsTable extends Migration {
 			$table->foreign('address_id')->references('id')->on('addresses');
 			$table->integer('meeting_address_id')->unsigned();
 			$table->foreign('meeting_address_id')->references('id')->on('addresses');
-			$table->json('settings')->nullable();
+			$table->text('settings')->nullable();
 			$table->timestamps();
 		});
 

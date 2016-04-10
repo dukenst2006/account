@@ -1,0 +1,60 @@
+language:
+  - php
+  - node_js
+services: docker
+php:
+- 7.0
+env:
+  DOCKER_COMPOSE_VERSION: 1.6.2
+before_install:
+  - export DOCKER_REPO="${TRAVIS_REPO_SLUG,,}"
+  - export IMAGE_SLUG="$TRAVIS_BRANCH.${TRAVIS_COMMIT::8}.${TRAVIS_BUILD_ID}"
+  # Upgrade docker/docker-compose versions so we can use v2 of the Dockerfile format
+  - docker -v
+  - sudo apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install docker-engine
+  - docker -v
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m`" > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  # Use the env config
+  - cp .env.example .env
+  # install gulp
+  - npm install gulp -g
+  # Stop the postgres instance travis sets up automatically
+  - sudo /etc/init.d/postgresql stop
+  # set env vars in the build settings to interact with repositories
+  # see https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  # Start the docker stuff
+  - docker-compose -v
+  - docker-compose up -d
+  - sleep 4
+  - docker-compose ps
+install:
+  # Install dev php dependencies
+  - composer install --no-interaction --prefer-dist
+  # Install production-only npm dependencies & run gulp
+  - npm install
+  - gulp --production
+script:
+  # Ensure phpcs triggers a failing build
+  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+  # Ensure breaking PSR2 compliance fails in CI
+  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpcs --standard=PSR2 --ignore=app/Http/routes.php app
+  # Seed database
+  - docker exec -it $(docker-compose ps -q fpm) php artisan migrate --seed
+  # Run tests
+  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpunit
+after_success:
+  # Remove node dependencies
+  - rm -rf node_modules
+  # Revert to production-only php dependencies
+  - composer install --no-interaction --no-dev --prefer-dist
+  # Build route/config cache
+  - docker exec -it $(docker-compose ps -q fpm) php artisan route:cache
+  - docker exec -it $(docker-compose ps -q fpm) php artisan config:cache
+  # Deployable image tags must be in format: [service].[branch].[commit-hash].[timestamp]
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "${DOCKER_REPO}:fpm" "${DOCKER_REPO}:fpm.${IMAGE_SLUG}" && docker push "${DOCKER_REPO}:fpm.${IMAGE_SLUG}" ; fi
+after_script:
+- docker images

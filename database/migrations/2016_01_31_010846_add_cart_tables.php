@@ -14,7 +14,7 @@ class AddCartTables extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned();
-            $table->json('metadata');
+            $table->text('metadata');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

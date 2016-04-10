@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration {
 			$table->string('avatar', 255);
 			$table->timestamp('last_login')->nullable();
 			$table->string('password', 60)->nullable();
-			$table->json('settings')->nullable();
+			$table->text('settings')->nullable();
 			$table->rememberToken();
 			$table->timestamp('updated_at')->nullable();
 			$table->timestamp('created_at')->useCurrent();
