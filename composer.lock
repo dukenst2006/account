@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "85d013a9814f6fdac074ccf93bdb58c0",
-    "content-hash": "a0073134e82e5c4a73d426ba4208b3c0",
+    "hash": "348d7e7a4b51947193a37750164f185a",
+    "content-hash": "8ad51c0f661114f8184acba5c920d343",
     "packages": [
         {
             "name": "alexpechkarev/google-geocoder",
@@ -2277,16 +2277,16 @@
         },
         {
             "name": "silber/bouncer",
-            "version": "dev-master",
+            "version": "v0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JosephSilber/bouncer.git",
-                "reference": "171196b79eb625be9170ff98409f5e79e3231228"
+                "reference": "badf3107c1b801d42e36be93cc639d1e7356f391"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JosephSilber/bouncer/zipball/171196b79eb625be9170ff98409f5e79e3231228",
-                "reference": "171196b79eb625be9170ff98409f5e79e3231228",
+                "url": "https://api.github.com/repos/JosephSilber/bouncer/zipball/badf3107c1b801d42e36be93cc639d1e7356f391",
+                "reference": "badf3107c1b801d42e36be93cc639d1e7356f391",
                 "shasum": ""
             },
             "require": {
@@ -2298,7 +2298,6 @@
             "require-dev": {
                 "illuminate/cache": "~5.1.20|5.2.*",
                 "illuminate/console": "~5.1.20|5.2.*",
-                "illuminate/routing": "~5.1.20|5.2.*",
                 "phpunit/phpunit": "^4.8"
             },
             "suggest": {
@@ -2330,7 +2329,7 @@
                 "permissions",
                 "roles"
             ],
-            "time": "2016-03-29 20:37:21"
+            "time": "2016-02-24 02:35:11"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5860,7 +5859,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "silber/bouncer": 20,
         "alexpechkarev/google-geocoder": 20,
         "filp/whoops": 20,
         "spatie/laravel-tail": 20
