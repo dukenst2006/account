@@ -21,6 +21,11 @@ use Zizaco\Entrust\EntrustRole;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Role whereUpdatedAt($value)
  * @property string $mailchimp_interest_id
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Role whereMailchimpInterestId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Ability[] $abilities
+ * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Role whereAssignedTo($model, $keys = null)
+ * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Role whereCan($ability, $model = null)
+ * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Role whereCannot($ability, $model = null)
+ * @mixin \Eloquent
  */
 class Role extends \Silber\Bouncer\Database\Role
 {

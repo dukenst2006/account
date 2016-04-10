@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereProviderId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class UserProvider extends Model
 {

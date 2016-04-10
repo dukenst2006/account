@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
+ * @mixin \Eloquent
  */
 class Season extends Model
 {

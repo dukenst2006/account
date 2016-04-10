@@ -49,6 +49,11 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group active()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
+ * @property string $settings
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereSettings($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group withoutActivePlayers($season)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group hasPendingRegistrationPayments($pendingSince = null, $playerCount = null)
+ * @mixin \Eloquent
  */
 class Group extends Model
 {

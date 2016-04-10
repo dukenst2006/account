@@ -65,6 +65,13 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $orders
  * @property-read mixed $shop_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Ability[] $abilities
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIs($role)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIsAll($role)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCan($ability, $model = null)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCannot($ability, $model = null)
+ * @mixin \Eloquent
  */
 class User extends Model implements AuthorizableContract,
                                     AuthenticatableContract,

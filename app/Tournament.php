@@ -39,6 +39,7 @@ use Rhumsaa\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereCreatorId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Tournament extends Model
 {
