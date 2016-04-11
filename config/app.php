@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'url' => env('APP_URL', 'http://account.biblebowl.org'),
+	'url' => env('APP_URL', 'https://account.biblebowl.org'),
 
 	'title' => 'Bible Bowl Management',
 
@@ -99,7 +99,7 @@ return [
 	|
 	*/
 
-	'log' => 'daily',
+	'log' => 'errorlog',
 
 	/*
 	|--------------------------------------------------------------------------
