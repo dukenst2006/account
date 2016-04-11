@@ -24,7 +24,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * @param SettingsUpdateRequest 	$request
+     * @param SettingsUpdateRequest     $request
      *
      * @return mixed
      */

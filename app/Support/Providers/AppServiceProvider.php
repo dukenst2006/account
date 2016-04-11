@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
          * specific library inclusion
          */
         Blade::directive('includeVueJs', function () {
-            if(app()->environment('production', 'staging')) {
+            if (app()->environment('production', 'staging')) {
                 return "<?php
                 \\".Html::class."::\$includeJs[] = \"https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js\";
                 \\".Html::class."::\$includeJs[] = \"https://cdn.jsdelivr.net/vue.validator/2.0.0-alpha.6/vue-validator.min.js\";

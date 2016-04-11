@@ -49,7 +49,7 @@ class EventsController extends Controller
 
     /**
      * @param TournamentCreatorOnlyRequest  $request
-     * @param                     			$id
+     * @param                               $id
      *
      * @return mixed
      */

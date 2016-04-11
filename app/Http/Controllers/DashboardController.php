@@ -40,7 +40,7 @@ class DashboardController extends Controller
                     Session::group()
                 )
             ]);
-            $view->with('playersPendingPayment',  Session::group()->players()->pendingRegistrationPayment($season)->get());
+            $view->with('playersPendingPayment', Session::group()->players()->pendingRegistrationPayment($season)->get());
         }
 
         if (Bouncer::allows(Ability::VIEW_REPORTS)) {

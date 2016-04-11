@@ -216,8 +216,7 @@ class PlayerRegistrationController extends Controller
             $view->with('players', Auth::user()
                 ->players()
                 ->notRegisteredWithNBB(Session::season(), Auth::user())
-                ->get()
-            );
+                ->get());
         });
     }
 }

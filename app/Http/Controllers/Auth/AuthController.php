@@ -37,37 +37,37 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
-	/**
-	 * Send the response after the user was authenticated.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  bool  $throttles
-	 * @return \Illuminate\Http\Response
-	 */
-	protected function handleUserWasAuthenticated(Request $request, $throttles)
-	{
-		if ($throttles) {
-			$this->clearLoginAttempts($request);
-		}
-		//require email is confirmed before continuing
-		$user = Auth::user();
-		if ($user->status == User::STATUS_UNCONFIRMED) {
-			Auth::logout();
-			Event::fire('auth.resend.confirmation', [$user]);
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  bool  $throttles
+     * @return \Illuminate\Http\Response
+     */
+    protected function handleUserWasAuthenticated(Request $request, $throttles)
+    {
+        if ($throttles) {
+            $this->clearLoginAttempts($request);
+        }
+        //require email is confirmed before continuing
+        $user = Auth::user();
+        if ($user->status == User::STATUS_UNCONFIRMED) {
+            Auth::logout();
+            Event::fire('auth.resend.confirmation', [$user]);
 
-			return redirect()->back()
-				->withInput($request->only($this->loginUsername(), 'remember'))
-				->withErrors([
-					'email' => "Your email address is not yet confirmed.  We've resent your confirmation email.",
-				]);
-		}
+            return redirect()->back()
+                ->withInput($request->only($this->loginUsername(), 'remember'))
+                ->withErrors([
+                    'email' => "Your email address is not yet confirmed.  We've resent your confirmation email.",
+                ]);
+        }
 
-		if (method_exists($this, 'authenticated')) {
-			return $this->authenticated($request, Auth::guard($this->getGuard())->user());
-		}
+        if (method_exists($this, 'authenticated')) {
+            return $this->authenticated($request, Auth::guard($this->getGuard())->user());
+        }
 
-		return redirect()->intended($this->redirectPath());
-	}
+        return redirect()->intended($this->redirectPath());
+    }
 
     public function validator(array $data)
     {

@@ -246,28 +246,34 @@ class Player extends Model
 
     public function scopeNotOnTeamSet(Builder $query, TeamSet $teamSet)
     {
-        return $query->whereDoesntHave('teams',
+        return $query->whereDoesntHave(
+            'teams',
             function (Builder $query) use ($teamSet) {
                 $query->where('teams.team_set_id', $teamSet->id);
-            });
+            }
+        );
     }
 
     public function scopeNotRegistered(Builder $query, Season $season, User $user)
     {
         return $query->where('players.guardian_id', $user->id)
-            ->whereDoesntHave('seasons',
+            ->whereDoesntHave(
+                'seasons',
                 function (Builder $query) use ($season) {
                     $query->where('player_season.season_id', $season->id);
-                });
+                }
+            );
     }
 
     public function scopeRegisteredWithGroup(Builder $query, Season $season, Group $group)
     {
-        return $query->whereHas('seasons',
+        return $query->whereHas(
+            'seasons',
             function (Builder $query) use ($season, $group) {
                 $query->where('player_season.season_id', $season->id);
                 $query->where('player_season.group_id', $group->id);
-            });
+            }
+        );
     }
 
     public function deactivate(Season $season)
@@ -295,7 +301,7 @@ class Player extends Model
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
                 $q->where('seasons.id', $season->id);
-            })
+        })
             ->whereNull('player_season.inactive');
     }
 
@@ -306,7 +312,7 @@ class Player extends Model
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
                 $q->where('seasons.id', $season->id);
-            })
+        })
             ->whereNotNull('player_season.inactive');
     }
 }

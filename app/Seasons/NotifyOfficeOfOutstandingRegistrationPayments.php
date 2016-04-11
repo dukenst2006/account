@@ -26,7 +26,7 @@ class NotifyOfficeOfOutstandingRegistrationPayments extends Command
      *
      * @var string
      */
-    protected $description = "Send a summary email to the Bible Bowl office containing details of who has outstanding fees";
+    protected $description = "Send a summary email to the office containing details of who has outstanding fees";
 
     /**
      * Execute the console command.
@@ -35,7 +35,8 @@ class NotifyOfficeOfOutstandingRegistrationPayments extends Command
      */
     public function fire()
     {
-        $relativeTime = Config::get('biblebowl.reminders.notify-office-of-outstanding-registration-payments-after').' ago';
+        $notifyOfficeOfOutstandingPaymentsAfter = config('biblebowl.reminders.notify-office-of-outstanding-registration-payments-after');
+        $relativeTime = $notifyOfficeOfOutstandingPaymentsAfter.' ago';
         $playersRegistrationUnpaidSince = new Carbon($relativeTime);
         if (Group::hasPendingRegistrationPayments($playersRegistrationUnpaidSince)->count() > 0) {
             Mail::queue(

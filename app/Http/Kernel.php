@@ -19,17 +19,16 @@ class Kernel extends HttpKernel
         'BibleBowl\Http\Middleware\VerifyCsrfToken',
     ];
 
-	/**
-	 * The application's route middleware.
-	 *
-	 * @var array
-	 */
-	protected $routeMiddleware = [
-		'auth' => 'BibleBowl\Http\Middleware\Authenticate',
-		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-		'guest' => 'BibleBowl\Http\Middleware\RedirectIfAuthenticated',
-		'requires.setup' => \BibleBowl\Http\Middleware\RedirectIfRequiresSetup::class,
-		'can' => \Silber\Bouncer\Middleware\Authorize::class
-	];
-
+    /**
+     * The application's route middleware.
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'auth' => 'BibleBowl\Http\Middleware\Authenticate',
+        'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
+        'guest' => 'BibleBowl\Http\Middleware\RedirectIfAuthenticated',
+        'requires.setup' => \BibleBowl\Http\Middleware\RedirectIfRequiresSetup::class,
+        'can' => \Silber\Bouncer\Middleware\Authorize::class
+    ];
 }

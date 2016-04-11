@@ -84,6 +84,8 @@ class Program extends Model
 
     public function __toString()
     {
-        return $this->name.' ('.Describer::describeGradeShort($this->min_grade).'-'.Describer::describeGradeShort($this->max_grade).' grades)';
+        $minGrade = Describer::describeGradeShort($this->min_grade);
+        $maxGrade = Describer::describeGradeShort($this->max_grade);
+        return $this->name.' ('.$minGrade.'-'.$maxGrade.' grades)';
     }
 }

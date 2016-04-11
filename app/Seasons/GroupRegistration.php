@@ -79,7 +79,7 @@ class GroupRegistration extends Fluent
      */
     public function hasFoundAllGroups()
     {
-        foreach($this->programs() as $program) {
+        foreach ($this->programs() as $program) {
             if ($this->hasGroup($program) === false) {
                 return false;
             }
@@ -106,7 +106,8 @@ class GroupRegistration extends Fluent
      */
     public function removePlayers(Program $program)
     {
-        $this->attributes['players'] = array_except($this->attributes['players'], $this->playerInfo($program)->keys()->toArray());
+        $playerIds = $this->playerInfo($program)->keys()->toArray();
+        $this->attributes['players'] = array_except($this->attributes['players'], $playerIds);
     }
 
     /**
@@ -128,7 +129,7 @@ class GroupRegistration extends Fluent
     public function playerInfo(Program $program)
     {
         $players = [];
-        foreach($this->get('players', []) as $playerId => $playerData) {
+        foreach ($this->get('players', []) as $playerId => $playerData) {
             // if a parent has overridden the default grade
             if (isset($this->attributes['programOverride'][$playerId])) {
                 if ($this->attributes['programOverride'][$playerId] == $program->id) {

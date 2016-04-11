@@ -73,9 +73,10 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCannot($ability, $model = null)
  * @mixin \Eloquent
  */
-class User extends Model implements AuthorizableContract,
-                                    AuthenticatableContract,
-                                    CanResetPasswordContract
+class User extends Model implements
+    AuthorizableContract,
+    AuthenticatableContract,
+    CanResetPasswordContract
 {
 
     const STATUS_UNCONFIRMED = 0;
@@ -170,10 +171,12 @@ class User extends Model implements AuthorizableContract,
      */
     public function scopeByProviderId(Builder $query, $id)
     {
-        return $query->whereHas('providers',
+        return $query->whereHas(
+            'providers',
             function (Builder $query) use ($id) {
                 $query->where('provider_id', $id);
-            })
+            }
+        )
             ->first();
     }
 

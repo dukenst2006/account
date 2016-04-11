@@ -94,7 +94,6 @@ class Describer
         if ($start->format('mY') == $end->format('mY')) {
             return $start->format('M j - '.$end->format('j').', Y');
         } else {
-
             // Jun 28 - Jul 4, 2015
             if ($start->format('Y') == $end->format('Y')) {
                 return $start->format('M j - ').$end->format('M j, Y');

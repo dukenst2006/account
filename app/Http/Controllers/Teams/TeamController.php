@@ -10,8 +10,8 @@ class TeamController extends Controller
 {
 
     /**
-     * @param  	$request
-     * @param                     	$id
+     * @param   $request
+     * @param                       $id
      *
      * @return mixed
      */
@@ -31,8 +31,8 @@ class TeamController extends Controller
     }
 
     /**
-     * @param  	$request
-     * @param                     	$id
+     * @param   $request
+     * @param                       $id
      *
      * @return mixed
      */
@@ -46,7 +46,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @param  	$request
+     * @param   $request
      * @param   $id
      *
      * @return mixed
@@ -59,7 +59,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @param  	$request
+     * @param   $request
      * @param   $id
      *
      * @return mixed
@@ -75,7 +75,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @param  	$request
+     * @param   $request
      * @param   $id
      *
      * @return mixed
@@ -90,7 +90,7 @@ class TeamController extends Controller
     /**
      * Update the order of players on a team
      *
-     * @param  	$request
+     * @param   $request
      * @param   $id
      *
      * @return mixed

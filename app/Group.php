@@ -118,10 +118,10 @@ class Group extends Model
                 $q->join('player_season', 'player_season.player_id', '=', 'players.id')
                     ->active($season)
                     ->whereHas('groups', function (Builder $q) use ($season, $group) {
-                    $q->where('group_id', $group->id);
-                    $q->where('season_id', $season->id);
-                });
-            });
+                        $q->where('group_id', $group->id);
+                        $q->where('season_id', $season->id);
+                    });
+        });
     }
 
     /**
@@ -215,12 +215,12 @@ class Group extends Model
             $group = Group::where('name', $value)
                 ->where('program_id', $validator->getData()['program_id'])
                 ->whereHas('meetingAddress', function ($query) use ($meetingAddress) {
-                $query->orWhere(function ($query) use ($meetingAddress) {
-                    $query->where('city', '=', $meetingAddress->city);
-                    $query->where('state', '=', $meetingAddress->state);
-                })
-                ->where('zip_code', '=', $meetingAddress->zip_code);
-            })->first();
+                    $query->orWhere(function ($query) use ($meetingAddress) {
+                        $query->where('city', '=', $meetingAddress->city);
+                        $query->where('state', '=', $meetingAddress->state);
+                    })
+                    ->where('zip_code', '=', $meetingAddress->zip_code);
+                })->first();
 
             return is_null($group);
         });

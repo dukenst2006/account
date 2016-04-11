@@ -9,17 +9,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
 {
 
-	/**
-	 * A list of the exception types that should not be reported.
-	 *
-	 * @var array
-	 */
-	protected $dontReport = [
-		AuthorizationException::class,
-		HttpException::class,
-		ModelNotFoundException::class,
-		ValidationException::class,
-	];
+    /**
+     * A list of the exception types that should not be reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
+    ];
 
     /**
      * Report or log an exception.

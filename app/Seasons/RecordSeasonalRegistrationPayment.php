@@ -16,9 +16,9 @@ class RecordSeasonalRegistrationPayment
      */
     public function handle(Collection $players)
     {
-        $playerIds = $players->pluck('id')->toArray();
+        $playerIds = implode(',', $players->pluck('id')->toArray());
         $now = Carbon::now();
-        DB::update('UPDATE player_season SET paid = ? WHERE group_id = ? AND player_id IN('.implode(',', $playerIds).')', [
+        DB::update('UPDATE player_season SET paid = ? WHERE group_id = ? AND player_id IN('.$playerIds.')', [
             $now->toDateTimeString(),
             Session::group()->id
         ]);

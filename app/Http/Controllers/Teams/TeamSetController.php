@@ -85,8 +85,8 @@ class TeamSetController extends Controller
     }
 
     /**
-     * @param  	$request
-     * @param                     	$id
+     * @param   $request
+     * @param                       $id
      *
      * @return mixed
      */

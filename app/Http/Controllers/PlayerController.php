@@ -47,8 +47,8 @@ class PlayerController extends Controller
     }
 
     /**
-     * @param GuardianOnlyRequest 	$request
-     * @param                     	$id
+     * @param GuardianOnlyRequest   $request
+     * @param                       $id
      *
      * @return mixed
      */

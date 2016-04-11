@@ -87,8 +87,8 @@ class AddressController extends Controller
     }
 
     /**
-     * @param AddressOwnerOnlyRequest 	$request
-     * @param                      		$id
+     * @param AddressOwnerOnlyRequest   $request
+     * @param                           $id
      *
      * @return mixed
      */

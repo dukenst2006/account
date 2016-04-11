@@ -39,8 +39,8 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
      */
     protected function registerHtmlBuilder()
     {
-        $this->app->singleton('html', function($app)
-        {
+        $this->app->singleton('html', function ($app) {
+        
             return new Html($app['url']);
         });
     }
@@ -52,8 +52,8 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
      */
     protected function registerFormBuilder()
     {
-        $this->app->singleton('form', function($app)
-        {
+        $this->app->singleton('form', function ($app) {
+        
             $form = new Form($app['html'], $app['url'], $app['session.store']->getToken());
 
             return $form->setSessionStore($app['session.store']);

@@ -5,17 +5,22 @@ use BibleBowl\Program;
 use BibleBowl\Season;
 use DB;
 
+/**
+ * @phpcsignore
+ */
 class MetricsRepository
 {
 
-    public function groupCount($season) {
+    public function groupCount($season)
+    {
         return $season
             ->groups()
             ->active()
             ->count();
     }
     
-    public function playerCount($season) {
+    public function playerCount($season)
+    {
         return $season
             ->players()
             ->active($season)

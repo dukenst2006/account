@@ -9,8 +9,8 @@ class PlayerController extends Controller
 {
 
     /**
-     * @param PlayerInactiveToggleRequest 	$request
-     * @param                     			$player
+     * @param PlayerInactiveToggleRequest   $request
+     * @param                               $player
      *
      * @return mixed
      */
@@ -23,8 +23,8 @@ class PlayerController extends Controller
     }
 
     /**
-     * @param PlayerInactiveToggleRequest 	$request
-     * @param                     			$player
+     * @param PlayerInactiveToggleRequest   $request
+     * @param                               $player
      *
      * @return mixed
      */

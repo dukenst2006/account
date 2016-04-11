@@ -65,8 +65,8 @@ class TournamentsController extends Controller
     }
 
     /**
-     * @param GroupEditRequest 		$request
-     * @param                     	$id
+     * @param GroupEditRequest      $request
+     * @param                       $id
      *
      * @return mixed
      */

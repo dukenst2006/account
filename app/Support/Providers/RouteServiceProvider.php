@@ -76,8 +76,8 @@ class RouteServiceProvider extends ServiceProvider
                 Route::post('cart', 'ShopController@processPayment');
 
                 Route::group([
-                    'prefix'	=> 'account',
-                    'namespace'	=> 'Account'
+                    'prefix'    => 'account',
+                    'namespace'     => 'Account'
                 ], function () {
                     Route::resource('address', 'AddressController');
                     Route::get('address/{address}/makePrimary', 'AddressController@setPrimaryAddressId');
@@ -151,7 +151,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('group/create/search', 'GroupController@searchBeforeCreate');
                 Route::get('group/{group}/swap', 'GroupController@swap');
 
-				# Roster
+                # Roster
                 Route::group([
                     // 'middleware' => ['can:'.Ability::MANAGE_ROSTER]
                 ], function () {
@@ -167,8 +167,8 @@ class RouteServiceProvider extends ServiceProvider
                 # Admin Routes
                 # ------------------------------------------------
                 Route::group([
-                    'prefix'	=> 'admin',
-                    'namespace'	=> 'Admin'
+                    'prefix'    => 'admin',
+                    'namespace'     => 'Admin'
                 ], function () {
 
                     Route::group([
