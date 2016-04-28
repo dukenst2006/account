@@ -19,7 +19,8 @@ class ThirdPartyAuthController extends AuthController
     public function processLogin(Request $request, $provider, ThirdPartyAuthenticator $authenticator, ThirdPartyRegistrar $registrar)
     {
         // If there's no code, get authorization from the provider
-        if (!$request->has('code')) {
+        // oauth_token = compatibility for Twitter
+        if (!$request->has('code') && !$request->has('oauth_token')) {
             return $authenticator->getAuthorization($provider);
         }
 

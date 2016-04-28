@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Routing\Router;
 use Redirect;
 use Route;
+use URL;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -45,13 +46,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::auth();
 
             # Default Routes for different users
-            Route::get('/', function () {
-                if (Auth::guest()) {
-                    return Redirect::to('login');
-                }
-
-                return Redirect::to('dashboard');
-            });
+            Route::get('/', 'DashboardController@root');
 
             # Authentication Routes
             Route::get('login', 'Auth\AuthController@getLogin');
@@ -97,7 +92,7 @@ class RouteServiceProvider extends ServiceProvider
 
                 Route::group([
                     'namespace'    => 'Teams',
-                    // 'middleware' => ['can:'.Ability::MANAGE_TEAMS]
+                    'middleware' => ['can:'.Ability::MANAGE_TEAMS]
                 ], function () {
                     Route::resource('teamsets', 'TeamSetController');
                     Route::get('teamsets/{teamsets}/pdf', 'TeamSetController@pdf');
@@ -153,7 +148,7 @@ class RouteServiceProvider extends ServiceProvider
 
                 # Roster
                 Route::group([
-                    // 'middleware' => ['can:'.Ability::MANAGE_ROSTER]
+                    'middleware' => ['can:'.Ability::MANAGE_ROSTER]
                 ], function () {
                     Route::get('roster', 'Groups\RosterController@index');
                     Route::get('roster/inactive', 'Groups\RosterController@inactive');
@@ -172,7 +167,7 @@ class RouteServiceProvider extends ServiceProvider
                 ], function () {
 
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::MANAGE_GROUPS]
+                        'middleware' => ['can:'.Ability::MANAGE_GROUPS]
                     ], function () {
                         Route::get('groups', 'GroupController@index');
                         Route::get('groups/outstanding-registration-fees', 'GroupController@outstandingRegistrationFees');
@@ -180,27 +175,27 @@ class RouteServiceProvider extends ServiceProvider
                     });
 
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::MANAGE_PLAYERS]
+                        'middleware' => ['can:'.Ability::MANAGE_PLAYERS]
                     ], function () {
                         Route::get('players', 'PlayerController@index');
                         Route::get('players/{playerId}', 'PlayerController@show');
                     });
 
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::MANAGE_USERS]
+                        'middleware' => ['can:'.Ability::MANAGE_USERS]
                     ], function () {
                         Route::get('users', 'UserController@index');
                         Route::get('users/{userId}', 'UserController@show');
                     });
 
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::SWITCH_ACCOUNTS]
+                        'middleware' => ['can:'.Ability::SWITCH_ACCOUNTS]
                     ], function () {
                         Route::get('switchUser/{userId}', 'UserController@switchUser');
                     });
 
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
+                        'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
                     ], function () {
                         Route::resource('tournaments', 'TournamentsController');
                         Route::resource('tournaments.events', 'Tournaments\EventsController', [
@@ -208,14 +203,14 @@ class RouteServiceProvider extends ServiceProvider
                         ]);
                     });
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::VIEW_REPORTS]
+                        'middleware' => ['can:'.Ability::VIEW_REPORTS]
                     ], function () {
                         Route::get('reports/growth', 'ReportsController@getGrowth');
                         Route::get('reports/players', 'ReportsController@getPlayers');
                     });
 
                     Route::group([
-                        // 'middleware' => ['can:'.Ability::MANAGE_SETTINGS]
+                        'middleware' => ['can:'.Ability::MANAGE_SETTINGS]
                     ], function () {
                         Route::get('settings', 'SettingsController@edit');
                         Route::patch('settings', 'SettingsController@update');
@@ -224,12 +219,8 @@ class RouteServiceProvider extends ServiceProvider
             });
 
             # legal
-            Route::get('terms-of-use', function () {
-                return view('legal/terms-of-use');
-            });
-            Route::get('privacy-policy', function () {
-                return view('legal/privacy-policy');
-            });
+            Route::get('terms-of-use', 'LegalController@termsOfUse');
+            Route::get('privacy-policy', 'LegalController@privacyPolicy');
 
         });
     }

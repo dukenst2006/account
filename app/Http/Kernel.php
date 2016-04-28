@@ -1,6 +1,11 @@
 <?php namespace BibleBowl\Http;
 
+use BibleBowl\Http\Middleware\Authenticate;
+use BibleBowl\Http\Middleware\RedirectIfAuthenticated;
+use BibleBowl\Http\Middleware\RedirectIfRequiresSetup;
+use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\Authorize;
 
 class Kernel extends HttpKernel
 {
@@ -25,10 +30,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => 'BibleBowl\Http\Middleware\Authenticate',
-        'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'guest' => 'BibleBowl\Http\Middleware\RedirectIfAuthenticated',
-        'requires.setup' => \BibleBowl\Http\Middleware\RedirectIfRequiresSetup::class,
-        'can' => \Silber\Bouncer\Middleware\Authorize::class
+        'auth'              => Authenticate::class,
+        'auth.basic'        => AuthenticateWithBasicAuth::class,
+        'guest'             => RedirectIfAuthenticated::class,
+        'requires.setup'    => RedirectIfRequiresSetup::class,
+        'can'               => Authorize::class
     ];
 }

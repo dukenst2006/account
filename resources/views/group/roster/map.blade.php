@@ -23,7 +23,7 @@
     <div id="map" class="demo-map overlay-fixed"></div>
 @endsection
 
-@includeJs(http://maps.google.com/maps/api/js?sensor=true)
+@includeJs(https://maps.google.com/maps/api/js?sensor=true)
 @includeJs(/assets/plugins/jquery-gmap/gmaps.js)
 @js
     $(document).ready(function() {

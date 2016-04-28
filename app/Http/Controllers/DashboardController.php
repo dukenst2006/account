@@ -8,6 +8,7 @@ use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Role;
 use Illuminate\View\View;
 use Session;
+use Redirect;
 
 class DashboardController extends Controller
 {
@@ -21,6 +22,20 @@ class DashboardController extends Controller
         $this->metrics = $metrics;
 
         $this->middleware('requires.setup');
+    }
+
+    /**
+     * Force users to login
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function root()
+    {
+        if (Auth::guest()) {
+            return Redirect::to('login');
+        }
+
+        return Redirect::to('dashboard');
     }
 
     /**

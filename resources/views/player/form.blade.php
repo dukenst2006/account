@@ -37,7 +37,7 @@
         <label class="form-label">Birthday</label>
         <span class="help"></span>
         <div class="controls p-b-20">
-            @if(isset($player) && $player->isBirthdayEditable(Auth::user()))
+            @if(!isset($player) || $player->isBirthdayEditable(Auth::user()))
                 <div class="input-append success date col-md-10 col-lg-6 no-padding" data-date="{{ (isset($player) ? $player->birthday->format('m/d/Y') : \Carbon\Carbon::now()->subYears(14)->format('m/d/Y')) }}">
                     {!! Form::text('birthday', (isset($player) ? $player->birthday->format('m/d/Y') : null), ['class' => 'form-control']) !!}
                     <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>

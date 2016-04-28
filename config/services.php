@@ -15,8 +15,8 @@ return [
 	*/
 
 	'mailgun' => [
-		'domain' => '',
-		'secret' => '',
+		'domain' => env('MAILGUN_DOMAIN', 'biblebowl.org'),
+		'secret' => env('MAILGUN_SECRET'),
 	],
 
 	'mandrill' => [

@@ -40,8 +40,8 @@ class ThirdPartyRegistrar
         $name = explode(' ', $providerUser->getName());
         $userData = [
             'first_name'    => $name[0],
-            'last_name'        => isset($name[1]) ? $name[1] : '',
-            'email'            => $providerUser->getEmail(),
+            'last_name'     => isset($name[1]) ? $name[1] : '',
+            'email'         => $providerUser->getEmail(),
             'avatar'        => $providerUser->getAvatar(),
             'status'        => User::STATUS_CONFIRMED
         ];

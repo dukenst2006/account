@@ -8,7 +8,7 @@ use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
-use Config;
+use URL;
 use Illuminate\Support\ServiceProvider;
 use Silber\Bouncer\Database\Models;
 
@@ -24,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Models::setRolesModel(Role::class);
         Models::setAbilitiesModel(Ability::class);
+
+        // force production url since we're behind a load balancer
+        if (app()->environment('production')) {
+            URL::forceSchema('https');
+            URL::forceRootUrl(config('app.url'));
+        }
 
         /*
          * specific library inclusion
@@ -47,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
             if (app()->environment('local')) {
                 $html .= "\\".Html::class."::\$includeJs[] .= \"/assets/plugins/raphael/raphael-2.1.0-min.js\";";
             } else {
-                $html .= "\\".Html::class."::\$includeJs[] .= \"http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js\";";
+                $html .= "\\".Html::class."::\$includeJs[] .= \"https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js\";";
             }
 
             $html .= "
@@ -146,9 +152,10 @@ class AppServiceProvider extends ServiceProvider
             return new EmailTemplate();
         });
 
-        if (Config::get('app.debug') === true) {
+        if (class_exists('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-            //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
+        if (class_exists('Spatie\Tail\TailServiceProvider')) {
             $this->app->register(\Spatie\Tail\TailServiceProvider::class);
         }
     }

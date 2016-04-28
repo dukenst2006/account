@@ -259,7 +259,7 @@ class User extends Model implements
      */
     public function requiresSetup()
     {
-        return is_null($this->first_name) || is_null($this->last_name);
+        return is_null($this->primary_address_id);
     }
 
     /**

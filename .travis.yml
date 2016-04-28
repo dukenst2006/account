@@ -1,11 +1,8 @@
-language:
-  - php
-  - node_js
 services: docker
 php:
 - 7.0
 env:
-  DOCKER_COMPOSE_VERSION: 1.6.2
+  DOCKER_COMPOSE_VERSION: 1.7.0
 before_install:
   # Upgrade docker/docker-compose versions so we can use v2 of the Dockerfile format
   - docker -v
@@ -17,8 +14,6 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   # Use the env config
   - cp .env.example .env
-  # install gulp
-  - npm install gulp -g
   # Stop the postgres instance travis sets up automatically
   - sudo /etc/init.d/postgresql stop
   # set env vars in the build settings to interact with repositories
@@ -26,29 +21,30 @@ before_install:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   # Start the docker stuff
   - docker-compose -v
-  - docker-compose up -d
-  - sleep 4
-  - docker-compose ps
+  #- docker-compose up -d
+  #- sleep 4
+  #- docker-compose ps
 install:
+  # build cron container
+  - docker build -t "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" -f containers/nginx/Dockerfile .
+  - docker build -t "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" -f containers/cli/Dockerfile .
+  - docker build -t "bkuhl/biblebowl:queue.${TRAVIS_COMMIT::8}" -f containers/queue/Dockerfile .
+  - docker build -t "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" -f containers/fpm/Dockerfile .
+  #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www
   # Install dev php dependencies
-  - composer install --no-interaction --prefer-dist
-  # Install production-only npm dependencies & run gulp
-  - npm install
-  - gulp --production
+  #- docker exec -it $(docker-compose ps -q fpm) composer install --no-interaction --prefer-dis
+  #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www/html/vendor
 script:
+  # Push deployable images
+  - docker images
+  #- docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}"
+  - docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}"
+  - docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}"
+  - docker push "bkuhl/biblebowl:queue.${TRAVIS_COMMIT::8}"
+  - docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}"
+  #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www/html
   # Seed database
-  - docker exec -it $(docker-compose ps -q fpm) php artisan migrate --seed
+  #- docker exec -it $(docker-compose ps -q fpm) php artisan migrate --seed
   # Run tests
-  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpunit
+  #- docker exec -it $(docker-compose ps -q fpm) /var/www/html/vendor/bin/phpunit
 after_success:
-  # Remove node dependencies
-  - rm -rf node_modules
-  # Revert to production-only php dependencies
-  - composer install --no-interaction --no-dev --prefer-dist
-  # Build route/config cache
-  - docker exec -it $(docker-compose ps -q fpm) php artisan route:cache
-  - docker exec -it $(docker-compose ps -q fpm) php artisan config:cache
-  # Deployable image tags must be in format: [service].[branch].[commit-hash].[timestamp]
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "biblebowl/account:fpm" "biblebowl/account:fpm.${TRAVIS_COMMIT::8}" && docker push "biblebowl/account:fpm.${TRAVIS_COMMIT::8}" ; fi
-after_script:
-- docker images
