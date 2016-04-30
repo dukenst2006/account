@@ -27,7 +27,7 @@ before_install:
 install:
   # build cron container
   - docker build -t "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" -f containers/nginx/Dockerfile .
-  - docker build -t "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" -f containers/cli/Dockerfile .
+  - docker build -t "bkuhl/biblebowl:cron.${TRAVIS_COMMIT::8}" -f containers/cron/Dockerfile .
   - docker build -t "bkuhl/biblebowl:queue.${TRAVIS_COMMIT::8}" -f containers/queue/Dockerfile .
   - docker build -t "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" -f containers/fpm/Dockerfile .
   #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www
@@ -39,7 +39,7 @@ script:
   - docker images
   #- docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}"
   - docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}"
-  - docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}"
+  - docker push "bkuhl/biblebowl:cron.${TRAVIS_COMMIT::8}"
   - docker push "bkuhl/biblebowl:queue.${TRAVIS_COMMIT::8}"
   - docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}"
   #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www/html
