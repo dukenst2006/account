@@ -20,11 +20,11 @@ services:
       - ./containers/nginx:/etc/nginx/conf.d
     ports:
       - "80:80"
-#  queue:
+#  cron:
 #    build:
 #      context: .
-#      dockerfile: containers/queue/Dockerfile
-#    image: bkuhl/biblebowl:queue
+#      dockerfile: containers/cron/Dockerfile
+#    image: bkuhl/biblebowl:cron
 #    volumes_from:
 #      - fpm
   redis:

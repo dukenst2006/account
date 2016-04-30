@@ -3,25 +3,43 @@ FROM php:7-alpine
 # add the application to the container
 ADD . /var/www/html
 
-# install extensions needed for Laravel
-RUN apk add --update --no-cache libmcrypt-dev \
-    && docker-php-ext-install mcrypt pdo_mysql \
+WORKDIR /var/www/html
 
-    # fix permissions in CI
-    && sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
+# fix permissions in CI
+RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
     && sed -ri 's/^www-data:x:82:/www-data:x:1001:/' /etc/group \
 
-    && chown -R www-data:www-data /home/www-data /var/www/html \
+    # fix permissions in CI
+    && apk add --update --no-cache \
+        # needed for mcrypt
+        libmcrypt \
+
+        # needed for composer
+        git zip unzip \
+
+    # php extensions the app will need
+    && docker-php-ext-install mcrypt mbstring pdo_mysql \
 
     # install composer
     && wget -O /usr/local/bin/composer https://getcomposer.org/composer.phar \
     && chmod +x /usr/local/bin/composer \
-    && cd /var/www/html \
-    && composer install --no-interaction --prefer-dist \
 
-    # setup crontab
-    && echo "*       *       *       *       *       php /var/www/html/artisan schedule:run" > /etc/crontabs/root
+    # give cli the keys
+    && chown -R www-data:www-data /var/www/html /usr/local/bin/composer \
 
-WORKDIR /var/www/html
+    # run laravel's scheduled commands as www-data
+    && echo "*       *       *       *       *       php /var/www/html/artisan schedule:run" > /etc/crontabs/www-data
+
+USER www-data
+
+# install dependencies
+RUN composer install --no-interaction --prefer-dist
+
+# clean everything needed from building to maintain
+# as light of a container as possible
+USER root
+
+RUN apk del libmcrypt git zip unzip \
+    && rm /usr/local/bin/composer
 
 CMD ["crond", "-f", "-d", "8"]
