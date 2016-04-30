@@ -1,7 +1,7 @@
 FROM php:7-fpm-alpine
 
 # add the application to the container
-COPY . /var/www/html
+ADD . /var/www/html
 
 WORKDIR /var/www/html
 
