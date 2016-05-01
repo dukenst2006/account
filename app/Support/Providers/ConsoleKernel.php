@@ -29,7 +29,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
     {
 
         $schedule->command(SeasonRotator::COMMAND)
-            ->daily();
+            ->daily()->thenPing('https://hchk.io/c9e89191-f417-44ee-bf88-03739c439f74');
 
         // reminders for unpaid registration fees
         $schedule->command(RemindGroupsOfPendingRegistrationPayments::COMMAND)
