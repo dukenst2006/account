@@ -3,6 +3,7 @@
 use App;
 use BibleBowl\User;
 use DB;
+use Laravel\Socialite\AbstractUser;
 use Validator;
 
 class ThirdPartyRegistrar
@@ -29,13 +30,13 @@ class ThirdPartyRegistrar
     }
 
     /**
-     * @param                             $provider
-     * @param \Laravel\Socialite\Two\User $providerUser
+     * @param              $provider
+     * @param AbstractUser $providerUser
      *
      * @return User
      * @internal param \Laravel\Socialite\Two\User $user
      */
-    public function create($provider, \Laravel\Socialite\Two\User $providerUser)
+    public function create($provider, AbstractUser $providerUser)
     {
         $name = explode(' ', $providerUser->getName());
         $userData = [
