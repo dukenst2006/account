@@ -52,5 +52,7 @@ class AddToMailingList implements ShouldQueue
                 $user->last_name
             );
         }
+
+        $this->delete();
     }
 }

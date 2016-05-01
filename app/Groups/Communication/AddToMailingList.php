@@ -40,5 +40,7 @@ class AddToMailingList implements ShouldQueue
                 );
             }
         }
+
+        $this->delete();
     }
 }

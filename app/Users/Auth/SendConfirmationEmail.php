@@ -29,5 +29,7 @@ class SendConfirmationEmail implements ShouldQueue
                     ->subject('Bible Bowl Account Email Confirmation');
             }
         );
+
+        $this->delete();
     }
 }

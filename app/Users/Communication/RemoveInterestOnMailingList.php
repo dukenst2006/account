@@ -59,5 +59,7 @@ class RemoveInterestOnMailingList implements ShouldQueue
                 ]
             );
         }
+
+        $this->delete();
     }
 }

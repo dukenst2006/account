@@ -59,5 +59,7 @@ class AddInterestOnMailingList implements ShouldQueue
                 ]
             );
         }
+
+        $this->delete();
     }
 }

@@ -74,5 +74,7 @@ class UpdateSubscriberInformation implements ShouldQueue
                 );
             }
         }
+
+        $this->delete();
     }
 }
