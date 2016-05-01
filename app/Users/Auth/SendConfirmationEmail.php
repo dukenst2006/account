@@ -19,8 +19,7 @@ class SendConfirmationEmail implements ShouldQueue
      */
     public function handle(User $user)
     {
-        // don't send email for third party registrations
-        if ($user->providers()->count() == 0) {
+        if ($user->status == User::STATUS_UNCONFIRMED) {
             Mail::send(
                 'emails.email-confirmation',
                 [
