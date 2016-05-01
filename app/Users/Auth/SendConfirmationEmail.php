@@ -32,7 +32,5 @@ class SendConfirmationEmail implements ShouldQueue
                 }
             );
         }
-
-        $this->delete();
     }
 }

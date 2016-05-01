@@ -129,7 +129,7 @@
                 <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table600LogoAndMenuContainer">
                     <tr bgcolor="#ffffff">
                         <td valign="top" bgcolor="#ffffff" style="border-collapse: collapse;">
-                            <table width="200" align="left" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table600Logo">
+                            <table width="200" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table600Logo">
                                 <tr bgcolor="#ffffff">
                                     <!--============================================================ L O G O ==-->
                                     <!--=== IMPORTANT INFO = ABOUT THE USAGE OF THE RETINA READY LOGO IMAGE ====-->
@@ -140,7 +140,7 @@
                                     <!--=== PLEASE USE THE  "logo.PSD" File to customize your LOGO, and stick with the default size of the "logo.PSD" File==-->
                                     <!--=== Add your logoGraphic to "logo.PSD",  and center your logo vertically as I did by default (this ensures to have some space at top and bottom as a padding) ===-->
                                     <!--=== Then, save it as a JPG, and you're done ==-->
-                                    <td valign="middle" align="center" bgcolor="#ffffff" class="pictureAlternativeTextTD" style="border-collapse: collapse;color: #bbbbbb;font-family: sans-serif;font-size: 10px;padding: 0;margin: 0;">
+                                    <td valign="middle" align="center" bgcolor="#ffffff" style="border-collapse: collapse;color: #bbbbbb;font-family: sans-serif;font-size: 10px;padding: 0;margin: 0;;padding:1em">
                                         <a href="{{ url('/') }}" target="_blank" class="buttonsAndImagesLink" style="color: #bbbbbb;text-decoration: none;outline: none;">
                                             <img src="{{ url('img/logo-blue.png') }}" style="display:block;" alt="IMAGE HERE" border="0" align="top" hspace="0" vspace="0" width="174" height="56">
                                         </a>
