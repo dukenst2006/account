@@ -20,13 +20,6 @@ services:
       - ./containers/nginx:/etc/nginx/conf.d
     ports:
       - "80:80"
-  queue:
-    build:
-      context: .
-      dockerfile: containers/queue/Dockerfile
-    image: bkuhl/biblebowl:queue
-    volumes_from:
-      - fpm
   redis:
     image: redis:3.0-alpine
     ports:

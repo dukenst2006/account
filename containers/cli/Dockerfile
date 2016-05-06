@@ -41,5 +41,3 @@ USER root
 
 RUN apk del libmcrypt git zip unzip \
     && rm /usr/local/bin/composer
-
-CMD ["crond", "-f", "-d", "8"]

@@ -137,6 +137,8 @@ class SeasonRegistrationTest extends TestCase
      */
     public function sixthGradersCanBeAddedToBeginnerOrTeen()
     {
+        GroupRegistration::$gradesWithProgramChoice = [6];
+
         $this->visit('/register/players')
             ->see('David Webb')
             ->select('6', 'player[1][grade]')

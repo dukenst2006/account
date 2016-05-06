@@ -10,7 +10,7 @@ use Illuminate\Support\Fluent;
 
 class GroupRegistration extends Fluent
 {
-    public static $gradesWithProgramChoice = [6];
+    public static $gradesWithProgramChoice = [];
 
     protected $programs = null;
 
