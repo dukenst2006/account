@@ -21,7 +21,8 @@ class PlayerCreator
 
         $player = Player::create($attributes);
         if ($guardian->isNot(Role::GUARDIAN)) {
-            $guardian->assign(Role::GUARDIAN);
+            $role = Role::where('name', Role::GUARDIAN)->firstOrFail();
+            $guardian->assign($role);
         }
 
         DB::commit();

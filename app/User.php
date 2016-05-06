@@ -318,10 +318,10 @@ class User extends Model implements
     /**
      * Assign the given role to the model.
      *
-     * @param  \Silber\Bouncer\Database\Role|string  $role
+     * @param  \Silber\Bouncer\Database\Role  $role
      * @return $this
      */
-    public function assign($role)
+    public function assign(Role $role)
     {
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
             Event::fire('user.role.added', [$this, $role]);
@@ -336,7 +336,7 @@ class User extends Model implements
      * @param  \Silber\Bouncer\Database\Role|string  $role
      * @return $this
      */
-    public function retract($role)
+    public function retract(Role $role)
     {
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
             Event::fire('user.role.removed', [$this, $role]);

@@ -25,7 +25,8 @@ class GroupCreator
 
         // make the owner a head coach if they aren't already
         if ($owner->isNot(Role::HEAD_COACH)) {
-            $owner->assign(Role::HEAD_COACH);
+            $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
+            $owner->assign($role);
         }
 
         DB::commit();
