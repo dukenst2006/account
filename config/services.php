@@ -29,11 +29,6 @@ return [
 		'region' => 'us-east-1',
 	],
 
-	'stripe' => [
-		'model'  => \BibleBowl\User::class,
-		'secret' => env('STRIPE_SECRET'),
-	],
-
 	/*
 	 * Socialite Credentials
 	 * Redirect URL's need to be the same as specified on each network you set up this application on
