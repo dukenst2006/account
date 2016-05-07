@@ -22,11 +22,12 @@ class RegistrationConfirmation
         // because once it actually gets processed $players won't be an object making it more
         // difficult to fetch this data
         $players = [];
+        $grades = [];
+        $shirtSizes = [];
         foreach ($registration->players($group->program) as $player) {
-            $player->full_name  = $player->full_name;
-            $player->age        = $player->age();
-            $player->shirt_size = $registration->shirtSize($player->id);
-            $player->grade      = $registration->grade($player->id);
+            $player->full_name          = $player->full_name;
+            $grades[$player->id]        = $registration->grade($player->id);
+            $shirtSizes[$player->id]    = $registration->shirtSize($player->id);
             $players[] = $player;
         }
 
@@ -38,6 +39,8 @@ class RegistrationConfirmation
             'groupId'       => $group->id,
             'guardian'      => $recipient,
             'players'       => $players,
+            'grades'        => $grades,
+            'shirtSizes'    => $shirtSizes,
             'hasEmailBody'  => is_null($contentBody) ? $group->settings->hasRegistrationEmailContents() : true,
             'emailBody'     => is_null($contentBody) ? $group->settings->registrationEmailContents() : $contentBody
         ];

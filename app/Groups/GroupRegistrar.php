@@ -33,11 +33,12 @@ class GroupRegistrar
             // because once it actually gets processed $players won't be an object making it more
             // difficult to fetch this data
             $players = [];
+            $grades = [];
+            $shirtSizes = [];
             foreach ($registration->players($group->program) as $player) {
-                $player->full_name  = $player->full_name;
-                $player->age        = $player->age();
-                $player->shirt_size = $registration->shirtSize($player->id);
-                $player->grade      = $registration->grade($player->id);
+                $player->full_name          = $player->full_name;
+                $grades[$player->id]        = $registration->grade($player->id);
+                $shirtSizes[$player->id]    = $registration->shirtSize($player->id);
                 $players[] = $player;
             }
 
@@ -50,9 +51,11 @@ class GroupRegistrar
                     Mail::queue(
                         'emails.group-registration-notification',
                         [
-                            'groupId'   => $group->id,
-                            'guardian'  => $guardian,
-                            'players'   => $players
+                            'groupId'       => $group->id,
+                            'guardian'      => $guardian,
+                            'players'       => $players,
+                            'grades'        => $grades,
+                            'shirtSizes'    => $shirtSizes
                         ],
                         function (Message $message) use ($group, $user, $players) {
                             $message->to($user->email, $user->full_name)

@@ -63,8 +63,8 @@
                                             <strong>{{ $player['full_name'] }}</strong><br/>
                                             Gender: {{ $player['gender'] }}<br/>
                                             Age: {{ $player->age() }}<br/>
-                                            Grade: {{ \BibleBowl\Presentation\Describer::describeGrade($player['grade']) }}<br/>
-                                            T-Shirt size: {{ \BibleBowl\Presentation\Describer::describeShirtSize($player['shirt_size']) }}
+                                            Grade: {{ \BibleBowl\Presentation\Describer::describeGrade($grades[$player['id']]) }}<br/>
+                                            T-Shirt size: {{ \BibleBowl\Presentation\Describer::describeShirtSize($shirtSizes[$player['id']]) }}
                                         </td>
                                     </tr>
                                     </tbody>

@@ -81,7 +81,9 @@ function seedGuardian($attrs = [], $addressAttrs = [])
     $address->user_id = $user->id;
     $address->save();
 
-    $user->assign(Role::GUARDIAN);
+    $role = Role::where('name', Role::GUARDIAN)->firstOrFail();
+    $user->assign($role);
+
     return $user;
 }
 
