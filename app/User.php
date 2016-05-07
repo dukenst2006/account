@@ -324,7 +324,7 @@ class User extends Model implements
     public function assign(Role $role)
     {
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
-            Event::fire('user.role.added', [$this, $role]);
+            event('user.role.added', [$this, $role]);
         }
         
         return $this->parentAssign($role);
@@ -339,7 +339,7 @@ class User extends Model implements
     public function retract(Role $role)
     {
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
-            Event::fire('user.role.removed', [$this, $role]);
+            event('user.role.removed', [$this, $role]);
         }
         
         return $this->parentRetract($role);
