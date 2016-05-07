@@ -218,10 +218,16 @@ class RouteServiceProvider extends ServiceProvider
                 });
             });
 
-            # legal
-            Route::get('terms-of-use', 'LegalController@termsOfUse');
-            Route::get('privacy-policy', 'LegalController@privacyPolicy');
+        });
 
+        Route::get('healthcheck/{token}', function ($token) {
+            if ($token == env('HEALTHCHECK_TOKEN')) {
+                $connection = DB::connection();
+                $connection->disconnect();
+                return response();
+            } else {
+                throw new \Exception('Invalid healthcheck token');
+            }
         });
     }
 }
