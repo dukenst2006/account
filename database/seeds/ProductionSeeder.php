@@ -39,7 +39,7 @@ class ProductionSeeder extends Seeder {
         ]);
 
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_TEAM,
+            'participant_type'  => EventType::PARTICIPANT_TEAMS,
             'name'              => 'Round Robin'
         ]);
         EventType::create([
@@ -47,7 +47,7 @@ class ProductionSeeder extends Seeder {
             'name'              => 'Quote Bee'
         ]);
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_TEAM,
+            'participant_type'  => EventType::PARTICIPANT_TEAMS,
             'name'              => 'Double Elimination'
         ]);
         EventType::create([

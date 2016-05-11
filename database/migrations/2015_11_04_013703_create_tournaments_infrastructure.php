@@ -18,6 +18,8 @@ class CreateTournamentsInfrastructure extends Migration
         {
             $table->increments('id');
             $table->string('guid')->unique();
+            $table->integer('program_id')->unsigned();
+            $table->foreign('program_id')->references('id')->on('programs');
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->string('name', 128)->unique();

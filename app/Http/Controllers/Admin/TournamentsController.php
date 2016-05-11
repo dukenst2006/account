@@ -6,6 +6,7 @@ use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
+use BibleBowl\Program;
 use BibleBowl\Tournament;
 use Session;
 
@@ -36,7 +37,8 @@ class TournamentsController extends Controller
      */
     public function create()
     {
-        return view('admin.tournaments.create');
+        return view('admin.tournaments.create')
+            ->withPrograms(Program::orderBy('name', 'ASC')->get());
     }
 
     /**
@@ -61,7 +63,8 @@ class TournamentsController extends Controller
     public function edit(TournamentCreatorOnlyRequest $request, $id)
     {
         return view('admin.tournaments.edit')
-            ->withTournament(Tournament::findOrFail($id));
+            ->withTournament(Tournament::findOrFail($id))
+            ->withPrograms(Program::orderBy('name', 'ASC')->get());
     }
 
     /**

@@ -1,4 +1,12 @@
-
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label class="form-label">Program</label>
+        <span class="help"></span>
+        <div class="controls p-b-10">
+            {!! Form::select('program_id', $programs, null, ['class' => 'form-control']) !!}<br/>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 form-group">
         <label class="form-label">Name <span class="required">*</span></label>

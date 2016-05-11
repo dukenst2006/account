@@ -329,7 +329,7 @@ class Form extends FormBuilder
     {
         $participantTypes = [
             EventType::PARTICIPANT_PLAYER   => 'Individual Players',
-            EventType::PARTICIPANT_TEAM     => 'Teams'
+            EventType::PARTICIPANT_TEAMS    => 'Teams'
         ];
         $list = [];
         foreach ($participantTypes as $type => $label) {

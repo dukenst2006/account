@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EventType extends Model
 {
-    const PARTICIPANT_TEAM = 'team';
+    const PARTICIPANT_TEAMS = 'teams';
     const PARTICIPANT_PLAYER = 'player';
 
     protected $guarded = ['id'];
