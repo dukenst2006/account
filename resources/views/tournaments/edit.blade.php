@@ -7,15 +7,14 @@
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
                 <div class="grid simple">
-                    {!! Form::model($tournament, ['route' => ['admin.tournaments.update', $tournament->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
+                    {!! Form::model($tournament, ['route' => ['tournaments.update', $tournament->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
                     <div class="grid-title no-border">
                         <h4>Edit <span class="semi-bold">Tournament</span></h4>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
 
-                        @include('admin.tournaments.form')
-
+                        @include('tournaments.form')
 
                         <div class="row">
                             <div class="col-md-12 form-group">

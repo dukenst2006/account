@@ -158,6 +158,16 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
                 });
 
+
+                Route::group([
+                    'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
+                ], function () {
+                    Route::resource('tournaments', 'TournamentsController');
+                    Route::resource('tournaments.events', 'Tournaments\EventsController', [
+                        'except' => ['index', 'show']
+                    ]);
+                });
+
                 # ------------------------------------------------
                 # Admin Routes
                 # ------------------------------------------------
@@ -194,14 +204,6 @@ class RouteServiceProvider extends ServiceProvider
                         Route::get('switchUser/{userId}', 'UserController@switchUser');
                     });
 
-                    Route::group([
-                        'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
-                    ], function () {
-                        Route::resource('tournaments', 'TournamentsController');
-                        Route::resource('tournaments.events', 'Tournaments\EventsController', [
-                            'except' => ['index', 'show']
-                        ]);
-                    });
                     Route::group([
                         'middleware' => ['can:'.Ability::VIEW_REPORTS]
                     ], function () {

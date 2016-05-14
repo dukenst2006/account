@@ -34,7 +34,7 @@
 
                                 </div>
                                 <div class="text-center m-t-20">
-                                    <a href="{{ route('admin.tournaments.edit', [$tournament->id]) }}" class="btn btn-small btn-primary">Edit</a>
+                                    <a href="{{ route('tournaments.edit', [$tournament->id]) }}" class="btn btn-small btn-primary">Edit</a>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -43,7 +43,7 @@
                                         <h5><i class="fa fa-users"></i> <span class="semi-bold">Events</span></h5>
                                     </div>
                                     <div class="col-md-6 text-right">
-                                        <a href="{{ route('admin.tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
+                                        <a href="{{ route('tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
                                     </div>
                                 </div>
                                 <table class="table no-more-tables">
@@ -53,12 +53,12 @@
                                         <th width="20%"></th>
                                     </tr>
                                     @foreach ($tournament->events()->with('type')->get() as $event)
-                                        {!! Form::open(['url' => '/admin/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
+                                        {!! Form::open(['url' => '/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
                                         <tr>
                                             <td>{{ $event->type->name }}</td>
                                             <td class="text-center">{{ $event->displayPrice() }}</td>
                                             <td>
-                                                <a href="{{ route('admin.tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
+                                                <a href="{{ route('tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
                                                 <a class="fa fa-trash-o p-l-20" onclick="$(this).closest('form').submit();" id="delete-{{ $event->id }}"></a>
                                             </td>
                                         </tr>

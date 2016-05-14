@@ -24,7 +24,7 @@ class TournamentsTest extends TestCase
         $soon = Carbon::now()->addMonths(1)->format('m/d/Y');
 
         $this
-            ->visit('/admin/tournaments/create')
+            ->visit('/tournaments/create')
             ->type($name, 'name')
             ->press('Save')
             ->see('A registration start date is required')
@@ -34,7 +34,7 @@ class TournamentsTest extends TestCase
             ->type($soon, 'registration_start')
             ->type($soon, 'registration_end')
             ->press('Save')
-            ->seePageIs('/admin/tournaments')
+            ->seePageIs('/tournaments')
             ->see($name);
 
         # Cleaning up
@@ -49,7 +49,7 @@ class TournamentsTest extends TestCase
         $tournament = Tournament::findOrFail(1);
         $newName = $tournament->name.time();
         $this
-            ->visit('/admin/tournaments/1/edit')
+            ->visit('/tournaments/1/edit')
             ->type($newName, 'name')
             ->press('Save')
             ->see($tournament->name);
@@ -68,7 +68,7 @@ class TournamentsTest extends TestCase
         $tournament = Tournament::first();
 
         $this
-            ->visit('/admin/tournaments/'.$tournament->id)
+            ->visit('/tournaments/'.$tournament->id)
             ->see($tournament->name);
     }
 }
