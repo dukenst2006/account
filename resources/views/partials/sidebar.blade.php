@@ -44,11 +44,18 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                     <a href="/teamsets"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
             @endcan
+            @can(BibleBowl\Ability::CREATE_TOURNAMENTS)
+                <li class="start
+                        @if(Route::current()->getUri() == 'admin/tournaments')
+                    active
+                @endif">
+                <a href="/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
+            </li>
+            @endcan
             @if(
                 Bouncer::allows(BibleBowl\Ability::MANAGE_GROUPS) ||
                 Bouncer::allows(BibleBowl\Ability::MANAGE_PLAYERS) ||
                 Bouncer::allows(BibleBowl\Ability::MANAGE_USERS) ||
-                Bouncer::allows(BibleBowl\Ability::CREATE_TOURNAMENTS) ||
                 Bouncer::allows(BibleBowl\Ability::VIEW_REPORTS) ||
                 Bouncer::allows(BibleBowl\Ability::MANAGE_SETTINGS)
             )
@@ -75,14 +82,6 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                             active
                         @endif">
                         <a href="/admin/users"> <i class="fa fa-user"></i> <span class="title">Users</span></a>
-                    </li>
-                @endcan
-                @can(BibleBowl\Ability::CREATE_TOURNAMENTS)
-                    <li class="
-                        @if(Route::current()->getUri() == 'admin/tournaments')
-                            active
-                        @endif">
-                        <a href="/admin/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
                     </li>
                 @endcan
                 <?php $isReportsOpen = false; ?>

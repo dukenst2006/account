@@ -12,8 +12,8 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        {!! Form::open(['url' => '/admin/tournaments', 'role' => 'form']) !!}
-                            @include('admin.tournaments.form')
+                        {!! Form::open(['url' => '/tournaments', 'role' => 'form']) !!}
+                            @include('tournaments.form')
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>

@@ -12,7 +12,7 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        {!! Form::open(['route' => ['admin.tournaments.events.store', $tournament->id], 'role' => 'form']) !!}
+                        {!! Form::open(['route' => ['tournaments.events.store', $tournament->id], 'role' => 'form']) !!}
                             <div class="row">
                                 <div class="col-md-2">
                                     Tournament
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
 
-                            @include('admin.tournaments.events.form')
+                            @include('tournaments.events.form')
 
                             <div class="row">
                                 <div class="col-md-12 text-center">

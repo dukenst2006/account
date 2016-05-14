@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Http\Controllers\Admin;
+<?php namespace BibleBowl\Http\Controllers;
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
@@ -15,18 +15,17 @@ class TournamentsController extends Controller
 
     public function index()
     {
-        return view('/admin/tournaments/index', [
+        return view('/tournaments/index', [
             'tournaments' => Tournament::where('season_id', Session::season()->id)
                 ->where('creator_id', Auth::user()->id)
-                ->orderBy('season_id', 'DESC')
                 ->orderBy('start', 'DESC')
-                ->paginate(25)
+                ->get()
         ]);
     }
 
     public function show($tournamentId)
     {
-        return view('/admin/tournaments/show', [
+        return view('/tournaments/show', [
             'tournament' => Tournament::findOrFail($tournamentId)
         ]);
     }
@@ -37,7 +36,7 @@ class TournamentsController extends Controller
      */
     public function create()
     {
-        return view('admin.tournaments.create')
+        return view('tournaments.create')
             ->withPrograms(Program::orderBy('name', 'ASC')->get());
     }
 
@@ -52,7 +51,7 @@ class TournamentsController extends Controller
             $request->all()
         );
 
-        return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
+        return redirect('/tournaments')->withFlashSuccess($tournament->name.' has been created');
     }
 
     /**
@@ -62,7 +61,7 @@ class TournamentsController extends Controller
      */
     public function edit(TournamentCreatorOnlyRequest $request, $id)
     {
-        return view('admin.tournaments.edit')
+        return view('tournaments.edit')
             ->withTournament(Tournament::findOrFail($id))
             ->withPrograms(Program::orderBy('name', 'ASC')->get());
     }
@@ -78,6 +77,6 @@ class TournamentsController extends Controller
         $tournament = Tournament::findOrFail($id);
         $tournament->update($request->all());
 
-        return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
+        return redirect('/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
     }
 }
