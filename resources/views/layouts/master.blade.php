@@ -53,6 +53,51 @@
     @endforeach
     <script type="text/javascript">
         {!! \BibleBowl\Presentation\Html::$js !!}
+
+
+        // Include the UserVoice JavaScript SDK (only needed once on a page)
+        UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/Zb0frmuahAO5JrkHDUH03w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+        //
+        // UserVoice Javascript SDK developer documentation:
+        // https://www.uservoice.com/o/javascript-sdk
+        //
+
+        // Set colors
+        UserVoice.push(['set', {
+            accent_color: '#448dd6',
+            trigger_color: 'white',
+            trigger_background_color: '#6aba2e',
+            screenshot_enabled: true
+        }]);
+
+        // Identify the user and pass traits
+        // To enable, replace sample data with actual user traits and uncomment the line
+        @if(Auth::user() != null)
+        UserVoice.push(['identify', {
+            id:  {{ Auth::user()->id }},
+            email:  '{{ Auth::user()->email }}',
+            name:  '{{ Auth::user()->full_name }}',
+            created_at:  {{ Auth::user()->created_at->timestamp }},
+
+            @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+                account: {
+                    id: {{ Session::group()->id }},
+                    name: '[{{ Session::group()->program->abbreviation }}] {{ Session::group()->name }}',
+                    created_at: {{ Session::group()->created_at->timestamp }}
+                }
+            @endif
+        @endif
+        }]);
+
+        // Add default trigger to the bottom-right corner of the window:
+        UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
+
+        // Or, use your own custom trigger:
+        //UserVoice.push(['addTrigger', '#id', { mode: 'contact' }]);
+
+        // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
+        UserVoice.push(['autoprompt', {}]);
     </script>
 </body>
 </html>
