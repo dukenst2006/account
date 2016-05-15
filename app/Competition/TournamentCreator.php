@@ -14,7 +14,7 @@ class TournamentCreator
      *
      * @return static
      */
-    public function create(User $owner, Season $season, array $attributes)
+    public function create(User $owner, Season $season, array $attributes, array $eventTypes)
     {
         $attributes['creator_id'] = $owner->id;
         $attributes['season_id'] = $season->id;
@@ -22,6 +22,11 @@ class TournamentCreator
         DB::beginTransaction();
 
         $tournament = Tournament::create($attributes);
+        foreach ($eventTypes as $eventTypeId) {
+            $tournament->events()->create([
+                'event_type_id' => $eventTypeId
+            ]);
+        }
 
         DB::commit();
 

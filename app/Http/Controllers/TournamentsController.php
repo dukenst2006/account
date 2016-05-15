@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
+use BibleBowl\EventType;
 use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
@@ -42,7 +43,8 @@ class TournamentsController extends Controller
         }
 
         return view('tournaments.create')
-            ->withPrograms($programs);
+            ->withPrograms($programs)
+            ->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
     }
 
     /**
@@ -53,7 +55,8 @@ class TournamentsController extends Controller
         $tournament = $tournamentCreator->create(
             Auth::user(),
             Session::season(),
-            $request->all()
+            $request->except('_token', 'eventTypes'),
+            $request->get('eventTypes')
         );
 
         return redirect('/tournaments')->withFlashSuccess($tournament->name.' has been created');

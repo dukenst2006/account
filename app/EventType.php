@@ -31,9 +31,9 @@ class EventType extends Model
     public static function validationRules()
     {
         return [
-            'tournament_id'         => 'required',
-            'event_type_id'            => 'required',
-            'price_per_participant'    => 'numeric'
+            'tournament_id'             => 'required',
+            'event_type_id'             => 'required',
+            'price_per_participant'     => 'numeric'
         ];
     }
 

@@ -32,6 +32,20 @@
                             </div>
                             @include('tournaments.form')
                             <div class="row">
+                                <div class="col-md-6 col-sm-6 form-group">
+                                    <label class="form-label">Events</label>
+                                    <span class="help">Additional fees can be added to these events after the tournament has been created</span>
+                                    <div class="controls">
+                                        @foreach($eventTypes as $x => $eventType)
+                                            <div class="checkbox">
+                                                {!! Form::checkbox('eventTypes['.$x.']', $eventType->id, old('eventType['.$x.']'), ['id' => 'eventType-'.$eventType->id]) !!}
+                                                <label for="eventType-{{ $eventType->id }}">{{ $eventType->name }}</label>
+                                            </div><br/>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>
                                 </div>
