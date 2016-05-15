@@ -208,12 +208,14 @@ class Tournament extends Model
         return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
     }
 
-    /**
-     * Determine if teams will lock
-     */
     public function teamsWillLock() : bool
     {
         return is_null($this->lock_teams) == false;
+    }
+
+    public function teamsAreLocked() : bool
+    {
+        return $this->teamsWillLock() && Carbon::now()->gte($this->lock_teams);
     }
 
     /**

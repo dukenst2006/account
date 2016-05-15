@@ -20,7 +20,7 @@
                                 <h5><i class="fa fa-calendar"></i> <span class="semi-bold">When</span></h5>
                                 <div class="m-l-20 m-b-20">{{ $tournament->dateSpan() }}</div>
                                 <h5><i class="fa fa-pencil"></i> <span class="semi-bold">Registration</span></h5>
-                                <div class="m-l-20 m-b-10">
+                                <div class="m-l-20 m-b-20">
                                     Status:
                                     @if($tournament->isRegistrationOpen())
                                         <span class="text-success">Open</span><br/>
@@ -33,6 +33,17 @@
                                     @endif
 
                                 </div>
+                                <h5><i class="fa fa-users"></i> <span class="semi-bold">Teams</span></h5>
+                                <div class="m-l-20 m-b-20">
+                                    0 of {{ number_format($tournament->max_teams) }} registered<br/>
+                                    @if($tournament->teamsWillLock())
+                                        @if($tournament->teamsAreLocked())
+                                            Changes are <span class="text-danger">locked</span>
+                                        @else
+                                            Lock on: {{ $tournament->lock_teams->toFormattedDateString() }}
+                                        @endif
+                                    @endif
+                                </div>
                                 <div class="text-center m-t-20">
                                     <a href="{{ route('tournaments.edit', [$tournament->id]) }}" class="btn btn-small btn-primary">Edit</a>
                                 </div>
@@ -40,7 +51,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5><i class="fa fa-users"></i> <span class="semi-bold">Events</span></h5>
+                                        <h5><span class="semi-bold">Events</span></h5>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <a href="{{ route('tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
