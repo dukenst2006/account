@@ -47,7 +47,8 @@ class Tournament extends Model
     const INACTIVE = 0;
 
     protected $attributes = [
-        'active' => self::INACTIVE
+        'active'        => self::INACTIVE,
+        'lock_teams'    => null
     ];
 
     protected $guarded = ['id', 'guid'];
@@ -177,7 +178,48 @@ class Tournament extends Model
         return Carbon::createFromFormat('Y-m-d', $registration_end);
     }
 
-    public function isRegistrationOpen()
+    /**
+     * Convert from m/d/Y to a Carbon object for saving
+     *
+     * @param $end
+     */
+    public function setLockTeamsAttribute($lock_teamsed)
+    {
+        if (is_null($lock_teamsed) || strlen($lock_teamsed) == 0) {
+            $this->attributes['lock_teams'] = null;
+        } else {
+            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teamsed);
+        }
+    }
+
+    /**
+     * Provide end as a Carbon object
+     *
+     * @param $end
+     *
+     * @return static
+     */
+    public function getLockTeamsAttribute($lock_teamsed)
+    {
+        if (is_null($lock_teamsed)) {
+            return null;
+        }
+
+        return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
+    }
+
+    /**
+     * Determine if teams will lock
+     */
+    public function teamsWillLock() : bool
+    {
+        return is_null($this->lock_teams) == false;
+    }
+
+    /**
+     * Determine if registration is currently open
+     */
+    public function isRegistrationOpen() : bool
     {
         $now = Carbon::now();
         return $now->gte($this->registration_start) && $now->lte($this->registration_end);

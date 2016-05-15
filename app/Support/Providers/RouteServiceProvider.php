@@ -157,8 +157,7 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
                     Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
                 });
-
-
+                
                 Route::group([
                     'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
                 ], function () {

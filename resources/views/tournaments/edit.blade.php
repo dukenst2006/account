@@ -5,7 +5,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-offset-1 col-md-10">
+            <div class="col-md-12">
                 <div class="grid simple">
                     {!! Form::model($tournament, ['route' => ['tournaments.update', $tournament->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
                     <div class="grid-title no-border">
@@ -13,6 +13,17 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="form-label">Name <span class="required">*</span></label>
+                                <span class="help"></span>
+                                <div class="controls">
+                                    {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
 
                         @include('tournaments.form')
 

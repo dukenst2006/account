@@ -36,8 +36,13 @@ class TournamentsController extends Controller
      */
     public function create()
     {
+        $programs = [];
+        foreach (Program::all() as $program) {
+            $programs[$program->id] = $program.'';
+        }
+
         return view('tournaments.create')
-            ->withPrograms(Program::orderBy('name', 'ASC')->get());
+            ->withPrograms($programs);
     }
 
     /**
@@ -62,8 +67,7 @@ class TournamentsController extends Controller
     public function edit(TournamentCreatorOnlyRequest $request, $id)
     {
         return view('tournaments.edit')
-            ->withTournament(Tournament::findOrFail($id))
-            ->withPrograms(Program::orderBy('name', 'ASC')->get());
+            ->withTournament(Tournament::findOrFail($id));
     }
 
     /**

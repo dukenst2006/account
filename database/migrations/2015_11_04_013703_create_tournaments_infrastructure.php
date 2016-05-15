@@ -22,13 +22,15 @@ class CreateTournamentsInfrastructure extends Migration
             $table->foreign('program_id')->references('id')->on('programs');
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
-            $table->string('name', 128)->unique();
             $table->boolean('active');
+            $table->string('name', 128)->unique();
             $table->date('start');
             $table->date('end');
             $table->date('registration_start');
             $table->date('registration_end');
-            $table->string('url');
+            $table->text('details')->nullable();
+            $table->tinyInteger('max_teams')->unsigned();
+            $table->date('lock_teams')->nullable();
             $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users');
             $table->timestamp('updated_at')->nullable();
