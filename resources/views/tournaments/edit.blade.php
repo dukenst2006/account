@@ -15,7 +15,7 @@
                         @include('partials.messages')
 
                         <div class="row">
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 col-sm-6 form-group">
                                 <label class="form-label">Name <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="controls">

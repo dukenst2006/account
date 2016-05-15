@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 col-sm-6 form-group">
         <label class="form-label">Tournament Dates <span class="required">*</span></label>
         <div class="controls p-b-20">
             <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) ? $tournament->start->format('m/d/Y') : \Carbon\Carbon::now()->format('m/d/Y')) }}">
@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 col-sm-6 form-group">
         <label class="form-label">Registration Dates <span class="required">*</span></label>
         <div class="controls p-b-20">
             <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) ? $tournament->registration_start->format('m/d/Y') : \Carbon\Carbon::now()->format('m/d/Y')) }}">
@@ -33,15 +33,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-7 form-group">
+    <div class="col-md-3 col-sm-3 col-xs-5 form-group">
         <label class="form-label">Maximum Teams <span class="required">*</span></label>
-        <span class="help">A waiting list will be automatically formed when this number is reached</span>
         <div class="controls">
             {!! Form::text('max_teams', null, ['class' => 'form-control', 'maxlength' => 3]) !!}
         </div>
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4 form-group">
+    <div class="col-md-3 col-sm-3 col-xs-1"></div>
+    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
         <label class="form-label">Lock Teams</label>
         <span class="help">If provided, teams cannot be changed after this date</span>
         <div class="controls p-b-10">
