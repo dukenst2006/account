@@ -56,7 +56,7 @@ class TournamentsController extends Controller
             Auth::user(),
             Session::season(),
             $request->except('_token', 'eventTypes'),
-            $request->get('eventTypes')
+            $request->get('eventTypes', [])
         );
 
         return redirect('/tournaments')->withFlashSuccess($tournament->name.' has been created');

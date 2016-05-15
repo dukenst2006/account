@@ -33,6 +33,7 @@ class TournamentsTest extends TestCase
             ->type($soon, 'end')
             ->type($soon, 'registration_start')
             ->type($soon, 'registration_end')
+            ->type(24, 'max_teams')
             ->press('Save')
             ->seePageIs('/tournaments')
             ->see($name);
