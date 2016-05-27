@@ -27,6 +27,9 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
     # give cli the keys
     && chown -R www-data:www-data /var/www/html /usr/local/bin/composer \
 
+    # redirect logs to stdout
+    && ln -sf /dev/stderr /var/www/html/storage/logs/laravel.log \
+
     # run laravel's scheduled commands as www-data
     && echo "*       *       *       *       *       php /var/www/html/artisan schedule:run" > /etc/crontabs/www-data
 

@@ -32,6 +32,8 @@ return [
 
 	'title' => 'Bible Bowl Management',
 
+	'error-notifications' => env('ERROR_NOTIFICATIONS', 'bkuhl@biblebowl.org'),
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone
@@ -99,7 +101,7 @@ return [
 	|
 	*/
 
-	'log' => env('LOG_METHOD', 'syslog'),
+	'log' => env('LOG_METHOD', 'single'),
 
 	/*
 	|--------------------------------------------------------------------------
