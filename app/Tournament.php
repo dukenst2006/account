@@ -51,20 +51,9 @@ class Tournament extends Model
         'lock_teams'    => null
     ];
 
-    protected $guarded = ['id', 'guid'];
+    protected $guarded = ['id'];
 
     protected $casts = ['active'];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        //assign a guid for each tournament
-        static::creating(function ($tournament) {
-            $tournament->guid = Uuid::uuid4();
-            return true;
-        });
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -88,6 +77,11 @@ class Tournament extends Model
     public function creator()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function setSlugAttribute($slug)
+    {
+        $this->attributes['slug'] = str_slug($slug);
     }
 
     /**

@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple">
-                    {!! Form::model($tournament, ['route' => ['tournaments.update', $tournament->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
+                    {!! Form::model($tournament, ['route' => ['admin.tournaments.update', $tournament->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
                     <div class="grid-title no-border">
                         <h4>Edit <span class="semi-bold">Tournament</span></h4>
                     </div>
@@ -25,7 +25,7 @@
                             <div class="col-md-6"></div>
                         </div>
 
-                        @include('tournaments.form')
+                        @include('tournaments.admin.form')
 
                         <div class="row">
                             <div class="col-md-12 form-group">

@@ -17,7 +17,7 @@ class CreateTournamentsInfrastructure extends Migration
         Schema::create('tournaments', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->string('guid')->unique();
+            $table->string('slug')->unique();
             $table->integer('program_id')->unsigned();
             $table->foreign('program_id')->references('id')->on('programs');
             $table->integer('season_id')->unsigned();

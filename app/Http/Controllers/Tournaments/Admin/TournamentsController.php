@@ -1,8 +1,9 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
 use BibleBowl\EventType;
+use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
@@ -16,7 +17,7 @@ class TournamentsController extends Controller
 
     public function index()
     {
-        return view('/tournaments/index', [
+        return view('tournaments.admin.index', [
             'tournaments' => Tournament::where('season_id', Session::season()->id)
                 ->where('creator_id', Auth::user()->id)
                 ->orderBy('start', 'DESC')
@@ -26,7 +27,7 @@ class TournamentsController extends Controller
 
     public function show($tournamentId)
     {
-        return view('/tournaments/show', [
+        return view('tournaments.admin.show', [
             'tournament' => Tournament::findOrFail($tournamentId)
         ]);
     }
@@ -42,7 +43,7 @@ class TournamentsController extends Controller
             $programs[$program->id] = $program.'';
         }
 
-        return view('tournaments.create')
+        return view('tournaments.admin.create')
             ->withPrograms($programs)
             ->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
     }
@@ -59,7 +60,7 @@ class TournamentsController extends Controller
             $request->get('eventTypes', [])
         );
 
-        return redirect('/tournaments')->withFlashSuccess($tournament->name.' has been created');
+        return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
     }
 
     /**
@@ -69,7 +70,7 @@ class TournamentsController extends Controller
      */
     public function edit(TournamentCreatorOnlyRequest $request, $id)
     {
-        return view('tournaments.edit')
+        return view('tournaments.admin.edit')
             ->withTournament(Tournament::findOrFail($id));
     }
 
@@ -84,6 +85,6 @@ class TournamentsController extends Controller
         $tournament = Tournament::findOrFail($id);
         $tournament->update($request->all());
 
-        return redirect('/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
+        return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
     }
 }

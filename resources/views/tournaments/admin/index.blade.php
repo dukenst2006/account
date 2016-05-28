@@ -12,7 +12,7 @@
                         <h4 class="semi-bold">Tournaments</h4>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="/tournaments/create" class="btn btn-primary">New Tournament</a>
+                        <a href="/admin/tournaments/create" class="btn btn-primary">New Tournament</a>
                     </div>
                 </div>
                 </form>
@@ -22,6 +22,7 @@
                             <th class="col-md-4">Name</th>
                             <th class="col-md-2 text-center">Status</th>
                             <th class="col-md-4 text-center">Dates</th>
+                            <th class="col-md-4 text-center">Options</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,7 +30,7 @@
                         @foreach ($tournaments as $tournament)
                             <tr>
                                 <td>
-                                    <a href="/tournaments/{{ $tournament->id }}" class="semi-bold">{{ $tournament->name }}</a><br/>
+                                    <a href="/admin/tournaments/{{ $tournament->id }}" class="semi-bold">{{ $tournament->name }}</a><br/>
                                 </td>
                                 <td class="text-center">
                                     @if($tournament->active)
@@ -39,6 +40,11 @@
                                     @endif
                                 </td>
                                 <td class="text-center">{{ $tournament->dateSpan() }}</td>
+                                <td class="text-center">
+                                    @if($tournament->active)
+                                        <a href="/tournament/{{ $tournament->slug }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-external-link"></i> Shareable Link</a>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     @endif

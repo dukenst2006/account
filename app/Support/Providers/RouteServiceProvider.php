@@ -159,10 +159,11 @@ class RouteServiceProvider extends ServiceProvider
                 });
                 
                 Route::group([
+                    'prefix' => 'admin',
                     'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
                 ], function () {
-                    Route::resource('tournaments', 'TournamentsController');
-                    Route::resource('tournaments.events', 'Tournaments\EventsController', [
+                    Route::resource('tournaments', 'Tournaments\Admin\TournamentsController');
+                    Route::resource('tournaments.events', 'Tournaments\Admin\EventsController', [
                         'except' => ['index', 'show']
                     ]);
                 });
