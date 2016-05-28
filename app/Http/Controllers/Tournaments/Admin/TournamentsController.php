@@ -45,7 +45,8 @@ class TournamentsController extends Controller
 
         return view('tournaments.admin.create')
             ->withPrograms($programs)
-            ->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
+            ->with('eventTypes', EventType::orderBy('name', 'ASC')->get())
+            ->with('defaultEventTypes', [EventType::ROUND_ROBIN, EventType::DOUBLE_ELIMINATION]);
     }
 
     /**

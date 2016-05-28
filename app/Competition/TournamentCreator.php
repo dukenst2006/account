@@ -20,8 +20,10 @@ class TournamentCreator
         $attributes['season_id'] = $season->id;
 
         // don't prefix with season if the name already contains the year (20xx)
-        if (str_contains($attributes['name'], '20')) {
+        if (str_contains($attributes['name'], '20') == false) {
             $attributes['slug'] = $season->name.' '.$attributes['name'];
+        } else {
+            $attributes['slug'] = $attributes['name'];
         }
 
         DB::beginTransaction();

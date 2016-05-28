@@ -38,7 +38,7 @@
                                     <div class="controls">
                                         @foreach($eventTypes as $x => $eventType)
                                             <div class="checkbox">
-                                                {!! Form::checkbox('eventTypes['.$x.']', $eventType->id, old('eventType['.$x.']'), ['id' => 'eventType-'.$eventType->id]) !!}
+                                                {!! Form::checkbox('eventTypes['.$x.']', $eventType->id, old('eventType['.$x.']', in_array($eventType->id, $defaultEventTypes)), ['id' => 'eventType-'.$eventType->id]) !!}
                                                 <label for="eventType-{{ $eventType->id }}">{{ $eventType->name }}</label>
                                             </div><br/>
                                         @endforeach
