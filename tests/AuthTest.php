@@ -1,6 +1,7 @@
 <?php
 
 use BibleBowl\User;
+use BibleBowl\Tournament;
 
 class AuthTest extends TestCase
 {
@@ -72,6 +73,21 @@ class AuthTest extends TestCase
         $user = User::where('email', $email)->first();
         $this->assertTrue($user->exists);
         $this->assertNotNull($user->primary_address_id);
+    }
+
+    /**
+     * @test
+     */
+    public function isRedirectedAfterLogin()
+    {
+        $tournament = Tournament::firstOrFail();
+
+        $this
+            ->visit('/login?returnUrl=tournaments/'.$tournament->slug)
+            ->login(AcceptanceTestingSeeder::GUARDIAN_EMAIL, AcceptanceTestingSeeder::GUARDIAN_PASSWORD)
+
+            ->followRedirects()
+            ->seePageIs('/tournaments/'.$tournament->slug);
     }
 
     private function login($email, $password = AcceptanceTestingSeeder::USER_PASSWORD)

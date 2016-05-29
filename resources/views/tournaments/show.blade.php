@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $tournament->name.' - '.$tournament->season->name)
+@section('title', $tournament->season->name.' - '.$tournament->name)
 
 @section('content')
     <div class="content">
@@ -13,14 +13,14 @@
                 <div class="row m-t-10">
                     <div class="col-md-12">
                         @if(!$tournament->active)
-                            <div class="alert text-center">Once you've finished configuring this tournament, be sure to make it "Active" so that people can register once registration is open.</div>
+                            <div class="alert text-center">This tournament won't be publicly visible until it is made active.</div>
                         @endif
                         <div class="row">
                             <div class="col-md-4 b-grey b-r">
                                 <h5><i class="fa fa-calendar"></i> <span class="semi-bold">When</span></h5>
                                 <div class="m-l-20 m-b-20">{{ $tournament->dateSpan() }}</div>
                                 <h5><i class="fa fa-pencil"></i> <span class="semi-bold">Registration</span></h5>
-                                <div class="m-l-20 m-b-10">
+                                <div class="m-l-20 m-b-20">
                                     Status:
                                     @if($tournament->isRegistrationOpen())
                                         <span class="text-success">Open</span><br/>
@@ -33,45 +33,38 @@
                                     @endif
 
                                 </div>
-                                <div class="text-center m-t-20">
-                                    <a href="{{ route('tournaments.edit', [$tournament->id]) }}" class="btn btn-small btn-primary">Edit</a>
+                                @if($tournament->teamsWillLock())
+                                <h5><i class="fa fa-users"></i> <span class="semi-bold">Teams</span></h5>
+                                <div class="m-l-20 m-b-20">
+
+                                        @if($tournament->teamsAreLocked())
+                                            Changes are <span class="text-danger">locked</span>
+                                        @else
+                                            Editable until {{ $tournament->lock_teams->toFormattedDateString() }}
+                                        @endif
                                 </div>
+                                @endif
+                                @if(count($events) > 0)
+                                <h5><i class="fa fa-trophy"></i> <span class="semi-bold">Events</span></h5>
+                                <div class="m-l-20 m-b-20">
+                                    <ul>
+                                        @foreach ($events as $event)
+                                            <li>
+                                                {{ $event->type->name }}
+                                                @if($event->isFree() === false)
+                                                    (+{{ $event->displayPrice() }})
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
                             </div>
                             <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5><i class="fa fa-users"></i> <span class="semi-bold">Events</span></h5>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <a href="{{ route('tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
-                                    </div>
-                                </div>
-                                <table class="table no-more-tables">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th class="text-center">Price</th>
-                                        <th width="20%"></th>
-                                    </tr>
-                                    @foreach ($tournament->events()->with('type')->get() as $event)
-                                        {!! Form::open(['url' => '/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
-                                        <tr>
-                                            <td>{{ $event->type->name }}</td>
-                                            <td class="text-center">{{ $event->displayPrice() }}</td>
-                                            <td>
-                                                <a href="{{ route('tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
-                                                <a class="fa fa-trash-o p-l-20" onclick="$(this).closest('form').submit();" id="delete-{{ $event->id }}"></a>
-                                            </td>
-                                        </tr>
-                                        {!! Form::close() !!}
-                                    @endforeach
-                                </table>
+                                {!! $tournament->details !!}
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="text-center muted p-t-20" style="font-style:italic; font-size: 90%;">
-                        Last Updated: {{ $tournament->updated_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }} |
-                        Created: {{ $tournament->created_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }}
                 </div>
             </div>
         </div>

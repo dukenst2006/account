@@ -60,6 +60,7 @@ $factory->define(Address::class, function (Generator $faker) {
 $factory->define(Tournament::class, function (Generator $faker) {
     return [
         'name'                  => $faker->word,
+        'program_id'	        => Program::TEEN,
         'season_id'	            => Season::current()->id,
         'start'	                => Carbon::now()->addMonth(1),
         'end'                   => Carbon::now()->addDays(14),

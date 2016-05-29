@@ -14,14 +14,26 @@ class TournamentCreator
      *
      * @return static
      */
-    public function create(User $owner, Season $season, array $attributes)
+    public function create(User $owner, Season $season, array $attributes, array $eventTypes)
     {
         $attributes['creator_id'] = $owner->id;
         $attributes['season_id'] = $season->id;
 
+        // don't prefix with season if the name already contains the year (20xx)
+        if (str_contains($attributes['name'], '20') == false) {
+            $attributes['slug'] = $season->name.' '.$attributes['name'];
+        } else {
+            $attributes['slug'] = $attributes['name'];
+        }
+
         DB::beginTransaction();
 
         $tournament = Tournament::create($attributes);
+        foreach ($eventTypes as $eventTypeId) {
+            $tournament->events()->create([
+                'event_type_id' => $eventTypeId
+            ]);
+        }
 
         DB::commit();
 

@@ -158,12 +158,13 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
                 });
 
-
                 Route::group([
-                    'middleware' => ['can:'.Ability::CREATE_TOURNAMENTS]
+                    'prefix'        => 'admin',
+                    'middleware'    => ['can:'.Ability::CREATE_TOURNAMENTS],
+                    'namespace'     => 'Tournaments\Admin'
                 ], function () {
                     Route::resource('tournaments', 'TournamentsController');
-                    Route::resource('tournaments.events', 'Tournaments\EventsController', [
+                    Route::resource('tournaments.events', 'EventsController', [
                         'except' => ['index', 'show']
                     ]);
                 });
@@ -219,7 +220,12 @@ class RouteServiceProvider extends ServiceProvider
                     });
                 });
             });
-
+            
+            Route::group([
+                'prefix'    => 'tournaments'
+            ], function () {
+                Route::get('{slug}', 'TournamentsController@show');
+            });
         });
 
         Route::get('healthcheck/{token}', function ($token) {

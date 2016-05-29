@@ -26,14 +26,20 @@ class EventType extends Model
     const PARTICIPANT_TEAM = 'team';
     const PARTICIPANT_PLAYER = 'player';
 
+    const ROUND_ROBIN = 1;
+    const QUOTE_BEE = 2;
+    const DOUBLE_ELIMINATION = 3;
+    const BUZZ_OFF = 4;
+    const KING_OF_THE_HILL = 5;
+
     protected $guarded = ['id'];
 
     public static function validationRules()
     {
         return [
-            'tournament_id'         => 'required',
-            'event_type_id'            => 'required',
-            'price_per_participant'    => 'numeric'
+            'tournament_id'             => 'required',
+            'event_type_id'             => 'required',
+            'price_per_participant'     => 'numeric'
         ];
     }
 
