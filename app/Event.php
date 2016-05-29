@@ -80,7 +80,7 @@ class Event extends Model
                 $price = number_format($this->price_per_participant);
             }
 
-            echo '$'. $price.' / '.$this->type->participant_type;
+            echo '$'. $price.' / '.$this->type->participantType->name;
         }
     }
 }

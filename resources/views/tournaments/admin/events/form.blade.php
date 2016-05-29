@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12 form-group">
         <label class="form-label">Price</label>
-        <span class="help">Leave empty if the event is free</span>
+        <span class="help">Leave empty if the event is free or included</span>
         <div class="input-group transparent">
           <span class="input-group-addon">
             <i class="fa fa-usd"></i>

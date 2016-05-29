@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\EventType;
+use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use Carbon\Carbon;
 use DateTime;
@@ -327,13 +328,9 @@ class Form extends FormBuilder
      */
     public function selectParticipantType($name, $selected = null, $options = array(), $optional = false)
     {
-        $participantTypes = [
-            EventType::PARTICIPANT_PLAYER   => 'Individual Players',
-            EventType::PARTICIPANT_TEAM    => 'Teams'
-        ];
         $list = [];
-        foreach ($participantTypes as $type => $label) {
-            $list[$type] = $label;
+        foreach (ParticipantType::orderBy('name')->get() as $participantType) {
+            $list[$participantType->id] = $participantType->name;
         }
 
         if ($optional) {

@@ -26,13 +26,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-group">
-                                    <label class="form-label">Event Type <span class="required">*</span></label>
+                                    <label class="form-label">Type <span class="required">*</span></label>
                                     <span class="help"></span>
                                     <div class="controls">
                                         @foreach($eventTypes as $eventType)
                                             <div class="radio">
                                                 {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id]) !!}
-                                                <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> (priced per {{ $eventType->participant_type }})</label>
+                                                <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> (priced per {{ $eventType->participantType->name }})</label>
                                             </div>
                                             <br/>
                                         @endforeach

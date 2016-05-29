@@ -23,9 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EventType extends Model
 {
-    const PARTICIPANT_TEAM = 'team';
-    const PARTICIPANT_PLAYER = 'player';
-
     const ROUND_ROBIN = 1;
     const QUOTE_BEE = 2;
     const DOUBLE_ELIMINATION = 3;
@@ -49,6 +46,14 @@ class EventType extends Model
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function participantType()
+    {
+        return $this->belongsTo(ParticipantType::class);
     }
 
     public function setPricePerParticipantAttribute($pricePerParticipant)
