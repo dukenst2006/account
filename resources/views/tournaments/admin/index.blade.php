@@ -42,7 +42,7 @@
                                 <td class="text-center">{{ $tournament->dateSpan() }}</td>
                                 <td class="text-center">
                                     @if($tournament->active)
-                                        <a href="/tournament/{{ $tournament->slug }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-external-link"></i> Shareable Link</a>
+                                        <a href="/tournaments/{{ $tournament->slug }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-external-link"></i> Shareable Link</a>
                                     @endif
                                 </td>
                             </tr>

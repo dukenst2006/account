@@ -6,6 +6,7 @@ use Carbon\Carbon;
 class TournamentsTest extends TestCase
 {
 
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsDirector;
 
     public function setUp()
@@ -37,9 +38,6 @@ class TournamentsTest extends TestCase
             ->press('Save')
             ->seePageIs('/admin/tournaments')
             ->see($name);
-
-        # Cleaning up
-        Tournament::where('name', $name)->delete();
     }
 
     /**
