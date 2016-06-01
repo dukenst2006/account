@@ -37,12 +37,28 @@ class CreateTournamentsInfrastructure extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
+
         Schema::create('participant_types', function(Blueprint $table)
         {
             $table->increments('id');
             $table->string('name', 24)->unique();
+            $table->string('description', 128);
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
+        });
+
+        Schema::create('participant_fees', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('tournament_id')->unsigned();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->integer('participant_type_id')->unsigned();
+            $table->foreign('participant_type_id')->references('id')->on('participant_types');
+            $table->boolean('requires_registration');
+            $table->float('fee')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->unique(['tournament_id', 'participant_type_id']);
         });
 
         Schema::create('event_types', function(Blueprint $table)
@@ -77,6 +93,7 @@ class CreateTournamentsInfrastructure extends Migration
     {
         Schema::drop('events');
         Schema::drop('event_types');
+        Schema::drop('participant_fees');
         Schema::drop('tournaments');
         Schema::drop('participant_types');
     }

@@ -44,14 +44,17 @@ class ProductionSeeder extends Seeder {
         ParticipantType::create([
             'name' => 'Player'
         ]);
-//        ParticipantType::create([
-//            'name'          => 'Spectator',
-//            'description'   => 'single adult'
-//        ]);
-//        ParticipantType::create([
-//            'name'          => 'Spectator',
-//            'description'   => 'family'
-//        ]);
+        ParticipantType::create([
+            'name' => 'Quizmaster'
+        ]);
+        ParticipantType::create([
+            'name'          => 'Spectator - Adult',
+            'description'   => 'Single adult'
+        ]);
+        ParticipantType::create([
+            'name'          => 'Spectator - Family',
+            'description'   => 'Up to 2 adults and children who are not players'
+        ]);
 
         EventType::create([
             'participant_type_id'   => ParticipantType::TEAM,

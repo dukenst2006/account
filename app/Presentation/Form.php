@@ -22,7 +22,10 @@ class Form extends FormBuilder
      */
     public function money($name, $value = null, $options = array())
     {
-        return $this->number($name, $value, $options);
+        return '<div class="input-group transparent">
+            <span class="input-group-addon">
+                <i class="fa fa-usd"></i>
+            </span>'.$this->number($name, $value, $options).'</div>';
     }
 
     /**

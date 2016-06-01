@@ -35,6 +35,8 @@ class TournamentsTest extends TestCase
             ->type($soon, 'registration_start')
             ->type($soon, 'registration_end')
             ->type(24, 'max_teams')
+            ->type(25.50, 'particpantTypes[2][fee]')
+            ->check('particpantTypes[3][requireRegistration]')
             ->press('Save')
             ->seePageIs('/admin/tournaments')
             ->see($name);
@@ -52,11 +54,6 @@ class TournamentsTest extends TestCase
             ->type($newName, 'name')
             ->press('Save')
             ->see($tournament->name);
-
-        # Cleaning up
-        $tournament->update([
-            'name' => $tournament->name
-        ]);
     }
 
     /**

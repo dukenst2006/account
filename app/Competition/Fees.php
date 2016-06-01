@@ -2,38 +2,23 @@
 
 namespace BibleBowl\Competition;
 
-use BibleBowl\EventType;
+use BibleBowl\ParticipantType;
 use Illuminate\Support\Fluent;
 
 class Fees extends Fluent
 {
-    public function setSpectator($fee)
+    public function setFee(ParticipantType $participantType, $fee)
     {
-        return $this->spectator = $fee;
+        return $this->{$participantType->id} = $fee;
     }
 
-    public function spectator()
+    public function fee(ParticipantType $participantType)
     {
-        return $this->get('participant', null);
+        return $this->get($participantType->id, null);
     }
 
-    public function hasSpectatorFee()
+    public function hasFee(ParticipantType $participantType)
     {
-        return $this->spectator() !== null;
-    }
-
-    public function setParticipant($participantType, $fee)
-    {
-        return $this->participant = $fee;
-    }
-
-    public function participant()
-    {
-        return $this->get('participant');
-    }
-
-    public function hasParticipantFee()
-    {
-        return $this->participant() !== null;
+        return $this->fee($participantType) !== null;
     }
 }

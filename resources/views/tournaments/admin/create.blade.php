@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 form-group">
                                     <label class="form-label">Events</label>
-                                    <span class="help">Additional fees can be added to these events after the tournament has been created</span>
+                                    <span class="help">Additional fees can optionally be added to these events after the tournament has been created</span>
                                     <div class="controls">
                                         @foreach($eventTypes as $x => $eventType)
                                             <div class="checkbox">

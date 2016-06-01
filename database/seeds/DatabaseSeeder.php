@@ -15,6 +15,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use BibleBowl\Tournament;
 use BibleBowl\Role;
+use BibleBowl\EventType;
 
 class DatabaseSeeder extends Seeder {
 
@@ -68,7 +69,7 @@ class DatabaseSeeder extends Seeder {
         }
 
         $tournamentName = 'My Test Tournament';
-        Tournament::create([
+        $tournament = Tournament::create([
             'program_id'            => Program::TEEN,
             'slug'                  => $this->season->name.' '.$tournamentName,
             'season_id'             => $this->season->id,
@@ -82,6 +83,14 @@ class DatabaseSeeder extends Seeder {
             'max_teams'             => 64,
             'active'                => 1,
             'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y')
+        ]);
+        $tournament->events()->create([
+            'event_type_id' => EventType::ROUND_ROBIN,
+            'price_per_participant' => '25.00'
+        ]);
+        $tournament->events()->create([
+            'event_type_id' => EventType::DOUBLE_ELIMINATION,
+            'price_per_participant' => '35.00'
         ]);
 
         self::$isSeeding = false;

@@ -2,12 +2,14 @@
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
+use BibleBowl\Competition\TournamentUpdater;
 use BibleBowl\EventType;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupEditRequest;
 use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
+use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use BibleBowl\Tournament;
 use Session;
@@ -43,10 +45,15 @@ class TournamentsController extends Controller
             $programs[$program->id] = $program.'';
         }
 
-        return view('tournaments.admin.create')
-            ->withPrograms($programs)
-            ->with('eventTypes', EventType::orderBy('name', 'ASC')->get())
-            ->with('defaultEventTypes', [EventType::ROUND_ROBIN, EventType::DOUBLE_ELIMINATION]);
+        return view('tournaments.admin.create', [
+            'programs'          => $programs,
+            'eventTypes'        => EventType::orderBy('name', 'ASC')->get(),
+            'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get(),
+            'defaultEventTypes' => [
+                EventType::ROUND_ROBIN,
+                EventType::DOUBLE_ELIMINATION
+            ]
+        ]);
     }
 
     /**
@@ -57,8 +64,9 @@ class TournamentsController extends Controller
         $tournament = $tournamentCreator->create(
             Auth::user(),
             Session::season(),
-            $request->except('_token', 'eventTypes'),
-            $request->get('eventTypes', [])
+            $request->except('_token', 'eventTypes', 'particpantTypes'),
+            $request->get('eventTypes', []),
+            $request->get('particpantTypes', [])
         );
 
         return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
@@ -71,8 +79,12 @@ class TournamentsController extends Controller
      */
     public function edit(TournamentCreatorOnlyRequest $request, $id)
     {
-        return view('tournaments.admin.edit')
-            ->withTournament(Tournament::findOrFail($id));
+        $tournament = Tournament::with('participantFees')->findOrFail($id);
+        return view('tournaments.admin.edit', [
+            'tournament' => $tournament,
+            'participantFees' => $tournament->participantFees->keyBy('participant_type_id'),
+            'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get()
+        ]);
     }
 
     /**
@@ -81,10 +93,15 @@ class TournamentsController extends Controller
      *
      * @return mixed
      */
-    public function update(TournamentEditRequest $request, $id)
+    public function update(TournamentEditRequest $request, $id, TournamentUpdater $tournamentUpdater)
     {
         $tournament = Tournament::findOrFail($id);
-        $tournament->update($request->all());
+
+        $tournamentUpdater->update(
+            $tournament,
+            $request->except('particpantTypes'),
+            $request->get('particpantTypes')
+        );
 
         return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
     }

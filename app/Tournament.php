@@ -2,6 +2,7 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Competition\Fees;
 use BibleBowl\Presentation\Describer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -64,6 +65,14 @@ class Tournament extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function participantFees()
+    {
+        return $this->hasMany(ParticipantFee::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function season()
@@ -77,6 +86,23 @@ class Tournament extends Model
     public function creator()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function setFeesAttribute(Fees $fees)
+    {
+        $this->attributes['fees'] = $fees->toJson();
+    }
+
+    /**
+     * @return Fees
+     */
+    public function getFeesAttribute()
+    {
+        if ($this->attributes['fees'] !== null) {
+            return app(Fees::class, $this->attributes['fees']);
+        }
+
+        return app(Fees::class);
     }
 
     public function setSlugAttribute($slug)

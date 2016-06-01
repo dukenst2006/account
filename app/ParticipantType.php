@@ -12,6 +12,14 @@ class ParticipantType extends Model
     protected $guarded = ['id'];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function participantFee()
+    {
+        return $this->belongsTo(ParticipantFee::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function events()
