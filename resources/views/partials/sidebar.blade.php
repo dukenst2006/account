@@ -49,7 +49,7 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                         @if(Route::current()->getUri() == 'admin/tournaments')
                     active
                 @endif">
-                <a href="/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
+                <a href="/admin/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
             </li>
             @endcan
             @if(

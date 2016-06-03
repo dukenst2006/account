@@ -14,6 +14,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const REGISTER_WITH_GROUP = 'register_with_group';
     const ADMIN_USER = 'admin_user';
     const GROUP_REGISTRATION = 'seasonal_registration';
+    const REDIRECT_TO_AFTER_AUTH = 'after_auth_redirect';
 
     /** @var Season */
     protected $season = null;
@@ -114,6 +115,19 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function rememberAdminStatus($adminId)
     {
         $this->set(self::ADMIN_USER, $adminId);
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setRedirectToAfterAuth($url)
+    {
+        $this->set(self::REDIRECT_TO_AFTER_AUTH, $url);
+    }
+
+    public function redirectToAfterAuth()
+    {
+        return $this->get(self::REDIRECT_TO_AFTER_AUTH, null);
     }
 
     public function forgetAdminStatus()

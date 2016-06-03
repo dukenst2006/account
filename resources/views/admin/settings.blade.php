@@ -2,8 +2,7 @@
 
 @section('title', 'Settings')
 
-@includeCss(/assets/plugins/bootstrap-datepicker/css/datepicker.min.css)
-@includeJs(/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js)
+@includeDatePicker
 @js
     $(document).ready(function () {
         $('.input-append.date').datepicker({

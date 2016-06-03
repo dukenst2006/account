@@ -45,6 +45,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        // if the user should be redirected, lets do that now
+        if (Session::redirectToAfterAuth() != null) {
+            return redirect(Session::redirectToAfterAuth());
+        }
+        
         $season = Session::season();
         $view = view('dashboard');
 

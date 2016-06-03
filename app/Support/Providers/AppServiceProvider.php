@@ -76,6 +76,12 @@ class AppServiceProvider extends ServiceProvider
                 \\".Html::class."::\$includeJs[] = \"/assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js\";
                 ?>";
         });
+        Blade::directive('includeDatePicker', function () {
+            return "<?php
+                \\".Html::class."::\$includeCss[] = \"/assets/plugins/bootstrap-datepicker/css/datepicker.min.css\";
+                \\".Html::class."::\$includeJs[] = \"/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js\";
+                ?>";
+        });
         Blade::directive('includeNotifications', function () {
             return "<?php
                 \\".Html::class."::\$includeCss[] = \"/css/notifications.css\";

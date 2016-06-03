@@ -32,7 +32,7 @@
 	  	"barryvdh/laravel-debugbar": "^2.0",
 	  	"spatie/laravel-tail": "dev-master",
 	  	"codeception/codeception": "~2.0",
-	    "mockery/mockery": "0.9.*",
+	    "mockery/mockery": "dev-master",
 	  	"fzaninotto/faker": "^1.5"
 	},
 	"autoload": {

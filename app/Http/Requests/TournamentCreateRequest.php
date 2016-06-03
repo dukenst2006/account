@@ -29,7 +29,7 @@ class TournamentCreateRequest extends Request
             'end'                   => 'required',
             'registration_start'    => 'required',
             'registration_end'      => 'required',
-            'url'                   => 'url'
+            'max_teams'             => 'required',
         ];
     }
 
@@ -45,7 +45,7 @@ class TournamentCreateRequest extends Request
             'end.required'                  => 'An end date is required',
             'registration_start.required'   => 'A registration start date is required',
             'registration_end.required'     => 'A registration end date is required',
-            'url.url'                       => 'url'
+            'max_teams.required'            => 'Max number of teams is required'
         ];
     }
 }

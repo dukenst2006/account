@@ -21,14 +21,22 @@
         </style>
     @endif
 </head>
-<body>
 
-    <div class="header navbar navbar-inverse ">
+{{-- Hide sidebar for guests --}}
+@if(Auth::user() != null)
+<body>
+@else
+<body class="hide-sidebar">
+@endif
+
+    <div class="header navbar navbar-inverse">
         @include('partials.navbar')
     </div>
 
     <div class="page-container row-fluid">
+        @if(Auth::user() != null)
         @include('partials.sidebar')
+        @endif
 
         <div class="page-content">
             @yield('content')

@@ -1,9 +1,9 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments;
+<?php namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
 use BibleBowl\Event;
 use BibleBowl\EventType;
 use BibleBowl\Group;
-use BibleBowl\Http\Controllers\Admin\Controller;
+use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Tournament;
 
@@ -15,7 +15,7 @@ class EventsController extends Controller
      */
     public function create($tournamentId)
     {
-        return view('tournaments.events.create')
+        return view('tournaments.admin.events.create')
                 ->withTournament(Tournament::findOrFail($tournamentId))
                 ->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
     }
@@ -32,7 +32,7 @@ class EventsController extends Controller
 
         Event::create($request->except('_token'));
 
-        return redirect('/tournaments/'.$tournamentId)->withFlashSuccess('Event has been created');
+        return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event has been created');
     }
 
     /**
@@ -42,7 +42,7 @@ class EventsController extends Controller
      */
     public function edit(TournamentCreatorOnlyRequest $request, $tournamentId, $eventId)
     {
-        return view('tournaments.events.edit')
+        return view('tournaments.admin.events.edit')
             ->withTournament(Tournament::findOrFail($tournamentId))
             ->withEvent(Event::findOrFail($eventId));
     }
@@ -58,13 +58,13 @@ class EventsController extends Controller
         $event = Event::findOrFail($eventId);
         $event->update($request->except('_token', '_method'));
 
-        return redirect('/tournaments/'.$tournamentId)->withFlashSuccess('Your changes were saved');
+        return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Your changes were saved');
     }
 
     public function destroy($tournamentId, $eventId)
     {
         Event::findOrFail($eventId)->delete();
 
-        return redirect('/tournaments/'.$tournamentId)->withFlashSuccess('Event deleted');
+        return redirect('/admin/tournaments/'.$tournamentId)->withFlashSuccess('Event deleted');
     }
 }

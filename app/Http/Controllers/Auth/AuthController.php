@@ -25,6 +25,7 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins {
+        AuthenticatesAndRegistersUsers::getLogin as originalLogin;
         AuthenticatesAndRegistersUsers::getLogout as originalLogout;
     }
 
@@ -35,6 +36,15 @@ class AuthController extends Controller
         $this->registrar = $registrar;
 
         $this->middleware('guest', ['except' => 'getLogout']);
+    }
+
+    public function getLogin(Request $request)
+    {
+        if ($request->has('returnUrl')) {
+            Session::setRedirectToAfterAuth($request->get('returnUrl'));
+        }
+
+        return $this->originalLogin();
     }
 
     /**

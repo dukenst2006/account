@@ -12,7 +12,7 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        {!! Form::open(['route' => ['tournaments.events.store', $tournament->id], 'role' => 'form']) !!}
+                        {!! Form::open(['route' => ['admin.tournaments.events.store', $tournament->id], 'role' => 'form']) !!}
                             <div class="row">
                                 <div class="col-md-2">
                                     Tournament
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
 
-                            @include('tournaments.events.form')
+                            @include('tournaments.admin.events.form')
 
                             <div class="row">
                                 <div class="col-md-12 text-center">
@@ -55,8 +55,7 @@
     </div>
 @endsection
 
-@includeCss(/assets/plugins/bootstrap-datepicker/css/datepicker.min.css)
-@includeJs(/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js)
+@includeDatePicker
 @js
     $(document).ready(function () {
         $('.input-append.date').datepicker({

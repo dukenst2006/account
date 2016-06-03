@@ -2,9 +2,12 @@
 <div class="navbar-inner">
     <div class="header-seperation">
         <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
+            {{-- Hide sidebar-expansion icon for guests on mobile --}}
+            @if(Auth::user() != null)
             <li class="dropdown"> <a id="main-menu-toggle" href="#main-menu"  class="" >
                     <div class="iconset top-menu-toggle-white"></div>
                 </a> </li>
+            @endif
         </ul>
         <!-- BEGIN LOGO -->
         <a href="/"><img src="/img/logo.png" class="logo" alt="" width="106" height="36"/></a>
@@ -19,15 +22,20 @@
     <div class="header-quick-nav" >
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="pull-left">
+            {{-- Hide sidebar-expansion icon for guests --}}
+            @if(Auth::user() != null)
             <ul class="nav quick-section">
                 <li class="quicklinks"> <a href="#" class="" id="layout-condensed-toggle" >
                         <div class="iconset top-menu-toggle-dark"></div>
                     </a> </li>
             </ul>
+            @endif
         </div>
         <!-- END TOP NAVIGATION MENU -->
         <!-- BEGIN CHAT TOGGLER -->
         <div class="pull-right">
+            {{-- Hide logged-in menu for guests --}}
+            @if(Auth::user() != null)
             <ul class="nav quick-section group-section">
                 @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
                     <li class="group-menu">
@@ -75,6 +83,25 @@
                     </ul>
                 </li>
             </ul>
+            @else
+                <ul class="nav quick-section guest-nav">
+                    <li class="semi-bold">
+                        Login with...
+                    </li>
+                    <li>
+                        <span><a href="/login/facebook?returnUrl={{ Request::path() }}" class="btn btn-block btn-info"><i class="fa fa-facebook"></i></a></span>
+                    </li>
+                    <li>
+                        <span><a href="/login/google?returnUrl={{ Request::path() }}" class="btn btn-block btn-danger"><i class="fa fa-google"></i></a></span>
+                    </li>
+                    <li>
+                        <span><a href="/login/twitter?returnUrl={{ Request::path() }}" class="btn btn-block btn-success"><i class="fa fa-twitter"></i></a></span>
+                    </li>
+                    <li>
+                        or your<br/><a href="/login?returnUrl={{ Request::path() }}" style="padding-top: 0px">email and password</a>
+                    </li>
+                </ul>
+            @endif
         </div>
         <!-- END CHAT TOGGLER -->
     </div>

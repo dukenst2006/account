@@ -22,12 +22,12 @@ class TournamentEventsTest extends TestCase
     {
         $price = rand(10, 100).'.'.rand(1, 99);
         $this
-            ->visit('/tournaments/1')
+            ->visit('/admin/tournaments/1')
             ->click('Add Event')
             ->select(3, 'event_type_id')
             ->type($price, 'price_per_participant')
             ->press('Save')
-            ->seePageIs('/tournaments/1')
+            ->seePageIs('/admin/tournaments/1')
             ->see($price);
     }
 
@@ -39,7 +39,7 @@ class TournamentEventsTest extends TestCase
         $event = Event::orderBy('created_at', 'DESC')->first();
         $newPrice = rand(1, 100);
         $this
-            ->visit('/tournaments/1')
+            ->visit('/admin/tournaments/1')
             ->click('#edit-'.$event->id)
             ->type($newPrice, 'price_per_participant')
             ->press('Save')
@@ -59,7 +59,7 @@ class TournamentEventsTest extends TestCase
     {
         $event = Event::orderBy('created_at', 'DESC')->first();
         $this
-            ->visit('/tournaments/'.$event->tournament->id)
+            ->visit('/admin/tournaments/'.$event->tournament->id)
             ->click('#delete-'.$event->id)
             ->see($event->name);
     }
