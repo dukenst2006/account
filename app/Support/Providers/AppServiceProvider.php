@@ -12,6 +12,7 @@ use Monolog\Handler\LogEntriesHandler;
 use URL;
 use Illuminate\Support\ServiceProvider;
 use Silber\Bouncer\Database\Models;
+use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
