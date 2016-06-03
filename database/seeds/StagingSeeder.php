@@ -52,7 +52,7 @@ class StagingSeeder extends Seeder {
             'status'			=> User::STATUS_CONFIRMED,
             'first_name'		=> 'Josiah',
             'last_name'			=> 'Director',
-            'email'				=> 'jgorman+director@biblebowl.org',
+            'email'				=> 'jgorman+admin@biblebowl.org',
             'password'			=> bcrypt('changeme'),
             'primary_address_id'  => $address->id
         ]);
