@@ -15,12 +15,6 @@ $app = new Illuminate\Foundation\Application(
 	realpath(__DIR__.'/../')
 );
 
-// if log token is set, use logentries
-if (strlen(env('LOG_TOKEN')) > 0) {
-	$logentriesHandler = new Monolog\Handler\LogEntriesHandler(env('LOG_TOKEN'));
-	Log::getMonolog()->pushHandler($logentriesHandler);
-}
-
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
