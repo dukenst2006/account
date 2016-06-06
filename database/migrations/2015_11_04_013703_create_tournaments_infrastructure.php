@@ -32,6 +32,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->text('fees')->nullable();
             $table->tinyInteger('max_teams')->unsigned();
             $table->date('lock_teams')->nullable();
+            $table->date('earlybird_ends')->nullable();
             $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users');
             $table->timestamp('updated_at')->nullable();
@@ -55,7 +56,9 @@ class CreateTournamentsInfrastructure extends Migration
             $table->integer('participant_type_id')->unsigned();
             $table->foreign('participant_type_id')->references('id')->on('participant_types');
             $table->boolean('requires_registration');
+            $table->float('earlybird_fee')->nullable();
             $table->float('fee')->nullable();
+            $table->float('onsite_fee')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->unique(['tournament_id', 'participant_type_id']);

@@ -203,12 +203,12 @@ class Tournament extends Model
      *
      * @param $end
      */
-    public function setLockTeamsAttribute($lock_teamsed)
+    public function setLockTeamsAttribute($lock_teams)
     {
-        if (is_null($lock_teamsed) || strlen($lock_teamsed) == 0) {
+        if (is_null($lock_teams) || strlen($lock_teams) == 0) {
             $this->attributes['lock_teams'] = null;
         } else {
-            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teamsed);
+            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teams);
         }
     }
 
@@ -228,6 +228,34 @@ class Tournament extends Model
         return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
     }
 
+    /**
+     * Convert from m/d/Y to a Carbon object for saving
+     *
+     * @param $end
+     */
+    public function setEarlybirdEndsAttribute($earlybird_ends)
+    {
+        if (is_null($earlybird_ends) || strlen($earlybird_ends) == 0) {
+            $this->attributes['earlybird_ends'] = null;
+        } else {
+            $this->attributes['earlybird_ends'] = Carbon::createFromFormat('m/d/Y', $earlybird_ends);
+        }
+    }
+
+    /**
+     * Provide end as a Carbon object
+     *
+     * @return static
+     */
+    public function getEarlybirdEndsAttribute($earlybird_ends)
+    {
+        if (is_null($earlybird_ends)) {
+            return null;
+        }
+
+        return Carbon::createFromFormat('Y-m-d', $earlybird_ends);
+    }
+
     public function teamsWillLock() : bool
     {
         return is_null($this->lock_teams) == false;
@@ -236,6 +264,11 @@ class Tournament extends Model
     public function teamsAreLocked() : bool
     {
         return $this->teamsWillLock() && Carbon::now()->gte($this->lock_teams);
+    }
+
+    public function hasEarlyBirdRegistration() : bool
+    {
+        return is_null($this->earlybird_ends) == false;
     }
 
     /**

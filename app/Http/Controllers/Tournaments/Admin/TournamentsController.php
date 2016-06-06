@@ -64,9 +64,9 @@ class TournamentsController extends Controller
         $tournament = $tournamentCreator->create(
             Auth::user(),
             Session::season(),
-            $request->except('_token', 'eventTypes', 'particpantTypes'),
+            $request->except('_token', 'eventTypes', 'participantTypes'),
             $request->get('eventTypes', []),
-            $request->get('particpantTypes', [])
+            $request->get('participantTypes', [])
         );
 
         return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
@@ -99,8 +99,8 @@ class TournamentsController extends Controller
 
         $tournamentUpdater->update(
             $tournament,
-            $request->except('particpantTypes'),
-            $request->get('particpantTypes')
+            $request->except('participantTypes'),
+            $request->get('participantTypes')
         );
 
         return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');

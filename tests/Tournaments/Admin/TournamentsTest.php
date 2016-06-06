@@ -2,6 +2,7 @@
 
 use BibleBowl\Tournament;
 use Carbon\Carbon;
+use BibleBowl\ParticipantType;
 
 class TournamentsTest extends TestCase
 {
@@ -35,11 +36,19 @@ class TournamentsTest extends TestCase
             ->type($soon, 'registration_start')
             ->type($soon, 'registration_end')
             ->type(24, 'max_teams')
-            ->type(25.50, 'particpantTypes[2][fee]')
-            ->check('particpantTypes[3][requireRegistration]')
+            ->type(33.30, 'participantTypes['.ParticipantType::PLAYER.'][earlybird_fee]')
+            ->type(25.50, 'participantTypes['.ParticipantType::PLAYER.'][fee]')
+            ->type(45.30, 'participantTypes['.ParticipantType::PLAYER.'][onsite_fee]')
+            ->check('participantTypes[3][requireRegistration]')
             ->press('Save')
             ->seePageIs('/admin/tournaments')
             ->see($name);
+
+        $tournament = Tournament::orderBy('id', 'desc')->firstOrFail();
+        $playerFees = $tournament->participantFees()->where('participant_type_id', ParticipantType::PLAYER)->first();
+        $this->assertEquals('33.30', $playerFees->earlybird_fee);
+        $this->assertEquals('25.50', $playerFees->fee);
+        $this->assertEquals('45.30', $playerFees->onsite_fee);
     }
 
     /**
@@ -52,8 +61,17 @@ class TournamentsTest extends TestCase
         $this
             ->visit('/admin/tournaments/1/edit')
             ->type($newName, 'name')
+            ->type(33.10, 'participantTypes['.ParticipantType::PLAYER.'][earlybird_fee]')
+            ->type(25.10, 'participantTypes['.ParticipantType::PLAYER.'][fee]')
+            ->type(45.10, 'participantTypes['.ParticipantType::PLAYER.'][onsite_fee]')
             ->press('Save')
             ->see($tournament->name);
+
+        $tournament = Tournament::where('id', 1)->firstOrFail();
+        $playerFees = $tournament->participantFees()->where('participant_type_id', ParticipantType::PLAYER)->first();
+        $this->assertEquals('33.10', $playerFees->earlybird_fee);
+        $this->assertEquals('25.10', $playerFees->fee);
+        $this->assertEquals('45.10', $playerFees->onsite_fee);
     }
 
     /**

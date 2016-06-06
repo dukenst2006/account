@@ -67,14 +67,28 @@
         <table class="table no-more-tables">
             <thead>
             <tr>
-                <th style="width:50%"></th>
-                <th style="width:30%">Require Registration <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Requires participants to register"></i></th>
-                <th style="width:20%">Fee <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Charge specific participants fees to attend.  Required registration must be enabled"></i></th>
+                <th style="width:30%"></th>
+                <th style="width:15%">Require Registration <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Requires participants to register"></i></th>
+                <th style="width:20%">Early Bird <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Allows for lower fees for those that register before a given date. If no date is set, early bird fees will be ignored"></i></th>
+                <th style="width:15%">Fee</th>
+                <th style="width:15%">On-site Fee</th>
             </tr>
             </thead>
             <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) && $tournament->hasEarlyBirdRegistration() ? $tournament->earlybird_ends->format('m/d/Y') : '') }}">
+                        {!! Form::text('earlybird_ends', (isset($tournament) && $tournament->hasEarlyBirdRegistration() ? $tournament->earlybird_ends->format('m/d/Y') : null), ['class' => 'form-control']) !!}
+                        <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
             @foreach ($participantTypes as $type)
-                <tr>
+                <tr>f
                     <td>
                         {{ $type->name }}
                         <div class="help">{{ $type->description }}</div>
@@ -82,12 +96,14 @@
                     <td>
                         @if(!in_array($type->id, $participantsRequiredToRegister))
                         <div class="checkbox check-default">
-                            {!! Form::checkbox("particpantTypes[".$type->id."][requireRegistration]", 1, old("particpantTypes[".$type->id."][requireRegistration]", isset($tournament) && $participantFees->has($type->id) && $participantFees->get($type->id)->requires_registration), [ "id" => 'particpantType'.$type->id.'requireRegistration' ]) !!}
-                            <label for='particpantType{{ $type->id }}requireRegistration'></label>
+                            {!! Form::checkbox("participantTypes[".$type->id."][requireRegistration]", 1, old("participantTypes[".$type->id."][requireRegistration]", isset($tournament) && $participantFees->has($type->id) && $participantFees->get($type->id)->requires_registration), [ "id" => 'participantType'.$type->id.'requireRegistration' ]) !!}
+                            <label for='participantType{{ $type->id }}requireRegistration'></label>
                         </div>
                         @endif
                     </td>
-                    <td>{!! Form::money('particpantTypes['.$type->id.'][fee]', old('particpantTypes['.$type->id.'][fee]', (isset($tournament) && $participantFees->has($type->id)) ? $participantFees->get($type->id)->fee : '0'), ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::money('participantTypes['.$type->id.'][earlybird_fee]', old('participantTypes['.$type->id.'][earlybird_fee]', (isset($tournament) && $participantFees->has($type->id)) ? $participantFees->get($type->id)->earlybird_fee : '0'), ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::money('participantTypes['.$type->id.'][fee]', old('participantTypes['.$type->id.'][fee]', (isset($tournament) && $participantFees->has($type->id)) ? $participantFees->get($type->id)->fee : '0'), ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::money('participantTypes['.$type->id.'][onsite_fee]', old('participantTypes['.$type->id.'][onsite_fee]', (isset($tournament) && $participantFees->has($type->id)) ? $participantFees->get($type->id)->onsite_fee : '0'), ['class' => 'form-control']) !!}</td>
                 </tr>
             @endforeach
             </tbody>

@@ -19,13 +19,17 @@ class TournamentUpdater
             if (is_object($participantFee) && $participantFee->exists) {
                 $participantFee->update([
                     'requires_registration' => isset($registration['requireRegistration']) ? !!$registration['requireRegistration'] : false,
-                    'fee'                   => $registration['fee']
+                    'fee'                   => $registration['fee'],
+                    'earlybird_fee'         => $registration['earlybird_fee'],
+                    'onsite_fee'            => $registration['onsite_fee']
                 ]);
             } else {
                 $tournament->participantFees()->create([
                     'participant_type_id'   => $typeId,
                     'requires_registration' => isset($registration['requireRegistration']) ? !!$registration['requireRegistration'] : false,
-                    'fee'                   => is_numeric($registration['fee']) ? $registration['fee'] : null
+                    'fee'                   => is_numeric($registration['fee']) ? $registration['fee'] : null,
+                    'earlybird_fee'         => is_numeric($registration['earlybird_fee']) ? $registration['earlybird_fee'] : null,
+                    'onsite_fee'            => is_numeric($registration['onsite_fee']) ? $registration['onsite_fee'] : null
                 ]);
             }
         }
