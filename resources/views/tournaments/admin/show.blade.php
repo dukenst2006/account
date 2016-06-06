@@ -51,7 +51,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5><span class="semi-bold">Events</span></h5>
+                                        <h5><i class="fa fa-trophy"></i> <span class="semi-bold">Events</span></h5>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <a href="{{ route('admin.tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
