@@ -47,6 +47,13 @@ class Tournament extends Model
     const ACTIVE = 1;
     const INACTIVE = 0;
 
+    // The following participant types are required to
+    // register for all tournaments
+    const PARTICIPANTS_REQUIRED_TO_REGISTER = [
+        ParticipantType::PLAYER,
+        ParticipantType::TEAM
+    ];
+
     protected $attributes = [
         'active'        => self::INACTIVE,
         'lock_teams'    => null

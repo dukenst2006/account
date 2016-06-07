@@ -49,6 +49,48 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
+                                @if(count($participantFees) > 0)
+                                <h5><i class="fa fa-usd"></i> <span class="semi-bold">Fees</span></h5>
+                                <table class="table no-more-tables">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width:35%"></th>
+                                            <th style="width:30%" class="text-center">Online Registration Required</th>
+                                            @if($tournament->hasEarlyBirdRegistration())
+                                            <th style="width:20%" class="text-center">Early Bird Fee*</th>
+                                            @endif
+                                            <th style="width:15%" class="text-center">On-site Fee</th>
+                                        </tr>
+                                    @foreach ($participantFees as $fee)
+                                        <tr>
+                                            <td>
+                                                {{ $fee->participantType->name }}
+                                            </td>
+                                            <td class="text-center">
+                                                @if($fee->requires_registration)
+                                                    <i class="fa fa-check"></i>
+                                                    @if($fee->fee > 0)
+                                                        ${{ $fee->fee }}
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            @if($tournament->hasEarlyBirdRegistration())
+                                            <td class="text-center">
+                                                @if($fee->earlybird_fee > 0)
+                                                    ${{ $fee->earlybird_fee }}
+                                                @endif
+                                            </td>
+                                            @endif
+                                            <td class="text-center">
+                                                @if($fee->onsite_fee > 0)
+                                                    ${{ $fee->onsite_fee }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h5><i class="fa fa-trophy"></i> <span class="semi-bold">Events</span></h5>

@@ -8,15 +8,18 @@ class ParticipantType extends Model
 {
     const TEAM = 1;
     const PLAYER = 2;
+    const QUIZMASTER = 3;
+    const ADULT = 4;
+    const FAMILY = 5;
 
     protected $guarded = ['id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function participantFee()
     {
-        return $this->belongsTo(ParticipantFee::class);
+        return $this->hasMany(ParticipantFee::class);
     }
 
     /**

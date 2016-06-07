@@ -21,6 +21,6 @@ class ParticipantFee extends Model
      */
     public function participantType()
     {
-        return $this->hasOne(ParticipantType::class);
+        return $this->belongsTo(ParticipantType::class);
     }
 }

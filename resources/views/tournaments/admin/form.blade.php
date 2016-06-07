@@ -1,12 +1,3 @@
-<?php
-    // The following participant types are required to
-    // register for all tournaments
-    $participantsRequiredToRegister = [
-        \BibleBowl\ParticipantType::PLAYER,
-        \BibleBowl\ParticipantType::TEAM
-    ];
-?>
-
 <div class="row">
     <div class="col-md-6 col-sm-6 form-group">
         <label class="form-label">Tournament Dates <span class="required">*</span></label>
@@ -68,7 +59,7 @@
             <thead>
             <tr>
                 <th style="width:30%"></th>
-                <th style="width:15%">Require Registration <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Requires participants to register"></i></th>
+                <th style="width:15%">Registration Required <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Requires participants to register"></i></th>
                 <th style="width:20%">Early Bird <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Allows for lower fees for those that register before a given date. If no date is set, early bird fees will be ignored"></i></th>
                 <th style="width:15%">Fee</th>
                 <th style="width:15%">On-site Fee</th>
@@ -88,13 +79,13 @@
                 <td></td>
             </tr>
             @foreach ($participantTypes as $type)
-                <tr>f
+                <tr>
                     <td>
                         {{ $type->name }}
                         <div class="help">{{ $type->description }}</div>
                     </td>
                     <td>
-                        @if(!in_array($type->id, $participantsRequiredToRegister))
+                        @if(!in_array($type->id, \BibleBowl\Tournament::PARTICIPANTS_REQUIRED_TO_REGISTER))
                         <div class="checkbox check-default">
                             {!! Form::checkbox("participantTypes[".$type->id."][requireRegistration]", 1, old("participantTypes[".$type->id."][requireRegistration]", isset($tournament) && $participantFees->has($type->id) && $participantFees->get($type->id)->requires_registration), [ "id" => 'participantType'.$type->id.'requireRegistration' ]) !!}
                             <label for='participantType{{ $type->id }}requireRegistration'></label>

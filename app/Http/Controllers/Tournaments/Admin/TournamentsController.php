@@ -29,8 +29,11 @@ class TournamentsController extends Controller
 
     public function show($tournamentId)
     {
+        $tournament = Tournament::findOrFail($tournamentId);
+
         return view('tournaments.admin.show', [
-            'tournament' => Tournament::findOrFail($tournamentId)
+            'tournament'        => $tournament,
+            'participantFees'   => $tournament->participantFees()->with('participantType')->get()->keyBy('participant_type_id')
         ]);
     }
 
