@@ -25,6 +25,9 @@
                                     @if($tournament->isRegistrationOpen())
                                         <span class="text-success">Open</span><br/>
                                         Closes: {{ $tournament->registration_end->toFormattedDateString() }}
+                                        @if($tournament->hasEarlyBirdRegistration())
+                                            <br/>Early bird ends: {{ $tournament->earlybird_ends->format('M j, Y') }}
+                                        @endif
                                     @else
                                         <span class="text-danger">Closed</span><br/>
                                         @if(\Carbon\Carbon::now()->lte($tournament->registration_start))
@@ -57,7 +60,7 @@
                                             <th style="width:35%"></th>
                                             <th style="width:30%" class="text-center">Online Registration Required</th>
                                             @if($tournament->hasEarlyBirdRegistration())
-                                            <th style="width:20%" class="text-center">Early Bird Fee*</th>
+                                            <th style="width:20%" class="text-center">Early Bird Fee</th>
                                             @endif
                                             <th style="width:15%" class="text-center">On-site Fee</th>
                                         </tr>
