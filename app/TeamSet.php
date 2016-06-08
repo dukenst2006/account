@@ -64,12 +64,12 @@ class TeamSet extends Model
         return $this->belongsTo(Season::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
     public function players()
     {
-        return $this->hasManyThrough(Team::class);
+        $teamIds = $this->teams->modelKeys();
+        return Player::whereHas('teams', function ($q) use ($teamIds) {
+            $q->whereIn('id', $teamIds);
+        });
     }
 
     /**
@@ -88,6 +88,8 @@ class TeamSet extends Model
     {
         $seasonId = $this->season_id;
         return $this->hasMany(Team::class)
+
+            // exclude players who are not registered with this group
             ->with([
                 'players.seasons' => function (BelongsToMany $query) use ($seasonId) {
                     $query->where('season_id', $seasonId);

@@ -71,8 +71,8 @@
             screenshot_enabled: true
         }]);
 
-        // Identify the user and pass traits
         @if(Auth::user() != null)
+        // Identify the user and pass traits
         UserVoice.push(['identify', {
             id:  {{ Auth::user()->id }},
             email:  '{{ Auth::user()->email }}',
@@ -86,8 +86,8 @@
                     created_at: {{ Session::group()->created_at->timestamp }}
                 }
             @endif
-        @endif
         }]);
+        @endif
 
         // Add default trigger to the bottom-right corner of the window:
         UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);

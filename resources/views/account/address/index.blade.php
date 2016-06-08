@@ -2,7 +2,6 @@
 
 @section('title', 'My Addresses')
 
-@includeJs(/assets/js/accounts.js)
 @includeCss(/css/account.css)
 
 @section('content')

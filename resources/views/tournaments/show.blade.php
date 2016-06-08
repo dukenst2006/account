@@ -25,6 +25,9 @@
                                     @if($tournament->isRegistrationOpen())
                                         <span class="text-success">Open</span><br/>
                                         Closes: {{ $tournament->registration_end->toFormattedDateString() }}
+                                        @if($tournament->hasEarlyBirdRegistration())
+                                            <br/>Early bird ends: {{ $tournament->earlybird_ends->format('M j, Y') }}
+                                        @endif
                                     @else
                                         <span class="text-danger">Closed</span><br/>
                                         @if(\Carbon\Carbon::now()->lte($tournament->registration_start))
@@ -47,7 +50,7 @@
                                 @if(count($events) > 0)
                                 <h5><i class="fa fa-trophy"></i> <span class="semi-bold">Events</span></h5>
                                 <div class="m-l-20 m-b-20">
-                                    <ul>
+                                    <ul class="p-l-5">
                                         @foreach ($events as $event)
                                             <li>
                                                 {{ $event->type->name }}
@@ -61,6 +64,23 @@
                                 @endif
                             </div>
                             <div class="col-md-8">
+                                <h4>Register a...</h4>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <a href="#" class="btn btn-success btn-cons">Adult / Family</a>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        @if(Auth::user() !== null)
+                                            <a href="/tournaments/{{ $tournament->slug }}/group/choose-teams" class="btn btn-success btn-cons" id="register-group">Group</a>
+                                        @else
+                                            <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register a group">Group</button>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <a href="#" class="btn btn-success btn-cons">Quizmaster</a>
+                                    </div>
+                                </div>
+                                <hr/>
                                 {!! $tournament->details !!}
                             </div>
                         </div>

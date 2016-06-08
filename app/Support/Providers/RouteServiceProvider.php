@@ -169,6 +169,13 @@ class RouteServiceProvider extends ServiceProvider
                     ]);
                 });
 
+                Route::group([
+                    'prefix'    => 'tournaments',
+                    'namespace' => 'Tournaments'
+                ], function () {
+                    Route::get('{slug}/group/choose-teams', 'GroupRegistrationController@chooseTeams');
+                });
+
                 # ------------------------------------------------
                 # Admin Routes
                 # ------------------------------------------------
@@ -220,7 +227,8 @@ class RouteServiceProvider extends ServiceProvider
                     });
                 });
             });
-            
+
+            // public tournament routes
             Route::group([
                 'prefix'    => 'tournaments'
             ], function () {
