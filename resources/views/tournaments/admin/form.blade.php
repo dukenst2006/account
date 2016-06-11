@@ -71,7 +71,7 @@
                 <td></td>
                 <td>
                     <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) && $tournament->hasEarlyBirdRegistration() ? $tournament->earlybird_ends->format('m/d/Y') : '') }}">
-                        {!! Form::text('earlybird_ends', (isset($tournament) && $tournament->hasEarlyBirdRegistration() ? $tournament->earlybird_ends->format('m/d/Y') : null), ['class' => 'form-control']) !!}
+                        {!! Form::text('earlybird_ends', old('earlybird_ends', (isset($tournament) && $tournament->hasEarlyBirdRegistration() ? $tournament->earlybird_ends->format('m/d/Y') : null)), ['class' => 'form-control']) !!}
                         <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
                     </div>
                 </td>

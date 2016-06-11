@@ -61,6 +61,13 @@ class RouteServiceProvider extends ServiceProvider
             $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
             $this->post('password/reset', 'Auth\PasswordController@reset');
 
+            // Tournament routes
+            Route::group([
+                'prefix'    => 'tournaments'
+            ], function () {
+                Route::get('{slug}', 'TournamentsController@show');
+            });
+
             # Must be logged in to access these routes
             Route::group(['middleware' => 'auth'], function () {
                 Route::get('logout', 'Auth\AuthController@getLogout');
@@ -170,10 +177,12 @@ class RouteServiceProvider extends ServiceProvider
                 });
 
                 Route::group([
-                    'prefix'    => 'tournaments',
+                    'prefix'    => 'tournaments/{slug}',
                     'namespace' => 'Tournaments'
                 ], function () {
-                    Route::get('{slug}/group/choose-teams', 'GroupRegistrationController@chooseTeams');
+                    Route::get('group/choose-teams', 'GroupRegistrationController@chooseTeams');
+                    Route::get('group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
+                    Route::get('group/quizmasters', 'GroupRegistrationController@quizmasters');
                 });
 
                 # ------------------------------------------------
@@ -226,13 +235,6 @@ class RouteServiceProvider extends ServiceProvider
                         Route::patch('settings', 'SettingsController@update');
                     });
                 });
-            });
-
-            // public tournament routes
-            Route::group([
-                'prefix'    => 'tournaments'
-            ], function () {
-                Route::get('{slug}', 'TournamentsController@show');
             });
         });
 

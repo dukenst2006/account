@@ -1,16 +1,9 @@
 <?php namespace BibleBowl\Http\Controllers\Tournaments;
 
-use Auth;
-use BibleBowl\Competition\TournamentCreator;
-use BibleBowl\Competition\TournamentUpdater;
-use BibleBowl\EventType;
+use BibleBowl\Competition\Tournaments\GroupRegistration;
+use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupEditRequest;
-use BibleBowl\Http\Requests\TournamentCreateRequest;
-use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
-use BibleBowl\Http\Requests\TournamentEditRequest;
-use BibleBowl\ParticipantType;
-use BibleBowl\Program;
+use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
 use Session;
 
@@ -22,6 +15,30 @@ class GroupRegistrationController extends Controller
         return view('tournaments.choose-teams', [
             'tournament'    => Tournament::where('slug', $slug)->firstOrFail(),
             'teamSets'      => Session::group()->teamSets()->season(Session::season())->get()
+        ]);
+    }
+
+    public function setTeamSet($slug, TeamSet $teamSet)
+    {
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        /** @var GroupRegistration $groupRegistration */
+        $groupRegistration = Session::tournamentGroupRegistration();
+        $groupRegistration->setTournament($tournament);
+        $groupRegistration->setTeamSet($teamSet);
+        Session::setTournamentGroupRegistration($groupRegistration);
+
+        return redirect('tournaments/'.$tournament->slug.'/group/quizmasters');
+    }
+
+    public function quizmasters($slug)
+    {
+        /** @var GroupRegistration $registration */
+        $registration = Session::tournamentGroupRegistration();
+
+        return view('tournaments.quizmasters', [
+            'tournament'    => Tournament::where('slug', $slug)->firstOrFail(),
+            'teamSet'       => $registration->teamSet()
         ]);
     }
 }

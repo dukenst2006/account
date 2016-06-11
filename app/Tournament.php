@@ -95,23 +95,6 @@ class Tournament extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function setFeesAttribute(Fees $fees)
-    {
-        $this->attributes['fees'] = $fees->toJson();
-    }
-
-    /**
-     * @return Fees
-     */
-    public function getFeesAttribute()
-    {
-        if ($this->attributes['fees'] !== null) {
-            return app(Fees::class, $this->attributes['fees']);
-        }
-
-        return app(Fees::class);
-    }
-
     public function setSlugAttribute($slug)
     {
         $this->attributes['slug'] = str_slug($slug);
