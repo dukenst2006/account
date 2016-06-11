@@ -19,6 +19,13 @@ class CreateGroupsTable extends Migration {
 	 */
 	public function up()
 	{
+		Schema::create('group_types', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->string('name');
+			$table->timestamps();
+		});
+
 		Schema::create('groups', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -33,6 +40,8 @@ class CreateGroupsTable extends Migration {
 			$table->foreign('address_id')->references('id')->on('addresses');
 			$table->integer('meeting_address_id')->unsigned();
 			$table->foreign('meeting_address_id')->references('id')->on('addresses');
+			$table->integer('group_type_id')->unsigned();
+			$table->foreign('group_type_id')->references('id')->on('group_types');
 			$table->text('settings')->nullable();
 			$table->timestamps();
 		});
@@ -56,6 +65,7 @@ class CreateGroupsTable extends Migration {
 	{
         Schema::drop('group_user');
         Schema::drop('groups');
+		Schema::drop('group_types');
 	}
 
 }

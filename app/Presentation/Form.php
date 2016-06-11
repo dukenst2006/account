@@ -2,6 +2,8 @@
 
 use Auth;
 use BibleBowl\EventType;
+use BibleBowl\GroupType;
+use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use Carbon\Carbon;
 use DateTime;
@@ -21,7 +23,10 @@ class Form extends FormBuilder
      */
     public function money($name, $value = null, $options = array())
     {
-        return $this->number($name, $value, $options);
+        return '<div class="input-group transparent">
+            <span class="input-group-addon">
+                <i class="fa fa-usd"></i>
+            </span>'.$this->number($name, $value, $options).'</div>';
     }
 
     /**
@@ -327,13 +332,30 @@ class Form extends FormBuilder
      */
     public function selectParticipantType($name, $selected = null, $options = array(), $optional = false)
     {
-        $participantTypes = [
-            EventType::PARTICIPANT_PLAYER   => 'Individual Players',
-            EventType::PARTICIPANT_TEAM    => 'Teams'
-        ];
         $list = [];
-        foreach ($participantTypes as $type => $label) {
-            $list[$type] = $label;
+        foreach (ParticipantType::orderBy('name')->get() as $participantType) {
+            $list[$participantType->id] = $participantType->name;
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectGroupType($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [];
+        foreach (GroupType::orderBy('name')->get() as $groupType) {
+            $list[$groupType->id] = $groupType->name;
         }
 
         if ($optional) {

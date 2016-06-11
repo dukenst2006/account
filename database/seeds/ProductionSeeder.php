@@ -9,7 +9,7 @@ use BibleBowl\Group;
 use BibleBowl\EventType;
 use Illuminate\Database\Seeder;
 use BibleBowl\Program;
-use BibleBowl\OrderStatus;
+use BibleBowl\GroupType;
 
 class ProductionSeeder extends Seeder {
 
@@ -37,6 +37,15 @@ class ProductionSeeder extends Seeder {
             'min_grade'         => 6,
             'max_grade'         => 12
         ]);
+            GroupType::create([
+                'name' => 'Homeschool'
+            ]);
+            GroupType::create([
+                'name' => 'Church'
+            ]);
+            GroupType::create([
+                'name' => 'Other'
+            ]);
 
         EventType::create([
             'participant_type'  => EventType::PARTICIPANT_TEAM,
