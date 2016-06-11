@@ -21,7 +21,7 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
     && docker-php-ext-install mcrypt mbstring pdo_mysql \
 
     # install composer
-    && wget -O /usr/local/bin/composer https://getcomposer.org/composer.phar \
+    && wget -O /usr/local/bin/composer http://getcomposer.org/composer.phar \
     && chmod +x /usr/local/bin/composer \
 
     # give cli the keys
