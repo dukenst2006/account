@@ -103,7 +103,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function setTournamentGroupRegistration(TournamentGroupRegistration $groupRegistration)
     {
-        $this->set(self::SEASONAL_GROUP_REGISTRATION, $groupRegistration->toArray());
+        $this->set(self::TOURNAMENT_GROUP_REGISTRATION, $groupRegistration->toArray());
     }
 
     /**

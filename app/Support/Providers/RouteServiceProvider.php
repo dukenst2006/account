@@ -57,9 +57,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::post('register', 'Auth\AuthController@postRegister');
 
             // Password Reset Routes...
-            $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-            $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-            $this->post('password/reset', 'Auth\PasswordController@reset');
+            Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+            Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+            Route::post('password/reset', 'Auth\PasswordController@reset');
 
             // Tournament routes
             Route::group([
@@ -176,12 +176,13 @@ class RouteServiceProvider extends ServiceProvider
                     ]);
                 });
 
+                Route::get('account/findByEmail/{email}', 'Account\AccountController@findByEmail');
                 Route::group([
-                    'prefix'    => 'tournaments/{slug}',
+                    'prefix'    => 'tournaments',
                     'namespace' => 'Tournaments'
                 ], function () {
-                    Route::get('group/choose-teams', 'GroupRegistrationController@chooseTeams');
-                    Route::get('group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
+                    Route::get('{slug}/group/choose-teams', 'GroupRegistrationController@chooseTeams');
+                    Route::get('{slug}/group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
                     Route::get('group/quizmasters', 'GroupRegistrationController@quizmasters');
                 });
 

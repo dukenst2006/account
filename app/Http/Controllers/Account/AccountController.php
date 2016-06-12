@@ -48,4 +48,19 @@ class AccountController extends Controller
 
         return redirect('/dashboard')->withFlashSuccess('Your changes were saved');
     }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function findByEmail($email)
+    {
+        $user = User::where('email', $email)->firstOrFail();
+
+        return response()->json([
+            'guid'          => $user->guid,
+            'email'         => $user->email,
+            'first_name'    => $user->first_name,
+            'last_name'     => $user->last_name
+        ]);
+    }
 }

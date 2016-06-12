@@ -22,22 +22,22 @@ class GroupRegistrationController extends Controller
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
-        /** @var GroupRegistration $groupRegistration */
-        $groupRegistration = Session::tournamentGroupRegistration();
-        $groupRegistration->setTournament($tournament);
-        $groupRegistration->setTeamSet($teamSet);
-        Session::setTournamentGroupRegistration($groupRegistration);
+        /** @var GroupRegistration $registration */
+        $registration = Session::tournamentGroupRegistration();
+        $registration->setTournament($tournament);
+        $registration->setTeamSet($teamSet);
+        Session::setTournamentGroupRegistration($registration);
 
-        return redirect('tournaments/'.$tournament->slug.'/group/quizmasters');
+        return redirect('tournaments/group/quizmasters');
     }
 
-    public function quizmasters($slug)
+    public function quizmasters()
     {
         /** @var GroupRegistration $registration */
         $registration = Session::tournamentGroupRegistration();
 
         return view('tournaments.quizmasters', [
-            'tournament'    => Tournament::where('slug', $slug)->firstOrFail(),
+            'tournament'    => $registration->tournament(),
             'teamSet'       => $registration->teamSet()
         ]);
     }

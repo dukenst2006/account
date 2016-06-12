@@ -28,13 +28,10 @@
                                         ?>
                                         <div class="row p-b-15 b-b b-grey">
                                             <div class="col-md-5">
-                                                <strong>{{ $teamSet->name }}</strong>
+                                                <a href="/teamsets/{{ $teamSet->id }}/pdf" target="_blank"><strong>{{ $teamSet->name }}</strong></a>
                                                 <div class="help">{{ $playerCount }} players on {{ $teamCount }} team<?=($teamCount > 1 ? 's':'')?></div>
                                             </div>
-                                            <div class="col-md-2 text-center p-t-10">
-                                                <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-white btn-xs btn-mini" target="_blank"><i class="fa fa-download"></i> Preview</a>
-                                            </div>
-                                            <div class="col-md-2 text-center p-t-10">
+                                            <div class="col-md-7 p-t-10">
                                                 <a href="/tournaments/{{ $tournament->slug }}/group/teams/{{ $teamSet->id }}" class="btn btn-primary btn-sm btn-small">Use these teams</a>
                                             </div>
                                         </div>

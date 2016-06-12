@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet season($season)
  * @mixin \Eloquent
  */
 class TeamSet extends Model

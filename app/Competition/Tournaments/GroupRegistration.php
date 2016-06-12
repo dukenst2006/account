@@ -22,7 +22,7 @@ class GroupRegistration extends Fluent
 
     public function tournament() : Tournament
     {
-        return Tournament::findOrFail($this->attributes['tournamentId']);
+        return Tournament::find($this->attributes['tournamentId']);
     }
 
     public function setTeamSet(TeamSet $teamSet)
@@ -32,7 +32,7 @@ class GroupRegistration extends Fluent
 
     public function teamSet() : TeamSet
     {
-        return TeamSet::findOrFail($this->attributes['teamSetId']);
+        return TeamSet::find($this->attributes['teamSetId']);
     }
 
     public function addQuizmaster(Quizmasterable $quizmaster)
