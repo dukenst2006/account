@@ -80,6 +80,14 @@ class Tournament extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function season()

@@ -85,6 +85,82 @@ class CreateTournamentsInfrastructure extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
+
+        Schema::create('tournament_quizmasters', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('tournament_id')->unsigned();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->integer('group_id')->unsigned()->nullable();
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->integer('receipt_id')->unsigned()->nullable();
+            $table->foreign('receipt_id')->references('id')->on('receipts');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('first_name', 32);
+            $table->string('last_name', 32);
+            $table->string('email', 128);
+            $table->string('gender', 1);
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+        });
+
+        Schema::create('tournament_players', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('tournament_id')->unsigned();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->integer('player_id')->unsigned();
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->integer('receipt_id')->unsigned()->nullable();
+            $table->foreign('receipt_id')->references('id')->on('receipts');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+        });
+
+        Schema::create('event_players', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('event_id')->unsigned();
+            $table->foreign('event_id')->references('id')->on('events');
+            $table->integer('player_id')->unsigned();
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->integer('receipt_id')->unsigned()->nullable();
+            $table->foreign('receipt_id')->references('id')->on('receipts');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+        });
+
+        Schema::create('tournament_spectators', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('tournament_id')->unsigned()->nullable();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('first_name', 32);
+            $table->string('last_name', 32);
+            $table->string('email', 128);
+            $table->string('gender', 1);
+            $table->string('spouse_first_name', 32);
+            $table->string('spouse_last_name', 32);
+            $table->string('spouse_gender', 1);
+            $table->integer('receipt_id')->unsigned()->nullable();
+            $table->foreign('receipt_id')->references('id')->on('receipts');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+        });
+
+        Schema::create('tournament_spectator_minors', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('spectator_id')->unsigned()->nullable();
+            $table->foreign('spectator_id')->references('id')->on('tournament_spectators');
+            $table->string('name', 32);
+            $table->tinyInteger('age');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+        });
     }
 
     /**
@@ -94,6 +170,11 @@ class CreateTournamentsInfrastructure extends Migration
      */
     public function down()
     {
+        Schema::drop('tournament_spectator_minors');
+        Schema::drop('tournament_spectators');
+        Schema::drop('event_players');
+        Schema::drop('tournament_players');
+        Schema::drop('tournament_quizmasters');
         Schema::drop('events');
         Schema::drop('event_types');
         Schema::drop('participant_fees');

@@ -67,4 +67,28 @@ class Receipt extends Model
     {
         return $this->hasMany(ReceiptItem::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventPlayers()
+    {
+        return $this->hasMany(EventPlayer::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function players()
+    {
+        return $this->hasManyThrough(Player::class, EventPlayer::class);
+    }
 }

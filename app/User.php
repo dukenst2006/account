@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Rhumsaa\Uuid\Uuid;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use BibleBowl\Competition\Tournaments\Quizmasterable;
+use BibleBowl\Competition\Tournaments\Spectateable;
 
 /**
  * BibleBowl\User
@@ -185,6 +186,14 @@ class User extends Model implements
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function tournamentQuizmasters()
+    {
+        return $this->hasMany(TournamentQuizmaster::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function providers()
     {
         return $this->hasMany(UserProvider::class);
@@ -252,6 +261,14 @@ class User extends Model implements
     public function tournaments()
     {
         return $this->hasMany(Tournament::class)->orderBy('start', 'ASC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
     }
 
     /**
