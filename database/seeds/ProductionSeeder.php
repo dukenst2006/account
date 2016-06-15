@@ -37,6 +37,9 @@ class ProductionSeeder extends Seeder {
             'min_grade'         => 6,
             'max_grade'         => 12
         ]);
+        GroupType::create([
+            'name' => 'Christian School'
+        ]);
             GroupType::create([
                 'name' => 'Homeschool'
             ]);
