@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use BibleBowl\Competition\Fees;
+use BibleBowl\Competition\Tournaments\Quizmaster;
 use BibleBowl\Presentation\Describer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -325,4 +326,10 @@ class Tournament extends Model
 
         return $participantFee->fee;
     }
+
+    public function isRegisteredAsQuizmaster(User $user)
+    {
+        return $this->tournamentQuizmasters()->where('user_id', $user->id())->count() > 0;
+    }
+
 }

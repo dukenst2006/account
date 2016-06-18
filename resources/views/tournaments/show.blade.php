@@ -76,7 +76,11 @@
                                     </div>
                                     <div class="col-md-4 text-center">
                                         @if(Auth::user() !== null)
-                                            <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-success btn-cons" id="register-quizmaster">Quizmaster</a>
+                                            @if($tournament->isRegisteredAsQuizmaster(Auth::user()))
+                                                <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a quizmaster">Quizmaster</button>
+                                            @else
+                                                <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-success btn-cons" id="register-quizmaster">Quizmaster</a>
+                                            @endif
                                         @else
                                             <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register as a quizmaster">Quizmaster</button>
                                         @endif

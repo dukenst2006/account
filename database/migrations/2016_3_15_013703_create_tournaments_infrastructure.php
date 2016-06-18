@@ -103,10 +103,13 @@ class CreateTournamentsInfrastructure extends Migration
             $table->string('last_name', 32);
             $table->string('email', 128);
             $table->string('gender', 1);
-            
+
             $table->text('quizzing_preferences');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
+
+            // no one can register twice
+            $table->unique(['tournament_id', 'user_id', 'email']);
         });
 
         Schema::create('tournament_players', function(Blueprint $table)
@@ -120,6 +123,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->foreign('receipt_id')->references('id')->on('receipts');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
+
+            $table->unique(['tournament_id', 'player_id']);
         });
 
         Schema::create('event_players', function(Blueprint $table)
@@ -133,6 +138,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->foreign('receipt_id')->references('id')->on('receipts');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
+
+            $table->unique(['event_id', 'player_id']);
         });
 
         Schema::create('tournament_spectators', function(Blueprint $table)
@@ -153,6 +160,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->foreign('receipt_id')->references('id')->on('receipts');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
+
+            $table->unique(['tournament_id', 'email']);
         });
 
         Schema::create('tournament_spectator_minors', function(Blueprint $table)
