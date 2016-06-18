@@ -2,15 +2,17 @@
 
 use BibleBowl\Group;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Omnipay\Stripe\Message\PurchaseRequest;
-use Omnipay\Stripe\Message\Response;
 use BibleBowl\Receipt;
+use Helpers\ActingAsHeadCoach;
+use Helpers\SimulatesTransactions;
 
 class SeasonalRegistrationTest extends TestCase
 {
 
     use DatabaseTransactions;
-    use \Helpers\ActingAsHeadCoach;
+    use ActingAsHeadCoach;
+    use SimulatesTransactions;
+    
 
     public function setUp()
     {
@@ -24,14 +26,7 @@ class SeasonalRegistrationTest extends TestCase
      */
     public function canRegisterPlayers()
     {
-        $transactionId = uniqid();
-
-        $response = Mockery::mock(Response::class);
-        $response->shouldReceive('isSuccessful')->andReturn(true);
-        $response->shouldReceive('getTransactionReference')->andReturn($transactionId);
-        $purchaseRequest = Mockery::mock(PurchaseRequest::class);
-        $purchaseRequest->shouldReceive('send')->andReturn($response);
-        Omnipay::shouldReceive('purchase')->andReturn($purchaseRequest);
+        $transactionId = $this->simulateTransaction();
 
         $startingCount = $this->group()->players()->active($this->season())->whereRaw('player_season.paid IS NULL')->count();
         $this->assertGreaterThan(0, $startingCount);

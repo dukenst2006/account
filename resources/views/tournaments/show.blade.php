@@ -12,9 +12,6 @@
             <div class="grid-body no-border p-t-20">
                 <div class="row m-t-10">
                     <div class="col-md-12">
-                        @if(!$tournament->active)
-                            <div class="alert text-center">This tournament won't be publicly visible until it is made active.</div>
-                        @endif
                         <div class="row">
                             <div class="col-md-4 b-grey b-r">
                                 <h5><i class="fa fa-calendar"></i> <span class="semi-bold">When</span></h5>
@@ -64,6 +61,7 @@
                                 @endif
                             </div>
                             <div class="col-md-8">
+                                @include('partials.messages')
                                 <h4>Register a...</h4>
                                 <div class="row">
                                     <div class="col-md-4 text-center">
@@ -77,7 +75,11 @@
                                         @endif
                                     </div>
                                     <div class="col-md-4 text-center">
-                                        <a href="#" class="btn btn-success btn-cons">Quizmaster</a>
+                                        @if(Auth::user() !== null)
+                                            <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-success btn-cons" id="register-quizmaster">Quizmaster</a>
+                                        @else
+                                            <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register as a quizmaster">Quizmaster</button>
+                                        @endif
                                     </div>
                                 </div>
                                 <hr/>

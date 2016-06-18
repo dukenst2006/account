@@ -1,6 +1,6 @@
 <div class="radio">
-    {!! Form::radio('gender', 'M', (!isset($value) || $value == 'M'), ['id' => 'male']) !!}
+    {!! Form::radio('gender', 'M', old('gender', 'M') == 'M', ['id' => 'male']) !!}
     {!! Form::label('male', 'Male') !!}
-    {!! Form::radio('gender', 'F', (isset($value) && $value == 'F'), ['id' => 'female']) !!}
+    {!! Form::radio('gender', 'F', old('gender') == 'F', ['id' => 'female']) !!}
     {!! Form::label('female', 'Female') !!}
 </div>

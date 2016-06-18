@@ -18,4 +18,6 @@ interface Quizmasterable
     public function email() : string;
 
     public function setEmail(string $email);
+    
+    
 }

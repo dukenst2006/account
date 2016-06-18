@@ -10,6 +10,8 @@ use Omnipay;
 
 class PaymentProcessor
 {
+    private $receipt;
+
     /**
      * @param User $user
      * @param $token
@@ -40,11 +42,18 @@ class PaymentProcessor
                 'payment_reference_number' => $response->getTransactionReference()
             ]);
 
+            $this->receipt = $order;
+
             DB::commit();
 
             return true;
         }
 
         throw new PaymentFailed($response->getMessage());
+    }
+
+    public function receipt()
+    {
+        return $this->receipt;
     }
 }

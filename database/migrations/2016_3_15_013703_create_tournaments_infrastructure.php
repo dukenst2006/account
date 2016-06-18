@@ -95,12 +95,16 @@ class CreateTournamentsInfrastructure extends Migration
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('receipt_id')->unsigned()->nullable();
             $table->foreign('receipt_id')->references('id')->on('receipts');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+
+            // fields only used when head coach registers them
             $table->string('first_name', 32);
             $table->string('last_name', 32);
             $table->string('email', 128);
             $table->string('gender', 1);
+            
+            $table->text('quizzing_preferences');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });

@@ -88,7 +88,7 @@ class Tournament extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function season()
     {
@@ -96,11 +96,27 @@ class Tournament extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creator()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournamentQuizmasters()
+    {
+        return $this->hasMany(TournamentQuizmaster::class);
     }
 
     public function setSlugAttribute($slug)
@@ -292,5 +308,21 @@ class Tournament extends Model
     public function registrationDateSpan()
     {
         return Describer::dateSpan($this->registration_start, $this->registration_end);
+    }
+
+    /**
+     * Get the fee for a ParticipantType
+     */
+    public function fee(ParticipantType $participantType)
+    {
+        /** @var ParticipantFee $participantFee */
+        $participantFee = $this->participantFees()
+            ->where('participant_type_id', $participantType->id)
+            ->first();
+        if ($this->hasEarlyBirdRegistration() && $participantFee->earlybird_fee != null && Carbon::now()->lte($this->earlybird_ends)) {
+            return $participantFee->earlybird_free;
+        }
+
+        return $participantFee->fee;
     }
 }

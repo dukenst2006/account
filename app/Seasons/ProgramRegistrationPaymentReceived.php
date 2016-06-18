@@ -3,6 +3,7 @@
 namespace BibleBowl\Seasons;
 
 use BibleBowl\Player;
+use BibleBowl\Receipt;
 use BibleBowl\Season;
 use BibleBowl\Shop\PostPurchaseEvent;
 use Illuminate\Http\Response;
@@ -53,7 +54,7 @@ class ProgramRegistrationPaymentReceived extends PostPurchaseEvent
      *
      * @return void
      */
-    public function fire()
+    public function fire(Receipt $receipt)
     {
         event($this->event(), [
             $this->players()

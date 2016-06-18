@@ -62,7 +62,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function group()
     {
-        if (is_null($this->group)) {
+        if (is_null($this->group) && $this->get(self::GROUP) != null) {
             Group::unguard();
             $this->group = $this->app->make(Group::class, [$this->get(self::GROUP)]);
             Group::reguard();

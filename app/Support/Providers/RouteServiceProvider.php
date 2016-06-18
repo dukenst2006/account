@@ -1,6 +1,6 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use Auth;
+use Session;
 use BibleBowl\Ability;
 use BibleBowl\Role;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -176,13 +176,19 @@ class RouteServiceProvider extends ServiceProvider
                     ]);
                 });
 
-                Route::get('account/findByEmail/{email}', 'Account\AccountController@findByEmail');
                 Route::group([
-                    'prefix'    => 'tournaments',
+                    'prefix'    => 'tournaments/{slug}',
                     'namespace' => 'Tournaments'
                 ], function () {
-                    Route::get('{slug}/group/choose-teams', 'GroupRegistrationController@chooseTeams');
-                    Route::get('{slug}/group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
+                    Route::group([
+                        'prefix'    => 'registration',
+                        'namespace' => 'Registration'
+                    ], function () {
+                        Route::get('quizmaster', 'QuizmasterController@getRegistration');
+                        Route::post('standalone-quizmaster', 'QuizmasterController@postStandaloneRegistration');
+                    });
+                    Route::get('group/choose-teams', 'GroupRegistrationController@chooseTeams');
+                    Route::get('/group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
                     Route::get('group/quizmasters', 'GroupRegistrationController@quizmasters');
                 });
 

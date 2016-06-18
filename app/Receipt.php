@@ -45,6 +45,14 @@ class Receipt extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournamentQuizmasters()
+    {
+        return $this->hasMany(TournamentQuizmaster::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function address()
