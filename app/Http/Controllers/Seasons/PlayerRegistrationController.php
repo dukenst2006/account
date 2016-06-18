@@ -54,7 +54,7 @@ class PlayerRegistrationController extends Controller
 
         // save in session so we can show this info on
         // the summary page
-        Session::setGroupRegistration($registration);
+        Session::setSeasonalGroupRegistration($registration);
 
         // sometimes parents can override the program selection
         if ($registration->requiresProgramSelection()) {
@@ -71,7 +71,7 @@ class PlayerRegistrationController extends Controller
     public function getChooseProgram()
     {
         /** @var GroupRegistration $registration */
-        $registration = Session::groupRegistration();
+        $registration = Session::seasonalGroupRegistration();
 
         return view('seasons.registration.partials.choose-program')
             ->withPrograms(Program::all())
@@ -87,14 +87,14 @@ class PlayerRegistrationController extends Controller
     public function postChooseProgram(Request $request)
     {
         /** @var GroupRegistration $registration */
-        $registration = Session::groupRegistration();
+        $registration = Session::seasonalGroupRegistration();
 
         // map the POSTed data to the season data required
         foreach ($request->get('player') as $playerId => $programId) {
             $registration->overrideProgram($playerId, $programId);
         }
 
-        Session::setGroupRegistration($registration);
+        Session::setSeasonalGroupRegistration($registration);
 
         return redirect('/register/summary');
     }
@@ -107,7 +107,7 @@ class PlayerRegistrationController extends Controller
     public function summary()
     {
         return view('seasons.registration.summary')
-            ->withRegistration(Session::groupRegistration());
+            ->withRegistration(Session::seasonalGroupRegistration());
     }
 
     /**
@@ -133,10 +133,10 @@ class PlayerRegistrationController extends Controller
     public function chooseGroup($programSlug, $groupId)
     {
         /** @var GroupRegistration $registration */
-        $registration = Session::groupRegistration();
+        $registration = Session::seasonalGroupRegistration();
         $registration->addGroup(Group::findOrFail($groupId));
 
-        Session::setGroupRegistration($registration);
+        Session::setSeasonalGroupRegistration($registration);
 
         return redirect('/register/summary');
     }
@@ -159,7 +159,7 @@ class PlayerRegistrationController extends Controller
         $groupRegistrar->register(
             Session::season(),
             Auth::user(),
-            Session::groupRegistration()
+            Session::seasonalGroupRegistration()
         );
 
         return redirect('/dashboard')->withFlashSuccess('Your registration has been submitted!');
@@ -172,7 +172,7 @@ class PlayerRegistrationController extends Controller
     public function later($programSlug)
     {
         /** @var GroupRegistration $registration */
-        $registration = Session::groupRegistration();
+        $registration = Session::seasonalGroupRegistration();
 
         $playersRemovedFromProgram = null;
         $continueRegistration = false;
@@ -189,7 +189,7 @@ class PlayerRegistrationController extends Controller
             }
         }
 
-        Session::setGroupRegistration($registration);
+        Session::setSeasonalGroupRegistration($registration);
 
         if ($continueRegistration) {
             return redirect('/register/summary')

@@ -64,9 +64,9 @@ class Item extends Model
     public function name()
     {
         // seasonal registrations
-        $groupRegistrationPrefix = 'SEASON_REG_';
-        if (starts_with($this->sku, $groupRegistrationPrefix)) {
-            $program = Program::where('slug', str_replace($groupRegistrationPrefix, '', $this->sku))->firstOrFail();
+        $seasonalGroupRegistrationPrefix = 'SEASON_REG_';
+        if (starts_with($this->sku, $seasonalGroupRegistrationPrefix)) {
+            $program = Program::where('slug', str_replace($seasonalGroupRegistrationPrefix, '', $this->sku))->firstOrFail();
             return $program->name.' Seasonal Registration';
         }
 

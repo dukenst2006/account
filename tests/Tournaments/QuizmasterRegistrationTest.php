@@ -8,7 +8,7 @@ use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
 
-class GroupRegistrationTest extends TestCase
+class QuizmasterRegistrationTest extends TestCase
 {
 
     use DatabaseTransactions;

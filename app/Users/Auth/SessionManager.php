@@ -82,11 +82,11 @@ class SessionManager extends \Illuminate\Session\SessionManager
     }
 
     /**
-     * @param GroupRegistration $groupRegistration
+     * @param GroupRegistration $seasonalGroupRegistration
      */
-    public function setSeasonalGroupRegistration(GroupRegistration $groupRegistration)
+    public function setSeasonalGroupRegistration(GroupRegistration $seasonalGroupRegistration)
     {
-        $this->set(self::SEASONAL_GROUP_REGISTRATION, $groupRegistration->toArray());
+        $this->set(self::SEASONAL_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
     }
 
     /**
@@ -99,11 +99,11 @@ class SessionManager extends \Illuminate\Session\SessionManager
     }
 
     /**
-     * @param TournamentGroupRegistration $groupRegistration
+     * @param TournamentGroupRegistration $seasonalGroupRegistration
      */
-    public function setTournamentGroupRegistration(TournamentGroupRegistration $groupRegistration)
+    public function setTournamentGroupRegistration(TournamentGroupRegistration $seasonalGroupRegistration)
     {
-        $this->set(self::TOURNAMENT_GROUP_REGISTRATION, $groupRegistration->toArray());
+        $this->set(self::TOURNAMENT_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
     }
 
     /**
