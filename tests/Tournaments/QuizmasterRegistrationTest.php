@@ -15,18 +15,12 @@ class QuizmasterRegistrationTest extends TestCase
     use ActingAsGuardian;
     use SimulatesTransactions;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setupAsGuardian();
-    }
-
     /**
      * @test
      */
     public function canRegisterWithoutGroupAndWithFees()
     {
+        $this->setupAsGuardian();
         $this->simulateTransaction();
 
         $gamesQuizzedThisSeason = 'Fewer than 30';
@@ -57,6 +51,7 @@ class QuizmasterRegistrationTest extends TestCase
      */
     public function canRegisterWithGroupAndWithoutFees()
     {
+        $this->setupAsGuardian();
         $this->simulateTransaction();
 
         $gamesQuizzedThisSeason = 'Fewer than 30';
@@ -94,11 +89,6 @@ class QuizmasterRegistrationTest extends TestCase
      */
     public function cantRegisterAsGuest()
     {
-        // since only the guardian login is seeded, we can tear down
-        // to "log out"
-        $this->tearDown();
-        parent::setUp();
-
         // assert there's a button on the page and we can't click it
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The selected node does not have a form ancestor');

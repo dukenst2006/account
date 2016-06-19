@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="col-md-4 text-center">
                                         @if(Auth::user() !== null)
-                                            <a href="/tournaments/{{ $tournament->slug }}/group/choose-teams" class="btn btn-success btn-cons" id="register-group">Group</a>
+                                            <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">Group</a>
                                         @else
                                             <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register a group">Group</button>
                                         @endif

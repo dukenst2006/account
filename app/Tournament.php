@@ -337,7 +337,7 @@ class Tournament extends Model
 
     public function isRegisteredAsQuizmaster(User $user)
     {
-        return $this->tournamentQuizmasters()->where('user_id', $user->id())->count() > 0;
+        return $this->tournamentQuizmasters()->where('user_id', $user->id)->count() > 0;
     }
 
 }

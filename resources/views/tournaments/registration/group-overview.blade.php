@@ -11,6 +11,10 @@
                         <h4>Group <span class="semi-bold">Registration Overview</span></h4>
                     </div>
                     <div class="grid-body no-border">
+                        @include('partials.messages')
+                        @include('tournaments.partials.tournament-summary', [
+                            'tournament' => $tournament
+                        ])
                         <div class="row form-group">
                         @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -28,9 +32,6 @@
                                     <th>Name</th>
                                     <th class="text-center">Email</th>
                                     <th class="text-center">Gender</th>
-                                    <th class="text-center">Quizzed At Tournament</th>
-                                    <th class="text-center">Games Quizzed</th>
-                                    <th class="text-center">Quizzing Interest</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -40,19 +41,6 @@
                                             <td class="v-align-middle">{{ $quizmaster->full_name }}</td>
                                             <td class="v-align-middle text-center"><a href="mailto:{{ $quizmaster->email }}">{{ $quizmaster->email }}</a></td>
                                             <td class="v-align-middle text-center">{!! HTML::genderIcon($quizmaster->gender) !!}</td>
-                                            <td class="v-align-middle text-center">
-                                                @if($quizmaster->quizzing_preferences->quizzedAtThisTournamentBefore())
-                                                    {{ $quizmaster->quizzing_preferences->timesQuizzedAtThisTournament() }} time<?=($quizmaster->quizzing_preferences->timesQuizzedAtThisTournament() > 1 ? 's' : '')?>
-                                                @else
-                                                    Never
-                                                @endif
-                                            </td>
-                                            <td class="v-align-middle text-center">
-                                                {{ $quizmaster->quizzing_preferences->gamesQuizzedThisSeason() }}
-                                            </td>
-                                            <td class="v-align-middle text-center">
-                                                {{ $quizmaster->quizzing_preferences->quizzingInterest() }} / 5
-                                            </td>
                                         </tr>
                                     @endforeach
                                 @else

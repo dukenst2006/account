@@ -20,6 +20,35 @@ class GroupRegistrationTest extends TestCase
     /**
      * @test
      */
+    public function canViewGroupRegistrationStatus()
+    {
+        $tournament = Tournament::firstOrFail();
+        $this
+            ->visit('/tournaments/'.$tournament->slug)
+            ->click('#register-group')
+            ->see('Quizmasters');
+    }
+
+    /**
+     * @test
+     */
+    public function canInviteQuizmasters()
+    {
+        $tournament = Tournament::firstOrFail();
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Quizmaster')
+            ->type('John', 'first_name')
+            ->type('Gutson', 'last_name')
+            ->type('tester123'.time().'@no-domain.com', 'email')
+            ->press('Save & Continue')
+            ->see('Quizmaster has been added')
+            ->see('John Gutson');
+    }
+
+    /**
+     * @test
+     */
     public function cantRegisterAsGuest()
     {
         // since only the guardian login is seeded, we can tear down
@@ -37,16 +66,16 @@ class GroupRegistrationTest extends TestCase
             ->press('Group'); // asserts it's a button
     }
 
-    /**
-     * @test
-     */
-    public function canRegister()
-    {
-        $tournament = Tournament::firstOrFail();
-        $this
-            ->visit('/tournaments/'.$tournament->slug)
-            ->click('#register-group') // using "Group" adds a new group
-            ->see('League Teams')
-            ->see('2 players on 8 teams');
-    }
+//    /**
+//     * @test
+//     */
+//    public function canRegister()
+//    {
+//        $tournament = Tournament::firstOrFail();
+//        $this
+//            ->visit('/tournaments/'.$tournament->slug)
+//            ->click('#register-group') // using "Group" adds a new group
+//            ->see('League Teams')
+//            ->see('2 players on 8 teams');
+//    }
 }

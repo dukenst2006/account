@@ -14,6 +14,11 @@
                         @include('tournaments.partials.tournament-summary', [
                             'tournament' => $tournament
                         ])
+                        {!! Form::open([
+                            'url' => '/tournaments/'.$tournament->slug.'/registration/quizmaster',
+                            'class' => 'form-horizontal',
+                            'role' => 'form'
+                        ]) !!}
                         <div class="row p-t-20">
                             <div class="col-md-3">
                                 Quizmaster:
@@ -38,7 +43,7 @@
                                         <label class="form-label">Email</label>
                                         <span class="help"></span>
                                         <div class="controls p-b-20">
-                                            {!! Form::email('first_name', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
+                                            {!! Form::email('email', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
@@ -56,7 +61,6 @@
                                 <button class="btn btn-primary btn-cons" type="submit">Save & Continue</button>
                             </div>
                         </div>
-                        {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
                         {!! Form::close() !!}
                     </div>
                 </div>
