@@ -78,8 +78,7 @@ use BibleBowl\Competition\Tournaments\Spectateable;
 class User extends Model implements
     AuthorizableContract,
     AuthenticatableContract,
-    CanResetPasswordContract,
-    Quizmasterable
+    CanResetPasswordContract
 {
 
     const STATUS_UNCONFIRMED = 0;
@@ -362,40 +361,5 @@ class User extends Model implements
         }
         
         return $this->parentRetract($role);
-    }
-
-    public function id() : int
-    {
-        return $this->id;
-    }
-
-    public function firstName() : string
-    {
-        return $this->first_name;
-    }
-
-    public function lastName() : string
-    {
-        return $this->last_name;
-    }
-
-    public function email() : string
-    {
-        return $this->email;
-    }
-
-    public function setFirstName(string $firstName)
-    {
-        $this->first_name = $firstName;
-    }
-
-    public function setLastName(string $lastName)
-    {
-        $this->last_name = $lastName;
-    }
-
-    public function setEmail(string $email)
-    {
-        $this->emails = $email;
     }
 }

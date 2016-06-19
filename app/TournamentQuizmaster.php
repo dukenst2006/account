@@ -81,6 +81,11 @@ class TournamentQuizmaster extends Model
         return $this->attributes['gender'];
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
+
     /**
      * @param $value
      * @return QuizzingPreferences

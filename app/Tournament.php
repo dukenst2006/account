@@ -327,6 +327,14 @@ class Tournament extends Model
         return $participantFee->fee;
     }
 
+    public function registrationIsEnabled(int $participantTypeId)
+    {
+        // use the whole collection here - effectively it's eager loaded
+        return $this->participantFees->filter(function ($fee) use ($participantTypeId) {
+            return $fee->participant_type_id == $participantTypeId && $fee->requires_registration;
+        })->count() > 0;
+    }
+
     public function isRegisteredAsQuizmaster(User $user)
     {
         return $this->tournamentQuizmasters()->where('user_id', $user->id())->count() > 0;

@@ -65,7 +65,9 @@
                                 <h4>Register a...</h4>
                                 <div class="row">
                                     <div class="col-md-4 text-center">
-                                        <a href="#" class="btn btn-success btn-cons">Adult / Family</a>
+                                        @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
+                                            <a href="#" class="btn btn-success btn-cons">Adult / Family</a>
+                                        @endif
                                     </div>
                                     <div class="col-md-4 text-center">
                                         @if(Auth::user() !== null)
@@ -74,6 +76,7 @@
                                             <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register a group">Group</button>
                                         @endif
                                     </div>
+                                    @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))
                                     <div class="col-md-4 text-center">
                                         @if(Auth::user() !== null)
                                             @if($tournament->isRegisteredAsQuizmaster(Auth::user()))
@@ -85,6 +88,7 @@
                                             <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register as a quizmaster">Quizmaster</button>
                                         @endif
                                     </div>
+                                    @endif
                                 </div>
                                 <hr/>
                                 {!! $tournament->details !!}

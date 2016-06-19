@@ -330,6 +330,13 @@ class DatabaseSeeder extends Seeder {
             'fee'                   => '60.00',
             'onsite_fee'            => '75.00'
         ]);
+        $tournament->tournamentQuizmasters()->create([
+            'group_id'      => 2,
+            'first_name'    => 'Keith',
+            'last_name'     => 'Webb',
+            'email'         => 'kwebb@domain.com',
+            'gender'        => 'M'
+        ]);
     }
 
 }

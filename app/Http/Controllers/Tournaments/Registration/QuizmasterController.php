@@ -35,6 +35,7 @@ class QuizmasterController extends Controller
                 $groups[$group->id] = $group->name.' - '.$group->meetingAddress->city.', '.$group->meetingAddress->state;
             }
         } else {
+            $groups = null;
             $view = 'tournaments.registration.headcoach-quizmaster';
         }
 

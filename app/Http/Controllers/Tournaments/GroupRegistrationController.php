@@ -10,6 +10,17 @@ use Session;
 class GroupRegistrationController extends Controller
 {
 
+    public function index($slug)
+    {
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+        $group = Session::group();
+        return view('tournaments.registration.group-overview', [
+            'tournament'    => $tournament,
+            'group'         => $group,
+            'quizmasters'   => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->get()
+        ]);
+    }
+
     public function chooseTeams($slug)
     {
         return view('tournaments.choose-teams', [
