@@ -89,6 +89,7 @@ class CreateTournamentsInfrastructure extends Migration
         Schema::create('tournament_quizmasters', function(Blueprint $table)
         {
             $table->increments('id');
+            $table->string('guid')->unique()->index();
             $table->integer('tournament_id')->unsigned();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->integer('group_id')->unsigned()->nullable();

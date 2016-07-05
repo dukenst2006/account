@@ -2,6 +2,7 @@
 
 use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
 use Illuminate\Database\Eloquent\Model;
+use Rhumsaa\Uuid\Uuid;
 
 class TournamentQuizmaster extends Model
 {
@@ -12,6 +13,44 @@ class TournamentQuizmaster extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // assign a guid for each model
+        static::creating(function ($tournamentQuizmaster) {
+            $tournamentQuizmaster->guid = Uuid::uuid4();
+            return true;
+        });
+
+        // Make sure the user has the quizmaster role
+        // Using a saved event since the user could be assigned
+        // after the initial creation
+        static::saved(function ($tournamentQuizmaster) {
+            $user = $tournamentQuizmaster->user;
+
+            // if no user is linked, try to find one
+            if (is_null($user)) {
+                $user = User::where('email', $tournamentQuizmaster->email)->first();
+            }
+            
+            if (!is_null($user)) {
+                // label the user as a quizmaster
+                if ($user->isNot(Role::QUIZMASTER)) {
+                    $role = Role::where('name', Role::QUIZMASTER)->firstOrFail();
+                    $user->assign($role);
+                }
+
+                // associate the user with the quizmaster
+                if ($tournamentQuizmaster->user_id == null) {
+                    $tournamentQuizmaster->update([
+                        'user_id' => $user->id
+                    ]);
+                }
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -1,8 +1,7 @@
 <?php
 
+use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Tournament;
-use Carbon\Carbon;
-use BibleBowl\ParticipantType;
 
 class GroupRegistrationTest extends TestCase
 {
@@ -35,6 +34,10 @@ class GroupRegistrationTest extends TestCase
     public function canInviteQuizmasters()
     {
         $tournament = Tournament::firstOrFail();
+
+        // verify the quizzing preferences email is sent
+        Mail::shouldReceive('queue')->once();
+
         $this
             ->visit('/tournaments/'.$tournament->slug.'/group')
             ->click('Add Quizmaster')
@@ -66,16 +69,21 @@ class GroupRegistrationTest extends TestCase
             ->press('Group'); // asserts it's a button
     }
 
-//    /**
-//     * @test
-//     */
-//    public function canRegister()
-//    {
-//        $tournament = Tournament::firstOrFail();
-//        $this
-//            ->visit('/tournaments/'.$tournament->slug)
-//            ->click('#register-group') // using "Group" adds a new group
-//            ->see('League Teams')
-//            ->see('2 players on 8 teams');
-//    }
+    /**
+     * @test
+     */
+    public function quizmasterCanProvideQuizzingPreferences()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
+        $gamesQuizzed = 'Fewer than 15';
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/registration/quizmaster-preferences/'.$tournamentQuizmaster->guid)
+            ->select($gamesQuizzed, 'games_quizzed_this_season')
+            ->press('Save')
+            ->see('Your quizzing preferences have been updated');
+
+        $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
+        $this->assertEquals($gamesQuizzed, $tournamentQuizmaster->quizzing_preferences->gamesQuizzedThisSeason());
+    }
 }

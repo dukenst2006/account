@@ -50,7 +50,7 @@ class Registrar implements RegistrarContract
             }
         } catch (\ErrorException $e) {
             if (App::environment('local', 'testing') && str_contains($e->getMessage(), 'get_headers(): php_network_getaddresses: getaddrinfo failed: nodename nor servname provided')) {
-                Log::debug('We are probably offline, so this is being supressed to avoid test failures');
+                Log::debug('We are probably offline, so this is being suppressed to avoid test failures');
             } else {
                 throw $e;
             }

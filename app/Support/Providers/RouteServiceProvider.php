@@ -187,6 +187,9 @@ class RouteServiceProvider extends ServiceProvider
                         Route::get('quizmaster', 'QuizmasterController@getRegistration');
                         Route::post('standalone-quizmaster', 'QuizmasterController@postStandaloneRegistration');
                         Route::post('quizmaster', 'QuizmasterController@postRegistration');
+
+                        Route::get('quizmaster-preferences/{guid}', 'QuizmasterController@getPreferences');
+                        Route::post('quizmaster-preferences/{guid}', 'QuizmasterController@postPreferences');
                     });
                     Route::get('group', 'GroupRegistrationController@index');
 

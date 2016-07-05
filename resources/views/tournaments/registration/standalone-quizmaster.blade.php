@@ -11,6 +11,7 @@
                         <h4>Choose <span class="semi-bold">Your Quizmasters</span></h4>
                     </div>
                     <div class="grid-body no-border">
+                        @include('partials.messages')
                         @include('tournaments.partials.tournament-summary', [
                             'tournament' => $tournament
                         ])
@@ -33,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @include('tournaments.registration.quizzing-preferences')
+                                @include('tournaments.registration.partials.quizzing-preferences')
                             </div>
                         </div>
                         <div class="row">

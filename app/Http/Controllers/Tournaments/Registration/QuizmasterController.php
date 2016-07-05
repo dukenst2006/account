@@ -3,15 +3,16 @@
 use Auth;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrar;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistration;
+use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
+use BibleBowl\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
 use BibleBowl\ParticipantType;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
-use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
 use Cart;
 use Session;
 
@@ -43,10 +44,11 @@ class QuizmasterController extends Controller
 
         $fee = $tournament->fee($participantType);
         return view($view, [
-            'tournament'    => $tournament,
-            'groups'        => $groups,
-            'hasFee'        => $fee > 0,
-            'fee'           => $fee
+            'tournament'            => $tournament,
+            'groups'                => $groups,
+            'hasFee'                => $fee > 0,
+            'fee'                   => $fee,
+            'quizzingPreferences'   => app(QuizzingPreferences::class)
         ]);
     }
 
@@ -109,5 +111,40 @@ class QuizmasterController extends Controller
         );
 
         return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess('Quizmaster has been added');
+    }
+
+    public function getPreferences($slug, $guid)
+    {
+        /** @var TournamentQuizmaster $quimaster */
+        $quimaster = TournamentQuizmaster::where('guid', $guid)->firstOrFail();
+
+        return view('tournaments.registration.set-quizzing-preferences', [
+            'tournament'            => $quimaster->tournament,
+            'group'                 => $quimaster->group,
+            'quizzingPreferences'   => $quimaster->quizzing_preferences
+        ]);
+    }
+
+    public function postPreferences(QuizzingPreferencesRequest $request, $slug, $guid)
+    {
+        /** @var TournamentQuizmaster $tournamentQuizmaster */
+        $tournamentQuizmaster = TournamentQuizmaster::where('guid', $guid)->firstOrFail();
+
+        // model events will pick this up and make sure this user
+        // is flagged as a quizmaster in the mailing list
+        if ($tournamentQuizmaster->user_id == null && $tournamentQuizmaster->email == Auth::user()->email) {
+            $tournamentQuizmaster->user_id = Auth::user()->id;
+        }
+
+        /** @var QuizzingPreferences $quizzingPreferences */
+        $quizzingPreferences = $tournamentQuizmaster->quizzing_preferences;
+        $quizzingPreferences->setQuizzedAtThisTournamentBefore($request->get('quizzed_at_tournament'));
+        $quizzingPreferences->setTimesQuizzedAtThisTournament($request->get('times_quizzed_at_tournament'));
+        $quizzingPreferences->setGamesQuizzedThisSeason($request->get('games_quizzed_this_season'));
+        $quizzingPreferences->setQuizzingInterest($request->get('quizzing_interest'));
+        $tournamentQuizmaster->quizzing_preferences = $quizzingPreferences;
+        $tournamentQuizmaster->save();
+            
+        return redirect('/tournaments/'.$tournamentQuizmaster->tournament->slug)->withFlashSuccess('Your quizzing preferences have been updated');
     }
 }

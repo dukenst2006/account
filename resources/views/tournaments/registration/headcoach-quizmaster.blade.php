@@ -11,6 +11,7 @@
                         <h4>Add <span class="semi-bold">A Quizmaster</span></h4>
                     </div>
                     <div class="grid-body no-border">
+                        @include('partials.messages')
                         @include('tournaments.partials.tournament-summary', [
                             'tournament' => $tournament
                         ])
@@ -54,6 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p>We'll reach out to this quizmaster via email once you hit save so they can provide their quizzing preferences.  Their response is not required.</p>
                             </div>
                         </div>
                         <div class="row">

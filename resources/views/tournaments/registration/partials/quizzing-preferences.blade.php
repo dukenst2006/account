@@ -4,9 +4,9 @@
         <span class="help"></span>
         <div class="controls p-b-20">
             <div class="radio">
-                {!! Form::radio('quizzed_at_tournament', '0', old('quizzed_at_tournament', 0) == 0, ['id' => 'quizzed_at_tournament_no']) !!}
+                {!! Form::radio('quizzed_at_tournament', '0', old('quizzed_at_tournament', (int)$quizzingPreferences->quizzedAtThisTournamentBefore()) == 0, ['id' => 'quizzed_at_tournament_no']) !!}
                 {!! Form::label('quizzed_at_tournament_no', 'No') !!}
-                {!! Form::radio('quizzed_at_tournament', '1', old('quizzed_at_tournament') == 1, ['id' => 'quizzed_at_tournament_yes']) !!}
+                {!! Form::radio('quizzed_at_tournament', '1', old('quizzed_at_tournament', (int)$quizzingPreferences->quizzedAtThisTournamentBefore()) == 1, ['id' => 'quizzed_at_tournament_yes']) !!}
                 {!! Form::label('quizzed_at_tournament_yes', 'Yes') !!}
             </div>
         </div>
@@ -21,7 +21,7 @@
                 '4-6' => '4-6',
                 '7-9' => '7-9',
                 '10+' => '10+'
-            ], null, ['class' => 'form-control']) !!}
+            ], old('times_quizzed_at_tournament', $quizzingPreferences->timesQuizzedAtThisTournament()), ['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -33,7 +33,7 @@
                 'Fewer than 15'     => 'Fewer than 15',
                 'Fewer than 30'     => 'Fewer than 30',
                 'More than 30'      => 'More than 30'
-            ], null, ['class' => 'form-control']) !!}
+            ], old('games_quizzed_this_season', $quizzingPreferences->gamesQuizzedThisSeason()), ['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -46,7 +46,7 @@
                 '3' => '3',
                 '4' => '4',
                 '5' => "5 - I prefer quizzing over watching"
-            ], null, ['class' => 'form-control']) !!}
+            ], old('games_quizzed_this_season', $quizzingPreferences->quizzingInterest()), ['class' => 'form-control']) !!}
         </div>
     </div>
 </div>
