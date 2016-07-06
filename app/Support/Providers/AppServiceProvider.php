@@ -27,17 +27,13 @@ class AppServiceProvider extends ServiceProvider
         Models::setRolesModel(Role::class);
         Models::setAbilitiesModel(Ability::class);
 
-        // force production url since we're behind a load balancer
         if (app()->environment('production')) {
+            // force production url since we're behind a load balancer
             URL::forceSchema('https');
             URL::forceRootUrl(config('app.url'));
-        }
 
-
-        // if log token is set, use logentries
-        if (strlen(env('LOG_TOKEN')) > 0) {
-            $logentriesHandler = new LogEntriesHandler(env('LOG_TOKEN'));
-            Log::getMonolog()->pushHandler($logentriesHandler);
+            // Use Rollbar for exception handling
+            $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
         }
 
         /*

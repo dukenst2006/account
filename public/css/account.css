@@ -1,0 +1,49 @@
+.address-card .grid.simple > a.button-grid {
+  display: block;
+  padding: 42px 0 104px 0 !important;
+  font-size: 150%;
+}
+.address-card .grid.simple .grid-body {
+  padding: 15px;
+  height: 99px;
+  border-bottom: 0;
+}
+.address-card .grid.simple .grid-title .badge-important {
+  margin-top: 2px;
+}
+.address-card .grid.simple .grid-title .tools {
+  margin-top: 0;
+}
+.address-card .grid.simple .grid-title .tools .dropdown-toggle {
+  height: 28px;
+  background: transparent;
+  box-shadow: none;
+  padding: 1px 0 0 5px;
+}
+.address-card .grid.simple .grid-title .tools .dropdown-toggle .badge {
+  display: block;
+}
+.address-card .grid.simple .grid-title .tools .dropdown-toggle .fa-gear {
+  display: block;
+  font-size: 1rem;
+  width: 14px;
+  height: 16px;
+}
+.address-card .grid.simple .grid-title .tools .dropdown-menu li {
+  background-image: none !important;
+}
+.address-card .grid.simple .grid-title .tools .dropdown-menu li:hover {
+  background-repeat: repeat-x;
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));
+  border-right: 1px solid;
+}
+.address-card .grid.simple .grid-title .tools .dropdown-menu li a {
+  width: 100%;
+  height: 31px;
+  margin: 0;
+  text-align: right;
+  cursor: pointer;
+  background-image: none !important;
+}
+
+/*# sourceMappingURL=account.css.map */
