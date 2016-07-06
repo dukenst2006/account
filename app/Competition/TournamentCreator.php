@@ -14,7 +14,7 @@ class TournamentCreator
      *
      * @return static
      */
-    public function create(User $owner, Season $season, array $attributes, array $eventTypes)
+    public function create(User $owner, Season $season, array $attributes, array $eventTypes, array $participantTypes)
     {
         $attributes['creator_id'] = $owner->id;
         $attributes['season_id'] = $season->id;
@@ -29,6 +29,19 @@ class TournamentCreator
         DB::beginTransaction();
 
         $tournament = Tournament::create($attributes);
+
+        // add fees
+        foreach ($participantTypes as $typeId => $registration) {
+            $tournament->participantFees()->create([
+                'participant_type_id'   => $typeId,
+                'requires_registration' => isset($registration['requireRegistration']) ? !!$registration['requireRegistration'] : false,
+                'fee'                   => is_numeric($registration['fee']) ? $registration['fee'] : null,
+                'earlybird_fee'         => is_numeric($registration['earlybird_fee']) ? $registration['earlybird_fee'] : null,
+                'onsite_fee'            => is_numeric($registration['onsite_fee']) ? $registration['onsite_fee'] : null
+            ]);
+        }
+
+        // add events
         foreach ($eventTypes as $eventTypeId) {
             $tournament->events()->create([
                 'event_type_id' => $eventTypeId

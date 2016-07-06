@@ -53,12 +53,7 @@
                                         <tr>
                                             <td>{{ $program->name }}</td>
                                             <td>
-                                                <div class="input-group transparent">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-usd"></i>
-                                				    </span>
-                                                    {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
-                                                </div>
+                                                {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
                                             </td>
                                         </tr>
                                         @endforeach

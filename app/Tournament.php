@@ -2,6 +2,8 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Competition\Fees;
+use BibleBowl\Competition\Tournaments\Quizmaster;
 use BibleBowl\Presentation\Describer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +48,13 @@ class Tournament extends Model
     const ACTIVE = 1;
     const INACTIVE = 0;
 
+    // The following participant types are required to
+    // register for all tournaments
+    const PARTICIPANTS_REQUIRED_TO_REGISTER = [
+        ParticipantType::PLAYER,
+        ParticipantType::TEAM
+    ];
+
     protected $attributes = [
         'active'        => self::INACTIVE,
         'lock_teams'    => null
@@ -64,7 +73,23 @@ class Tournament extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function participantFees()
+    {
+        return $this->hasMany(ParticipantFee::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function season()
     {
@@ -72,11 +97,27 @@ class Tournament extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creator()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournamentQuizmasters()
+    {
+        return $this->hasMany(TournamentQuizmaster::class);
     }
 
     public function setSlugAttribute($slug)
@@ -177,12 +218,12 @@ class Tournament extends Model
      *
      * @param $end
      */
-    public function setLockTeamsAttribute($lock_teamsed)
+    public function setLockTeamsAttribute($lock_teams)
     {
-        if (is_null($lock_teamsed) || strlen($lock_teamsed) == 0) {
+        if (is_null($lock_teams) || strlen($lock_teams) == 0) {
             $this->attributes['lock_teams'] = null;
         } else {
-            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teamsed);
+            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teams);
         }
     }
 
@@ -202,6 +243,34 @@ class Tournament extends Model
         return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
     }
 
+    /**
+     * Convert from m/d/Y to a Carbon object for saving
+     *
+     * @param $end
+     */
+    public function setEarlybirdEndsAttribute($earlybird_ends)
+    {
+        if (is_null($earlybird_ends) || strlen($earlybird_ends) == 0) {
+            $this->attributes['earlybird_ends'] = null;
+        } else {
+            $this->attributes['earlybird_ends'] = Carbon::createFromFormat('m/d/Y', $earlybird_ends);
+        }
+    }
+
+    /**
+     * Provide end as a Carbon object
+     *
+     * @return static
+     */
+    public function getEarlybirdEndsAttribute($earlybird_ends)
+    {
+        if (is_null($earlybird_ends)) {
+            return null;
+        }
+
+        return Carbon::createFromFormat('Y-m-d', $earlybird_ends);
+    }
+
     public function teamsWillLock() : bool
     {
         return is_null($this->lock_teams) == false;
@@ -210,6 +279,11 @@ class Tournament extends Model
     public function teamsAreLocked() : bool
     {
         return $this->teamsWillLock() && Carbon::now()->gte($this->lock_teams);
+    }
+
+    public function hasEarlyBirdRegistration() : bool
+    {
+        return is_null($this->earlybird_ends) == false;
     }
 
     /**
@@ -236,4 +310,34 @@ class Tournament extends Model
     {
         return Describer::dateSpan($this->registration_start, $this->registration_end);
     }
+
+    /**
+     * Get the fee for a ParticipantType
+     */
+    public function fee(ParticipantType $participantType)
+    {
+        /** @var ParticipantFee $participantFee */
+        $participantFee = $this->participantFees()
+            ->where('participant_type_id', $participantType->id)
+            ->first();
+        if ($this->hasEarlyBirdRegistration() && $participantFee->earlybird_fee != null && Carbon::now()->lte($this->earlybird_ends)) {
+            return $participantFee->earlybird_free;
+        }
+
+        return $participantFee->fee;
+    }
+
+    public function registrationIsEnabled(int $participantTypeId)
+    {
+        // use the whole collection here - effectively it's eager loaded
+        return $this->participantFees->filter(function ($fee) use ($participantTypeId) {
+            return $fee->participant_type_id == $participantTypeId && $fee->requires_registration;
+        })->count() > 0;
+    }
+
+    public function isRegisteredAsQuizmaster(User $user)
+    {
+        return $this->tournamentQuizmasters()->where('user_id', $user->id)->count() > 0;
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace BibleBowl\Shop;
 
+use BibleBowl\Receipt;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Fluent;
 
@@ -50,5 +51,5 @@ abstract class PostPurchaseEvent extends Fluent
      *
      * @return void
      */
-    abstract public function fire();
+    abstract public function fire(Receipt $receipt);
 }

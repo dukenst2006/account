@@ -100,7 +100,7 @@ class SeasonRegistrationTest extends TestCase
         // verify beginner players have been removed
         $beginner = Program::findOrFail(Program::BEGINNER);
         /** @var \BibleBowl\Seasons\GroupRegistration $registration */
-        $registration = Session::groupRegistration();
+        $registration = Session::seasonalGroupRegistration();
         $this->assertEquals(0, $registration->numberOfPlayers($beginner));
 
         $this
@@ -151,7 +151,7 @@ class SeasonRegistrationTest extends TestCase
         // assert the player is classified as beginner
         $beginner = Program::findOrFail(Program::BEGINNER);
         /** @var GroupRegistration $registration */
-        $registration = Session::groupRegistration();
+        $registration = Session::seasonalGroupRegistration();
         $this->arrayHasKey(1, $registration->playerInfo($beginner));
     }
 

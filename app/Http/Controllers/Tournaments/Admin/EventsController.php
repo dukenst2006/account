@@ -17,7 +17,7 @@ class EventsController extends Controller
     {
         return view('tournaments.admin.events.create')
                 ->withTournament(Tournament::findOrFail($tournamentId))
-                ->with('eventTypes', EventType::orderBy('name', 'ASC')->get());
+                ->with('eventTypes', EventType::orderBy('name', 'ASC')->with('participantType')->get());
     }
 
     /**

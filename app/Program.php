@@ -56,6 +56,14 @@ class Program extends Model
         return $this->hasMany(Group::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournaments()
+    {
+        return $this->hasMany(Tournament::class);
+    }
+
     public function scopeSlug(Builder $query, $slug)
     {
         return $query->where('slug', $slug);

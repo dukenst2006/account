@@ -63,11 +63,20 @@ class Item extends Model
      */
     public function name()
     {
-        // if it's a seasonal registration
-        $groupRegistrationPrefix = 'SEASON_REG_';
-        if (starts_with($this->sku, $groupRegistrationPrefix)) {
-            $program = Program::where('slug', str_replace($groupRegistrationPrefix, '', $this->sku))->firstOrFail();
+        // seasonal registrations
+        $seasonalGroupRegistrationPrefix = 'SEASON_REG_';
+        if (starts_with($this->sku, $seasonalGroupRegistrationPrefix)) {
+            $program = Program::where('slug', str_replace($seasonalGroupRegistrationPrefix, '', $this->sku))->firstOrFail();
             return $program->name.' Seasonal Registration';
+        }
+
+        // tournament registrations
+        $tournamentRegistrationPrefix = 'TOURNAMENT_REG_';
+        if (starts_with($this->sku, $tournamentRegistrationPrefix)) {
+            $pieces = explode('_', $this->sku);
+            unset($pieces[0]);
+            unset($pieces[1]);
+            return ucwords(strtolower(implode(' ', $pieces))).' Tournament Registration';
         }
 
         return $this->sku;

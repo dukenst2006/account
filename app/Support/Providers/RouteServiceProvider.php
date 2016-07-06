@@ -1,13 +1,11 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use Auth;
 use BibleBowl\Ability;
 use BibleBowl\Role;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Redirect;
 use Route;
-use URL;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -57,9 +55,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::post('register', 'Auth\AuthController@postRegister');
 
             // Password Reset Routes...
-            $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-            $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-            $this->post('password/reset', 'Auth\PasswordController@reset');
+            Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+            Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+            Route::post('password/reset', 'Auth\PasswordController@reset');
+
+            // Tournament routes
+            Route::group([
+                'prefix'    => 'tournaments'
+            ], function () {
+                Route::get('{slug}', 'TournamentsController@show');
+            });
 
             # Must be logged in to access these routes
             Route::group(['middleware' => 'auth'], function () {
@@ -167,6 +172,28 @@ class RouteServiceProvider extends ServiceProvider
                     Route::resource('tournaments.events', 'EventsController', [
                         'except' => ['index', 'show']
                     ]);
+                });
+
+                Route::group([
+                    'prefix'    => 'tournaments/{slug}',
+                    'namespace' => 'Tournaments'
+                ], function () {
+                    Route::group([
+                        'prefix'    => 'registration',
+                        'namespace' => 'Registration'
+                    ], function () {
+                        Route::get('quizmaster', 'QuizmasterController@getRegistration');
+                        Route::post('standalone-quizmaster', 'QuizmasterController@postStandaloneRegistration');
+                        Route::post('quizmaster', 'QuizmasterController@postRegistration');
+
+                        Route::get('quizmaster-preferences/{guid}', 'QuizmasterController@getPreferences');
+                        Route::post('quizmaster-preferences/{guid}', 'QuizmasterController@postPreferences');
+                    });
+                    Route::get('group', 'GroupRegistrationController@index');
+
+                    Route::get('group/choose-teams', 'GroupRegistrationController@chooseTeams');
+                    Route::get('/group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
+                    Route::get('group/quizmasters', 'GroupRegistrationController@quizmasters');
                 });
 
                 # ------------------------------------------------

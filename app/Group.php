@@ -125,6 +125,14 @@ class Group extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournamentQuizmasters()
+    {
+        return $this->hasMany(TournamentQuizmaster::class);
+    }
+
+    /**
      * Query groups by beginner or teen
      */
     public function scopeByProgram(Builder $query, $program)

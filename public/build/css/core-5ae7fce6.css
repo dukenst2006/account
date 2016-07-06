@@ -8645,6 +8645,9 @@ td.visible-print {
 .theme .guest-nav > li {
   margin-right: .5em !important;
 }
+.theme th .tooltip {
+  text-transform: none !important;
+}
 .address-card .grid.simple > a.button-grid {
   display: block;
   padding: 42px 0 104px 0 !important;
@@ -8925,6 +8928,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .guest-nav > li {
   margin-right: .5em !important;
+}
+th .tooltip {
+  text-transform: none !important;
 }
 /*!
 * direction.less v0.1.0
@@ -17187,6 +17193,9 @@ body.rtl .footer-widget {
 .theme .guest-nav > li {
   margin-right: .5em !important;
 }
+.theme th .tooltip {
+  text-transform: none !important;
+}
 .address-card .grid.simple > a.button-grid {
   display: block;
   padding: 42px 0 104px 0 !important;
@@ -17467,6 +17476,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .guest-nav > li {
   margin-right: .5em !important;
+}
+th .tooltip {
+  text-transform: none !important;
 }
 @media only screen and (min-width: 1824px) {
   body {

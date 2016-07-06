@@ -5,6 +5,7 @@ use BibleBowl\Event;
 class TournamentEventsTest extends TestCase
 {
 
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsDirector;
 
     public function setUp()
@@ -12,7 +13,6 @@ class TournamentEventsTest extends TestCase
         parent::setUp();
 
         $this->setupAsDirector();
-        ;
     }
 
     /**

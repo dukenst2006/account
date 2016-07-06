@@ -15,6 +15,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use BibleBowl\Tournament;
 use BibleBowl\Role;
+use BibleBowl\EventType;
+use BibleBowl\ParticipantType;
 use BibleBowl\GroupType;
 
 class DatabaseSeeder extends Seeder {
@@ -68,22 +70,7 @@ class DatabaseSeeder extends Seeder {
             $this->call('StagingSeeder');
         }
 
-        $tournamentName = 'My Test Tournament';
-        Tournament::create([
-            'program_id'            => Program::TEEN,
-            'slug'                  => $this->season->name.' '.$tournamentName,
-            'season_id'             => $this->season->id,
-            'name'                  => $tournamentName,
-            'start'                 => Carbon::now()->addMonths(5)->format('m/d/Y'),
-            'end'                   => Carbon::now()->addMonths(7)->format('m/d/Y'),
-            'registration_start'    => Carbon::now()->addMonths(3)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->addMonths(4)->format('m/d/Y'),
-            'creator_id'            => $director->id,
-            'details'               => '<h3>Nearby Hotels</h3><p>There are a few nearby:</p><ul><li>Option #1</li></ul>',
-            'max_teams'             => 64,
-            'active'                => 1,
-            'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y')
-        ]);
+        $this->seedTournament($director);
 
         self::$isSeeding = false;
     }
@@ -288,6 +275,71 @@ class DatabaseSeeder extends Seeder {
             }
         }
 
+    }
+
+    private function seedTournament($director)
+    {
+        $tournamentName = 'My Test Tournament';
+        $tournament = Tournament::create([
+            'program_id'            => Program::TEEN,
+            'slug'                  => $this->season->name.' '.$tournamentName,
+            'season_id'             => $this->season->id,
+            'name'                  => $tournamentName,
+            'start'                 => Carbon::now()->addMonths(5)->format('m/d/Y'),
+            'end'                   => Carbon::now()->addMonths(7)->format('m/d/Y'),
+            'registration_start'    => Carbon::now()->addMonths(3)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->addMonths(4)->format('m/d/Y'),
+            'creator_id'            => $director->id,
+            'details'               => '<h3>Nearby Hotels</h3><p>There are a few nearby:</p><ul><li>Option #1</li></ul>',
+            'max_teams'             => 64,
+            'active'                => 1,
+            'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y'),
+            'earlybird_ends'        => Carbon::now()->addMonths(3)->format('m/d/Y')
+        ]);
+        $tournament->events()->create([
+            'event_type_id' => EventType::ROUND_ROBIN,
+            'price_per_participant' => '25.00'
+        ]);
+        $tournament->events()->create([
+            'event_type_id' => EventType::DOUBLE_ELIMINATION,
+            'price_per_participant' => '35.00'
+        ]);
+        $tournament->participantFees()->create([
+            'participant_type_id'   => ParticipantType::PLAYER,
+            'requires_registration' => 1,
+            'fee'                   => '15.00'
+        ]);
+        $tournament->participantFees()->create([
+            'participant_type_id'   => ParticipantType::TEAM,
+            'requires_registration' => 1,
+            'earlybird_fee'         => '50.00',
+            'fee'                   => '75.00'
+        ]);
+        $tournament->participantFees()->create([
+            'participant_type_id'   => ParticipantType::QUIZMASTER,
+            'requires_registration' => 1,
+            'fee'                   => '30.00',
+            'onsite_fee'            => '40.00'
+        ]);
+        $tournament->participantFees()->create([
+            'participant_type_id'   => ParticipantType::ADULT,
+            'requires_registration' => 1,
+            'fee'                   => '30.00',
+            'onsite_fee'            => '40.00'
+        ]);
+        $tournament->participantFees()->create([
+            'participant_type_id'   => ParticipantType::FAMILY,
+            'requires_registration' => 1,
+            'fee'                   => '60.00',
+            'onsite_fee'            => '75.00'
+        ]);
+        $tournament->tournamentQuizmasters()->create([
+            'group_id'      => 2,
+            'first_name'    => 'Keith',
+            'last_name'     => 'Webb',
+            'email'         => 'kwebb@domain.com',
+            'gender'        => 'M'
+        ]);
     }
 
 }

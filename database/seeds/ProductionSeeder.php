@@ -9,6 +9,7 @@ use BibleBowl\Group;
 use BibleBowl\EventType;
 use Illuminate\Database\Seeder;
 use BibleBowl\Program;
+use BibleBowl\ParticipantType;
 use BibleBowl\GroupType;
 
 class ProductionSeeder extends Seeder {
@@ -50,26 +51,45 @@ class ProductionSeeder extends Seeder {
                 'name' => 'Other'
             ]);
 
+        ParticipantType::create([
+            'name' => 'Team'
+        ]);
+        ParticipantType::create([
+            'name' => 'Player'
+        ]);
+        ParticipantType::create([
+            'name' => 'Quizmaster'
+        ]);
+        ParticipantType::create([
+            'name'          => 'Spectator - Adult',
+            'description'   => 'Single adult'
+        ]);
+        ParticipantType::create([
+            'name'          => 'Spectator - Family',
+            'description'   => 'Up to 2 adults and children who are not players'
+        ]);
+
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_TEAM,
-            'name'              => 'Round Robin'
+            'participant_type_id'   => ParticipantType::TEAM,
+            'name'                  => 'Round Robin'
         ]);
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_PLAYER,
-            'name'              => 'Quote Bee'
+            'participant_type_id'   => ParticipantType::PLAYER,
+            'name'                  => 'Quote Bee'
         ]);
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_TEAM,
-            'name'              => 'Double Elimination'
+            'participant_type_id'   => ParticipantType::TEAM,
+            'name'                  => 'Double Elimination'
         ]);
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_PLAYER,
-            'name'              => 'BuzzOff'
+            'participant_type_id'   => ParticipantType::PLAYER,
+            'name'                  => 'BuzzOff'
         ]);
         EventType::create([
-            'participant_type'  => EventType::PARTICIPANT_PLAYER,
-            'name'              => 'King of the Hill'
+            'participant_type_id'   => ParticipantType::PLAYER,
+            'name'                  => 'King of the Hill'
         ]);
+        
         Bouncer::allow(Role::ADMIN)->to([
             Ability::VIEW_REPORTS,
             Ability::MANAGE_ROLES,

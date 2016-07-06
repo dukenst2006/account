@@ -364,4 +364,25 @@ class Form extends FormBuilder
 
         return $this->select($name, $list, $selected, $options);
     }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectGender($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [
+            Html::GENDER_MALE => Describer::describeGender(Html::GENDER_MALE),
+            Html::GENDER_FEMALE => Describer::describeGender(Html::GENDER_FEMALE)
+        ];
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
 }

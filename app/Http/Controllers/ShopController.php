@@ -43,7 +43,7 @@ class ShopController extends Controller
                 Cart::total(),
                 Cart::receiptItems()
             )) {
-                $postPurchaseEvent->fire();
+                $postPurchaseEvent->fire($paymentProcessor->receipt());
             }
             DB::commit();
         } catch (PaymentFailed $e) {

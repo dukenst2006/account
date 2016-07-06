@@ -5,6 +5,7 @@ use BibleBowl\Group;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
 use BibleBowl\User;
+use BibleBowl\Competition\Tournaments\GroupRegistration as TournamentGroupRegistration;
 
 class SessionManager extends \Illuminate\Session\SessionManager
 {
@@ -13,9 +14,10 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const GROUP = 'group';
     const REGISTER_WITH_GROUP = 'register_with_group';
     const ADMIN_USER = 'admin_user';
-    const GROUP_REGISTRATION = 'seasonal_registration';
+    const SEASONAL_GROUP_REGISTRATION = 'seasonal_group_registration';
+    const TOURNAMENT_GROUP_REGISTRATION = 'tournament_group_registration';
     const REDIRECT_TO_AFTER_AUTH = 'after_auth_redirect';
-
+    
     /** @var Season */
     protected $season = null;
 
@@ -60,7 +62,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function group()
     {
-        if (is_null($this->group)) {
+        if (is_null($this->group) && $this->get(self::GROUP) != null) {
             Group::unguard();
             $this->group = $this->app->make(Group::class, [$this->get(self::GROUP)]);
             Group::reguard();
@@ -80,20 +82,37 @@ class SessionManager extends \Illuminate\Session\SessionManager
     }
 
     /**
-     * @param GroupRegistration $groupRegistration
+     * @param GroupRegistration $seasonalGroupRegistration
      */
-    public function setGroupRegistration(GroupRegistration $groupRegistration)
+    public function setSeasonalGroupRegistration(GroupRegistration $seasonalGroupRegistration)
     {
-        $this->set(self::GROUP_REGISTRATION, $groupRegistration->toArray());
+        $this->set(self::SEASONAL_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
     }
 
     /**
      * @return GroupRegistration
      */
-    public function groupRegistration()
+    public function seasonalGroupRegistration()
     {
-        $registrationInfo = $this->get(self::GROUP_REGISTRATION, []);
+        $registrationInfo = $this->get(self::SEASONAL_GROUP_REGISTRATION, []);
         return app(GroupRegistration::class, [$registrationInfo]);
+    }
+
+    /**
+     * @param TournamentGroupRegistration $seasonalGroupRegistration
+     */
+    public function setTournamentGroupRegistration(TournamentGroupRegistration $seasonalGroupRegistration)
+    {
+        $this->set(self::TOURNAMENT_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
+    }
+
+    /**
+     * @return GroupRegistration
+     */
+    public function tournamentGroupRegistration() : TournamentGroupRegistration
+    {
+        $registrationInfo = $this->get(self::TOURNAMENT_GROUP_REGISTRATION, []);
+        return app(TournamentGroupRegistration::class, [$registrationInfo]);
     }
 
     /**

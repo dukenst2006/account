@@ -36,6 +36,22 @@ class Event extends Model
         return $this->belongsTo(Tournament::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventPlayers()
+    {
+        return $this->hasMany(EventPlayer::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function players()
+    {
+        return $this->hasManyThrough(Player::class, EventPlayer::class);
+    }
+
     public function setPricePerParticipantAttribute($price)
     {
         if ($price == '' || intval($price) == 0) {
@@ -80,7 +96,7 @@ class Event extends Model
                 $price = number_format($this->price_per_participant);
             }
 
-            echo '$'. $price.' / '.$this->type->participant_type;
+            echo '$'. $price.' / '.$this->type->participantType->name;
         }
     }
 }

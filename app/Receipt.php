@@ -45,6 +45,14 @@ class Receipt extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tournamentQuizmasters()
+    {
+        return $this->hasMany(TournamentQuizmaster::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function address()
@@ -66,5 +74,29 @@ class Receipt extends Model
     public function items()
     {
         return $this->hasMany(ReceiptItem::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventPlayers()
+    {
+        return $this->hasMany(EventPlayer::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function players()
+    {
+        return $this->hasManyThrough(Player::class, EventPlayer::class);
     }
 }

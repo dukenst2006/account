@@ -6,6 +6,7 @@ use Gravatar;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Validator;
+use Log;
 
 class Registrar implements RegistrarContract
 {
@@ -43,8 +44,16 @@ class Registrar implements RegistrarContract
         unset($data['password_confirmation']);
 
         //use Gravatar if a user has one
-        if (!isset($data['avatar']) && Gravatar::exists($data['email'])) {
-            $data['avatar'] = Gravatar::get($data['email']);
+        try {
+            if (!isset($data['avatar']) && Gravatar::exists($data['email'])) {
+                $data['avatar'] = Gravatar::get($data['email']);
+            }
+        } catch (\ErrorException $e) {
+            if (App::environment('local', 'testing') && str_contains($e->getMessage(), 'get_headers(): php_network_getaddresses: getaddrinfo failed: nodename nor servname provided')) {
+                Log::debug('We are probably offline, so this is being suppressed to avoid test failures');
+            } else {
+                throw $e;
+            }
         }
 
         $user = App::make(User::class, [$data]);
