@@ -29,6 +29,12 @@ return [
 		'region' => 'us-east-1',
 	],
 
+	'rollbar' => [
+		'access_token' => env('ROLLBAR_TOKEN'),
+		'level' => env('ROLLBAR_LEVEL', 'debug'),
+		'enable_utf8_sanitization' => false
+	],
+
 	/*
 	 * Socialite Credentials
 	 * Redirect URL's need to be the same as specified on each network you set up this application on

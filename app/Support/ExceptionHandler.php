@@ -32,16 +32,6 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
      */
     public function report(Exception $e)
     {
-        if (app()->environment('production')) {
-            Mail::queue('emails.exception', [
-                'exception' => $e
-            ], function($message) use($e)
-            {
-                $message->to(config('app.error-notifications'))
-                    ->subject('BBowl Exception: '.$e->getMessage());
-            });
-        }
-
         return parent::report($e);
     }
 
