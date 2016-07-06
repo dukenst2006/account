@@ -1,13 +1,11 @@
 <?php namespace BibleBowl\Support\Providers;
 
-use Session;
 use BibleBowl\Ability;
 use BibleBowl\Role;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Redirect;
 use Route;
-use URL;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -248,6 +246,12 @@ class RouteServiceProvider extends ServiceProvider
                         Route::patch('settings', 'SettingsController@update');
                     });
                 });
+            });
+            
+            Route::group([
+                'prefix'    => 'tournaments'
+            ], function () {
+                Route::get('{slug}', 'TournamentsController@show');
             });
         });
 

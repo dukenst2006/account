@@ -8,9 +8,11 @@ use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
+use Monolog\Handler\LogEntriesHandler;
 use URL;
 use Illuminate\Support\ServiceProvider;
 use Silber\Bouncer\Database\Models;
+use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,13 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceSchema('https');
             URL::forceRootUrl(config('app.url'));
+        }
+
+
+        // if log token is set, use logentries
+        if (strlen(env('LOG_TOKEN')) > 0) {
+            $logentriesHandler = new LogEntriesHandler(env('LOG_TOKEN'));
+            Log::getMonolog()->pushHandler($logentriesHandler);
         }
 
         /*

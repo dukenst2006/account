@@ -1,12 +1,9 @@
 /vendor
 /node_modules
 /resources/tmp
-/public/css/*.css
-/public/css/*.map
 .env
 .idea
 _ide_helper.php
 storage/debugbar
-public/js/*
 _ide_helper_models.php
 .vagrant

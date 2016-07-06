@@ -17,7 +17,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const SEASONAL_GROUP_REGISTRATION = 'seasonal_group_registration';
     const TOURNAMENT_GROUP_REGISTRATION = 'tournament_group_registration';
     const REDIRECT_TO_AFTER_AUTH = 'after_auth_redirect';
-
+    
     /** @var Season */
     protected $season = null;
 

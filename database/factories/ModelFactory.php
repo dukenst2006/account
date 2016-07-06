@@ -11,6 +11,7 @@ use BibleBowl\Groups\GroupCreator;
 use BibleBowl\Tournament;
 use BibleBowl\Season;
 use Carbon\Carbon;
+use BibleBowl\GroupType;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +108,7 @@ function seedGroup(User $headCoach)
     $group = app(GroupCreator::class);
     return $group->create($headCoach, [
         'name'                  => 'Group '.microtime(),
+        'group_type_id'         => GroupType::CHURCH,
         'program_id'            => Program::TEEN,
         'address_id'            => $headCoach->primary_address_id,
         'meeting_location_id'   => $headCoach->primary_address_id

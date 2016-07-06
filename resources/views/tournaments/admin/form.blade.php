@@ -86,10 +86,10 @@
                     </td>
                     <td>
                         @if(!in_array($type->id, \BibleBowl\Tournament::PARTICIPANTS_REQUIRED_TO_REGISTER))
-                        <div class="checkbox check-default">
-                            {!! Form::checkbox("participantTypes[".$type->id."][requireRegistration]", 1, old("participantTypes[".$type->id."][requireRegistration]", isset($tournament) && $participantFees->has($type->id) && $participantFees->get($type->id)->requires_registration), [ "id" => 'participantType'.$type->id.'requireRegistration' ]) !!}
-                            <label for='participantType{{ $type->id }}requireRegistration'></label>
-                        </div>
+                            <div class="checkbox check-default">
+                                {!! Form::checkbox("participantTypes[".$type->id."][requireRegistration]", 1, old("participantTypes[".$type->id."][requireRegistration]", isset($tournament) && $participantFees->has($type->id) && $participantFees->get($type->id)->requires_registration), [ "id" => 'participantType'.$type->id.'requireRegistration' ]) !!}
+                                <label for='participantType{{ $type->id }}requireRegistration'></label>
+                            </div>
                         @endif
                     </td>
                     <td>{!! Form::money('participantTypes['.$type->id.'][earlybird_fee]', old('participantTypes['.$type->id.'][earlybird_fee]', (isset($tournament) && $participantFees->has($type->id)) ? $participantFees->get($type->id)->earlybird_fee : '0'), ['class' => 'form-control']) !!}</td>
@@ -105,14 +105,14 @@
 @includeRichTextEditor
 @includeDatePicker
 @js
-    $(document).ready(function () {
-        $('#text-editor').wysihtml5({
-            stylesheets: ["/assets/plugins/bootstrap-wysihtml5/wysiwyg-color.css"],
-        });
-
-        $('.input-append.date').datepicker({
-            autoclose: true,
-            todayHighlight: true
-        });
+$(document).ready(function () {
+    $('#text-editor').wysihtml5({
+        stylesheets: ["/assets/plugins/bootstrap-wysihtml5/wysiwyg-color.css"],
     });
+
+    $('.input-append.date').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+});
 @endjs

@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\EventType;
+use BibleBowl\GroupType;
 use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use Carbon\Carbon;
@@ -334,6 +335,27 @@ class Form extends FormBuilder
         $list = [];
         foreach (ParticipantType::orderBy('name')->get() as $participantType) {
             $list[$participantType->id] = $participantType->name;
+        }
+
+        if ($optional) {
+            array_unshift($list, 'Select One...');
+        }
+
+        return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectGroupType($name, $selected = null, $options = array(), $optional = false)
+    {
+        $list = [];
+        foreach (GroupType::orderBy('name')->get() as $groupType) {
+            $list[$groupType->id] = $groupType->name;
         }
 
         if ($optional) {

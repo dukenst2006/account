@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use BibleBowl\Role;
+use BibleBowl\GroupType;
 
 class StagingSeeder extends Seeder {
 
@@ -52,7 +53,7 @@ class StagingSeeder extends Seeder {
             'status'			=> User::STATUS_CONFIRMED,
             'first_name'		=> 'Josiah',
             'last_name'			=> 'Director',
-            'email'				=> 'jgorman+director@biblebowl.org',
+            'email'				=> 'jgorman+admin@biblebowl.org',
             'password'			=> bcrypt('changeme'),
             'primary_address_id'  => $address->id
         ]);
@@ -87,6 +88,7 @@ class StagingSeeder extends Seeder {
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($headCoach, [
             'name'                  => 'Cincinnati Homeschoolers',
+            'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
@@ -189,6 +191,7 @@ class StagingSeeder extends Seeder {
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($headCoach, [
             'name'                  => 'Florida Homeschoolers',
+            'group_type_id'         => GroupType::HOMESCHOOL,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
@@ -244,6 +247,7 @@ class StagingSeeder extends Seeder {
     {
         $group = $groupCreator->create($headCoach, [
             'name'                  => $groupName,
+            'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id

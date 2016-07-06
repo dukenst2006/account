@@ -25,7 +25,9 @@
                             <div class="col-md-6"></div>
                         </div>
 
-                        @include('tournaments.admin.form')
+                        @include('tournaments.admin.form', [
+                            'participantTypes' => $participantTypes
+                        ])
 
                         <div class="row">
                             <div class="col-md-12 form-group">

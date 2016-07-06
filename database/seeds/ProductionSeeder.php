@@ -10,6 +10,7 @@ use BibleBowl\EventType;
 use Illuminate\Database\Seeder;
 use BibleBowl\Program;
 use BibleBowl\ParticipantType;
+use BibleBowl\GroupType;
 
 class ProductionSeeder extends Seeder {
 
@@ -37,6 +38,18 @@ class ProductionSeeder extends Seeder {
             'min_grade'         => 6,
             'max_grade'         => 12
         ]);
+        GroupType::create([
+            'name' => 'Christian School'
+        ]);
+            GroupType::create([
+                'name' => 'Homeschool'
+            ]);
+            GroupType::create([
+                'name' => 'Church'
+            ]);
+            GroupType::create([
+                'name' => 'Other'
+            ]);
 
         ParticipantType::create([
             'name' => 'Team'
@@ -76,6 +89,7 @@ class ProductionSeeder extends Seeder {
             'participant_type_id'   => ParticipantType::PLAYER,
             'name'                  => 'King of the Hill'
         ]);
+        
         Bouncer::allow(Role::ADMIN)->to([
             Ability::VIEW_REPORTS,
             Ability::MANAGE_ROLES,

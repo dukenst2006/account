@@ -17,6 +17,7 @@ use BibleBowl\Tournament;
 use BibleBowl\Role;
 use BibleBowl\EventType;
 use BibleBowl\ParticipantType;
+use BibleBowl\GroupType;
 
 class DatabaseSeeder extends Seeder {
 
@@ -131,6 +132,7 @@ class DatabaseSeeder extends Seeder {
         $groupCreator = App::make(GroupCreator::class);
         $groupCreator->create($BKuhlHeadCoach, [
             'name'                  => 'Southeast Christian Church',
+            'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id
@@ -206,6 +208,7 @@ class DatabaseSeeder extends Seeder {
     {
         $group = $groupCreator->create($headCoach, [
             'name'                  => self::GROUP_NAME,
+            'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id

@@ -1,8 +1,5 @@
 <?php namespace BibleBowl\Http\Controllers;
 
-use BibleBowl\Competition\Tournaments\GroupRegistration;
-use Session;
-use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
 
 class TournamentsController extends Controller
