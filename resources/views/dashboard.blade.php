@@ -35,9 +35,7 @@
         </div>
     @endif
 
-    @if(isset($playersPendingPayment) && $playersPendingPayment->count() > 0)
-        <div class="col-md-6">
-            @include('dashboard.registration-payment')
-        </div>
-    @endif
+    <div class="col-md-6">
+        @include('dashboard.registration-payment')
+    </div>
 @endsection
