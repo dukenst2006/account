@@ -46,4 +46,15 @@ class RosterTest extends TestCase
             ->see('Player Map')
             ->see($guardian->last_name.' Family');
     }
+
+    /**
+     * @test
+     */
+    public function viewGuardian()
+    {
+        $guardian = $this->group->guardians($this->season())->first();
+
+        $this
+            ->visit('/guardian/'.$guardian->id);
+    }
 }

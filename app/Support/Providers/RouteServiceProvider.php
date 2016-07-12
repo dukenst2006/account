@@ -159,6 +159,7 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('roster/inactive', 'Groups\RosterController@inactive');
                     Route::get('roster/export', 'Groups\RosterController@export');
                     Route::get('roster/map', 'Groups\RosterController@map');
+                    Route::get('guardian/{guardian}', 'Groups\GuardianController@show');
                     Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
                     Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
                 });
@@ -253,6 +254,10 @@ class RouteServiceProvider extends ServiceProvider
             ], function () {
                 Route::get('{slug}', 'TournamentsController@show');
             });
+        });
+
+        Route::get('faq', function () {
+            return view('faq');
         });
 
         Route::get('healthcheck/{token}', function ($token) {

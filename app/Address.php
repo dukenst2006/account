@@ -108,17 +108,18 @@ class Address extends Model
     public static function validationRules()
     {
         return [
-            'name'            => 'required|max:32',
-            'address_one'    => 'required|max:255',
-            'address_two'    => 'max:255',
-            'zip_code'        => 'required'
+            'name'              => 'required|max:32',
+            'address_one'       => 'required|max:255',
+            'address_two'       => 'max:255',
+            'zip_code'          => 'required|regex:/\b\d{5}\b/'
         ];
     }
 
     public static function validationMessages()
     {
         return [
-            'address_one.required' => 'Street address is required'
+            'address_one.required'  => 'Street address is required',
+            'zip_code.regex'        => 'Zip code is invalid'
         ];
     }
 

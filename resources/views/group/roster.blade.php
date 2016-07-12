@@ -8,15 +8,17 @@
             <div class="col-md-12">
                 <div class="grid simple">
                     <div class="grid-title no-border">
-                        <h4>Player <span class="semi-bold">Roster</span></h4>
-                    </div>
-                    <div class="grid-body no-border">
-                        @include('partials.messages')
                         <div class="row">
-                            <div class="col-md-12 text-right">
+                            <div class="col-md-9 p-l-20 p-t-15">
+                                <h4>Player <span class="semi-bold">Roster</span></h4>
+                            </div>
+                            <div class="col-md-3 text-right p-r-20 p-t-15">
                                 <a href="/roster/export" type="button" class="btn btn-primary btn-cons"><i class="fa fa-download"></i>&nbsp;Download CSV</a>
                             </div>
                         </div>
+                    </div>
+                    <div class="grid-body no-border">
+                        @include('partials.messages')
                         <table class="table no-more-tables">
                             <thead>
                             <tr>
@@ -33,7 +35,7 @@
                             @foreach($active_players as $player)
                             <tr>
                                 <td class="v-align-middle">{{ $player->full_name }}</td>
-                                <td class="v-align-middle">{{ $player->guardian->full_name }}</td>
+                                <td class="v-align-middle"><a href="/guardian/{{ $player->guardian->id }}">{{ $player->guardian->full_name }}</a></td>
                                 <td class="v-align-middle text-center">{{ $player->age() }}</td>
                                 <td class="v-align-middle text-center">{{ \BibleBowl\Presentation\Describer::describeGrade($player->pivot->grade) }}</td>
                                 <td class="v-align-middle text-center">{{ $player->pivot->shirt_size }}</td>

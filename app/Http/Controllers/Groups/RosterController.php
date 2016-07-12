@@ -82,7 +82,8 @@ class RosterController extends Controller
             'Parent/Guardian',
             'Email',
             'Address',
-            'Phone'
+            'Phone',
+            'Seasons Played'
         ]);
 
         foreach ($players as $player) {
@@ -97,7 +98,8 @@ class RosterController extends Controller
                 $player->guardian->full_name,
                 $player->guardian->email,
                 $player->guardian->address,
-                $player->guardian->phone
+                $player->guardian->phone,
+                $player->seasons()->count()
             ));
         }
 
