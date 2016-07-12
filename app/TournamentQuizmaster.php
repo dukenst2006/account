@@ -145,4 +145,9 @@ class TournamentQuizmaster extends Model
     {
         $this->attributes['quizzing_preferences'] = $value->toJson();
     }
+    
+    public function hasPaid()
+    {
+        return $this->receipt_id != null;
+    }
 }

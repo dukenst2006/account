@@ -18,6 +18,7 @@ use BibleBowl\Role;
 use BibleBowl\EventType;
 use BibleBowl\ParticipantType;
 use BibleBowl\GroupType;
+use BibleBowl\Receipt;
 
 class DatabaseSeeder extends Seeder {
 
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder {
     const DIRECTOR_EMAIL = 'benkuhl+admin@gmail.com';
     const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
     const GUARDIAN_EMAIL = 'benkuhl+guardian@gmail.com';
+    const QUIZMASTER_EMAIL = 'benkuhl+quizmaster@gmail.com';
 
     /** @var Season */
     private $season;
@@ -62,6 +64,7 @@ class DatabaseSeeder extends Seeder {
 
         $director = $this->seedAdmin();
         $this->seedGuardian();
+        $this->seedQuizmaster();
         $this->seedHeadCoach();
 
         $this->call('AcceptanceTestingSeeder');
@@ -204,6 +207,28 @@ class DatabaseSeeder extends Seeder {
         ]);
     }
 
+    private function seedQuizmaster()
+    {
+        $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
+        $savedAddresses = [];
+        foreach ($addresses as $key => $name) {
+            $savedAddresses[] = factory(Address::class)->create([
+                'name' => $name
+            ]);
+        }
+
+        $BKuhlGuardian = User::create([
+            'status'			    => User::STATUS_CONFIRMED,
+            'first_name'		    => 'Ben',
+            'last_name'			    => 'Quizmaster',
+            'email'				    => self::QUIZMASTER_EMAIL,
+            'phone'                 => '5553546789',
+            'password'			    => bcrypt('changeme'),
+            'primary_address_id'    => $savedAddresses[0]->id
+        ]);
+        $BKuhlGuardian->addresses()->saveMany($savedAddresses);
+    }
+
     private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)
     {
         $group = $groupCreator->create($headCoach, [
@@ -339,6 +364,29 @@ class DatabaseSeeder extends Seeder {
             'last_name'     => 'Webb',
             'email'         => 'kwebb@domain.com',
             'gender'        => 'M'
+        ]);
+
+        $user = User::where('email', self::QUIZMASTER_EMAIL)->first();
+        $receipt = $this->seedReceipt($user);
+        $tournament->tournamentQuizmasters()->create([
+            'group_id'      => 2,
+            'receipt_id'    => $receipt->id,
+            'first_name'    => 'Warner',
+            'last_name'     => 'Jackson',
+            'email'         => 'wjackson@domain.com',
+            'gender'        => 'F'
+        ]);
+    }
+
+    private function seedReceipt(User $user) : Receipt
+    {
+        return Receipt::create([
+            'total'                     => 15.00,
+            'payment_reference_number'  => uniqid(),
+            'first_name'                => $user->first_name,
+            'last_name'                 => $user->last_name,
+            'user_id'                   => $user->id,
+            'address_id'                => $user->primary_address_id
         ]);
     }
 

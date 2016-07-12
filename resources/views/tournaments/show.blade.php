@@ -74,9 +74,13 @@
                                     </div>
                                     <div class="col-md-4 text-center">
                                         @if(Auth::user() !== null)
-                                            <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">Group</a>
+                                            @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+                                                <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">Group</a>
+                                            @else
+                                                <button title="Only head coaches can register their groups" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom">Group</button>
+                                            @endif
                                         @else
-                                            <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register a group">Group</button>
+                                            <button title="You must be logged in to register a group" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom">Group</button>
                                         @endif
                                     </div>
                                     @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))

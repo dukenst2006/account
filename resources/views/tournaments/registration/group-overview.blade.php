@@ -30,6 +30,7 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th class="text-center">Status</th>
                                     <th class="text-center">Email</th>
                                     <th class="text-center">Gender</th>
                                 </tr>
@@ -39,6 +40,13 @@
                                     @foreach($quizmasters as $quizmaster)
                                         <tr>
                                             <td class="v-align-middle">{{ $quizmaster->full_name }}</td>
+                                            <td class="v-align-middle text-center">
+                                                @if($quizmaster->hasPaid())
+                                                    <span class="text-success">PAID</span>
+                                                @else
+                                                    <span class="text-error">PAYMENT DUE</span>
+                                                @endif
+                                            </td>
                                             <td class="v-align-middle text-center"><a href="mailto:{{ $quizmaster->email }}">{{ $quizmaster->email }}</a></td>
                                             <td class="v-align-middle text-center">{!! HTML::genderIcon($quizmaster->gender) !!}</td>
                                         </tr>

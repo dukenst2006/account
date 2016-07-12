@@ -17,7 +17,9 @@ class GroupRegistrationController extends Controller
         return view('tournaments.registration.group-overview', [
             'tournament'    => $tournament,
             'group'         => $group,
-            'quizmasters'   => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->get()
+
+            // show unpaid first, then paid
+            'quizmasters'   => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get()
         ]);
     }
 

@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p>We'll reach out to this quizmaster via email once you hit save so they can provide their quizzing preferences.  Their response is not required.</p>
+                                <p>We'll reach out to this quizmaster via email once you hit save so they can provide their quizzing preferences.  Their response is not required for their registration to be complete.</p>
                             </div>
                         </div>
                         <div class="row">
