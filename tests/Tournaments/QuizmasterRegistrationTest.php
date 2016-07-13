@@ -23,11 +23,13 @@ class QuizmasterRegistrationTest extends TestCase
         $this->setupAsGuardian();
         $this->simulateTransaction();
 
+        $shirtSize = 'XL';
         $gamesQuizzedThisSeason = 'Fewer than 30';
         $tournament = Tournament::firstOrFail();
         $this
             ->visit('/tournaments/'.$tournament->slug.'/registration/quizmaster')
             ->select($gamesQuizzedThisSeason, 'games_quizzed_this_season')
+            ->select($shirtSize, 'shirt_size')
             ->press('Continue')
             ->seePageIs('/cart')
             ->see('Quizmaster Tournament Registration')
@@ -35,6 +37,7 @@ class QuizmasterRegistrationTest extends TestCase
             ->see('Your quizmaster registration is complete');
 
         $quizmaster = TournamentQuizmaster::orderBy('id', 'desc')->first();
+        $this->assertEquals($shirtSize, $quizmaster->shirt_size);
 
         // defaults to no group selected
         $this->assertNull($quizmaster->group_id);

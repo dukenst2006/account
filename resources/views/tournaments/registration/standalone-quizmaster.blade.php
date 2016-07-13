@@ -29,8 +29,17 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <label class="form-label">Which group are you with?</label>
                                         <span class="help">Whether they have teams at this tournament or not</span>
-                                        <div class="controls p-b-20">
+                                        <div class="controls">
                                             {!! Form::select('group_id', $groups, null, ['class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label class="form-label">T-Shirt Size</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            {!! Form::selectShirtSize('shirt_size', old('shirt_size'), ['class' => 'form-control']) !!}<br/>
                                         </div>
                                     </div>
                                 </div>

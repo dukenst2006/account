@@ -76,14 +76,17 @@ class GroupRegistrationTest extends TestCase
     {
         $tournament = Tournament::firstOrFail();
         $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
+        $shirtSize = 'XL';
         $gamesQuizzed = 'Fewer than 15';
         $this
             ->visit('/tournaments/'.$tournament->slug.'/registration/quizmaster-preferences/'.$tournamentQuizmaster->guid)
             ->select($gamesQuizzed, 'games_quizzed_this_season')
+            ->select($shirtSize, 'shirt_size')
             ->press('Save')
             ->see('Your quizzing preferences have been updated');
 
         $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
+        $this->assertEquals($shirtSize, $tournamentQuizmaster->shirt_size);
         $this->assertEquals($gamesQuizzed, $tournamentQuizmaster->quizzing_preferences->gamesQuizzedThisSeason());
     }
 }

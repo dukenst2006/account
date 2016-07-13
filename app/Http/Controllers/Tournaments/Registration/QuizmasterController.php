@@ -121,6 +121,7 @@ class QuizmasterController extends Controller
         return view('tournaments.registration.set-quizzing-preferences', [
             'tournament'            => $quimaster->tournament,
             'group'                 => $quimaster->group,
+            'quizmaster'            => $quimaster,
             'quizzingPreferences'   => $quimaster->quizzing_preferences
         ]);
     }
@@ -135,7 +136,7 @@ class QuizmasterController extends Controller
         if ($tournamentQuizmaster->user_id == null && $tournamentQuizmaster->email == Auth::user()->email) {
             $tournamentQuizmaster->user_id = Auth::user()->id;
         }
-
+        
         /** @var QuizzingPreferences $quizzingPreferences */
         $quizzingPreferences = $tournamentQuizmaster->quizzing_preferences;
         $quizzingPreferences->setQuizzedAtThisTournamentBefore($request->get('quizzed_at_tournament'));
@@ -143,6 +144,7 @@ class QuizmasterController extends Controller
         $quizzingPreferences->setGamesQuizzedThisSeason($request->get('games_quizzed_this_season'));
         $quizzingPreferences->setQuizzingInterest($request->get('quizzing_interest'));
         $tournamentQuizmaster->quizzing_preferences = $quizzingPreferences;
+        $tournamentQuizmaster->shirt_size = $request->get('shirt_size');
         $tournamentQuizmaster->save();
             
         return redirect('/tournaments/'.$tournamentQuizmaster->tournament->slug)->withFlashSuccess('Your quizzing preferences have been updated');

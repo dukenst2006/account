@@ -189,12 +189,13 @@ class RouteServiceProvider extends ServiceProvider
 
                         Route::get('quizmaster-preferences/{guid}', 'QuizmasterController@getPreferences');
                         Route::post('quizmaster-preferences/{guid}', 'QuizmasterController@postPreferences');
-                    });
-                    Route::get('group', 'GroupRegistrationController@index');
 
-                    Route::get('group/choose-teams', 'GroupRegistrationController@chooseTeams');
-                    Route::get('/group/teams/{teamSet}', 'GroupRegistrationController@setTeamSet');
-                    Route::get('group/quizmasters', 'GroupRegistrationController@quizmasters');
+                        Route::get('group/choose-teams', 'GroupController@chooseTeams');
+                        Route::get('/group/teams/{teamSet}', 'GroupController@setTeamSet');
+                        Route::get('group/quizmasters', 'GroupController@quizmasters');
+                    });
+
+                    Route::get('group', 'Registration\GroupController@index');
                 });
 
                 # ------------------------------------------------

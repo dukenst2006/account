@@ -1,4 +1,4 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments;
+<?php namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use BibleBowl\Competition\Tournaments\GroupRegistration;
 use BibleBowl\Group;
@@ -7,7 +7,7 @@ use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
 use Session;
 
-class GroupRegistrationController extends Controller
+class GroupController extends Controller
 {
 
     public function index($slug)

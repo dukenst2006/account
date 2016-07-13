@@ -47,6 +47,8 @@ class QuizmasterRegistrar
             $tournamentQuizmaster->gender = $attributes['gender'];
         }
 
+        $tournamentQuizmaster->shirt_size = $attributes['shirt_size'];
+
         /** @var QuizzingPreferences $quizzingPreferences */
         $quizzingPreferences = $tournamentQuizmaster->quizzing_preferences;
 

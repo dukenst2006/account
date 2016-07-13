@@ -105,6 +105,8 @@ class CreateTournamentsInfrastructure extends Migration
             $table->string('email', 128);
             $table->string('gender', 1);
 
+            $table->string('shirt_size', 3);
+
             $table->text('quizzing_preferences');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();

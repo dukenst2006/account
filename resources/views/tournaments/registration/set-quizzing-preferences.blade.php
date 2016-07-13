@@ -20,6 +20,15 @@
                         ])
                         {!! Form::open([ 'class' => 'form-horizontal', 'role' => 'form' ]) !!}
                         <div class="row p-t-20">
+                            <div class="col-md-4 col-md-offset-3">
+                                <label class="form-label">T-Shirt Size</label>
+                                <span class="help"></span>
+                                <div class="controls">
+                                    {!! Form::selectShirtSize('shirt_size', old('shirt_size', $quizmaster->shirt_size), ['class' => 'form-control']) !!}<br/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
                             <div class="col-md-3">
                                 Quizzing Preferences:
                             </div>
