@@ -2,6 +2,7 @@
 
 use BibleBowl\User;
 use BibleBowl\Tournament;
+use BibleBowl\UserSurveyAnswer;
 
 class AuthTest extends TestCase
 {
@@ -46,7 +47,7 @@ class AuthTest extends TestCase
     /**
      * @test
      */
-    public function canRegisterANewAccount()
+    public function canRegisterANewAccountWithoutSurvey()
     {
         $email = 'actest'.time().'@testerson.com';
         $this
@@ -73,6 +74,50 @@ class AuthTest extends TestCase
         $user = User::where('email', $email)->first();
         $this->assertTrue($user->exists);
         $this->assertNotNull($user->primary_address_id);
+    }
+
+    /**
+     * @test
+     */
+    public function canRegisterANewAccountWithSurvey()
+    {
+        $email = 'actest'.time().'@testerson.com';
+        $this
+            ->visit('/register')
+            ->type($email, 'email')
+            ->type($this->password, 'password')
+            ->type($this->password, 'password_confirmation')
+            ->press('Register')
+
+            // proceeds to account setup
+            ->seePageIs('/account/setup')
+            ->type('Johnson', 'first_name')
+            ->type('Johnson', 'last_name')
+            ->type('1234567890', 'phone')
+            ->type('123 Test Street', 'address_one')
+            ->type('Apt 1', 'address_two')
+            ->type('40241', 'zip_code');
+
+            $answerId = 4;
+            $otherText = uniqid();
+        $this
+            ->check('answer[1]['.$answerId.']')
+
+            // other
+            ->check('answer[1][7]')
+            ->type($otherText, 'other[1]')
+
+            ->press('Save')
+
+            ->seePageIs('/dashboard');
+
+        $user = User::where('email', $email)->first();
+        $otherAnswer = UserSurveyAnswer::where('question_id', 1)->where('answer', 'Other')->first();
+        $userSurvey = $user->surveys->get(2);
+
+        $this->assertEquals($answerId, $user->surveys->first()->answer_id);
+        $this->assertEquals($otherAnswer->id, $userSurvey->answer_id);
+        $this->assertEquals($otherText, $userSurvey->other);
     }
 
     /**

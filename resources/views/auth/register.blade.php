@@ -49,7 +49,7 @@
 									<div class="controls">
 										<div class="input-with-icon right">
 											<i class="icon-email"></i>
-											<input type="text" name="email" class="form-control" autofocus>
+											{!! Form::email('email', old('email'), ['class' => 'form-control', 'autofocus']) !!}
 										</div>
 									</div>
 								</div>

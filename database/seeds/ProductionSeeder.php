@@ -11,6 +11,8 @@ use Illuminate\Database\Seeder;
 use BibleBowl\Program;
 use BibleBowl\ParticipantType;
 use BibleBowl\GroupType;
+use BibleBowl\UserSurveyQuestion;
+use BibleBowl\UserSurveyAnswer;
 
 class ProductionSeeder extends Seeder {
 
@@ -127,6 +129,68 @@ class ProductionSeeder extends Seeder {
         ]);
         Role::where('name', Role::GUARDIAN)->update([
             'mailchimp_interest_id' => '0f83e0f312'
+        ]);
+
+        $howDidYouHearAbout = UserSurveyQuestion::create([
+            'question'  => 'How did you hear about Bible Bowl?',
+            'order'     => 1
+        ]);
+        $howDidYouHearAbout->answers()->saveMany([
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Friend',
+                'order'     => '1'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Church brochure/bulletin',
+                'order'     => '2'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Homeschool convention',
+                'order'     => '3'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'TV',
+                'order'     => '4'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Web Advertisement',
+                'order'     => '5'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Internet',
+                'order'     => '6'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Other',
+                'order'     => '7'
+            ]])
+        ]);
+
+        $mostInfluential = UserSurveyQuestion::create([
+            'question'  => 'Which of the following were most influential in your decision to join Bible Bowl?',
+            'order'     => 2
+        ]);
+        $mostInfluential->answers()->saveMany([
+            app(UserSurveyAnswer::class, [[
+                'answer'    => "Friend's recommendation",
+                'order'     => '1'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Attending a practice/demo/meeting',
+                'order'     => '2'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Learning about it on the web site',
+                'order'     => '3'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Homeschool curriculum potential',
+                'order'     => '4'
+            ]]),
+            app(UserSurveyAnswer::class, [[
+                'answer'    => 'Other',
+                'order'     => '5'
+            ]])
         ]);
     }
 

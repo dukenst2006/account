@@ -257,6 +257,14 @@ class User extends Model implements
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function surveys()
+    {
+        return $this->hasMany(UserSurvey::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tournaments()
     {
         return $this->hasMany(Tournament::class)->orderBy('start', 'ASC');

@@ -60,7 +60,7 @@ class FetchCoordinatesForAddress implements ShouldQueue
                 }
 
                 $address->save();
-                
+
                 $this->delete();
             } elseif ($response->status == 'ZERO_RESULTS') {
                 return;
