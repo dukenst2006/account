@@ -239,6 +239,7 @@ class RouteServiceProvider extends ServiceProvider
                     ], function () {
                         Route::get('reports/growth', 'ReportsController@getGrowth');
                         Route::get('reports/players', 'ReportsController@getPlayers');
+                        Route::get('reports/registration-surveys', 'ReportsController@getRegistrationSurveys');
                     });
 
                     Route::group([

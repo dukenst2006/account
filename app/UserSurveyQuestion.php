@@ -21,10 +21,10 @@ class UserSurveyQuestion extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function users()
+    public function surveys()
     {
-        return $this->hasManyThrough(Us::class, UserSurvey::class)->orderBy('created_at', 'DESC');
+        return $this->hasManyThrough(UserSurvey::class, UserSurveyAnswer::class, 'question_id', 'answer_id');
     }
 }

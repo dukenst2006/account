@@ -3,7 +3,9 @@
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
+use BibleBowl\Reporting\SurveyMetricsRepository;
 use BibleBowl\Season;
+use BibleBowl\UserSurveyQuestion;
 
 class ReportsController extends Controller
 {
@@ -30,6 +32,29 @@ class ReportsController extends Controller
             'currentSeason' => $currentSeason,
             'seasons'       => $seasons,
             'playerStats'   => $metrics->playerStats($currentSeason)
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function getRegistrationSurveys(Request $request, SurveyMetricsRepository $metrics)
+    {
+        $seasons = Season::orderBy('id', 'DESC')->get();
+        $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : $seasons->first();
+
+        $questions = [];
+        foreach (UserSurveyQuestion::orderBy('order')->get() as $question) {
+            $questions[$question->id] = [
+                'question'  => $question,
+                'metrics'   => $metrics->byQuestion($question, $currentSeason)
+            ];
+        }
+
+        return view('admin.reports.registration-surveys', [
+            'currentSeason' => $currentSeason,
+            'seasons'       => $seasons,
+            'questions'     => $questions
         ]);
     }
 }

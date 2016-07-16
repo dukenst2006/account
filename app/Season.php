@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -70,5 +71,29 @@ class Season extends Model
     public function teamSets()
     {
         return $this->hasMany(TeamSet::class);
+    }
+    
+    public function start() : Carbon
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * When the season ends/ended
+     */
+    public function end() : Carbon
+    {
+        $lastSeason = Season::orderBy('id', 'DESC')->first();
+
+        // the end date may change depending on how the admin has configured it
+        // so we assume now since we don't know for certain when the current
+        // season will end
+        if ($this->id == $lastSeason->id) {
+            return Carbon::now();
+        }
+
+        // use the start date of the next season
+        $nextSeason = Season::firstOrFail($this->id + 1);
+        return $nextSeason->created_at->subSecond(1);
     }
 }

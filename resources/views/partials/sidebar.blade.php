@@ -106,6 +106,12 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                                 @endif>
                                 <a href="/admin/reports/players">Players</a>
                             </li>
+                            <li
+                                @if(str_contains(Route::current()->uri(), 'reports/registration-surveys'))
+                                    class="active"
+                                @endif>
+                                <a href="/admin/reports/registration-surveys">Registration Surveys</a>
+                            </li>
                         </ul>
                     </li>
                 @endcan
