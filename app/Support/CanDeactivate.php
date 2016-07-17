@@ -45,14 +45,14 @@ trait CanDeactivate
         return $query->whereNotNull($this->getInactiveColumn());
     }
 
-    /**
-     * True if the group is active.
-     *
-     * @return bool
-     */
-    public function isActive()
+    public function isActive() : bool
     {
         return is_null($this->inactive) ? true : false;
+    }
+
+    public function isInactive() : bool
+    {
+        return !$this->active();
     }
 
     /**

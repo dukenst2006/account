@@ -9,7 +9,7 @@
                 <div class="grid simple">
                     <div class="grid-body no-border">
                         <h3 class="m-t-30 text-center">Creating a group</h3>
-                        <p class="text-center">Before you create your group, do a quick search to make sure<br/>it hasn't already been created.</p>
+                        <p class="text-center">Before you create your group, do a quick search to make sure<br/>it hasn't already been created by someone else.</p>
                         <div class="m-t-20">
                             <form method="get">
                             <div class="input-group transparent col-md-12">

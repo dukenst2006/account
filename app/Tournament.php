@@ -2,12 +2,10 @@
 
 namespace BibleBowl;
 
-use BibleBowl\Competition\Fees;
-use BibleBowl\Competition\Tournaments\Quizmaster;
 use BibleBowl\Presentation\Describer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Rhumsaa\Uuid\Uuid;
+use BibleBowl\Support\CanDeactivate;
 
 /**
  * BibleBowl\Tournament
@@ -45,8 +43,7 @@ use Rhumsaa\Uuid\Uuid;
  */
 class Tournament extends Model
 {
-    const ACTIVE = 1;
-    const INACTIVE = 0;
+    use CanDeactivate;
 
     // The following participant types are required to
     // register for all tournaments
@@ -56,7 +53,6 @@ class Tournament extends Model
     ];
 
     protected $attributes = [
-        'active'        => self::INACTIVE,
         'lock_teams'    => null
     ];
 

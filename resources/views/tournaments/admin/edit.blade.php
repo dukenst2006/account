@@ -34,9 +34,9 @@
                                 <label class="form-label">Tournament Status</label>
                                 <div class="controls p-b-20 p-l-20">
                                     <div class="radio">
-                                        <input id="active" type="radio" name="active" value="1" {{ (old('active', $tournament->active) == 1 ? 'CHECKED' : '') }}>
+                                        <input id="active" type="radio" name="inactive" value="1" {{ ((old('inactive') == 1 || $tournament->isActive()) ? 'CHECKED' : '') }}>
                                         <label for="active"><strong>Active</strong></label> - makes the tournament visible, though registration dates are still obeyed.<br/>
-                                        <input id="inactive" type="radio" name="active" value="0" {{ (old('active', $tournament->active) == 0 ? 'CHECKED' : '') }}>
+                                        <input id="inactive" type="radio" name="inactive" value="0" {{ ((old('inactive') == 0 || $tournament->isInactive()) ? 'CHECKED' : '') }}>
                                         <label for="inactive"><strong>Inactive</strong></label> - prevents tournament from being visible by the masses until all of the dates/events are finalized.
                                     </div>
                                 </div>

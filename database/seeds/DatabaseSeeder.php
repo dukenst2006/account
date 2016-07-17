@@ -317,7 +317,6 @@ class DatabaseSeeder extends Seeder {
             'creator_id'            => $director->id,
             'details'               => '<h3>Nearby Hotels</h3><p>There are a few nearby:</p><ul><li>Option #1</li></ul>',
             'max_teams'             => 64,
-            'active'                => 1,
             'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y'),
             'earlybird_ends'        => Carbon::now()->addMonths(3)->format('m/d/Y')
         ]);

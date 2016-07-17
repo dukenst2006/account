@@ -72,7 +72,7 @@ class TournamentsController extends Controller
             $request->get('participantTypes', [])
         );
 
-        return redirect('/admin/tournaments')->withFlashSuccess($tournament->name.' has been created');
+        return redirect('/admin/tournaments');
     }
 
     /**
