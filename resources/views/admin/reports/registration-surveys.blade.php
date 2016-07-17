@@ -47,6 +47,9 @@
                                     title: 'Chess opening moves',
                                     legend: { position: 'none' },
                                     bars: 'horizontal', // Required for Material Bar Charts.
+                                    bar: {
+                                        groupWidth: 20
+                                    },
                                     axes: {
                                         x: {
                                             0: {

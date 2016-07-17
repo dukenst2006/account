@@ -9,35 +9,49 @@
         <div class="clearfix"></div>
         <div class="row">
             @if(isset($playerStats['byGender']) && count($playerStats['byGender']) > 0)
-            <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-6 col-xs-offset-0">
-                <span>By Gender</span>
-                <div id="rosterByGender" style="height: 200px"></div>
+            <div class="col-md-6 col-sm-6">
+                <div id="rosterByGender"></div>
             </div>
-            <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-6 col-xs-offset-0">
-                <span>By Grade</span>
-                <div id="rosterByGrade" style="height: 200px"></div>
+            <div class="col-md-6 col-sm-6">
+                <div id="rosterByGrade"></div>
             </div>
-                @includeMorris
+                @includeGoogleCharts
                 @js
-                    Morris.Donut({
-                        element: 'rosterByGender',
-                        resize: true,
-                        data: [
+                    google.charts.load('current', {packages: ['corechart']});
+                    google.charts.setOnLoadCallback(function() {
+                        var data = google.visualization.arrayToDataTable([
+                            ['Gender', 'Players'],
                         @foreach($playerStats['byGender'] as $genderData)
-                            {label: "{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}", value: {{ $genderData['total'] }}},
+                            ['{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}', {{ $genderData['total'] }}],
                         @endforeach
-                        ]
-                    });
+                        ]);
 
-                    Morris.Donut({
-                        element: 'rosterByGrade',
-                        data: [
+                        var chart = new google.visualization.PieChart(document.getElementById('rosterByGender'));
+                        chart.draw(data, {
+                            title: 'By Gender',
+                            colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                        });
+
+                        // ------------ byGrade ------------
+                        var data = google.visualization.arrayToDataTable([
+                        ['Grade', 'Players'],
                         @foreach($playerStats['byGrade'] as $gradeData)
-                            {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}", value: {{ $gradeData['total'] }}},
+                            ['{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}', {{ $gradeData['total'] }}],
                         @endforeach
-                        ]
+                        ]);
+
+                        var chart = new google.visualization.PieChart(document.getElementById('rosterByGrade'));
+                        chart.draw(data, {
+                            title: 'By Grade',
+                            colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                        });
                     });
                 @endjs
+        </div>
+        <div class="row">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <a href="/roster">{{ number_format($playerStats['total']) }} active players</a> this season
+                </div>
             @else
                 <div class="p-t-40 p-b-40 text-center muted" style="font-style:italic">Once some players have registered, you'll see some useful stuff here</div>
             @endif

@@ -8,9 +8,9 @@ class Html extends HtmlBuilder
 {
     // colors used in charts
     const ACCENT_COLORS = [
-        '#1b9e77', // green
-        '#d95f02', // orange
-        '#7570b3', // purple
+        '#8BC34A', // green
+        '#FF9800', // orange
+        '#BA68C8', // purple
         '#FF5252', // red
         '#42A5F5', // blue
         '#FFEA00', // yellow

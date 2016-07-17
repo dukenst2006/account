@@ -23,34 +23,43 @@
                 </div>
                 <hr/>
                 <div class="row">
-                    <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-6 col-xs-offset-0">
-                        <h4>By Gender</h4>
-                        <div id="byGender" style="height: 200px"></div>
+                    <div class="col-md-6 col-sm-6">
+                        <div id="byGender"></div>
                     </div>
-                    <div class="col-md-3 col-md-offset-1 col-sm-6 col-xs-6 col-xs-offset-0">
-                        <h4>By Grade</h4>
-                        <div id="byGrade" style="height: 200px"></div>
+                    <div class="col-md-6 col-sm-6">
+                        <div id="byGrade"></div>
                     </div>
 
-                    @includeMorris
+                    @includeGoogleCharts
                     @js
-                        Morris.Donut({
-                            element: 'byGender',
-                            resize: true,
-                            data: [
-                            @foreach($playerStats['byGender'] as $genderData)
-                                {label: "{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}", value: {{ $genderData['total'] }}},
-                            @endforeach
-                            ]
-                        });
+                        google.charts.load('current', {packages: ['corechart']});
+                        google.charts.setOnLoadCallback(function() {
+                            var data = google.visualization.arrayToDataTable([
+                                ['Gender', 'Players'],
+                                @foreach($playerStats['byGender'] as $genderData)
+                                    ['{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}', {{ $genderData['total'] }}],
+                                @endforeach
+                            ]);
 
-                        Morris.Donut({
-                            element: 'byGrade',
-                            data: [
-                            @foreach($playerStats['byGrade'] as $gradeData)
-                                {label: "{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}", value: {{ $gradeData['total'] }}},
-                            @endforeach
-                            ]
+                            var chart = new google.visualization.PieChart(document.getElementById('byGender'));
+                            chart.draw(data, {
+                                title: 'By Gender',
+                                colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                            });
+
+                            // ------------ byGrade ------------
+                            var data = google.visualization.arrayToDataTable([
+                                ['Grade', 'Players'],
+                                @foreach($playerStats['byGrade'] as $gradeData)
+                                    ['{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}', {{ $gradeData['total'] }}],
+                                @endforeach
+                            ]);
+
+                            var chart = new google.visualization.PieChart(document.getElementById('byGrade'));
+                            chart.draw(data, {
+                                title: 'By Grade',
+                                colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                            });
                         });
                     @endjs
                 </div>

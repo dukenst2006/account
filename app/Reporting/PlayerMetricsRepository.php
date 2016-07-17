@@ -15,14 +15,15 @@ class PlayerMetricsRepository
         }
 
         return [
-            'byGender' => $baseModel->players()->active($season)
+            'byGender'  => $baseModel->players()->active($season)
                 ->select('players.gender', DB::raw('count(players.id) as total'))
                 ->groupBy('players.gender')
                 ->get()->toArray(),
-            'byGrade' => $baseModel->players()->active($season)
+            'byGrade'   => $baseModel->players()->active($season)
                 ->select('player_season.grade', DB::raw('count(players.id) as total'))
                 ->groupBy('player_season.grade')
-                ->get()->toArray()
+                ->get()->toArray(),
+            'total'     => $baseModel->players()->active($season)->count()
         ];
     }
 }
