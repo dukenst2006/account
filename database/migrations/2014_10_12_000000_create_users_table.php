@@ -50,7 +50,7 @@ class CreateUsersTable extends Migration {
 		 *  - Homeschool curriculum potential
 		 *  - Other
 		 */
-		Schema::create('user_survey_questions', function(Blueprint $table)
+		Schema::create('registration_survey_questions', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('question');
@@ -58,23 +58,23 @@ class CreateUsersTable extends Migration {
 			$table->timestamp('updated_at')->nullable();
 			$table->timestamp('created_at')->useCurrent();
 		});
-		Schema::create('user_survey_answers', function(Blueprint $table)
+		Schema::create('registration_survey_answers', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('question_id')->unsigned()->nullable();
-			$table->foreign('question_id')->references('id')->on('user_survey_questions');
+			$table->foreign('question_id')->references('id')->on('registration_survey_questions');
 			$table->string('answer');
 			$table->smallInteger('order');
 			$table->timestamp('updated_at')->nullable();
 			$table->timestamp('created_at')->useCurrent();
 		});
-		Schema::create('user_surveys', function(Blueprint $table)
+		Schema::create('registration_surveys', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('user_id')->unsigned()->nullable();
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('answer_id')->unsigned()->nullable();
-			$table->foreign('answer_id')->references('id')->on('user_survey_answers');
+			$table->foreign('answer_id')->references('id')->on('registration_survey_answers');
 			$table->string('other', 255)->nullable();
 			$table->timestamp('updated_at')->nullable();
 			$table->timestamp('created_at')->useCurrent();

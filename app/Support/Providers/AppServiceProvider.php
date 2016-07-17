@@ -68,6 +68,18 @@ class AppServiceProvider extends ServiceProvider
 
             return $html;
         });
+        Blade::directive('includeGoogleCharts', function () {
+            $html = "<?php".PHP_EOL;
+
+            if (app()->environment('local')) {
+                $html .= "\\".Html::class."::\$includeJs[] .= \"/assets/plugins/google-charts/loader.js\";";
+            } else {
+                $html .= "\\".Html::class."::\$includeJs[] .= \"https://www.gstatic.com/charts/loader.js\";";
+            }
+
+            return $html.'
+                ?>';
+        });
         Blade::directive('includeStripeJs', function () {
             return "<?php
                 \\".Html::class."::\$includeJs[] = \"https://js.stripe.com/v2/\";

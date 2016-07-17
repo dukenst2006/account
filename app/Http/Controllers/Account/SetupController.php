@@ -6,9 +6,9 @@ use BibleBowl\Address;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Support\Scrubber;
 use BibleBowl\User;
-use BibleBowl\UserSurvey;
-use BibleBowl\UserSurveyAnswer;
-use BibleBowl\UserSurveyQuestion;
+use BibleBowl\RegistrationSurvey;
+use BibleBowl\RegistrationSurveyAnswer;
+use BibleBowl\RegistrationSurveyQuestion;
 use DB;
 use Illuminate\Http\Request;
 use Redirect;
@@ -21,7 +21,7 @@ class SetupController extends Controller
     public function getSetup()
     {
         return view('account.setup')
-            ->withQuestions(UserSurveyQuestion::orderBy('order')->get());
+            ->withQuestions(RegistrationSurveyQuestion::orderBy('order')->get());
     }
 
     /**
@@ -34,7 +34,7 @@ class SetupController extends Controller
             'phone' => $scrubber->integer($request->get('phone')) //strip non-int characters
         ]);
 
-        $userRules = array_only(User::validationRules(), ['gender', 'phone']);
+        $userRules = array_only(User::validationRules(), ['gender', 'phone', 'first_name', 'last_name']);
         $this->validate($request, array_merge(Address::validationRules(), $userRules), Address::validationMessages());
 
         //update the info
@@ -65,15 +65,15 @@ class SetupController extends Controller
                 $surveys = [];
                 foreach ($request->get('answer') as $questionId => $answers) {
                     foreach ($answers as $answerId => $true) {
-                        $surveys[] = app(UserSurvey::class, [[
+                        $surveys[] = app(RegistrationSurvey::class, [[
                             'answer_id' => $answerId
                         ]]);
                     }
 
                     // update that question's "Other"
                     if($request->has('other.'.$questionId) && strlen($request->get('other')[$questionId]) > 0) {
-                        $otherAnswer = UserSurveyAnswer::where('question_id', $questionId)->where('answer', 'Other')->first();
-                        $surveys[] = app(UserSurvey::class, [[
+                        $otherAnswer = RegistrationSurveyAnswer::where('question_id', $questionId)->where('answer', 'Other')->first();
+                        $surveys[] = app(RegistrationSurvey::class, [[
                             'answer_id'     => $otherAnswer->id,
                             'other'         => $request->get('other')[$questionId]
                         ]]);

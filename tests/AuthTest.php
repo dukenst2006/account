@@ -2,7 +2,7 @@
 
 use BibleBowl\User;
 use BibleBowl\Tournament;
-use BibleBowl\UserSurveyAnswer;
+use BibleBowl\RegistrationSurveyAnswer;
 
 class AuthTest extends TestCase
 {
@@ -112,7 +112,7 @@ class AuthTest extends TestCase
             ->seePageIs('/dashboard');
 
         $user = User::where('email', $email)->first();
-        $otherAnswer = UserSurveyAnswer::where('question_id', 1)->where('answer', 'Other')->first();
+        $otherAnswer = RegistrationSurveyAnswer::where('question_id', 1)->where('answer', 'Other')->first();
         $userSurvey = $user->surveys->get(2);
 
         $this->assertEquals($answerId, $user->surveys->first()->answer_id);

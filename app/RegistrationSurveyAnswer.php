@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserSurveyAnswer extends Model
+class RegistrationSurveyAnswer extends Model
 {
 
     /**
@@ -17,7 +17,7 @@ class UserSurveyAnswer extends Model
      */
     public function question()
     {
-        return $this->belongsTo(UserSurveyQuestion::class, 'question_id');
+        return $this->belongsTo(RegistrationSurveyQuestion::class, 'question_id');
     }
 
     /**
@@ -25,6 +25,6 @@ class UserSurveyAnswer extends Model
      */
     public function users()
     {
-        return $this->hasManyThrough(User::class, UserSurvey::class, null, 'answer_id')->orderBy('created_at', 'DESC');
+        return $this->hasManyThrough(User::class, RegistrationSurvey::class, null, 'answer_id')->orderBy('created_at', 'DESC');
     }
 }

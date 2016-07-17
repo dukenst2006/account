@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserSurvey extends Model
+class RegistrationSurvey extends Model
 {
 
     /**

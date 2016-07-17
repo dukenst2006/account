@@ -259,7 +259,7 @@ class User extends Model implements
      */
     public function surveys()
     {
-        return $this->hasMany(UserSurvey::class);
+        return $this->hasMany(RegistrationSurvey::class);
     }
 
     /**

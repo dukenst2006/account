@@ -3,19 +3,21 @@
 use BibleBowl\Group;
 use BibleBowl\Player;
 use BibleBowl\Season;
-use BibleBowl\UserSurveyQuestion;
+use BibleBowl\RegistrationSurveyQuestion;
 use DB;
+use Illuminate\Support\Collection;
 
 class SurveyMetricsRepository
 {
-    public function byQuestion(UserSurveyQuestion $question, Season $season)
+    public function byQuestion(RegistrationSurveyQuestion $question, Season $season) : array
     {
-        return [
-            $question->surveys()
-                ->select(DB::raw('count(user_surveys.id) as total'))
+        return $question->surveys()
+                ->select(
+                    DB::raw('count(registration_surveys.id) as total'),
+                    'answer'
+                )
                 ->groupBy('answer_id')
-                ->whereBetween('user_surveys.created_at', [$season->start(), $season->end()])
-                ->get()->toArray()
-        ];
+                ->whereBetween('registration_surveys.created_at', [$season->start(), $season->end()])
+                ->get()->toArray();
     }
 }

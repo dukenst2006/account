@@ -6,6 +6,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class Html extends HtmlBuilder
 {
+    // colors used in charts
+    const ACCENT_COLORS = [
+        '#1b9e77', // green
+        '#d95f02', // orange
+        '#7570b3', // purple
+        '#FF5252', // red
+        '#42A5F5', // blue
+        '#FFEA00', // yellow
+    ];
+
     const GENDER_MALE = 'M';
     const GENDER_FEMALE = 'F';
 

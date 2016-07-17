@@ -31,4 +31,12 @@ class ReportsTest extends TestCase
     {
         $this->visit('/admin/reports/players');
     }
+
+    /**
+     * @test
+     */
+    public function canViewRegistrationSurveyReports()
+    {
+        $this->visit('/admin/reports/registration-surveys');
+    }
 }

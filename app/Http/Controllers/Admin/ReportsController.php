@@ -5,7 +5,7 @@ use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Reporting\SurveyMetricsRepository;
 use BibleBowl\Season;
-use BibleBowl\UserSurveyQuestion;
+use BibleBowl\RegistrationSurveyQuestion;
 
 class ReportsController extends Controller
 {
@@ -44,7 +44,7 @@ class ReportsController extends Controller
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : $seasons->first();
 
         $questions = [];
-        foreach (UserSurveyQuestion::orderBy('order')->get() as $question) {
+        foreach (RegistrationSurveyQuestion::orderBy('order')->get() as $question) {
             $questions[$question->id] = [
                 'question'  => $question,
                 'metrics'   => $metrics->byQuestion($question, $currentSeason)
