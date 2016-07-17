@@ -12,7 +12,7 @@
             <div class="grid-body no-border p-t-20">
                 <div class="row m-t-10">
                     <div class="col-md-12">
-                        @if(!$tournament->active)
+                        @if($tournament->isInactive())
                             <div class="alert text-center">This tournament won't be publicly visible until it is made active.</div>
                         @endif
                         <div class="row">

@@ -33,7 +33,7 @@
                                     <a href="/admin/tournaments/{{ $tournament->id }}" class="semi-bold">{{ $tournament->name }}</a><br/>
                                 </td>
                                 <td class="text-center">
-                                    @if($tournament->active)
+                                    @if($tournament->isActive())
                                         <span class="text-success">Active</span>
                                     @else
                                         <span class="text-danger">Inactive</span>
@@ -41,7 +41,7 @@
                                 </td>
                                 <td class="text-center">{{ $tournament->dateSpan() }}</td>
                                 <td class="text-center">
-                                    @if($tournament->active)
+                                    @if($tournament->isActive())
                                         <a href="/tournaments/{{ $tournament->slug }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-external-link"></i> Shareable Link</a>
                                     @endif
                                 </td>

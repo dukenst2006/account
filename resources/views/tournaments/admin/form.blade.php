@@ -59,7 +59,7 @@
             <thead>
             <tr>
                 <th style="width:30%"></th>
-                <th style="width:15%">Registration Required <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Requires participants to register"></i></th>
+                <th style="width:15%">Registration Required <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Enables registration for participants"></i></th>
                 <th style="width:20%">Early Bird <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Allows for lower fees for those that register before a given date. If no date is set, early bird fees will be ignored"></i></th>
                 <th style="width:15%">Fee</th>
                 <th style="width:15%">On-site Fee</th>

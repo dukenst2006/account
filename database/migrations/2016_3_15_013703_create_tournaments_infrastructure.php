@@ -17,12 +17,12 @@ class CreateTournamentsInfrastructure extends Migration
         Schema::create('tournaments', function(Blueprint $table)
         {
             $table->increments('id');
+            $table->timestamp('inactive')->nullable();
             $table->string('slug')->unique();
             $table->integer('program_id')->unsigned();
             $table->foreign('program_id')->references('id')->on('programs');
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
-            $table->boolean('active');
             $table->string('name', 128)->unique();
             $table->date('start');
             $table->date('end');
