@@ -16,7 +16,7 @@
                             <div class="alert text-center">This tournament won't be publicly visible until it is made active.</div>
                         @endif
                         <div class="row">
-                            <div class="col-md-4 b-grey b-r">
+                            <div class="col-md-4 col-sm-4 b-grey b-r">
                                 <h5><i class="fa fa-calendar"></i> <span class="semi-bold">When</span></h5>
                                 <div class="m-l-20 m-b-20">{{ $tournament->dateSpan() }}</div>
                                 <h5><i class="fa fa-pencil"></i> <span class="semi-bold">Registration</span></h5>
@@ -63,16 +63,16 @@
                                 </div>
                                 @endif
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-8 col-sm-8">
                                 @include('partials.messages')
                                 <h4>Register a...</h4>
                                 <div class="row">
-                                    <div class="col-md-4 text-center">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
                                             <a href="#" class="btn btn-success btn-cons">Adult / Family</a>
                                         @endif
                                     </div>
-                                    <div class="col-md-4 text-center">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         @if(Auth::user() !== null)
                                             @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
                                                 <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">Group</a>
@@ -84,7 +84,7 @@
                                         @endif
                                     </div>
                                     @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))
-                                    <div class="col-md-4 text-center">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         @if(Auth::user() !== null)
                                             @if($tournament->isRegisteredAsQuizmaster(Auth::user()))
                                                 <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a quizmaster">Quizmaster</button>
