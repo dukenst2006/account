@@ -21,6 +21,7 @@ class FetchCoordinatesForAddress implements ShouldQueue
      */
     public function handle(Address $address)
     {
+        return;
         try {
             // object was serialized, so get a new one with DB connectivity
             $address = Address::findOrFail($address->id);

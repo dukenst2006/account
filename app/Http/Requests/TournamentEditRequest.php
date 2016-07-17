@@ -26,7 +26,7 @@ class TournamentEditRequest extends TournamentCreateRequest
     public function rules()
     {
         return array_merge(parent::rules(), [
-            'active' => 'required'
+            'inactive' => 'required'
         ]);
     }
 }
