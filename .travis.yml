@@ -29,6 +29,7 @@ install:
   - docker build -t "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" -f containers/nginx/Dockerfile .
   - docker build -t "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" -f containers/cli/Dockerfile .
   - docker build -t "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" -f containers/fpm/Dockerfile .
+  # Disabled due to 1001:1001 permission errors
   #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www
   # Install dev php dependencies
   #- docker exec -it $(docker-compose ps -q fpm) composer install --no-interaction --prefer-dis
