@@ -29,24 +29,24 @@
                                 <label class="form-label">Name <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
                                         {!! Form::text('first_name', null, ['class' => 'form-control', 'placeholder' => 'First', 'maxlength' => 64, 'autofocus']) !!}
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
                                         {!! Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => 'Last', 'maxlength' => 64]) !!}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-6">
                                 <label class="form-label">Phone <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="controls">
                                     {!! Form::text('phone', null, ['class' => 'form-control', 'id' => 'phone', 'maxlength' => 10]) !!}<br/>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-6">
                                 <label class="form-label">Gender <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="controls">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-6">
                                 <label class="form-label">Timezone <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="controls p-b-10">

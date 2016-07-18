@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12 t-p-20">
+    <div class="col-md-12 col-sm-12 t-p-20">
         <label class="form-label">Street
         @if (isset($required) && $required)
             <span class="required">*</span>
@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6 col-sm-6">
         <label class="form-label">Zip Code
             @if (isset($required) && $required)
                 <span class="required">*</span>
