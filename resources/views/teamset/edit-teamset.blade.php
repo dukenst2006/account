@@ -7,6 +7,7 @@
                 ])
             </div>
             <div class="col-md-6 col-sm-4 col-xs-4 text-right">
+                <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-primary m-r-10"><i class="fa fa-download"></i> PDF</a>
                 <div class="btn btn-info" @click="addTeam()">+ Add Team</div>
             </div>
         </div>
