@@ -6,6 +6,7 @@ use BibleBowl\Groups\GroupRegistrar;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\PlayerRegistrationRequest;
 use BibleBowl\Http\Requests\Request;
+use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Program;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
@@ -154,7 +155,7 @@ class PlayerRegistrationController extends Controller
     /**
      * Submit the player's seasonal registration
      */
-    public function submit(GroupRegistrar $groupRegistrar)
+    public function submit(SeasonRegistrationRequest $request, GroupRegistrar $groupRegistrar)
     {
         $groupRegistrar->register(
             Session::season(),

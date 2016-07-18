@@ -26,6 +26,14 @@ class SeasonRegistrationTest extends TestCase
     /**
      * @test
      */
+    public function canViewTermsOfParticipation()
+    {
+        $this->visit('/terms-of-participation');
+    }
+
+    /**
+     * @test
+     */
     public function followingRegistrationLinkDefaultsToSelectedGroup()
     {
         // since only the guardian login is seeded, we can tear down
@@ -111,7 +119,13 @@ class SeasonRegistrationTest extends TestCase
             ->seePageIs('/register/summary')
             ->see($nearbyGroup->name)
 
-            ->click('Submit Registration')
+            ->press('Submit Registration')
+
+            // verify we have to agree to the terms
+            ->see('You must agree to the Terms of Participation')
+            ->check('terms_of_participation')
+
+            ->press('Submit Registration')
             ->see('Your registration has been submitted!')
 
             // verify we can't re-register those players

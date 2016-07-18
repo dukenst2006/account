@@ -125,7 +125,7 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('register/{programSlug}/search/group', 'PlayerRegistrationController@findGroupToRegister');
                     Route::post('register/{programSlug}/group/{group?}', 'PlayerRegistrationController@postRegister');
                     Route::get('register/{programSlug}/later', 'PlayerRegistrationController@later');
-                    Route::get('register/submit', 'PlayerRegistrationController@submit');
+                    Route::post('register/submit', 'PlayerRegistrationController@submit');
                     Route::get('register/program', 'PlayerRegistrationController@getChooseProgram');
                     Route::post('register/program', 'PlayerRegistrationController@postChooseProgram');
 
@@ -250,7 +250,7 @@ class RouteServiceProvider extends ServiceProvider
                     });
                 });
             });
-            
+
             Route::group([
                 'prefix'    => 'tournaments'
             ], function () {
@@ -260,6 +260,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::get('faq', function () {
             return view('faq');
+        });
+
+        Route::get('terms-of-participation', function () {
+            return view('seasons.registration.terms-of-participation');
         });
 
         Route::get('healthcheck/{token}', function ($token) {

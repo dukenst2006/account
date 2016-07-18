@@ -27,7 +27,7 @@
                         ])
                     </div>
                     @endif
-                    <table class="table no-more-tables">
+                    <table class="table no-more-tables m-t-30 m-b-30">
                         <thead>
                         <tr>
                             <th style="width:30%">Player</th>
@@ -47,9 +47,19 @@
                     </table>
                 @endforeach
                 @if ($registration->hasFoundAllGroups())
-                <div class="text-center">
-                    <a href="/register/submit" class="btn btn-primary btn-cons">Submit Registration</a>
-                </div>
+                    {!! Form::open(['url' => '/register/submit', 'class' => 'form-horizontal', 'role' => 'form']) !!}
+                    <div class="row">
+                        <div class="col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-4 m-b-10">
+                            <div class="checkbox check-primary">
+                                {!! Form::checkbox('terms_of_participation', 1, old('terms_of_participation'), ['id' => 'terms_of_participation']) !!}
+                                <label for="terms_of_participation">I have read and agree to the <a href="/terms-of-participation" target="_blank">Terms of Participation</a></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-cons">Submit Registration</button>
+                    </div>
+                    {!! Form::close() !!}
                 @endif
             </div>
         </div>
