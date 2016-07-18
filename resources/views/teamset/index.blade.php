@@ -32,7 +32,7 @@
                                 </td>
                                 {!! Form::open(['action' => ['Teams\TeamSetController@destroy', $teamSet->id], 'method' => 'delete']) !!}
                                 <td class="text-center">
-                                    <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-white btn-xs btn-mini"><i class="fa fa-download"></i> PDF</a>
+                                    <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-primary btn-xs btn-mini"><i class="fa fa-download"></i> PDF</a>
                                     <button class="btn btn-danger-dark btn-xs btn-mini m-l-10"><i class="fa fa-trash-o"></i> Delete</button>
                                 </td>
                                 {!! Form::close() !!}
