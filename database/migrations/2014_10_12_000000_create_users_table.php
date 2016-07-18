@@ -88,9 +88,9 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('user_surveys');
-		Schema::drop('user_survey_answers');
-		Schema::drop('user_survey_questions');
+		Schema::drop('registration_surveys');
+		Schema::drop('registration_survey_answers');
+		Schema::drop('registration_survey_questions');
 		Schema::drop('users');
 	}
 

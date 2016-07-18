@@ -55,12 +55,16 @@ class Form extends FormBuilder
      */
     public function selectTimezone($name, $selected = null, $options = array(), $optional = false)
     {
-        $list = [];
-        foreach (DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, 'US') as $timezoneIdentifier) {
-            $timezone = new DateTimeZone($timezoneIdentifier);
-            $offsetInHours = $timezone->getoffset(new DateTime()) / (3600);
-            $list[$timezoneIdentifier] = '(UTC '.$offsetInHours.':00) '.$timezoneIdentifier;
-        }
+        $list = [
+            'America/New_York'      => 'Eastern',
+            'America/Chicago'       => 'Central',
+            'America/Denver'        => 'Mountain',
+            'America/Phoenix'       => 'Mountain (no DST)',
+            'America/Los_Angeles'   => 'Pacific',
+            'America/Anchorage'     => 'Alaska',
+            'America/Adak'          => 'Hawaii',
+            'Pacific/Honolulu'      => 'Hawaii (no DST)'
+        ];
 
         if ($optional) {
             array_unshift($list, 'Select One...');
