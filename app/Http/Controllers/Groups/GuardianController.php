@@ -4,6 +4,7 @@ use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\Groups\PlayerInactiveToggleRequest;
 use BibleBowl\Player;
 use BibleBowl\User;
+use Illuminate\Database\Eloquent\Builder;
 use Session;
 
 class GuardianController extends Controller
@@ -13,7 +14,14 @@ class GuardianController extends Controller
      */
     public function show(User $guardian)
     {
-        return view('group.guardian')->
-            withGuardian($guardian);
+        return view('group.guardian')
+            ->withGuardian($guardian)
+            ->withPlayers(Session::group()
+                ->players()
+                ->active(Session::season())
+                ->whereHas('guardian', function (Builder $q) use ($guardian) {
+                    $q->where('id', $guardian->id);
+                })->get()
+            );
     }
 }

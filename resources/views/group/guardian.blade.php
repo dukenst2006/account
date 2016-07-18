@@ -32,7 +32,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($guardian->players as $player)
+                                    @foreach($players as $player)
                                         <tr>
                                             <td class="v-align-middle">{{ $player->full_name }}</td>
                                             <td class="v-align-middle text-center">{{ $player->age() }}</td>
