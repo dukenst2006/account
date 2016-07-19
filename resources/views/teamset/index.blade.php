@@ -8,11 +8,11 @@
         <div class="grid simple">
             <div class="grid-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8 col-sm-10">
                         <h4 class="semi-bold">Team Sets</h4>
-                        <div class="help m-b-10">Create different combinations of teams for varying uses</div>
+                        <div class="help m-b-10">Create different combinations of teams for varying uses during practice, competition, etc.</div>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-4 col-sm-2 text-right">
                         <a href="/teamsets/create" class="btn btn-primary">New Team Set</a>
                     </div>
                 </div>
