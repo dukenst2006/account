@@ -68,8 +68,7 @@ class DashboardController extends Controller
         if (Bouncer::allows(Ability::VIEW_REPORTS)) {
             $view->with('seasonOverview', [
                 'groupCount' => $this->metrics->groupCount($season),
-                'playerCount' => $this->metrics->playerCount($season),
-                'averageGroupSize' => $this->metrics->averageGroupSize($season)
+                'playerCount' => $this->metrics->playerCount($season)
             ]);
         }
 

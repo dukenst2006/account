@@ -50,7 +50,7 @@
                                     <ul class="nav nav-tabs" id="roster-tabs">
                                         <li class="active"><a href="#tabActive">Active ({{ $activePlayers->count() }})</a></li>
                                         <li><a href="#tabInactive">Inactive ({{ $inactivePlayers->count() }})</a></li>
-                                        <li><a href="#tabPendingRegistration">Pending Registration Payment ({{ $pendingPaymentPlayers->count() }})</a></li>
+                                        <li><a href="#tabPendingRegistration">Unpaid Registration Fees ({{ $pendingPaymentPlayers->count() }})</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tabActive">

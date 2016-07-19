@@ -43,7 +43,7 @@
                         <h5><i class="fa fa-lock"></i> <span class="semi-bold">Roles</span></h5>
                         <ul>
                             @foreach ($user->roles as $role)
-                                <li>{{ $role->display_name }}</li>
+                                <li>{{ ucwords(str_replace('-', ' ', $role->name)) }}</li>
                             @endforeach
                         </ul>
                     </div>
