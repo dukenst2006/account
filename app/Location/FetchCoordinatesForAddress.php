@@ -67,11 +67,7 @@ class FetchCoordinatesForAddress implements ShouldQueue
                 $address->save();
 
                 $this->delete();
-            } elseif ($response->status == 'ZERO_RESULTS') {
-                return;
-            }
-
-            if (DatabaseSeeder::isSeeding() === false && app()->environment('testing') === false) {
+            } else if (DatabaseSeeder::isSeeding() === false && app()->environment('testing') === false) {
                 Log::error(
                     'Problematic response from GMaps',
                     [
@@ -80,6 +76,7 @@ class FetchCoordinatesForAddress implements ShouldQueue
                     ]
                 );
             }
+
         } catch (\RuntimeException $e) {
             //ignore failures if we're local.
             //useful when seeding and not on the internet
