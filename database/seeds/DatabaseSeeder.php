@@ -51,16 +51,14 @@ class DatabaseSeeder extends Seeder {
         // load ModelFactory.php so functions can be used later
         factory(User::class);
 
+        Season::create([
+            'name' => (date('Y')-1).'-'.date('y')
+        ]);
         $this->call('ProductionSeeder');
 
         self::$isSeeding = true;
 
-        Season::create([
-            'name' => (date('Y')-1).'-'.date('y')
-        ]);
-        $this->season = Season::create([
-            'name' => date('Y').'-'.(date('y')+1)
-        ]);
+        $this->season = Season::orderBy('id', 'DESC')->first();
 
         $director = $this->seedAdmin();
         $this->seedGuardian();

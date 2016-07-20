@@ -23,6 +23,9 @@ class ProductionSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        Season::create([
+            'name' => date('Y').'-'.(date('y')+1)
+        ]);
         Program::create([
             'name'              => 'Beginner Bible Bowl',
             'abbreviation'      => 'Beginner',

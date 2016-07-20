@@ -17,7 +17,7 @@ class Settings extends SettingsManager
      */
     public function seasonEnd()
     {
-        $seasonEnd = Carbon::createFromTimestamp(strtotime($this->get('season_end', 'July 30')));
+        $seasonEnd = Carbon::createFromTimestamp(strtotime($this->get('season_end', 'July 10')));
 
         // if August or later, end date represents next year
         if ($seasonEnd->format('m') >= 8) {
