@@ -21,7 +21,7 @@ class FetchCoordinatesForAddress implements ShouldQueue
      */
     public function handle(Address $address)
     {
-        if (env('testing')) {
+        if (app()->environment('testing')) {
             app('log')->info('Not fetching coordinates for address while testing');
             return;
         }
