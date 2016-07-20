@@ -21,7 +21,7 @@
                 ])
 
                 @if(Input::has('q'))
-                <div class="form-actions text-center" style="margin-right: -11px !important; margin-left: -11px !important;">
+                <div class="form-actions text-center">
                     <p>If you can't find the {{ strtolower($program->abbreviation) }} group you're looking for, the <strong>Head Coach</strong> may not have created it or it may be inactive.</p>
                     <a href="/register/{{ $program->slug }}/later" class="btn btn-primary btn-cons">Register Later</a>
                 </div>

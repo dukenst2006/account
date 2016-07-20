@@ -67,7 +67,9 @@ class SeasonRegistrationTest extends TestCase
     public function canRegisterPlayers()
     {
         $this->visit('/dashboard')
-            ->click('Register')
+            ->see('Registration opening soon!');
+            //->click('Register');
+        $this->visit('/register/players')
             ->select('5', 'player[1][grade]')
             ->select('10', 'player[2][grade]')
             ->press('Continue')

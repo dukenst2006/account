@@ -47,7 +47,8 @@
                         <td class="text-center v-align-middle">-</td>
                         <td class="text-center v-align-middle">
                             @can(BibleBowl\Ability::REGISTER_PLAYERS)
-                                <a href="/register/players">Register</a>
+                                <span class="help">Registration opening soon!</span>
+                                <!--<a href="/register/players">Register</a> Update tests to click this link-->
                             @endcan
                         </td>
                     @endif
