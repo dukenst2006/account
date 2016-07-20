@@ -56,6 +56,7 @@
         });
 
         @foreach($guardians as $guardian)
+            @if(isset($guardian->primaryAddress->latitude) && isset($guardian->primaryAddress->longitude))
             <?php
                 $playerList = '<strong>Players</strong><ul>';
                 foreach ($guardian->players as $player) {
@@ -78,6 +79,7 @@
                         "{!! $playerList !!}"
                 }
             });
+            @endif
         @endforeach
 
         $("#map-zoom-out").click(function() {

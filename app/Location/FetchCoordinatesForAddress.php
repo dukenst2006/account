@@ -21,7 +21,11 @@ class FetchCoordinatesForAddress implements ShouldQueue
      */
     public function handle(Address $address)
     {
-        return;
+        if (env('testing')) {
+            app('log')->info('Not fetching coordinates for address while testing');
+            return;
+        }
+
         try {
             // object was serialized, so get a new one with DB connectivity
             $address = Address::findOrFail($address->id);
