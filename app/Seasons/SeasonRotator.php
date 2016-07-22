@@ -1,9 +1,13 @@
 <?php namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
+use BibleBowl\Program;
 use BibleBowl\Season;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Setting;
+use Mail;
+use Illuminate\Mail\Message;
 
 class SeasonRotator extends Command
 {
@@ -31,12 +35,35 @@ class SeasonRotator extends Command
      */
     public function fire(AutomatedGroupDeactivator $groupDeactivator)
     {
-        // if it ends today, start the new season
+        /** @var Carbon $endDate */
         $endDate = Setting::seasonEnd();
+        /** @var Carbon $startDate */
+        $startDate = Setting::seasonStart();
+
+        $nextSeasonName = $startDate->format("Y-").($startDate->addYear()->format("y"));
+
+        // notify the office before the season rotates
+        $rotateInDays = 7;
+        if ($endDate->isBirthday(Carbon::now()->addDays($rotateInDays))) {
+            Mail::queue(
+                'emails.season-rotate-notification',
+                [
+                    'willRotateOn'      => $endDate->toFormattedDateString(),
+                    'nextSeasonName'    => $nextSeasonName,
+                    'programs'          => Program::orderBy('name', 'ASC')->get()
+                ],
+                function (Message $message) use ($nextSeasonName, $rotateInDays) {
+                    $message->to(config('biblebowl.officeEmail'))
+                        ->subject('The '.$nextSeasonName.' season begins in '.$rotateInDays.' days');
+                }
+            );
+        }
+
+        // rotate the season
         if ($endDate->isBirthday()) {
-            $startDate = Setting::seasonStart();
+            /** @var Season $season */
             Season::firstOrCreate([
-                'name' => $startDate->format("Y-").($startDate->addYear()->format("y"))
+                'name' => $nextSeasonName
             ]);
 
             // since the season rotated today, deactivate inactive groups from last season

@@ -30,9 +30,16 @@ class Settings extends SettingsManager
     /**
      * @return Carbon
      */
-    public function startDate()
+    public function seasonStart()
     {
-        return $this->seasonEnd();
+        $seasonEnd = $this->seasonEnd();
+
+        // season has already rotated, should be next year
+        if ($seasonEnd->lt(Carbon::now())) {
+            $seasonEnd->addYear(1);
+        }
+
+        return $seasonEnd;
     }
 
     /**
