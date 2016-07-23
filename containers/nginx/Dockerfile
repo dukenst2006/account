@@ -1,4 +1,4 @@
-FROM nginx:1.10-alpine
+FROM nginx:1.11-alpine
 
 # add the application to the container
 ADD ./public /var/www/html/public

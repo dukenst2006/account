@@ -22,7 +22,8 @@
 		"ignited/laravel-omnipay": "2.*",
 		"omnipay/stripe": "^2.3",
 		"predis/predis": "^1.0",
-		"jenssegers/rollbar": "^1.5"
+		"jenssegers/rollbar": "^1.5",
+		"jmikola/geojson": "~1.0"
 	},
 	"require-dev": {
 		"symfony/dom-crawler": "~3.0",

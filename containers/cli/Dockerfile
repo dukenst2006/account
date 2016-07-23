@@ -44,3 +44,5 @@ USER root
 
 RUN apk del libmcrypt git zip unzip \
     && rm /usr/local/bin/composer
+
+USER www-data
