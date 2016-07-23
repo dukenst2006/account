@@ -43,7 +43,6 @@ RUN composer install --no-interaction --prefer-dist
 # as light of a container as possible
 USER root
 
-RUN apk del libmcrypt git zip unzip \
-    && rm /usr/local/bin/composer
+RUN apk del libmcrypt git zip unzip
 
 USER www-data
