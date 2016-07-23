@@ -17,7 +17,13 @@
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-4 col-sm-4 text-center">
-                <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">{{ number_format(round($playerCount / $groupCount)) }}</h2>
+                <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
+                    @if($groupCount > 0)
+                        {{ number_format(round($playerCount / $groupCount)) }}
+                    @else
+                        0
+                    @endif
+                </h2>
                 <div class="tiles-title blend p-b-25">AVG GROUP SIZE</div>
                 <div class="clearfix"></div>
             </div>

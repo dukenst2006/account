@@ -1,7 +1,6 @@
 <?php namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Builder;
-use Zizaco\Entrust\EntrustRole;
 
 /**
  * BibleBowl\Role
