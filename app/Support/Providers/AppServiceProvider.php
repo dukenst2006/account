@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceRootUrl(config('app.url'));
 
             // Use Rollbar for exception handling
-            $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+            $this->app->register(RollbarServiceProvider::class);
         }
 
         /*
