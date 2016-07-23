@@ -1,5 +1,6 @@
 <?php namespace BibleBowl;
 
+use Illuminate\Database\Eloquent\Builder;
 use Zizaco\Entrust\EntrustRole;
 
 /**
@@ -38,8 +39,35 @@ class Role extends \Silber\Bouncer\Database\Role
     const GUARDIAN                  = 'guardian';
     const ADMIN                     = 'admin';
 
-    public function hasMailchimpInterest()
+    const EDITABLE_ROLES            = [
+        self::ADMIN,
+        self::BOARD_MEMBER,
+        self::QUIZMASTER
+    ];
+
+    public function getDisplayNameAttribute()
+    {
+        return ucwords(str_replace('-', ' ', $this->name));
+    }
+
+    public function hasMailchimpInterest() : bool
     {
         return $this->mailchimp_interest_id !== null;
+    }
+
+    /**
+     * Some roles can't be manually added to users because there's
+     * automated functionality around the other roles and thus
+     * features might break as certain data may be expected if
+     * a user has these roles
+     */
+    public function isEditable() : bool
+    {
+        return in_array($this->name, self::EDITABLE_ROLES);
+    }
+
+    public function scopeEditable(Builder $query)
+    {
+        return $query->whereIn('name', self::EDITABLE_ROLES);
     }
 }

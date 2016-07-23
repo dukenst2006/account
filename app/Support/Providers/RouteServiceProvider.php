@@ -226,6 +226,8 @@ class RouteServiceProvider extends ServiceProvider
                     ], function () {
                         Route::get('users', 'UserController@index');
                         Route::get('users/{userId}', 'UserController@show');
+                        Route::get('users/{userId}/roles', 'UserController@roles');
+                        Route::post('users/{userId}/roles', 'UserController@updateRoles');
                     });
 
                     Route::group([

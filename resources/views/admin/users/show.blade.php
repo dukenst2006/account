@@ -30,6 +30,7 @@
                 <div class="b-grey b-b m-t-10"></div>
             </div>
             <div class="grid-body no-border p-t-20">
+                @include('partials.messages')
                 <div class="row">
                     <div class="col-md-4 col-sm-6">
                         <h5><i class="fa fa-map-marker"></i> Primary <span class="semi-bold">Address</span></h5>
@@ -40,10 +41,10 @@
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <h5><i class="fa fa-lock"></i> <span class="semi-bold">Roles</span></h5>
+                        <h5><i class="fa fa-lock"></i> <span class="semi-bold">Roles</span> <a href="/admin/users/{{ $user->id }}/roles" class="small">(add/remove)</a></h5>
                         <ul>
-                            @foreach ($user->roles as $role)
-                                <li>{{ ucwords(str_replace('-', ' ', $role->name)) }}</li>
+                            @foreach ($user->roles()->orderBy('name', 'ASC')->get() as $role)
+                                <li>{{ $role->display_name }}</li>
                             @endforeach
                         </ul>
                     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use BibleBowl\User;
+use BibleBowl\Role;
 
 class UsersTest extends TestCase
 {
@@ -8,6 +9,7 @@ class UsersTest extends TestCase
     protected $user;
 
     use \Helpers\ActingAsDirector;
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     public function setUp()
     {
@@ -43,9 +45,28 @@ class UsersTest extends TestCase
     /**
      * @test
      */
+    public function canEditRoles()
+    {
+        $guardian = User::whereEmail(DatabaseSeeder::GUARDIAN_EMAIL)->firstOrFail();
+        $role = Role::where('name', Role::ADMIN)->firstOrFail();
+
+        $this
+            ->visit('/admin/users/'.$guardian->id)
+            ->click('(add/remove)')
+            ->check('role['.$role->id.']')
+            ->press('Save')
+            ->see('Your changes were saved')
+            ->click('(add/remove)')
+            ->uncheck('role['.$role->id.']')
+            ->press('Save');
+    }
+
+    /**
+     * @test
+     */
     public function adminsCanSwitchUsers()
     {
-        $guardian = User::whereEmail(DatabaseSeeder::GUARDIAN_EMAIL)->first();
+        $guardian = User::whereEmail(DatabaseSeeder::GUARDIAN_EMAIL)->firstOrFail();
 
         $this
             ->visit('/dashboard')

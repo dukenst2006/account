@@ -8,7 +8,6 @@
         <h4>Registration <span class="semi-bold">Summary</span></h4>
         <div class="grid simple">
             <div class="grid-body no-border" style="padding-bottom: 10px; padding-top: 20px">
-                <p>Now that we know who's playing, lets find the group for you to play with</p>
                 @foreach ($registration->programs() as $program)
                     <div class="row">
                         <div class="col-md-6">

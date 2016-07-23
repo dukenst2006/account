@@ -1,8 +1,11 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
+use BibleBowl\Role;
 use BibleBowl\User;
+use Illuminate\Http\Request;
 use Input;
 use Session;
+use DB;
 
 class UserController extends Controller
 {
@@ -27,6 +30,37 @@ class UserController extends Controller
         return view('/admin/users/show', [
             'user' => User::findOrFail($userId)
         ]);
+    }
+
+    public function roles($userId)
+    {
+        $user = User::with('roles')->findOrFail($userId);
+
+        return view('admin.users.roles', [
+            'user' => $user,
+            'roles' => Role::orderBy('name', 'ASC')->get()
+        ]);
+    }
+
+    public function updateRoles(Request $request, $userId)
+    {
+        /** @var User $user */
+        $user = User::with('roles')->findOrFail($userId);
+
+        DB::transaction(function () use ($request, $user) {
+            $roleIds = $request->get('role', []);
+            foreach (Role::editable()->get() as $role) {
+                $hasRole = $user->is($role->name);
+                $shouldHaveRole = array_key_exists($role->id, $roleIds);
+                if ($hasRole && $shouldHaveRole === false) {
+                    $user->retract($role);
+                } elseif ($hasRole === false && $shouldHaveRole) {
+                    $user->assign($role);
+                }
+            }
+        });
+
+        return redirect('/admin/users/'.$userId)->withFlashSuccess('Your changes were saved');
     }
 
     /**
