@@ -8,7 +8,7 @@
             <div class="grid-title no-border">
                 <div class="row">
                     <div class="col-md-1 col-sm-4">
-                        <img src="{{ Gravatar::src(Auth::user()->email, 69) }}"  alt="" width="69" height="69" />
+                        <img src="{{ Gravatar::src($user->email, 69) }}"  alt="" width="69" height="69" />
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <h3 class="semi-bold p-t-10 p-b-10 m-l-15">{{ $user->full_name }}</h3>
