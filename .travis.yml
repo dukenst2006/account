@@ -20,30 +20,23 @@ before_install:
   # see https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   # Start the docker stuff
-  - docker-compose -v
-  #- docker-compose up -d
-  #- sleep 4
-  #- docker-compose ps
+  - docker-compose up -d
 install:
-  # build cron container
-  - docker build -t "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" -f containers/nginx/Dockerfile .
-  - docker build -t "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" -f containers/cli/Dockerfile .
-  - docker build -t "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" -f containers/fpm/Dockerfile .
-  # Disabled due to 1001:1001 permission errors
-  #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www
   # Install dev php dependencies
-  #- docker exec -it $(docker-compose ps -q fpm) composer install --no-interaction --prefer-dis
-  #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www/html/vendor
+  - docker run -i -v $(pwd):/var/www/html $(docker images -f label=application=laravel -q ) composer install --no-interaction --prefer-dist
 script:
-  # Push deployable images
-  - docker images
-  #- docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}"
-  - docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}"
-  - docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}"
-  - docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}"
-  #- docker exec -it $(docker-compose ps -q fpm) ls -latr /var/www/html
+  # Ensure phpcs triggers a failing build
+  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+  # Ensure breaking PSR2 compliance fails in CI
+  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpcs --standard=PSR2 --ignore=app/Http/routes.php app
   # Seed database
-  #- docker exec -it $(docker-compose ps -q fpm) php artisan migrate --seed
+  - docker exec -it $(docker-compose ps -q fpm) php artisan migrate --seed
   # Run tests
-  #- docker exec -it $(docker-compose ps -q fpm) /var/www/html/vendor/bin/phpunit
+  - docker exec -it $(docker-compose ps -q fpm) vendor/bin/phpunit
+  # Build cli container
+  - docker build -t "bkuhl/biblebowl:cli" -f containers/cli/Dockerfile .
 after_success:
+  # Deployable image tags must be in format: [service].[branch].[commit-hash].[timestamp]
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" ; fi
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:cli" "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" ; fi
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" ; fi

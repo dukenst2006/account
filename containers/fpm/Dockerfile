@@ -1,4 +1,5 @@
 FROM php:7-fpm-alpine
+LABEL application="laravel"
 
 # add the application to the container
 ADD . /var/www/html
