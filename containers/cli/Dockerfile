@@ -43,5 +43,3 @@ RUN composer install --no-interaction --prefer-dist
 USER root
 
 RUN apk del libmcrypt git zip unzip
-
-USER www-data
