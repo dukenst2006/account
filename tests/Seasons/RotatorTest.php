@@ -16,10 +16,11 @@ class RotatorTest extends TestCase
     /**
      * @test
      */
-    public function canRegisterPlayers()
+    public function deactivatesGroups()
     {
         $birthday = Mockery::mock(Carbon::class);
-        $birthday->shouldReceive('isBirthday')->andReturn(true);
+        $birthday->shouldReceive('isBirthday')->withNoArgs()->andReturn(true);
+        $birthday->shouldIgnoreMissing();
         Setting::shouldReceive('seasonEnd')->andReturn($birthday);
         Setting::shouldReceive('seasonStart')->andReturn(Carbon::now());
 
