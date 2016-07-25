@@ -6862,6 +6862,14 @@ td.visible-print {
 .theme th .tooltip {
   text-transform: none !important;
 }
+.theme #user-switch-notification {
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+  border-top: 1px solid #bfd4de;
+}
 .address-card .grid.simple > a.button-grid {
   display: block;
   padding: 42px 0 104px 0 !important;
@@ -7145,6 +7153,14 @@ input[type=number]::-webkit-outer-spin-button {
 }
 th .tooltip {
   text-transform: none !important;
+}
+#user-switch-notification {
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+  border-top: 1px solid #bfd4de;
 }
 /*!
 * direction.less v0.1.0

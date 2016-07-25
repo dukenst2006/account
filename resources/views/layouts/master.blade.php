@@ -48,6 +48,12 @@
 <body class="hide-sidebar">
 @endif
 
+    @if(Session::isNotMyself())
+    <div id="user-switch-notification" class="text-center alert-info">
+        Currently logged in as {{ Auth::user()->full_name }}  - <strong><a href="/logout">I'm done</a></strong>
+    </div>
+    @endif
+
     <div class="header navbar navbar-inverse">
         @include('partials.navbar')
     </div>

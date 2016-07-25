@@ -162,6 +162,11 @@ class SessionManager extends \Illuminate\Session\SessionManager
         return (bool) $this->get(self::ADMIN_USER);
     }
 
+    public function isNotMyself()
+    {
+        return (bool) $this->get(self::ADMIN_USER);
+    }
+
     public function adminUser()
     {
         return User::findOrFail($this->get(self::ADMIN_USER));

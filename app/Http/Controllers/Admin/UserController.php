@@ -76,6 +76,6 @@ class UserController extends Controller
 
         Session::switchUser($user);
 
-        return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.", log out to switch back");
+        return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.", use the bar at the bottom to switch back");
     }
 }
