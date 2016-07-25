@@ -23,7 +23,8 @@
 		"omnipay/stripe": "^2.3",
 		"predis/predis": "^1.0",
 		"jenssegers/rollbar": "^1.5",
-		"jmikola/geojson": "~1.0"
+		"jmikola/geojson": "~1.0",
+		"fzaninotto/faker": "^1.5"
 	},
 	"require-dev": {
 		"symfony/dom-crawler": "~3.0",
@@ -34,8 +35,7 @@
 	  	"barryvdh/laravel-debugbar": "^2.0",
 	  	"spatie/laravel-tail": "dev-master",
 	  	"codeception/codeception": "~2.0",
-	    "mockery/mockery": "dev-master",
-	  	"fzaninotto/faker": "^1.5"
+	    "mockery/mockery": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
