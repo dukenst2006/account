@@ -16,6 +16,7 @@
                             @include('player.form')
                             <div class="row">
                                 <div class="col-md-12 text-center">
+                                    <div class="m-b-10">By adding this player you agree that you are their parent/legal guardian.</div>
                                     <button class="btn btn-primary btn-cons" type="submit">Save</button>
                                 </div>
                             </div>
