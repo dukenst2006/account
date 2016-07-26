@@ -2,6 +2,7 @@
 
 use BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
 use BibleBowl\Seasons\SeasonRotator;
+use BibleBowl\Users\Auth\EmailConfirmationReminder;
 use Illuminate\Console\Scheduling\Schedule;
 use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
 
@@ -17,6 +18,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         SeasonRotator::class,
         RemindGroupsOfPendingRegistrationPayments::class,
         NotifyOfficeOfOutstandingRegistrationPayments::class,
+        EmailConfirmationReminder::class
     ];
 
     /**
@@ -30,6 +32,9 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
 
         $schedule->command(SeasonRotator::COMMAND)
             ->daily()->thenPing('https://hchk.io/c9e89191-f417-44ee-bf88-03739c439f74');
+
+        $schedule->command(EmailConfirmationReminder::COMMAND)
+            ->daily()->thenPing('https://hchk.io/5e3052eb-7c81-4e0f-aa34-dfcc833ed7c7');
 
         // reminders for unpaid registration fees
         $schedule->command(RemindGroupsOfPendingRegistrationPayments::COMMAND)

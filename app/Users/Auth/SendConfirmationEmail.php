@@ -6,10 +6,8 @@ use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
 use Mail;
 
-class SendConfirmationEmail implements ShouldQueue
+class SendConfirmationEmail
 {
-
-    use InteractsWithQueue;
 
     /**
      * Handle the event.
@@ -20,7 +18,7 @@ class SendConfirmationEmail implements ShouldQueue
     public function handle(User $user)
     {
         if ($user->status == User::STATUS_UNCONFIRMED) {
-            Mail::send(
+            Mail::queue(
                 'emails.email-confirmation',
                 [
                     'user' => $user
