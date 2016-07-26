@@ -48,6 +48,25 @@ class AuthController extends Controller
     }
 
     /**
+     * Instead of logging the user in, kick them back to the main page requiring
+     * they follow the confirmation link in the email we sent
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $this->create($request->all());
+
+        return redirect('/login')->withFlashSuccess('Please follow the link in the confirmation email we just sent you.');
+    }
+
+    /**
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request

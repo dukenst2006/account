@@ -7,6 +7,7 @@ use BibleBowl\RegistrationSurveyAnswer;
 class AuthTest extends TestCase
 {
     use \Helpers\ActingAsGuardian;
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     protected $password = 'asdfasdf';
 
@@ -37,43 +38,6 @@ class AuthTest extends TestCase
             ->see('Your email address has been confirmed, you may now login')
             ->login($user->email)
             ->seePageIs('/dashboard');
-
-        // reset the user back to unconfirmed
-        DB::statement('UPDATE users SET status = 0 WHERE id = ?', [
-            $user->id
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function canRegisterANewAccountWithoutSurvey()
-    {
-        $email = 'actest'.time().'@testerson.com';
-        $this
-            ->visit('/login')
-            ->click('register a new account')
-            ->type($email, 'email')
-            ->type($this->password, 'password')
-            ->type($this->password, 'password_confirmation')
-            ->press('Register')
-
-            // proceeds to account setup
-            ->seePageIs('/account/setup')
-            ->type('Johnson', 'first_name')
-            ->type('Johnson', 'last_name')
-            ->type('1234567890', 'phone')
-            ->type('123 Test Street', 'address_one')
-            ->type('Apt 1', 'address_two')
-            ->type('40241', 'zip_code')
-            ->press('Save')
-
-            ->seePageIs('/dashboard');
-
-        // assert user was created with a primary email address
-        $user = User::where('email', $email)->first();
-        $this->assertTrue($user->exists);
-        $this->assertNotNull($user->primary_address_id);
     }
 
     /**
@@ -90,7 +54,16 @@ class AuthTest extends TestCase
             ->press('Register')
 
             // proceeds to account setup
-            ->seePageIs('/account/setup')
+            ->seePageIs('/login')
+            ->see('Please follow the link in the confirmation email we just sent you.');
+
+        // skip the email confirmation step
+        User::where('email', $email)->update([
+            'status' => User::STATUS_CONFIRMED
+        ]);
+
+        $this
+            ->login($email, $this->password)
             ->type('Johnson', 'first_name')
             ->type('Johnson', 'last_name')
             ->type('1234567890', 'phone')

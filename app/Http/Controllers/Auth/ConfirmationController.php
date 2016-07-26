@@ -8,7 +8,7 @@ class ConfirmationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        //$this->middleware('guest', ['except' => 'getLogout']);
     }
 
     /**
@@ -20,9 +20,9 @@ class ConfirmationController extends Controller
      */
     public function getConfirm($guid)
     {
-        $user = User::where('guid', $guid)->firstOrFail();
-        $user->status = User::STATUS_CONFIRMED;
-        $user->save();
+        User::where('guid', $guid)->update([
+            'status' => User::STATUS_CONFIRMED
+        ]);
 
         return redirect()->back()->withFlashSuccess('Your email address has been confirmed, you may now login');
     }
