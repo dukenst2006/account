@@ -53,7 +53,7 @@
                     <a href="/roster">{{ number_format($playerStats['total']) }} active players</a> this season
                 </div>
             @else
-                <div class="p-t-40 p-b-40 text-center muted" style="font-style:italic">Once some players have registered, you'll see some useful stuff here</div>
+                <div class="p-t-40 p-b-40 text-center muted" style="font-style:italic">Use the blue button in the top right corner to get a link you can give to parents to register their players</div>
             @endif
         </div>
     </div>
