@@ -47,6 +47,25 @@ class Form extends FormBuilder
     }
 
     /**
+     * Create a file input field.
+     *
+     * @param  string  $name
+     * @param  array   $value
+     * @param  array   $options
+     * @return string
+     */
+    public function phone($name, $value = null, $options = array())
+    {
+        $defaults = [
+            'maxlength'     => '10',
+            'pattern'       => '[0-9]{10}',
+            'placeholder'   => 'only digits'
+        ];
+        $options = array_merge($defaults, $options);
+        return $this->input('tel', $name, $value, $options);
+    }
+
+    /**
      * @param       $name
      * @param null  $selected
      * @param array $options

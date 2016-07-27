@@ -59,19 +59,11 @@ elixir(function(mix) {
         '/assets/plugins/jquery-lazyload/jquery.lazyload.min.js',
         '/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js',
         '/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
-        '/assets/plugins/jquery-inputmask/jquery.inputmask.min.js',
         '/assets/js/core.js',
     ], 'public/js/backend.js', 'public');
 
-    // compile form assets
-    mix.scripts([
-        '/assets/plugins/jquery-inputmask/jquery.inputmask.min.js',
-        '/assets/js/forms.js',
-    ], 'public/js/forms.js', 'public');
-
     mix.version([
         'js/backend.js',
-        'js/forms.js',
         'assets/js/dashboard.js',
         'assets/js/forms.js',
         'assets/js/payment.js',

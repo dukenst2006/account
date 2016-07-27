@@ -32,7 +32,7 @@
                                     <label class="form-label">Email</label>
                                     <span class="help"></span>
                                     <div class="controls p-b-20">
-                                        {!! Form::text('email', null, ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
+                                        {!! Form::email('email', null, ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                                     <label class="form-label">Phone</label>
                                     <span class="help"></span>
                                     <div class="controls p-b-20">
-                                        {!! Form::text('phone', null, ['class' => 'form-control', 'id' => 'phone', 'maxlength' => 10]) !!}<br/>
+                                        {!! Form::phone('phone', null, ['class' => 'form-control']) !!}<br/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

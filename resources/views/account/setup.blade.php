@@ -2,9 +2,6 @@
 
 @section('title', 'Account Registration')
 
-@includeJs(/assets/plugins/jquery-1.8.3.min.js)
-@includeJs(elixir('js/forms.js'))
-
 @section('content')
     @include('partials.logo-header')
     <div class="p-t-40">
@@ -43,7 +40,7 @@
                                 <label class="form-label">Phone <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="controls">
-                                    {!! Form::text('phone', null, ['class' => 'form-control', 'id' => 'phone', 'maxlength' => 10]) !!}<br/>
+                                    {!! Form::phone('phone', null, ['class' => 'form-control']) !!}<br/>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6">
