@@ -66,6 +66,7 @@
                             <div class="col-md-8 col-sm-8">
                                 @include('partials.messages')
                                 <h4>Register a...</h4>
+                                @if($tournament->isRegistrationOpen())
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
@@ -97,6 +98,11 @@
                                     </div>
                                     @endif
                                 </div>
+                                @else
+                                    @include('tournaments.partials.closed-registration', [
+                                        'tournament' => $tournament
+                                    ])
+                                @endif
                                 <hr/>
                                 {!! $tournament->details !!}
                             </div>

@@ -15,6 +15,11 @@
                         @include('tournaments.partials.tournament-summary', [
                             'tournament' => $tournament
                         ])
+                        @if($tournament->isRegistrationClosed())
+                            @include('tournaments.partials.closed-registration', [
+                                'tournament' => $tournament
+                            ])
+                        @endif
                         <div class="row form-group">
                         @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -22,8 +27,10 @@
                                 <div class="col-md-6">
                                     <h3>Quizmasters</h3>
                                 </div>
-                                <div class="col-md-6 text-right p-t-10  ">
-                                    <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-primary btn-cons btn-small"><i class="fa fa-plus"></i> Add Quizmaster</a>
+                                <div class="col-md-6 text-right p-t-10">
+                                    @if($tournament->isRegistrationOpen())
+                                        <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-primary btn-cons btn-small"><i class="fa fa-plus"></i> Add Quizmaster</a>
+                                    @endif
                                 </div>
                             </div>
                             <table class="table no-more-tables">

@@ -4,8 +4,10 @@ namespace BibleBowl;
 
 use BibleBowl\Presentation\Describer;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use BibleBowl\Support\CanDeactivate;
+use Illuminate\Support\Collection;
 
 /**
  * BibleBowl\Tournament
@@ -59,6 +61,8 @@ class Tournament extends Model
     protected $guarded = ['id'];
 
     protected $casts = ['active'];
+
+    private $participantTypesWithOnSiteRegistrationCache = null;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -291,6 +295,11 @@ class Tournament extends Model
         return $now->gte($this->registration_start) && $now->lte($this->registration_end);
     }
 
+    public function isRegistrationClosed() : bool
+    {
+        return $this->isRegistrationOpen() === false;
+    }
+
     /**
      * Get date span
      */
@@ -325,10 +334,29 @@ class Tournament extends Model
 
     public function registrationIsEnabled(int $participantTypeId)
     {
-        // use the whole collection here - effectively it's eager loaded
         return $this->participantFees->filter(function ($fee) use ($participantTypeId) {
             return $fee->participant_type_id == $participantTypeId && $fee->requires_registration;
         })->count() > 0;
+    }
+
+    public function allowsOnSiteRegistration() : bool
+    {
+        return $this->participantTypesWithOnSiteRegistration()->count() > 0;
+    }
+
+    public function participantTypesWithOnSiteRegistration() : Collection
+    {
+        if ($this->participantTypesWithOnSiteRegistrationCache == null) {
+            $tournamentId = $this->id;
+            $participantTypes = ParticipantType::whereHas('participantFee', function (Builder $q) use($tournamentId) {
+                $q->whereNotNull('onsite_fee')
+                    ->where('tournament_id', $tournamentId);
+            })->get();
+
+            $this->participantTypesWithOnSiteRegistrationCache = $participantTypes;
+        }
+
+        return $this->participantTypesWithOnSiteRegistrationCache;
     }
 
     public function isRegisteredAsQuizmaster(User $user)

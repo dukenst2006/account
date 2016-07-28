@@ -2,6 +2,7 @@
 
 use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Tournament;
+use Carbon\Carbon;
 
 class GroupRegistrationTest extends TestCase
 {
@@ -88,5 +89,21 @@ class GroupRegistrationTest extends TestCase
         $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
         $this->assertEquals($shirtSize, $tournamentQuizmaster->shirt_size);
         $this->assertEquals($gamesQuizzed, $tournamentQuizmaster->quizzing_preferences->gamesQuizzedThisSeason());
+    }
+
+    /**
+     * @test
+     */
+    public function cantAddQuizmastersWhenRegistrationClosed()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournament->update([
+            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->dontSee('Add Quizmaster');
     }
 }

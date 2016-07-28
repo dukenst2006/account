@@ -8,6 +8,7 @@ use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
+use Illuminate\Support\Collection;
 use Monolog\Handler\LogEntriesHandler;
 use URL;
 use Illuminate\Support\ServiceProvider;
@@ -140,6 +141,35 @@ class AppServiceProvider extends ServiceProvider
         });
         Blade::directive('endcss', function () {
             return "<?php \\".Html::class."::\$css .= ob_get_clean(); ?>";
+        });
+
+        /**
+         * Describe a collection as a comma delimited list
+         *
+         * Usage: @describe(Collection, string, string)
+         */
+        Blade::directive('describe', function ($params) {
+            // remove () which wraps this
+            $params = substr($params, 0, -1);
+            $params = substr($params, 1);
+
+            $params = explode(', ', $params);
+
+            $toDescribe = $params[0];
+            $descriptor = $params[1] ?? 'and';
+            $attribute = $params[2] ?? 'name';
+
+            return <<<EOF
+            <?php 
+                \$collection = $toDescribe;
+                \$last = \$collection->pop();
+                if (\$collection->count() > 0) {
+                    echo \$collection->implode('$attribute', ', ').' $descriptor '.\$last->$attribute;
+                } else {
+                    echo \$last->$attribute;
+                }
+             ?>
+EOF;
         });
     }
 

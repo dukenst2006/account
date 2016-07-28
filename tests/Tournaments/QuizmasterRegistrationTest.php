@@ -7,6 +7,7 @@ use Helpers\SimulatesTransactions;
 use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
+use Carbon\Carbon;
 
 class QuizmasterRegistrationTest extends TestCase
 {
@@ -101,4 +102,37 @@ class QuizmasterRegistrationTest extends TestCase
             ->visit('/tournaments/'.$tournament->slug)
             ->press('Quizmaster'); // asserts it's a button
     }
+
+    /**
+     * @test
+     */
+    public function cantRegisterWhenRegistrationClosed()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournament->update([
+            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug)
+            ->see('Online registration is now closed');
+    }
+
+    /**
+     * @test
+     */
+    public function suggestsOnsiteRegistration()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournament->update([
+            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug)
+            ->see('Quizmaster, Adult and Family registrations will be accepted onsite.');
+    }
+
 }
