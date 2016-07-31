@@ -30,7 +30,7 @@
                                         <label class="form-label">Which group are you with?</label>
                                         <span class="help">Whether they have teams at this tournament or not</span>
                                         <div class="controls">
-                                            {!! Form::select('group_id', $groups, null, ['class' => 'form-control']) !!}
+                                            {!! Form::selectGroup($tournament->program_id, 'group_id', old('group_id'), ['class' => 'form-control'], true) !!}
                                         </div>
                                     </div>
                                 </div>

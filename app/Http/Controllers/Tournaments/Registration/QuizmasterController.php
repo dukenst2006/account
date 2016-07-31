@@ -27,16 +27,6 @@ class QuizmasterController extends Controller
         // determine if the head coach is registering this quizmaster
         if (Session::group() == null) {
             $view = 'tournaments.registration.standalone-quizmaster';
-            $availableGroups = Group::active()
-                ->byProgram($tournament->program_id)
-                ->orderBy('name')
-                ->with('meetingAddress')
-                ->get();
-
-            $groups = ['' => ''];
-            foreach ($availableGroups as $group) {
-                $groups[$group->id] = $group->name.' - '.$group->meetingAddress->city.', '.$group->meetingAddress->state;
-            }
         } else {
             $groups = null;
             $view = 'tournaments.registration.headcoach-quizmaster';
@@ -45,7 +35,6 @@ class QuizmasterController extends Controller
         $fee = $tournament->fee($participantType);
         return view($view, [
             'tournament'            => $tournament,
-            'groups'                => $groups,
             'hasFee'                => $fee > 0,
             'fee'                   => $fee,
             'quizzingPreferences'   => app(QuizzingPreferences::class)

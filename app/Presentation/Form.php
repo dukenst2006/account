@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\EventType;
+use BibleBowl\Group;
 use BibleBowl\GroupType;
 use BibleBowl\ParticipantType;
 use BibleBowl\Program;
@@ -407,5 +408,28 @@ class Form extends FormBuilder
         }
 
         return $this->select($name, $list, $selected, $options);
+    }
+
+    /**
+     * @param       $name
+     * @param null  $selected
+     * @param array $options
+     *
+     * @return string
+     */
+    public function selectGroup(int $programId, $name, $selected = null, $options = array(), $optional = false)
+    {
+        $availableGroups = Group::active()
+            ->byProgram($programId)
+            ->orderBy('name')
+            ->with('meetingAddress')
+            ->get();
+
+        $groups = $optional ? ['' => ''] : [];
+        foreach ($availableGroups as $group) {
+            $groups[$group->id] = $group->name.' - '.$group->meetingAddress->city.', '.$group->meetingAddress->state;
+        }
+
+        return $this->select($name, $groups, $selected, $options);
     }
 }

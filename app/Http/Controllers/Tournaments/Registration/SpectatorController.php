@@ -31,24 +31,12 @@ class SpectatorController extends Controller
         // determine if the head coach is registering this spectator
         if (Session::group() == null) {
             $view = 'tournaments.registration.standalone-spectator';
-            $availableGroups = Group::active()
-                ->byProgram($tournament->program_id)
-                ->orderBy('name')
-                ->with('meetingAddress')
-                ->get();
-
-            $groups = ['' => ''];
-            foreach ($availableGroups as $group) {
-                $groups[$group->id] = $group->name.' - '.$group->meetingAddress->city.', '.$group->meetingAddress->state;
-            }
         } else {
-            $groups = null;
             $view = 'tournaments.registration.headcoach-spectator';
         }
 
         return view($view, [
             'tournament'            => $tournament,
-            'groups'                => $groups,
             'adultFee'              => $tournament->fee($adultParticipantType),
             'familyFee'             => $tournament->fee($familyParticipantType)
         ]);
