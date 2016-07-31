@@ -66,14 +66,30 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('{slug}', 'TournamentsController@show');
             });
 
+            Route::group([
+                'prefix'    => 'tournaments/{slug}',
+                'namespace' => 'Tournaments'
+            ], function () {
+                Route::group([
+                    'prefix'    => 'registration',
+                    'namespace' => 'Registration'
+                ], function () {
+                    // spectators
+                    Route::get('spectator', 'SpectatorController@getRegistration');
+                    Route::post('standalone-spectator', 'SpectatorController@postStandaloneRegistration');
+                    Route::post('spectator', 'SpectatorController@postRegistration');
+                });
+            });
+
+            Route::get('cart', 'ShopController@viewCart');
+            Route::post('cart', 'ShopController@processPayment');
+
+
             # Must be logged in to access these routes
             Route::group(['middleware' => 'auth'], function () {
                 Route::get('logout', 'Auth\AuthController@getLogout');
 
                 Route::get('dashboard', 'DashboardController@index');
-
-                Route::get('cart', 'ShopController@viewCart');
-                Route::post('cart', 'ShopController@processPayment');
 
                 Route::group([
                     'prefix'    => 'account',
@@ -196,11 +212,6 @@ class RouteServiceProvider extends ServiceProvider
                         Route::get('group/choose-teams', 'GroupController@chooseTeams');
                         Route::get('/group/teams/{teamSet}', 'GroupController@setTeamSet');
                         Route::get('group/quizmasters', 'GroupController@quizmasters');
-
-                        // spectators
-                        Route::get('spectator', 'SpectatorController@getRegistration');
-                        Route::post('standalone-spectator', 'SpectatorController@postStandaloneRegistration');
-                        Route::post('spectator', 'SpectatorController@postRegistration');
                     });
 
                     Route::get('group', 'Registration\GroupController@index');
@@ -259,12 +270,6 @@ class RouteServiceProvider extends ServiceProvider
                         Route::patch('settings', 'SettingsController@update');
                     });
                 });
-            });
-
-            Route::group([
-                'prefix'    => 'tournaments'
-            ], function () {
-                Route::get('{slug}', 'TournamentsController@show');
             });
         });
 

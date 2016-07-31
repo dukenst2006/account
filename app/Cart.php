@@ -44,6 +44,10 @@ class Cart extends Model
         'user_id'
     ];
 
+    protected $attributes = [
+        'user_id' => null
+    ];
+
     protected $casts = [
         'metadata' => 'array',
     ];

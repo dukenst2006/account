@@ -8,12 +8,10 @@ use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
-use Illuminate\Support\Collection;
-use Monolog\Handler\LogEntriesHandler;
 use URL;
 use Illuminate\Support\ServiceProvider;
 use Silber\Bouncer\Database\Models;
-use Log;
+use Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -195,9 +193,22 @@ EOF;
 
         // always get the cart for the current user
         $this->app->singleton(Cart::class, function ($app) {
-            return Cart::firstOrCreate([
-                'user_id' => Auth::user()->id
-            ]);
+            if (Auth::user() != null ) {
+                return Cart::firstOrCreate([
+                    'user_id' => Auth::user()->id
+                ]);
+            }
+
+            // using a set() here to discourage the use of
+            // accessing the cart via the session facade
+            if (Session::has(SessionManager::CART)) {
+                $cart = Cart::find(Session::get(SessionManager::CART));
+            } else {
+                $cart = Cart::firstOrCreate([]);
+                Session::set(SessionManager::CART, $cart->id);
+            }
+
+            return $cart;
         });
 
         // putting this in the PresentServiceProvider causes issues

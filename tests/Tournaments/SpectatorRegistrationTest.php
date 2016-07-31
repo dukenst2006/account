@@ -79,6 +79,43 @@ class SpectatorRegistrationTest extends TestCase
         $this->assertNull($spectator->receipt_id);
     }
 
+    /**
+     * @test
+     */
+    public function canRegisterAsGuestWithFees()
+    {
+        $this->simulateTransaction();
+
+        $shirtSize = 'XL';
+        $tournament = Tournament::firstOrFail();
+        $firstName = 'John';
+        $lastName = 'Smith';
+        $email = 'testuser'.time().'@example.com';
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
+            ->type($firstName, 'first_name')
+            ->type($lastName, 'last_name')
+            ->type($email, 'email')
+            ->select($shirtSize, 'shirt_size')
+            ->press('Continue')
+            ->seePageIs('/cart')
+            ->see('Adult Tournament Registration')
+            ->press('Submit')
+            ->see('Your registration is complete');
+
+        $spectator = Spectator::orderBy('id', 'desc')->first();
+        $this->assertEquals($shirtSize, $spectator->shirt_size);
+
+        // defaults to no group selected
+        $this->assertNull($spectator->group_id);
+        $this->assertEquals($firstName, $spectator->first_name);
+        $this->assertEquals($lastName, $spectator->last_name);
+        $this->assertEquals($email, $spectator->email);
+
+        // we use the receipt_id to determine if payment has been made
+        $this->assertGreaterThan(0, $spectator->receipt_id);
+    }
+
 //    /**
 //     * @test
 //     */

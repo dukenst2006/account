@@ -38,10 +38,10 @@ class ShopController extends Controller
 
         try {
             if ($transactionId = $paymentProcessor->pay(
-                Auth::user(),
                 $request->input('stripeToken'),
                 Cart::total(),
-                Cart::receiptItems()
+                Cart::receiptItems(),
+                Auth::user() ?? Auth::user()
             )) {
                 $postPurchaseEvent->fire($paymentProcessor->receipt());
             }

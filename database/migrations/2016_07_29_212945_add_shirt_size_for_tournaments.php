@@ -20,6 +20,17 @@ class AddShirtSizeForTournaments extends Migration
             $table->string('spouse_shirt_size', 3)->after('spouse_gender');
             $table->dropColumn('spouse_last_name');
         });
+
+        Schema::table('carts', function(Blueprint $table)
+        {
+            $table->integer('user_id')->unsigned()->nullable()->change();
+        });
+
+        Schema::table('receipts', function(Blueprint $table)
+        {
+            $table->integer('user_id')->unsigned()->nullable()->change();
+            $table->integer('address_id')->unsigned()->nullable()->change();
+        });
     }
 
     /**
@@ -29,6 +40,17 @@ class AddShirtSizeForTournaments extends Migration
      */
     public function down()
     {
+        Schema::table('receipts', function(Blueprint $table)
+        {
+            $table->integer('user_id')->unsigned()->change();
+            $table->integer('address_id')->unsigned()->change();
+        });
+
+        Schema::table('carts', function(Blueprint $table)
+        {
+            $table->integer('user_id')->unsigned()->change();
+        });
+
         Schema::table('tournament_spectators', function(Blueprint $table)
         {
             $table->dropColumn('group_id');

@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="grid simple">
                     <div class="grid-title no-border">
-                        <h4>Add <span class="semi-bold">A Quizmaster</span></h4>
+                        <h4>Register <span class="semi-bold">A Spectator</span></h4>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
@@ -20,53 +20,9 @@
                             'class' => 'form-horizontal',
                             'role' => 'form'
                         ]) !!}
-                        <div class="row p-t-20">
-                            <div class="col-md-3">
-                                Quizmaster:
-                            </div>
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="form-label">Name</label>
-                                        <span class="help"></span>
-                                        <div class="controls row p-b-20">
-                                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                                {!! Form::text('first_name', old('last_name'), ['class' => 'form-control', 'placeholder' => 'First', 'maxlength' => 32, 'autofocus']) !!}
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                                {!! Form::text('last_name', old('last_name'), ['class' => 'form-control', 'placeholder' => 'Last', 'maxlength' => 32]) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <label class="form-label">Email</label>
-                                        <span class="help"></span>
-                                        <div class="controls p-b-20">
-                                            {!! Form::email('email', old('email'), ['class' => 'form-control', 'maxlength' => 128]) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <label class="form-label">Gender</label>
-                                        <span class="help"></span>
-                                        <div class="controls p-b-20">
-                                            @include('partials.forms.gender')
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">T-Shirt Size</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            {!! Form::selectShirtSize('shirt_size', old('shirt_size'), ['class' => 'form-control']) !!}<br/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>We'll reach out to this quizmaster via email once you hit save so they can provide their quizzing preferences and revise their t-shirt size.  Their response is not required for their registration to be complete.</p>
-                            </div>
-                        </div>
+                        @include('tournaments.registration.partials.spectator-form', [
+                            'tournament' => $tournament
+                        ])
                         <div class="row">
                             <div class="col-md-12 text-center p-t-30">
                                 <button class="btn btn-primary btn-cons" type="submit">Save & Continue</button>
@@ -79,9 +35,3 @@
         </div>
     </div>
 @endsection
-
-@includeVueJs
-@includeJs(elixir('assets/js/tournaments/quizmasters.js'))
-@jsData
-    var quizmasters = [];
-@endjsData
