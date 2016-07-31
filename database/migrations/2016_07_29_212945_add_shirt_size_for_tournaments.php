@@ -53,6 +53,7 @@ class AddShirtSizeForTournaments extends Migration
 
         Schema::table('tournament_spectators', function(Blueprint $table)
         {
+            $table->dropForeign('tournament_spectators_group_id_foreign');
             $table->dropColumn('group_id');
             $table->dropColumn('shirt_size');
             $table->dropColumn('spouse_shirt_size');
