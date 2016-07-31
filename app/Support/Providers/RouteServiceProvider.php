@@ -65,15 +65,18 @@ class RouteServiceProvider extends ServiceProvider
             ], function () {
                 Route::get('{slug}', 'TournamentsController@show');
             });
+            
+            Route::get('cart', 'ShopController@viewCart');
+            Route::post('cart', 'ShopController@processPayment');
+
+            # the group's registration link
+            Route::get('group/{guid}/register', 'Seasons\PlayerRegistrationController@rememberGroup');
 
             # Must be logged in to access these routes
             Route::group(['middleware' => 'auth'], function () {
                 Route::get('logout', 'Auth\AuthController@getLogout');
 
                 Route::get('dashboard', 'DashboardController@index');
-
-                Route::get('cart', 'ShopController@viewCart');
-                Route::post('cart', 'ShopController@processPayment');
 
                 Route::group([
                     'prefix'    => 'account',
@@ -128,9 +131,6 @@ class RouteServiceProvider extends ServiceProvider
                     Route::post('register/submit', 'PlayerRegistrationController@submit');
                     Route::get('register/program', 'PlayerRegistrationController@getChooseProgram');
                     Route::post('register/program', 'PlayerRegistrationController@postChooseProgram');
-
-                    # the group's registration link
-                    Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');
                 });
 
                 # group routes

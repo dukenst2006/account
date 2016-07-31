@@ -116,11 +116,11 @@ class SessionManager extends \Illuminate\Session\SessionManager
     }
 
     /**
-     * @param string $guid
+     * @param Group $group
      */
-    public function setGroupToRegisterWith($guid)
+    public function setGroupToRegisterWith(Group $group)
     {
-        $this->set(self::REGISTER_WITH_GROUP, $guid);
+        $this->set(self::REGISTER_WITH_GROUP, $group->guid);
     }
 
     /**
