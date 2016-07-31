@@ -7,8 +7,8 @@ if (!isset($fieldName)) {
 ?>
 
 <div class="radio">
-    {!! Form::radio($fieldName, 'M', old($fieldName, 'M') == 'M', ['id' => 'male']) !!}
-    {!! Form::label('male', 'Male') !!}
-    {!! Form::radio($fieldName, 'F', old($fieldName) == 'F', ['id' => 'female']) !!}
-    {!! Form::label('female', 'Female') !!}
+    {!! Form::radio($fieldName, 'M', old($fieldName, 'M') == 'M', ['id' => $fieldName.'-male']) !!}
+    {!! Form::label($fieldName.'-male', 'Male') !!}
+    {!! Form::radio($fieldName, 'F', old($fieldName) == 'F', ['id' => $fieldName.'-female']) !!}
+    {!! Form::label($fieldName.'-female', 'Female') !!}
 </div>
