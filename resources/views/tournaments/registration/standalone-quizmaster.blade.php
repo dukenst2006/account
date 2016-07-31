@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="grid simple">
                     <div class="grid-title no-border">
-                        <h4>Choose <span class="semi-bold">Your Quizmasters</span></h4>
+                        <h4>Register <span class="semi-bold">To Quiz</span></h4>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')

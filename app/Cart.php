@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
+use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrationPaymentReceived;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
@@ -59,6 +60,7 @@ class Cart extends Model
 
         // tournament registrations
         QuizmasterRegistrationPaymentReceived::EVENT    => QuizmasterRegistrationPaymentReceived::class,
+        SpectatorRegistrationPaymentReceived::EVENT     => SpectatorRegistrationPaymentReceived::class,
     ];
 
     /**

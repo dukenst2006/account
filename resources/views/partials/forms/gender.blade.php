@@ -1,6 +1,14 @@
+<?php
+
+if (!isset($fieldName)) {
+    $fieldName = 'gender';
+}
+
+?>
+
 <div class="radio">
-    {!! Form::radio('gender', 'M', old('gender', 'M') == 'M', ['id' => 'male']) !!}
+    {!! Form::radio($fieldName, 'M', old($fieldName, 'M') == 'M', ['id' => 'male']) !!}
     {!! Form::label('male', 'Male') !!}
-    {!! Form::radio('gender', 'F', old('gender') == 'F', ['id' => 'female']) !!}
+    {!! Form::radio($fieldName, 'F', old($fieldName) == 'F', ['id' => 'female']) !!}
     {!! Form::label('female', 'Female') !!}
 </div>

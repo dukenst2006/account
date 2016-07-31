@@ -364,4 +364,9 @@ class Tournament extends Model
         return $this->tournamentQuizmasters()->where('user_id', $user->id)->count() > 0;
     }
 
+    public function isRegisteredAsSpectator(User $user)
+    {
+        return $this->spectators()->where('user_id', $user->id)->count() > 0;
+    }
+
 }

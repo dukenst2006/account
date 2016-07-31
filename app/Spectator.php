@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Spectator extends Model
 {
+    const REGISTRATION_ADULT_SKU = 'TOURNAMENT_REG_ADULT';
+    const REGISTRATION_FAMILY_SKU = 'TOURNAMENT_REG_FAMILY';
+
+    private $isFamily = null;
+
     /**
      * The database table used by the model.
      *
@@ -50,6 +55,69 @@ class Spectator extends Model
     public function receipt()
     {
         return $this->belongsTo(Receipt::class);
+    }
+
+    public function getParticipantTypeAttribute() : ParticipantType
+    {
+        if ($this->isFamily()) {
+            return ParticipantType::find(ParticipantType::FAMILY);
+        }
+
+        return ParticipantType::find(ParticipantType::ADULT);
+    }
+
+    public function getFirstNameAttribute()
+    {
+        if ($this->user_id != null) {
+            return $this->user->first_name;
+        }
+
+        return $this->attributes['first_name'];
+    }
+
+    public function getLastNameAttribute()
+    {
+        if ($this->user_id != null) {
+            return $this->user->last_name;
+        }
+
+        return $this->attributes['last_name'];
+    }
+
+    public function getEmailAttribute()
+    {
+        if ($this->user_id != null) {
+            return $this->user->email;
+        }
+
+        return $this->attributes['email'];
+    }
+
+    public function getGenderAttribute()
+    {
+        if ($this->user_id != null) {
+            return $this->user->gender;
+        }
+
+        return $this->attributes['gender'];
+    }
+
+    public function isFamily() : bool
+    {
+        if ($this->isFamily == null) {
+            $this->isFamily = strlen($this->spouse_first_name) > 0 || $this->minors()->count() > 0;
+        }
+
+        return $this->isFamily;
+    }
+
+    public function sku()
+    {
+        if ($this->isFamily()) {
+            return self::REGISTRATION_FAMILY_SKU;
+        }
+
+        return self::REGISTRATION_ADULT_SKU;
     }
 
 }

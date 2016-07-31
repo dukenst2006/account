@@ -6,6 +6,7 @@ use Rhumsaa\Uuid\Uuid;
 
 class TournamentQuizmaster extends Model
 {
+    const REGISTRATION_SKU = 'TOURNAMENT_REG_QUIZMASTER';
 
     /**
      * The attributes that are not mass assignable.

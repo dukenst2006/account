@@ -6,13 +6,14 @@ use BibleBowl\Player;
 use BibleBowl\Receipt;
 use BibleBowl\Season;
 use BibleBowl\Shop\PostPurchaseEvent;
+use BibleBowl\Spectator;
 use BibleBowl\TournamentQuizmaster;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
-class QuizmasterRegistrationPaymentReceived extends PostPurchaseEvent
+class SpectatorRegistrationPaymentReceived extends PostPurchaseEvent
 {
-    const EVENT = 'tournament.registration.quizmaster.payment';
+    const EVENT = 'tournament.registration.spectator.payment';
 
     public function __construct($attributes = [])
     {
@@ -22,19 +23,19 @@ class QuizmasterRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * @param $quizmasterRegistrationId
+     * @param $spectatorId
      */
-    public function setTournamentQuizmaster(TournamentQuizmaster $tournamentQuizmaster)
+    public function setSpectator(Spectator $spectatorId)
     {
-        parent::setEventData(collect($tournamentQuizmaster->id));
+        parent::setEventData(collect($spectatorId->id));
     }
 
     /**
-     * @return TournamentQuizmaster
+     * @return Spectator
      */
-    public function tournamentQuizmaster()
+    public function spectator()
     {
-        return TournamentQuizmaster::where('id', $this->eventData()[0])->first();
+        return Spectator::where('id', $this->eventData()[0])->first();
     }
 
     /**
@@ -44,8 +45,8 @@ class QuizmasterRegistrationPaymentReceived extends PostPurchaseEvent
      */
     public function successStep()
     {
-        $tournament = $this->tournamentQuizmaster()->tournament;
-        return redirect('/tournaments/'.$tournament->slug)->withFlashSuccess('Your quizmaster registration is complete!');
+        $tournament = $this->spectator()->tournament;
+        return redirect('/tournaments/'.$tournament->slug)->withFlashSuccess('Your registration is complete!');
     }
 
     /**
@@ -55,7 +56,7 @@ class QuizmasterRegistrationPaymentReceived extends PostPurchaseEvent
      */
     public function fire(Receipt $receipt)
     {
-        $this->tournamentQuizmaster()->update([
+        $this->spectator()->update([
             'receipt_id' => $receipt->id
         ]);
 

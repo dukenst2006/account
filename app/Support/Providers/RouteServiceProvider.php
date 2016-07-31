@@ -183,16 +183,24 @@ class RouteServiceProvider extends ServiceProvider
                         'prefix'    => 'registration',
                         'namespace' => 'Registration'
                     ], function () {
+                        // quizmasters
                         Route::get('quizmaster', 'QuizmasterController@getRegistration');
                         Route::post('standalone-quizmaster', 'QuizmasterController@postStandaloneRegistration');
                         Route::post('quizmaster', 'QuizmasterController@postRegistration');
 
+
                         Route::get('quizmaster-preferences/{guid}', 'QuizmasterController@getPreferences');
                         Route::post('quizmaster-preferences/{guid}', 'QuizmasterController@postPreferences');
 
+                        // groups
                         Route::get('group/choose-teams', 'GroupController@chooseTeams');
                         Route::get('/group/teams/{teamSet}', 'GroupController@setTeamSet');
                         Route::get('group/quizmasters', 'GroupController@quizmasters');
+
+                        // spectators
+                        Route::get('spectator', 'SpectatorController@getRegistration');
+                        Route::post('standalone-spectator', 'SpectatorController@postStandaloneRegistration');
+                        Route::post('spectator', 'SpectatorController@postRegistration');
                     });
 
                     Route::get('group', 'Registration\GroupController@index');
