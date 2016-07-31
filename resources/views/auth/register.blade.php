@@ -79,6 +79,11 @@
 							</div>
 							@endif
 							<div class="row">
+								<div class="col-md-12 col-sm-12 text-center m-b-15">
+									By creating an account you agree that you have read<br/>and agree to the <a href="http://home.biblebowl.org/terms-of-use/" target="_blank">Terms of Use</a>.
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-12 col-sm-12 text-center">
 									<button class="btn btn-primary btn-cons" type="submit">Register</button>
 								</div>
