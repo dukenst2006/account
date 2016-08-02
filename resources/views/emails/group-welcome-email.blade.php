@@ -52,8 +52,8 @@
                     </tr>
                     <tr>
                         @foreach ($players as $idx => $player)
-                            <td valign="top" bgcolor="#f4f4f4" style="border-collapse: collapse; width: 300px">
-                                <table width="280" align="center" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0" class="table280">
+                            <td valign="top" bgcolor="#f4f4f4" style="border-collapse: collapse">
+                                <table width="150" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0">
                                     <tr>
                                         <td valign="top" align="center" height="10" bgcolor="#f4f4f4" class="sectionRegularInfoTextTD" style="border-collapse: collapse;color: #6e777e;font-family: Arial, Tahoma, Verdana, sans-serif;font-size: 13px;font-weight: lighter;padding: 0;margin: 0;text-align: left;line-height: 165%;letter-spacing: 0;">
                                             <strong>{{ $player['full_name'] }}</strong><br/>
@@ -68,7 +68,7 @@
                                 </table>
                             </td>
 
-                            @if((($idx+1) % 2) == 0)
+                            @if((($idx+1) % 3) == 0)
                                 </tr>
                                 <tr style="margin-top: 1em;">
                             @endif
