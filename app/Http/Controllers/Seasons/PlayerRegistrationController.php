@@ -108,6 +108,7 @@ class PlayerRegistrationController extends Controller
     public function summary()
     {
         return view('seasons.registration.summary')
+            ->withSeason(Season::current()->first())
             ->withRegistration(Session::seasonalGroupRegistration());
     }
 

@@ -27,9 +27,9 @@ install:
   - docker exec -it $(docker-compose ps -q fpm) sh -c "composer install --no-interaction --prefer-dist"
 script:
   # Seed database
-  - docker exec -it $(docker-compose ps -q fpm) sh -c "php artisan migrate --seed"
+  #- docker exec -it $(docker-compose ps -q fpm) sh -c "php artisan migrate --seed"
   # Run tests
-  - docker exec -it $(docker-compose ps -q fpm) sh -c "vendor/bin/phpunit"
+  #- docker exec -it $(docker-compose ps -q fpm) sh -c "vendor/bin/phpunit"
   # Build cli container
   - docker build -t "bkuhl/biblebowl:cli" -f containers/cli/Dockerfile .
 after_success:

@@ -264,10 +264,6 @@ class RouteServiceProvider extends ServiceProvider
             return view('faq');
         });
 
-        Route::get('terms-of-participation', function () {
-            return view('seasons.registration.terms-of-participation');
-        });
-
         Route::get('healthcheck/{token}', function ($token) {
             if ($token == env('HEALTHCHECK_TOKEN')) {
                 $connection = DB::connection();
