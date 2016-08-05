@@ -16,9 +16,6 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
 
     && apk add --update --no-cache \
 
-        # for debbuging in prod #Shameful
-        vim \
-
         # needed for mcrypt
         libmcrypt \
 
