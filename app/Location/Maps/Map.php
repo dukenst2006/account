@@ -10,9 +10,8 @@ class Map extends Model
     const LEAGUES = 2;
 
     protected $connection = 'wordpress';
-    
+    protected $table = 'nbwp_create_map';
     protected $primaryKey = 'map_id';
-
     protected $guarded = ['map_id'];
 
     public $timestamps = false;

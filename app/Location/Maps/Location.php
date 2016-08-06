@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     protected $connection = 'wordpress';
-
+    protected $table = 'nbwp_map_locations';
     protected $primaryKey = 'location_id';
-
     protected $guarded = ['location_id'];
 
     public $timestamps = false;
