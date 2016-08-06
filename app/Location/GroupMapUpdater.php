@@ -48,12 +48,13 @@ class GroupMapUpdater extends Command
             if ($group->isInactive()) {
                 $location->delete();
             } else {
-                $activeLocations[] = $location->location_id;
                 $location->updateMarkerInformation($group);
                 $location->save();
+
+                $activeLocations[] = $location->location_id;
             }
         }
-        
+
         $map->map_locations = $activeLocations;
         $map->save();
 
