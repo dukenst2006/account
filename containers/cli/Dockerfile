@@ -15,7 +15,7 @@ RUN  sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
         libmcrypt \
 
         # needed for composer
-        git zip unzip \
+        git zip unzip vim \
 
     # php extensions the app will need
     && docker-php-ext-install mcrypt mbstring pdo_mysql \

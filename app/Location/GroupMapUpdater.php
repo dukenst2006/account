@@ -48,6 +48,9 @@ class GroupMapUpdater extends Command
             if ($group->isInactive()) {
                 $location->delete();
             } else {
+                if ($location == null) {
+                    $location = app(Location::class);
+                }
                 $location->updateMarkerInformation($group);
                 $location->save();
 
