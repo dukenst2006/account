@@ -83,7 +83,7 @@ class SpectatorController extends Controller
 
     /**
      * Regular registrations are where the Head Coach registers on
-     * behalf of the Quizmaster
+     * behalf of the Adult/Family
      */
     public function postRegistration(
         QuizmasterRegistrationRequest $request,

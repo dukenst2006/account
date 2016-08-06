@@ -13,8 +13,7 @@ class SpectatorRegistrationRequest extends Request
      */
     public function rules()
     {
-        $rules = [
-
+        return [
             'first_name'            => 'required',
             'last_name'             => 'required',
             'email'                 => 'required',
@@ -23,9 +22,11 @@ class SpectatorRegistrationRequest extends Request
 
             'spouse_gender'         => 'required_with:spouse_first_name',
             'spouse_shirt_size'     => 'required_with:spouse_first_name',
-        ];
 
-        return $rules;
+            'minor.*.shirt_size'    => 'required_with:minor.*.first_name',
+            'minor.*.age'           => 'required_with:minor.*.age',
+            'minor.*.gender'        => 'required_with:minor.*.gender',
+        ];
     }
 
     public function messages()

@@ -82,16 +82,18 @@ class SpectatorRegistrationTest extends TestCase
     /**
      * @test
      */
-    public function canRegisterAsGuestWithFees()
+    public function canRegisterAFamilyAsGuestWithFees()
     {
         $this->simulateTransaction();
 
         $shirtSize = 'XL';
         $tournament = Tournament::firstOrFail();
+        $playerFirstName = 'Mark';
         $firstName = 'John';
         $lastName = 'Smith';
         $email = 'testuser'.time().'@example.com';
         $street = '123 Test Street';
+        $spouseFirstName = 'apples';
         $this
             ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
             ->type($firstName, 'first_name')
@@ -100,9 +102,11 @@ class SpectatorRegistrationTest extends TestCase
             ->type($street, 'address_one')
             ->type('12345', 'zip_code')
             ->select($shirtSize, 'shirt_size')
+            ->type($spouseFirstName, 'spouse_first_name')
+            ->type($playerFirstName, 'minor[1][first_name]')
             ->press('Continue')
             ->seePageIs('/cart')
-            ->see('Adult Tournament Registration')
+            ->see('Family Tournament Registration')
             ->press('Submit')
             ->see('Your registration is complete');
 
@@ -114,12 +118,16 @@ class SpectatorRegistrationTest extends TestCase
         $this->assertEquals($firstName, $spectator->first_name);
         $this->assertEquals($lastName, $spectator->last_name);
         $this->assertEquals($email, $spectator->email);
+        $this->assertEquals($spouseFirstName, $spectator->spouse_first_name);
 
         // we use the receipt_id to determine if payment has been made
         $this->assertGreaterThan(0, $spectator->receipt_id);
 
         // verify address is populated
         $this->assertEquals($street, $spectator->address->address_one);
+
+        // assert minor is there
+        $this->assertEquals($playerFirstName, $spectator->minors()->first()->name);
     }
 
 }

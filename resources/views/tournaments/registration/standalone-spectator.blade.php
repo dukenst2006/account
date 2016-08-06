@@ -26,9 +26,6 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 @if($adultFee > 0)
-                                    <h4 class="m-b-25">
-                                        Fee due: ${{ number_format($adultFee) }}
-                                    </h4>
                                     <button class="btn btn-primary btn-cons" type="submit">Continue</button>
                                 @else
                                     <button class="btn btn-primary btn-cons" type="submit">Submit</button>

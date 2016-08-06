@@ -23,6 +23,12 @@ class AddShirtSizeForTournaments extends Migration
             $table->dropColumn('spouse_last_name');
         });
 
+        Schema::table('tournament_spectator_minors', function(Blueprint $table)
+        {
+            $table->string('shirt_size', 3)->after('age');
+            $table->string('gender', 1)->after('shirt_size');
+        });
+
         Schema::table('carts', function(Blueprint $table)
         {
             $table->integer('user_id')->unsigned()->nullable()->change();
@@ -51,6 +57,12 @@ class AddShirtSizeForTournaments extends Migration
         Schema::table('carts', function(Blueprint $table)
         {
             $table->integer('user_id')->unsigned()->change();
+        });
+
+        Schema::table('tournament_spectator_minors', function(Blueprint $table)
+        {
+            $table->dropColumn('shirt_size');
+            $table->dropColumn('gender');
         });
 
         Schema::table('tournament_spectators', function(Blueprint $table)

@@ -4,6 +4,7 @@ namespace BibleBowl\Competition\Tournaments\Registration;
 
 use BibleBowl\Address;
 use BibleBowl\Group;
+use BibleBowl\Minor;
 use BibleBowl\Spectator;
 use BibleBowl\Tournament;
 use BibleBowl\User;
@@ -35,11 +36,13 @@ class AdultRegistrar
             }
 
             if (isset($attributes['address_one'])) {
-                $adult->address_id = Address::create([
+                $address = app(Address::class, [[
                     'address_one'   => $attributes['address_one'],
                     'address_two'   => $attributes['address_two'],
                     'zip_code'      => $attributes['zip_code'],
-                ])->id;
+                ]]);
+                $address->save();
+                $adult->address_id = $address->id;
             }
         }
 
@@ -57,7 +60,33 @@ class AdultRegistrar
             $adult->gender = $attributes['gender'];
         }
 
+        // spouse data
+        if (isset($attributes['spouse_first_name'])) {
+            $adult->spouse_first_name = $attributes['spouse_first_name'];
+            $adult->spouse_gender = $attributes['spouse_gender'];
+            $adult->spouse_shirt_size = $attributes['spouse_shirt_size'];
+        }
+
         $adult->save();
+
+        // attach minors
+        if (isset($attributes['minor'])) {
+            $minors = [];
+            foreach($attributes['minor'] as $minor) {
+                if (strlen($minor['first_name']) > 0) {
+                    $minors[] = app(Minor::class, [[
+                        'name'          => $minor['first_name'],
+                        'age'           => $minor['age'],
+                        'shirt_size'    => $minor['shirt_size'],
+                        'gender'        => $minor['gender'],
+                    ]]);
+                }
+            }
+
+            if (count($minors) > 0) {
+                $adult->minors()->saveMany($minors);
+            }
+        }
 
         return $adult;
     }
