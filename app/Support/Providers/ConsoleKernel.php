@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Location\GroupMapUpdater;
 use BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
 use BibleBowl\Seasons\SeasonRotator;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,6 +18,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         SeasonRotator::class,
         RemindGroupsOfPendingRegistrationPayments::class,
         NotifyOfficeOfOutstandingRegistrationPayments::class,
+        GroupMapUpdater::class,
     ];
 
     /**
