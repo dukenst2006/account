@@ -1,6 +1,7 @@
 <?php namespace BibleBowl;
 
 use BibleBowl\Groups\Settings;
+use BibleBowl\Location\Maps\Location;
 use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Config;
@@ -130,6 +131,11 @@ class Group extends Model
     public function tournamentQuizmasters()
     {
         return $this->hasMany(TournamentQuizmaster::class);
+    }
+
+    public function wordpressLocation()
+    {
+        return Location::where('location_extrafields', 'like', '%'.$this->guid.'%')->first();
     }
 
     /**
