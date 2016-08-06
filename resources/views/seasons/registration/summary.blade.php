@@ -3,6 +3,9 @@
 @section('title', 'Registration Summary')
 
 @section('content')
+    <?php
+        $playerNames = [];
+    ?>
     <div class="content">
         @include('partials.messages')
         <h4>Registration <span class="semi-bold">Summary</span></h4>
@@ -37,6 +40,7 @@
                         </thead>
                         <tbody>
                         @foreach($registration->players($program) as $player)
+                            <?php $playerNames[] = $player->full_name ?>
                             <tr>
                                 <td>{{ $player->full_name }}</td>
                                 <td>{{ \BibleBowl\Presentation\Describer::describeGrade($registration->grade($player->id)) }}</td>
@@ -49,10 +53,19 @@
                 @if ($registration->hasFoundAllGroups())
                     {!! Form::open(['url' => '/register/submit', 'class' => 'form-horizontal', 'role' => 'form']) !!}
                     <div class="row">
+                        <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 b-t b-r b-b b-l b-grey p-b-10 p-r-10 p-l-10 m-b-15" style="height: 150px;text-align: justify; overflow: scroll;">
+                            @include('seasons.registration.partials.terms-of-participation', [
+                                'user'          => Auth::user(),
+                                'season'        => $season,
+                                'playerNames'   => $playerNames
+                            ])
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-4 m-b-10">
                             <div class="checkbox check-primary">
                                 {!! Form::checkbox('terms_of_participation', 1, old('terms_of_participation'), ['id' => 'terms_of_participation']) !!}
-                                <label for="terms_of_participation">I have read and agree to the <a href="/terms-of-participation" target="_blank">Terms of Participation</a></label>
+                                <label for="terms_of_participation">I have read and agree to the above terms</label>
                             </div>
                         </div>
                     </div>

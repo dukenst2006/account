@@ -108,6 +108,7 @@ class PlayerRegistrationController extends Controller
     public function summary()
     {
         return view('seasons.registration.summary')
+            ->withSeason(Season::current()->first())
             ->withRegistration(Session::seasonalGroupRegistration());
     }
 
@@ -147,9 +148,11 @@ class PlayerRegistrationController extends Controller
      */
     public function rememberGroup($guid)
     {
-        Session::setGroupToRegisterWith($guid);
+        $group = Group::where('guid', $guid)->firstOrFail();
 
-        return redirect('/');
+        Session::setGroupToRegisterWith($group);
+
+        return redirect('/login')->withFlashSuccess("Once you're logged in we'll direct you to ".$group->name." during seasonal registration");
     }
 
     /**

@@ -26,14 +26,6 @@ class SeasonRegistrationTest extends TestCase
     /**
      * @test
      */
-    public function canViewTermsOfParticipation()
-    {
-        $this->visit('/terms-of-participation');
-    }
-
-    /**
-     * @test
-     */
     public function followingRegistrationLinkDefaultsToSelectedGroup()
     {
         // since only the guardian login is seeded, we can tear down
@@ -67,9 +59,8 @@ class SeasonRegistrationTest extends TestCase
     public function canRegisterPlayers()
     {
         $this->visit('/dashboard')
-            ->see('Registration opening soon!');
-            //->click('Register');
-        $this->visit('/register/players')
+            ->click('Register')
+            ->visit('/register/players')
             ->select('5', 'player[1][grade]')
             ->select('10', 'player[2][grade]')
             ->press('Continue')

@@ -84,6 +84,18 @@ return [
 			'prefix'   => '',
 		],
 
+		'wordpress' => [
+			'driver'    => 'mysql',
+			'host'      => env('WORDPRESS_DB_HOST', 'wordpress_database'),
+			'database'  => env('WORDPRESS_DB_DATABASE', 'wordpress'),
+			'username'  => env('WORDPRESS_DB_USERNAME', 'wordpress'),
+			'password'  => env('WORDPRESS_DB_PASSWORD', ''),
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+			'strict'    => false,
+		]
+
 	],
 
 	/*

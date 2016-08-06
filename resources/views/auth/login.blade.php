@@ -78,7 +78,7 @@
 													<label for="rememberMe">Remember me</label>
 												</div>
 												<div class="col-md-6 text-right">
-													<a href="{{ url('/password/email') }}">Forgot your password?</a>
+													<a href="{{ url('/password/reset') }}">Forgot your password?</a>
 												</div>
 											</div>
 										</div>

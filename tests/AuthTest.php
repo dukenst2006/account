@@ -118,4 +118,15 @@ class AuthTest extends TestCase
 
         return $this;
     }
+
+    /**
+     * @test
+     */
+    public function canViewResetPasswordPage()
+    {
+        $this
+            ->visit('login')
+            ->click('Forgot your password?')
+            ->assertResponseOk();
+    }
 }

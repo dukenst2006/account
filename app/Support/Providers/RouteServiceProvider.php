@@ -57,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
             // Password Reset Routes...
             Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
             Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-            Route::post('password/reset', 'Auth\PasswordController@reset');
+            Route::get('password/reset', 'Auth\PasswordController@reset');
 
             // Tournament routes
             Route::group([
@@ -65,6 +65,12 @@ class RouteServiceProvider extends ServiceProvider
             ], function () {
                 Route::get('{slug}', 'TournamentsController@show');
             });
+            
+            Route::get('cart', 'ShopController@viewCart');
+            Route::post('cart', 'ShopController@processPayment');
+
+            # the group's registration link
+            Route::get('group/{guid}/register', 'Seasons\PlayerRegistrationController@rememberGroup');
 
             Route::group([
                 'prefix'    => 'tournaments/{slug}',
@@ -144,9 +150,6 @@ class RouteServiceProvider extends ServiceProvider
                     Route::post('register/submit', 'PlayerRegistrationController@submit');
                     Route::get('register/program', 'PlayerRegistrationController@getChooseProgram');
                     Route::post('register/program', 'PlayerRegistrationController@postChooseProgram');
-
-                    # the group's registration link
-                    Route::get('group/{guid}/register', 'PlayerRegistrationController@rememberGroup');
                 });
 
                 # group routes
@@ -275,10 +278,6 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::get('faq', function () {
             return view('faq');
-        });
-
-        Route::get('terms-of-participation', function () {
-            return view('seasons.registration.terms-of-participation');
         });
 
         Route::get('healthcheck/{token}', function ($token) {

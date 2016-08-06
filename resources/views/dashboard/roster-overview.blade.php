@@ -68,9 +68,7 @@
                  <i class="fa fa-pencil fa-7x"></i>
                  <h4 class="semi-bold">Distribute the below registration link.</h4>
                  <p class="no-margin">Your group is already searchable by parents, but if you send them this link we'll direct them right where they need to go!</p>
-                 <div class="alert alert-danger m-t-20">This link is not yet available.  We are currently working on finalizing some legal text before we are able to open registrations.  We will email you when your group's unique registration link is available here.</div>
              </div>
-             <!--
              <div class="modal-body">
                  <div class="row">
                      <div class="col-md-12">
@@ -81,7 +79,7 @@
                          </button>
                      </div>
                  </div>
-             </div>-->
+             </div>
          </div>
      </div>
  </div>
