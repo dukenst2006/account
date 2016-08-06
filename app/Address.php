@@ -155,6 +155,14 @@ class Address extends Model
         return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
+    }
+
     public function __toString()
     {
         $address = $this->address_one;

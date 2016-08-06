@@ -57,6 +57,14 @@ class Spectator extends Model
         return $this->belongsTo(Receipt::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
     public function getParticipantTypeAttribute() : ParticipantType
     {
         if ($this->isFamily()) {

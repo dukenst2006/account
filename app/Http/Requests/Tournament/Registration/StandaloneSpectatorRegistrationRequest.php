@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Http\Requests\Tournament\Registration;
 
 use Auth;
+use BibleBowl\Address;
 use BibleBowl\Http\Requests\Request;
 
 class StandaloneSpectatorRegistrationRequest extends Request
@@ -25,6 +26,7 @@ class StandaloneSpectatorRegistrationRequest extends Request
             $rules['last_name']     = 'required';
             $rules['email']         = 'required';
             $rules['gender']        = 'required';
+            $rules = array_merge($rules, array_except(Address::validationRules(), ['name']));
         }
 
         return $rules;
@@ -32,9 +34,9 @@ class StandaloneSpectatorRegistrationRequest extends Request
 
     public function messages()
     {
-        return [
+        return array_merge([
             'spouse_gender.required'        => "Your spouse's gender is required",
             'spouse_shirt_size.required'    => "Your spouse's shirt size is required",
-        ];
+        ], Address::validationMessages());
     }
 }

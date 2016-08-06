@@ -36,6 +36,8 @@
                     </div>
                 </div>
             </div>
+            @include('account.address.form')
+            <div class="p-b-20"></div>
         @endif
         <div class="row form-group">
             <div class="col-md-6 col-sm-6">

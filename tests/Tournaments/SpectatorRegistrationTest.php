@@ -91,11 +91,14 @@ class SpectatorRegistrationTest extends TestCase
         $firstName = 'John';
         $lastName = 'Smith';
         $email = 'testuser'.time().'@example.com';
+        $street = '123 Test Street';
         $this
             ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
             ->type($firstName, 'first_name')
             ->type($lastName, 'last_name')
             ->type($email, 'email')
+            ->type($street, 'address_one')
+            ->type('12345', 'zip_code')
             ->select($shirtSize, 'shirt_size')
             ->press('Continue')
             ->seePageIs('/cart')
@@ -114,21 +117,9 @@ class SpectatorRegistrationTest extends TestCase
 
         // we use the receipt_id to determine if payment has been made
         $this->assertGreaterThan(0, $spectator->receipt_id);
-    }
 
-//    /**
-//     * @test
-//     */
-//    public function cantRegisterAsGuest()
-//    {
-//        // assert there's a button on the page and we can't click it
-//        $this->expectException(LogicException::class);
-//        $this->expectExceptionMessage('The selected node does not have a form ancestor');
-//
-//        $tournament = Tournament::firstOrFail();
-//        $this
-//            ->visit('/tournaments/'.$tournament->slug)
-//            ->press('Quizmaster'); // asserts it's a button
-//    }
+        // verify address is populated
+        $this->assertEquals($street, $spectator->address->address_one);
+    }
 
 }

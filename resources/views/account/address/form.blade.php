@@ -7,8 +7,8 @@
         </label>
         <span class="help"></span>
         <div class="controls p-b-20">
-            {!! Form::text('address_one', null, ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
-            {!! Form::text('address_two', null, ['class' => 'form-control', 'maxlength' => 255, 'placeholder' => 'Unit number, suite, etc.']) !!}
+            {!! Form::text('address_one', old('address_one'), ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
+            {!! Form::text('address_two', old('address_two'), ['class' => 'form-control', 'maxlength' => 255, 'placeholder' => 'Unit number, suite, etc.']) !!}
             <div class="help muted m-t-5">We'll know your city/state based on your zip code</div>
         </div>
     </div>
@@ -20,7 +20,7 @@
                 <span class="required">*</span>
             @endif</label>
         <div class="controls">
-            {!! Form::text('zip_code', null, ['class' => 'form-control', 'maxlength' => 16]) !!}
+            {!! Form::text('zip_code', old('zip_code'), ['class' => 'form-control', 'maxlength' => 16]) !!}
         </div>
     </div>
     <div class="col-md-6"></div>
