@@ -11,6 +11,17 @@ class Spectator extends Model
 
     private $isFamily = null;
 
+    protected $attributes = [
+        'first_name'            => null,
+        'last_name'             => null,
+        'email'                 => null,
+        'gender'                => null,
+        'shirt_size'            => null,
+        'spouse_first_name'     => null,
+        'spouse_gender'         => null,
+        'spouse_shirt_size'     => null,
+    ];
+
     /**
      * The database table used by the model.
      *
@@ -110,6 +121,11 @@ class Spectator extends Model
         return $this->attributes['gender'];
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
+
     public function isFamily() : bool
     {
         if ($this->isFamily == null) {
@@ -126,6 +142,11 @@ class Spectator extends Model
         }
 
         return self::REGISTRATION_ADULT_SKU;
+    }
+
+    public function hasPaid()
+    {
+        return $this->receipt_id != null;
     }
 
 }

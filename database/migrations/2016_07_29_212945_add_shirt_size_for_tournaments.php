@@ -16,8 +16,17 @@ class AddShirtSizeForTournaments extends Migration
         {
             $table->integer('group_id')->unsigned()->nullable()->after('tournament_id');
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->string('shirt_size', 3)->after('gender');
-            $table->string('spouse_shirt_size', 3)->after('spouse_gender');
+
+            // make original columns nullable
+            $table->string('first_name', 32)->nullable()->change();
+            $table->string('last_name', 32)->nullable()->change();
+            $table->string('email', 128)->nullable()->change();
+            $table->string('gender', 1)->nullable()->change();
+            $table->string('spouse_first_name', 32)->nullable()->change();
+            $table->string('spouse_gender', 1)->nullable()->change();
+
+            $table->string('shirt_size', 3)->nullable()->after('gender');
+            $table->string('spouse_shirt_size', 3)->nullable()->after('spouse_gender');
             $table->integer('address_id')->unsigned()->nullable()->after('spouse_shirt_size');
             $table->foreign('address_id')->references('id')->on('addresses');
             $table->dropColumn('spouse_last_name');
@@ -73,6 +82,15 @@ class AddShirtSizeForTournaments extends Migration
             $table->dropColumn('address_id');
             $table->dropColumn('shirt_size');
             $table->dropColumn('spouse_shirt_size');
+
+            // make columns not nullable
+            $table->string('first_name', 32)->change();
+            $table->string('last_name', 32)->change();
+            $table->string('email', 128)->change();
+            $table->string('gender', 1)->change();
+            $table->string('spouse_first_name', 32)->change();
+            $table->string('spouse_gender', 1)->change();
+
             $table->string('spouse_last_name', 32)->after('spouse_first_name');
         });
     }

@@ -19,7 +19,8 @@ class GroupController extends Controller
             'group'         => $group,
 
             // show unpaid first, then paid
-            'quizmasters'   => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get()
+            'quizmasters'   => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
+            'spectators'    => $tournament->spectators()->with('minors', 'user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
         ]);
     }
 
