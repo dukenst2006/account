@@ -61,6 +61,7 @@
             {!! Form::checkbox('register-family', 1, old('register-family'), ['id' => 'register-family']) !!}
             <label for="register-family">Register your spouse and/or minors</label>
         </div>
+        <div class="p-t-20"></div>
     </div>
 </div>
 <div id="family-registration" style="display: none">
