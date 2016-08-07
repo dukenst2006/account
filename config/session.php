@@ -135,7 +135,7 @@ return [
 	|
 	*/
 
-	'domain' => 'account.biblebowl.org',
+	'domain' => env('SESSION_DOMAIN', 'account.biblebowl.org'),
 
 	/*
 	|--------------------------------------------------------------------------
