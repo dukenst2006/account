@@ -24,16 +24,16 @@ class StandaloneSpectatorRegistrationRequest extends Request
             'minor.*.age'           => 'required_with:minor.*.age',
             'minor.*.gender'        => 'required_with:minor.*.gender',
 
-            'first_name'            => 'required_if:registering_as_current_user,0|max:32',
-            'last_name'             => 'required_if:registering_as_current_user,0|max:32',
-            'email'                 => 'required_if:registering_as_current_user,0|email|max:128',
-            'gender'                => 'required_if:registering_as_current_user,0'
+            'first_name'            => 'required_unless:registering_as_current_user,1|max:32',
+            'last_name'             => 'required_unless:registering_as_current_user,1|max:32',
+            'email'                 => 'required_unless:registering_as_current_user,1|email|max:128',
+            'gender'                => 'required_unless:registering_as_current_user,1'
         ];
 
         // add address validation rules with a condition
         $addressRules = array_except(Address::validationRules(), ['name']);
         foreach ($addressRules as $field => $rule) {
-            $rules[$field] = str_replace('required', 'required_if:registering_as_current_user,0', $rule);
+            $rules[$field] = str_replace('required', 'required_unless:registering_as_current_user,1', $rule);
         }
 
         return $rules;
@@ -42,13 +42,13 @@ class StandaloneSpectatorRegistrationRequest extends Request
     public function messages()
     {
         return array_merge([
-            'first_name.required_if'        => "The first name field is required",
-            'last_name.required_if'         => "The last name field is required",
-            'email.required_if'             => "The email field is required",
-            'gender.required_if'            => "The gender field is required",
+            'first_name.required_unless'    => "The first name field is required",
+            'last_name.required_unless'     => "The last name field is required",
+            'email.required_unless'         => "The email field is required",
+            'gender.required_unless'        => "The gender field is required",
             
-            'address_one.required_if'       => "The street address field is required",
-            'zip_code.required_if'          => "The zip code field is required",
+            'address_one.required_unless'   => "The street address field is required",
+            'zip_code.required_unless'      => "The zip code field is required",
             
             'spouse_gender.required'        => "Your spouse's gender is required",
             'spouse_shirt_size.required'    => "Your spouse's shirt size is required",
