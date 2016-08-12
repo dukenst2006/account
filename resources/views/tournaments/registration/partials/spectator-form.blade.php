@@ -3,6 +3,7 @@
         Adult:
     </div>
     <div class="col-md-9">
+        @if(Session::doesntHaveGroup())
         <div class="row form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <label class="form-label">Which group are you with?</label>
@@ -12,7 +13,9 @@
                 </div>
             </div>
         </div>
-        @if(Auth::user() == null)
+        @endif
+        @if(Auth::user() == null || Session::hasGroup())
+        <div id="non-current-user-registration">
             <div class="row form-group">
                 <div class="col-md-12">
                     <label class="form-label">Name</label>
@@ -38,6 +41,7 @@
             </div>
             @include('account.address.form')
             <div class="p-b-20"></div>
+        </div>
         @endif
         <div class="row form-group">
             <div class="col-md-6 col-sm-6">
@@ -59,7 +63,7 @@
         </div>
         <div class="checkbox check-primary">
             {!! Form::checkbox('register-family', 1, old('register-family'), ['id' => 'register-family']) !!}
-            <label for="register-family">Register your spouse and/or minors</label>
+            <label for="register-family">Register a spouse and/or minors</label>
         </div>
         <div class="p-t-20"></div>
     </div>
@@ -159,7 +163,7 @@
                 $('#family-registration').hide();
             }
         });
-        if ($(this).is(':checked')) {
+        if ($('#register-family').is(':checked')) {
             $('#family-registration').show();
         } else {
             $('#family-registration').hide();

@@ -30,6 +30,11 @@ class AddShirtSizeForTournaments extends Migration
             $table->integer('address_id')->unsigned()->nullable()->after('spouse_shirt_size');
             $table->foreign('address_id')->references('id')->on('addresses');
             $table->dropColumn('spouse_last_name');
+
+            $table->dropForeign('tournament_spectators_tournament_id_foreign');
+            $table->dropUnique('tournament_spectators_tournament_id_email_unique');
+            $table->unique(['tournament_id', 'user_id', 'email']);
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
         });
 
         Schema::table('tournament_spectator_minors', function(Blueprint $table)
@@ -76,6 +81,10 @@ class AddShirtSizeForTournaments extends Migration
 
         Schema::table('tournament_spectators', function(Blueprint $table)
         {
+            $table->dropForeign('tournament_spectators_tournament_id_foreign');
+            $table->dropUnique('tournament_spectators_tournament_id_user_id_email_unique');
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+
             $table->dropForeign('tournament_spectators_group_id_foreign');
             $table->dropForeign('tournament_spectators_address_id_foreign');
             $table->dropColumn('group_id');

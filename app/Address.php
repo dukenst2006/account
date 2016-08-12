@@ -118,8 +118,8 @@ class Address extends Model
     public static function validationMessages()
     {
         return [
-            'address_one.required'  => 'Street address is required',
-            'zip_code.regex'        => 'Zip code is invalid'
+            'address_one.required'  => 'The street address field is required',
+            'zip_code.regex'        => 'The zip code field is invalid'
         ];
     }
 

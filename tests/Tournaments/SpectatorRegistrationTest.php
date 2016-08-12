@@ -99,6 +99,12 @@ class SpectatorRegistrationTest extends TestCase
             ->type($firstName, 'first_name')
             ->type($lastName, 'last_name')
             ->type($email, 'email')
+
+            // assert address is required since we're using dynamic validation rules
+            ->press('Continue')
+            ->see('The street address field is required')
+            ->see('The zip code field is required')
+
             ->type($street, 'address_one')
             ->type('12345', 'zip_code')
             ->select($shirtSize, 'shirt_size')

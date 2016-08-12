@@ -20,6 +20,9 @@
                             'class' => 'form-horizontal',
                             'role' => 'form'
                         ]) !!}
+
+                        {!! Form::hidden('registering_as_current_user', Auth::user() == null ? 0 : 1) !!}
+
                         @include('tournaments.registration.partials.spectator-form', [
                             'tournament' => $tournament
                         ])

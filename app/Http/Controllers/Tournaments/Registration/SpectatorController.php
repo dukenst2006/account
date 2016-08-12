@@ -1,7 +1,7 @@
 <?php namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use Auth;
-use BibleBowl\Competition\Tournaments\Registration\AdultRegistrar;
+use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrar;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrar;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistration;
 use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
@@ -10,6 +10,7 @@ use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
+use BibleBowl\Http\Requests\Tournament\Registration\SpectatorRegistrationRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneSpectatorRegistrationRequest;
@@ -50,27 +51,27 @@ class SpectatorController extends Controller
         StandaloneSpectatorRegistrationRequest $request,
         $slug,
         SpectatorRegistrationPaymentReceived $spectatorRegistrationPaymentReceived,
-        AdultRegistrar $adultRegistrar
+        SpectatorRegistrar $spectatorRegistrar
     ) {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
-        $adult = $adultRegistrar->register(
+        $spectator = $spectatorRegistrar->register(
             $tournament,
             $request->except('_token'),
             Auth::user(),
             $request->get('group_id') ? Group::findOrFail($request->get('group_id')) : null
         );
 
-        $spectatorRegistrationPaymentReceived->setSpectator($adult);
+        $spectatorRegistrationPaymentReceived->setSpectator($spectator);
 
         // registrations with fees go to the cart
-        $fee = $tournament->fee($adult->participant_type);
+        $fee = $tournament->fee($spectator->participant_type);
         if ($fee > 0) {
             $cart = Cart::clear();
             $cart->setPostPurchaseEvent($spectatorRegistrationPaymentReceived)->save();
 
             $cart->add(
-                $adult->sku(),
+                $spectator->sku(),
                 $fee,
                 1
             );
@@ -86,19 +87,24 @@ class SpectatorController extends Controller
      * behalf of the Adult/Family
      */
     public function postRegistration(
-        QuizmasterRegistrationRequest $request,
+        SpectatorRegistrationRequest $request,
         $slug,
-        QuizmasterRegistrar $quizmasterRegistrar
+        SpectatorRegistrar $spectatorRegistrar
     ) {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
-        $quizmasterRegistrar->register(
+        $spectator = $spectatorRegistrar->register(
             $tournament,
             $request->except('_token'),
-            null,
+            $request->get('registering_as_current_user') == 1 ? Auth::user() : null,
             Session::group()
         );
 
-        return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess('Quizmaster has been added');
+        $registrationType = 'Adult';
+        if ($spectator->isFamily()) {
+            $registrationType = 'Family';
+        }
+
+        return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess($registrationType.' has been added');
     }
 }

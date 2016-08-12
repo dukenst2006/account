@@ -9,7 +9,7 @@ use BibleBowl\Spectator;
 use BibleBowl\Tournament;
 use BibleBowl\User;
 
-class AdultRegistrar
+class SpectatorRegistrar
 {
     public function register(
         Tournament $tournament,
@@ -61,7 +61,7 @@ class AdultRegistrar
         }
 
         // spouse data
-        if (isset($attributes['spouse_first_name'])) {
+        if (isset($attributes['spouse_first_name']) && !empty($attributes['spouse_first_name'])) {
             $adult->spouse_first_name = $attributes['spouse_first_name'];
             $adult->spouse_gender = $attributes['spouse_gender'];
             $adult->spouse_shirt_size = $attributes['spouse_shirt_size'];

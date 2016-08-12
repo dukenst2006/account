@@ -73,6 +73,16 @@ class SessionManager extends \Illuminate\Session\SessionManager
         return $this->group;
     }
 
+    public function doesntHaveGroup() : bool
+    {
+        return !$this->hasGroup();
+    }
+
+    public function hasGroup() : bool
+    {
+        return $this->get(self::GROUP, null) != null;
+    }
+
     public function setGroup(Group $group = null)
     {
         $this->group = $group;

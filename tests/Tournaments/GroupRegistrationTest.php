@@ -106,4 +106,52 @@ class GroupRegistrationTest extends TestCase
             ->visit('/tournaments/'.$tournament->slug.'/group')
             ->dontSee('Add Quizmaster');
     }
+
+    /**
+     * @test
+     */
+    public function canAddHeadCoachAsAdult()
+    {
+        $tournament = Tournament::firstOrFail();
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family');
+
+        // verify asked if I want to register myself
+        $this->see("planning to attend this tournament you");
+
+        $tournament->spectators()->update([
+            'user_id' => null
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family')
+            ->check('registering_as_current_user')
+            ->press('Save & Continue')
+            ->see('Adult has been added')
+            ->see($this->headCoach()->full_name);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family')
+            ->dontSee("planning to attend this tournament you");
+    }
+
+    /**
+     * @test
+     */
+    public function cantAddSpectatorsWhenRegistrationClosed()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournament->update([
+            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->dontSee('Add Adult/Family');
+    }
 }
