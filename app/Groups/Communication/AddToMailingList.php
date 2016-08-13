@@ -6,6 +6,7 @@ use DatabaseSeeder;
 use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Mailchimp\Mailchimp;
 
 class AddToMailingList implements ShouldQueue
 {
@@ -26,10 +27,7 @@ class AddToMailingList implements ShouldQueue
 
         if ($group->settings->shouldUpdateSubscribers()) {
 
-            /** @var Easychimp $mailchimp */
-            $mailchimp = app(Easychimp::class, [
-                $group->settings->mailchimpKey()
-            ]);
+            $mailchimp = new Easychimp(new Mailchimp($group->settings->mailchimpKey()));
             $list = $mailchimp->mailingList($group->settings->mailchimpListId());
 
             if ($list->isSubscribed($guardian->email) === false) {
