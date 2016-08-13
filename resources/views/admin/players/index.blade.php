@@ -22,10 +22,10 @@
                 <table class="table table-condensed">
                     <thead>
                         <tr>
-                            <th class="col-md-4">Name</th>
-                            <th class="col-md-4 text-center">Gender</th>
-                            <th class="col-md-4 text-center">Age</th>
-                            <th class="col-md-4 text-center">Parent/Guardian</th>
+                            <th>Name</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center">Age</th>
+                            <th class="text-center">Parent/Guardian</th>
                         </tr>
                     </thead>
                     <tbody>

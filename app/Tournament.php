@@ -369,4 +369,15 @@ class Tournament extends Model
         return $this->spectators()->where('user_id', $user->id)->count() > 0;
     }
 
+    /**
+     * Fetch tournaments that are
+     */
+    public function scopeVisible(Builder $query, $programId, Season $season)
+    {
+        return $query->where('program_id', $programId)
+            ->where('season_id', $season->id)
+            ->whereDate('registration_start', '>', Carbon::now())
+            ->orderBy('start', 'ASC');
+    }
+
 }

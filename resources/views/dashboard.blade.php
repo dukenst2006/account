@@ -40,4 +40,10 @@
         @include('dashboard.registration-payment')
     </div>
     @endif
+
+    @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+        <div class="col-md-6">
+            @include('dashboard.tournaments')
+        </div>
+    @endif
 @endsection
