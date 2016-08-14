@@ -21,8 +21,7 @@
 				<div class="row">
 					<div class="col-md-12"> <br>
 						@include('partials.messages')
-						<form method="post">
-							<input type="hidden" name="_token" value="{{ Session::token() }}" />
+						{!! Form::open(['role' => 'form', 'url' => '/password/email']) !!}
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label class="form-label">E-Mail Address</label>
@@ -30,17 +29,17 @@
 									<div class="controls">
 										<div class="input-with-icon right">
 											<i class="icon-email"></i>
-											<input type="text" name="email" class="form-control" autofocus>
+											<input type="text" name="email" class="form-control" value="{{ old('email') }}" autofocus>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-primary btn-cons pull-right" type="submit">Send Password Reset Link</button>
+								<div class="col-md-12 text-center p-t-20">
+									<button class="btn btn-primary btn-cons" type="submit">Send Password Reset Link</button>
 								</div>
 							</div>
-						</form>
+						{!! Form::close() !!}
 					</div>
 				</div>
 			</div>

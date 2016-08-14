@@ -55,9 +55,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::post('register', 'Auth\AuthController@postRegister');
 
             // Password Reset Routes...
-            Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-            Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
             Route::get('password/reset', 'Auth\PasswordController@reset');
+            Route::post('password/email', 'Auth\PasswordController@postEmail');
+            Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+            Route::post('password/reset', 'Auth\PasswordController@reset');
 
             // Tournament routes
             Route::group([

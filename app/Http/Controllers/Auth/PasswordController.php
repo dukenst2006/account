@@ -39,7 +39,7 @@ class PasswordController extends Controller
     {
         $this->validate($request, ['email' => 'required|email']);
 
-        $response = Password::sendResetLink($request->only('email'), function ($m) {
+        $response = Password::sendResetLink($request->only('email'), function ($m, $user) {
             $m->subject($this->getEmailSubject());
         });
 
