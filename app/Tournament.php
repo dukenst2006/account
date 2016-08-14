@@ -376,7 +376,7 @@ class Tournament extends Model
     {
         return $query->where('program_id', $programId)
             ->where('season_id', $season->id)
-            ->whereDate('registration_start', '>', Carbon::now())
+            ->whereDate('registration_start', '<=', Carbon::now())
             ->orderBy('start', 'ASC');
     }
 

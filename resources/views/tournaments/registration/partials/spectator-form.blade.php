@@ -51,7 +51,7 @@
                     {!! Form::selectShirtSize('shirt_size', old('shirt_size'), ['class' => 'form-control']) !!}<br/>
                 </div>
             </div>
-            @if(Auth::user() == null)
+            @if(Auth::user() == null || Session::hasGroup())
                 <div class="col-md-6 col-sm-6">
                     <label class="form-label">Gender</label>
                     <span class="help"></span>

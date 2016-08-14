@@ -110,7 +110,7 @@ class GroupRegistrationTest extends TestCase
     /**
      * @test
      */
-    public function canAddHeadCoachAsAdult()
+    public function canRegisterHeadCoachAsSpectator()
     {
         $tournament = Tournament::firstOrFail();
 
@@ -137,6 +137,36 @@ class GroupRegistrationTest extends TestCase
             ->visit('/tournaments/'.$tournament->slug.'/group')
             ->click('Add Adult/Family')
             ->dontSee("planning to attend this tournament you");
+    }
+
+    /**
+     * @test
+     */
+    public function canRegisterSpectator()
+    {
+        $tournament = Tournament::firstOrFail();
+
+        $firstName = time();
+        $lastName = microtime();
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family')
+            ->press('Save & Continue')
+            ->see('The first name field is required')
+            ->see('The email field is required')
+            ->see('The street address field is required')
+            ->see('The zip code field is required')
+
+            ->type($firstName, 'first_name')
+            ->type($lastName, 'last_name')
+            ->type('asdf@asdf.com', 'email')
+            ->type('123 Test Street', 'address_one')
+            ->type('40241', 'zip_code')
+
+            ->press('Save & Continue')
+            ->see('Adult has been added')
+            ->see($this->headCoach()->full_name);
     }
 
     /**
