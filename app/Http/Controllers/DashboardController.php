@@ -14,12 +14,9 @@ class DashboardController extends Controller
 {
     private $playerMetrics;
 
-    private $metrics;
-
-    public function __construct(PlayerMetricsRepository $playerMetrics, MetricsRepository $metrics)
+    public function __construct(PlayerMetricsRepository $playerMetrics)
     {
         $this->playerMetrics = $playerMetrics;
-        $this->metrics = $metrics;
 
         $this->middleware('requires.setup');
     }
@@ -65,13 +62,6 @@ class DashboardController extends Controller
             $view->with('playersPendingPayment', Session::group()->players()->pendingRegistrationPayment($season)->get());
         }
 
-        if (Bouncer::allows(Ability::VIEW_REPORTS)) {
-            $view->with('seasonOverview', [
-                'groupCount' => $this->metrics->groupCount($season),
-                'playerCount' => $this->metrics->playerCount($season)
-            ]);
-        }
-
         return $view;
     }
 
@@ -95,6 +85,16 @@ class DashboardController extends Controller
                     )
                     ->get()
             );
+        });
+
+        \View::creator('dashboard.season-overview', function (View $view) {
+            $season = Session::season();
+            /** @var MetricsRepository $metrics */
+            $metrics = app(MetricsRepository::class);
+            $view->with([
+                'groupCount' => $metrics->groupCount($season),
+                'playerCount' => $metrics->playerCount($season)
+            ]);
         });
     }
 }

@@ -69,6 +69,7 @@
                         <table class="table no-more-tables">
                             <tr>
                                 <th>Name</th>
+                                <th class="text-center">Age</th>
                                 <th class="text-center">Gender</th>
                                 <th class="text-center">Grade</th>
                                 <th class="text-center">T-Shirt Size</th>
@@ -81,6 +82,7 @@
                                 ?>
                                 <tr>
                                     <td><a href="/admin/players/{{ $player->id }}">{{ $player->full_name }}</a></td>
+                                    <td class="text-center">{{ $player->age() }}</td>
                                     <td class="text-center">{!! HTML::genderIcon($player->gender) !!}</td>
                                     @if($isRegistered)
                                         <td class="text-center">

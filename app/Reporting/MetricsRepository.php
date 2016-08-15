@@ -12,12 +12,9 @@ use DB;
 class MetricsRepository
 {
 
-    public function groupCount($season)
+    public function groupCount()
     {
-        return $season
-            ->groups()
-            ->active()
-            ->count();
+        return Group::active()->count();
     }
     
     public function playerCount($season)

@@ -1,6 +1,7 @@
 <table class="table no-more-tables">
     <tr>
         <th>Name</th>
+        <th class="text-center">Age</th>
         <th class="text-center">Gender</th>
         <th class="text-center">Grade</th>
         @if(isset($extraColumns))
@@ -13,6 +14,7 @@
     @foreach ($players as $player)
         <tr>
             <td><a href="/admin/players/{{ $player->id }}">{{ $player->full_name }}</a></td>
+            <td class="text-center">{{ $player->age() }}</td>
             <td class="text-center">{!! HTML::genderIcon($player->gender) !!}</td>
             <td class="text-center">
                 {{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}

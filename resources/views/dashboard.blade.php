@@ -23,9 +23,9 @@
         </div>
     @endif
 
-    @if(isset($seasonOverview))
+    @if(Bouncer::allows(\BibleBowl\Ability::VIEW_REPORTS))
         <div class="col-md-6">
-            @include('dashboard.season-overview', $seasonOverview)
+            @include('dashboard.season-overview')
         </div>
     @endif
 
