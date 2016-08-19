@@ -14,7 +14,7 @@ WORKDIR /var/www/html
 RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1001:1001:/' /etc/passwd \
     && sed -ri 's/^www-data:x:82:/www-data:x:1001:/' /etc/group \
 
-    && apk add --update --no-cache \
+    && apk add --update --no-cache vim \
 
         # needed for mcrypt
         libmcrypt \

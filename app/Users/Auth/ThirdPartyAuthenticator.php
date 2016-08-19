@@ -63,6 +63,7 @@ class ThirdPartyAuthenticator
     {
         /** @var \Laravel\Socialite\Two\User $providerUser */
         $providerUser = $this->socialite->with($provider)->user();
+        // @todo update this to use the provider name (facebook, google, etc.)
         $user = User::byProviderId($providerUser->id)->first();
         if (is_null($user)) {
             # Don't allow this email to be registered if it's already in use

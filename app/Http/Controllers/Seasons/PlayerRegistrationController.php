@@ -152,7 +152,7 @@ class PlayerRegistrationController extends Controller
 
         Session::setGroupToRegisterWith($group);
 
-        return redirect('/login')->withFlashSuccess("Once you're logged in we'll direct you to ".$group->name." during seasonal registration");
+        return redirect('/login')->withFlashSuccess("Once you're logged in we'll direct you to ".$group->name." for seasonal registration");
     }
 
     /**

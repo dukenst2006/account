@@ -69,6 +69,7 @@ class DashboardController extends Controller
     {
         \View::creator('dashboard.guardian-children', function (View $view) {
             $season = Session::season();
+            $groupToRegisterWith = Session::getGroupToRegisterWith();
             $view->with(
                 'children',
                 Auth::user()->players()
@@ -84,7 +85,10 @@ class DashboardController extends Controller
                         ]
                     )
                     ->get()
-            );
+            )
+            ->with('season', $season)
+            ->with('hasGroupToRegisterWith', $groupToRegisterWith != null)
+            ->with('groupToRegisterWith', $groupToRegisterWith);
         });
 
         \View::creator('dashboard.season-overview', function (View $view) {
