@@ -23,17 +23,16 @@ before_install:
   - docker-compose up -d
 install:
   # Install dev php dependencies
-  #- docker exec -it $(docker-compose ps -q fpm) ls -latr
-  #- docker exec -it $(docker-compose ps -q fpm) sh -c "composer install --no-interaction --prefer-dist"
+  - docker exec -it $(docker-compose ps -q fpm) sh -c "composer install --no-interaction --prefer-dist"
 script:
   # Seed database
-  #- docker exec -it $(docker-compose ps -q fpm) sh -c "php artisan migrate --seed"
+  - docker exec -it $(docker-compose ps -q fpm) sh -c "php artisan migrate --seed"
   # Run tests
-  #- docker exec -it $(docker-compose ps -q fpm) sh -c "vendor/bin/phpunit"
+  - docker exec -it $(docker-compose ps -q fpm) sh -c "vendor/bin/phpunit"
   # Build cli container
   - docker build -t "bkuhl/biblebowl:cli" -f containers/cli/Dockerfile .
 after_success:
-  # Deployable image tags must be in format: [service].[branch].[commit-hash].[timestamp]
+  # Deployable image tags must be in format: [service].[branch].[commit-hash]
   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" ; fi
   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:cli" "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" ; fi
   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" ; fi

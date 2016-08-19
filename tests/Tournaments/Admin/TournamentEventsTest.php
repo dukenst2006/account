@@ -20,7 +20,7 @@ class TournamentEventsTest extends TestCase
      */
     public function canCreateEvent()
     {
-        $price = rand(10, 100).'.'.rand(1, 99);
+        $price = rand(10, 100);
         $this
             ->visit('/admin/tournaments/1')
             ->click('Add Event')
@@ -28,7 +28,7 @@ class TournamentEventsTest extends TestCase
             ->type($price, 'price_per_participant')
             ->press('Save')
             ->seePageIs('/admin/tournaments/1')
-            ->see($price);
+            ->see('$'.$price);
     }
 
     /**
