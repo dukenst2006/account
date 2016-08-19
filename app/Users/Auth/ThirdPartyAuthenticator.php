@@ -62,9 +62,9 @@ class ThirdPartyAuthenticator
     public function findOrCreateUser($provider)
     {
         /** @var \Laravel\Socialite\Two\User $providerUser */
-        $providerUser = $this->socialite->with($provider)->user();
-        // @todo update this to use the provider name (facebook, google, etc.)
-        $user = User::byProviderId($providerUser->id)->first();
+        $providerUser = $this->socialite->driver($provider)->user();
+
+        $user = User::byProvider($provider, $providerUser->id)->first();
         if (is_null($user)) {
             # Don't allow this email to be registered if it's already in use
             if (User::where('email', $providerUser->getEmail())->count() > 0) {

@@ -171,15 +171,15 @@ class User extends Model implements
      *
      * @return mixed
      */
-    public function scopeByProviderId(Builder $query, $id)
+    public function scopeByProvider(Builder $query, $provider, $id)
     {
         return $query->whereHas(
             'providers',
-            function (Builder $query) use ($id) {
-                $query->where('provider_id', $id);
+            function (Builder $query) use ($provider, $id) {
+                $query->where('provider', $provider)
+                    ->where('provider_id', $id);
             }
-        )
-            ->first();
+        );
     }
 
     /**
