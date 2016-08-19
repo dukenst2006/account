@@ -1,14 +1,9 @@
  <div class="row">
-    <div class="col-md-6 col-sm-6 col-xs-6 m-t-20">
+    <div class="col-md-12 m-t-20">
         {!! Form::open(['role' => 'form', 'method' => 'get']) !!}
-        <p>Search for your group by church name, school, etc.</p>
-        <div class="input-group transparent">
-            <input type="text" class="form-control" name="q" placeholder="Search all groups" value="{{ Input::get('q') }}" autofocus>
-              <span class="input-group-addon">
-                  <i class="fa fa-search"></i>
-              </span>
-        </div>
-        <input type="submit" value="Search" style="position: absolute; top: 0; left: 0; z-index: 0; width: 1px; height: 1px; visibility: hidden;" />
+            <p>Search for your group by church name, school, etc.</p>
+            <input type="text" class="form-control" name="q" placeholder="Search all groups" value="{{ Input::get('q') }}" style="width: 200px; display: inline-block" autofocus>
+            {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}
     </div>
 </div>
@@ -36,9 +31,9 @@
             @endif
         @endforeach
         @else
-            <div class="text-center">
-                <div class="p-t-20 p-b-10 muted">No groups found</div>
-            <div>
+            <div class="text-center p-t-40 p-b-10 muted">
+                No groups found
+            </div>
         @endif
     </div>
 @endif

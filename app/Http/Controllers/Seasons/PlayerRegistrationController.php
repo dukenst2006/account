@@ -121,7 +121,7 @@ class PlayerRegistrationController extends Controller
         $nearbyGroups = Group::where('program_id', $program->id)
             ->near(Auth::user()->addresses->first())
             ->with('meetingAddress')
-            ->limit(6)
+            ->limit(3)
             ->get();
 
         return view('seasons.registration.select-group')

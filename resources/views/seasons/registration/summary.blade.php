@@ -30,12 +30,12 @@
                         ])
                     </div>
                     @endif
-                    <table class="table no-more-tables m-t-30 m-b-30">
+                    <table class="table m-t-30 m-b-30">
                         <thead>
                         <tr>
-                            <th style="width:30%">Player</th>
-                            <th style="width:30%">Grade</th>
-                            <th style="width:30%">T-Shirt Size</th>
+                            <th>Player</th>
+                            <th>Grade</th>
+                            <th>T-Shirt Size</th>
                         </tr>
                         </thead>
                         <tbody>

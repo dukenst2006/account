@@ -32,7 +32,13 @@
                         @foreach ($users as $user)
                             <tr>
                                 <td>
-                                    <a href="/admin/users/{{ $user->id }}" class="semi-bold">{{ $user->full_name }}</a>
+                                    <a href="/admin/users/{{ $user->id }}" class="semi-bold">
+                                        @if(strlen($user->full_name) > 0)
+                                            {{ $user->full_name }}
+                                        @else
+                                            [No Name]
+                                        @endif
+                                    </a>
                                 </td>
                                 <td class="text-center"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                 <td class="text-center"><a href="tel:+1{{ $user->phone }}">{{ HTML::formatPhone($user->phone) }}</a></td>
