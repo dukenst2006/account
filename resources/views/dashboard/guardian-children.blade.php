@@ -60,6 +60,8 @@
             @endforeach
             </thead>
         </table>
+        @if($playersNotRegistered && $hasGroupToRegisterWith)
         <div class="alert alert-info text-center m-t-15">Once you've added all your students, <a href="/register/players" style="text-decoration: underline">register them with {{ $groupToRegisterWith->name }}</a> for the {{ $season->name }} season.</div>
+        @endif
     </div>
 </div>
