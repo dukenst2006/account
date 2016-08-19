@@ -25,7 +25,7 @@ class ThirdPartyAuthTest extends TestCase
             'avatar'        => 'avatar'.time().'.jpg'
         ]);
         $this->socialite = Mockery::mock('Laravel\Socialite\SocialiteManager');
-        $this->socialite->shouldReceive('with')->andReturn($this->socialite);
+        $this->socialite->shouldReceive('driver')->andReturn($this->socialite);
         $this->socialite->shouldReceive('user')->andReturn($this->providerUser);
         $this->app->instance('Laravel\Socialite\Contracts\Factory', $this->socialite);
     }
