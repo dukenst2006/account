@@ -64,6 +64,17 @@ class FetchCoordinatesForAddress implements ShouldQueue
                     }
                 }
 
+                // use township as the city
+                if (strlen($address->city) == 0) {
+                    foreach ($response->results[0]->address_components as $addressParts) {
+                        if (property_exists($addressParts, 'types') && is_array($addressParts->types)) {
+                            if (in_array('administrative_area_level_3', $addressParts->types)) {
+                                $address->city = $addressParts->long_name;
+                            }
+                        }
+                    }
+                }
+
                 $address->save();
 
                 $this->delete();
