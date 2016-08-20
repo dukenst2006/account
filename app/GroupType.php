@@ -9,4 +9,12 @@ class GroupType extends Model
     const OTHER = 3;
 
     protected $guarded = ['id'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }

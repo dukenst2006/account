@@ -91,6 +91,14 @@ class Group extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function type()
+    {
+        return $this->belongsTo(GroupType::class, 'group_type_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function meetingAddress()
     {
         return $this->belongsTo(Address::class, 'meeting_address_id');

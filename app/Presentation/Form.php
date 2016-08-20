@@ -202,15 +202,17 @@ class Form extends FormBuilder
      */
     public function selectGrade($name, $selected = null, $options = array(), $optional = false, $programId = null)
     {
-        $middleSchool = [
+        $elementarySchool = [
             '3' => Describer::describeGrade(3),
             '4' => Describer::describeGrade(4),
             '5' => Describer::describeGrade(5)
         ];
+        $middleSchool = [
+            '6' => Describer::describeGrade(3),
+            '7' => Describer::describeGrade(4),
+            '8' => Describer::describeGrade(5)
+        ];
         $highSchool = [
-            '6' => Describer::describeGrade(6),
-            '7' => Describer::describeGrade(7),
-            '8' => Describer::describeGrade(8),
             '9' => Describer::describeGrade(9),
             '10' => Describer::describeGrade(10),
             '11' => Describer::describeGrade(11),
@@ -218,11 +220,11 @@ class Form extends FormBuilder
         ];
 
         if ($programId == Program::BEGINNER) {
-            $list = $middleSchool;
+            $list = $elementarySchool;
         } elseif ($programId == Program::TEEN) {
-            $list = $highSchool;
-        } else {
             $list = $middleSchool + $highSchool;
+        } else {
+            $list = $elementarySchool + $middleSchool + $highSchool;
         }
 
         if ($optional) {

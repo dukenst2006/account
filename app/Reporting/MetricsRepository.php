@@ -17,12 +17,22 @@ class MetricsRepository
         return Group::active()->count();
     }
     
-    public function playerCount($season)
+    public function playerCount($season) : int
     {
         return $season
             ->players()
             ->active($season)
             ->count();
+    }
+
+    public function averageGroupSize($playerCount) : int
+    {
+        $groupsWithPlayers = Group::active()->has('players')->count();
+        if ($groupsWithPlayers > 0) {
+            return round($playerCount / $groupsWithPlayers);
+        }
+
+        return 0;
     }
 
     public function historicalGroupSummaryByProgram()

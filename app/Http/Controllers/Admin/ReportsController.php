@@ -1,6 +1,8 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\Request;
+use BibleBowl\Program;
+use BibleBowl\Reporting\GroupMetricsRepository;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Reporting\SurveyMetricsRepository;
@@ -24,14 +26,16 @@ class ReportsController extends Controller
     /**
      * @return \Illuminate\View\View
      */
-    public function getPlayers(Request $request, PlayerMetricsRepository $metrics)
+    public function getSeason(Request $request, PlayerMetricsRepository $playerMetrics, GroupMetricsRepository $groupMetrics)
     {
         $seasons = Season::orderBy('id', 'DESC')->get();
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : $seasons->first();
-        return view('admin.reports.players', [
-            'currentSeason' => $currentSeason,
-            'seasons'       => $seasons,
-            'playerStats'   => $metrics->playerStats($currentSeason)
+        return view('admin.reports.season', [
+            'currentSeason'     => $currentSeason,
+            'seasons'           => $seasons,
+            'playerStats'       => $playerMetrics->playerStats($currentSeason),
+            'bySchoolSegment'   => $playerMetrics->bySchoolSegment($currentSeason),
+            'groupStats'        => $groupMetrics->groupStats($currentSeason),
         ]);
     }
 

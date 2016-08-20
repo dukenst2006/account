@@ -101,10 +101,10 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                                 <a href="/admin/reports/growth">Growth</a>
                             </li>
                             <li
-                                @if(str_contains(Route::current()->uri(), 'reports/players'))
+                                @if(str_contains(Route::current()->uri(), 'reports/seasons'))
                                     class="active"
                                 @endif>
-                                <a href="/admin/reports/players">Players</a>
+                                <a href="/admin/reports/seasons">Seasons</a>
                             </li>
                             <li
                                 @if(str_contains(Route::current()->uri(), 'reports/registration-surveys'))

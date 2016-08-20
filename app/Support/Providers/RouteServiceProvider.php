@@ -241,7 +241,7 @@ class RouteServiceProvider extends ServiceProvider
                         'middleware' => ['can:'.Ability::VIEW_REPORTS]
                     ], function () {
                         Route::get('reports/growth', 'ReportsController@getGrowth');
-                        Route::get('reports/players', 'ReportsController@getPlayers');
+                        Route::get('reports/seasons', 'ReportsController@getSeason');
                         Route::get('reports/registration-surveys', 'ReportsController@getRegistrationSurveys');
                     });
 

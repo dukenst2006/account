@@ -27,9 +27,9 @@ class ReportsTest extends TestCase
     /**
      * @test
      */
-    public function canViewPlayersReports()
+    public function canViewSeasonReports()
     {
-        $this->visit('/admin/reports/players');
+        $this->visit('/admin/reports/seasons');
     }
 
     /**

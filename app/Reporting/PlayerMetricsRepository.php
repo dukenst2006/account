@@ -26,4 +26,31 @@ class PlayerMetricsRepository
             'total'     => $baseModel->players()->active($season)->count()
         ];
     }
+
+    public function bySchoolSegment(Season $season)
+    {
+        $playersByGrade = $season->players()->active($season)
+            ->select('player_season.grade', DB::raw('count(players.id) as total'))
+            ->groupBy('player_season.grade')
+            ->orderBy('player_season.grade', 'ASC')
+            ->get();
+
+        $elementary = 0;
+        $middle = 0;
+        $high = 0;
+        foreach ($playersByGrade as $attrs) {
+            if ($attrs->grade < 6) {
+                $elementary += $attrs->total;
+            } elseif ($attrs->grade < 9) {
+                $middle += $attrs->total;
+            } else {
+                $high += $attrs->total;
+            }
+        }
+        return [
+            'Elementary'    => $elementary,
+            'Middle'        => $middle,
+            'High'          => $high
+        ];
+    }
 }

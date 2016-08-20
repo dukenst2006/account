@@ -18,8 +18,8 @@
             </div>
             <div class="col-md-4 col-sm-4 text-center">
                 <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
-                    @if($groupCount > 0)
-                        {{ number_format(round($playerCount / $groupCount)) }}
+                    @if($averageGroupSize > 0)
+                        {{ number_format($averageGroupSize) }}
                     @else
                         0
                     @endif

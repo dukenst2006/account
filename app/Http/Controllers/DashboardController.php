@@ -95,9 +95,11 @@ class DashboardController extends Controller
             $season = Session::season();
             /** @var MetricsRepository $metrics */
             $metrics = app(MetricsRepository::class);
+            $playerCount = $metrics->playerCount($season);
             $view->with([
                 'groupCount' => $metrics->groupCount($season),
-                'playerCount' => $metrics->playerCount($season)
+                'playerCount' => $playerCount,
+                'averageGroupSize' =>  $metrics->averageGroupSize($playerCount),
             ]);
         });
     }
