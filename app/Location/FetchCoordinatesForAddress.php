@@ -58,7 +58,7 @@ class FetchCoordinatesForAddress implements ShouldQueue
                     if (property_exists($addressParts, 'types') && is_array($addressParts->types)) {
                         if (in_array('administrative_area_level_1', $addressParts->types)) {
                             $address->state = $addressParts->short_name;
-                        } elseif (in_array('locality', $addressParts->types) || in_array('administrative_area_level_3', $addressParts->types)) {
+                        } elseif (in_array('locality', $addressParts->types)) {
                             $address->city = $addressParts->long_name;
                         }
                     }
