@@ -9,7 +9,7 @@
         <div class="controls p-b-20">
             {!! Form::text('address_one', null, ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
             {!! Form::text('address_two', null, ['class' => 'form-control', 'maxlength' => 255, 'placeholder' => 'Unit number, suite, etc.']) !!}
-            <div class="help muted m-t-5">We'll know your city/state based on your zip code</div>
+            <div class="help muted m-t-5">City/state are automatically populated based on your zip code</div>
         </div>
     </div>
 </div>
