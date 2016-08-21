@@ -1,4 +1,4 @@
-<div style="font-size:120%"><strong>Covenant</strong></div>
+<div style="font-size:120%"><strong>{{ $group->name }}</strong></div>
 <div style="margin-bottom:1em;"><a href="{{ url($group->registrationReferralLink()) }}">Register with group</a></div>
 
 {{ $group->owner->full_name }}<br/>
