@@ -19,7 +19,7 @@
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        <table class="table no-more-tables">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th style="width:20%">Player</th>

@@ -107,41 +107,41 @@
         </div>
         <div class="col-md-9">
             <div class="row form-group">
-                <div class="col-md-3 col-sm-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     <label class="form-label">Name</label>
                     <span class="help"></span>
                 </div>
-                <div class="col-md-3 col-sm-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     <label class="form-label">T-Shirt Size</label>
                     <span class="help"></span>
                 </div>
-                <div class="col-md-2 col-sm-2">
+                <div class="col-md-2 col-sm-2 col-xs-2">
                     <label class="form-label">Age</label>
                     <span class="help"></span>
                 </div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-4 col-sm-4 col-xs-4">
                     <label class="form-label">Gender</label>
                     <span class="help"></span>
                 </div>
             </div>
             @for($x = 1; $x <= 5; $x++)
             <div class="row">
-                <div class="col-md-3 col-sm-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     <div class="controls">
                         {!! Form::text('minor['.$x.'][first_name]', old('minor['.$x.'][first_name]'), ['class' => 'form-control', 'placeholder' => 'First', 'maxlength' => 64]) !!}
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     <div class="controls">
                         {!! Form::selectShirtSize('minor['.$x.'][shirt_size]', old('minor['.$x.'][shirt_size]'), ['class' => 'form-control']) !!}<br/>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-2">
+                <div class="col-md-2 col-sm-2 col-xs-2">
                     <div class="controls">
                         {!! Form::select('minor['.$x.'][age]', array_combine(range(3, 17), range(3, 17)), old('minor['.$x.'][age]'), ['class' => 'form-control']) !!}<br/>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-4 col-sm-4 col-xs-4">
                     <div class="controls">
                         @include('partials.forms.gender', [
                             'fieldName' => 'minor['.$x.'][gender]'

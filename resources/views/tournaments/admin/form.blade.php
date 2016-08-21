@@ -55,7 +55,7 @@
     <div class="col-md-12 form-group">
         <label class="form-label">Participants</label>
         <div class="help">Player and Team participants are assumed for all tournaments so they will automatically be required to register</div>
-        <table class="table no-more-tables">
+        <table class="table">
             <thead>
             <tr>
                 <th style="width:30%"></th>

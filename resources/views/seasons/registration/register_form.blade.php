@@ -24,7 +24,7 @@
                         Players
                     </div>
                     <div class="col-md-10 p-b-10">
-                        <table class="table no-more-tables">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th style="width:10%"></th>

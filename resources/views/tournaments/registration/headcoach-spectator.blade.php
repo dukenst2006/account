@@ -27,7 +27,7 @@
                                     <div class="alert alert-info">
                                     <p class="text-center p-b-10">If you're planning to attend this tournament you'll need to register yourself as well.  Would you like to go ahead and do that?</p>
                                     <div class="row">
-                                        <div class="col-md-3 col-md-offset-5">
+                                        <div class="col-md-3 col-md-offset-5 col-sm-3 col-md-offset-5 col-xs-6 col-xs-offset-3">
                                             <div class="checkbox check-success">
                                                 {!! Form::checkbox('registering_as_current_user', 1, old('registering_as_current_user'), ['id' => 'registering-as-current-user']) !!}
                                                 <label for="registering-as-current-user" style="color: #246a8e">Yes, register me</label>

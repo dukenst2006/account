@@ -5,7 +5,7 @@
                 <h4 class="bold">Tournaments</h4>
             </div>
             <div class="grid-body no-border" style="padding-bottom:0;">
-                <table class="table no-more-tables" style="margin-bottom: 0">
+                <table class="table" style="margin-bottom: 0">
                     @foreach($tournaments as $tournament)
                         <tr>
                             <td class="v-align-middle">

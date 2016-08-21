@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-md-9">
                                 <h5><i class="fa fa-users"></i> <span class="semi-bold">Players</span></h5>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Player</th>

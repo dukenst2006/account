@@ -9,7 +9,7 @@
         <div class="grid simple">
             <div class="grid-body no-border" style="padding-bottom: 10px; padding-top: 20px">
                 {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
-                <table class="table no-more-tables">
+                <table class="table">
                     <thead>
                     <tr>
                         <th style="width:10%"></th>

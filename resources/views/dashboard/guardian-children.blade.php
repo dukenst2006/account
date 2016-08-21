@@ -6,7 +6,7 @@
         <div class="pull-right">
             <a class="btn btn-primary btn-cons" href="/player/create">Add another student</a>
         </div>
-        <table class="table no-more-tables" style="margin-bottom: 0">
+        <table class="table" style="margin-bottom: 0">
             <thead>
                 <tr>
                     <th>Name</th>

@@ -66,7 +66,7 @@
                     <div class="col-md-12">
                         @if($user->is(\BibleBowl\Role::GUARDIAN))
                             <h5><i class="fa fa-users"></i> <span class="semi-bold">Students</span></h5>
-                        <table class="table no-more-tables">
+                        <table class="table">
                             <tr>
                                 <th>Name</th>
                                 <th class="text-center">Gender</th>

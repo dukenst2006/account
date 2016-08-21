@@ -54,7 +54,7 @@
                             <div class="col-md-8">
                                 @if(count($participantFees) > 0)
                                 <h5><i class="fa fa-usd"></i> <span class="semi-bold">Fees</span></h5>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <tbody>
                                         <tr>
                                             <th style="width:35%"></th>
@@ -102,7 +102,7 @@
                                         <a href="{{ route('admin.tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
                                     </div>
                                 </div>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <tr>
                                         <th>Type</th>
                                         <th class="text-center">Price</th>

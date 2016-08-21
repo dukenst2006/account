@@ -24,21 +24,21 @@
                         <div class="row form-group">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
                                         <h3>Quizmasters</h3>
                                     </div>
-                                    <div class="col-md-6 text-right p-t-10">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-right p-t-10">
                                         @if($tournament->isRegistrationOpen())
                                             <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-primary btn-cons btn-small"><i class="fa fa-plus"></i> Add Quizmaster</a>
                                         @endif
                                     </div>
                                 </div>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-center">Email</th>
+                                        <th class="text-center hidden-xs">Email</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -53,7 +53,7 @@
                                                         <span class="text-error">PAYMENT DUE</span>
                                                     @endif
                                                 </td>
-                                                <td class="v-align-middle text-center"><a href="mailto:{{ $quizmaster->email }}">{{ $quizmaster->email }}</a></td>
+                                                <td class="v-align-middle text-center hidden-xs"><a href="mailto:{{ $quizmaster->email }}">{{ $quizmaster->email }}</a></td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -69,22 +69,22 @@
                         <div class="row form-group">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
                                         <h3>Spectators</h3>
                                     </div>
-                                    <div class="col-md-6 text-right p-t-10">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-right p-t-10">
                                         @if($tournament->isRegistrationOpen())
                                             <a href="/tournaments/{{ $tournament->slug }}/registration/spectator" class="btn btn-primary btn-cons btn-small"><i class="fa fa-plus"></i> Add Adult/Family</a>
                                         @endif
                                     </div>
                                 </div>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
                                         <th class="text-center">Family</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-center">Email</th>
+                                        <th class="text-center hidden-xs">Email</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -92,7 +92,7 @@
                                         @foreach($spectators as $spectator)
                                             <tr>
                                                 <td class="v-align-middle">{{ $spectator->full_name }}</td>
-                                                <td class="v-align-middle text-center">
+                                                <td class="v-align-middle text-center hidden-xs">
                                                     @if($spectator->isFamily())
                                                         @if($spectator->spouse_first_name != null)
                                                             {{ $spectator->spouse_first_name }}
@@ -106,6 +106,11 @@
                                                         @endif
                                                     @endif
                                                 </td>
+                                                <td class="v-align-middle text-center visible-xs">
+                                                    @if($spectator->isFamily())
+                                                        <div class="fa fa-check"></div>
+                                                    @endif
+                                                </td>
                                                 <td class="v-align-middle text-center">
                                                     @if($spectator->hasPaid())
                                                         <span class="text-success">PAID</span>
@@ -113,7 +118,7 @@
                                                         <span class="text-error">PAYMENT DUE</span>
                                                     @endif
                                                 </td>
-                                                <td class="v-align-middle text-center"><a href="mailto:{{ $spectator->email }}">{{ $spectator->email }}</a></td>
+                                                <td class="v-align-middle text-center hidden-xs"><a href="mailto:{{ $spectator->email }}">{{ $spectator->email }}</a></td>
                                             </tr>
                                         @endforeach
                                     @else

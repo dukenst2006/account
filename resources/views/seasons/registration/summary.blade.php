@@ -30,7 +30,7 @@
                         ])
                     </div>
                     @endif
-                    <table class="table no-more-tables m-t-30 m-b-30">
+                    <table class="table m-t-30 m-b-30">
                         <thead>
                         <tr>
                             <th style="width:30%">Player</th>

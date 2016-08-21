@@ -39,7 +39,7 @@
                 <div class="row m-t-10">
                     <div class="col-md-12">
                         <h5><i class="fa fa-users"></i> <span class="semi-bold">Seasons</span></h5>
-                        <table class="table no-more-tables">
+                        <table class="table">
                             <tr>
                                 <th>Season</th>
                                 <th class="text-center">Grade</th>

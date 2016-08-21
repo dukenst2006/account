@@ -41,7 +41,7 @@
                                 <label class="form-label">Registration Fees</label>
                                 <span class="help"></span>
                                 <div class="controls p-b-20">
-                                    <table class="table no-more-tables">
+                                    <table class="table">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Program</th>

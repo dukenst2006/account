@@ -1,4 +1,4 @@
-<table class="table no-more-tables">
+<table class="table">
     <tr>
         <th>Name</th>
         <th class="text-center">Gender</th>
