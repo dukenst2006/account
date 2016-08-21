@@ -9,12 +9,12 @@
 			<div class="col-md-8 col-md-offset-2 grid-body no-border">
 				<br/>
 				<div class="row">
-					<div class="col-md-6 pull-left">
+					<div class="col-md-10 col-sm-8 col-xs-8">
 						<div class="page-title">
 							<h3>Password Reset Email</h3>
 						</div>
 					</div>
-					<div class="col-md-6 text-right">
+					<div class="col-md-2 col-sm-4 col-xs-4 text-right">
 						<a href="/login">Back to login</a>
 					</div>
 				</div>
