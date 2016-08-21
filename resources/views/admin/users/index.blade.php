@@ -8,10 +8,10 @@
             <div class="grid-body dataTables_wrapper">
                 <form method="get">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-xs-4">
                         <h4 class="semi-bold">Users</h4>
                     </div>
-                    <div class="input-group transparent col-md-4 col-md-offset-8">
+                    <div class="input-group transparent col-md-4 col-md-offset-8 col-xs-8">
                         <input type="text" class="form-control" placeholder="Search by name or email" name="q" value="{{ Input::get('q') }}"/>
                         <span class="input-group-addon">
                             <i class="fa fa-search"></i>
@@ -23,8 +23,8 @@
                     <thead>
                         <tr>
                             <th class="col-md-4">Name</th>
-                            <th class="col-md-4 text-center">Email</th>
-                            <th class="col-md-4 text-center">Phone</th>
+                            <th class="col-md-4 text-center hidden-xs">Email</th>
+                            <th class="col-md-4 text-center hidden-sm hidden-xs">Phone</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,8 +40,8 @@
                                         @endif
                                     </a>
                                 </td>
-                                <td class="text-center"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
-                                <td class="text-center"><a href="tel:+1{{ $user->phone }}">{{ HTML::formatPhone($user->phone) }}</a></td>
+                                <td class="text-center hidden-xs"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                                <td class="text-center hidden-sm hidden-xs"><a href="tel:+1{{ $user->phone }}">{{ HTML::formatPhone($user->phone) }}</a></td>
                             </tr>
                         @endforeach
                     @endif

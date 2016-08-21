@@ -16,7 +16,7 @@
                             <div class="alert text-center">Once you've finished configuring this tournament, be sure to make it "Active" so that people can register once registration is open.</div>
                         @endif
                         <div class="row">
-                            <div class="col-md-4 b-grey b-r">
+                            <div class="col-md-4 col-sm-4 b-grey b-r">
                                 <h5><i class="fa fa-calendar"></i> <span class="semi-bold">When</span></h5>
                                 <div class="m-l-20 m-b-20">{{ $tournament->dateSpan() }}</div>
                                 <h5><i class="fa fa-pencil"></i> <span class="semi-bold">Registration</span></h5>
@@ -51,10 +51,10 @@
                                     <a href="{{ route('admin.tournaments.edit', [$tournament->id]) }}" class="btn btn-small btn-primary">Edit</a>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-8 col-sm-8">
                                 @if(count($participantFees) > 0)
                                 <h5><i class="fa fa-usd"></i> <span class="semi-bold">Fees</span></h5>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <tbody>
                                         <tr>
                                             <th style="width:35%"></th>
@@ -95,14 +95,14 @@
                                 </table>
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-xs-6">
                                         <h5><i class="fa fa-trophy"></i> <span class="semi-bold">Events</span></h5>
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 col-xs-6 text-right">
                                         <a href="{{ route('admin.tournaments.events.create', [$tournament->id]) }}" class="btn btn-primary btn-small">Add Event</a>
                                     </div>
                                 </div>
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <tr>
                                         <th>Type</th>
                                         <th class="text-center">Price</th>

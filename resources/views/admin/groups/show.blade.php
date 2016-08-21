@@ -9,24 +9,24 @@
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <div class="row b-grey b-b">
-                            <div class="col-md-9">
+                            <div class="col-md-9 col-sm-9 col-xs-9">
                                 <h3 class="semi-bold p-t-10 p-b-10">{{ $group->name }}</h3>
                             </div>
-                            <div class="col-md-3 text-right p-r-20 p-t-15 text-black">
+                            <div class="col-md-3 col-sm-3 col-xs-3 text-right p-r-20 p-t-15 text-black">
                                 {{ $group->program->name }}
                             </div>
                         </div>
                     </div>
                     <div class="grid-body no-border p-t-20">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
                                 <h5><i class="fa fa-user"></i> <span class="semi-bold">Owner</span></h5>
                                 @include('partials.user-contact', [
                                     'user' => $group->owner,
                                     'adminLink' => true
                                 ])
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-4 col-xs-6">
                                 <h5><i class="fa fa-map-marker"></i> Meeting <span class="semi-bold">Location</span></h5>
                                 <a href="http://maps.google.com/?q={{ $group->meetingAddress }}" title="View on a map" target="_blank">
                                     @include('partials.address', [
@@ -34,7 +34,7 @@
                                     ])
                                 </a>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-4 col-xs-6">
                                 <h5><i class="fa fa-map-marker"></i> Mailing <span class="semi-bold">Address</span></h5>
                                 <a href="http://maps.google.com/?q={{ $group->address }}" title="View on a map" target="_blank">
                                     @include('partials.address', [

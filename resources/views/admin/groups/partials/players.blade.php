@@ -1,22 +1,22 @@
-<table class="table no-more-tables">
+<table class="table">
     <tr>
         <th>Name</th>
-        <th class="text-center">Age</th>
-        <th class="text-center">Gender</th>
-        <th class="text-center">Grade</th>
+        <th class="text-center hidden-sm hidden-xs">Age</th>
+        <th class="text-center hidden-sm hidden-xs">Gender</th>
+        <th class="text-center hidden-xs">Grade</th>
         @if(isset($extraColumns))
             @foreach (array_keys($extraColumns) as $columnName)
                 <th class="text-center">{{ $columnName }}</th>
             @endforeach
         @endif
-        <th class="text-center">Parent/Guardian</th>
+        <th class="text-center hidden-xs">Parent/Guardian</th>
     </tr>
     @foreach ($players as $player)
         <tr>
             <td><a href="/admin/players/{{ $player->id }}">{{ $player->full_name }}</a></td>
-            <td class="text-center">{{ $player->age() }}</td>
-            <td class="text-center">{!! HTML::genderIcon($player->gender) !!}</td>
-            <td class="text-center">
+            <td class="text-center hidden-sm hidden-xs">{{ $player->age() }}</td>
+            <td class="text-center hidden-sm hidden-xs">{!! HTML::genderIcon($player->gender) !!}</td>
+            <td class="text-center hidden-xs">
                 {{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}
             </td>
             @if(isset($extraColumns))
@@ -46,7 +46,7 @@
                     <td class="text-center">{{ $columnValue }}</td>
                 @endforeach
             @endif
-            <td class="text-center">
+            <td class="text-center hidden-xs">
                 <a href="/admin/users/{{ $player->guardian_id }}">{{ $player->guardian->full_name }}</a>
             </td>
         </tr>

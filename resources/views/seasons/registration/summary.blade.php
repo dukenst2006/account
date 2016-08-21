@@ -34,8 +34,10 @@
                         <thead>
                         <tr>
                             <th>Player</th>
-                            <th>Grade</th>
-                            <th>T-Shirt Size</th>
+                            <th class="text-center hidden-sm hidden-xs">Grade</th>
+                            <th class="text-center visible-sm visible-xs">Grade</th>
+                            <th class="text-center hidden-sm hidden-xs">T-Shirt Size</th>
+                            <th class="text-center visible-sm visible-xs">T-Shirt Size</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,8 +45,10 @@
                             <?php $playerNames[] = $player->full_name ?>
                             <tr>
                                 <td>{{ $player->full_name }}</td>
-                                <td>{{ \BibleBowl\Presentation\Describer::describeGrade($registration->grade($player->id)) }}</td>
-                                <td>{{ \BibleBowl\Presentation\Describer::describeShirtSize($registration->shirtSize($player->id)) }}</td>
+                                <td class="text-center hidden-sm hidden-xs">{{ \BibleBowl\Presentation\Describer::describeGrade($registration->grade($player->id)) }}</td>
+                                <td class="text-center visible-sm visible-xs">{{ \BibleBowl\Presentation\Describer::describeGradeShort($registration->grade($player->id)) }}</td>
+                                <td class="text-center hidden-sm hidden-xs">{{ \BibleBowl\Presentation\Describer::describeShirtSize($registration->shirtSize($player->id)) }}</td>
+                                <td class="text-center visible-sm visible-xs">{{ $registration->shirtSize($player->id) }}</td>
                             </tr>
                         @endforeach
                         </tbody>

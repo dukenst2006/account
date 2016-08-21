@@ -7,11 +7,10 @@
         <div class="grid simple">
             <div class="grid-title no-border">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-8 col-xs-8">
                         <h3 class="semi-bold p-t-10 p-b-10">{{ $player->full_name }}</h3>
-                        <div class="b-grey b-b m-t-10"></div>
                     </div>
-                    <div class="col-md-4 text-right p-r-20 p-t-15 text-black">
+                    <div class="col-md-4 text-right p-r-20 p-t-15 text-black col-xs-4">
                         {!! HTML::genderIcon($player->gender) !!} {!! \BibleBowl\Presentation\Describer::describeGender($player->gender) !!}<br/>
                         {{ $player->age() }} years old
                     </div>
@@ -39,11 +38,11 @@
                 <div class="row m-t-10">
                     <div class="col-md-12">
                         <h5><i class="fa fa-users"></i> <span class="semi-bold">Seasons</span></h5>
-                        <table class="table no-more-tables">
+                        <table class="table">
                             <tr>
                                 <th>Season</th>
                                 <th class="text-center">Grade</th>
-                                <th class="text-center">T-Shirt Size</th>
+                                <th class="text-center hidden-xs">T-Shirt Size</th>
                                 <th class="text-center">Group</th>
                             </tr>
                             @foreach ($player->seasons()->orderBy('id', 'desc')->get() as $season)
@@ -57,7 +56,7 @@
                                         <td class="text-center">
                                             {{ \BibleBowl\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center hidden-xs">
                                             {{ $groupRegisteredWith->pivot->shirt_size }}
                                         </td>
                                     @else

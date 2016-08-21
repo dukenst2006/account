@@ -15,7 +15,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-offset-3 col-md-6">
+            <div class="col-md-offset-3 col-md-6 col-sm-6 col-sm-offset-3">
                 <div class="grid simple">
                     {!! Form::open(['url' => ['/admin/settings'], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
                     <div class="grid-title no-border">
@@ -35,13 +35,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12 p-b-20">
                                 <label class="form-label">Registration Fees</label>
                                 <span class="help"></span>
                                 <div class="controls p-b-20">
-                                    <table class="table no-more-tables">
+                                    <table class="table">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Program</th>

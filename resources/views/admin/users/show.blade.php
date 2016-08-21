@@ -7,13 +7,13 @@
         <div class="grid simple">
             <div class="grid-title no-border">
                 <div class="row">
-                    <div class="col-md-1 col-sm-4">
+                    <div class="col-md-1 col-sm-1 hidden-xs">
                         <img src="{{ Gravatar::src($user->email, 69) }}"  alt="" width="69" height="69" />
                     </div>
-                    <div class="col-md-6 col-sm-6">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
                         <h3 class="semi-bold p-t-10 p-b-10 m-l-15">{{ $user->full_name }}</h3>
                     </div>
-                    <div class="col-md-5 col-sm-12 text-right p-r-20 p-t-15">
+                    <div class="col-md-5 col-sm-5 text-right p-r-20 p-t-15 col-xs-6">
                         @if(!is_null($user->phone))
                             <a href='tel:+1{{ $user->phone }}'>{{ HTML::formatPhone($user->phone) }}</a><br/>
                         @endif

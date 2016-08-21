@@ -8,10 +8,10 @@
             <div class="grid-body dataTables_wrapper">
                 <form method="get">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-xs-4">
                         <h4 class="semi-bold">Groups</h4>
                     </div>
-                    <div class="input-group transparent col-md-3 col-md-offset-9">
+                    <div class="input-group transparent col-md-3 col-md-offset-9 col-xs-8">
                         <input type="text" class="form-control" placeholder="Search by name" name="q" value="{{ Input::get('q') }}"/>
                         <span class="input-group-addon">
                             <i class="fa fa-search"></i>
