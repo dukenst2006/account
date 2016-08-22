@@ -45,6 +45,21 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
+    public function cantCreateSamePlayerTwice()
+    {
+        $player = $this->guardian->players()->first();
+        $this
+            ->visit('/player/create')
+            ->type($player->last_name, 'last_name')
+            ->type('05/14/2001', 'birthday')
+            ->type($player->first_name, 'first_name')
+            ->press('Save')
+            ->see("You've already added this player");
+    }
+
+    /**
+     * @test
+     */
     public function canEditPlayers()
     {
         $player = $this->guardian->players()->first();

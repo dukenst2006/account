@@ -23,7 +23,9 @@ class PlayerController extends Controller
      */
     public function store(Request $request, PlayerCreator $playerCreator)
     {
-        $this->validate($request, Player::validationRules());
+        $rules = Player::validationRules();
+        $rules['first_name'] = $rules['first_name'].'|guardian_isnt_duplicate_player';
+        $this->validate($request, $rules, Player::validationMessages());
 
         $player = $playerCreator->create(Auth::user(), $request->all());
 

@@ -1,9 +1,11 @@
 <?php namespace BibleBowl;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rhumsaa\Uuid\Uuid;
+use Validator;
 
 /**
  * BibleBowl\Player
@@ -73,11 +75,30 @@ class Player extends Model
 
     public static function validationRules()
     {
+        // check to see if the current user already has a player with this same name
+        // Admins can add duplicate players, but parents can't
+        Validator::extend('guardian_isnt_duplicate_player', function ($attribute, $value, $parameters, $validator) {
+            $data = $validator->getData();
+            $conditions = [
+                'guardian_id'   => Auth::user()->id,
+                'first_name'    => $data['first_name'],
+                'last_name'     => $data['last_name']
+            ];
+            return Player::where($conditions)->count() == 0;
+        });
+
         return [
             'first_name'    => 'required|max:32',
             'last_name'     => 'required|max:32',
             'gender'        => 'required',
             'birthday'      => 'required|date'
+        ];
+    }
+
+    public static function validationMessages()
+    {
+        return [
+            'first_name.guardian_isnt_duplicate_player' => "You've already added this player"
         ];
     }
 
