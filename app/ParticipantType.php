@@ -14,6 +14,11 @@ class ParticipantType extends Model
 
     protected $guarded = ['id'];
 
+    public function getSummaryAttribute()
+    {
+        return str_replace('Spectator - ', '', $this->name);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -13,21 +13,26 @@ class PaymentProcessor
     private $receipt;
 
     /**
-     * @param User $user
      * @param $token
      * @param $total
      * @param Collection $receiptItems
+     * @param User $user
      * @return bool
      */
-    public function pay(User $user, $token, $total, Collection $receiptItems)
+    public function pay($token, $total, Collection $receiptItems, User $user = null)
     {
         DB::beginTransaction();
 
-        $order = Receipt::create([
-            'total'         => $total,
-            'user_id'       => $user->id,
-            'address_id'    => $user->primary_address_id
-        ]);
+        $receiptDetails = [
+            'total' => $total,
+        ];
+
+        if ($user != null) {
+            $receiptDetails['user_id']      = $user->id;
+            $receiptDetails['address_id']   = $user->primary_address_id;
+        }
+
+        $order = Receipt::create($receiptDetails);
         $order->items()->saveMany($receiptItems);
 
         /** @var \Omnipay\Stripe\Message\Response $response */

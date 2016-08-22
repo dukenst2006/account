@@ -2,6 +2,7 @@
 
 use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Tournament;
+use Carbon\Carbon;
 
 class GroupRegistrationTest extends TestCase
 {
@@ -88,5 +89,99 @@ class GroupRegistrationTest extends TestCase
         $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
         $this->assertEquals($shirtSize, $tournamentQuizmaster->shirt_size);
         $this->assertEquals($gamesQuizzed, $tournamentQuizmaster->quizzing_preferences->gamesQuizzedThisSeason());
+    }
+
+    /**
+     * @test
+     */
+    public function cantAddQuizmastersWhenRegistrationClosed()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournament->update([
+            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->dontSee('Add Quizmaster');
+    }
+
+    /**
+     * @test
+     */
+    public function canRegisterHeadCoachAsSpectator()
+    {
+        $tournament = Tournament::firstOrFail();
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family');
+
+        // verify asked if I want to register myself
+        $this->see("planning to attend this tournament you");
+
+        $tournament->spectators()->update([
+            'user_id' => null
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family')
+            ->check('registering_as_current_user')
+            ->press('Save & Continue')
+            ->see('Adult has been added')
+            ->see($this->headCoach()->full_name);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family')
+            ->dontSee("planning to attend this tournament you");
+    }
+
+    /**
+     * @test
+     */
+    public function canRegisterSpectator()
+    {
+        $tournament = Tournament::firstOrFail();
+
+        $firstName = time();
+        $lastName = microtime();
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->click('Add Adult/Family')
+            ->press('Save & Continue')
+            ->see('The first name field is required')
+            ->see('The email field is required')
+            ->see('The street address field is required')
+            ->see('The zip code field is required')
+
+            ->type($firstName, 'first_name')
+            ->type($lastName, 'last_name')
+            ->type('asdf@asdf.com', 'email')
+            ->type('123 Test Street', 'address_one')
+            ->type('40241', 'zip_code')
+
+            ->press('Save & Continue')
+            ->see('Adult has been added')
+            ->see($this->headCoach()->full_name);
+    }
+
+    /**
+     * @test
+     */
+    public function cantAddSpectatorsWhenRegistrationClosed()
+    {
+        $tournament = Tournament::firstOrFail();
+        $tournament->update([
+            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/group')
+            ->dontSee('Add Adult/Family');
     }
 }

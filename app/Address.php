@@ -118,8 +118,8 @@ class Address extends Model
     public static function validationMessages()
     {
         return [
-            'address_one.required'  => 'Street address is required',
-            'zip_code.regex'        => 'Zip code is invalid'
+            'address_one.required'  => 'The street address field is required',
+            'zip_code.regex'        => 'The zip code field is invalid'
         ];
     }
 
@@ -153,6 +153,14 @@ class Address extends Model
     public function invoices()
     {
         return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function spectators()
+    {
+        return $this->hasMany(Spectator::class);
     }
 
     public function __toString()

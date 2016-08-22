@@ -1,6 +1,7 @@
 <?php namespace BibleBowl\Users\Auth;
 
 use Auth;
+use BibleBowl\Cart;
 use BibleBowl\Group;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
@@ -12,6 +13,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
 
     const SEASON = 'season';
     const GROUP = 'group';
+    const CART = 'cart';
     const REGISTER_WITH_GROUP = 'register_with_group';
     const ADMIN_USER = 'admin_user';
     const SEASONAL_GROUP_REGISTRATION = 'seasonal_group_registration';
@@ -69,6 +71,16 @@ class SessionManager extends \Illuminate\Session\SessionManager
         }
 
         return $this->group;
+    }
+
+    public function doesntHaveGroup() : bool
+    {
+        return !$this->hasGroup();
+    }
+
+    public function hasGroup() : bool
+    {
+        return $this->get(self::GROUP, null) != null;
     }
 
     public function setGroup(Group $group = null)

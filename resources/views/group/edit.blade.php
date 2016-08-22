@@ -5,7 +5,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-offset-1 col-md-10 horizontal-menu">
+            <div class="col-md-offset-1 col-md-10 col-sm-10 col-sm-offset-1 col-xs-12 horizontal-menu">
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <h3 class="semi-bold p-t-10 p-b-10">{{ $group->name }}</h3>

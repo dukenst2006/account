@@ -14,7 +14,7 @@
                         {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
                         <div class="row">
                             <div class="col-md-12 p-t-10">
-                                <table class="table no-more-tables">
+                                <table class="table">
                                     <thead>
                                     <tr>
                                         <th style="width:10%"></th>

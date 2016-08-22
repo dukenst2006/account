@@ -73,6 +73,25 @@ class RouteServiceProvider extends ServiceProvider
             # the group's registration link
             Route::get('group/{guid}/register', 'Seasons\PlayerRegistrationController@rememberGroup');
 
+            Route::group([
+                'prefix'    => 'tournaments/{slug}',
+                'namespace' => 'Tournaments'
+            ], function () {
+                Route::group([
+                    'prefix'    => 'registration',
+                    'namespace' => 'Registration'
+                ], function () {
+                    // spectators
+                    Route::get('spectator', 'SpectatorController@getRegistration');
+                    Route::post('standalone-spectator', 'SpectatorController@postStandaloneRegistration');
+                    Route::post('spectator', 'SpectatorController@postRegistration');
+                });
+            });
+
+            Route::get('cart', 'ShopController@viewCart');
+            Route::post('cart', 'ShopController@processPayment');
+
+
             # Must be logged in to access these routes
             Route::group(['middleware' => 'auth'], function () {
                 Route::get('logout', 'Auth\AuthController@getLogout');
@@ -184,13 +203,16 @@ class RouteServiceProvider extends ServiceProvider
                         'prefix'    => 'registration',
                         'namespace' => 'Registration'
                     ], function () {
+                        // quizmasters
                         Route::get('quizmaster', 'QuizmasterController@getRegistration');
                         Route::post('standalone-quizmaster', 'QuizmasterController@postStandaloneRegistration');
                         Route::post('quizmaster', 'QuizmasterController@postRegistration');
 
+
                         Route::get('quizmaster-preferences/{guid}', 'QuizmasterController@getPreferences');
                         Route::post('quizmaster-preferences/{guid}', 'QuizmasterController@postPreferences');
 
+                        // groups
                         Route::get('group/choose-teams', 'GroupController@chooseTeams');
                         Route::get('/group/teams/{teamSet}', 'GroupController@setTeamSet');
                         Route::get('group/quizmasters', 'GroupController@quizmasters');
@@ -252,12 +274,6 @@ class RouteServiceProvider extends ServiceProvider
                         Route::patch('settings', 'SettingsController@update');
                     });
                 });
-            });
-
-            Route::group([
-                'prefix'    => 'tournaments'
-            ], function () {
-                Route::get('{slug}', 'TournamentsController@show');
             });
         });
 

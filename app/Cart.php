@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
+use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrationPaymentReceived;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
@@ -43,6 +44,10 @@ class Cart extends Model
         'user_id'
     ];
 
+    protected $attributes = [
+        'user_id' => null
+    ];
+
     protected $casts = [
         'metadata' => 'array',
     ];
@@ -59,6 +64,7 @@ class Cart extends Model
 
         // tournament registrations
         QuizmasterRegistrationPaymentReceived::EVENT    => QuizmasterRegistrationPaymentReceived::class,
+        SpectatorRegistrationPaymentReceived::EVENT     => SpectatorRegistrationPaymentReceived::class,
     ];
 
     /**

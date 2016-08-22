@@ -66,12 +66,17 @@
                             <div class="col-md-8 col-sm-8">
                                 @include('partials.messages')
                                 <h4>Register a...</h4>
+                                @if($tournament->isRegistrationOpen())
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-4 col-xs-4 text-center">
-                                        @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
-                                            <a href="#" class="btn btn-success btn-cons">Adult / Family</a>
-                                        @endif
-                                    </div>
+                                    @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
+                                        <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                                            @if(Auth::user() !== null && $tournament->isRegisteredAsSpectator(Auth::user()))
+                                                <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a spectator">Adult / Family</button>
+                                            @else
+                                                <a href="/tournaments/{{ $tournament->slug }}/registration/spectator" class="btn btn-success btn-cons" id="register-spectator">Adult / Family</a>
+                                            @endif
+                                        </div>
+                                    @endif
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         @if(Auth::user() !== null)
                                             @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
@@ -97,6 +102,11 @@
                                     </div>
                                     @endif
                                 </div>
+                                @else
+                                    @include('tournaments.partials.closed-registration', [
+                                        'tournament' => $tournament
+                                    ])
+                                @endif
                                 <hr/>
                                 {!! $tournament->details !!}
                             </div>

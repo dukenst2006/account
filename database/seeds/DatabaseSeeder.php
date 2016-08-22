@@ -33,6 +33,9 @@ class DatabaseSeeder extends Seeder {
     /** @var Season */
     private $season;
 
+    /** @var \Faker\Generator */
+    private $faker;
+
     /**
      * @return bool
      */
@@ -48,6 +51,8 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        $this->faker = Factory::create();
+
         // load ModelFactory.php so functions can be used later
         factory(User::class);
 
@@ -152,7 +157,6 @@ class DatabaseSeeder extends Seeder {
 
     private function seedGuardian()
     {
-        $faker = Factory::create();
         $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
         $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
         $savedAddresses = [];
@@ -179,7 +183,7 @@ class DatabaseSeeder extends Seeder {
             'first_name'    => 'David',
             'last_name'     => 'Webb',
             'gender'        => 'M',
-            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
 
         $BKuhlGuardian = User::findOrFail($BKuhlGuardian->id);
@@ -187,21 +191,21 @@ class DatabaseSeeder extends Seeder {
             'first_name'    => 'Ethan',
             'last_name'     => 'Smith',
             'gender'        => 'M',
-            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
 
         $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Olivia',
             'last_name'     => 'Brown',
             'gender'        => 'F',
-            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
 
         $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Brad',
             'last_name'     => 'Anderson',
             'gender'        => 'M',
-            'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
         ]);
     }
 
@@ -310,8 +314,8 @@ class DatabaseSeeder extends Seeder {
             'name'                  => $tournamentName,
             'start'                 => Carbon::now()->addMonths(5)->format('m/d/Y'),
             'end'                   => Carbon::now()->addMonths(7)->format('m/d/Y'),
-            'registration_start'    => Carbon::now()->addMonths(3)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->addMonths(4)->format('m/d/Y'),
+            'registration_start'    => Carbon::now()->subMonths(3)->format('m/d/Y'),
+            'registration_end'      => Carbon::now()->addDays(4)->format('m/d/Y'),
             'creator_id'            => $director->id,
             'details'               => '<h3>Nearby Hotels</h3><p>There are a few nearby:</p><ul><li>Option #1</li></ul>',
             'max_teams'             => 64,
@@ -355,8 +359,10 @@ class DatabaseSeeder extends Seeder {
             'fee'                   => '60.00',
             'onsite_fee'            => '75.00'
         ]);
+
+        $groupId = 2;
         $tournament->tournamentQuizmasters()->create([
-            'group_id'      => 2,
+            'group_id'      => $groupId,
             'first_name'    => 'Keith',
             'last_name'     => 'Webb',
             'email'         => 'kwebb@domain.com',
@@ -366,13 +372,69 @@ class DatabaseSeeder extends Seeder {
         $user = User::where('email', self::QUIZMASTER_EMAIL)->first();
         $receipt = $this->seedReceipt($user);
         $tournament->tournamentQuizmasters()->create([
-            'group_id'      => 2,
+            'group_id'      => $groupId,
             'receipt_id'    => $receipt->id,
             'first_name'    => 'Warner',
             'last_name'     => 'Jackson',
             'email'         => 'wjackson@domain.com',
             'gender'        => 'F'
         ]);
+
+        // guest spectators
+        $director = User::where('email', self::DIRECTOR_EMAIL)->first();
+        $tournament->spectators()->create([
+            'group_id'      => $groupId,
+            'receipt_id'    => $receipt->id,
+            'first_name'    => 'Sarah',
+            'last_name'     => 'Jones',
+            'shirt_size'    => 'L',
+            'email'         => 'sjones@domain.com',
+            'gender'        => 'F',
+            'address_id'    => $director->primary_address_id,
+        ]);
+        $tournament->spectators()->create([
+            'group_id'      => $groupId,
+            'first_name'    => 'Jonathan',
+            'last_name'     => 'Wicker',
+            'shirt_size'    => 'L',
+            'email'         => 'jwicker@domain.com',
+            'gender'        => 'M',
+            'address_id'    => $director->primary_address_id
+        ]);
+
+        // family spectators
+        $tournament->spectators()->create([
+            'group_id'          => $groupId,
+            'user_id'           => $director->id,
+            'receipt_id'    => $receipt->id,
+            'spouse_first_name' => 'Michelle',
+            'spouse_gender'     => 'F',
+            'spouse_shirt_size' => 'M',
+        ]);
+        $spectator = $tournament->spectators()->create([
+            'group_id'          => $groupId,
+            'first_name'        => 'Clark',
+            'last_name'         => 'Larkson',
+            'shirt_size'        => 'XL',
+            'email'             => 'clarkson@domain.com',
+            'gender'            => 'M',
+            'spouse_first_name' => 'Lucy',
+            'spouse_gender'     => 'F',
+            'spouse_shirt_size' => 'M',
+        ]);
+        $spectator->minors()->create([
+            'name'          => 'Jonathan',
+            'age'           => '6',
+            'shirt_size'    => 'YS',
+            'gender'        => 'M',
+        ]);
+        $spectator->minors()->create([
+            'name'          => 'Christine',
+            'age'           => '12',
+            'shirt_size'    => 'YM',
+            'gender'        => 'F',
+        ]);
+
     }
 
     private function seedReceipt(User $user) : Receipt

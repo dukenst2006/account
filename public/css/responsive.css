@@ -1629,40 +1629,6 @@ th .tooltip {
   .inner-menu-always-open .page-sidebar .page-sidebar-wrapper {
     height: auto;
   }
-  /** Horizontal Menu **/
-  .horizontal-menu .bar {
-    display: none;
-  }
-  /*** Horizontal Menu **/
-  .horizontal-menu .bar {
-    background-color: #fff;
-  }
-  .horizontal-menu .bar .bar-inner {
-    display: block;
-    max-height: 400px;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
-  }
-  .horizontal-menu .bar .bar-inner > ul > li {
-    display: block;
-  }
-  .horizontal-menu .bar .bar-inner > ul > li .classic {
-    position: relative;
-    background-color: transparent;
-    top: 0;
-  }
-  .horizontal-menu .bar .bar-inner > ul > li .mega,
-  .horizontal-menu .bar .bar-inner > ul > li.horizontal {
-    position: relative;
-  }
-  .horizontal-menu .bar .bar-inner > ul > li > .horizontal {
-    position: relative;
-    top: 0;
-    border-bottom: 0;
-  }
-  .horizontal-menu .bar .bar-inner > ul > li > .horizontal li {
-    display: block;
-  }
   .chat-window-wrapper {
     visibility: hidden;
     opacity: 0;

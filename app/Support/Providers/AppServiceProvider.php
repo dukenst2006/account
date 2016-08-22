@@ -8,11 +8,10 @@ use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
-use Monolog\Handler\LogEntriesHandler;
 use URL;
 use Illuminate\Support\ServiceProvider;
 use Silber\Bouncer\Database\Models;
-use Log;
+use Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -141,6 +140,35 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('endcss', function () {
             return "<?php \\".Html::class."::\$css .= ob_get_clean(); ?>";
         });
+
+        /**
+         * Describe a collection as a comma delimited list
+         *
+         * Usage: @describe(Collection, string, string)
+         */
+        Blade::directive('describe', function ($params) {
+            // remove () which wraps this
+            $params = substr($params, 0, -1);
+            $params = substr($params, 1);
+
+            $params = explode(', ', $params);
+
+            $toDescribe = $params[0];
+            $descriptor = $params[1] ?? 'and';
+            $attribute = $params[2] ?? 'name';
+
+            return <<<EOF
+            <?php 
+                \$collection = $toDescribe;
+                \$last = \$collection->pop();
+                if (\$collection->count() > 0) {
+                    echo \$collection->implode('$attribute', ', ').' $descriptor '.\$last->$attribute;
+                } else {
+                    echo \$last->$attribute;
+                }
+             ?>
+EOF;
+        });
     }
 
     /**
@@ -165,9 +193,22 @@ class AppServiceProvider extends ServiceProvider
 
         // always get the cart for the current user
         $this->app->singleton(Cart::class, function ($app) {
-            return Cart::firstOrCreate([
-                'user_id' => Auth::user()->id
-            ]);
+            if (Auth::user() != null ) {
+                return Cart::firstOrCreate([
+                    'user_id' => Auth::user()->id
+                ]);
+            }
+
+            // using a set() here to discourage the use of
+            // accessing the cart via the session facade
+            if (Session::has(SessionManager::CART)) {
+                $cart = Cart::find(Session::get(SessionManager::CART));
+            } else {
+                $cart = Cart::firstOrCreate([]);
+                Session::set(SessionManager::CART, $cart->id);
+            }
+
+            return $cart;
         });
 
         // putting this in the PresentServiceProvider causes issues

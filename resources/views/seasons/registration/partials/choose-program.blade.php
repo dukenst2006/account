@@ -10,7 +10,7 @@
             <div class="grid-body no-border" style="padding-bottom: 10px; padding-top: 20px">
                 {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
                 <p>The below players are eligible to participate in more than one program.  Please choose the program you'd like them to participate in.</p>
-                <table class="table no-more-tables">
+                <table class="table">
                     <thead>
                     <tr>
                         <th></th>

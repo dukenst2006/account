@@ -2,6 +2,7 @@
 
 use Auth;
 use BibleBowl\Ability;
+use BibleBowl\Tournament;
 use Bouncer;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
@@ -101,6 +102,14 @@ class DashboardController extends Controller
                 'playerCount' => $playerCount,
                 'averageGroupSize' =>  $metrics->averageGroupSize($playerCount),
             ]);
+        });
+        
+        \View::creator('dashboard.tournaments', function (View $view) {
+            $season = Session::season();
+            $view->with(
+                'tournaments',
+                Tournament::visible(Session::group()->program_id, $season)->get()
+            );
         });
     }
 }

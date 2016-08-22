@@ -16,7 +16,7 @@ class QuizmasterRegistrar
         array $attributes = null,
         User $user = null,
         Group $group = null
-    ) {
+    ) : TournamentQuizmaster {
         $tournamentQuizmaster = app(TournamentQuizmaster::class, [[
             'tournament_id' => $tournament->id,
             'group_id'      => $group == null ? null : $group->id
