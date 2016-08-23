@@ -65,7 +65,7 @@
             @if($hasGroupToRegisterWith)
                 Once you've added all your students, <a href="/register/players" style="text-decoration: underline">register them with {{ $groupToRegisterWith->name }}</a> for the {{ $season->name }} season.
             @else
-                Don't forget to register your students for this season with your local group by clicking "Register".
+                Join your local group for the {{ $season->name }} season by clicking "Register".
             @endif
             </div>
         @endif
