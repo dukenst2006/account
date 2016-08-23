@@ -248,10 +248,10 @@ class Group extends Model
         });
 
         return [
-            'name'            => 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
-            'program_id'    => 'required',
-            'owner_id'        => 'required|exists:users,id',
-            'address_id'    => 'required|exists:addresses,id'
+            'name'              => 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
+            'program_id'        => 'required',
+            'owner_id'          => 'required|exists:users,id',
+            'address_id'        => 'required|exists:addresses,id'
         ];
     }
 

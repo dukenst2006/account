@@ -73,6 +73,8 @@ class RouteServiceProvider extends ServiceProvider
             # the group's registration link
             Route::get('group/{guid}/register', 'Seasons\PlayerRegistrationController@rememberGroup');
 
+            Route::get('invitation/{guid}', 'Seasons\PlayerRegistrationController@rememberGroup');
+
             Route::group([
                 'prefix'    => 'tournaments/{slug}',
                 'namespace' => 'Tournaments'
@@ -164,6 +166,9 @@ class RouteServiceProvider extends ServiceProvider
                     Route::get('email', 'SettingsController@editEmail');
                     Route::post('email', 'SettingsController@postEmail');
                     Route::post('test-email', 'SettingsController@sendTestEmail');
+                    Route::get('users', 'SettingsController@listUsers');
+                    Route::get('users/invite', 'SettingsController@getUserInvite');
+                    Route::post('users/invite', 'SettingsController@sendUserInvite');
                     Route::get('integrations', 'SettingsController@editIntegrations');
                     Route::post('integrations', 'SettingsController@postIntegrations');
                 });
