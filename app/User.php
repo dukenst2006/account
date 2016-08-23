@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Rhumsaa\Uuid\Uuid;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
-use BibleBowl\Competition\Tournaments\Quizmasterable;
-use BibleBowl\Competition\Tournaments\Spectateable;
 
 /**
  * BibleBowl\User
@@ -252,6 +250,22 @@ class User extends Model implements
     public function invoices()
     {
         return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitationsReceived()
+    {
+        return $this->hasMany(Invitation::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitationsSent()
+    {
+        return $this->hasMany(Invitation::class, 'inviter_id')->orderBy('created_at', 'DESC');
     }
 
     /**

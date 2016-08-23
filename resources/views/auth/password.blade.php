@@ -29,7 +29,7 @@
 									<div class="controls">
 										<div class="input-with-icon right">
 											<i class="icon-email"></i>
-											<input type="text" name="email" class="form-control" value="{{ old('email') }}" autofocus>
+											<input type="email" name="email" class="form-control" value="{{ old('email') }}" autofocus>
 										</div>
 									</div>
 								</div>

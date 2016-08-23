@@ -41,11 +41,7 @@
                     <li class="group-menu">
                         <div class="group-menu">
                             <div class="groupname semi-bold">
-                                @if(Session::group()->isOwner(Auth::user()))
-                                    <a href="/group/{{ Session::group()->id }}/edit">{{ Session::group()->name }}</a>
-                                @else
-                                    {{ Session::group()->name }}
-                                @endif
+                                <a href="/group/{{ Session::group()->id }}/edit">{{ Session::group()->name }}</a>
                             </div>
                             <div class="grouptype" class="faded"> {{ Session::group()->program->name }}</div>
                         </div>

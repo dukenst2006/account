@@ -1,15 +1,15 @@
 <?php namespace BibleBowl\Http\Controllers;
 
 use Auth;
-use BibleBowl\Ability;
 use BibleBowl\Tournament;
-use Bouncer;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Role;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Session;
 use Redirect;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -41,8 +41,19 @@ class DashboardController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // accept any pending invitations
+        if (Session::hasPendingInvitation()) {
+            DB::beginTransaction();
+            $invitation = Session::pendingInvitation();
+            app($invitation->type, [$invitation])->accept(Auth::user());
+            Session::setPendingInvitation();
+            DB::commit();
+
+            return redirect('dashboard')->withFlashSuccess('Invitation has been accepted');
+        }
+        
         // if the user should be redirected, lets do that now
         if (Session::redirectToAfterAuth() != null) {
             $redirectTo = Session::redirectToAfterAuth();

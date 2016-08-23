@@ -19,6 +19,7 @@ use BibleBowl\EventType;
 use BibleBowl\ParticipantType;
 use BibleBowl\GroupType;
 use BibleBowl\Receipt;
+use BibleBowl\Invitation;
 
 class DatabaseSeeder extends Seeder {
 
@@ -68,7 +69,7 @@ class DatabaseSeeder extends Seeder {
         $director = $this->seedAdmin();
         $this->seedGuardian();
         $this->seedQuizmaster();
-        $this->seedHeadCoach();
+        $headCoach = $this->seedHeadCoach();
 
         $this->call('AcceptanceTestingSeeder');
 
@@ -77,6 +78,14 @@ class DatabaseSeeder extends Seeder {
         }
 
         $this->seedTournament($director);
+
+        Invitation::create([
+            'type'          => Invitation::TYPE_MANAGE_GROUP,
+            'email'         => null,
+            'user_id'       => $director->id,
+            'inviter_id'    => $headCoach->id,
+            'group_id'      => 2
+        ]);
 
         self::$isSeeding = false;
     }
@@ -153,6 +162,8 @@ class DatabaseSeeder extends Seeder {
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
         $group = $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address);
         $this->seedTeamSet($group);
+
+        return $BKuhlHeadCoach;
     }
 
     private function seedGuardian()

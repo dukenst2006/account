@@ -141,6 +141,14 @@ class Group extends Model
         return $this->hasMany(TournamentQuizmaster::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class);
+    }
+
     public function wordpressLocation()
     {
         return Location::where('location_extrafields', 'like', '%'.$this->guid.'%')->first();
@@ -248,10 +256,10 @@ class Group extends Model
         });
 
         return [
-            'name'            => 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
-            'program_id'    => 'required',
-            'owner_id'        => 'required|exists:users,id',
-            'address_id'    => 'required|exists:addresses,id'
+            'name'              => 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
+            'program_id'        => 'required',
+            'owner_id'          => 'required|exists:users,id',
+            'address_id'        => 'required|exists:addresses,id'
         ];
     }
 
@@ -310,6 +318,27 @@ class Group extends Model
     public function isOwner(User $user)
     {
         return $user->id == $this->owner_id;
+    }
+
+    public function addHeadCoach(User $user)
+    {
+        $user->groups()->attach($this->id);
+
+        // make the owner a head coach if they aren't already
+        if ($user->isNot(Role::HEAD_COACH)) {
+            $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
+            $user->assign($role);
+        }
+    }
+
+    public function removeHeadCoach(User $user)
+    {
+        $user->groups()->detach($this->id);
+
+        if ($user->groups()->count() == 0) {
+            $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
+            $user->retract($role);
+        }
     }
 
     public function isActive()

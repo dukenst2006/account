@@ -21,13 +21,7 @@ class GroupCreator
         DB::beginTransaction();
 
         $group = Group::create($attributes);
-        $owner->groups()->attach($group->id);
-
-        // make the owner a head coach if they aren't already
-        if ($owner->isNot(Role::HEAD_COACH)) {
-            $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
-            $owner->assign($role);
-        }
+        $group->addHeadCoach($owner);
 
         DB::commit();
 

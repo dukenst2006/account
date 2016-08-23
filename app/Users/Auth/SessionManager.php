@@ -3,6 +3,7 @@
 use Auth;
 use BibleBowl\Cart;
 use BibleBowl\Group;
+use BibleBowl\Invitation;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
 use BibleBowl\User;
@@ -14,6 +15,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const SEASON = 'season';
     const GROUP = 'group';
     const CART = 'cart';
+    const PENDING_INVITATION = 'pending_invitation';
     const REGISTER_WITH_GROUP = 'register_with_group';
     const ADMIN_USER = 'admin_user';
     const SEASONAL_GROUP_REGISTRATION = 'seasonal_group_registration';
@@ -182,5 +184,24 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function adminUser()
     {
         return User::findOrFail($this->get(self::ADMIN_USER));
+    }
+
+    public function hasPendingInvitation() : bool
+    {
+        return $this->get(self::PENDING_INVITATION, 0) > 0;
+    }
+
+    public function pendingInvitation() : Invitation
+    {
+        return app(Invitation::class)->find($this->get(self::PENDING_INVITATION));
+    }
+
+    public function setPendingInvitation(Invitation $invitation = null)
+    {
+        if ($invitation == null) {
+            return $this->set(self::PENDING_INVITATION, $invitation);
+        }
+
+        $this->set(self::PENDING_INVITATION, $invitation->id);
     }
 }
