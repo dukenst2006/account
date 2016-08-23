@@ -209,9 +209,9 @@ class Form extends FormBuilder
             '5' => Describer::describeGrade(5)
         ];
         $middleSchool = [
-            '6' => Describer::describeGrade(3),
-            '7' => Describer::describeGrade(4),
-            '8' => Describer::describeGrade(5)
+            '6' => Describer::describeGrade(6),
+            '7' => Describer::describeGrade(7),
+            '8' => Describer::describeGrade(8)
         ];
         $highSchool = [
             '9' => Describer::describeGrade(9),
