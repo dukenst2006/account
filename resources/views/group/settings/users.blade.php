@@ -21,7 +21,7 @@
                     <div class="grid-body no-border p-t-20">
                         <div class="row m-b-10">
                             <div class="col-md-8">
-                                Invite other users to help administer the group's roster, teams and tournament registrations.
+                                Invite other users to help administer the group's roster, teams, tournament registrations and more.
                             </div>
                             <div class="col-md-4 text-right">
                                 <a href="/group/{{ $group->id }}/settings/users/invite" class="btn btn-primary">Invite User</a>
