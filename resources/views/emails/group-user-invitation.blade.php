@@ -6,7 +6,7 @@
         'header' => $header
     ])
 
-    <p>{{ $invitationText }}</p>
+    <p>{!! $invitationText !!}</p>
     <p>{!! EmailTemplate::link(url('invitation/'.$invitation->guid.'/accept'), 'Accept') !!} or {!! EmailTemplate::link(url('invitation/'.$invitation->guid.'/decline'), 'Decline') !!}</p>
 
 @endsection
