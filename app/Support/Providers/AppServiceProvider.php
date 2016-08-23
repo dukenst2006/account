@@ -3,6 +3,8 @@
 use Auth;
 use BibleBowl\Cart;
 use BibleBowl\Ability;
+use BibleBowl\Groups\HeadCoachInvitation;
+use BibleBowl\Invitation;
 use BibleBowl\Presentation\EmailTemplate;
 use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
@@ -210,6 +212,12 @@ EOF;
 
             return $cart;
         });
+
+        // types of invitations that can be accepted
+        $this->app->bind(
+            Invitation::TYPE_MANAGE_GROUP,
+            HeadCoachInvitation::class
+        );
 
         // putting this in the PresentServiceProvider causes issues
         $this->app->bind('email.template', function () {

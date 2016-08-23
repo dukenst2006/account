@@ -6,6 +6,8 @@ use BibleBowl\Groups\RegistrationConfirmation;
 use BibleBowl\Groups\Settings;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
+use BibleBowl\Http\Requests\Groups\RemoveUserRequest;
+use BibleBowl\Http\Requests\Groups\RetractUserInviteRequest;
 use BibleBowl\Http\Requests\Groups\UserInviteRequest;
 use BibleBowl\Http\Requests\MailchimpIntegrationRequest;
 use BibleBowl\Invitation;
@@ -84,13 +86,25 @@ class SettingsController extends Controller
         $group = Session::group();
         return view('group.settings.users')
             ->withGroup($group)
-            ->withUsers($group->users);
+            ->withUsers($group->users)
+            ->with('pendingInvitations', $group->invitations()->with('user')->where('status', Invitation::SENT)->get());
     }
 
     public function getUserInvite()
     {
         return view('group.settings.user-invite')
             ->withGroup(Session::group());
+    }
+
+    public function removeUser(RemoveUserRequest $request, $userId)
+    {
+        $group = Session::group();
+
+        DB::beginTransaction();
+        $group->removeHeadCoach(User::findOrFail($userId));
+        DB::commit();
+
+        return redirect()->back()->withFlashSuccess('User has been removed');
     }
 
     public function sendUserInvite(UserInviteRequest $request)
@@ -100,12 +114,6 @@ class SettingsController extends Controller
 
         DB::beginTransaction();
 
-        $invitation = Invitation::create([
-            'type'      => Invitation::TYPE_MANAGE_GROUP,
-            'email'     => is_null($user) ? $request->get('email') : null,
-            'user_id'   => is_null($user) ? null : $user
-        ]);
-
         $recipientName = null;
         if (is_null($user)) {
             $recipientEmail = $request->get('email');
@@ -113,6 +121,14 @@ class SettingsController extends Controller
             $recipientEmail = $user->email;
             $recipientName = $user->full_name;
         }
+
+        $invitation = Invitation::create([
+            'type'          => Invitation::TYPE_MANAGE_GROUP,
+            'email'         => is_null($user) ? $request->get('email') : null,
+            'user_id'       => is_null($user) ? null : $user->id,
+            'inviter_id'    => Auth::user()->id,
+            'group_id'      => $group->id
+        ]);
 
         Mail::queue(
             'emails.group-user-invitation',
@@ -131,5 +147,13 @@ class SettingsController extends Controller
 
         return redirect('/group/'.$group->id.'/settings/users')
             ->withFlashSuccess('Invitation has been sent');
+    }
+
+    public function retractInvite(RetractUserInviteRequest $request, $groupId, $invitationId)
+    {
+        Invitation::where('id', $invitationId)->delete();
+
+        return redirect('/group/'.$request->route('group').'/settings/users')
+            ->withFlashSuccess('Invitation has been retracted');
     }
 }

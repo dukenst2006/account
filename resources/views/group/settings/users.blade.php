@@ -53,13 +53,53 @@
                                     </td>
                                     <td class="text-center v-align-middle">
                                         @if($group->isOwner($user) === false)
-                                            <a href="/player/{{ $child->id }}/edit">Remove</a>
+                                            @if($user->id == Auth::user()->id)
+                                                <a href="/group/{{ $group->id }}/settings/users/{{ $user->id }}/remove">Leave</a>
+                                            @else
+                                                <a href="/group/{{ $group->id }}/settings/users/{{ $user->id }}/remove">Remove</a>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                             </thead>
                         </table>
+
+                        @if(count($pendingInvitations) > 0)
+                            <h4 class="semi-bold m-t-20">Pending Invitations</h4>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Invited</th>
+                                    <th class="text-center">Options</th>
+                                </tr>
+                                @foreach($pendingInvitations as $invitation)
+                                    <tr>
+                                        <td class="v-align-middle">
+                                            @if ($invitation->user_id != null)
+                                                {{ $invitation->user->full_name }}
+                                            @endif
+                                        </td>
+                                        <td class="text-center v-align-middle">
+                                            @if ($invitation->user_id != null)
+                                                <a href="mailto:{{ $invitation->user->email }}">{{ $invitation->user->email }}</a>
+                                            @else
+                                                <a href="mailto:{{ $invitation->email }}">{{ $invitation->email }}</a>
+                                            @endif
+                                        </td>
+                                        <td class="text-center v-align-middle">
+                                            {{ $invitation->created_at->timezone(Auth::user()->settings->timeszone())->diffForHumans() }}
+                                        </td>
+                                        <td class="text-center v-align-middle">
+                                            <a href="/group/{{ $group->id }}/settings/users/invite/{{ $invitation->id }}/retract">Retract</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </thead>
+                            </table>
+                        @endif
                     </div>
                 </div>
             </div>

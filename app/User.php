@@ -255,9 +255,17 @@ class User extends Model implements
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function invitations()
+    public function invitationsReceived()
     {
         return $this->hasMany(Invitation::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invitationsSent()
+    {
+        return $this->hasMany(Invitation::class, 'inviter_id')->orderBy('created_at', 'DESC');
     }
 
     /**

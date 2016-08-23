@@ -145,19 +145,4 @@ class ManageTest extends TestCase
         $this->assertEquals($apiKey, $group->settings->mailchimpKey());
         $this->assertEquals($listId, $group->settings->mailchimpListId());
     }
-
-    /**
-     * @test
-     */
-    public function canInviteUsers()
-    {
-        $this
-            ->visit('/group/'.$this->group()->id.'/settings/users')
-            ->see($this->headCoach()->full_name)
-            ->see('Owner')
-            ->click('Invite User')
-            ->type('test-user@nothing.com', 'email')
-            ->press('Send Invitation')
-            ->see('Invitation has been sent');
-    }
 }
