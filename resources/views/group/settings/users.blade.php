@@ -32,7 +32,7 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th class="text-center">Email</th>
+                                <th class="text-center hidden-xs">Email</th>
                                 <th class="text-center">Role</th>
                                 <th class="text-center">Options</th>
                             </tr>
@@ -41,7 +41,7 @@
                                     <td class="v-align-middle">
                                         {{ $user->full_name }}
                                     </td>
-                                    <td class="text-center v-align-middle">
+                                    <td class="text-center v-align-middle hidden-xs">
                                         <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                                     </td>
                                     <td class="text-center v-align-middle">
@@ -72,7 +72,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th class="text-center">Email</th>
-                                    <th class="text-center">Invited</th>
+                                    <th class="text-center hidden-xs">Invited</th>
                                     <th class="text-center">Options</th>
                                 </tr>
                                 @foreach($pendingInvitations as $invitation)
@@ -89,7 +89,7 @@
                                                 <a href="mailto:{{ $invitation->email }}">{{ $invitation->email }}</a>
                                             @endif
                                         </td>
-                                        <td class="text-center v-align-middle">
+                                        <td class="text-center v-align-middle hidden-xs">
                                             {{ $invitation->created_at->timezone(Auth::user()->settings->timeszone())->diffForHumans() }}
                                         </td>
                                         <td class="text-center v-align-middle">

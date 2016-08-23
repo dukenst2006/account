@@ -22,7 +22,15 @@
                         {!! Form::open(['role' => 'form']) !!}
                         @include('partials.messages')
                         <div class="row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 m-b-10">
+                                <p>By inviting other users, they'll be able to view/manage your group's:</p>
+                                <ul class="m-b-20">
+                                    <li>Roster</li>
+                                    <li>Teams</li>
+                                    <li>Settings and welcome email</li>
+                                    <li>Registration with tournaments</li>
+                                </ul>
+
                                 <label class="form-label">E-Mail Address</label>
                                 <span class="help"></span>
                                 <div class="controls">
