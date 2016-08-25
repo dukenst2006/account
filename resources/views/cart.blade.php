@@ -44,7 +44,7 @@
                                     {!! Form::hidden('stripeToken', uniqid()) !!}}
                                 @endif
                                 <h4 class="m-t-20">Payment Method</h4>
-                                <p>Checks and other forms of payment are not accepted.  We accept Visa, MasterCard, American Express, JCB, Discover, and Diners Club.</p>
+                                <p>We accept Visa, MasterCard, American Express, JCB, Discover, and Diners Club.  Checks and other forms of payment are not accepted.</p>
                                 <div class="alert alert-danger payment-errors" style="display: none;"></div>
                                 <div class="row m-t-10">
                                     <div class="col-md-6 col-sm-6 col-xs-6">
