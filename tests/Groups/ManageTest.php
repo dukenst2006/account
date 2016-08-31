@@ -21,10 +21,13 @@ class ManageTest extends TestCase
     {
         $this
             ->visit('/group/create/search')
+            ->see("Benefits of adding your group")
+            ->dontSee("I see my group")
             ->dontSee("I don't see my group")
             ->type('South', 'q')
             ->visit('/group/create/search?q=South')
             ->see('Southeast Christian Church')
+            ->see("I see my group")
             ->click("I don't see my group")
             ->seePageIs('/group/create');
     }

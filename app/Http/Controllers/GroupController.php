@@ -19,15 +19,20 @@ class GroupController extends Controller
     public function searchBeforeCreate()
     {
         $groups = [];
-        if (Input::has('q')) {
+        $programs =  null;
+        if ($hasSearched = Input::has('q')) {
             $groups = Group::where('name', 'LIKE', '%'.Input::get('q').'%')
                 ->with('meetingAddress', 'program')
                 ->orderBy('name', 'ASC')
                 ->get();
+        } else {
+            $programs = Program::orderBy('name', 'ASC')->get();
         }
 
         return view('/group/create-search', [
-            'groups' => $groups
+            'groups'        => $groups,
+            'hasSearched'   => $hasSearched,
+            'programs'      => $programs
         ]);
     }
 
@@ -59,7 +64,7 @@ class GroupController extends Controller
 
         // direct the user to their email settings so
         // they can customize their welcome email
-        return redirect('/group/'.$group->id.'/settings/email?justCreated=1')->withFlashSuccess($group->name.' has been created');
+        return redirect('/group/'.$group->id.'/settings/email')->withFlashSuccess($group->name.' has been created');
     }
 
     /**

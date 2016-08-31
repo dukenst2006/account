@@ -4,6 +4,31 @@
 
 @section('content')
     <div class="content">
+        @if(!Input::has('q'))
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="grid simple">
+                    <div class="grid-body no-border">
+                        <h3 class="m-t-30 text-center">Benefits of adding your group</h3>
+                        <p>While all groups are required to register through this sytem, there's a lot to gain from doing so.  Here's a quick breakdown:</p>
+                        <ul>
+                            <li>Your group will be listed on BibleBowl.org so it's easier for potential players in your area can find you</li>
+                            <li>Manage your player roster/teams online</li>
+                            <li>Pay your player's fees online
+                                <ul>
+                                    @foreach ($programs as $program)
+                                        <li>{{ $program->abbreviation }} - ${{ $program->registration_fee }}/player</li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            <li>Welcome email customized for your group sent to parents of players when they register</li>
+                            <li>And more!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
                 <div class="grid simple">
@@ -32,9 +57,9 @@
                                     @endforeach
                                 </ul>
                             @else
-                            <div class="text-center">
-                                <div class="p-t-20 p-b-10 muted">No groups found</div>
-                            <div>
+                                <div class="text-center">
+                                    <div class="p-t-20 p-b-10 muted">No groups found</div>
+                                </div>
                             @endif
                         </div>
                         <p class="m-t-20 text-center">

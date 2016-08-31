@@ -34,11 +34,13 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6">
                         <h5><i class="fa fa-map-marker"></i> Primary <span class="semi-bold">Address</span></h5>
+                        @if($user->primary_address_id > 0)
                         <a href="http://maps.google.com/?q={{ $user->primaryAddress }}" title="View on a map" target="_blank">
                             @include('partials.address', [
                                 'address' => $user->primaryAddress
                             ])
                         </a>
+                        @endif
                     </div>
                     <div class="col-md-3">
                         <h5><i class="fa fa-lock"></i> <span class="semi-bold">Roles</span> <a href="/admin/users/{{ $user->id }}/roles" class="small">(add/remove)</a></h5>
