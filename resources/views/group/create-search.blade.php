@@ -59,6 +59,7 @@
                         <ul>
                             <li>Contact the group owner and have them contact the national office at <strong>{{ config('biblebowl.officeEmail') }}</strong> requesting the group be transferred to you.</li>
                             <li>If you don't have any contact with the group owner, please contact us and we can help get the group transferred.</li>
+                            <li>As a temporary measure, the existing owner can add you as a user via their group's settings.  This will allow you to manage the group, but you won't be the owner.</li>
                         </ul>
                     </div>
                 </div>
