@@ -37,7 +37,7 @@
                                 <td class="v-align-middle">{{ $player->full_name }}</td>
                                 <td class="v-align-middle"><a href="/guardian/{{ $player->guardian->id }}">{{ $player->guardian->full_name }}</a></td>
                                 <td class="v-align-middle text-center">{{ $player->age() }}</td>
-                                <td class="v-align-middle text-center">{{ \BibleBowl\Presentation\Describer::describeGrade($player->pivot->grade) }}</td>
+                                <td class="v-align-middle text-center">{{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}</td>
                                 <td class="v-align-middle text-center">{{ $player->pivot->shirt_size }}</td>
                                 <td class="v-align-middle text-center">
                                     <a href="/player/{{ $player->id }}/deactivate" id="deactivate-{{ $player->id }}" data-toggle="tooltip" data-placement="left" title="Use this option if this player is no longer participating this season.">Deactivate</a>
