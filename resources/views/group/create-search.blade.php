@@ -38,9 +38,28 @@
                             @endif
                         </div>
                         <p class="m-t-20 text-center">
+                            <button class="btn btn-info m-r-20" data-toggle="modal" data-target="#groupAlreadyExistsModal">I see my group</button>
                             <a href="/group/create" class="btn btn-primary">I don't see my group</a>
                         </p>
                         @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="groupAlreadyExistsModal" tabindex="-1" role="dialog" aria-labelledby="groupAlreadyExistsModal" aria-hidden="true" style="display: none; margin-top: 2em;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="semi-bold">My Group Already Exists</h4>
+                    <div class="text-left">
+                        <p>Creating the group anyways will make things very confusing for the parents of your players so please <span style="font-style:italic">do not create a duplicate group</span>.  If the group you're trying to create already exists and you didn't create it, you have a few options:</p>
+                        <ul>
+                            <li>Contact the group owner and have them contact the national office at <strong>{{ config('biblebowl.officeEmail') }}</strong> requesting the group be transferred to you.</li>
+                            <li>If you don't have any contact with the group owner, please contact us and we can help get the group transferred.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
