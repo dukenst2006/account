@@ -64,7 +64,7 @@ class RosterController extends Controller
     public function export()
     {
         $group = Session::group();
-        $players = $group->players()->active(Session::season())->with('guardian')->get();
+        $players = $group->players()->active(Session::season())->with('guardian', 'guardian.primaryAddress')->get();
 
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment;filename="'.str_replace(' ', '_', $group->program->abbreviation.' Roster').'-'.str_replace(' ', '_', $group->name).'-'.date("m.d.y").'.csv"');
@@ -97,7 +97,7 @@ class RosterController extends Controller
                 $player->pivot->shirt_size,
                 $player->guardian->full_name,
                 $player->guardian->email,
-                $player->guardian->address,
+                $player->guardian->primaryAddress,
                 $player->guardian->phone,
                 $player->seasons()->count()
             ));
