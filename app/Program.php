@@ -92,7 +92,12 @@ class Program extends Model
 
     public function __toString()
     {
-        $minGrade = Describer::describeGradeShort($this->min_grade);
+        // Beginner allows 2nd graders to register, but lets still publicize as being 3rd grade
+        $minGrade = $this->min_grade;
+        if ($this->min_grade < 3) {
+            $minGrade = 3;
+        }
+        $minGrade = Describer::describeGradeShort($minGrade);
         $maxGrade = Describer::describeGradeShort($this->max_grade);
         return $this->name.' ('.$minGrade.'-'.$maxGrade.' grades)';
     }

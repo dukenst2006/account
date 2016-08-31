@@ -204,6 +204,7 @@ class Form extends FormBuilder
     public function selectGrade($name, $selected = null, $options = array(), $optional = false, $programId = null)
     {
         $elementarySchool = [
+            '2' => Describer::describeGrade(2),
             '3' => Describer::describeGrade(3),
             '4' => Describer::describeGrade(4),
             '5' => Describer::describeGrade(5)

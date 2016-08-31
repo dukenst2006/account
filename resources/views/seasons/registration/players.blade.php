@@ -27,7 +27,7 @@
                             </div>
                         </td>
                         <td>{{ $player->full_name }}</td>
-                        <td>{!! Form::selectGrade('player['.$player->id.'][grade]', null, ['class' => 'form-control', 'id' => 'player'.$player->id.'grade']) !!}</td>
+                        <td>{!! Form::selectGrade('player['.$player->id.'][grade]', 3, ['class' => 'form-control', 'id' => 'player'.$player->id.'grade']) !!}</td>
                         <td>{!! Form::selectShirtSize('player['.$player->id.'][shirtSize]', null, ['class' => 'form-control', 'id' => 'player'.$player->id.'shirtSize']) !!}</td>
                     </tr>
                     @endforeach

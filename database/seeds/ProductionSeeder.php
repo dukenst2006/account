@@ -31,7 +31,7 @@ class ProductionSeeder extends Seeder {
             'abbreviation'      => 'Beginner',
             'slug'              => 'beginner',
             'registration_fee'  => '25.00',
-            'min_grade'         => 3,
+            'min_grade'         => 2,
             'max_grade'         => 5
         ]);
 
