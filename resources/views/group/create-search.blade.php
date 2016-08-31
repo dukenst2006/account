@@ -55,7 +55,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="semi-bold">My Group Already Exists</h4>
                     <div class="text-left">
-                        <p>Creating the group anyways will make things very confusing for the parents of your players so please <span style="font-style:italic">do not create a duplicate group</span>.  If the group you're trying to create already exists and you didn't create it, you have a few options:</p>
+                        <p>Creating the group anyways will make things very confusing for the parents of your players so please <span style="font-style:italic">do not create a duplicate group</span>.  If you need to obtain ownership of this group you have a few options:</p>
                         <ul>
                             <li>Contact the group owner and have them contact the national office at <strong>{{ config('biblebowl.officeEmail') }}</strong> requesting the group be transferred to you.</li>
                             <li>If you don't have any contact with the group owner, please contact us and we can help get the group transferred.</li>

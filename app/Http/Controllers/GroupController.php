@@ -59,7 +59,7 @@ class GroupController extends Controller
 
         // direct the user to their email settings so
         // they can customize their welcome email
-        return redirect('/group/'.$group->id.'/settings/email')->withFlashSuccess($group->name.' has been created');
+        return redirect('/group/'.$group->id.'/settings/email?justCreated=1')->withFlashSuccess($group->name.' has been created');
     }
 
     /**
