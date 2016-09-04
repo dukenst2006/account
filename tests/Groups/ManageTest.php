@@ -21,7 +21,6 @@ class ManageTest extends TestCase
     {
         $this
             ->visit('/group/create/search')
-            ->see("Benefits of adding your group")
             ->dontSee("I see my group")
             ->dontSee("I don't see my group")
             ->type('South', 'q')
@@ -52,7 +51,8 @@ class ManageTest extends TestCase
             ->press('Save');
         $group = Group::orderBy('id', 'DESC')->first();
         $this
-            ->seePageIs('/group/'.$group->id.'/settings/email')
+            ->see("Now that you've created your group")
+            ->seePageIs('/group/'.$group->id.'/settings/email?justCreated=1')
             ->see($groupName.' has been created');
     }
 
