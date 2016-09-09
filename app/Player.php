@@ -71,6 +71,16 @@ class Player extends Model
             $player->guid = Uuid::uuid4();
             return true;
         });
+
+        static::deleting(function ($player) {
+            $guardian = $player->guardian;
+
+            // if it's the last player
+            if ($guardian->players()->count() == 1 && $guardian->is(Role::GUARDIAN)) {
+                $role = Role::where('name', Role::GUARDIAN)->firstOrFail();
+                $guardian->retract($role);
+            }
+        });
     }
 
     public static function validationRules()

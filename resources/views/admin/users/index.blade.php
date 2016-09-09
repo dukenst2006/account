@@ -33,7 +33,7 @@
                             <tr>
                                 <td>
                                     <a href="/admin/users/{{ $user->id }}" class="semi-bold">
-                                        @if(strlen($user->full_name) > 0 || !empty($user->full_name))
+                                        @if($user->full_name != ' ')
                                             {{ $user->full_name }}
                                         @else
                                             [No Name]

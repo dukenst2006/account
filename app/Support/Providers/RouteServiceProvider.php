@@ -249,6 +249,7 @@ class RouteServiceProvider extends ServiceProvider
                     ], function () {
                         Route::get('players', 'PlayerController@index');
                         Route::get('players/{playerId}', 'PlayerController@show');
+                        Route::delete('players/{playerId}', 'PlayerController@destroy');
                     });
 
                     Route::group([

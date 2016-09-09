@@ -1,5 +1,6 @@
 <?php namespace BibleBowl\Http\Controllers\Admin;
 
+use BibleBowl\Http\Requests\AdminOnlyRequest;
 use BibleBowl\Player;
 use Input;
 
@@ -27,8 +28,18 @@ class PlayerController extends Controller
 
     public function show($playerId)
     {
+        $player = Player::findOrFail($playerId);
         return view('/admin/players/show', [
-            'player' => Player::findOrFail($playerId)
+            'player'    => $player,
+            'seasons'   => $player->seasons()->orderBy('id', 'desc')->get()
         ]);
+    }
+
+    public function destroy(AdminOnlyRequest $request, $playerId)
+    {
+        $player = Player::findOrFail($playerId);
+        $player->delete();
+
+        return redirect('/admin/users/'.$player->guardian_id)->withFlashSuccess('Player has been deleted');
     }
 }

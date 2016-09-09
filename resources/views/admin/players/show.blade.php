@@ -45,7 +45,7 @@
                                 <th class="text-center hidden-xs">T-Shirt Size</th>
                                 <th class="text-center">Group</th>
                             </tr>
-                            @foreach ($player->seasons()->orderBy('id', 'desc')->get() as $season)
+                            @foreach ($seasons as $season)
                                 <?php
                                 $groupRegisteredWith = $player->groupRegisteredWith($season);
                                 $isRegistered = $groupRegisteredWith !== null;
@@ -71,6 +71,13 @@
                                 </tr>
                             @endforeach
                         </table>
+                        @if(Auth::user()->is(\BibleBowl\Role::ADMIN) && count($seasons) == 0)
+                            <div class="text-center m-b-10">
+                                {!! Form::open(['url' => '/admin/players/'.$player->id, 'method' => 'delete']) !!}
+                                <button class="btn btn-small btn-danger" data-toggle="tooltip" title="Only players who haven't participated in a season may be deleted." >Delete Player</button>
+                                {!! Form::close() !!}
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="text-center muted p-t-20" style="font-style:italic; font-size: 90%;">Last Updated: {{ $player->updated_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }} | Created: {{ $player->created_at->timezone(Auth::user()->settings->timeszone())->format('F j, Y, g:i a') }}</div>
