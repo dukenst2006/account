@@ -1,5 +1,8 @@
 <?php namespace BibleBowl;
 
+use Illuminate\Mail\Message;
+use Mail;
+use DB;
 use BibleBowl\Groups\Settings;
 use BibleBowl\Location\Maps\Location;
 use BibleBowl\Support\CanDeactivate;
@@ -320,6 +323,49 @@ class Group extends Model
         return $user->id == $this->owner_id;
     }
 
+    public function setOwner(User $user) : bool
+    {
+        if ($this->isOwner($user)) {
+            return false;
+        }
+
+        DB::beginTransaction();
+
+        $previousOwner = $this->owner;
+        $this->update([
+            'owner_id' => $user->id
+        ]);
+
+        if ($this->isHeadCoach($user) === false) {
+            $this->addHeadCoach($user);
+        }
+
+        // remove the owner as Head Coach if they weren't
+        $ownerHasOtherGroups = $this->owner->groups()->where('groups.id', '!=', $this->id)->count() > 0;
+        if ($ownerHasOtherGroups === false) {
+            $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
+            $user->retract($role);
+        }
+
+        DB::commit();
+
+        Mail::queue(
+            'emails.group-ownership-transfer',
+            [
+                'header'        => $this->name.' Ownership Transfer',
+                'group'         => $this,
+                'previousOwner' => $previousOwner,
+                'newOwner'      => $user
+            ],
+            function (Message $message) use ($previousOwner) {
+                $message->to($previousOwner->email, $previousOwner->full_name)
+                    ->subject($this->name.' Ownership Transfer');
+            }
+        );
+
+        return true;
+    }
+
     public function addHeadCoach(User $user)
     {
         $user->groups()->attach($this->id);
@@ -329,6 +375,14 @@ class Group extends Model
             $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
             $user->assign($role);
         }
+    }
+
+    public function isHeadCoach(User $user) : bool
+    {
+        return $this->whereHas('users', function($q) use ($user) {
+            $q->where('group_user.group_id', $this->id)
+                ->where('group_user.user_id', $user->id);
+        })->count() > 0;
     }
 
     public function removeHeadCoach(User $user)

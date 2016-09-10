@@ -242,6 +242,8 @@ class RouteServiceProvider extends ServiceProvider
                         Route::get('groups', 'GroupController@index');
                         Route::get('groups/outstanding-registration-fees', 'GroupController@outstandingRegistrationFees');
                         Route::get('groups/{groupId}', 'GroupController@show');
+                        Route::get('groups/{groupId}/transfer-ownership', 'GroupController@getTransferOwnership');
+                        Route::post('groups/{groupId}/transfer-ownership', 'GroupController@postTransferOwnership');
                     });
 
                     Route::group([

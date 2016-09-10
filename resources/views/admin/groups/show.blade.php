@@ -18,6 +18,7 @@
                         </div>
                     </div>
                     <div class="grid-body no-border p-t-20">
+                        @include('partials.messages')
                         <div class="row">
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <h5><i class="fa fa-user"></i> <span class="semi-bold">Owner</span></h5>
@@ -25,6 +26,11 @@
                                     'user' => $group->owner,
                                     'adminLink' => true
                                 ])
+                                @if(Auth::user()->is(\BibleBowl\Role::ADMIN))
+                                <div class="text-center">
+                                    <a href="/admin/groups/{{ $group->id }}/transfer-ownership" class="btn btn-mini btn-white m-t-5">Transfer Ownership</a>
+                                </div>
+                                @endif
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-6">
                                 <h5><i class="fa fa-map-marker"></i> Meeting <span class="semi-bold">Location</span></h5>
