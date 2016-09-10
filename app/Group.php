@@ -359,8 +359,9 @@ class Group extends Model
                 'previousOwner' => $previousOwner,
                 'newOwner'      => $user
             ],
-            function (Message $message) use ($previousOwner) {
+            function (Message $message) use ($previousOwner, $user) {
                 $message->to($previousOwner->email, $previousOwner->full_name)
+                    ->cc($user->email, $user->full_name)
                     ->subject($this->name.' Ownership Transfer');
             }
         );
