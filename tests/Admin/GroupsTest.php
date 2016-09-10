@@ -61,6 +61,8 @@ class GroupsTest extends TestCase
             ->press('Transfer')
             ->see('Ownership has been transferred');
 
+        Bouncer::refresh();
+        $this->assertTrue($guardian->is(Role::HEAD_COACH));
         $this->assertTrue(Group::findOrFail($this->group->id)->isOwner($guardian));
     }
 

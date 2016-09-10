@@ -332,13 +332,6 @@ class Group extends Model
         DB::beginTransaction();
 
         $previousOwner = $this->owner;
-        $this->update([
-            'owner_id' => $user->id
-        ]);
-
-        if ($this->isHeadCoach($user) === false) {
-            $this->addHeadCoach($user);
-        }
 
         // remove the owner as Head Coach if they weren't
         $ownerHasOtherGroups = $this->owner->groups()->where('groups.id', '!=', $this->id)->count() > 0;
@@ -346,6 +339,15 @@ class Group extends Model
             $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
             $user->retract($role);
         }
+
+        // add new owner as head coach
+        if ($this->isHeadCoach($user) === false) {
+            $this->addHeadCoach($user);
+        }
+
+        $this->update([
+            'owner_id' => $user->id
+        ]);
 
         DB::commit();
 
@@ -369,7 +371,7 @@ class Group extends Model
     public function addHeadCoach(User $user)
     {
         $user->groups()->attach($this->id);
-
+//dd($user->id, $this->id, $user->isNot(Role::HEAD_COACH));
         // make the owner a head coach if they aren't already
         if ($user->isNot(Role::HEAD_COACH)) {
             $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
