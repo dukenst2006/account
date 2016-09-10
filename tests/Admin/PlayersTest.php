@@ -26,9 +26,9 @@ class PlayersTest extends TestCase
     {
         $this
             ->visit('/admin/players')
-            ->see('David Webb')
+            ->see('Webb, David')
             ->visit('/admin/groups?q=joe')
-            ->dontSee('David Webb');
+            ->dontSee('Webb, David');
     }
 
     /**
@@ -49,11 +49,16 @@ class PlayersTest extends TestCase
     public function canDeletePlayer()
     {
         $player = Player::first();
+        $player->guardian->players()->where('players.id', '!=', $player->id)->delete();
+
+        $this->assertTrue($player->guardian->is(Role::GUARDIAN));
 
         $this
             ->visit('/admin/players/'.$player->id)
-            ->press('Delete Player');
+            ->press('Delete Player')
+            ->see('Player has been deleted');
 
-        $this->assertFalse($player->guardian->is(Role::ADMIN));
+        Bouncer::refresh();
+        $this->assertTrue($player->guardian->isNot(Role::GUARDIAN));
     }
 }

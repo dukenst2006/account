@@ -33,7 +33,7 @@
                         @foreach ($players as $player)
                             <tr>
                                 <td>
-                                    <a href="/admin/players/{{ $player->id }}" class="semi-bold">{{ $player->full_name }}</a>
+                                    <a href="/admin/players/{{ $player->id }}" class="semi-bold">{{ $player->last_name }}, {{ $player->first_name }}</a>
                                 </td>
                                 <td class="text-center hidden-xs">{!! HTML::genderIcon($player->gender) !!}</td>
                                 <td class="text-center">{{ $player->age() }}</td>

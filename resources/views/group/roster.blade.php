@@ -34,7 +34,7 @@
                         @if(count($active_players) > 0)
                             @foreach($active_players as $player)
                             <tr>
-                                <td class="v-align-middle">{{ $player->full_name }}</td>
+                                <td class="v-align-middle">{{ $player->last_name }}, {{ $player->first_name }}</td>
                                 <td class="v-align-middle"><a href="/guardian/{{ $player->guardian->id }}">{{ $player->guardian->full_name }}</a></td>
                                 <td class="v-align-middle text-center">{{ $player->age() }}</td>
                                 <td class="v-align-middle text-center">{{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}</td>

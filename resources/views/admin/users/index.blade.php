@@ -34,7 +34,7 @@
                                 <td>
                                     <a href="/admin/users/{{ $user->id }}" class="semi-bold">
                                         @if($user->full_name != ' ')
-                                            {{ $user->full_name }}
+                                            {{ $user->last_name }}, {{ $user->first_name }}
                                         @else
                                             [No Name]
                                         @endif
