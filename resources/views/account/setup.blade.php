@@ -9,10 +9,10 @@
             <div class="col-md-8 col-md-offset-2 grid-body no-border">
                 <br/>
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="page-title">
                             <h3>Account <span class="semi-bold">Information</span></h3>
-                            <p>Keep it up, you're almost there!</p>
+                            <p>Keep it up, you're almost there!  If you're a parent registering your player, this account is for you, so use your name here.</p>
                         </div>
                     </div>
                     <div class="col-md-4"></div>

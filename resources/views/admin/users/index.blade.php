@@ -22,8 +22,8 @@
                 <table class="table table-condensed">
                     <thead>
                         <tr>
-                            <th class="col-md-4">Name</th>
-                            <th class="col-md-4 text-center hidden-xs">Email</th>
+                            <th class="col-md-4 col-xs-12">Name</th>
+                            <th class="col-md-4 col-xs-12 text-center">Email</th>
                             <th class="col-md-4 text-center hidden-sm hidden-xs">Phone</th>
                         </tr>
                     </thead>
@@ -40,7 +40,7 @@
                                         @endif
                                     </a>
                                 </td>
-                                <td class="text-center hidden-xs"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                                <td class="text-center"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                 <td class="text-center hidden-sm hidden-xs"><a href="tel:+1{{ $user->phone }}">{{ HTML::formatPhone($user->phone) }}</a></td>
                             </tr>
                         @endforeach

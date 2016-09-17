@@ -10,14 +10,10 @@
                     <div class="grid-body no-border">
                         <h3 class="m-t-30 text-center">Creating a group</h3>
                         <p class="text-center">Before you create your group, do a quick search to make sure<br/>it hasn't already been created by someone else.</p>
-                        <div class="m-t-20">
+                        <div class="m-t-20 text-center">
                             <form method="get">
-                            <div class="input-group transparent col-md-12">
-                                <input type="text" class="form-control" placeholder="Search groups by name" name="q" value="{{ Input::get('q') }}"/>
-                                <span class="input-group-addon">
-                                    <i class="fa fa-search"></i>
-                                </span>
-                            </div>
+                                <input type="text" class="form-control" name="q" placeholder="Search groups by name" value="{{ Input::get('q') }}" style="width: 200px; display: inline-block" autofocus>
+                                {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
                             </form>
                         </div>
                         @if(Input::has('q'))

@@ -8,7 +8,7 @@
         <span class="help"></span>
         <div class="controls p-b-20">
             {!! Form::text('address_one', old('address_one'), ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
-            {!! Form::text('address_two', old('address_two'), ['class' => 'form-control', 'maxlength' => 255, 'placeholder' => 'Unit number, suite, etc.']) !!}
+            {!! Form::text('address_two', old('address_two'), ['class' => 'form-control', 'maxlength' => 255, 'placeholder' => 'Unit number, suite, etc. (not city/state)']) !!}
             <div class="help muted m-t-5">City/state are automatically populated based on your zip code</div>
         </div>
     </div>
