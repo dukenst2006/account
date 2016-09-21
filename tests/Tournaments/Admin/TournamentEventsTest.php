@@ -4,7 +4,6 @@ use BibleBowl\Event;
 
 class TournamentEventsTest extends TestCase
 {
-
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsDirector;
 
@@ -46,9 +45,9 @@ class TournamentEventsTest extends TestCase
             ->see($newPrice)
             ->see($event->tournament->name);
 
-        # Cleaning up
+        // Cleaning up
         $event->update([
-            'price_per_participant' => $event->price_per_participant
+            'price_per_participant' => $event->price_per_participant,
         ]);
     }
 

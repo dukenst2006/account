@@ -10,7 +10,7 @@ class ParticipantFee extends Model
 
     public function setOnsiteFeeAttribute($onsiteFee)
     {
-        if ($onsiteFee  == 0) {
+        if ($onsiteFee == 0) {
             $onsiteFee = null;
         }
 

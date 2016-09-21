@@ -1,13 +1,13 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php
+
+namespace BibleBowl\Http\Controllers;
 
 use Auth;
 use BibleBowl\Http\Requests\PaymentRequest;
-use BibleBowl\Player;
 use BibleBowl\Shop\PaymentFailed;
 use BibleBowl\Shop\PaymentProcessor;
 use Cart;
 use DB;
-use Omnipay;
 
 /**
  * The main concept behind this controller is that other
@@ -18,7 +18,6 @@ use Omnipay;
  */
 class ShopController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -48,6 +47,7 @@ class ShopController extends Controller
             DB::commit();
         } catch (PaymentFailed $e) {
             DB::rollBack();
+
             return redirect()->back()->withErrors($e->getMessage());
         }
 

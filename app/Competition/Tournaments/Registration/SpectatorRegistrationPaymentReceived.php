@@ -2,14 +2,10 @@
 
 namespace BibleBowl\Competition\Tournaments\Registration;
 
-use BibleBowl\Player;
 use BibleBowl\Receipt;
-use BibleBowl\Season;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Spectator;
-use BibleBowl\TournamentQuizmaster;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 
 class SpectatorRegistrationPaymentReceived extends PostPurchaseEvent
 {
@@ -39,29 +35,30 @@ class SpectatorRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * The step to execute immediately after payment is accepted
+     * The step to execute immediately after payment is accepted.
      *
      * @return Response
      */
     public function successStep()
     {
         $tournament = $this->spectator()->tournament;
+
         return redirect('/tournaments/'.$tournament->slug)->withFlashSuccess('Your registration is complete!');
     }
 
     /**
-     * Fire the event
+     * Fire the event.
      *
      * @return void
      */
     public function fire(Receipt $receipt)
     {
         $this->spectator()->update([
-            'receipt_id' => $receipt->id
+            'receipt_id' => $receipt->id,
         ]);
 
         event($this->event(), [
-            $this->quizmasterRegistration()
+            $this->quizmasterRegistration(),
         ]);
     }
 }

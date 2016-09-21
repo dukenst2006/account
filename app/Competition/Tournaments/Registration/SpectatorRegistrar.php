@@ -72,7 +72,7 @@ class SpectatorRegistrar
         // attach minors
         if (isset($attributes['minor'])) {
             $minors = [];
-            foreach($attributes['minor'] as $minor) {
+            foreach ($attributes['minor'] as $minor) {
                 if (strlen($minor['first_name']) > 0) {
                     $minors[] = app(Minor::class, [[
                         'name'          => $minor['first_name'],

@@ -19,7 +19,7 @@ class QuizmasterRegistrar
     ) : TournamentQuizmaster {
         $tournamentQuizmaster = app(TournamentQuizmaster::class, [[
             'tournament_id' => $tournament->id,
-            'group_id'      => $group == null ? null : $group->id
+            'group_id'      => $group == null ? null : $group->id,
         ]]);
 
         if ($user != null) {
@@ -41,7 +41,6 @@ class QuizmasterRegistrar
         }
         if (isset($attributes['email'])) {
             $tournamentQuizmaster->email = $attributes['email'];
-
         }
         if (isset($attributes['gender'])) {
             $tournamentQuizmaster->gender = $attributes['gender'];
@@ -71,7 +70,7 @@ class QuizmasterRegistrar
                 [
                     'tournament'            => $tournament,
                     'group'                 => $group,
-                    'tournamentQuizmaster'  => $tournamentQuizmaster
+                    'tournamentQuizmaster'  => $tournamentQuizmaster,
                 ],
                 function (Message $message) use ($tournament, $tournamentQuizmaster) {
                     $message->to($tournamentQuizmaster->email, $tournamentQuizmaster->full_name)

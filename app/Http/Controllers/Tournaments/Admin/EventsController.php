@@ -1,15 +1,15 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments\Admin;
+<?php
+
+namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
 use BibleBowl\Event;
 use BibleBowl\EventType;
-use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Tournament;
 
 class EventsController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -26,7 +26,7 @@ class EventsController extends Controller
     public function store(TournamentCreatorOnlyRequest $request, $tournamentId)
     {
         $request->merge([
-            'tournament_id' => $tournamentId
+            'tournament_id' => $tournamentId,
         ]);
         $this->validate($request, EventType::validationRules());
 
@@ -48,8 +48,8 @@ class EventsController extends Controller
     }
 
     /**
-     * @param TournamentCreatorOnlyRequest  $request
-     * @param                               $id
+     * @param TournamentCreatorOnlyRequest $request
+     * @param                              $id
      *
      * @return mixed
      */

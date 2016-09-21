@@ -1,10 +1,11 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use BibleBowl\Group;
 
 class GroupEditRequest extends GroupCreatorOnlyRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -18,7 +19,7 @@ class GroupEditRequest extends GroupCreatorOnlyRequest
             Group::validationRules($isEditingExistingGroup),
             [
                 'program_id',
-                'owner_id'
+                'owner_id',
             ]
         );
     }

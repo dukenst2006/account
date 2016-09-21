@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Account;
+<?php
+
+namespace BibleBowl\Http\Controllers\Account;
 
 use Auth;
 use BibleBowl\Address;
@@ -10,7 +12,6 @@ use Redirect;
 
 class AddressController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -33,9 +34,9 @@ class AddressController extends Controller
     public function store(Request $request, AddressCreator $addressCreator)
     {
         $request->merge([
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
         ]);
-        
+
         $this->validate($request, Address::validationRules(), Address::validationMessages());
 
         $address = $addressCreator->create($request->except('redirectUrl'));
@@ -83,12 +84,12 @@ class AddressController extends Controller
         ]);
         $address = Address::find($id);
 
-        return redirect('/account/address')->withFlashSuccess('"' . $address->name . '" is now your primary address');
+        return redirect('/account/address')->withFlashSuccess('"'.$address->name.'" is now your primary address');
     }
 
     /**
-     * @param AddressOwnerOnlyRequest   $request
-     * @param                           $id
+     * @param AddressOwnerOnlyRequest $request
+     * @param                         $id
      *
      * @return mixed
      */
@@ -96,6 +97,7 @@ class AddressController extends Controller
     {
         $address = Address::find($id);
         $address->delete();
+
         return redirect('/account/address')->withFlashSuccess('Your '.$address->name.' address has been deleted');
     }
 }

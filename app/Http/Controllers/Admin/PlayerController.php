@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Admin;
+<?php
+
+namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\AdminOnlyRequest;
 use BibleBowl\Player;
@@ -6,7 +8,6 @@ use Input;
 
 class PlayerController extends Controller
 {
-
     public function index()
     {
         $players = Player::where('first_name', 'LIKE', '%'.Input::get('q').'%')
@@ -22,16 +23,17 @@ class PlayerController extends Controller
             ->paginate(25);
 
         return view('/admin/players/index', [
-            'players' => $players->appends(Input::only('q'))
+            'players' => $players->appends(Input::only('q')),
         ]);
     }
 
     public function show($playerId)
     {
         $player = Player::findOrFail($playerId);
+
         return view('/admin/players/show', [
             'player'    => $player,
-            'seasons'   => $player->seasons()->orderBy('id', 'desc')->get()
+            'seasons'   => $player->seasons()->orderBy('id', 'desc')->get(),
         ]);
     }
 

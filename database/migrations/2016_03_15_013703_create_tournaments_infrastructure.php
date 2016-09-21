@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use BibleBowl\TournamentCategory;
-use BibleBowl\EventType;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateTournamentsInfrastructure extends Migration
 {
@@ -14,8 +12,7 @@ class CreateTournamentsInfrastructure extends Migration
      */
     public function up()
     {
-        Schema::create('tournaments', function(Blueprint $table)
-        {
+        Schema::create('tournaments', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('inactive')->nullable();
             $table->string('slug')->unique();
@@ -39,8 +36,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        Schema::create('participant_types', function(Blueprint $table)
-        {
+        Schema::create('participant_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 24)->unique();
             $table->string('description', 128);
@@ -48,8 +44,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        Schema::create('participant_fees', function(Blueprint $table)
-        {
+        Schema::create('participant_fees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tournament_id')->unsigned();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
@@ -64,8 +59,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->unique(['tournament_id', 'participant_type_id']);
         });
 
-        Schema::create('event_types', function(Blueprint $table)
-        {
+        Schema::create('event_types', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('participant_type_id')->unsigned();
             $table->foreign('participant_type_id')->references('id')->on('participant_types');
@@ -74,8 +68,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        Schema::create('events', function(Blueprint $table)
-        {
+        Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tournament_id')->unsigned();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
@@ -86,8 +79,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        Schema::create('tournament_quizmasters', function(Blueprint $table)
-        {
+        Schema::create('tournament_quizmasters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('guid')->unique()->index();
             $table->integer('tournament_id')->unsigned();
@@ -115,8 +107,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->unique(['tournament_id', 'user_id', 'email']);
         });
 
-        Schema::create('tournament_players', function(Blueprint $table)
-        {
+        Schema::create('tournament_players', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tournament_id')->unsigned();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
@@ -130,8 +121,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->unique(['tournament_id', 'player_id']);
         });
 
-        Schema::create('event_players', function(Blueprint $table)
-        {
+        Schema::create('event_players', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events');
@@ -145,8 +135,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->unique(['event_id', 'player_id']);
         });
 
-        Schema::create('tournament_spectators', function(Blueprint $table)
-        {
+        Schema::create('tournament_spectators', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tournament_id')->unsigned()->nullable();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
@@ -167,8 +156,7 @@ class CreateTournamentsInfrastructure extends Migration
             $table->unique(['tournament_id', 'email']);
         });
 
-        Schema::create('tournament_spectator_minors', function(Blueprint $table)
-        {
+        Schema::create('tournament_spectator_minors', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('spectator_id')->unsigned()->nullable();
             $table->foreign('spectator_id')->references('id')->on('tournament_spectators');

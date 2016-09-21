@@ -1,10 +1,11 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Illuminate\Contracts\Validation\Factory;
 
 class PlayerRegistrationRequest extends GroupJoinRequest
 {
-
     public function __construct(Factory $factory)
     {
         $factory->extend('required_one', function ($attribute, $value, $parameters) {
@@ -52,6 +53,7 @@ class PlayerRegistrationRequest extends GroupJoinRequest
                 $messages['player.'.$playerId.'.shirtSize.min'] = 'One or more of your players is missing a t-shirt size';
             }
         }
+
         return $messages;
     }
 }

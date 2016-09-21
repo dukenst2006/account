@@ -8,7 +8,6 @@ use Illuminate\Support\Fluent;
 
 abstract class PostPurchaseEvent extends Fluent
 {
-
     /**
      * @return string
      */
@@ -47,7 +46,7 @@ abstract class PostPurchaseEvent extends Fluent
     }
 
     /**
-     * Fire the event
+     * Fire the event.
      *
      * @return void
      */

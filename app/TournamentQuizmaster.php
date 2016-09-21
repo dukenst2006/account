@@ -1,8 +1,10 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
 use Illuminate\Database\Eloquent\Model;
-use Rhumsaa\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 class TournamentQuizmaster extends Model
 {
@@ -22,6 +24,7 @@ class TournamentQuizmaster extends Model
         // assign a guid for each model
         static::creating(function ($tournamentQuizmaster) {
             $tournamentQuizmaster->guid = Uuid::uuid4();
+
             return true;
         });
 
@@ -35,10 +38,10 @@ class TournamentQuizmaster extends Model
             if (is_null($user)) {
                 $user = User::where('email', $tournamentQuizmaster->email)->first();
             }
-            
+
             if (!is_null($user)) {
                 // label the user as a quizmaster
-                if ($user->isNot(Role::QUIZMASTER)) {
+                if ($user->isNotA(Role::QUIZMASTER)) {
                     $role = Role::where('name', Role::QUIZMASTER)->firstOrFail();
                     $user->assign($role);
                 }
@@ -46,7 +49,7 @@ class TournamentQuizmaster extends Model
                 // associate the user with the quizmaster
                 if ($tournamentQuizmaster->user_id == null) {
                     $tournamentQuizmaster->update([
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
                 }
             }
@@ -128,6 +131,7 @@ class TournamentQuizmaster extends Model
 
     /**
      * @param $value
+     *
      * @return QuizzingPreferences
      */
     public function getQuizzingPreferencesAttribute($value)
@@ -146,7 +150,7 @@ class TournamentQuizmaster extends Model
     {
         $this->attributes['quizzing_preferences'] = $value->toJson();
     }
-    
+
     public function hasPaid()
     {
         return $this->receipt_id != null;

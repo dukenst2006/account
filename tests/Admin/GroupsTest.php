@@ -1,12 +1,11 @@
 <?php
 
 use BibleBowl\Group;
-use BibleBowl\User;
 use BibleBowl\Role;
+use BibleBowl\User;
 
 class GroupsTest extends TestCase
 {
-
     protected $group;
 
     use \Helpers\ActingAsDirector;
@@ -50,8 +49,8 @@ class GroupsTest extends TestCase
     public function canTransferOwnership()
     {
         $guardian = User::where('email', DatabaseSeeder::GUARDIAN_EMAIL)->firstOrFail();
-        $this->assertTrue($guardian->isNot(Role::HEAD_COACH));
-        $this->assertTrue($this->group->owner->is(Role::HEAD_COACH));
+        $this->assertTrue($guardian->isNotAn(Role::HEAD_COACH));
+        $this->assertTrue($this->group->owner->isAn(Role::HEAD_COACH));
 
         $this
             ->visit('/admin/groups/'.$this->group->id)
@@ -62,7 +61,7 @@ class GroupsTest extends TestCase
             ->see('Ownership has been transferred');
 
         Bouncer::refresh();
-        $this->assertTrue($guardian->is(Role::HEAD_COACH));
+        $this->assertTrue($guardian->isAn(Role::HEAD_COACH));
         $this->assertTrue(Group::findOrFail($this->group->id)->isOwner($guardian));
     }
 

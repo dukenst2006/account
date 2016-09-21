@@ -1,9 +1,11 @@
-<?php namespace BibleBowl\Presentation;
+<?php
+
+namespace BibleBowl\Presentation;
 
 class EmailTemplate
 {
     /**
-     * Generate a link
+     * Generate a link.
      *
      * @param      $url
      * @param null $label

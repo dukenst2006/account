@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    @if(Auth::user()->is(\BibleBowl\Role::GUARDIAN))
+    @if(Auth::user()->isA(\BibleBowl\Role::GUARDIAN))
         <div class="col-md-12 m-b-10">
             @include('dashboard.guardian-children')
         </div>
@@ -29,19 +29,19 @@
         </div>
     @endif
 
-    @if(Auth::user()->isNot(\BibleBowl\Role::HEAD_COACH) || Auth::user()->isNot(\BibleBowl\Role::GUARDIAN))
+    @if(Auth::user()->isNotA(\BibleBowl\Role::HEAD_COACH) || Auth::user()->isNotA(\BibleBowl\Role::GUARDIAN))
         <div class="col-md-6">
             @include('dashboard.guidiance')
         </div>
     @endif
 
-    @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+    @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
     <div class="col-md-6">
         @include('dashboard.registration-payment')
     </div>
     @endif
 
-    @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+    @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
         @include('dashboard.tournaments')
     @endif
 @endsection

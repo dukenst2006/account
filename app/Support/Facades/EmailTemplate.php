@@ -1,10 +1,11 @@
-<?php namespace BibleBowl\Support\Facades;
+<?php
+
+namespace BibleBowl\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 class EmailTemplate extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

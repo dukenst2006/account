@@ -1,11 +1,10 @@
-<?php namespace BibleBowl\Groups;
+<?php
+
+namespace BibleBowl\Groups;
 
 use BibleBowl\Group;
-use BibleBowl\Role;
-use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
 use BibleBowl\User;
-use DB;
 use Illuminate\Mail\Message;
 use Mail;
 
@@ -25,9 +24,9 @@ class RegistrationConfirmation
         $grades = [];
         $shirtSizes = [];
         foreach ($registration->players($group->program) as $player) {
-            $player->full_name          = $player->full_name;
-            $grades[$player->id]        = $registration->grade($player->id);
-            $shirtSizes[$player->id]    = $registration->shirtSize($player->id);
+            $player->full_name = $player->full_name;
+            $grades[$player->id] = $registration->grade($player->id);
+            $shirtSizes[$player->id] = $registration->shirtSize($player->id);
             $players[] = $player;
         }
 
@@ -42,7 +41,7 @@ class RegistrationConfirmation
             'grades'        => $grades,
             'shirtSizes'    => $shirtSizes,
             'hasEmailBody'  => is_null($contentBody) ? $group->settings->hasRegistrationEmailContents() : true,
-            'emailBody'     => is_null($contentBody) ? $group->settings->registrationEmailContents() : $contentBody
+            'emailBody'     => is_null($contentBody) ? $group->settings->registrationEmailContents() : $contentBody,
         ];
         $callBack = function (Message $message) use ($group, $recipient) {
             $message->to($recipient->email, $recipient->full_name)
@@ -57,7 +56,7 @@ class RegistrationConfirmation
     }
 
     /**
-     * Send a sample email
+     * Send a sample email.
      *
      * @param User $user
      */

@@ -5,7 +5,6 @@ use BibleBowl\Player;
 use BibleBowl\Program;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
-use BibleBowl\User;
 use BibleBowl\Users\Auth\SessionManager;
 
 class SeasonRegistrationTest extends TestCase
@@ -19,7 +18,7 @@ class SeasonRegistrationTest extends TestCase
 
         $this->setupAsGuardian();
         $this->withSession([
-            SessionManager::SEASON  => $this->season->toArray()
+            SessionManager::SEASON  => $this->season->toArray(),
         ]);
     }
 
@@ -35,7 +34,7 @@ class SeasonRegistrationTest extends TestCase
 
         $group = Group::where('name', DatabaseSeeder::GROUP_NAME)->first();
 
-        # following the link takes you to login
+        // following the link takes you to login
         $this
             ->visit($group->registrationReferralLink())
             ->followRedirects()
@@ -43,8 +42,8 @@ class SeasonRegistrationTest extends TestCase
 
         $this->setupAsGuardian();
         $this->withSession([
-            SessionManager::SEASON  => $this->season->toArray(),
-            SessionManager::REGISTER_WITH_GROUP => $group->guid
+            SessionManager::SEASON              => $this->season->toArray(),
+            SessionManager::REGISTER_WITH_GROUP => $group->guid,
         ]);
 
         $this->visit('/register/players')
@@ -192,7 +191,7 @@ class SeasonRegistrationTest extends TestCase
         $this->guardian = $player->guardian;
         $this->actingAs($this->guardian);
 
-        # the test
+        // the test
         $this
             ->visit('/dashboard')
             ->click('#edit-child-'.$player->id)

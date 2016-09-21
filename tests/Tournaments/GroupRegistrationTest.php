@@ -1,12 +1,11 @@
 <?php
 
-use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Tournament;
+use BibleBowl\TournamentQuizmaster;
 use Carbon\Carbon;
 
 class GroupRegistrationTest extends TestCase
 {
-
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsHeadCoach;
 
@@ -59,7 +58,7 @@ class GroupRegistrationTest extends TestCase
         // to "log out"
         $this->tearDown();
         parent::setUp();
-        
+
         // assert there's a button on the page and we can't click it
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The selected node does not have a form ancestor');
@@ -99,7 +98,7 @@ class GroupRegistrationTest extends TestCase
         $tournament = Tournament::firstOrFail();
         $tournament->update([
             'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y'),
         ]);
 
         $this
@@ -119,10 +118,10 @@ class GroupRegistrationTest extends TestCase
             ->click('Add Adult/Family');
 
         // verify asked if I want to register myself
-        $this->see("planning to attend this tournament you");
+        $this->see('planning to attend this tournament you');
 
         $tournament->spectators()->update([
-            'user_id' => null
+            'user_id' => null,
         ]);
 
         $this
@@ -136,7 +135,7 @@ class GroupRegistrationTest extends TestCase
         $this
             ->visit('/tournaments/'.$tournament->slug.'/group')
             ->click('Add Adult/Family')
-            ->dontSee("planning to attend this tournament you");
+            ->dontSee('planning to attend this tournament you');
     }
 
     /**
@@ -177,7 +176,7 @@ class GroupRegistrationTest extends TestCase
         $tournament = Tournament::firstOrFail();
         $tournament->update([
             'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y')
+            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y'),
         ]);
 
         $this

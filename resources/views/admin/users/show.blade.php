@@ -51,7 +51,7 @@
                         </ul>
                     </div>
                     <div class="col-md-5 col-sm-6">
-                        @if($user->is(\BibleBowl\Role::HEAD_COACH))
+                        @if($user->isA(\BibleBowl\Role::HEAD_COACH))
                             <h5><i class="fa fa-house"></i> <span class="semi-bold">Groups</span></h5>
                             <ul>
                                 @foreach ($user->groups()->with('program')->get() as $group)
@@ -66,7 +66,7 @@
                 </div>
                 <div class="row m-t-10">
                     <div class="col-md-12">
-                        @if($user->is(\BibleBowl\Role::GUARDIAN))
+                        @if($user->isA(\BibleBowl\Role::GUARDIAN))
                             <h5><i class="fa fa-users"></i> <span class="semi-bold">Students</span></h5>
                         <table class="table">
                             <tr>

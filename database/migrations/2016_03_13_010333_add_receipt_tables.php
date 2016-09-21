@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddReceiptTables extends Migration
 {
@@ -12,8 +12,7 @@ class AddReceiptTables extends Migration
      */
     public function up()
     {
-        Schema::create('receipts', function(Blueprint $table)
-        {
+        Schema::create('receipts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('total');
             $table->string('payment_reference_number');
@@ -28,8 +27,7 @@ class AddReceiptTables extends Migration
         });
         DB::unprepared('ALTER TABLE receipts AUTO_INCREMENT = 1000;');
 
-        Schema::create('receipt_items', function(Blueprint $table)
-        {
+        Schema::create('receipt_items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('receipt_id')->unsigned();
             $table->foreign('receipt_id')->references('id')->on('receipts');

@@ -1,11 +1,10 @@
 <?php
 
-use BibleBowl\User;
 use BibleBowl\Role;
+use BibleBowl\User;
 
 class UsersTest extends TestCase
 {
-
     protected $user;
 
     use \Helpers\ActingAsDirector;

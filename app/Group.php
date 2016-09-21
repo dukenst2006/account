@@ -1,33 +1,36 @@
-<?php namespace BibleBowl;
+<?php
 
-use Illuminate\Mail\Message;
-use Mail;
-use DB;
+namespace BibleBowl;
+
 use BibleBowl\Groups\Settings;
 use BibleBowl\Location\Maps\Location;
 use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Config;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Rhumsaa\Uuid\Uuid;
+use Illuminate\Mail\Message;
+use Mail;
+use Ramsey\Uuid\Uuid;
 use Validator;
 
 /**
- * BibleBowl\Group
+ * BibleBowl\Group.
  *
- * @property integer $id
+ * @property int $id
  * @property string $guid
- * @property boolean $type
+ * @property bool $type
  * @property string $name
- * @property integer $owner_id
- * @property integer $address_id
- * @property integer $meeting_address_id
+ * @property int $owner_id
+ * @property int $address_id
+ * @property int $meeting_address_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read Address $address
  * @property-read mixed $full_name
  * @property-read User $users
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereType($value)
@@ -38,13 +41,15 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereUpdatedAt($value)
  * @method static \BibleBowl\Group near($address, $miles = null)
- * @property integer $program_id
+ *
+ * @property int $program_id
  * @property \Carbon\Carbon $inactive
  * @property-read Address $meetingAddress
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read User $owner
  * @property-read Program $program
  * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereProgramId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereInactive($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group byProgram($program)
@@ -52,8 +57,10 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactiveGuardians($group, $season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group active()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  * @property string $settings
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereSettings($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group withoutActivePlayers($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group hasPendingRegistrationPayments($pendingSince = null, $playerCount = null)
@@ -67,7 +74,7 @@ class Group extends Model
 
     protected $attributes = [
         'program_id'    => Program::BEGINNER,
-        'inactive'      => null
+        'inactive'      => null,
     ];
 
     protected $dates = ['inactive', 'updated_at', 'created_at'];
@@ -79,6 +86,7 @@ class Group extends Model
         //assign a guid for each group
         static::creating(function ($group) {
             $group->guid = Uuid::uuid4();
+
             return true;
         });
     }
@@ -126,8 +134,9 @@ class Group extends Model
     public function guardians(Season $season)
     {
         $group = $this;
+
         return User::whereHas('players', function (Builder $q) use ($season, $group) {
-                $q->join('player_season', 'player_season.player_id', '=', 'players.id')
+            $q->join('player_season', 'player_season.player_id', '=', 'players.id')
                     ->active($season)
                     ->whereHas('groups', function (Builder $q) use ($season, $group) {
                         $q->where('group_id', $group->id);
@@ -158,7 +167,7 @@ class Group extends Model
     }
 
     /**
-     * Query groups by beginner or teen
+     * Query groups by beginner or teen.
      */
     public function scopeByProgram(Builder $query, $program)
     {
@@ -181,7 +190,7 @@ class Group extends Model
     }
 
     /**
-     * Groups with no players for a given season
+     * Groups with no players for a given season.
      */
     public function scopeWithoutActivePlayers(Builder $query, Season $season)
     {
@@ -210,13 +219,13 @@ class Group extends Model
             if ($pendingSince != null) {
                 $q->where('player_season.created_at', '>', $pendingSince->toDateTimeString());
             }
-            
+
             $q->whereNull('player_season.paid');
         });
     }
 
     /**
-     * Get groups near a another address
+     * Get groups near a another address.
      *
      * @param Builder $q
      * @param Address $address
@@ -235,7 +244,7 @@ class Group extends Model
                 $q->whereNotNull($address->getLatColumn())
                     ->whereNotNull($address->getLngColumn())
                     ->within($miles, 'miles', $address->latitude, $address->longitude);
-            }
+            },
         ]);
     }
 
@@ -262,14 +271,14 @@ class Group extends Model
             'name'              => 'required|max:128'.($groupAlreadyExists ? '' : '|isnt_duplicate'),
             'program_id'        => 'required',
             'owner_id'          => 'required|exists:users,id',
-            'address_id'        => 'required|exists:addresses,id'
+            'address_id'        => 'required|exists:addresses,id',
         ];
     }
 
     public static function validationMessages()
     {
         return [
-            'name.isnt_duplicate' => "This group already exists, please contact that group's owner"
+            'name.isnt_duplicate' => "This group already exists, please contact that group's owner",
         ];
     }
 
@@ -346,7 +355,7 @@ class Group extends Model
         }
 
         $this->update([
-            'owner_id' => $user->id
+            'owner_id' => $user->id,
         ]);
 
         DB::commit();
@@ -357,7 +366,7 @@ class Group extends Model
                 'header'        => $this->name.' Ownership Transfer',
                 'group'         => $this,
                 'previousOwner' => $previousOwner,
-                'newOwner'      => $user
+                'newOwner'      => $user,
             ],
             function (Message $message) use ($previousOwner, $user) {
                 $message->to($previousOwner->email, $previousOwner->full_name)
@@ -374,7 +383,7 @@ class Group extends Model
         $user->groups()->attach($this->id);
 //dd($user->id, $this->id, $user->isNot(Role::HEAD_COACH));
         // make the owner a head coach if they aren't already
-        if ($user->isNot(Role::HEAD_COACH)) {
+        if ($user->isNotA(Role::HEAD_COACH)) {
             $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
             $user->assign($role);
         }
@@ -382,7 +391,7 @@ class Group extends Model
 
     public function isHeadCoach(User $user) : bool
     {
-        return $this->whereHas('users', function($q) use ($user) {
+        return $this->whereHas('users', function ($q) use ($user) {
             $q->where('group_user.group_id', $this->id)
                 ->where('group_user.user_id', $user->id);
         })->count() > 0;
@@ -414,7 +423,7 @@ class Group extends Model
     }
 
     /**
-     * Registration link to register for this specific group
+     * Registration link to register for this specific group.
      *
      * @return string
      */
@@ -424,7 +433,7 @@ class Group extends Model
     }
 
     /**
-     * Registration link to register for this specific group
+     * Registration link to register for this specific group.
      *
      * @return string
      */
@@ -435,6 +444,7 @@ class Group extends Model
 
     /**
      * @param $value
+     *
      * @return Settings
      */
     public function getSettingsAttribute($value)

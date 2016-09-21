@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Middleware;
+<?php
+
+namespace BibleBowl\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -6,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 
 class RedirectIfRequiresSetup
 {
-
     /**
      * The Guard implementation.
      *
@@ -17,7 +18,7 @@ class RedirectIfRequiresSetup
     /**
      * Create a new filter instance.
      *
-     * @param  Guard $auth
+     * @param Guard $auth
      */
     public function __construct(Guard $auth)
     {
@@ -27,8 +28,9 @@ class RedirectIfRequiresSetup
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)

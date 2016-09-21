@@ -1,28 +1,27 @@
-<?php namespace BibleBowl\Presentation;
+<?php
+
+namespace BibleBowl\Presentation;
 
 use Auth;
-use BibleBowl\EventType;
 use BibleBowl\Group;
 use BibleBowl\GroupType;
 use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use Carbon\Carbon;
-use DateTime;
-use DateTimeZone;
 use Illuminate\Html\FormBuilder;
 
 class Form extends FormBuilder
 {
-
     /**
      * Create a file input field.
      *
-     * @param  string  $name
-     * @param  array   $value
-     * @param  array   $options
+     * @param string $name
+     * @param array  $value
+     * @param array  $options
+     *
      * @return string
      */
-    public function money($name, $value = null, $options = array())
+    public function money($name, $value = null, $options = [])
     {
         return '<div class="input-group transparent">
             <span class="input-group-addon">
@@ -33,36 +32,40 @@ class Form extends FormBuilder
     /**
      * Create a file input field.
      *
-     * @param  string  $name
-     * @param  array   $value
-     * @param  array   $options
+     * @param string $name
+     * @param array  $value
+     * @param array  $options
+     *
      * @return string
      */
-    public function number($name, $value = null, $options = array())
+    public function number($name, $value = null, $options = [])
     {
         $defaults = [
-            'step' => 'any'
+            'step' => 'any',
         ];
         $options = array_merge($defaults, $options);
+
         return $this->input('number', $name, $value, $options);
     }
 
     /**
      * Create a file input field.
      *
-     * @param  string  $name
-     * @param  array   $value
-     * @param  array   $options
+     * @param string $name
+     * @param array  $value
+     * @param array  $options
+     *
      * @return string
      */
-    public function phone($name, $value = null, $options = array())
+    public function phone($name, $value = null, $options = [])
     {
         $defaults = [
             'maxlength'     => '10',
             'pattern'       => '[0-9]{10}',
-            'placeholder'   => 'only digits'
+            'placeholder'   => 'only digits',
         ];
         $options = array_merge($defaults, $options);
+
         return $this->input('tel', $name, $value, $options);
     }
 
@@ -73,7 +76,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectTimezone($name, $selected = null, $options = array(), $optional = false)
+    public function selectTimezone($name, $selected = null, $options = [], $optional = false)
     {
         $list = [
             'America/New_York'      => 'Eastern',
@@ -83,7 +86,7 @@ class Form extends FormBuilder
             'America/Los_Angeles'   => 'Pacific',
             'America/Anchorage'     => 'Alaska',
             'America/Adak'          => 'Hawaii',
-            'Pacific/Honolulu'      => 'Hawaii (no DST)'
+            'Pacific/Honolulu'      => 'Hawaii (no DST)',
         ];
 
         if ($optional) {
@@ -100,7 +103,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectState($name, $selected = null, $options = array(), $optional = false)
+    public function selectState($name, $selected = null, $options = [], $optional = false)
     {
         $list = [
             'AL' => 'Alabama',
@@ -153,7 +156,7 @@ class Form extends FormBuilder
             'WA' => 'Washington',
             'WV' => 'West Virginia',
             'WI' => 'Wisconsin',
-            'WY' => 'Wyoming'
+            'WY' => 'Wyoming',
         ];
 
         if ($optional) {
@@ -170,7 +173,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectShirtSize($name, $selected = null, $options = array(), $optional = false)
+    public function selectShirtSize($name, $selected = null, $options = [], $optional = false)
     {
         $list = [
             'Youth' => [
@@ -179,10 +182,10 @@ class Form extends FormBuilder
                 'YL' => Describer::describeShirtSize('YL'),
             ],
             'Adult' => [
-                'S' => Describer::describeShirtSize('S'),
-                'M' => Describer::describeShirtSize('M'),
-                'L' => Describer::describeShirtSize('L'),
-                'XL' => Describer::describeShirtSize('XL'),
+                'S'   => Describer::describeShirtSize('S'),
+                'M'   => Describer::describeShirtSize('M'),
+                'L'   => Describer::describeShirtSize('L'),
+                'XL'  => Describer::describeShirtSize('XL'),
                 'XXL' => Describer::describeShirtSize('XXL'),
             ],
         ];
@@ -201,24 +204,24 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectGrade($name, $selected = null, $options = array(), $optional = false, $programId = null)
+    public function selectGrade($name, $selected = null, $options = [], $optional = false, $programId = null)
     {
         $elementarySchool = [
             '2' => Describer::describeGrade(2),
             '3' => Describer::describeGrade(3),
             '4' => Describer::describeGrade(4),
-            '5' => Describer::describeGrade(5)
+            '5' => Describer::describeGrade(5),
         ];
         $middleSchool = [
             '6' => Describer::describeGrade(6),
             '7' => Describer::describeGrade(7),
-            '8' => Describer::describeGrade(8)
+            '8' => Describer::describeGrade(8),
         ];
         $highSchool = [
-            '9' => Describer::describeGrade(9),
+            '9'  => Describer::describeGrade(9),
             '10' => Describer::describeGrade(10),
             '11' => Describer::describeGrade(11),
-            '12' => Describer::describeGrade(12)
+            '12' => Describer::describeGrade(12),
         ];
 
         if ($programId == Program::BEGINNER) {
@@ -243,7 +246,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectAddress($name, $selected = null, $options = array(), $optional = false)
+    public function selectAddress($name, $selected = null, $options = [], $optional = false)
     {
         $list = [];
         foreach (Auth::user()->addresses as $address) {
@@ -264,21 +267,21 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectMonthNumeric($name, $selected = null, $options = array(), $optional = false)
+    public function selectMonthNumeric($name, $selected = null, $options = [], $optional = false)
     {
         $months = [
-            1 => 'Jan',
-            2 => 'Feb',
-            3 => 'Mar',
-            4 => 'Apr',
-            5 => 'May',
-            6 => 'Jun',
-            7 => 'Jul',
-            8 => 'Aug',
-            9 => 'Sep',
+            1  => 'Jan',
+            2  => 'Feb',
+            3  => 'Mar',
+            4  => 'Apr',
+            5  => 'May',
+            6  => 'Jun',
+            7  => 'Jul',
+            8  => 'Aug',
+            9  => 'Sep',
             10 => 'Oct',
             11 => 'Nov',
-            12 => 'Dec'
+            12 => 'Dec',
         ];
         $list = [];
         foreach ($months as $monthId => $month) {
@@ -299,21 +302,21 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectMonth($name, $selected = null, $options = array(), $optional = false)
+    public function selectMonth($name, $selected = null, $options = [], $optional = false)
     {
         $months = [
-            1 => 'January',
-            2 => 'February',
-            3 => 'March',
-            4 => 'April',
-            5 => 'May',
-            6 => 'June',
-            7 => 'July',
-            8 => 'August',
-            9 => 'September',
+            1  => 'January',
+            2  => 'February',
+            3  => 'March',
+            4  => 'April',
+            5  => 'May',
+            6  => 'June',
+            7  => 'July',
+            8  => 'August',
+            9  => 'September',
             10 => 'October',
             11 => 'November',
-            12 => 'December'
+            12 => 'December',
         ];
         $list = [];
         foreach ($months as $monthId => $month) {
@@ -334,7 +337,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectFutureYear($name, $selected = null, $options = array(), $optional = false)
+    public function selectFutureYear($name, $selected = null, $options = [], $optional = false)
     {
         $list = [];
         $currentYear = Carbon::now()->year;
@@ -357,7 +360,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectParticipantType($name, $selected = null, $options = array(), $optional = false)
+    public function selectParticipantType($name, $selected = null, $options = [], $optional = false)
     {
         $list = [];
         foreach (ParticipantType::orderBy('name')->get() as $participantType) {
@@ -378,7 +381,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectGroupType($name, $selected = null, $options = array(), $optional = false)
+    public function selectGroupType($name, $selected = null, $options = [], $optional = false)
     {
         $list = [];
         foreach (GroupType::orderBy('name')->get() as $groupType) {
@@ -399,11 +402,11 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectGender($name, $selected = null, $options = array(), $optional = false)
+    public function selectGender($name, $selected = null, $options = [], $optional = false)
     {
         $list = [
-            Html::GENDER_MALE => Describer::describeGender(Html::GENDER_MALE),
-            Html::GENDER_FEMALE => Describer::describeGender(Html::GENDER_FEMALE)
+            Html::GENDER_MALE   => Describer::describeGender(Html::GENDER_MALE),
+            Html::GENDER_FEMALE => Describer::describeGender(Html::GENDER_FEMALE),
         ];
 
         if ($optional) {
@@ -420,7 +423,7 @@ class Form extends FormBuilder
      *
      * @return string
      */
-    public function selectGroup(int $programId, $name, $selected = null, $options = array(), $optional = false)
+    public function selectGroup(int $programId, $name, $selected = null, $options = [], $optional = false)
     {
         $availableGroups = Group::active()
             ->byProgram($programId)

@@ -5,16 +5,17 @@ namespace BibleBowl;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\Event
+ * BibleBowl\Event.
  *
- * @property integer $id
- * @property integer $tournament_id
- * @property integer $event_type_id
+ * @property int $id
+ * @property int $tournament_id
+ * @property int $event_type_id
  * @property float $price_per_participant
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read Tournament $tournament
  * @property-read EventType $type
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereTournamentId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereEventTypeId($value)
@@ -25,7 +26,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Event extends Model
 {
-
     protected $guarded = ['id'];
 
     /**
@@ -64,7 +64,7 @@ class Event extends Model
     public function getPricePerParticipantAttribute()
     {
         if (is_null($this->attributes['price_per_participant'])) {
-            return null;
+            return;
         }
 
         return money_format('%.2n', $this->attributes['price_per_participant']);
@@ -89,14 +89,14 @@ class Event extends Model
             echo '-';
         } else {
             // Display cost without the ".00"
-            $pieces = explode('.', (string)$this->price_per_participant);
+            $pieces = explode('.', (string) $this->price_per_participant);
             if (isset($pieces[1]) && $pieces[1] > 0) {
                 $price = money_format('%.2n', $this->price_per_participant);
             } else {
                 $price = number_format($this->price_per_participant);
             }
 
-            echo '$'. $price.' / '.$this->type->participantType->name;
+            echo '$'.$price.' / '.$this->type->participantType->name;
         }
     }
 }

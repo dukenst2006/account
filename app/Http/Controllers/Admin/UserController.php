@@ -1,15 +1,16 @@
-<?php namespace BibleBowl\Http\Controllers\Admin;
+<?php
+
+namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Role;
 use BibleBowl\User;
+use DB;
 use Illuminate\Http\Request;
 use Input;
 use Session;
-use DB;
 
 class UserController extends Controller
 {
-
     public function index()
     {
         $users = User::where('first_name', 'LIKE', '%'.Input::get('q').'%')
@@ -21,14 +22,14 @@ class UserController extends Controller
             ->paginate(25);
 
         return view('/admin/users/index', [
-            'users' => $users->appends(Input::only('q'))
+            'users' => $users->appends(Input::only('q')),
         ]);
     }
 
     public function show($userId)
     {
         return view('/admin/users/show', [
-            'user' => User::findOrFail($userId)
+            'user' => User::findOrFail($userId),
         ]);
     }
 
@@ -37,8 +38,8 @@ class UserController extends Controller
         $user = User::with('roles')->findOrFail($userId);
 
         return view('admin.users.roles', [
-            'user' => $user,
-            'roles' => Role::orderBy('name', 'ASC')->get()
+            'user'  => $user,
+            'roles' => Role::orderBy('name', 'ASC')->get(),
         ]);
     }
 
@@ -50,7 +51,7 @@ class UserController extends Controller
         DB::transaction(function () use ($request, $user) {
             $roleIds = $request->get('role', []);
             foreach (Role::editable()->get() as $role) {
-                $hasRole = $user->is($role->name);
+                $hasRole = $user->isA($role->name);
                 $shouldHaveRole = array_key_exists($role->id, $roleIds);
                 if ($hasRole && $shouldHaveRole === false) {
                     $user->retract($role);
@@ -64,7 +65,7 @@ class UserController extends Controller
     }
 
     /**
-     * Allow the admin to switch users
+     * Allow the admin to switch users.
      *
      * @param $userId
      *
@@ -76,6 +77,6 @@ class UserController extends Controller
 
         Session::switchUser($user);
 
-        return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.", use the bar at the bottom to switch back");
+        return redirect('dashboard')->withFlashSuccess("You're now logged in as ".$user->full_name.', use the bar at the bottom to switch back');
     }
 }

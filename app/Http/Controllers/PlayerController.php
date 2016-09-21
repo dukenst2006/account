@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php
+
+namespace BibleBowl\Http\Controllers;
 
 use Auth;
 use BibleBowl\Http\Requests\GuardianOnlyRequest;
@@ -9,7 +11,6 @@ use Session;
 
 class PlayerController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -49,8 +50,8 @@ class PlayerController extends Controller
     }
 
     /**
-     * @param GuardianOnlyRequest   $request
-     * @param                       $id
+     * @param GuardianOnlyRequest $request
+     * @param                     $id
      *
      * @return mixed
      */
@@ -60,8 +61,8 @@ class PlayerController extends Controller
         $player = Player::findOrFail($id);
         $isRegistered = $player->isRegisteredWithGroup(Session::season());
         if ($isRegistered) {
-            $rules['shirt_size']    = 'required';
-            $rules['grade']         = 'required';
+            $rules['shirt_size'] = 'required';
+            $rules['grade'] = 'required';
         }
 
         $this->validate($request, $rules);

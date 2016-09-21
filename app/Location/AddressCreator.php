@@ -1,7 +1,8 @@
-<?php namespace BibleBowl\Location;
+<?php
+
+namespace BibleBowl\Location;
 
 use BibleBowl\Address;
-use DB;
 
 class AddressCreator
 {

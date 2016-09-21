@@ -17,8 +17,11 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
         # needed for composer
         git zip unzip \
 
+        # needed for gd
+        libpng-dev libjpeg-turbo-dev \
+
     # php extensions the app will need
-    && docker-php-ext-install mcrypt mbstring pdo_mysql \
+    && docker-php-ext-install mcrypt mbstring pdo_mysql gd \
 
     # install composer
     && wget -O /usr/local/bin/composer http://getcomposer.org/composer.phar \

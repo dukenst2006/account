@@ -1,15 +1,17 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php
+
+namespace BibleBowl\Http\Controllers;
 
 use Auth;
-use BibleBowl\Tournament;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Role;
+use BibleBowl\Tournament;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Session;
 use Redirect;
-use DB;
+use Session;
 
 class DashboardController extends Controller
 {
@@ -23,7 +25,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Force users to login
+     * Force users to login.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -53,23 +55,25 @@ class DashboardController extends Controller
 
             return redirect('dashboard')->withFlashSuccess('Invitation has been accepted');
         }
-        
+
         // if the user should be redirected, lets do that now
         if (Session::redirectToAfterAuth() != null) {
             $redirectTo = Session::redirectToAfterAuth();
             Session::setRedirectToAfterAuth(null);
+
             return redirect($redirectTo);
         }
-        
+
         $season = Session::season();
         $view = view('dashboard');
 
-        if (Auth::user()->is(Role::HEAD_COACH)) {
+
+        if (Auth::user()->isA(Role::HEAD_COACH)) {
             $view->with('rosterOverview', [
                 'playerStats' => $this->playerMetrics->playerStats(
                     $season,
                     Session::group()
-                )
+                ),
             ]);
             $view->with('playersPendingPayment', Session::group()->players()->pendingRegistrationPayment($season)->get());
         }
@@ -93,7 +97,7 @@ class DashboardController extends Controller
                             },
                             'groups' => function ($q) use ($season) {
                                 $q->wherePivot('season_id', $season->id);
-                            }
+                            },
                         ]
                     )
                     ->get()
@@ -109,12 +113,12 @@ class DashboardController extends Controller
             $metrics = app(MetricsRepository::class);
             $playerCount = $metrics->playerCount($season);
             $view->with([
-                'groupCount' => $metrics->groupCount($season),
-                'playerCount' => $playerCount,
-                'averageGroupSize' =>  $metrics->averageGroupSize($playerCount),
+                'groupCount'       => $metrics->groupCount($season),
+                'playerCount'      => $playerCount,
+                'averageGroupSize' => $metrics->averageGroupSize($playerCount),
             ]);
         });
-        
+
         \View::creator('dashboard.tournaments', function (View $view) {
             $season = Session::season();
             $view->with(

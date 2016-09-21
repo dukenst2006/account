@@ -10,7 +10,7 @@ use BibleBowl\Seasons\GroupRegistration;
 /**
  * This class is a mock of a group registration
  * used when a Head Coach sends a test Welcome Email
- * to themselves
+ * to themselves.
  */
 class GroupRegistrationTest extends GroupRegistration
 {
@@ -18,7 +18,7 @@ class GroupRegistrationTest extends GroupRegistration
     const TEST_PLAYER_ID_2 = 2;
 
     /**
-     * Seed 2 players for each Group
+     * Seed 2 players for each Group.
      *
      * @param Group $group
      */
@@ -34,11 +34,11 @@ class GroupRegistrationTest extends GroupRegistration
     {
         return collect([
             factory(Player::class)->make([
-                'id' => self::TEST_PLAYER_ID_1
+                'id' => self::TEST_PLAYER_ID_1,
             ]),
             factory(Player::class)->make([
-                'id' => self::TEST_PLAYER_ID_2
-            ])
+                'id' => self::TEST_PLAYER_ID_2,
+            ]),
         ]);
     }
 }

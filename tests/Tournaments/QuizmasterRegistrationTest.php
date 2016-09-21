@@ -1,17 +1,15 @@
 <?php
 
-use BibleBowl\Tournament;
-use Helpers\ActingAsGuardian;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Helpers\SimulatesTransactions;
-use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
-use Carbon\Carbon;
+use BibleBowl\Tournament;
+use BibleBowl\TournamentQuizmaster;
+use Helpers\ActingAsGuardian;
+use Helpers\SimulatesTransactions;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class QuizmasterRegistrationTest extends TestCase
 {
-
     use DatabaseTransactions;
     use ActingAsGuardian;
     use SimulatesTransactions;
@@ -66,7 +64,7 @@ class QuizmasterRegistrationTest extends TestCase
             ->where('participant_type_id', ParticipantType::QUIZMASTER)
             ->update([
                 'earlybird_fee' => 0,
-                'fee' => 0
+                'fee'           => 0,
         ]);
 
         $group = Group::byProgram($tournament->program_id)->first();
@@ -102,5 +100,4 @@ class QuizmasterRegistrationTest extends TestCase
             ->visit('/tournaments/'.$tournament->slug)
             ->press('Quizmaster'); // asserts it's a button
     }
-
 }

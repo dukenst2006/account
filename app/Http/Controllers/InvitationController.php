@@ -1,15 +1,9 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php
+
+namespace BibleBowl\Http\Controllers;
 
 use Auth;
-use BibleBowl\Http\Requests\InvitationAcceptRequest;
-use BibleBowl\Http\Requests\PaymentRequest;
 use BibleBowl\Invitation;
-use BibleBowl\Player;
-use BibleBowl\Shop\PaymentFailed;
-use BibleBowl\Shop\PaymentProcessor;
-use Cart;
-use DB;
-use Omnipay;
 use Session;
 
 class InvitationController extends Controller
@@ -29,8 +23,9 @@ class InvitationController extends Controller
             return $this->redirectRoute()->withFlashSuccess('Login to accept this invitation');
         } else {
             $invitation->update([
-                'status' => Invitation::DECLINED
+                'status' => Invitation::DECLINED,
             ]);
+
             return $this->redirectRoute()->withFlashSuccess('Invitation has been declined');
         }
     }

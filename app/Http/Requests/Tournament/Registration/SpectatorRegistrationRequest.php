@@ -1,9 +1,7 @@
-<?php namespace BibleBowl\Http\Requests\Tournament\Registration;
+<?php
 
-use Auth;
-use BibleBowl\Http\Requests\Request;
+namespace BibleBowl\Http\Requests\Tournament\Registration;
 
 class SpectatorRegistrationRequest extends StandaloneSpectatorRegistrationRequest
 {
-
 }

@@ -1,5 +1,6 @@
-var gulp = require('gulp'),
-    elixir = require('laravel-elixir');
+const elixir = require('laravel-elixir');
+
+require('laravel-elixir-vue');
 
 /*
  |--------------------------------------------------------------------------
@@ -7,12 +8,12 @@ var gulp = require('gulp'),
  |--------------------------------------------------------------------------
  |
  | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Less
+ | for your Laravel application. By default, we are compiling the Sass
  | file for our application, as well as publishing vendor resources.
  |
  */
 
-elixir(function(mix) {
+elixir(mix => {
     //compile core css
     mix.less('style.less');
     mix.less('responsive.less');
@@ -23,7 +24,7 @@ elixir(function(mix) {
         'css/style.css',
         'css/responsive.css'
     ],  'public/css/core.css', 'public');
-
+    
     mix.scripts([
         'assets/plugins/jquery-notifications/js/messenger.js',
         'assets/plugins/jquery-notifications/js/messenger-theme-flat.js',
@@ -32,7 +33,7 @@ elixir(function(mix) {
         'assets/plugins/jquery-notifications/css/messenger.css',
         'assets/plugins/jquery-notifications/css/messenger-theme-flat.css',
     ],  'public/css/notifications.css', 'public');
-
+    
     // compile assets for managing teams
     mix.scripts([
         'assets/plugins/jquery-notifications/js/messenger.js',
@@ -47,7 +48,7 @@ elixir(function(mix) {
         'assets/plugins/jquery-notifications/css/messenger-theme-flat.css',
         'assets/css/teamsets.css'
     ],  'public/css/teamsets.css', 'public');
-
+    
     // compile backend assets
     mix.scripts([
         '/assets/plugins/jquery-1.8.3.min.js',
@@ -61,7 +62,7 @@ elixir(function(mix) {
         '/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
         '/assets/js/core.js',
     ], 'public/js/backend.js', 'public');
-
+    
     mix.version([
         'js/backend.js',
         'assets/js/dashboard.js',
@@ -72,7 +73,7 @@ elixir(function(mix) {
         'css/teamsets.css',
         'js/teamsets.js'
     ]);
-
+    
     // Copy font-awesome assets.
     mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
 });

@@ -60,13 +60,13 @@
     $(document).ready(function() {
         // hide/show name, address, etc. for the head coach
         $('#registering-as-current-user').change(function() {
-            if ($(this).is(':checked')) {
+            if ($(this).isAn(':checked')) {
                 $('#non-current-user-registration').hide();
             } else {
                 $('#non-current-user-registration').show();
             }
         });
-        if ($('#registering-as-current-user').is(':checked')) {
+        if ($('#registering-as-current-user').isAn(':checked')) {
             $('#non-current-user-registration').hide();
         } else {
             $('#non-current-user-registration').show();

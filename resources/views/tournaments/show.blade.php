@@ -79,7 +79,7 @@
                                     @endif
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         @if(Auth::user() !== null)
-                                            @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+                                            @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
                                                 <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">Group</a>
                                             @else
                                                 <button title="Only head coaches can register their groups" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom">Group</button>

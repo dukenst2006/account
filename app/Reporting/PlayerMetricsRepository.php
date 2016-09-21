@@ -1,7 +1,8 @@
-<?php namespace BibleBowl\Reporting;
+<?php
+
+namespace BibleBowl\Reporting;
 
 use BibleBowl\Group;
-use BibleBowl\Player;
 use BibleBowl\Season;
 use DB;
 
@@ -23,7 +24,7 @@ class PlayerMetricsRepository
                 ->select('player_season.grade', DB::raw('count(players.id) as total'))
                 ->groupBy('player_season.grade')
                 ->get()->toArray(),
-            'total'     => $baseModel->players()->active($season)->count()
+            'total'     => $baseModel->players()->active($season)->count(),
         ];
     }
 
@@ -47,10 +48,11 @@ class PlayerMetricsRepository
                 $high += $attrs->total;
             }
         }
+
         return [
             'Elementary'    => $elementary,
             'Middle'        => $middle,
-            'High'          => $high
+            'High'          => $high,
         ];
     }
 }

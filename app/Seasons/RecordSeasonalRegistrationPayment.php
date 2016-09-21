@@ -1,9 +1,9 @@
-<?php namespace BibleBowl\Seasons;
+<?php
+
+namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
 use BibleBowl\Player;
-use BibleBowl\Season;
-use BibleBowl\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Collection;
@@ -20,7 +20,7 @@ class RecordSeasonalRegistrationPayment
         $now = Carbon::now();
         DB::update('UPDATE player_season SET paid = ? WHERE group_id = ? AND player_id IN('.$playerIds.')', [
             $now->toDateTimeString(),
-            Session::group()->id
+            Session::group()->id,
         ]);
     }
 }

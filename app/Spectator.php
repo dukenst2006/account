@@ -148,5 +148,4 @@ class Spectator extends Model
     {
         return $this->receipt_id != null;
     }
-
 }

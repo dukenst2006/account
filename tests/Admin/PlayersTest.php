@@ -1,12 +1,10 @@
 <?php
 
-use BibleBowl\User;
 use BibleBowl\Player;
 use BibleBowl\Role;
 
 class PlayersTest extends TestCase
 {
-
     protected $user;
 
     use \Helpers\ActingAsDirector;
@@ -51,7 +49,7 @@ class PlayersTest extends TestCase
         $player = Player::first();
         $player->guardian->players()->where('players.id', '!=', $player->id)->delete();
 
-        $this->assertTrue($player->guardian->is(Role::GUARDIAN));
+        $this->assertTrue($player->guardian->isAn(Role::GUARDIAN));
 
         $this
             ->visit('/admin/players/'.$player->id)
@@ -59,6 +57,6 @@ class PlayersTest extends TestCase
             ->see('Player has been deleted');
 
         Bouncer::refresh();
-        $this->assertTrue($player->guardian->isNot(Role::GUARDIAN));
+        $this->assertTrue($player->guardian->isNotAn(Role::GUARDIAN));
     }
 }

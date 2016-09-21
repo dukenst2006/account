@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Groups;
+<?php
+
+namespace BibleBowl\Http\Controllers\Groups;
 
 use Auth;
 use BibleBowl\Group;
@@ -12,17 +14,18 @@ use BibleBowl\Http\Requests\Groups\UserInviteRequest;
 use BibleBowl\Http\Requests\MailchimpIntegrationRequest;
 use BibleBowl\Invitation;
 use BibleBowl\Program;
-use Illuminate\Mail\Message;
 use BibleBowl\User;
-use Session;
 use DB;
+use Illuminate\Mail\Message;
 use Mail;
+use Session;
 
 class SettingsController extends Controller
 {
     public function editEmail(GroupCreatorOnlyRequest $request)
     {
         $group = Session::group();
+
         return view('group.settings.email')
             ->withGroup($group)
             ->withSettings($group->settings)
@@ -58,6 +61,7 @@ class SettingsController extends Controller
     public function editIntegrations(GroupCreatorOnlyRequest $request)
     {
         $group = Session::group();
+
         return view('group.settings.integrations')
             ->withGroup($group)
             ->with('settings', $group->settings);
@@ -86,6 +90,7 @@ class SettingsController extends Controller
     public function listUsers()
     {
         $group = Session::group();
+
         return view('group.settings.users')
             ->withGroup($group)
             ->withUsers($group->users)
@@ -129,7 +134,7 @@ class SettingsController extends Controller
             'email'         => is_null($user) ? $request->get('email') : null,
             'user_id'       => is_null($user) ? null : $user->id,
             'inviter_id'    => Auth::user()->id,
-            'group_id'      => $group->id
+            'group_id'      => $group->id,
         ]);
 
         Mail::queue(
@@ -137,7 +142,7 @@ class SettingsController extends Controller
             [
                 'invitation'        => $invitation,
                 'header'            => 'Group Management Invitation',
-                'invitationText'    => '<strong>'.Auth::user()->full_name.'</strong> has invited you to help manage the '.$group->program->abbreviation.' <strong>'.$group->name.'</strong> group.'
+                'invitationText'    => '<strong>'.Auth::user()->full_name.'</strong> has invited you to help manage the '.$group->program->abbreviation.' <strong>'.$group->name.'</strong> group.',
             ],
             function (Message $message) use ($recipientEmail, $recipientName) {
                 $message->to($recipientEmail, $recipientName)

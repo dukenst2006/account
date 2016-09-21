@@ -1,14 +1,16 @@
-<?php namespace BibleBowl\Http\Controllers\Account;
+<?php
+
+namespace BibleBowl\Http\Controllers\Account;
 
 use App;
 use Auth;
 use BibleBowl\Address;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Support\Scrubber;
-use BibleBowl\User;
 use BibleBowl\RegistrationSurvey;
 use BibleBowl\RegistrationSurveyAnswer;
 use BibleBowl\RegistrationSurveyQuestion;
+use BibleBowl\Support\Scrubber;
+use BibleBowl\User;
 use DB;
 use Illuminate\Http\Request;
 use Redirect;
@@ -31,7 +33,7 @@ class SetupController extends Controller
     {
         $request->merge([
             'name'    => 'Home', //default address name,
-            'phone' => $scrubber->integer($request->get('phone')) //strip non-int characters
+            'phone'   => $scrubber->integer($request->get('phone')), //strip non-int characters
         ]);
 
         $userRules = array_only(User::validationRules(), ['gender', 'phone', 'first_name', 'last_name']);
@@ -50,12 +52,12 @@ class SetupController extends Controller
             $settings = $user->settings;
             $settings->setTimezone($request->input('timezone'));
             $user->update([
-                'settings' => $settings
+                'settings' => $settings,
             ]);
 
             // add user address
             $address = App::make(Address::class, [$request->except([
-                'first_name', 'last_name', 'phone', 'gender', 'timezone', 'answer', 'other'
+                'first_name', 'last_name', 'phone', 'gender', 'timezone', 'answer', 'other',
             ])]);
             $user->addresses()->save($address);
             $user->update(['primary_address_id' => $address->id]);
@@ -66,16 +68,16 @@ class SetupController extends Controller
                 foreach ($request->get('answer') as $questionId => $answers) {
                     foreach ($answers as $answerId => $true) {
                         $surveys[] = app(RegistrationSurvey::class, [[
-                            'answer_id' => $answerId
+                            'answer_id' => $answerId,
                         ]]);
                     }
 
                     // update that question's "Other"
-                    if($request->has('other.'.$questionId) && strlen($request->get('other')[$questionId]) > 0) {
+                    if ($request->has('other.'.$questionId) && strlen($request->get('other')[$questionId]) > 0) {
                         $otherAnswer = RegistrationSurveyAnswer::where('question_id', $questionId)->where('answer', 'Other')->first();
                         $surveys[] = app(RegistrationSurvey::class, [[
                             'answer_id'     => $otherAnswer->id,
-                            'other'         => $request->get('other')[$questionId]
+                            'other'         => $request->get('other')[$questionId],
                         ]]);
                     }
                 }

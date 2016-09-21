@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Groups;
+<?php
+
+namespace BibleBowl\Groups;
 
 use Illuminate\Support\Fluent;
 
@@ -48,7 +50,7 @@ class Settings extends Fluent
 
     public function setMailchimpEnabled($value)
     {
-        return $this->mailchimpEnabled = !!$value;
+        return $this->mailchimpEnabled = (bool) $value;
     }
 
     public function mailchimpKey()

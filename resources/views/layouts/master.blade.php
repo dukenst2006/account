@@ -104,7 +104,7 @@
             name:  '{{ Auth::user()->full_name }}',
             created_at:  {{ Auth::user()->created_at->timestamp }},
 
-            @if(Auth::user()->is(\BibleBowl\Role::HEAD_COACH))
+            @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
                 account: {
                     id: {{ Session::group()->id }},
                     name: '[{{ Session::group()->program->abbreviation }}] {{ Session::group()->name }}',

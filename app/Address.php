@@ -1,13 +1,15 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
 use Jackpopp\GeoDistance\GeoDistanceTrait;
 
 /**
- * BibleBowl\Address
+ * BibleBowl\Address.
  *
- * @property integer $id
- * @property integer $user_id
+ * @property int $id
+ * @property int $user_id
  * @property string $name
  * @property string $address_one
  * @property string $address_two
@@ -21,6 +23,7 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @property string $deleted_at
  * @property-read User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $group
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereName($value)
@@ -36,12 +39,12 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereDeletedAt($value)
  * @method static \BibleBowl\Address within($distance, $measurement = null, $lat = null, $lng = null)
  * @method static \BibleBowl\Address outside($distance, $measurement = null, $lat = null, $lng = null)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
  * @mixin \Eloquent
  */
 class Address extends Model
 {
-
     use GeoDistanceTrait;
 
     /**
@@ -65,6 +68,7 @@ class Address extends Model
     {
         if ($latitude) {
             $this->latitude = $latitude;
+
             return $this;
         }
 
@@ -75,6 +79,7 @@ class Address extends Model
     {
         if ($longitude) {
             $this->longitude = $longitude;
+
             return $this;
         }
 
@@ -111,7 +116,7 @@ class Address extends Model
             'name'              => 'required|max:32',
             'address_one'       => 'required|max:255',
             'address_two'       => 'max:255',
-            'zip_code'          => 'required|regex:/\b\d{5}\b/'
+            'zip_code'          => 'required|regex:/\b\d{5}\b/',
         ];
     }
 
@@ -119,7 +124,7 @@ class Address extends Model
     {
         return [
             'address_one.required'  => 'The street address field is required',
-            'zip_code.regex'        => 'The zip code field is invalid'
+            'zip_code.regex'        => 'The zip code field is invalid',
         ];
     }
 

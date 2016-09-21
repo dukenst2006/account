@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Users\Communication;
+<?php
+
+namespace BibleBowl\Users\Communication;
 
 use BibleBowl\Role;
 use BibleBowl\User;
@@ -9,7 +11,6 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class RemoveInterestOnMailingList implements ShouldQueue
 {
-
     use InteractsWithQueue;
 
     /** @var Easychimp */
@@ -23,8 +24,9 @@ class RemoveInterestOnMailingList implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param   User    $user
-     * @param   Role    $role
+     * @param User $user
+     * @param Role $role
+     *
      * @return void
      */
     public function handle(User $user, Role $role)
@@ -55,7 +57,7 @@ class RemoveInterestOnMailingList implements ShouldQueue
                 $user->first_name,
                 $user->last_name,
                 [
-                    $role->mailchimp_interest_id => false
+                    $role->mailchimp_interest_id => false,
                 ]
             );
         }

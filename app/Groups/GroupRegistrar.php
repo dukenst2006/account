@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Groups;
+<?php
+
+namespace BibleBowl\Groups;
 
 use BibleBowl\Group;
 use BibleBowl\Role;
@@ -36,9 +38,9 @@ class GroupRegistrar
             $grades = [];
             $shirtSizes = [];
             foreach ($registration->players($group->program) as $player) {
-                $player->full_name          = $player->full_name;
-                $grades[$player->id]        = $registration->grade($player->id);
-                $shirtSizes[$player->id]    = $registration->shirtSize($player->id);
+                $player->full_name = $player->full_name;
+                $grades[$player->id] = $registration->grade($player->id);
+                $shirtSizes[$player->id] = $registration->shirtSize($player->id);
                 $players[] = $player;
             }
 
@@ -47,7 +49,7 @@ class GroupRegistrar
 
             /** @var User $user */
             foreach ($group->users()->with('roles')->get() as $user) {
-                if ($user->is(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
+                if ($user->isA(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
                     Mail::queue(
                         'emails.group-registration-notification',
                         [
@@ -55,7 +57,7 @@ class GroupRegistrar
                             'guardian'      => $guardian,
                             'players'       => $players,
                             'grades'        => $grades,
-                            'shirtSizes'    => $shirtSizes
+                            'shirtSizes'    => $shirtSizes,
                         ],
                         function (Message $message) use ($group, $user, $players) {
                             $message->to($user->email, $user->full_name)
@@ -72,7 +74,7 @@ class GroupRegistrar
 
         event('players.registered.with.group', [
             $group,
-            $guardian
+            $guardian,
         ]);
 
         return $group;

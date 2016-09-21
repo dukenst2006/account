@@ -1,4 +1,6 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
 

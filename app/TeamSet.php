@@ -1,38 +1,44 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * BibleBowl\Season
+ * BibleBowl\Season.
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player')
  *             ->withPivot('grade[] $players
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereUpdatedAt($value)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
- * @property integer $group_id
- * @property integer $season_id
+ *
+ * @property int $group_id
+ * @property int $season_id
  * @property-read Group $group
  * @property-read Season $season
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
  * @mixin \Eloquent
  */
 class TeamSet extends Model
 {
-
     /**
      * The attributes that are not mass assignable.
      *
@@ -43,7 +49,7 @@ class TeamSet extends Model
     public static function validationRules()
     {
         return [
-            'name'  => 'required|max:64'
+            'name'  => 'required|max:64',
         ];
     }
 
@@ -66,6 +72,7 @@ class TeamSet extends Model
     public function players()
     {
         $teamIds = $this->teams->modelKeys();
+
         return Player::whereHas('teams', function ($q) use ($teamIds) {
             $q->whereIn('id', $teamIds);
         });
@@ -73,7 +80,7 @@ class TeamSet extends Model
 
     /**
      * @param Builder $query
-     * @param Season $season
+     * @param Season  $season
      */
     public function scopeSeason(Builder $query, Season $season)
     {
@@ -86,6 +93,7 @@ class TeamSet extends Model
     public function teams()
     {
         $seasonId = $this->season_id;
+
         return $this->hasMany(Team::class)
 
             // exclude players who are not registered with this group
@@ -93,7 +101,7 @@ class TeamSet extends Model
                 'players.seasons' => function (BelongsToMany $query) use ($seasonId) {
                     $query->where('season_id', $seasonId);
                     $query->withPivot('grade');
-                }
+                },
             ]);
     }
 

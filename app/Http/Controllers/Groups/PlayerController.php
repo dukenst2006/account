@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Groups;
+<?php
+
+namespace BibleBowl\Http\Controllers\Groups;
 
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\Groups\PlayerInactiveToggleRequest;
@@ -7,10 +9,9 @@ use Session;
 
 class PlayerController extends Controller
 {
-
     /**
-     * @param PlayerInactiveToggleRequest   $request
-     * @param                               $player
+     * @param PlayerInactiveToggleRequest $request
+     * @param                             $player
      *
      * @return mixed
      */
@@ -23,8 +24,8 @@ class PlayerController extends Controller
     }
 
     /**
-     * @param PlayerInactiveToggleRequest   $request
-     * @param                               $player
+     * @param PlayerInactiveToggleRequest $request
+     * @param                             $player
      *
      * @return mixed
      */

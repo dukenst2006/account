@@ -1,28 +1,21 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments\Registration;
+<?php
+
+namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use Auth;
 use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrar;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrar;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistration;
-use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
 use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrationPaymentReceived;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\SpectatorRegistrationRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneSpectatorRegistrationRequest;
 use BibleBowl\ParticipantType;
 use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
-use Session;
 use Cart;
+use Session;
 
 class SpectatorController extends Controller
 {
-
     public function getRegistration($slug)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
@@ -39,7 +32,7 @@ class SpectatorController extends Controller
         return view($view, [
             'tournament'            => $tournament,
             'adultFee'              => $tournament->fee($adultParticipantType),
-            'familyFee'             => $tournament->fee($familyParticipantType)
+            'familyFee'             => $tournament->fee($familyParticipantType),
         ]);
     }
 
@@ -84,7 +77,7 @@ class SpectatorController extends Controller
 
     /**
      * Regular registrations are where the Head Coach registers on
-     * behalf of the Adult/Family
+     * behalf of the Adult/Family.
      */
     public function postRegistration(
         SpectatorRegistrationRequest $request,

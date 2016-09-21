@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Competition\Tournaments\Registration;
+<?php
+
+namespace BibleBowl\Competition\Tournaments\Registration;
 
 use Illuminate\Support\Fluent;
 

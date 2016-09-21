@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\Invitation;
 use BibleBowl\Group;
+use BibleBowl\Invitation;
 use BibleBowl\User;
 use Helpers\ActingAsDirector;
 use Helpers\ActingAsHeadCoach;
@@ -10,7 +10,7 @@ class ManageUsersTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use ActingAsHeadCoach, ActingAsDirector {
-        ActingAsDirector::season insteadOf ActingAsHeadCoach;
+        ActingAsDirector::season insteadof ActingAsHeadCoach;
     }
 
     /**
@@ -46,7 +46,7 @@ class ManageUsersTest extends TestCase
             'status'        => Invitation::ACCEPTED,
             'type'          => Invitation::TYPE_MANAGE_GROUP,
             'inviter_id'    => $group->owner_id,
-            'group_id'      => $group->id
+            'group_id'      => $group->id,
         ]);
 
         $this
@@ -64,7 +64,7 @@ class ManageUsersTest extends TestCase
             'status'        => Invitation::DECLINED,
             'type'          => Invitation::TYPE_MANAGE_GROUP,
             'inviter_id'    => $group->owner_id,
-            'group_id'      => $group->id
+            'group_id'      => $group->id,
         ]);
 
         $this
@@ -81,7 +81,7 @@ class ManageUsersTest extends TestCase
         $invitation = Invitation::create([
             'type'          => Invitation::TYPE_MANAGE_GROUP,
             'inviter_id'    => $group->owner_id,
-            'group_id'      => $group->id
+            'group_id'      => $group->id,
         ]);
 
         $this
@@ -101,7 +101,7 @@ class ManageUsersTest extends TestCase
         $invitation = Invitation::create([
             'type'          => Invitation::TYPE_MANAGE_GROUP,
             'inviter_id'    => $group->owner_id,
-            'group_id'      => $group->id
+            'group_id'      => $group->id,
         ]);
 
         $this->setupAsDirector();

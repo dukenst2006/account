@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use BibleBowl\Team;
 use Session;
 
 class TeamGroupOnlyRequest extends Request
 {
-
     protected $team;
 
     /**
@@ -15,7 +16,8 @@ class TeamGroupOnlyRequest extends Request
      */
     public function authorize()
     {
-        $this->team = Team::findOrFail($this->route('teams'));
+        $this->team = Team::findOrFail($this->route('team'));
+
         return Session::group()->id == $this->team->teamSet->group_id;
     }
 

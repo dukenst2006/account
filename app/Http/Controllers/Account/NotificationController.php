@@ -1,14 +1,14 @@
-<?php namespace BibleBowl\Http\Controllers\Account;
+<?php
+
+namespace BibleBowl\Http\Controllers\Account;
 
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
-use DB;
 use Illuminate\Http\Request;
 use Redirect;
 
 class NotificationController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -27,7 +27,7 @@ class NotificationController extends Controller
         $settings = $user->settings;
         $settings->notifyWhenUserJoinsGroup($request->input('notifyWhenUserJoinsGroup') == 1);
         $user->update([
-            'settings' => $settings
+            'settings' => $settings,
         ]);
 
         return redirect('/dashboard')->withFlashSuccess('Your changes were saved');

@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers;
+<?php
+
+namespace BibleBowl\Http\Controllers;
 
 use Auth;
 use BibleBowl\Group;
@@ -12,7 +14,6 @@ use Session;
 
 class GroupController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -28,7 +29,7 @@ class GroupController extends Controller
 
         return view('/group/create-search', [
             'groups'        => $groups,
-            'hasSearched'   => $hasSearched
+            'hasSearched'   => $hasSearched,
         ]);
     }
 
@@ -52,7 +53,7 @@ class GroupController extends Controller
     public function store(GroupCreationRequest $request, GroupCreator $groupCreator)
     {
         $group = $groupCreator->create(Auth::user(), $request->except([
-            'amHeadCoach'
+            'amHeadCoach',
         ]));
 
         // log the user in under this group
@@ -75,8 +76,8 @@ class GroupController extends Controller
     }
 
     /**
-     * @param GroupEditRequest      $request
-     * @param                       $id
+     * @param GroupEditRequest $request
+     * @param                  $id
      *
      * @return mixed
      */
@@ -97,11 +98,12 @@ class GroupController extends Controller
         if (Session::group()->id == $group->id) {
             Session::setGroup($group);
         }
+
         return redirect('/group/'.$group->id.'/edit')->withFlashSuccess('Your changes were saved');
     }
 
     /**
-     * Swap the current user's group for another
+     * Swap the current user's group for another.
      *
      * @param GroupCreatorOnlyRequest $request
      * @param                         $id

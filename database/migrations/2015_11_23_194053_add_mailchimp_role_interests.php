@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddMailchimpRoleInterests extends Migration
 {
@@ -12,8 +12,7 @@ class AddMailchimpRoleInterests extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function(Blueprint $table)
-        {
+        Schema::table('roles', function (Blueprint $table) {
             $table->string('mailchimp_interest_id', 65)->nullable()->unique()->after('name');
         });
     }
@@ -25,8 +24,7 @@ class AddMailchimpRoleInterests extends Migration
      */
     public function down()
     {
-        Schema::table('roles', function(Blueprint $table)
-        {
+        Schema::table('roles', function (Blueprint $table) {
             $table->dropColumn('mailchimp_interest_id');
         });
     }

@@ -1,10 +1,9 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
 
-use Illuminate\Contracts\Validation\Factory;
+namespace BibleBowl\Http\Requests;
 
 class SeasonRegistrationRequest extends GroupJoinRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,14 +22,14 @@ class SeasonRegistrationRequest extends GroupJoinRequest
     public function rules()
     {
         return [
-            'terms_of_participation' => 'required'
+            'terms_of_participation' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'terms_of_participation.required' => 'You must agree to the Terms of Participation'
+            'terms_of_participation.required' => 'You must agree to the Terms of Participation',
         ];
     }
 }

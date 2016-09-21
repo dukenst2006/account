@@ -5,17 +5,18 @@ namespace BibleBowl;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\ReceiptItem
+ * BibleBowl\ReceiptItem.
  *
- * @property integer $id
- * @property integer $receipt_id
+ * @property int $id
+ * @property int $receipt_id
  * @property string $sku
  * @property string $description
- * @property integer $quantity
+ * @property int $quantity
  * @property float $price
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
  * @property-read \BibleBowl\Receipt $receipt
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereReceiptId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereSku($value)

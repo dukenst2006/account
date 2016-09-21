@@ -3,31 +3,32 @@
 namespace BibleBowl;
 
 use BibleBowl\Presentation\Describer;
+use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use BibleBowl\Support\CanDeactivate;
 use Illuminate\Support\Collection;
 
 /**
- * BibleBowl\Tournament
+ * BibleBowl\Tournament.
  *
- * @property integer $id
+ * @property int $id
  * @property string $guid
- * @property integer $season_id
+ * @property int $season_id
  * @property string $name
- * @property boolean $active
+ * @property bool $active
  * @property string $start
  * @property string $end
  * @property string $registration_start
  * @property string $registration_end
  * @property string $url
- * @property integer $creator_id
+ * @property int $creator_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
  * @property-read Season $season
  * @property-read User $creator
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereSeasonId($value)
@@ -51,11 +52,11 @@ class Tournament extends Model
     // register for all tournaments
     const PARTICIPANTS_REQUIRED_TO_REGISTER = [
         ParticipantType::PLAYER,
-        ParticipantType::TEAM
+        ParticipantType::TEAM,
     ];
 
     protected $attributes = [
-        'lock_teams'    => null
+        'lock_teams'    => null,
     ];
 
     protected $guarded = ['id'];
@@ -126,7 +127,7 @@ class Tournament extends Model
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $start
      */
@@ -136,7 +137,7 @@ class Tournament extends Model
     }
 
     /**
-     * Provide start as a Carbon object
+     * Provide start as a Carbon object.
      *
      * @param $start
      *
@@ -148,7 +149,7 @@ class Tournament extends Model
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $end
      */
@@ -158,7 +159,7 @@ class Tournament extends Model
     }
 
     /**
-     * Provide end as a Carbon object
+     * Provide end as a Carbon object.
      *
      * @param $end
      *
@@ -170,7 +171,7 @@ class Tournament extends Model
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $registration_start
      */
@@ -180,7 +181,7 @@ class Tournament extends Model
     }
 
     /**
-     * Provide registration start as a Carbon object
+     * Provide registration start as a Carbon object.
      *
      * @param $registration_start
      *
@@ -192,7 +193,7 @@ class Tournament extends Model
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $registration_end
      */
@@ -202,7 +203,7 @@ class Tournament extends Model
     }
 
     /**
-     * Provide registration end as a Carbon object
+     * Provide registration end as a Carbon object.
      *
      * @param $registration_end
      *
@@ -214,7 +215,7 @@ class Tournament extends Model
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $end
      */
@@ -228,7 +229,7 @@ class Tournament extends Model
     }
 
     /**
-     * Provide end as a Carbon object
+     * Provide end as a Carbon object.
      *
      * @param $end
      *
@@ -237,14 +238,14 @@ class Tournament extends Model
     public function getLockTeamsAttribute($lock_teamsed)
     {
         if (is_null($lock_teamsed)) {
-            return null;
+            return;
         }
 
         return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $end
      */
@@ -258,14 +259,14 @@ class Tournament extends Model
     }
 
     /**
-     * Provide end as a Carbon object
+     * Provide end as a Carbon object.
      *
      * @return static
      */
     public function getEarlybirdEndsAttribute($earlybird_ends)
     {
         if (is_null($earlybird_ends)) {
-            return null;
+            return;
         }
 
         return Carbon::createFromFormat('Y-m-d', $earlybird_ends);
@@ -287,11 +288,12 @@ class Tournament extends Model
     }
 
     /**
-     * Determine if registration is currently open
+     * Determine if registration is currently open.
      */
     public function isRegistrationOpen() : bool
     {
         $now = Carbon::now();
+
         return $now->gte($this->registration_start) && $now->lte($this->registration_end);
     }
 
@@ -301,7 +303,7 @@ class Tournament extends Model
     }
 
     /**
-     * Get date span
+     * Get date span.
      */
     public function dateSpan()
     {
@@ -309,7 +311,7 @@ class Tournament extends Model
     }
 
     /**
-     * Get date span
+     * Get date span.
      */
     public function registrationDateSpan()
     {
@@ -317,7 +319,7 @@ class Tournament extends Model
     }
 
     /**
-     * Get the fee for a ParticipantType
+     * Get the fee for a ParticipantType.
      */
     public function fee(ParticipantType $participantType)
     {
@@ -348,7 +350,7 @@ class Tournament extends Model
     {
         if ($this->participantTypesWithOnSiteRegistrationCache == null) {
             $tournamentId = $this->id;
-            $participantTypes = ParticipantType::whereHas('participantFee', function (Builder $q) use($tournamentId) {
+            $participantTypes = ParticipantType::whereHas('participantFee', function (Builder $q) use ($tournamentId) {
                 $q->whereNotNull('onsite_fee')
                     ->where('tournament_id', $tournamentId);
             })->get();
@@ -370,7 +372,7 @@ class Tournament extends Model
     }
 
     /**
-     * Fetch tournaments that are
+     * Fetch tournaments that are.
      */
     public function scopeVisible(Builder $query, $programId, Season $season)
     {
@@ -379,5 +381,4 @@ class Tournament extends Model
             ->whereDate('registration_start', '<=', Carbon::now())
             ->orderBy('start', 'ASC');
     }
-
 }

@@ -157,13 +157,13 @@
     $(document).ready(function() {
         // hide/show spouse/minor registration
         $('#register-family').change(function() {
-            if ($(this).is(':checked')) {
+            if ($(this).isAn(':checked')) {
                 $('#family-registration').show();
             } else {
                 $('#family-registration').hide();
             }
         });
-        if ($('#register-family').is(':checked')) {
+        if ($('#register-family').isAn(':checked')) {
             $('#family-registration').show();
         } else {
             $('#family-registration').hide();

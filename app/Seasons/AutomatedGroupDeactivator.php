@@ -2,9 +2,9 @@
 
 namespace BibleBowl\Seasons;
 
+use BibleBowl\Group;
 use Illuminate\Mail\Message;
 use Mail;
-use BibleBowl\Group;
 
 class AutomatedGroupDeactivator
 {
@@ -17,14 +17,14 @@ class AutomatedGroupDeactivator
         // notify the group owner
         foreach ($groupsToDeactivate as $group) {
             $group->update([
-                'inactive' => 1 // will convert to a timestamp on save
+                'inactive' => 1, // will convert to a timestamp on save
             ]);
 
             Mail::queue(
                 'emails.inactive-group-notification',
                 [
                     'group'     => $group,
-                    'season'    => $season
+                    'season'    => $season,
                 ],
                 function (Message $message) use ($group) {
                     $message->to($group->owner->email, $group->owner->full_name)
@@ -39,7 +39,7 @@ class AutomatedGroupDeactivator
             Mail::queue(
                 'emails.inactive-group-summary',
                 [
-                    'groupIds' => $groupsToDeactivate->modelKeys()
+                    'groupIds' => $groupsToDeactivate->modelKeys(),
                 ],
                 function (Message $message) use ($deactivatedGroups) {
                     $message->to(config('biblebowl.officeEmail'))

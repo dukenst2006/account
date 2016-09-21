@@ -1,13 +1,15 @@
-<?php namespace BibleBowl\Users\Auth;
+<?php
+
+namespace BibleBowl\Users\Auth;
 
 use BibleBowl\User;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class ThirdPartyAuthenticator
 {
-    const PROVIDER_FACEBOOK    = 'facebook';
-    const PROVIDER_TWITTER        = 'twitter';
-    const PROVIDER_GOOGLE        = 'google';
+    const PROVIDER_FACEBOOK = 'facebook';
+    const PROVIDER_TWITTER = 'twitter';
+    const PROVIDER_GOOGLE = 'google';
 
     /** @var Socialite */
     private $socialite;
@@ -22,10 +24,11 @@ class ThirdPartyAuthenticator
     }
 
     /**
-     * @param         $provider
+     * @param   $provider
+     *
+     * @throws UnsupportedProvider
      *
      * @return mixed
-     * @throws UnsupportedProvider
      */
     public function getAuthorization($provider)
     {
@@ -52,12 +55,13 @@ class ThirdPartyAuthenticator
     }
 
     /**
-     * Find the existing user or create a new one for this account
+     * Find the existing user or create a new one for this account.
      *
      * @param $provider
      *
-     * @return User
      * @throws EmailAlreadyInUse
+     *
+     * @return User
      */
     public function findOrCreateUser($provider)
     {
@@ -66,7 +70,7 @@ class ThirdPartyAuthenticator
 
         $user = User::byProvider($provider, $providerUser->id)->first();
         if (is_null($user)) {
-            # Don't allow this email to be registered if it's already in use
+            // Don't allow this email to be registered if it's already in use
             if (User::where('email', $providerUser->getEmail())->count() > 0) {
                 throw new EmailAlreadyInUse($providerUser->getEmail().' is already in use by an another account.');
             }
@@ -77,7 +81,7 @@ class ThirdPartyAuthenticator
         // update the avatar if it has changed
         if (!is_null($providerUser->getAvatar()) && $user->avatar != $providerUser->getAvatar()) {
             $user->update([
-                'avatar' => $providerUser->getAvatar()
+                'avatar' => $providerUser->getAvatar(),
             ]);
         }
 

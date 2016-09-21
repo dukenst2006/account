@@ -1,8 +1,8 @@
-<?php namespace BibleBowl\Groups;
+<?php
 
-use Bouncer;
+namespace BibleBowl\Groups;
+
 use BibleBowl\Group;
-use BibleBowl\Role;
 use BibleBowl\User;
 use DB;
 

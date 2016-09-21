@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
 
-use Bouncer;
+namespace BibleBowl\Http\Requests;
+
 use BibleBowl\Ability;
+use Bouncer;
 
 class TournamentCreateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -45,7 +46,7 @@ class TournamentCreateRequest extends Request
             'end.required'                  => 'An end date is required',
             'registration_start.required'   => 'A registration start date is required',
             'registration_end.required'     => 'A registration end date is required',
-            'max_teams.required'            => 'Max number of teams is required'
+            'max_teams.required'            => 'Max number of teams is required',
         ];
     }
 }

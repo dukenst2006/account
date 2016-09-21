@@ -1,10 +1,11 @@
-<?php namespace BibleBowl\Support\Providers;
+<?php
+
+namespace BibleBowl\Support\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 class ConfigServiceProvider extends ServiceProvider
 {
-
     /**
      * Overwrite any vendor / package configuration.
      *

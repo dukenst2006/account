@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
 use BibleBowl\Group;
 
 class GroupCreationRequest extends Request
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,7 +15,7 @@ class GroupCreationRequest extends Request
     public function rules()
     {
         return array_merge(Group::validationRules(), [
-                'amHeadCoach' => 'required'
+                'amHeadCoach' => 'required',
             ]);
     }
 
@@ -26,7 +27,7 @@ class GroupCreationRequest extends Request
     public function messages()
     {
         return array_merge(Group::validationMessages(), [
-            'amHeadCoach.required' => 'Only the Head Coach may create this group'
+            'amHeadCoach.required' => 'Only the Head Coach may create this group',
         ]);
     }
 
@@ -38,7 +39,7 @@ class GroupCreationRequest extends Request
         // merge it in directly rather than using
         // a hidden form field
         $this->merge([
-            'owner_id' => Auth::user()->id
+            'owner_id' => Auth::user()->id,
         ]);
 
         return parent::all();

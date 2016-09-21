@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Support\Providers;
+<?php
+
+namespace BibleBowl\Support\Providers;
 
 use BibleBowl\Location\FetchCoordinatesForAddress;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
@@ -8,12 +10,10 @@ use BibleBowl\Users\Auth\SendConfirmationEmail;
 use BibleBowl\Users\Communication\AddInterestOnMailingList;
 use BibleBowl\Users\Communication\RemoveInterestOnMailingList;
 use BibleBowl\Users\Communication\UpdateSubscriberInformation;
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
-
     /**
      * The event handler mappings for the application.
      *
@@ -24,28 +24,28 @@ class EventServiceProvider extends ServiceProvider
             OnLogin::class,
         ],
         'auth.registered' => [
-            SendConfirmationEmail::class
+            SendConfirmationEmail::class,
         ],
         'auth.resend.confirmation' => [
-            SendConfirmationEmail::class
+            SendConfirmationEmail::class,
         ],
         'user.role.added' => [
-            AddInterestOnMailingList::class
+            AddInterestOnMailingList::class,
         ],
         'user.role.removed' => [
-            RemoveInterestOnMailingList::class
+            RemoveInterestOnMailingList::class,
         ],
         'user.profile.updated' => [
-            UpdateSubscriberInformation::class
+            UpdateSubscriberInformation::class,
         ],
         'eloquent.created: BibleBowl\User' => [
             \BibleBowl\Users\Communication\AddToMailingList::class,
         ],
         'eloquent.created: BibleBowl\Address' => [
-            FetchCoordinatesForAddress::class
+            FetchCoordinatesForAddress::class,
         ],
         'eloquent.updated: BibleBowl\Address' => [
-            FetchCoordinatesForAddress::class
+            FetchCoordinatesForAddress::class,
         ],
         ProgramRegistrationPaymentReceived::EVENT => [
             RecordSeasonalRegistrationPayment::class,
@@ -56,14 +56,13 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register any other events for your application.
+     * Register any events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return void
      */
-    public function boot(DispatcherContract $events)
+    public function boot()
     {
-        parent::boot($events);
+        parent::boot();
 
         //
     }

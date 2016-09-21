@@ -27,5 +27,4 @@ class Minor extends Model
     {
         return $this->belongsTo(Spectator::class);
     }
-
 }

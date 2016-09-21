@@ -1,13 +1,14 @@
-<?php namespace BibleBowl\Http\Requests\Groups;
+<?php
 
+namespace BibleBowl\Http\Requests\Groups;
+
+use Auth;
 use BibleBowl\Group;
 use BibleBowl\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Builder;
-use Auth;
 
 class UserInviteRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,7 +29,7 @@ class UserInviteRequest extends Request
     public function rules()
     {
         return [
-            'email' => 'required|email'
+            'email' => 'required|email',
         ];
     }
 }

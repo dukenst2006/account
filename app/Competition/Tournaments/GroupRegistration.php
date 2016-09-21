@@ -8,11 +8,10 @@ use Illuminate\Support\Fluent;
 
 class GroupRegistration extends Fluent
 {
-
     protected $attributes = [
         'tournamentId'    => null,
         'teamSetId'       => null,
-        'quizmasters'     => []
+        'quizmasters'     => [],
     ];
 
     public function setTournament(Tournament $tournament)
@@ -44,5 +43,4 @@ class GroupRegistration extends Fluent
     {
         //return TeamSet::findOrFail($this->attributes['teamSetId']);
     }
-
 }

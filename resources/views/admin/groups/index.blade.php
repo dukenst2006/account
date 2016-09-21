@@ -47,7 +47,7 @@
                     @endif
                     </tbody>
                 </table>
-                {!! HTML::pagination($groups) !!}
+                {!! $groups->links() !!}
             </div>
         </div>
     </div>

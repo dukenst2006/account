@@ -14,7 +14,6 @@ class RollbarServiceProvider extends \Jenssegers\Rollbar\RollbarServiceProvider
 
         // Listen to log messages.
         $app['log']->listen(function ($level, $message, $context) use ($app) {
-
             $user = Auth::user();
 
             // log logged in user details
@@ -22,7 +21,7 @@ class RollbarServiceProvider extends \Jenssegers\Rollbar\RollbarServiceProvider
                 $context['person'] = [
                     'id'        => $user->id,
                     'username'  => $user->full_name,
-                    'email'     => $user->email
+                    'email'     => $user->email,
                 ];
             }
 

@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Account;
+<?php
+
+namespace BibleBowl\Http\Controllers\Account;
 
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
@@ -9,7 +11,6 @@ use Redirect;
 
 class AccountController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -29,11 +30,11 @@ class AccountController extends Controller
         $this->validate($request, User::validationRules($user));
 
         $user->update([
-            'first_name'    => $request->get('first_name'),
+            'first_name'       => $request->get('first_name'),
             'last_name'        => $request->get('last_name'),
             'email'            => $request->get('email'),
             'phone'            => $scrubber->integer($request->get('phone')),
-            'gender'        => $request->get('gender')
+            'gender'           => $request->get('gender'),
         ]);
 
         // update user timezone
@@ -41,7 +42,7 @@ class AccountController extends Controller
         $settings = $user->settings;
         $settings->setTimezone($request->input('timezone'));
         $user->update([
-            'settings' => $settings
+            'settings' => $settings,
         ]);
 
         event('user.profile.updated', $user);

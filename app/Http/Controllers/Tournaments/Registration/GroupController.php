@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments\Registration;
+<?php
+
+namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use BibleBowl\Competition\Tournaments\GroupRegistration;
 use BibleBowl\Group;
@@ -9,11 +11,11 @@ use Session;
 
 class GroupController extends Controller
 {
-
     public function index($slug)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
         $group = Session::group();
+
         return view('tournaments.registration.group-overview', [
             'tournament'    => $tournament,
             'group'         => $group,
@@ -28,7 +30,7 @@ class GroupController extends Controller
     {
         return view('tournaments.choose-teams', [
             'tournament'    => Tournament::where('slug', $slug)->firstOrFail(),
-            'teamSets'      => Session::group()->teamSets()->season(Session::season())->get()
+            'teamSets'      => Session::group()->teamSets()->season(Session::season())->get(),
         ]);
     }
 
@@ -52,7 +54,7 @@ class GroupController extends Controller
 
         return view('tournaments.quizmasters', [
             'tournament'    => $registration->tournament(),
-            'teamSet'       => $registration->teamSet()
+            'teamSet'       => $registration->teamSet(),
         ]);
     }
 }

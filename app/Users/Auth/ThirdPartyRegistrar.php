@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Users\Auth;
+<?php
+
+namespace BibleBowl\Users\Auth;
 
 use App;
 use BibleBowl\User;
@@ -19,7 +21,8 @@ class ThirdPartyRegistrar
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(array $data)
@@ -34,6 +37,7 @@ class ThirdPartyRegistrar
      * @param AbstractUser $providerUser
      *
      * @return User
+     *
      * @internal param \Laravel\Socialite\Two\User $user
      */
     public function create($provider, AbstractUser $providerUser)
@@ -44,14 +48,14 @@ class ThirdPartyRegistrar
             'last_name'     => isset($name[1]) ? $name[1] : '',
             'email'         => $providerUser->getEmail(),
             'avatar'        => $providerUser->getAvatar(),
-            'status'        => User::STATUS_CONFIRMED
+            'status'        => User::STATUS_CONFIRMED,
         ];
 
         DB::beginTransaction();
         $user = $this->registrar->create($userData);
         $userProvider = App::make('BibleBowl\UserProvider', [[
             'provider'        => $provider,
-            'provider_id'    => $providerUser->getId()
+            'provider_id'     => $providerUser->getId(),
         ]]);
         $user->providers()->save($userProvider);
         DB::commit();

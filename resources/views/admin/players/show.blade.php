@@ -71,7 +71,7 @@
                                 </tr>
                             @endforeach
                         </table>
-                        @if(Auth::user()->is(\BibleBowl\Role::ADMIN) && count($seasons) == 0)
+                        @if(Auth::user()->isAn(\BibleBowl\Role::ADMIN) && count($seasons) == 0)
                             <div class="text-center m-b-10">
                                 {!! Form::open(['url' => '/admin/players/'.$player->id, 'method' => 'delete']) !!}
                                 <button class="btn btn-small btn-danger" data-toggle="tooltip" title="Only players who haven't participated in a season may be deleted." >Delete Player</button>

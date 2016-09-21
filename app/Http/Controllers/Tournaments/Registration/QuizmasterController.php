@@ -1,15 +1,16 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments\Registration;
+<?php
+
+namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use Auth;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrar;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistration;
+use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
 use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
 use BibleBowl\ParticipantType;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
@@ -18,7 +19,6 @@ use Session;
 
 class QuizmasterController extends Controller
 {
-
     public function getRegistration($slug)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
@@ -33,11 +33,12 @@ class QuizmasterController extends Controller
         }
 
         $fee = $tournament->fee($participantType);
+
         return view($view, [
             'tournament'            => $tournament,
             'hasFee'                => $fee > 0,
             'fee'                   => $fee,
-            'quizzingPreferences'   => app(QuizzingPreferences::class)
+            'quizzingPreferences'   => app(QuizzingPreferences::class),
         ]);
     }
 
@@ -83,7 +84,7 @@ class QuizmasterController extends Controller
 
     /**
      * Regular registrations are where the Head Coach registers on
-     * behalf of the Quizmaster
+     * behalf of the Quizmaster.
      */
     public function postRegistration(
         QuizmasterRegistrationRequest $request,
@@ -111,7 +112,7 @@ class QuizmasterController extends Controller
             'tournament'            => $quimaster->tournament,
             'group'                 => $quimaster->group,
             'quizmaster'            => $quimaster,
-            'quizzingPreferences'   => $quimaster->quizzing_preferences
+            'quizzingPreferences'   => $quimaster->quizzing_preferences,
         ]);
     }
 
@@ -125,7 +126,7 @@ class QuizmasterController extends Controller
         if ($tournamentQuizmaster->user_id == null && $tournamentQuizmaster->email == Auth::user()->email) {
             $tournamentQuizmaster->user_id = Auth::user()->id;
         }
-        
+
         /** @var QuizzingPreferences $quizzingPreferences */
         $quizzingPreferences = $tournamentQuizmaster->quizzing_preferences;
         $quizzingPreferences->setQuizzedAtThisTournamentBefore($request->get('quizzed_at_tournament'));
@@ -135,7 +136,7 @@ class QuizmasterController extends Controller
         $tournamentQuizmaster->quizzing_preferences = $quizzingPreferences;
         $tournamentQuizmaster->shirt_size = $request->get('shirt_size');
         $tournamentQuizmaster->save();
-            
+
         return redirect('/tournaments/'.$tournamentQuizmaster->tournament->slug)->withFlashSuccess('Your quizzing preferences have been updated');
     }
 }

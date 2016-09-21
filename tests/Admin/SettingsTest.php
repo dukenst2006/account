@@ -1,10 +1,8 @@
 <?php
 
-use BibleBowl\User;
 
 class SettingsTest extends TestCase
 {
-
     protected $user;
 
     use \Helpers\ActingAsDirector;

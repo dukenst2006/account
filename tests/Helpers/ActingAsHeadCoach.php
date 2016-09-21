@@ -1,4 +1,6 @@
-<?php namespace Helpers;
+<?php
+
+namespace Helpers;
 
 use BibleBowl\Group;
 use BibleBowl\Season;
@@ -26,7 +28,7 @@ trait ActingAsHeadCoach
         $this->actingAs($this->headCoach)
             ->withSession([
                 SessionManager::GROUP   => $this->group->toArray(),
-                SessionManager::SEASON  => $this->season->toArray()
+                SessionManager::SEASON  => $this->season->toArray(),
             ]);
     }
 

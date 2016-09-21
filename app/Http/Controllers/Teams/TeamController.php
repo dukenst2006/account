@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Teams;
+<?php
+
+namespace BibleBowl\Http\Controllers\Teams;
 
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TeamGroupOnlyRequest;
@@ -8,21 +10,20 @@ use DB;
 
 class TeamController extends Controller
 {
-
     /**
      * @param   $request
-     * @param                       $id
+     * @param   $id
      *
      * @return mixed
      */
     public function store(TeamSetGroupOnlyRequest $request)
     {
         $request->merge([
-            'team_set_id' => $request->route('teamsets')
+            'team_set_id' => $request->route('teamset'),
         ]);
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $team = Team::create($request->except('_token'));
@@ -32,14 +33,14 @@ class TeamController extends Controller
 
     /**
      * @param   $request
-     * @param                       $id
+     * @param   $id
      *
      * @return mixed
      */
     public function update(TeamGroupOnlyRequest $request)
     {
         $request->team()->update([
-            'name' => $request->input('name')
+            'name' => $request->input('name'),
         ]);
 
         return response()->json();
@@ -88,7 +89,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Update the order of players on a team
+     * Update the order of players on a team.
      *
      * @param   $request
      * @param   $id
@@ -100,7 +101,7 @@ class TeamController extends Controller
         DB::transaction(function () use ($request) {
             foreach ($request->input('sortOrder') as $index => $playerId) {
                 $request->team()->players()->updateExistingPivot($playerId, [
-                    'order' => $index
+                    'order' => $index,
                 ]);
             }
         });

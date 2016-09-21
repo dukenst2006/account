@@ -3,21 +3,20 @@
 namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
-use BibleBowl\User;
-use Rhumsaa\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 class Invitation extends Model
 {
-    const ACCEPTED  = 'accepted';
-    const DECLINED  = 'declined';
-    const SENT      = 'sent';
+    const ACCEPTED = 'accepted';
+    const DECLINED = 'declined';
+    const SENT = 'sent';
 
     const TYPE_MANAGE_GROUP = 'manage-group';
 
     protected $guarded = ['id'];
 
     protected $attributes = [
-        'status' => Invitation::SENT
+        'status' => self::SENT,
     ];
 
     public static function boot()
@@ -27,6 +26,7 @@ class Invitation extends Model
         //assign a guid for each entity
         static::creating(function ($invitation) {
             $invitation->guid = Uuid::uuid4();
+
             return true;
         });
     }

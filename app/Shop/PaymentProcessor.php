@@ -16,7 +16,8 @@ class PaymentProcessor
      * @param $token
      * @param $total
      * @param Collection $receiptItems
-     * @param User $user
+     * @param User       $user
+     *
      * @return bool
      */
     public function pay($token, $total, Collection $receiptItems, User $user = null)
@@ -28,8 +29,8 @@ class PaymentProcessor
         ];
 
         if ($user != null) {
-            $receiptDetails['user_id']      = $user->id;
-            $receiptDetails['address_id']   = $user->primary_address_id;
+            $receiptDetails['user_id'] = $user->id;
+            $receiptDetails['address_id'] = $user->primary_address_id;
         }
 
         $order = Receipt::create($receiptDetails);
@@ -39,12 +40,12 @@ class PaymentProcessor
         $response = Omnipay::purchase([
             'currency'  => 'USD',
             'amount'    => $total,
-            'token'     => $token
+            'token'     => $token,
         ])->send();
 
         if ($response->isSuccessful()) {
             $order->update([
-                'payment_reference_number' => $response->getTransactionReference()
+                'payment_reference_number' => $response->getTransactionReference(),
             ]);
 
             $this->receipt = $order;

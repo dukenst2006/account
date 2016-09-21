@@ -1,18 +1,16 @@
 <?php
 
 use BibleBowl\Group;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use BibleBowl\Receipt;
 use Helpers\ActingAsHeadCoach;
 use Helpers\SimulatesTransactions;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SeasonalRegistrationTest extends TestCase
 {
-
     use DatabaseTransactions;
     use ActingAsHeadCoach;
     use SimulatesTransactions;
-    
 
     public function setUp()
     {

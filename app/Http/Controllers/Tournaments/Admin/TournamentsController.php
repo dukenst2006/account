@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Tournaments\Admin;
+<?php
+
+namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
@@ -16,14 +18,13 @@ use Session;
 
 class TournamentsController extends Controller
 {
-
     public function index()
     {
         return view('tournaments.admin.index', [
             'tournaments' => Tournament::where('season_id', Session::season()->id)
                 ->where('creator_id', Auth::user()->id)
                 ->orderBy('start', 'DESC')
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -33,10 +34,9 @@ class TournamentsController extends Controller
 
         return view('tournaments.admin.show', [
             'tournament'        => $tournament,
-            'participantFees'   => $tournament->participantFees()->with('participantType')->get()->keyBy('participant_type_id')
+            'participantFees'   => $tournament->participantFees()->with('participantType')->get()->keyBy('participant_type_id'),
         ]);
     }
-
 
     /**
      * @return \Illuminate\View\View
@@ -54,8 +54,8 @@ class TournamentsController extends Controller
             'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get(),
             'defaultEventTypes' => [
                 EventType::ROUND_ROBIN,
-                EventType::DOUBLE_ELIMINATION
-            ]
+                EventType::DOUBLE_ELIMINATION,
+            ],
         ]);
     }
 
@@ -83,16 +83,17 @@ class TournamentsController extends Controller
     public function edit(TournamentCreatorOnlyRequest $request, $id)
     {
         $tournament = Tournament::with('participantFees')->findOrFail($id);
+
         return view('tournaments.admin.edit', [
-            'tournament' => $tournament,
-            'participantFees' => $tournament->participantFees->keyBy('participant_type_id'),
-            'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get()
+            'tournament'        => $tournament,
+            'participantFees'   => $tournament->participantFees->keyBy('participant_type_id'),
+            'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get(),
         ]);
     }
 
     /**
-     * @param GroupEditRequest      $request
-     * @param                       $id
+     * @param GroupEditRequest $request
+     * @param                  $id
      *
      * @return mixed
      */

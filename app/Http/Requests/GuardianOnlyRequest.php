@@ -1,10 +1,11 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
 
 class GuardianOnlyRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -12,7 +13,7 @@ class GuardianOnlyRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user()->is(\BibleBowl\Role::GUARDIAN);
+        return Auth::user()->isA(\BibleBowl\Role::GUARDIAN);
     }
 
     /**

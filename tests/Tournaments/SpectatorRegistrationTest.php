@@ -1,18 +1,15 @@
 <?php
 
-use BibleBowl\Tournament;
-use Helpers\ActingAsGuardian;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Helpers\SimulatesTransactions;
-use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
-use Carbon\Carbon;
 use BibleBowl\Spectator;
+use BibleBowl\Tournament;
+use Helpers\ActingAsGuardian;
+use Helpers\SimulatesTransactions;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SpectatorRegistrationTest extends TestCase
 {
-
     use DatabaseTransactions;
     use ActingAsGuardian;
     use SimulatesTransactions;
@@ -61,7 +58,7 @@ class SpectatorRegistrationTest extends TestCase
             ->where('participant_type_id', ParticipantType::ADULT)
             ->update([
                 'earlybird_fee' => 0,
-                'fee' => 0
+                'fee'           => 0,
         ]);
 
         $group = Group::byProgram($tournament->program_id)->first();
@@ -135,5 +132,4 @@ class SpectatorRegistrationTest extends TestCase
         // assert minor is there
         $this->assertEquals($playerFirstName, $spectator->minors()->first()->name);
     }
-
 }

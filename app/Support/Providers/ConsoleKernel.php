@@ -1,14 +1,15 @@
-<?php namespace BibleBowl\Support\Providers;
+<?php
+
+namespace BibleBowl\Support\Providers;
 
 use BibleBowl\Location\GroupMapUpdater;
 use BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
+use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
 use BibleBowl\Seasons\SeasonRotator;
 use Illuminate\Console\Scheduling\Schedule;
-use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
 
 class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
 {
-
     /**
      * The Artisan commands provided by your application.
      *
@@ -24,12 +25,12 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-
         $schedule->command(SeasonRotator::COMMAND)
             ->daily()->thenPing('https://hchk.io/c9e89191-f417-44ee-bf88-03739c439f74');
 

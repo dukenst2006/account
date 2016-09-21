@@ -4,7 +4,6 @@ namespace BibleBowl\Seasons;
 
 use BibleBowl\Player;
 use BibleBowl\Receipt;
-use BibleBowl\Season;
 use BibleBowl\Shop\PostPurchaseEvent;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -40,7 +39,7 @@ class ProgramRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * The step to execute immediately after payment is accepted
+     * The step to execute immediately after payment is accepted.
      *
      * @return Response
      */
@@ -50,14 +49,14 @@ class ProgramRegistrationPaymentReceived extends PostPurchaseEvent
     }
 
     /**
-     * Fire the event
+     * Fire the event.
      *
      * @return void
      */
     public function fire(Receipt $receipt)
     {
         event($this->event(), [
-            $this->players()
+            $this->players(),
         ]);
     }
 }

@@ -15,8 +15,8 @@ class GroupRegistration extends Fluent
     protected $programs = null;
 
     protected $attributes = [
-        'groups' => [],
-        'players' => []
+        'groups'  => [],
+        'players' => [],
     ];
 
     /** @var Group */
@@ -32,6 +32,7 @@ class GroupRegistration extends Fluent
 
     /**
      * @param Program $program
+     *
      * @return Group
      */
     public function group(Program $program)
@@ -49,6 +50,7 @@ class GroupRegistration extends Fluent
 
     /**
      * @param Program $program
+     *
      * @return bool
      */
     public function hasGroup(Program $program)
@@ -97,12 +99,12 @@ class GroupRegistration extends Fluent
     {
         $this->attributes['players'][$playerId] = [
             'grade'         => $grade,
-            'shirt_size'    => $shirtSize
+            'shirt_size'    => $shirtSize,
         ];
     }
 
     /**
-     * Remove given players from registration
+     * Remove given players from registration.
      */
     public function removePlayers(Program $program)
     {
@@ -111,7 +113,7 @@ class GroupRegistration extends Fluent
     }
 
     /**
-     * Get players for a given program
+     * Get players for a given program.
      *
      * @return Player[]|Collection
      */
@@ -122,7 +124,7 @@ class GroupRegistration extends Fluent
 
     /**
      * Get player's registration information that are
-     * eligible for a given program
+     * eligible for a given program.
      *
      * @return Collection
      */
@@ -169,9 +171,9 @@ class GroupRegistration extends Fluent
 
     /**
      * Determine if a player in this group requires the parent
-     * to choose which program they belong to
+     * to choose which program they belong to.
      *
-     * @return boolean
+     * @return bool
      */
     public function requiresProgramSelection()
     {
@@ -190,7 +192,7 @@ class GroupRegistration extends Fluent
     }
 
     /**
-     * Get players for a given program
+     * Get players for a given program.
      *
      * @return Player[]|Collection
      */

@@ -32,7 +32,7 @@ class Location extends Model
     public function updateMarkerInformation(Group $group)
     {
         $this->location_extrafields = [
-            'guid' => $group->guid
+            'guid' => $group->guid,
         ];
 
         if ($group->program_id == Program::TEEN) {
@@ -50,7 +50,7 @@ class Location extends Model
         $this->location_longitude = $group->meetingAddress->longitude;
 
         $this->location_messages = view('wordpress-map-tooltip', [
-                'group' => $group
+                'group' => $group,
             ]).'';
     }
 
@@ -72,7 +72,7 @@ class Location extends Model
     public function setLocationGroupMapAttribute($markerId)
     {
         $this->attributes['location_group_map'] = serialize([
-            $markerId
+            $markerId,
         ]);
     }
 }

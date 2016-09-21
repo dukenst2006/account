@@ -1,22 +1,23 @@
-<?php namespace BibleBowl\Users\Auth;
+<?php
+
+namespace BibleBowl\Users\Auth;
 
 use App;
 use BibleBowl\User;
 use Gravatar;
-use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Validator;
 use Log;
+use Validator;
 
-class Registrar implements RegistrarContract
+class Registrar
 {
-
     use DispatchesJobs;
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(array $data)
@@ -34,7 +35,7 @@ class Registrar implements RegistrarContract
     /**
      * Create a new user instance.
      *
-     * @param  array  $data
+     * @param array $data
      *
      * @return User
      */

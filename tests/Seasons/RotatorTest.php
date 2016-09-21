@@ -1,16 +1,11 @@
 <?php
 
-use BibleBowl\Group;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Omnipay\Stripe\Message\PurchaseRequest;
-use Omnipay\Stripe\Message\Response;
-use BibleBowl\Receipt;
 use BibleBowl\Seasons\SeasonRotator;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RotatorTest extends TestCase
 {
-
     use DatabaseTransactions;
 
     /**

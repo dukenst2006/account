@@ -1,7 +1,8 @@
-<?php namespace BibleBowl\Http\Controllers\Groups;
+<?php
+
+namespace BibleBowl\Http\Controllers\Groups;
 
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Player;
 use BibleBowl\User;
 use Illuminate\Database\Eloquent\Builder;
 use Session;

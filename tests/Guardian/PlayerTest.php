@@ -1,15 +1,13 @@
 <?php
 
 use BibleBowl\Player;
+use BibleBowl\Season;
+use BibleBowl\User;
 use BibleBowl\Users\Auth\SessionManager;
 use Carbon\Carbon;
-use BibleBowl\User;
-use BibleBowl\Program;
-use BibleBowl\Season;
 
 class PlayerTest extends TestCase
 {
-
     protected $firstName = 'Lucy';
     protected $lastName = 'Tharn';
 
@@ -22,7 +20,7 @@ class PlayerTest extends TestCase
 
         $this->setupAsGuardian();
         $this->withSession([
-            SessionManager::SEASON  => $this->season->toArray()
+            SessionManager::SEASON  => $this->season->toArray(),
         ]);
     }
 
@@ -85,11 +83,11 @@ class PlayerTest extends TestCase
 
         // admins can edit
         $user = Mockery::mock(User::class);
-        $user->shouldReceive('is')->andReturn(true);
+        $user->shouldReceive('isA')->andReturn(true);
         $this->assertTrue($player->isBirthdayEditable($user));
 
         $user = Mockery::mock(User::class);
-        $user->shouldReceive('is')->andReturn(false);
+        $user->shouldReceive('isA')->andReturn(false);
 
         // can't edit after a few months
         $player->created_at = Carbon::now()->subMonths(4)->subDays(2);
@@ -100,7 +98,7 @@ class PlayerTest extends TestCase
         Season::current()->first()->players()->attach($player->id, [
             'grade'         => '11',
             'shirt_size'    => 'M',
-            'group_id'      => 1
+            'group_id'      => 1,
         ]);
         $this->assertTrue($player->isBirthdayEditable($user));
     }

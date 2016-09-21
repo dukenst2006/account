@@ -1,30 +1,28 @@
 <?php
 
-use BibleBowl\Player;
-use BibleBowl\Season;
-use BibleBowl\Role;
 use BibleBowl\Ability;
-use BibleBowl\User;
-use BibleBowl\Group;
 use BibleBowl\EventType;
-use Illuminate\Database\Seeder;
-use BibleBowl\Program;
-use BibleBowl\ParticipantType;
 use BibleBowl\GroupType;
-use BibleBowl\RegistrationSurveyQuestion;
+use BibleBowl\ParticipantType;
+use BibleBowl\Player;
+use BibleBowl\Program;
 use BibleBowl\RegistrationSurveyAnswer;
+use BibleBowl\RegistrationSurveyQuestion;
+use BibleBowl\Role;
+use BibleBowl\Season;
+use Illuminate\Database\Seeder;
 
-class ProductionSeeder extends Seeder {
-
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
+class ProductionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
         Season::create([
-            'name' => date('Y').'-'.(date('y')+1)
+            'name' => date('Y').'-'.(date('y') + 1),
         ]);
         Program::create([
             'name'              => 'Beginner Bible Bowl',
@@ -32,7 +30,7 @@ class ProductionSeeder extends Seeder {
             'slug'              => 'beginner',
             'registration_fee'  => '25.00',
             'min_grade'         => 2,
-            'max_grade'         => 5
+            'max_grade'         => 5,
         ]);
 
         Program::create([
@@ -41,60 +39,60 @@ class ProductionSeeder extends Seeder {
             'slug'              => 'teen',
             'registration_fee'  => '35.00',
             'min_grade'         => 6,
-            'max_grade'         => 12
+            'max_grade'         => 12,
         ]);
         GroupType::create([
-            'name' => 'Christian School'
+            'name' => 'Christian School',
         ]);
-            GroupType::create([
-                'name' => 'Homeschool'
+        GroupType::create([
+                'name' => 'Homeschool',
             ]);
-            GroupType::create([
-                'name' => 'Church'
+        GroupType::create([
+                'name' => 'Church',
             ]);
-            GroupType::create([
-                'name' => 'Other'
+        GroupType::create([
+                'name' => 'Other',
             ]);
 
         ParticipantType::create([
-            'name' => 'Team'
+            'name' => 'Team',
         ]);
         ParticipantType::create([
-            'name' => 'Player'
+            'name' => 'Player',
         ]);
         ParticipantType::create([
-            'name' => 'Quizmaster'
+            'name' => 'Quizmaster',
         ]);
         ParticipantType::create([
             'name'          => 'Spectator - Adult',
-            'description'   => 'Single adult'
+            'description'   => 'Single adult',
         ]);
         ParticipantType::create([
             'name'          => 'Spectator - Family',
-            'description'   => 'Up to 2 adults and children who are not players'
+            'description'   => 'Up to 2 adults and children who are not players',
         ]);
 
         EventType::create([
             'participant_type_id'   => ParticipantType::TEAM,
-            'name'                  => 'Round Robin'
+            'name'                  => 'Round Robin',
         ]);
         EventType::create([
             'participant_type_id'   => ParticipantType::PLAYER,
-            'name'                  => 'Quote Bee'
+            'name'                  => 'Quote Bee',
         ]);
         EventType::create([
             'participant_type_id'   => ParticipantType::TEAM,
-            'name'                  => 'Double Elimination'
+            'name'                  => 'Double Elimination',
         ]);
         EventType::create([
             'participant_type_id'   => ParticipantType::PLAYER,
-            'name'                  => 'BuzzOff'
+            'name'                  => 'BuzzOff',
         ]);
         EventType::create([
             'participant_type_id'   => ParticipantType::PLAYER,
-            'name'                  => 'King of the Hill'
+            'name'                  => 'King of the Hill',
         ]);
-        
+
         Bouncer::allow(Role::ADMIN)->to([
             Ability::VIEW_REPORTS,
             Ability::MANAGE_ROLES,
@@ -103,98 +101,97 @@ class ProductionSeeder extends Seeder {
             Ability::MANAGE_PLAYERS,
             Ability::CREATE_TOURNAMENTS,
             Ability::SWITCH_ACCOUNTS,
-            Ability::MANAGE_SETTINGS
+            Ability::MANAGE_SETTINGS,
         ]);
 
         Bouncer::allow(Role::BOARD_MEMBER)->to(Ability::VIEW_REPORTS);
 
         Bouncer::allow(Role::HEAD_COACH)->to([
             Ability::MANAGE_ROSTER,
-            Ability::MANAGE_TEAMS
+            Ability::MANAGE_TEAMS,
         ]);
-            Role::create([
+        Role::create([
                 'name'                  => Role::COACH,
-                'mailchimp_interest_id' => '29a52dd6fc'
+                'mailchimp_interest_id' => '29a52dd6fc',
             ]);
-            Role::create([
+        Role::create([
                 'name'                  => Role::LEAGUE_COORDINATOR,
-                'mailchimp_interest_id' => '9b90dc8bdd'
+                'mailchimp_interest_id' => '9b90dc8bdd',
             ]);
-            Role::create([
+        Role::create([
                 'name'                  => Role::QUIZMASTER,
-                'mailchimp_interest_id' => 'fe3a183033'
+                'mailchimp_interest_id' => 'fe3a183033',
             ]);
         Bouncer::allow(Role::QUIZMASTER);
         Bouncer::allow(Role::GUARDIAN)->to(Ability::REGISTER_PLAYERS);
 
         Role::where('name', Role::HEAD_COACH)->update([
-            'mailchimp_interest_id' => 'be4c459134'
+            'mailchimp_interest_id' => 'be4c459134',
         ]);
         Role::where('name', Role::GUARDIAN)->update([
-            'mailchimp_interest_id' => '0f83e0f312'
+            'mailchimp_interest_id' => '0f83e0f312',
         ]);
 
         $howDidYouHearAbout = RegistrationSurveyQuestion::create([
             'question'  => 'How did you hear about Bible Bowl?',
-            'order'     => 1
+            'order'     => 1,
         ]);
         $howDidYouHearAbout->answers()->saveMany([
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Friend',
-                'order'     => '1'
+                'order'     => '1',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Church brochure/bulletin',
-                'order'     => '2'
+                'order'     => '2',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Homeschool convention',
-                'order'     => '3'
+                'order'     => '3',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'TV',
-                'order'     => '4'
+                'order'     => '4',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Web Advertisement',
-                'order'     => '5'
+                'order'     => '5',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Internet',
-                'order'     => '6'
+                'order'     => '6',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Other',
-                'order'     => '7'
-            ]])
+                'order'     => '7',
+            ]]),
         ]);
 
         $mostInfluential = RegistrationSurveyQuestion::create([
             'question'  => 'Which of the following were most influential in your decision to join Bible Bowl?',
-            'order'     => 2
+            'order'     => 2,
         ]);
         $mostInfluential->answers()->saveMany([
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => "Friend's recommendation",
-                'order'     => '1'
+                'order'     => '1',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Attending a practice/demo/meeting',
-                'order'     => '2'
+                'order'     => '2',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Learning about it on the web site',
-                'order'     => '3'
+                'order'     => '3',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Homeschool curriculum potential',
-                'order'     => '4'
+                'order'     => '4',
             ]]),
             app(RegistrationSurveyAnswer::class, [[
                 'answer'    => 'Other',
-                'order'     => '5'
-            ]])
+                'order'     => '5',
+            ]]),
         ]);
     }
-
 }

@@ -1,11 +1,7 @@
-<?php namespace BibleBowl\Http\Requests\Tournament\Registration;
+<?php
 
-use Auth;
-use BibleBowl\Group;
-use BibleBowl\Role;
-use BibleBowl\Http\Requests\Request;
+namespace BibleBowl\Http\Requests\Tournament\Registration;
 
 class StandaloneQuizmasterRegistrationRequest extends QuizzingPreferencesRequest
 {
-
 }

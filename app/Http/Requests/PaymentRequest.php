@@ -1,8 +1,9 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 class PaymentRequest extends Request
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -11,14 +12,14 @@ class PaymentRequest extends Request
     public function rules()
     {
         return [
-            'stripeToken' => 'required'
+            'stripeToken' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'stripeToken.required'  => 'Unable to process credit card information'
+            'stripeToken.required'  => 'Unable to process credit card information',
         ];
     }
 }

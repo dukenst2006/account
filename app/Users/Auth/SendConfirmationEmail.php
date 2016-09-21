@@ -1,18 +1,18 @@
-<?php namespace BibleBowl\Users\Auth;
+<?php
+
+namespace BibleBowl\Users\Auth;
 
 use BibleBowl\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
-use Illuminate\Queue\InteractsWithQueue;
 use Mail;
 
 class SendConfirmationEmail
 {
-
     /**
      * Handle the event.
      *
-     * @param  User  $user
+     * @param User $user
+     *
      * @return void
      */
     public function handle(User $user)
@@ -21,7 +21,7 @@ class SendConfirmationEmail
             Mail::queue(
                 'emails.email-confirmation',
                 [
-                    'user' => $user
+                    'user' => $user,
                 ],
                 function (Message $message) use ($user) {
                     $message->to($user->email, $user->full_name)

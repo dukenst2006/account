@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Teams;
+<?php
+
+namespace BibleBowl\Http\Controllers\Teams;
 
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
@@ -11,7 +13,6 @@ use Session;
 
 class TeamSetController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -40,7 +41,7 @@ class TeamSetController extends Controller
     {
         $request->merge([
             'group_id'    => Session::group()->id,
-            'season_id' => Session::season()->id
+            'season_id'   => Session::season()->id,
         ]);
 
         $this->validate($request, TeamSet::validationRules());
@@ -53,13 +54,13 @@ class TeamSetController extends Controller
                 $copyFrom = TeamSet::findOrFail($request->input('teamSet'));
                 foreach ($copyFrom->teams as $copyFromTeam) {
                     $team = Team::create([
-                        'team_set_id'    => $teamSet->id,
-                        'name'            => $copyFromTeam->name
+                        'team_set_id'     => $teamSet->id,
+                        'name'            => $copyFromTeam->name,
                     ]);
                     $players = [];
                     foreach ($copyFromTeam->players as $player) {
                         $players[$player->id] = [
-                            'order' => $player->pivot->order
+                            'order' => $player->pivot->order,
                         ];
                     }
 
@@ -79,6 +80,7 @@ class TeamSetController extends Controller
     public function show(TeamSetGroupOnlyRequest $request, $id)
     {
         $teamSet = TeamSet::findOrFail($id);
+
         return view('teamset.show')
                 ->with('teamSet', $teamSet)
                 ->withPlayers(Session::group()->players()->notOnTeamSet($teamSet)->get());
@@ -86,7 +88,7 @@ class TeamSetController extends Controller
 
     /**
      * @param   $request
-     * @param                       $id
+     * @param   $id
      *
      * @return mixed
      */
@@ -101,6 +103,7 @@ class TeamSetController extends Controller
     /**
      * @param TeamSetGroupOnlyRequest $request
      * @param $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function pdf(TeamSetGroupOnlyRequest $request, $id)
@@ -111,20 +114,22 @@ class TeamSetController extends Controller
         /** @var \Barryvdh\DomPDF\PDF $pdf */
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('teamset.pdf', [
-            'teamSet'        => $teamSet,
+            'teamSet'         => $teamSet,
             'user'            => Auth::user(),
-            'lastUpdated'    => $teamSet->updated_at->timezone(Auth::user()->settings->timeszone())
+            'lastUpdated'     => $teamSet->updated_at->timezone(Auth::user()->settings->timeszone()),
         ]);
+
         return $pdf->stream();
     }
 
     /**
      * @param TeamSetGroupOnlyRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(TeamSetGroupOnlyRequest $request)
     {
-        TeamSet::findOrFail($request->route('teamsets'))->delete();
+        TeamSet::findOrFail($request->route('teamset'))->delete();
 
         return redirect('/teamsets')->withFlashSuccess('Teams have been deleted');
     }

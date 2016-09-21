@@ -1,17 +1,17 @@
-<?php namespace BibleBowl\Seasons;
+<?php
+
+namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
-use BibleBowl\Season;
+use Carbon\Carbon;
+use Config;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Message;
 use Log;
 use Mail;
-use Config;
-use Carbon\Carbon;
 
 class NotifyOfficeOfOutstandingRegistrationPayments extends Command
 {
-
     const COMMAND = 'biblebowl:notify-office-of-outstanding-registration-payments';
 
     /**
@@ -26,7 +26,7 @@ class NotifyOfficeOfOutstandingRegistrationPayments extends Command
      *
      * @var string
      */
-    protected $description = "Send a summary email to the office containing details of who has outstanding fees";
+    protected $description = 'Send a summary email to the office containing details of who has outstanding fees';
 
     /**
      * Execute the console command.

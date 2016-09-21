@@ -1,20 +1,22 @@
-<?php namespace Helpers;
+<?php
 
+namespace Helpers;
+
+use Mockery;
+use Omnipay;
 use Omnipay\Stripe\Message\PurchaseRequest;
 use Omnipay\Stripe\Message\Response;
-use Omnipay;
-use Mockery;
 
 trait SimulatesTransactions
 {
-
     /**
      * Make sure our tests never actually hit the payment
-     * provider's server
+     * provider's server.
      *
      * @return $transactionId
      */
-    public function simulateTransaction() {
+    public function simulateTransaction()
+    {
         $transactionId = uniqid();
 
         $response = Mockery::mock(Response::class);

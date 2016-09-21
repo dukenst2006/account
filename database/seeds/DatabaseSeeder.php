@@ -1,28 +1,27 @@
 <?php
 
-use BibleBowl\Program;
-use BibleBowl\TeamSet;
-use BibleBowl\Team;
-use BibleBowl\Players\PlayerCreator;
-use BibleBowl\Season;
-use BibleBowl\User;
-use BibleBowl\Group;
 use BibleBowl\Address;
+use BibleBowl\EventType;
+use BibleBowl\Group;
 use BibleBowl\Groups\GroupCreator;
+use BibleBowl\GroupType;
+use BibleBowl\Invitation;
+use BibleBowl\ParticipantType;
+use BibleBowl\Players\PlayerCreator;
+use BibleBowl\Program;
+use BibleBowl\Receipt;
+use BibleBowl\Role;
+use BibleBowl\Season;
+use BibleBowl\Team;
+use BibleBowl\TeamSet;
+use BibleBowl\Tournament;
+use BibleBowl\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-use BibleBowl\Tournament;
-use BibleBowl\Role;
-use BibleBowl\EventType;
-use BibleBowl\ParticipantType;
-use BibleBowl\GroupType;
-use BibleBowl\Receipt;
-use BibleBowl\Invitation;
 
-class DatabaseSeeder extends Seeder {
-
+class DatabaseSeeder extends Seeder
+{
     private static $isSeeding = false;
 
     const GROUP_NAME = 'Mount Pleasant Christian Church';
@@ -45,20 +44,20 @@ class DatabaseSeeder extends Seeder {
         return self::$isSeeding;
     }
 
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
         $this->faker = Factory::create();
 
         // load ModelFactory.php so functions can be used later
         factory(User::class);
 
         Season::create([
-            'name' => (date('Y')-1).'-'.date('y')
+            'name' => (date('Y') - 1).'-'.date('y'),
         ]);
         $this->call('ProductionSeeder');
 
@@ -84,7 +83,7 @@ class DatabaseSeeder extends Seeder {
             'email'         => null,
             'user_id'       => $director->id,
             'inviter_id'    => $headCoach->id,
-            'group_id'      => 2
+            'group_id'      => 2,
         ]);
 
         self::$isSeeding = false;
@@ -96,22 +95,22 @@ class DatabaseSeeder extends Seeder {
     private function seedAdmin()
     {
         $address = Address::create([
-            'name'			=> 'Home',
-            'address_one'	=> '11025 Eagles Cove Dr.',
-            'address_two'   => null,
-            'latitude'      => '38.2515659',
-            'longitude'     => '-85.615241',
-            'city'			=> 'Louisville',
-            'state'			=> 'KY',
-            'zip_code'		=> '40241'
+            'name'             => 'Home',
+            'address_one'      => '11025 Eagles Cove Dr.',
+            'address_two'      => null,
+            'latitude'         => '38.2515659',
+            'longitude'        => '-85.615241',
+            'city'             => 'Louisville',
+            'state'            => 'KY',
+            'zip_code'         => '40241',
         ]);
         $director = User::create([
-            'status'			=> User::STATUS_CONFIRMED,
-            'first_name'		=> 'Ben',
-            'last_name'			=> 'Director',
-            'email'				=> self::DIRECTOR_EMAIL,
-            'password'			=> bcrypt('changeme'),
-            'primary_address_id'  => $address->id
+            'status'               => User::STATUS_CONFIRMED,
+            'first_name'           => 'Ben',
+            'last_name'            => 'Director',
+            'email'                => self::DIRECTOR_EMAIL,
+            'password'             => bcrypt('changeme'),
+            'primary_address_id'   => $address->id,
         ]);
         $director->addresses()->save($address);
 
@@ -124,22 +123,22 @@ class DatabaseSeeder extends Seeder {
     private function seedHeadCoach()
     {
         $address = Address::create([
-            'name'			=> 'Home',
-            'address_one'	=> '11025 Eagles Cove Dr.',
-            'address_two'   => null,
-            'latitude'      => '38.2515659',
-            'longitude'     => '-85.615241',
-            'city'			=> 'Louisville',
-            'state'			=> 'KY',
-            'zip_code'		=> '40241'
+            'name'             => 'Home',
+            'address_one'      => '11025 Eagles Cove Dr.',
+            'address_two'      => null,
+            'latitude'         => '38.2515659',
+            'longitude'        => '-85.615241',
+            'city'             => 'Louisville',
+            'state'            => 'KY',
+            'zip_code'         => '40241',
         ]);
         $BKuhlHeadCoach = User::create([
-          'status'			    => User::STATUS_CONFIRMED,
-          'first_name'		    => 'Ben',
-          'last_name'			=> 'HeadCoach',
-          'email'				=> self::HEAD_COACH_EMAIL,
-          'password'			=> bcrypt('changeme'),
-          'primary_address_id'  => $address->id
+          'status'                => User::STATUS_CONFIRMED,
+          'first_name'            => 'Ben',
+          'last_name'             => 'HeadCoach',
+          'email'                 => self::HEAD_COACH_EMAIL,
+          'password'              => bcrypt('changeme'),
+          'primary_address_id'    => $address->id,
         ]);
         $BKuhlHeadCoach->addresses()->save($address);
 
@@ -150,7 +149,7 @@ class DatabaseSeeder extends Seeder {
             'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
-            'meeting_address_id'    => $address->id
+            'meeting_address_id'    => $address->id,
         ]);
 
         $address = factory(Address::class)->create([
@@ -173,18 +172,18 @@ class DatabaseSeeder extends Seeder {
         $savedAddresses = [];
         foreach ($addresses as $key => $name) {
             $savedAddresses[] = factory(Address::class)->create([
-                'name' => $name
+                'name' => $name,
             ]);
         }
 
         $BKuhlGuardian = User::create([
-            'status'			    => User::STATUS_CONFIRMED,
-            'first_name'		    => 'Ben',
-            'last_name'			    => 'Guardian',
-            'email'				    => self::GUARDIAN_EMAIL,
-            'phone'                 => '5553546789',
-            'password'			    => bcrypt('changeme'),
-            'primary_address_id'    => $savedAddresses[0]->id
+            'status'                   => User::STATUS_CONFIRMED,
+            'first_name'               => 'Ben',
+            'last_name'                => 'Guardian',
+            'email'                    => self::GUARDIAN_EMAIL,
+            'phone'                    => '5553546789',
+            'password'                 => bcrypt('changeme'),
+            'primary_address_id'       => $savedAddresses[0]->id,
         ]);
         $BKuhlGuardian->addresses()->saveMany($savedAddresses);
 
@@ -194,7 +193,7 @@ class DatabaseSeeder extends Seeder {
             'first_name'    => 'David',
             'last_name'     => 'Webb',
             'gender'        => 'M',
-            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
 
         $BKuhlGuardian = User::findOrFail($BKuhlGuardian->id);
@@ -202,21 +201,21 @@ class DatabaseSeeder extends Seeder {
             'first_name'    => 'Ethan',
             'last_name'     => 'Smith',
             'gender'        => 'M',
-            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
 
         $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Olivia',
             'last_name'     => 'Brown',
             'gender'        => 'F',
-            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
 
         $playerCreator->create($BKuhlGuardian, [
             'first_name'    => 'Brad',
             'last_name'     => 'Anderson',
             'gender'        => 'M',
-            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+            'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
     }
 
@@ -226,18 +225,18 @@ class DatabaseSeeder extends Seeder {
         $savedAddresses = [];
         foreach ($addresses as $key => $name) {
             $savedAddresses[] = factory(Address::class)->create([
-                'name' => $name
+                'name' => $name,
             ]);
         }
 
         $BKuhlGuardian = User::create([
-            'status'			    => User::STATUS_CONFIRMED,
-            'first_name'		    => 'Ben',
-            'last_name'			    => 'Quizmaster',
-            'email'				    => self::QUIZMASTER_EMAIL,
-            'phone'                 => '5553546789',
-            'password'			    => bcrypt('changeme'),
-            'primary_address_id'    => $savedAddresses[0]->id
+            'status'                   => User::STATUS_CONFIRMED,
+            'first_name'               => 'Ben',
+            'last_name'                => 'Quizmaster',
+            'email'                    => self::QUIZMASTER_EMAIL,
+            'phone'                    => '5553546789',
+            'password'                 => bcrypt('changeme'),
+            'primary_address_id'       => $savedAddresses[0]->id,
         ]);
         $BKuhlGuardian->addresses()->saveMany($savedAddresses);
     }
@@ -249,7 +248,7 @@ class DatabaseSeeder extends Seeder {
             'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
-            'meeting_address_id'    => $address->id
+            'meeting_address_id'    => $address->id,
         ]);
 
         $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
@@ -258,8 +257,7 @@ class DatabaseSeeder extends Seeder {
             'longitude' => '-85.597701',
         ]);
 
-        for($x = 0; $x <= 2; $x++)
-        {
+        for ($x = 0; $x <= 2; $x++) {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
                 'group_id'      => $group->id,
@@ -267,15 +265,15 @@ class DatabaseSeeder extends Seeder {
                 'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
 
                 // needed for outstanding registration fee reminder
-                'created_at'    => Carbon::now()->subWeeks('10')->toDateTimeString()
+                'created_at'    => Carbon::now()->subWeeks('10')->toDateTimeString(),
             ]);
         }
 
-        # Seed inactive player
+        // Seed inactive player
         $player = seedPlayer($guardian);
         $player->update([
             'first_name' => 'Inactive',
-            'first_name' => 'Joe'
+            'first_name' => 'Joe',
         ]);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
@@ -292,13 +290,13 @@ class DatabaseSeeder extends Seeder {
         $teamSet = TeamSet::create([
             'group_id'      => $group->id,
             'season_id'     => $this->season->id,
-            'name'          => 'League Teams'
+            'name'          => 'League Teams',
         ]);
         $players = $group->players;
         for ($x = 1; $x <= 8; $x++) {
             $team = Team::create([
                 'team_set_id'   => $teamSet->id,
-                'name'          => 'Team '.$x
+                'name'          => 'Team '.$x,
             ]);
 
             $playerCount = ($x <= 3 ? $x - 1 : 0);
@@ -306,13 +304,12 @@ class DatabaseSeeder extends Seeder {
                 foreach ($players->random($playerCount) as $idx => $player) {
                     if (is_object($player)) {
                         $team->players()->attach($player->id, [
-                            'order' => $idx+1
+                            'order' => $idx + 1,
                         ]);
                     }
                 }
             }
         }
-
     }
 
     private function seedTournament($director)
@@ -331,44 +328,44 @@ class DatabaseSeeder extends Seeder {
             'details'               => '<h3>Nearby Hotels</h3><p>There are a few nearby:</p><ul><li>Option #1</li></ul>',
             'max_teams'             => 64,
             'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y'),
-            'earlybird_ends'        => Carbon::now()->addMonths(3)->format('m/d/Y')
+            'earlybird_ends'        => Carbon::now()->addMonths(3)->format('m/d/Y'),
         ]);
         $tournament->events()->create([
-            'event_type_id' => EventType::ROUND_ROBIN,
-            'price_per_participant' => '25.00'
+            'event_type_id'         => EventType::ROUND_ROBIN,
+            'price_per_participant' => '25.00',
         ]);
         $tournament->events()->create([
-            'event_type_id' => EventType::DOUBLE_ELIMINATION,
-            'price_per_participant' => '35.00'
+            'event_type_id'         => EventType::DOUBLE_ELIMINATION,
+            'price_per_participant' => '35.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::PLAYER,
             'requires_registration' => 1,
-            'fee'                   => '15.00'
+            'fee'                   => '15.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::TEAM,
             'requires_registration' => 1,
             'earlybird_fee'         => '50.00',
-            'fee'                   => '75.00'
+            'fee'                   => '75.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::QUIZMASTER,
             'requires_registration' => 1,
             'fee'                   => '30.00',
-            'onsite_fee'            => '40.00'
+            'onsite_fee'            => '40.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::ADULT,
             'requires_registration' => 1,
             'fee'                   => '30.00',
-            'onsite_fee'            => '40.00'
+            'onsite_fee'            => '40.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::FAMILY,
             'requires_registration' => 1,
             'fee'                   => '60.00',
-            'onsite_fee'            => '75.00'
+            'onsite_fee'            => '75.00',
         ]);
 
         $groupId = 2;
@@ -377,7 +374,7 @@ class DatabaseSeeder extends Seeder {
             'first_name'    => 'Keith',
             'last_name'     => 'Webb',
             'email'         => 'kwebb@domain.com',
-            'gender'        => 'M'
+            'gender'        => 'M',
         ]);
 
         $user = User::where('email', self::QUIZMASTER_EMAIL)->first();
@@ -388,7 +385,7 @@ class DatabaseSeeder extends Seeder {
             'first_name'    => 'Warner',
             'last_name'     => 'Jackson',
             'email'         => 'wjackson@domain.com',
-            'gender'        => 'F'
+            'gender'        => 'F',
         ]);
 
         // guest spectators
@@ -410,14 +407,14 @@ class DatabaseSeeder extends Seeder {
             'shirt_size'    => 'L',
             'email'         => 'jwicker@domain.com',
             'gender'        => 'M',
-            'address_id'    => $director->primary_address_id
+            'address_id'    => $director->primary_address_id,
         ]);
 
         // family spectators
         $tournament->spectators()->create([
             'group_id'          => $groupId,
             'user_id'           => $director->id,
-            'receipt_id'    => $receipt->id,
+            'receipt_id'        => $receipt->id,
             'spouse_first_name' => 'Michelle',
             'spouse_gender'     => 'F',
             'spouse_shirt_size' => 'M',
@@ -445,7 +442,6 @@ class DatabaseSeeder extends Seeder {
             'shirt_size'    => 'YM',
             'gender'        => 'F',
         ]);
-
     }
 
     private function seedReceipt(User $user) : Receipt
@@ -456,8 +452,7 @@ class DatabaseSeeder extends Seeder {
             'first_name'                => $user->first_name,
             'last_name'                 => $user->last_name,
             'user_id'                   => $user->id,
-            'address_id'                => $user->primary_address_id
+            'address_id'                => $user->primary_address_id,
         ]);
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
 use BibleBowl\Group;
@@ -7,7 +9,6 @@ use Session;
 
 class GroupCreatorOnlyRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,7 +17,7 @@ class GroupCreatorOnlyRequest extends Request
     public function authorize()
     {
         $groupId = $this->route('group');
-        if (Auth::user()->is(Role::HEAD_COACH)) {
+        if (Auth::user()->isA(Role::HEAD_COACH)) {
             $groupId = Session::group()->id;
         }
 

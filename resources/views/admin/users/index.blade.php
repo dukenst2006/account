@@ -47,7 +47,7 @@
                     @endif
                     </tbody>
                 </table>
-                {!! HTML::pagination($users) !!}
+                {!! $users->links() !!}
             </div>
         </div>
     </div>

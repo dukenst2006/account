@@ -1,16 +1,16 @@
-<?php namespace BibleBowl\Http\Controllers\Admin;
+<?php
+
+namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Http\Requests\SettingsUpdateRequest;
 use BibleBowl\Program;
-use BibleBowl\User;
 use Carbon\Carbon;
 use DB;
 use Setting;
 
 class SettingsController extends Controller
 {
-
     /**
      * @param Request $request
      *
@@ -24,7 +24,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * @param SettingsUpdateRequest     $request
+     * @param SettingsUpdateRequest $request
      *
      * @return mixed
      */

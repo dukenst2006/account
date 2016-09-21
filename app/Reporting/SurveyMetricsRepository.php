@@ -1,11 +1,10 @@
-<?php namespace BibleBowl\Reporting;
+<?php
 
-use BibleBowl\Group;
-use BibleBowl\Player;
-use BibleBowl\Season;
+namespace BibleBowl\Reporting;
+
 use BibleBowl\RegistrationSurveyQuestion;
+use BibleBowl\Season;
 use DB;
-use Illuminate\Support\Collection;
 
 class SurveyMetricsRepository
 {

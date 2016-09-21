@@ -1,17 +1,20 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\UserProvider
+ * BibleBowl\UserProvider.
  *
- * @property integer $id
- * @property integer $user_id
+ * @property int $id
+ * @property int $user_id
  * @property string $provider
  * @property string $provider_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \BibleBowl\User $user
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereProvider($value)
@@ -22,7 +25,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserProvider extends Model
 {
-
     /**
      * The attributes that are not mass assignable.
      *

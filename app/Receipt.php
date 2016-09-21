@@ -5,20 +5,21 @@ namespace BibleBowl;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\Receipt
+ * BibleBowl\Receipt.
  *
- * @property integer $id
+ * @property int $id
  * @property string $total
  * @property string $payment_reference_number
  * @property string $first_name
  * @property string $last_name
- * @property integer $user_id
- * @property integer $address_id
+ * @property int $user_id
+ * @property int $address_id
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
  * @property-read \BibleBowl\Address $address
  * @property-read \BibleBowl\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\ReceiptItem[] $items
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereTotal($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt wherePaymentReferenceNumber($value)

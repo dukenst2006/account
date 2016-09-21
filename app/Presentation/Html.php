@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Presentation;
+<?php
+
+namespace BibleBowl\Presentation;
 
 use BibleBowl\Address;
 use Illuminate\Html\HtmlBuilder;
@@ -31,7 +33,7 @@ class Html extends HtmlBuilder
     public static $css = '';
 
     /**
-     * Render a gender icon
+     * Render a gender icon.
      *
      * @param $gender
      *
@@ -47,7 +49,7 @@ class Html extends HtmlBuilder
     }
 
     /**
-     * Format a phone number
+     * Format a phone number.
      *
      * @param $phone
      *
@@ -59,7 +61,7 @@ class Html extends HtmlBuilder
     }
 
     /**
-     * Format an address
+     * Format an address.
      *
      * @param $address
      *
@@ -78,8 +80,8 @@ class Html extends HtmlBuilder
 
     public function pagination(LengthAwarePaginator $paginator)
     {
-        $numStartedOnPage = $paginator->perPage()*($paginator->currentPage() - 1);
-        $numEndedOnPage = $numStartedOnPage+$paginator->perPage();
+        $numStartedOnPage = $paginator->perPage() * ($paginator->currentPage() - 1);
+        $numEndedOnPage = $numStartedOnPage + $paginator->perPage();
         if ($numStartedOnPage == 0) {
             $numStartedOnPage = 1;
         } elseif ($numStartedOnPage > 0) {
@@ -88,6 +90,7 @@ class Html extends HtmlBuilder
         if ($numEndedOnPage > $paginator->total()) {
             $numEndedOnPage = $paginator->total();
         }
+
         return '<div class="row">'.
                     '<div class="col-sm-6">Showing <b>'.number_format($numStartedOnPage).' to '.number_format($numEndedOnPage).'</b> of '.number_format($paginator->total()).' entries</div>'.
                     '<div class="col-sm-6 text-right">'.(new \BibleBowl\Presentation\Pagination($paginator))->render().'</div>'.

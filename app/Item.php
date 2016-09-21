@@ -2,22 +2,21 @@
 
 namespace BibleBowl;
 
-use Amsgames\LaravelShop\Models\ShopItemModel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\Item
+ * BibleBowl\Item.
  *
- * @property integer $id
- * @property integer $user_id
- * @property integer $cart_id
- * @property integer $order_id
+ * @property int $id
+ * @property int $user_id
+ * @property int $cart_id
+ * @property int $order_id
  * @property string $sku
  * @property float $price
  * @property float $tax
  * @property float $shipping
  * @property string $currency
- * @property integer $quantity
+ * @property int $quantity
  * @property string $class
  * @property string $reference_id
  * @property \Carbon\Carbon $created_at
@@ -35,6 +34,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $was_purchased
  * @property-read mixed $is_shoppable
  * @property-read mixed $shop_url
+ *
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel whereSKU($sku)
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel findBySKU($sku)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereId($value)
@@ -52,12 +52,12 @@ class Item extends Model
         'cart_id',
         'sku',
         'price',
-        'quantity'
+        'quantity',
     ];
 
     /**
      * Build a user friendly display name based
-     * on the SKU
+     * on the SKU.
      *
      * @return string
      */
@@ -67,6 +67,7 @@ class Item extends Model
         $seasonalGroupRegistrationPrefix = 'SEASON_REG_';
         if (starts_with($this->sku, $seasonalGroupRegistrationPrefix)) {
             $program = Program::where('slug', str_replace($seasonalGroupRegistrationPrefix, '', $this->sku))->firstOrFail();
+
             return $program->name.' Seasonal Registration';
         }
 
@@ -76,6 +77,7 @@ class Item extends Model
             $pieces = explode('_', $this->sku);
             unset($pieces[0]);
             unset($pieces[1]);
+
             return ucwords(strtolower(implode(' ', $pieces))).' Tournament Registration';
         }
 

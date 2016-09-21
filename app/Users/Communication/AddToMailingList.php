@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Users\Communication;
+<?php
+
+namespace BibleBowl\Users\Communication;
 
 use BibleBowl\User;
 use DatabaseSeeder;
@@ -8,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class AddToMailingList implements ShouldQueue
 {
-
     use InteractsWithQueue;
 
     /** @var Easychimp */
@@ -22,7 +23,8 @@ class AddToMailingList implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  User  $user
+     * @param User $user
+     *
      * @return void
      */
     public function handle(User $user)

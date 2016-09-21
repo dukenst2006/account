@@ -1,12 +1,11 @@
 <?php
 
+use BibleBowl\ParticipantType;
 use BibleBowl\Tournament;
 use Carbon\Carbon;
-use BibleBowl\ParticipantType;
 
 class TournamentsTest extends TestCase
 {
-
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsDirector;
 

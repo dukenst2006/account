@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Players;
+<?php
+
+namespace BibleBowl\Players;
 
 use BibleBowl\Player;
 use BibleBowl\Role;
@@ -20,7 +22,7 @@ class PlayerCreator
         DB::beginTransaction();
 
         $player = Player::create($attributes);
-        if ($guardian->isNot(Role::GUARDIAN)) {
+        if ($guardian->isNotA(Role::GUARDIAN)) {
             $role = Role::where('name', Role::GUARDIAN)->firstOrFail();
             $guardian->assign($role);
         }

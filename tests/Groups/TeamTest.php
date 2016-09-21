@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TeamTest extends TestCase
 {
-
     use DatabaseTransactions;
     use \Helpers\ActingAsHeadCoach;
 
@@ -35,15 +34,16 @@ class TeamTest extends TestCase
     public function canUpdateTeamSetName()
     {
         $this->withSession([
-            SessionManager::GROUP   => Group::findOrFail(2)->toArray()
+            SessionManager::GROUP   => Group::findOrFail(2)->toArray(),
         ]);
 
         $teamSet = TeamSet::findOrFail(1);
 
         $this
             ->patch('/teamsets/'.$teamSet->id, [
-                'name' => $name = time()
+                'name' => $name = time(),
             ])
+            ->assertResponseOk()
             ->assertEquals($name, TeamSet::findOrFail($teamSet->id)->name);
 
         $teamSet->save();
@@ -56,7 +56,7 @@ class TeamTest extends TestCase
     {
         $group = Group::findOrFail(2);
         $this->withSession([
-            SessionManager::GROUP   => $group->toArray()
+            SessionManager::GROUP   => $group->toArray(),
         ]);
 
         $teamSet = TeamSet::findOrFail(1);
@@ -64,7 +64,7 @@ class TeamTest extends TestCase
         // create a team
         $this
             ->post('/teamsets/'.$teamSet->id.'/createTeam', [
-                'name' => $name = time()
+                'name' => $name = time(),
             ])
             ->assertResponseOk();
 
@@ -78,7 +78,7 @@ class TeamTest extends TestCase
         $newTeamName = uniqid();
         $this
             ->patch('/teams/'.$team->id, [
-                'name' => $newTeamName
+                'name' => $newTeamName,
             ])
             ->assertResponseOk();
 
@@ -99,7 +99,7 @@ class TeamTest extends TestCase
     {
         $group = Group::findOrFail(2);
         $this->withSession([
-            SessionManager::GROUP   => $group->toArray()
+            SessionManager::GROUP   => $group->toArray(),
         ]);
 
         $teamSet = TeamSet::findOrFail(1);
@@ -110,11 +110,11 @@ class TeamTest extends TestCase
         // add a player
         $this
             ->post('/teams/'.$team->id.'/addPlayer', [
-                'playerId' => $playerId
+                'playerId' => $playerId,
             ])
             ->assertResponseOk();
 
-        $this->assertEquals($startCount+1, $team->players()->count());
+        $this->assertEquals($startCount + 1, $team->players()->count());
 
         // verify the correct player was added and that we have record of
         // the DateTime of that event
@@ -126,7 +126,7 @@ class TeamTest extends TestCase
         // remove a player
         $this
             ->post('/teams/'.$team->id.'/removePlayer', [
-                'playerId' => $playerId
+                'playerId' => $playerId,
             ])
             ->assertResponseOk();
 
@@ -141,22 +141,22 @@ class TeamTest extends TestCase
     {
         $group = Group::findOrFail(2);
         $this->withSession([
-            SessionManager::GROUP   => $group->toArray()
+            SessionManager::GROUP   => $group->toArray(),
         ]);
 
         $teamSet = TeamSet::findOrFail(1);
         $team = $teamSet->teams->get(2);
         $startingPlayerOrder = [
             $team->players->first()->id,
-            $team->players->get(1)->id
+            $team->players->get(1)->id,
         ];
 
         $this
             ->post('/teams/'.$team->id.'/updateOrder', [
                 'sortOrder' => [
                     $startingPlayerOrder[1],
-                    $startingPlayerOrder[0]
-                ]
+                    $startingPlayerOrder[0],
+                ],
             ])
             ->assertResponseOk();
 

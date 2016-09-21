@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
 
-use Bouncer;
+namespace BibleBowl\Http\Requests;
+
 use BibleBowl\Ability;
+use Bouncer;
 
 class SettingsUpdateRequest extends GroupJoinRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,14 +26,14 @@ class SettingsUpdateRequest extends GroupJoinRequest
     {
         return [
             'season_end'                    => 'required',
-            'program.*.registration_fee'    => 'required'
+            'program.*.registration_fee'    => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'program.*.fee.registration_fee' => 'One of the programs is missing a fee'
+            'program.*.fee.registration_fee' => 'One of the programs is missing a fee',
         ];
     }
 }

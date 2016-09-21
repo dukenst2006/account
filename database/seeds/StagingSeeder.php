@@ -1,29 +1,29 @@
 <?php
 
-use BibleBowl\Program;
-use BibleBowl\Players\PlayerCreator;
-use BibleBowl\Season;
-use BibleBowl\User;
 use BibleBowl\Address;
 use BibleBowl\Groups\GroupCreator;
+use BibleBowl\GroupType;
+use BibleBowl\Players\PlayerCreator;
+use BibleBowl\Program;
+use BibleBowl\Role;
+use BibleBowl\Season;
+use BibleBowl\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
-use BibleBowl\Role;
-use BibleBowl\GroupType;
 
-class StagingSeeder extends Seeder {
-
+class StagingSeeder extends Seeder
+{
     /** @var Season */
     private $season;
 
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
         $this->season = Season::orderBy('id', 'DESC')->first();
 
         $this->updateMailchimpIds();
@@ -40,22 +40,22 @@ class StagingSeeder extends Seeder {
     private function seedJosiahDirector()
     {
         $address = Address::create([
-            'name'			=> 'Home',
-            'address_one'	=> '178 Balsam Ct',
-            'address_two'   => null,
-            'latitude'      => '39.29114',
-            'longitude'     => '-84.476249',
-            'city'			=> 'Cincinnati',
-            'state'			=> 'OH',
-            'zip_code'		=> '45246'
+            'name'             => 'Home',
+            'address_one'      => '178 Balsam Ct',
+            'address_two'      => null,
+            'latitude'         => '39.29114',
+            'longitude'        => '-84.476249',
+            'city'             => 'Cincinnati',
+            'state'            => 'OH',
+            'zip_code'         => '45246',
         ]);
         $director = User::create([
-            'status'			=> User::STATUS_CONFIRMED,
-            'first_name'		=> 'Josiah',
-            'last_name'			=> 'Director',
-            'email'				=> 'jgorman+admin@biblebowl.org',
-            'password'			=> bcrypt('changeme'),
-            'primary_address_id'  => $address->id
+            'status'               => User::STATUS_CONFIRMED,
+            'first_name'           => 'Josiah',
+            'last_name'            => 'Director',
+            'email'                => 'jgorman+admin@biblebowl.org',
+            'password'             => bcrypt('changeme'),
+            'primary_address_id'   => $address->id,
         ]);
         $director->addresses()->save($address);
 
@@ -65,22 +65,22 @@ class StagingSeeder extends Seeder {
     private function seedJosiahHeadCoach()
     {
         $address = Address::create([
-            'name'			=> 'Home',
-            'address_one'	=> '178 Balsam Ct',
-            'address_two'   => null,
-            'latitude'      => '39.29114',
-            'longitude'     => '-84.476249',
-            'city'			=> 'Cincinnati',
-            'state'			=> 'OH',
-            'zip_code'		=> '45246'
+            'name'             => 'Home',
+            'address_one'      => '178 Balsam Ct',
+            'address_two'      => null,
+            'latitude'         => '39.29114',
+            'longitude'        => '-84.476249',
+            'city'             => 'Cincinnati',
+            'state'            => 'OH',
+            'zip_code'         => '45246',
         ]);
         $headCoach = User::create([
-            'status'			    => User::STATUS_CONFIRMED,
-            'first_name'		    => 'Josiah',
-            'last_name'			=> 'HeadCoach',
-            'email'				=> 'jgorman+headcoach@biblebowl.org',
-            'password'			=> bcrypt('biblebowl'),
-            'primary_address_id'  => $address->id
+            'status'                => User::STATUS_CONFIRMED,
+            'first_name'            => 'Josiah',
+            'last_name'             => 'HeadCoach',
+            'email'                 => 'jgorman+headcoach@biblebowl.org',
+            'password'              => bcrypt('biblebowl'),
+            'primary_address_id'    => $address->id,
         ]);
         $headCoach->addresses()->save($address);
 
@@ -91,7 +91,7 @@ class StagingSeeder extends Seeder {
             'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
-            'meeting_address_id'    => $address->id
+            'meeting_address_id'    => $address->id,
         ]);
 
         $address = factory(Address::class)->create([
@@ -111,17 +111,17 @@ class StagingSeeder extends Seeder {
         $savedAddresses = [];
         foreach ($addresses as $key => $name) {
             $savedAddresses[] = factory(Address::class)->create([
-                'name' => $name
+                'name' => $name,
             ]);
         }
 
         $guardian = User::create([
-            'status'			    => User::STATUS_CONFIRMED,
-            'first_name'		    => 'Josiah',
-            'last_name'			    => 'Guardian',
-            'email'				    => 'jgorman+guardian@biblebowl.org',
-            'password'			    => bcrypt('biblebowl'),
-            'primary_address_id'    => $savedAddresses[0]->id
+            'status'                   => User::STATUS_CONFIRMED,
+            'first_name'               => 'Josiah',
+            'last_name'                => 'Guardian',
+            'email'                    => 'jgorman+guardian@biblebowl.org',
+            'password'                 => bcrypt('biblebowl'),
+            'primary_address_id'       => $savedAddresses[0]->id,
         ]);
         $guardian->addresses()->saveMany($savedAddresses);
 
@@ -135,7 +135,7 @@ class StagingSeeder extends Seeder {
                 'first_name'    => $faker->firstName,
                 'last_name'     => $faker->lastName,
                 'gender'        => (rand(0, 1)) ? 'M' : 'F',
-                'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+                'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
             ]);
         }
     }
@@ -143,22 +143,22 @@ class StagingSeeder extends Seeder {
     private function seedKeithBoardMember()
     {
         $address = Address::create([
-            'name'			=> 'Home',
-            'address_one'	=> '5900 Casa Del Rey Cir',
-            'address_two'   => null,
-            'latitude'      => '28.470933',
-            'longitude'     => '-81.425187',
-            'city'			=> 'Orlando',
-            'state'			=> 'FL',
-            'zip_code'		=> '32809'
+            'name'             => 'Home',
+            'address_one'      => '5900 Casa Del Rey Cir',
+            'address_two'      => null,
+            'latitude'         => '28.470933',
+            'longitude'        => '-81.425187',
+            'city'             => 'Orlando',
+            'state'            => 'FL',
+            'zip_code'         => '32809',
         ]);
         $boardMember = User::create([
-            'status'			=> User::STATUS_CONFIRMED,
-            'first_name'		=> 'Josiah',
-            'last_name'			=> 'Director',
-            'email'				=> 'ksmith+boardmember@biblebowl.org',
-            'password'			=> bcrypt('changeme'),
-            'primary_address_id'  => $address->id
+            'status'               => User::STATUS_CONFIRMED,
+            'first_name'           => 'Josiah',
+            'last_name'            => 'Director',
+            'email'                => 'ksmith+boardmember@biblebowl.org',
+            'password'             => bcrypt('changeme'),
+            'primary_address_id'   => $address->id,
         ]);
         $boardMember->addresses()->save($address);
 
@@ -168,22 +168,22 @@ class StagingSeeder extends Seeder {
     private function seedKeithHeadCoach()
     {
         $address = Address::create([
-            'name'			=> 'Home',
-            'address_one'	=> '5900 Casa Del Rey Cir',
-            'address_two'   => null,
-            'latitude'      => '28.470933',
-            'longitude'     => '-81.425187',
-            'city'			=> 'Orlando',
-            'state'			=> 'FL',
-            'zip_code'		=> '32809'
+            'name'             => 'Home',
+            'address_one'      => '5900 Casa Del Rey Cir',
+            'address_two'      => null,
+            'latitude'         => '28.470933',
+            'longitude'        => '-81.425187',
+            'city'             => 'Orlando',
+            'state'            => 'FL',
+            'zip_code'         => '32809',
         ]);
         $headCoach = User::create([
-            'status'			    => User::STATUS_CONFIRMED,
-            'first_name'		    => 'Keith',
-            'last_name'			    => 'HeadCoach',
-            'email'				    => 'ksmith+headcoach@biblebowl.org',
-            'password'			    => bcrypt('biblebowl'),
-            'primary_address_id'  => $address->id
+            'status'                   => User::STATUS_CONFIRMED,
+            'first_name'               => 'Keith',
+            'last_name'                => 'HeadCoach',
+            'email'                    => 'ksmith+headcoach@biblebowl.org',
+            'password'                 => bcrypt('biblebowl'),
+            'primary_address_id'       => $address->id,
         ]);
         $headCoach->addresses()->save($address);
 
@@ -194,7 +194,7 @@ class StagingSeeder extends Seeder {
             'group_type_id'         => GroupType::HOMESCHOOL,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
-            'meeting_address_id'    => $address->id
+            'meeting_address_id'    => $address->id,
         ]);
 
         $address = factory(Address::class)->create([
@@ -214,17 +214,17 @@ class StagingSeeder extends Seeder {
         $savedAddresses = [];
         foreach ($addresses as $key => $name) {
             $savedAddresses[] = factory(Address::class)->create([
-                'name' => $name
+                'name' => $name,
             ]);
         }
 
         $guardian = User::create([
-            'status'			    => User::STATUS_CONFIRMED,
-            'first_name'		    => 'Keith',
-            'last_name'			    => 'Guardian',
-            'email'				    => 'ksmith+guardian@biblebowl.org',
-            'password'			    => bcrypt('biblebowl'),
-            'primary_address_id'    => $savedAddresses[0]->id
+            'status'                   => User::STATUS_CONFIRMED,
+            'first_name'               => 'Keith',
+            'last_name'                => 'Guardian',
+            'email'                    => 'ksmith+guardian@biblebowl.org',
+            'password'                 => bcrypt('biblebowl'),
+            'primary_address_id'       => $savedAddresses[0]->id,
         ]);
         $guardian->addresses()->saveMany($savedAddresses);
 
@@ -238,7 +238,7 @@ class StagingSeeder extends Seeder {
                 'first_name'    => $faker->firstName,
                 'last_name'     => $faker->lastName,
                 'gender'        => (rand(0, 1)) ? 'M' : 'F',
-                'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y')
+                'birthday'      => $faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
             ]);
         }
     }
@@ -250,7 +250,7 @@ class StagingSeeder extends Seeder {
             'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
-            'meeting_address_id'    => $address->id
+            'meeting_address_id'    => $address->id,
         ]);
 
         $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
@@ -258,46 +258,44 @@ class StagingSeeder extends Seeder {
             'latitude'  => $guardianLat,
             'longitude' => $guardianLng,
         ]);
-        for($x = 0; $x <= 2; $x++)
-        {
+        for ($x = 0; $x <= 2; $x++) {
             $player = seedPlayer($guardian);
             $this->season->players()->attach($player->id, [
                 'group_id'      => $group->id,
                 'grade'         => rand(6, 12),
-                'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+                'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
             ]);
         }
 
-        # Seed inactive player
+        // Seed inactive player
         $player = seedPlayer($guardian);
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
-            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)]
+            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
         ]);
     }
 
     /**
-     * Update the mailchimp ids so they match the staging list instead of production
+     * Update the mailchimp ids so they match the staging list instead of production.
      */
     private function updateMailchimpIds()
     {
         Role::where('name', Role::LEAGUE_COORDINATOR)->update([
-            'mailchimp_interest_id' => '4548244911'
+            'mailchimp_interest_id' => '4548244911',
         ]);
         Role::where('name', Role::HEAD_COACH)->update([
-            'mailchimp_interest_id' => 'cea4f8e0dd'
+            'mailchimp_interest_id' => 'cea4f8e0dd',
         ]);
         Role::where('name', Role::COACH)->update([
-            'mailchimp_interest_id' => 'e11132acbf'
+            'mailchimp_interest_id' => 'e11132acbf',
         ]);
         Role::where('name', Role::QUIZMASTER)->update([
-            'mailchimp_interest_id' => 'e58faebc7c'
+            'mailchimp_interest_id' => 'e58faebc7c',
         ]);
         Role::where('name', Role::GUARDIAN)->update([
-            'mailchimp_interest_id' => '295ac3a88c'
+            'mailchimp_interest_id' => '295ac3a88c',
         ]);
     }
-
 }

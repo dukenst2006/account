@@ -43,7 +43,7 @@
                     @endif
                     </tbody>
                 </table>
-                {!! HTML::pagination($players) !!}
+                {!! $players->links() !!}
             </div>
         </div>
     </div>

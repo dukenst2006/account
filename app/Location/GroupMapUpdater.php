@@ -1,15 +1,15 @@
-<?php namespace BibleBowl\Location;
+<?php
+
+namespace BibleBowl\Location;
 
 use BibleBowl\Group;
-use BibleBowl\Location\Maps\Map;
 use BibleBowl\Location\Maps\Location;
+use BibleBowl\Location\Maps\Map;
 use DB;
-use BibleBowl\Season;
 use Illuminate\Console\Command;
 
 class GroupMapUpdater extends Command
 {
-
     const COMMAND = 'biblebowl:sync-group-map';
 
     /**
@@ -24,7 +24,7 @@ class GroupMapUpdater extends Command
      *
      * @var string
      */
-    protected $description = "Sync the group map on the wordpress site";
+    protected $description = 'Sync the group map on the wordpress site';
 
     /**
      * Execute the console command.
@@ -41,7 +41,7 @@ class GroupMapUpdater extends Command
         $map = Map::findOrFail(Map::GROUPS);
 
         $activeLocations = [];
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             /** @var Location $location */
             $location = $group->wordpressLocation();
 

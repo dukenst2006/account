@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Presentation;
+<?php
+
+namespace BibleBowl\Presentation;
 
 class Pagination extends \Landish\Pagination\Pagination
 {
@@ -15,8 +17,9 @@ class Pagination extends \Landish\Pagination\Pagination
         $replacements = [
             'disabled'  => 'disabled prev',
             '<li>'      => '<li class="prev">',
-            'span'      => 'a'
+            'span'      => 'a',
         ];
+
         return str_replace(array_keys($replacements), array_values($replacements), parent::getPreviousButton());
     }
 
@@ -25,8 +28,9 @@ class Pagination extends \Landish\Pagination\Pagination
         $replacements = [
             'disabled'  => 'disabled next',
             '<li>'      => '<li class="next">',
-            'span'      => 'a'
+            'span'      => 'a',
         ];
+
         return str_replace(array_keys($replacements), array_values($replacements), parent::getNextButton());
     }
 }

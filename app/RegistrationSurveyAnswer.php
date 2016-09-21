@@ -1,10 +1,11 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
 
 class RegistrationSurveyAnswer extends Model
 {
-
     /**
      * The attributes that are guarded against mass assignment.
      *

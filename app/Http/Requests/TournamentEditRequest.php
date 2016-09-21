@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
 use BibleBowl\Tournament;
 
 class TournamentEditRequest extends TournamentCreateRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +16,7 @@ class TournamentEditRequest extends TournamentCreateRequest
     {
         return Tournament::where('id', $this->route('tournament'))
             ->where('creator_id', Auth::id())
-            ->exists() === false;
+            ->exists();
     }
 
     /**
@@ -26,7 +27,7 @@ class TournamentEditRequest extends TournamentCreateRequest
     public function rules()
     {
         return array_merge(parent::rules(), [
-            'inactive' => 'required'
+            'inactive' => 'required',
         ]);
     }
 }

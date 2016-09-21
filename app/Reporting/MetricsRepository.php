@@ -1,7 +1,8 @@
-<?php namespace BibleBowl\Reporting;
+<?php
+
+namespace BibleBowl\Reporting;
 
 use BibleBowl\Group;
-use BibleBowl\Player;
 use BibleBowl\Program;
 use BibleBowl\Season;
 use DB;
@@ -11,17 +12,17 @@ use DB;
  */
 class MetricsRepository
 {
-
     public function groupCount()
     {
         return Group::active()->count();
     }
-    
+
     public function playerCount($season) : int
     {
         return $season
             ->players()
             ->active($season)
+            ->groupBy('player_id')
             ->count();
     }
 

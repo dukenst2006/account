@@ -1,14 +1,14 @@
-<?php namespace BibleBowl\Http\Controllers\Groups;
+<?php
+
+namespace BibleBowl\Http\Controllers\Groups;
 
 use BibleBowl\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Session;
-use Str;
 
 class RosterController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
@@ -48,10 +48,10 @@ class RosterController extends Controller
                 'players' => function (HasMany $q) use ($season, $group) {
                     $q->join('player_season', 'player_season.player_id', '=', 'players.id')
                         ->active($season);
-                        $q->whereHas('groups', function (Builder $q) use ($group) {
-                            $q->where('groups.id', $group->id);
-                        });
-                }
+                    $q->whereHas('groups', function (Builder $q) use ($group) {
+                        $q->where('groups.id', $group->id);
+                    });
+                },
             ])
             ->get();
 
@@ -67,7 +67,7 @@ class RosterController extends Controller
         $players = $group->players()->active(Session::season())->with('guardian', 'guardian.primaryAddress')->get();
 
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment;filename="'.str_replace(' ', '_', $group->program->abbreviation.' Roster').'-'.str_replace(' ', '_', $group->name).'-'.date("m.d.y").'.csv"');
+        header('Content-Disposition: attachment;filename="'.str_replace(' ', '_', $group->program->abbreviation.' Roster').'-'.str_replace(' ', '_', $group->name).'-'.date('m.d.y').'.csv"');
 
         $output = fopen('php://output', 'w');
 
@@ -83,11 +83,11 @@ class RosterController extends Controller
             'Email',
             'Address',
             'Phone',
-            'Seasons Played'
+            'Seasons Played',
         ]);
 
         foreach ($players as $player) {
-            fputcsv($output, array(
+            fputcsv($output, [
                 $player->first_name,
                 $player->last_name,
                 $player->pivot->grade,
@@ -99,8 +99,8 @@ class RosterController extends Controller
                 $player->guardian->email,
                 $player->guardian->primaryAddress,
                 $player->guardian->phone,
-                $player->seasons()->count()
-            ));
+                $player->seasons()->count(),
+            ]);
         }
 
         fclose($output);

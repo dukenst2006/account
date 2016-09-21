@@ -12,7 +12,7 @@ trait AcceptsInvitations
     public function accept(User $accepter) : bool
     {
         $this->invitation()->update([
-            'status' => Invitation::ACCEPTED
+            'status' => Invitation::ACCEPTED,
         ]);
 
         return true;

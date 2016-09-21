@@ -1,18 +1,20 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Rhumsaa\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 use Validator;
 
 /**
- * BibleBowl\Player
+ * BibleBowl\Player.
  *
- * @property integer $id
+ * @property int $id
  * @property string $guid
- * @property integer $guardian_id
+ * @property int $guardian_id
  * @property string $first_name
  * @property string $last_name
  * @property string $shirt_size
@@ -24,6 +26,7 @@ use Validator;
  * @property-read User $guardian
  * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
  * @property-read mixed $full_name
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuardianId($value)
@@ -35,14 +38,18 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereUpdatedAt($value)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Program[] $programs
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegisteredWithNBB($season, $user)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithNBBOnly($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithGroup($season, $group)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player pendingRegistrationPayment()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegistered($season, $user)
@@ -50,7 +57,6 @@ use Validator;
  */
 class Player extends Model
 {
-
     /**
      * The attributes that are not mass assignable.
      *
@@ -60,7 +66,7 @@ class Player extends Model
 
     protected $appends = ['full_name'];
 
-    protected $hidden = ['id','first_name','last_name'];
+    protected $hidden = ['id', 'first_name', 'last_name'];
 
     public static function boot()
     {
@@ -69,6 +75,7 @@ class Player extends Model
         //assign a guid for each user
         static::creating(function ($player) {
             $player->guid = Uuid::uuid4();
+
             return true;
         });
 
@@ -76,7 +83,7 @@ class Player extends Model
             $guardian = $player->guardian;
 
             // if it's the last player
-            if ($guardian->players()->count() == 1 && $guardian->is(Role::GUARDIAN)) {
+            if ($guardian->players()->count() == 1 && $guardian->isAn(Role::GUARDIAN)) {
                 $role = Role::where('name', Role::GUARDIAN)->firstOrFail();
                 $guardian->retract($role);
             }
@@ -92,8 +99,9 @@ class Player extends Model
             $conditions = [
                 'guardian_id'   => Auth::user()->id,
                 'first_name'    => $data['first_name'],
-                'last_name'     => $data['last_name']
+                'last_name'     => $data['last_name'],
             ];
+
             return Player::where($conditions)->count() == 0;
         });
 
@@ -101,27 +109,28 @@ class Player extends Model
             'first_name'    => 'required|max:32',
             'last_name'     => 'required|max:32',
             'gender'        => 'required',
-            'birthday'      => 'required|date'
+            'birthday'      => 'required|date',
         ];
     }
 
     public static function validationMessages()
     {
         return [
-            'first_name.guardian_isnt_duplicate_player' => "You've already added this player"
+            'first_name.guardian_isnt_duplicate_player' => "You've already added this player",
         ];
     }
 
     /**
-     * Determine if a player's birthday can be edited
+     * Determine if a player's birthday can be edited.
      *
      * @param User $user
+     *
      * @return bool
      */
     public function isBirthdayEditable(User $user)
     {
         // some people can always edit it
-        if ($user->is(Role::ADMIN)) {
+        if ($user->isA(Role::ADMIN)) {
             return true;
         }
 
@@ -197,8 +206,6 @@ class Player extends Model
         if (!is_null($this->birthday)) {
             return $this->birthday->age;
         }
-
-        return null;
     }
 
     public function setFirstNameAttribute($attribute)
@@ -220,7 +227,7 @@ class Player extends Model
     }
 
     /**
-     * Convert from m/d/Y to a Carbon object for saving
+     * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $birthday
      */
@@ -230,7 +237,7 @@ class Player extends Model
     }
 
     /**
-     * Provide birthday as a Carbon object
+     * Provide birthday as a Carbon object.
      *
      * @param $birthday
      *
@@ -252,7 +259,7 @@ class Player extends Model
     }
 
     /**
-     * Group the current player is registered with
+     * Group the current player is registered with.
      *
      * @param Season $season
      *
@@ -264,7 +271,7 @@ class Player extends Model
     }
 
     /**
-     * If the current player has registered with a group
+     * If the current player has registered with a group.
      *
      * @param Season $season
      *
@@ -312,7 +319,7 @@ class Player extends Model
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
-                'inactive' => Carbon::now()->toDateTimeString()
+                'inactive' => Carbon::now()->toDateTimeString(),
             ]);
     }
 
@@ -321,7 +328,7 @@ class Player extends Model
         $season->players()
             ->wherePivot('season_id', $season->id)
             ->updateExistingPivot($this->id, [
-                'inactive' => null
+                'inactive' => null,
             ]);
     }
 
@@ -331,7 +338,7 @@ class Player extends Model
     public function scopeActive($query, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
-                $q->where('seasons.id', $season->id);
+            $q->where('seasons.id', $season->id);
         })
             ->whereNull('player_season.inactive');
     }
@@ -342,7 +349,7 @@ class Player extends Model
     public function scopeInactive($query, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
-                $q->where('seasons.id', $season->id);
+            $q->where('seasons.id', $season->id);
         })
             ->whereNotNull('player_season.inactive');
     }

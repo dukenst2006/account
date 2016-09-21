@@ -1,26 +1,30 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use App;
 use BibleBowl\Support\Scrubber;
+use BibleBowl\Users\Notifications\PasswordReset;
 use BibleBowl\Users\Settings;
 use Carbon\Carbon;
 use DatabaseSeeder;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Rhumsaa\Uuid\Uuid;
+use Illuminate\Notifications\Notifiable;
+use Ramsey\Uuid\Uuid;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
- * BibleBowl\User
+ * BibleBowl\User.
  *
- * @property integer $id
- * @property boolean $status
+ * @property int $id
+ * @property bool $status
  * @property string $guid
  * @property string $email
  * @property string $first_name
@@ -40,6 +44,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read mixed $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGuid($value)
@@ -55,18 +60,22 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereUpdatedAt($value)
  * @method static \BibleBowl\User byProviderId($id)
- * @property integer $primary_address_id
+ *
+ * @property int $primary_address_id
  * @property-read Address $primaryAddress
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $ownedGroups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePrimaryAddressId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
+ *
  * @property-read \BibleBowl\Cart $cart
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $orders
  * @property-read mixed $shop_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Ability[] $abilities
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIs($role)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIsAll($role)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCan($ability, $model = null)
@@ -78,11 +87,11 @@ class User extends Model implements
     AuthenticatableContract,
     CanResetPasswordContract
 {
-
     const STATUS_UNCONFIRMED = 0;
     const STATUS_CONFIRMED = 1;
 
-    use Authorizable,
+    use Notifiable,
+        Authorizable,
         Authenticatable,
         CanResetPassword,
         HasRolesAndAbilities {
@@ -103,11 +112,11 @@ class User extends Model implements
      * @var []
      */
     protected $attributes = [
-        'status' => self::STATUS_UNCONFIRMED
+        'status' => self::STATUS_UNCONFIRMED,
     ];
 
     protected $casts = [
-        'settings' => Settings::class
+        'settings' => Settings::class,
     ];
 
     /**
@@ -133,6 +142,7 @@ class User extends Model implements
         //assign a guid for each user
         static::creating(function ($user) {
             $user->guid = Uuid::uuid4();
+
             return true;
         });
     }
@@ -145,7 +155,7 @@ class User extends Model implements
             'email'         => 'required|email|max:255|unique:users',
             'password'      => 'confirmed|min:6|max:60',
             'phone'         => 'required|integer|digits:10',
-            'gender'        => 'required'
+            'gender'        => 'required',
         ];
 
         if (!is_null($userBeingUpdated)) {
@@ -158,12 +168,12 @@ class User extends Model implements
     public function updateLastLogin()
     {
         return $this->update([
-            'last_login' => Carbon::now()
+            'last_login' => Carbon::now(),
         ]);
     }
 
     /**
-     * Find a user by its provider id
+     * Find a user by its provider id.
      *
      * @param $id
      *
@@ -293,7 +303,7 @@ class User extends Model implements
     }
 
     /**
-     * Determines if this user still lacks basic account information
+     * Determines if this user still lacks basic account information.
      *
      * @return bool
      */
@@ -304,6 +314,7 @@ class User extends Model implements
 
     /**
      * @param $value
+     *
      * @return Settings
      */
     public function getSettingsAttribute($value)
@@ -358,7 +369,8 @@ class User extends Model implements
     /**
      * Assign the given role to the model.
      *
-     * @param  \Silber\Bouncer\Database\Role  $role
+     * @param \Silber\Bouncer\Database\Role $role
+     *
      * @return $this
      */
     public function assign(Role $role)
@@ -366,14 +378,15 @@ class User extends Model implements
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
             event('user.role.added', [$this, $role]);
         }
-        
+
         return $this->parentAssign($role);
     }
 
     /**
      * Retract the given role from the model.
      *
-     * @param  \Silber\Bouncer\Database\Role|string  $role
+     * @param \Silber\Bouncer\Database\Role|string $role
+     *
      * @return $this
      */
     public function retract(Role $role)
@@ -381,7 +394,19 @@ class User extends Model implements
         if (DatabaseSeeder::isSeeding() === false && $role->hasMailchimpInterest()) {
             event('user.role.removed', [$this, $role]);
         }
-        
+
         return $this->parentRetract($role);
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($this, $token));
     }
 }

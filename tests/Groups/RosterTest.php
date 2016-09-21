@@ -2,7 +2,6 @@
 
 class RosterTest extends TestCase
 {
-
     use \Helpers\ActingAsHeadCoach;
 
     public function setUp()
@@ -25,7 +24,7 @@ class RosterTest extends TestCase
             ->see('Download CSV')
             ->see($player->last_name.', '.$player->first_name)
 
-            # Test toggling active/inactive players
+            // Test toggling active/inactive players
             ->click('#deactivate-'.$player->id)
             ->seePageIs('/roster')
             ->dontSee($player->last_name.', '.$player->first_name)

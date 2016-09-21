@@ -10,9 +10,9 @@ class ItemTest extends TestCase
      */
     public function generatesSeasonalRegistrationDescription()
     {
-        foreach(Program::all() as $program) {
+        foreach (Program::all() as $program) {
             $item = new Item([
-                'sku' => $program->sku
+                'sku' => $program->sku,
             ]);
             $this->assertEquals($program->name.' Seasonal Registration', $item->name());
         }

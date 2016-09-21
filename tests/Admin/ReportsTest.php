@@ -1,10 +1,8 @@
 <?php
 
-use BibleBowl\User;
 
 class ReportsTest extends TestCase
 {
-
     protected $user;
 
     use \Helpers\ActingAsDirector;

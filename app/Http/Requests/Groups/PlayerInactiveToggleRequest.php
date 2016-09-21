@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests\Groups;
+<?php
+
+namespace BibleBowl\Http\Requests\Groups;
 
 use BibleBowl\Http\Requests\Request;
 use Session;
 
 class PlayerInactiveToggleRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

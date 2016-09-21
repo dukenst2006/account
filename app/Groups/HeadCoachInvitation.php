@@ -2,11 +2,11 @@
 
 namespace BibleBowl\Groups;
 
+use Auth;
 use BibleBowl\Invitation;
 use BibleBowl\User;
 use BibleBowl\Users\AcceptsInvitations;
 use Session;
-use Auth;
 
 class HeadCoachInvitation
 {

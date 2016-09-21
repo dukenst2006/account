@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Competition;
+<?php
+
+namespace BibleBowl\Competition;
 
 use BibleBowl\Season;
 use BibleBowl\Tournament;
@@ -8,9 +10,9 @@ use DB;
 class TournamentCreator
 {
     /**
-     * @param User    $owner
-     * @param Season  $season
-     * @param array   $attributes
+     * @param User   $owner
+     * @param Season $season
+     * @param array  $attributes
      *
      * @return static
      */
@@ -34,17 +36,17 @@ class TournamentCreator
         foreach ($participantTypes as $typeId => $registration) {
             $tournament->participantFees()->create([
                 'participant_type_id'   => $typeId,
-                'requires_registration' => isset($registration['requireRegistration']) ? !!$registration['requireRegistration'] : false,
+                'requires_registration' => isset($registration['requireRegistration']) ? (bool) $registration['requireRegistration'] : false,
                 'fee'                   => is_numeric($registration['fee']) ? $registration['fee'] : null,
                 'earlybird_fee'         => is_numeric($registration['earlybird_fee']) ? $registration['earlybird_fee'] : null,
-                'onsite_fee'            => is_numeric($registration['onsite_fee']) ? $registration['onsite_fee'] : null
+                'onsite_fee'            => is_numeric($registration['onsite_fee']) ? $registration['onsite_fee'] : null,
             ]);
         }
 
         // add events
         foreach ($eventTypes as $eventTypeId) {
             $tournament->events()->create([
-                'event_type_id' => $eventTypeId
+                'event_type_id' => $eventTypeId,
             ]);
         }
 

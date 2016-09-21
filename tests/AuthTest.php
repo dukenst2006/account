@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\User;
-use BibleBowl\Tournament;
 use BibleBowl\RegistrationSurveyAnswer;
+use BibleBowl\Tournament;
+use BibleBowl\User;
 
 class AuthTest extends TestCase
 {
@@ -10,23 +10,23 @@ class AuthTest extends TestCase
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     protected $password = 'asdfasdf';
+//
+//    /**
+//     * @test
+//     */
+//    public function canLogout()
+//    {
+//        $this->setupAsGuardian();
+//
+//        $this
+//            ->visit('logout')
+//            ->seePageIs('/login');
+//    }
 
     /**
      * @test
      */
-    public function canLogout()
-    {
-        $this->setupAsGuardian();
-
-        $this
-            ->visit('logout')
-            ->seePageIs('/login');
-    }
-
-    /**
-     * @test
-     */
-    public function canConfirmEmailAddress()
+    public function requiresEmailConfirmation()
     {
         $user = User::where('email', AcceptanceTestingSeeder::UNCONFIRMED_USER_EMAIL)->first();
 
@@ -59,7 +59,7 @@ class AuthTest extends TestCase
 
         // skip the email confirmation step
         User::where('email', $email)->update([
-            'status' => User::STATUS_CONFIRMED
+            'status' => User::STATUS_CONFIRMED,
         ]);
 
         $this
@@ -71,8 +71,8 @@ class AuthTest extends TestCase
             ->type('Apt 1', 'address_two')
             ->type('40241', 'zip_code');
 
-            $answerId = 4;
-            $otherText = uniqid();
+        $answerId = 4;
+        $otherText = uniqid();
         $this
             ->check('answer[1]['.$answerId.']')
 

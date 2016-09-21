@@ -1,17 +1,18 @@
-<?php namespace BibleBowl\Users\Auth;
+<?php
+
+namespace BibleBowl\Users\Auth;
 
 use Auth;
 use BibleBowl\Cart;
+use BibleBowl\Competition\Tournaments\GroupRegistration as TournamentGroupRegistration;
 use BibleBowl\Group;
 use BibleBowl\Invitation;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
 use BibleBowl\User;
-use BibleBowl\Competition\Tournaments\GroupRegistration as TournamentGroupRegistration;
 
 class SessionManager extends \Illuminate\Session\SessionManager
 {
-
     const SEASON = 'season';
     const GROUP = 'group';
     const CART = 'cart';
@@ -21,7 +22,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     const SEASONAL_GROUP_REGISTRATION = 'seasonal_group_registration';
     const TOURNAMENT_GROUP_REGISTRATION = 'tournament_group_registration';
     const REDIRECT_TO_AFTER_AUTH = 'after_auth_redirect';
-    
+
     /** @var Season */
     protected $season = null;
 
@@ -29,7 +30,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     protected $group = null;
 
     /**
-     * Clear session items
+     * Clear session items.
      */
     public function switchUser(User $user)
     {
@@ -109,6 +110,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function seasonalGroupRegistration()
     {
         $registrationInfo = $this->get(self::SEASONAL_GROUP_REGISTRATION, []);
+
         return app(GroupRegistration::class, [$registrationInfo]);
     }
 
@@ -126,6 +128,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function tournamentGroupRegistration() : TournamentGroupRegistration
     {
         $registrationInfo = $this->get(self::TOURNAMENT_GROUP_REGISTRATION, []);
+
         return app(TournamentGroupRegistration::class, [$registrationInfo]);
     }
 
@@ -169,7 +172,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     }
 
     /**
-     * Determine if the current user has access to an admin
+     * Determine if the current user has access to an admin.
      */
     public function canSwitchToAdmin()
     {

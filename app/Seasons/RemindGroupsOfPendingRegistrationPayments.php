@@ -1,7 +1,8 @@
-<?php namespace BibleBowl\Seasons;
+<?php
+
+namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
-use BibleBowl\Season;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Message;
@@ -9,7 +10,6 @@ use Mail;
 
 class RemindGroupsOfPendingRegistrationPayments extends Command
 {
-
     const COMMAND = 'biblebowl:remind-groups-of-pending-payments';
 
     /**
@@ -24,7 +24,7 @@ class RemindGroupsOfPendingRegistrationPayments extends Command
      *
      * @var string
      */
-    protected $description = "Send email reminders who have pending player fees";
+    protected $description = 'Send email reminders who have pending player fees';
 
     /**
      * Execute the console command.
@@ -41,7 +41,7 @@ class RemindGroupsOfPendingRegistrationPayments extends Command
                 Mail::queue(
                     'emails.remind-groups-of-pending-payments',
                     [
-                        'groupId'   => $group->id
+                        'groupId'   => $group->id,
                     ],
                     function (Message $message) use ($group, $user) {
                         $message->to($user->email, $user->full_name)

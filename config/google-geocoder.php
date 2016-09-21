@@ -30,6 +30,6 @@ return [
     */
     'requestUrl' => [
         'json' => 'https://maps.googleapis.com/maps/api/geocode/json?',
-        'xml'  => 'https://maps.googleapis.com/maps/api/geocode/xml?'
+        'xml'  => 'https://maps.googleapis.com/maps/api/geocode/xml?',
     ],
 ];

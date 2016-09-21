@@ -32,7 +32,7 @@
                                     }
                                 ?>
                                 <div class="checkbox check-primary">
-                                    {!! Form::checkbox('role['.$role->id.']', '1', old('role['.$role->id.']', $user->is($role->name)), $fieldAttrs) !!}
+                                    {!! Form::checkbox('role['.$role->id.']', '1', old('role['.$role->id.']', $user->isA($role->name)), $fieldAttrs) !!}
                                     <label for="role-{{ $role->id }}">{{ $role->display_name }}</label>
                                 </div><br/>
                             @endforeach

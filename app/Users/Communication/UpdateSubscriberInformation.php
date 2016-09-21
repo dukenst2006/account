@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Users\Communication;
+<?php
+
+namespace BibleBowl\Users\Communication;
 
 use BibleBowl\Role;
 use BibleBowl\User;
@@ -9,7 +11,6 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class UpdateSubscriberInformation implements ShouldQueue
 {
-
     use InteractsWithQueue;
 
     /** @var Easychimp */
@@ -23,7 +24,8 @@ class UpdateSubscriberInformation implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  User  $user
+     * @param User $user
+     *
      * @return void
      */
     public function handle(User $user)
@@ -42,7 +44,7 @@ class UpdateSubscriberInformation implements ShouldQueue
         // need to make sure their interests are up to date
         $interests = [];
         foreach (Role::whereNotNull('mailchimp_interest_id')->get() as $role) {
-            $interests[$role->mailchimp_interest_id] = $user->is($role->name);
+            $interests[$role->mailchimp_interest_id] = $user->isA($role->name);
         }
 
         // will add or update depending on whether the email addresses
@@ -60,7 +62,7 @@ class UpdateSubscriberInformation implements ShouldQueue
 
                 /** @var Easychimp $mailchimp */
                 $mailchimp = app(Easychimp::class, [
-                    $group->settings->mailchimpKey()
+                    $group->settings->mailchimpKey(),
                 ]);
                 $list = $mailchimp->mailingList($group->settings->mailchimpListId());
 

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddTeams extends Migration
 {
@@ -12,8 +12,7 @@ class AddTeams extends Migration
      */
     public function up()
     {
-        Schema::create('team_sets', function(Blueprint $table)
-        {
+        Schema::create('team_sets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
@@ -23,8 +22,7 @@ class AddTeams extends Migration
             $table->timestamps();
         });
 
-        Schema::create('teams', function(Blueprint $table)
-        {
+        Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('team_set_id')->unsigned();
             $table->foreign('team_set_id')->references('id')->on('team_sets');
@@ -32,8 +30,7 @@ class AddTeams extends Migration
             $table->timestamps();
         });
 
-        Schema::create('team_player', function(Blueprint $table)
-        {
+        Schema::create('team_player', function (Blueprint $table) {
             $table->integer('team_id')->unsigned();
             $table->foreign('team_id')->references('id')->on('teams');
             $table->integer('player_id')->unsigned();

@@ -1,25 +1,25 @@
-<?php namespace BibleBowl\Http\Controllers\Admin;
+<?php
+
+namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\Request;
-use BibleBowl\Program;
+use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Reporting\GroupMetricsRepository;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Reporting\SurveyMetricsRepository;
 use BibleBowl\Season;
-use BibleBowl\RegistrationSurveyQuestion;
 
 class ReportsController extends Controller
 {
-
     /**
      * @return \Illuminate\View\View
      */
     public function getGrowth(MetricsRepository $metrics)
     {
         return view('admin.reports.growth', [
-            'groupSummaryByProgram' => $metrics->historicalGroupSummaryByProgram(),
-            'playerSummaryByProgram' => $metrics->historicalPlayerSummaryByProgram()
+            'groupSummaryByProgram'  => $metrics->historicalGroupSummaryByProgram(),
+            'playerSummaryByProgram' => $metrics->historicalPlayerSummaryByProgram(),
         ]);
     }
 
@@ -30,6 +30,7 @@ class ReportsController extends Controller
     {
         $seasons = Season::orderBy('id', 'DESC')->get();
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : $seasons->first();
+
         return view('admin.reports.season', [
             'currentSeason'     => $currentSeason,
             'seasons'           => $seasons,
@@ -51,14 +52,14 @@ class ReportsController extends Controller
         foreach (RegistrationSurveyQuestion::orderBy('order')->get() as $question) {
             $questions[$question->id] = [
                 'question'  => $question,
-                'metrics'   => $metrics->byQuestion($question, $currentSeason)
+                'metrics'   => $metrics->byQuestion($question, $currentSeason),
             ];
         }
 
         return view('admin.reports.registration-surveys', [
             'currentSeason' => $currentSeason,
             'seasons'       => $seasons,
-            'questions'     => $questions
+            'questions'     => $questions,
         ]);
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Groups\Communication;
+<?php
+
+namespace BibleBowl\Groups\Communication;
 
 use BibleBowl\Group;
 use BibleBowl\User;
@@ -10,13 +12,13 @@ use Mailchimp\Mailchimp;
 
 class AddToMailingList implements ShouldQueue
 {
-
     use InteractsWithQueue;
 
     /**
      * Handle the event.
      *
-     * @param  User  $user
+     * @param User $user
+     *
      * @return void
      */
     public function handle(Group $group, User $guardian)
@@ -26,7 +28,6 @@ class AddToMailingList implements ShouldQueue
         }
 
         if ($group->settings->shouldUpdateSubscribers()) {
-
             $mailchimp = new Easychimp(new Mailchimp($group->settings->mailchimpKey()));
             $list = $mailchimp->mailingList($group->settings->mailchimpListId());
 

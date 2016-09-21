@@ -1,4 +1,6 @@
-<?php namespace Helpers;
+<?php
+
+namespace Helpers;
 
 use BibleBowl\Season;
 use BibleBowl\User;
@@ -20,7 +22,7 @@ trait ActingAsGuardian
 
         $this->actingAs($this->guardian)
             ->withSession([
-                SessionManager::SEASON  => $this->season->toArray()
+                SessionManager::SEASON  => $this->season->toArray(),
             ]);
     }
 

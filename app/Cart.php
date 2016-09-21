@@ -5,17 +5,16 @@ namespace BibleBowl;
 use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
 use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrationPaymentReceived;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
-use BibleBowl\Seasons\SeasonalRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Shop\UnrecognizedPurchaseEvent;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\Cart
+ * BibleBowl\Cart.
  *
- * @property integer $id
- * @property integer $user_id
+ * @property int $id
+ * @property int $user_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \BibleBowl\User $user
@@ -32,20 +31,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $display_total_discount
  * @property-read mixed $display_total
  * @property-read mixed $calculations_cache_key
+ *
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel current()
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel whereUser($userId)
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel whereCurrent()
  * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel findByUser($userId)
+ *
  * @property string $post_purchase_event
  */
 class Cart extends Model
 {
     protected $fillable = [
-        'user_id'
+        'user_id',
     ];
 
     protected $attributes = [
-        'user_id' => null
+        'user_id' => null,
     ];
 
     protected $casts = [
@@ -55,7 +56,7 @@ class Cart extends Model
     /**
      * Listing these events here allow us to grab
      * the object associated with these events
-     * after the checkout process has completed
+     * after the checkout process has completed.
      *
      * @var array
      */
@@ -114,9 +115,10 @@ class Cart extends Model
     }
 
     /**
-     * @param string    $sku
-     * @param float     $price
-     * @param int       $quantity
+     * @param string $sku
+     * @param float  $price
+     * @param int    $quantity
+     *
      * @return Item
      */
     public function add($sku, $price, $quantity = 1)
@@ -124,7 +126,7 @@ class Cart extends Model
         return $this->items()->create([
             'sku'       => $sku,
             'quantity'  => $quantity,
-            'price'     => $price
+            'price'     => $price,
         ]);
     }
 
@@ -157,9 +159,10 @@ class Cart extends Model
                 'sku'           => $item->sku,
                 'description'   => $item->name(),
                 'price'         => $item->price,
-                'quantity'      => $item->quantity
+                'quantity'      => $item->quantity,
             ]]);
         }
+
         return $receiptItems;
     }
 }

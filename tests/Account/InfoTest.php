@@ -2,7 +2,6 @@
 
 class InfoTest extends TestCase
 {
-
     use \Helpers\ActingAsGuardian;
 
     public function setUp()

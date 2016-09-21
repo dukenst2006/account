@@ -4,7 +4,6 @@ use BibleBowl\User;
 
 class NotificationsTest extends TestCase
 {
-
     use \Helpers\ActingAsHeadCoach;
 
     public function setUp()

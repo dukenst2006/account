@@ -22,7 +22,7 @@ class ThirdPartyAuthTest extends TestCase
             'id'            => uniqid(),
             'name'          => 'John Peterson',
             'email'         => 'john.'.uniqid().'@peterson.example.com',
-            'avatar'        => 'avatar'.time().'.jpg'
+            'avatar'        => 'avatar'.time().'.jpg',
         ]);
         $this->socialite = Mockery::mock('Laravel\Socialite\SocialiteManager');
         $this->socialite->shouldReceive('driver')->andReturn($this->socialite);
@@ -39,7 +39,7 @@ class ThirdPartyAuthTest extends TestCase
         $this->expectsEvents('auth.registered');
 
         $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
-            'code' => uniqid()
+            'code' => uniqid(),
         ]);
 
         $this->assertRedirectedTo('/dashboard');
@@ -68,12 +68,12 @@ class ThirdPartyAuthTest extends TestCase
         User::unguard();
         User::create([
             'guid'  => md5(uniqid().microtime()),
-            'email' => $this->providerUser->getEmail()
+            'email' => $this->providerUser->getEmail(),
         ]);
         User::reguard();
 
         $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
-            'code' => uniqid()
+            'code' => uniqid(),
         ]);
 
         //redirects back to login... how do we verify the error message was defined/displayed?

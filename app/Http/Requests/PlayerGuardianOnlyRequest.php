@@ -1,11 +1,12 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
 use BibleBowl\Player;
 
 class PlayerGuardianOnlyRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

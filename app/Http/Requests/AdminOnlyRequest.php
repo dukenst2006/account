@@ -1,7 +1,8 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
-use BibleBowl\Player;
 use BibleBowl\Role;
 
 class AdminOnlyRequest extends Request
@@ -13,6 +14,6 @@ class AdminOnlyRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user()->is(Role::ADMIN);
+        return Auth::user()->isAn(Role::ADMIN);
     }
 }

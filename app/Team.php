@@ -1,31 +1,37 @@
-<?php namespace BibleBowl;
+<?php
+
+namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\Season
+ * BibleBowl\Season.
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player')
  *             ->withPivot('grade[] $players
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereUpdatedAt($value)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
- * @property integer $team_set_id
+ *
+ * @property int $team_set_id
  * @property-read Group $teamSet
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Team whereTeamSetId($value)
  */
 class Team extends Model
 {
-
     /**
      * The attributes that are not mass assignable.
      *
@@ -52,6 +58,7 @@ class Team extends Model
     public function players()
     {
         $seasonId = $this->teamSet->season_id;
+
         return $this->belongsToMany(Player::class, 'team_player')
             ->withPivot('order')
             ->withTimestamps()

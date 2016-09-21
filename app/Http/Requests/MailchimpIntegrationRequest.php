@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Requests;
+<?php
+
+namespace BibleBowl\Http\Requests;
 
 use Auth;
 use BibleBowl\Group;
@@ -22,7 +24,7 @@ class MailchimpIntegrationRequest extends GroupCreatorOnlyRequest
     public function authorize()
     {
         $groupId = $this->route('group');
-        if (Auth::user()->is(Role::HEAD_COACH)) {
+        if (Auth::user()->isA(Role::HEAD_COACH)) {
             $groupId = Session::group()->id;
         }
 
@@ -72,7 +74,7 @@ class MailchimpIntegrationRequest extends GroupCreatorOnlyRequest
 
         return [
             'mailchimp-key'     => 'required_if:mailchimp-enabled,1|valid_mailchimp_key',
-            'mailchimp-list-id' => 'required_with:mailchimp-enabled|valid_mailchimp_list_id'
+            'mailchimp-list-id' => 'required_with:mailchimp-enabled|valid_mailchimp_list_id',
         ];
     }
 

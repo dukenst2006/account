@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Seasons;
+<?php
+
+namespace BibleBowl\Http\Controllers\Seasons;
 
 use Auth;
 use BibleBowl\Group;
@@ -10,7 +12,6 @@ use BibleBowl\Http\Requests\SeasonRegistrationRequest;
 use BibleBowl\Program;
 use BibleBowl\Season;
 use BibleBowl\Seasons\GroupRegistration;
-use DB;
 use Illuminate\View\View;
 use Input;
 use Session;
@@ -23,6 +24,7 @@ class PlayerRegistrationController extends Controller
     public function getPlayers()
     {
         $season = Session::season();
+
         return view('seasons.registration.players')
             ->withSeason($season)
             ->withPlayers(Auth::user()
@@ -64,8 +66,9 @@ class PlayerRegistrationController extends Controller
 
         return redirect('/register/summary');
     }
+
     /**
-     * Prompt the parent/guardian to override certain programs
+     * Prompt the parent/guardian to override certain programs.
      *
      * @return \Illuminate\View\View
      */
@@ -81,7 +84,7 @@ class PlayerRegistrationController extends Controller
     }
 
     /**
-     * Add program override for players to the registration
+     * Add program override for players to the registration.
      *
      * @return mixed
      */
@@ -101,7 +104,7 @@ class PlayerRegistrationController extends Controller
     }
 
     /**
-     * Show the parent/guardian a summary of their registration
+     * Show the parent/guardian a summary of their registration.
      *
      * @return \Illuminate\View\View
      */
@@ -144,7 +147,7 @@ class PlayerRegistrationController extends Controller
     }
 
     /**
-     * Remember the group the user is trying to register for
+     * Remember the group the user is trying to register for.
      */
     public function rememberGroup($guid)
     {
@@ -152,11 +155,11 @@ class PlayerRegistrationController extends Controller
 
         Session::setGroupToRegisterWith($group);
 
-        return redirect('/login')->withFlashSuccess("Once you're logged in we'll direct you to ".$group->name." for seasonal registration");
+        return redirect('/login')->withFlashSuccess("Once you're logged in we'll direct you to ".$group->name.' for seasonal registration');
     }
 
     /**
-     * Submit the player's seasonal registration
+     * Submit the player's seasonal registration.
      */
     public function submit(SeasonRegistrationRequest $request, GroupRegistrar $groupRegistrar)
     {
@@ -171,7 +174,7 @@ class PlayerRegistrationController extends Controller
 
     /**
      * If the group isn't found this step will direct
-     * the parent to a later
+     * the parent to a later.
      */
     public function later($programSlug)
     {

@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Http\Controllers\Auth;
+<?php
+
+namespace BibleBowl\Http\Controllers\Auth;
 
 use Auth;
 use BibleBowl\Users\Auth\EmailAlreadyInUse;
@@ -6,15 +8,16 @@ use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
 use BibleBowl\Users\Auth\ThirdPartyRegistrar;
 use Illuminate\Http\Request;
 
-class ThirdPartyAuthController extends AuthController
+class ThirdPartyAuthController extends LoginController
 {
     /**
-     * Get authorization from the given provider
+     * Get authorization from the given provider.
      *
      * @param $provider
      *
-     * @return mixed
      * @throws \BibleBowl\Users\Auth\UnsupportedProvider
+     *
+     * @return mixed
      */
     public function processLogin(Request $request, $provider, ThirdPartyAuthenticator $authenticator, ThirdPartyRegistrar $registrar)
     {

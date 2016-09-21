@@ -1,4 +1,6 @@
-<?php namespace BibleBowl\Support;
+<?php
+
+namespace BibleBowl\Support;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

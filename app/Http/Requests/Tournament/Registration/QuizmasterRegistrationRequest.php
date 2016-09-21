@@ -1,12 +1,11 @@
-<?php namespace BibleBowl\Http\Requests\Tournament\Registration;
+<?php
 
-use BibleBowl\Group;
-use BibleBowl\Role;
+namespace BibleBowl\Http\Requests\Tournament\Registration;
+
 use BibleBowl\Http\Requests\Request;
 
 class QuizmasterRegistrationRequest extends Request
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -17,7 +16,7 @@ class QuizmasterRegistrationRequest extends Request
         return [
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'email'         => 'required|email'
+            'email'         => 'required|email',
         ];
     }
 
@@ -27,7 +26,7 @@ class QuizmasterRegistrationRequest extends Request
             'first_name.required'   => 'First name is required',
             'last_name.required'    => 'Last name is required',
             'email.required'        => 'Email address is required',
-            'email.email'           => 'Must be a valid email address'
+            'email.email'           => 'Must be a valid email address',
         ];
     }
 }

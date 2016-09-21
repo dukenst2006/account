@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\Program
+ * BibleBowl\Program.
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $abbreviation
  * @property string $slug
@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $providers
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereAbbreviation($value)
@@ -26,11 +27,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
+ *
  * @property float $registration_fee
  * @property-read mixed $product_sku
- * @property boolean $min_grade
- * @property boolean $max_grade
+ * @property bool $min_grade
+ * @property bool $max_grade
  * @property-read mixed $sku
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereRegistrationFee($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMinGrade($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMaxGrade($value)
@@ -99,6 +102,7 @@ class Program extends Model
         }
         $minGrade = Describer::describeGradeShort($minGrade);
         $maxGrade = Describer::describeGradeShort($this->max_grade);
+
         return $this->name.' ('.$minGrade.'-'.$maxGrade.' grades)';
     }
 }
