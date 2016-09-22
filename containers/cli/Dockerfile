@@ -23,6 +23,9 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
     # php extensions the app will need
     && docker-php-ext-install mcrypt mbstring pdo_mysql gd \
 
+        # needed for forking processes in laravel queues as of Laravel 5.3
+        pcntl \
+
     # install composer
     && wget -O /usr/local/bin/composer http://getcomposer.org/composer.phar \
     && chmod +x /usr/local/bin/composer \
