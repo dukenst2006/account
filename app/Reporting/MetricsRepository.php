@@ -22,7 +22,6 @@ class MetricsRepository
         return $season
             ->players()
             ->active($season)
-            ->groupBy('player_id')
             ->count();
     }
 
