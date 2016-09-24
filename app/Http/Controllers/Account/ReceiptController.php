@@ -5,7 +5,6 @@ namespace BibleBowl\Http\Controllers\Account;
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Receipt;
-use Redirect;
 
 class ReceiptController extends Controller
 {

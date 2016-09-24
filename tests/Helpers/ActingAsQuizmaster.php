@@ -2,8 +2,6 @@
 
 namespace Helpers;
 
-use BibleBowl\Group;
-use BibleBowl\Season;
 use BibleBowl\User;
 use DatabaseSeeder;
 

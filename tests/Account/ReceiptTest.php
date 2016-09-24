@@ -1,6 +1,5 @@
 <?php
 
-use BibleBowl\User;
 
 class ReceiptsTest extends TestCase
 {

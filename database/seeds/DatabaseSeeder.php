@@ -459,7 +459,7 @@ class DatabaseSeeder extends Seeder
         $receipt->items()->create([
             'sku'           => $program->sku,
             'description'   => $program->description.' Seasonal Registration',
-            'quantity'     => '2',
+            'quantity'      => '2',
             'price'         => $program->registration_fee,
         ]);
 
