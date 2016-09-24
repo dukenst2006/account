@@ -446,7 +446,8 @@ class DatabaseSeeder extends Seeder
 
     private function seedReceipt(User $user) : Receipt
     {
-        return Receipt::create([
+        $program = Program::firstOrFail();
+        $receipt = Receipt::create([
             'total'                     => 15.00,
             'payment_reference_number'  => uniqid(),
             'first_name'                => $user->first_name,
@@ -454,5 +455,14 @@ class DatabaseSeeder extends Seeder
             'user_id'                   => $user->id,
             'address_id'                => $user->primary_address_id,
         ]);
+
+        $receipt->items()->create([
+            'sku'           => $program->sku,
+            'description'   => $program->description.' Seasonal Registration',
+            'quantity'     => '2',
+            'price'         => $program->registration_fee,
+        ]);
+
+        return $receipt;
     }
 }

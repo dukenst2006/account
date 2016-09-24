@@ -257,7 +257,7 @@ class User extends Model implements
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function invoices()
+    public function receipts()
     {
         return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
     }

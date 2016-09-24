@@ -77,6 +77,10 @@ Route::group(['middleware' => 'auth'], function () {
         'prefix'        => 'account',
         'namespace'     => 'Account',
     ], function () {
+        Route::resource('receipts', 'ReceiptController', [
+            'only' => ['index', 'show'],
+        ]);
+
         Route::resource('address', 'AddressController');
         Route::get('address/{address}/makePrimary', 'AddressController@setPrimaryAddressId');
         Route::get('setup', 'SetupController@getSetup');

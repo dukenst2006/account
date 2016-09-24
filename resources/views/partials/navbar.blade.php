@@ -71,6 +71,7 @@
                     <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
                         <li><a href="/account/edit">My Account</a> </li>
                         <li><a href="/account/address">My Address Book</a> </li>
+                        <li><a href="/account/receipts">My Receipts</a> </li>
                         @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
                             <li><a href="/account/notifications">Notification Preferences</a> </li>
                         @endif
