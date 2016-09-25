@@ -1,4 +1,4 @@
-## Bible Bowl Management App
+## Bible Bowl Management App [![Build Status](https://travis-ci.org/BibleBowl/account.svg?branch=master)](https://travis-ci.org/BibleBowl/account) [![StyleCI](https://styleci.io/repos/49306399/shield?branch=master)](https://styleci.io/repos/49306399)
 
 For details on how to contribute, see [CONTRIBUTING.md](https://bitbucket.org/BKuhl/biblebowl/src/master/CONTRIBUTING.md?at=master).
 
