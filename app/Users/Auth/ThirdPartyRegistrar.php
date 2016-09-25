@@ -4,6 +4,7 @@ namespace BibleBowl\Users\Auth;
 
 use App;
 use BibleBowl\User;
+use BibleBowl\UserProvider;
 use DB;
 use Laravel\Socialite\AbstractUser;
 use Validator;
@@ -53,7 +54,7 @@ class ThirdPartyRegistrar
 
         DB::beginTransaction();
         $user = $this->registrar->create($userData);
-        $userProvider = App::make('BibleBowl\UserProvider', [[
+        $userProvider = App::make(UserProvider::class, [[
             'provider'        => $provider,
             'provider_id'     => $providerUser->getId(),
         ]]);

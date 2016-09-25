@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Address;
 use BibleBowl\User;
 use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
 use Laravel\Socialite\Two\User as ThirdPartyUser;
@@ -62,13 +63,18 @@ class ThirdPartyAuthTest extends TestCase
     /**
      * @test
      */
-    public function loginViaOAuth2FailsIfEmailAlreadyInUse()
+    public function associateWithExistingUserIfEmailAddressMatches()
     {
+        $firstName = "Jane";
+        $lastName = "Lork";
         //allow GUID to be set
         User::unguard();
         User::create([
-            'guid'  => md5(uniqid().microtime()),
-            'email' => $this->providerUser->getEmail(),
+            'guid'                  => md5(uniqid().microtime()),
+            'email'                 => $this->providerUser->getEmail(),
+            'first_name'            => $firstName,
+            'last_name'             => $lastName,
+            'primary_address_id'    => Address::firstOrFail()->id
         ]);
         User::reguard();
 
@@ -76,8 +82,9 @@ class ThirdPartyAuthTest extends TestCase
             'code' => uniqid(),
         ]);
 
-        //redirects back to login... how do we verify the error message was defined/displayed?
-        $this->assertRedirectedTo('/login');
+        // logged in as pre-existing user
+        $this->followRedirects()
+            ->see($firstName.' '.$lastName);
 
         //assert user was not created
         $name = explode(' ', $this->providerUser->getName());

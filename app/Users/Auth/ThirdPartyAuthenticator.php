@@ -3,6 +3,7 @@
 namespace BibleBowl\Users\Auth;
 
 use BibleBowl\User;
+use BibleBowl\UserProvider;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class ThirdPartyAuthenticator
@@ -63,19 +64,27 @@ class ThirdPartyAuthenticator
      *
      * @return User
      */
-    public function findOrCreateUser($provider)
+    public function findOrCreateUser($provider) : User
     {
         /** @var \Laravel\Socialite\Two\User $providerUser */
         $providerUser = $this->socialite->driver($provider)->user();
 
         $user = User::byProvider($provider, $providerUser->id)->first();
         if (is_null($user)) {
-            // Don't allow this email to be registered if it's already in use
-            if (User::where('email', $providerUser->getEmail())->count() > 0) {
-                throw new EmailAlreadyInUse($providerUser->getEmail().' is already in use by an another account.');
+
+            $user = User::where('email', $providerUser->getEmail())->first();
+            // If provider isn't associated with user, do that now
+            if (is_null($user)) {
+                return $this->registrar->create($provider, $providerUser);
             }
 
-            return $this->registrar->create($provider, $providerUser);
+            $userProvider = app(UserProvider::class, [[
+                'provider'        => $provider,
+                'provider_id'     => $providerUser->getId(),
+            ]]);
+            $user->providers()->save($userProvider);
+            return $user;
+
         }
 
         // update the avatar if it has changed
