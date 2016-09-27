@@ -65,8 +65,8 @@ class ThirdPartyAuthTest extends TestCase
      */
     public function associateWithExistingUserIfEmailAddressMatches()
     {
-        $firstName = "Jane";
-        $lastName = "Lork";
+        $firstName = 'Jane';
+        $lastName = 'Lork';
         //allow GUID to be set
         User::unguard();
         User::create([
@@ -74,7 +74,7 @@ class ThirdPartyAuthTest extends TestCase
             'email'                 => $this->providerUser->getEmail(),
             'first_name'            => $firstName,
             'last_name'             => $lastName,
-            'primary_address_id'    => Address::firstOrFail()->id
+            'primary_address_id'    => Address::firstOrFail()->id,
         ]);
         User::reguard();
 

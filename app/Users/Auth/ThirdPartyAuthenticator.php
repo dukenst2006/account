@@ -71,7 +71,6 @@ class ThirdPartyAuthenticator
 
         $user = User::byProvider($provider, $providerUser->id)->first();
         if (is_null($user)) {
-
             $user = User::where('email', $providerUser->getEmail())->first();
             // If provider isn't associated with user, do that now
             if (is_null($user)) {
@@ -83,8 +82,8 @@ class ThirdPartyAuthenticator
                 'provider_id'     => $providerUser->getId(),
             ]]);
             $user->providers()->save($userProvider);
-            return $user;
 
+            return $user;
         }
 
         // update the avatar if it has changed

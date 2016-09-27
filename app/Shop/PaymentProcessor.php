@@ -40,16 +40,16 @@ class PaymentProcessor
             'currency'      => 'USD',
             'amount'        => $total,
             'token'         => $token,
-            'order'       => $receipt->id,
+            'order'         => $receipt->id,
 
             // attempt to include something itemized in the email
             'description'   => view('store.php-receipt', [
-                'receiptItems' => $receipt->items
+                'receiptItems' => $receipt->items,
             ]),
 
             'metadata' => [
-                'receiptId' => $receipt->id
-            ]
+                'receiptId' => $receipt->id,
+            ],
         ];
 
         // allow Stripe to send receipt emails for us
