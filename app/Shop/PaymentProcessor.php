@@ -33,22 +33,39 @@ class PaymentProcessor
             $receiptDetails['address_id'] = $user->primary_address_id;
         }
 
-        $order = Receipt::create($receiptDetails);
-        $order->items()->saveMany($receiptItems);
+        $receipt = Receipt::create($receiptDetails);
+        $receipt->items()->saveMany($receiptItems);
+
+        $chargeData = [
+            'currency'      => 'USD',
+            'amount'        => $total,
+            'token'         => $token,
+            'order'       => $receipt->id,
+
+            // attempt to include something itemized in the email
+            'description'   => view('store.php-receipt', [
+                'receiptItems' => $receipt->items
+            ]),
+
+            'metadata' => [
+                'receiptId' => $receipt->id
+            ]
+        ];
+
+        // allow Stripe to send receipt emails for us
+        if ($user != null) {
+            $chargeData['receipt_email'] = $user->email;
+        }
 
         /** @var \Omnipay\Stripe\Message\Response $response */
-        $response = Omnipay::purchase([
-            'currency'  => 'USD',
-            'amount'    => $total,
-            'token'     => $token,
-        ])->send();
+        $response = Omnipay::purchase($chargeData)->send();
 
         if ($response->isSuccessful()) {
-            $order->update([
+            $receipt->update([
                 'payment_reference_number' => $response->getTransactionReference(),
             ]);
 
-            $this->receipt = $order;
+            $this->receipt = $receipt;
 
             DB::commit();
 
