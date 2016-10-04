@@ -5,7 +5,8 @@
         // Serialized objects need to be re-instantiated in order
         // to have a successful database connection
         $group = \BibleBowl\Group::findOrFail($groupId);
-        $players = $group->players()->pendingRegistrationPayment()->get();
+        $season = \BibleBowl\Season::current()->first();
+        $players = $group->players()->pendingRegistrationPayment($season)->get();
 
         $bulletedList = '';
         foreach ($players as $player) {
