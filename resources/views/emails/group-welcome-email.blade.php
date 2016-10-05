@@ -24,7 +24,7 @@
     <table cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0">
         <tr>
             <!--=========== JUST ENTER YOUR INFO HERE =========-->
-            <td valign="middle" bgcolor="#f4f4f4" height="10" class="sectionRegularInfoTextTD" style="border-collapse: collapse;color: #6e777e;font-family: Arial, Tahoma, Verdana, sans-serif;font-size: 13px;font-weight: lighter;padding: 0;margin: 0;text-align: left;line-height: 165%;letter-spacing: 0;">
+            <td valign="middle" bgcolor="#f4f4f4" height="10" class="sectionRegularInfoTextTD" style="border-collapse: collapse;color: #42484c;font-family: Arial, Tahoma, Verdana, sans-serif;font-size: 13px;font-weight: lighter;padding: 0;margin: 0;text-align: left;line-height: 165%;letter-spacing: 0;">
 
                 @include('emails.theme.text-block', [
                     'body' => 'Please double check the below information to ensure everything is correct.  If you find a mistake, you can '.EmailTemplate::link(url('login'), 'login to your Bible Bowl account').' and correct the mistake.'
