@@ -16,13 +16,13 @@
                         @include('player.form')
 
                         @if($isRegistered)
-                            <h4>{{ Session::season()->name }} <span class="semi-bold">Season Registration</span></h4>
+                            <h4>{{ Session::season()->name }} <span class="semi-bold">Season Registration {{ $registration->grade }}</span></h4>
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="form-label">Grade</label>
                                     <span class="help"></span>
                                     <div class="controls p-b-20">
-                                        {!! Form::selectGrade('grade', old('grade', $registration->grade), ['class' => 'form-control']) !!}
+                                        {!! Form::selectGrade('grade', old('grade', $registration->pivot->grade), ['class' => 'form-control']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                     <label class="form-label">T-Shirt Size</label>
                                     <span class="help"></span>
                                     <div class="controls">
-                                        {!! Form::selectShirtSize('shirt_size', old('shirt_size', $registration->shirt_size), ['class' => 'form-control']) !!}<br/>
+                                        {!! Form::selectShirtSize('shirt_size', old('shirt_size', $registration->pivot->shirt_size), ['class' => 'form-control']) !!}<br/>
                                     </div>
                                 </div>
                             </div>
