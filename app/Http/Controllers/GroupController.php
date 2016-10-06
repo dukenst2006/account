@@ -8,6 +8,7 @@ use BibleBowl\Groups\GroupCreator;
 use BibleBowl\Http\Requests\GroupCreationRequest;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Http\Requests\GroupEditRequest;
+use BibleBowl\Http\Requests\GroupHeadCoachOnlyRequest;
 use BibleBowl\Program;
 use Input;
 use Session;
@@ -110,7 +111,7 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function swap(GroupCreatorOnlyRequest $request, $id)
+    public function swap(GroupHeadCoachOnlyRequest $request, $id)
     {
         Session::setGroup(Group::findOrFail($id));
 
