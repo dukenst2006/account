@@ -21,6 +21,7 @@ class GroupHeadCoachOnlyRequest extends Request
         }
 
         $groupId = $this->route('group');
+
         return Group::where('id', $groupId)
             ->whereHas('users', function (Builder $q) {
                 $q->where('users.id', Auth::user()->id);
