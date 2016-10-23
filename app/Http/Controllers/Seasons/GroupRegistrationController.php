@@ -5,6 +5,7 @@ namespace BibleBowl\Http\Controllers\Seasons;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
+use BibleBowl\Http\Requests\GroupHeadCoachOnlyRequest;
 use BibleBowl\Season;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use Cart;
@@ -35,13 +36,8 @@ class GroupRegistrationController extends Controller
 
     /**
      * Build the shopping cart for registering these players.
-     *
-     * @param GroupCreatorOnlyRequest            $request
-     * @param ProgramRegistrationPaymentReceived $programRegistrationPaymentReceived
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function postPayPlayerRegistration(GroupCreatorOnlyRequest $request, ProgramRegistrationPaymentReceived $programRegistrationPaymentReceived)
+    public function postPayPlayerRegistration(GroupHeadCoachOnlyRequest $request, ProgramRegistrationPaymentReceived $programRegistrationPaymentReceived)
     {
         $this->validate($request, [
             'player' => 'required',
