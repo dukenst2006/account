@@ -2,6 +2,7 @@
 
 namespace BibleBowl\Http\Requests;
 
+use Session;
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\Role;
@@ -21,7 +22,10 @@ class GroupHeadCoachOnlyRequest extends Request
         }
 
         $groupId = $this->route('group');
-
+        if ($groupId == null) {
+            $groupId = Session::group()->id;
+        }
+        
         return Group::where('id', $groupId)
             ->whereHas('users', function (Builder $q) {
                 $q->where('users.id', Auth::user()->id);

@@ -34,9 +34,6 @@ class GroupRegistrationController extends Controller
         ]);
     }
 
-    /**
-     * Build the shopping cart for registering these players.
-     */
     public function postPayPlayerRegistration(GroupHeadCoachOnlyRequest $request, ProgramRegistrationPaymentReceived $programRegistrationPaymentReceived)
     {
         $this->validate($request, [
