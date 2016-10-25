@@ -203,7 +203,7 @@ class User extends Model implements
         return $this->hasMany(UserProvider::class);
     }
 
-    public function primaryAddress() : HasMany
+    public function primaryAddress() : HasOne
     {
         return $this->hasOne(Address::class, 'id', 'primary_address_id');
     }
