@@ -23,4 +23,7 @@ return [
 
     ],
 
+    // cleanup orphan accounts after the specified
+    'cleanup-orphan-accounts-after' => '30' // days
+
 ];

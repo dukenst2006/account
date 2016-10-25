@@ -15,6 +15,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
@@ -190,124 +193,80 @@ class User extends Model implements
         );
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournamentQuizmasters()
+    public function tournamentQuizmasters() : HasMany
     {
         return $this->hasMany(TournamentQuizmaster::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function providers()
+    public function providers() : HasMany
     {
         return $this->hasMany(UserProvider::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function primaryAddress()
+    public function primaryAddress() : HasMany
     {
         return $this->hasOne(Address::class, 'id', 'primary_address_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function addresses()
+    public function addresses() : HasMany
     {
         return $this->hasMany(Address::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function groups()
+    public function groups() : BelongsToMany
     {
         return $this->belongsToMany(Group::class)->orderBy('name', 'ASC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function ownedGroups()
+    public function ownedGroups() : HasMany
     {
         return $this->hasMany(Group::class, 'owner_id')->orderBy('name', 'ASC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function cart()
+    public function cart() : HasOne
     {
         return $this->hasOne(Cart::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function players()
+    public function players() : HasMany
     {
         return $this->hasMany(Player::class, 'guardian_id')->orderBy('birthday', 'DESC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function receipts()
+    public function receipts() : HasMany
     {
         return $this->hasMany(Receipt::class)->orderBy('created_at', 'DESC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function invitationsReceived()
+    public function invitationsReceived() : HasMany
     {
         return $this->hasMany(Invitation::class)->orderBy('created_at', 'DESC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function invitationsSent()
+    public function invitationsSent() : HasMany
     {
         return $this->hasMany(Invitation::class, 'inviter_id')->orderBy('created_at', 'DESC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function surveys()
+    public function surveys() : HasMany
     {
         return $this->hasMany(RegistrationSurvey::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournaments()
+    public function tournaments() : HasMany
     {
         return $this->hasMany(Tournament::class)->orderBy('start', 'ASC');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function spectators()
+    public function spectators() : HasMany
     {
         return $this->hasMany(Spectator::class);
     }
 
     /**
      * Determines if this user still lacks basic account information.
-     *
-     * @return bool
      */
-    public function requiresSetup()
+    public function requiresSetup() : bool
     {
         return is_null($this->primary_address_id);
     }
