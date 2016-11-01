@@ -1,5 +1,8 @@
 <?php
 
+use Carbon\Carbon;
+use BibleBowl\Program;
+use BibleBowl\Receipt;
 use BibleBowl\Address;
 use BibleBowl\Players\PlayerCreator;
 use BibleBowl\Role;
@@ -61,6 +64,7 @@ class AcceptanceTestingSeeder extends Seeder
         ]);
 
         $this->seedGuardian();
+        $this->seedReceipts();
 
         if (app()->environment('local')) {
             $this->updateMailchimpIds();
@@ -137,6 +141,42 @@ class AcceptanceTestingSeeder extends Seeder
         ]);
         Role::where('name', Role::GUARDIAN)->update([
             'mailchimp_interest_id' => 'f29d2ce1ef',
+        ]);
+    }
+
+    private function seedReceipts()
+    {
+        $teen = Program::findOrFail(Program::TEEN);
+        $receipt = Receipt::create([
+            'total'                     => $teen->registration_fee * 3,
+            'payment_reference_number'  => uniqid(),
+            'user_id'                   => DatabaseSeeder::$guardian->id,
+            'address_id'                => DatabaseSeeder::$guardian->primary_address_id,
+        ]);
+
+        $receipt->items()->create([
+            'sku'           => $teen->sku,
+            'description'   => $teen->name.' Seasonal Registration',
+            'quantity'      => '3',
+            'price'         => $teen->registration_fee,
+        ]);
+
+        $createdAt = Carbon::now()->subMonth();
+        $beginner = Program::findOrFail(Program::BEGINNER);
+        $receipt = Receipt::create([
+            'total'                     => $beginner->registration_fee * 3,
+            'payment_reference_number'  => uniqid(),
+            'user_id'                   => DatabaseSeeder::$guardian->id,
+            'address_id'                => DatabaseSeeder::$guardian->primary_address_id,
+            'created_at'                => $createdAt,
+        ]);
+
+        $receipt->items()->create([
+            'sku'           => $beginner->sku,
+            'description'   => $beginner->name.' Seasonal Registration',
+            'quantity'      => '3',
+            'price'         => $beginner->registration_fee,
+            'created_at'    => $createdAt,
         ]);
     }
 }

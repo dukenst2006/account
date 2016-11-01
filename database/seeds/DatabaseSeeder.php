@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
 {
     private static $isSeeding = false;
 
+    /** @var User */
+    public static $guardian;
+
     const GROUP_NAME = 'Mount Pleasant Christian Church';
     const DIRECTOR_EMAIL = 'benkuhl+admin@gmail.com';
     const HEAD_COACH_EMAIL = 'benkuhl+headcoach@gmail.com';
@@ -176,7 +179,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $BKuhlGuardian = User::create([
+        self::$guardian = User::create([
             'status'                   => User::STATUS_CONFIRMED,
             'first_name'               => 'Ben',
             'last_name'                => 'Guardian',
@@ -185,33 +188,33 @@ class DatabaseSeeder extends Seeder
             'password'                 => bcrypt('changeme'),
             'primary_address_id'       => $savedAddresses[0]->id,
         ]);
-        $BKuhlGuardian->addresses()->saveMany($savedAddresses);
+        self::$guardian->addresses()->saveMany($savedAddresses);
 
         // Generate fake player information.
         $playerCreator = App::make(PlayerCreator::class);
-        $playerCreator->create($BKuhlGuardian, [
+        $playerCreator->create(self::$guardian, [
             'first_name'    => 'David',
             'last_name'     => 'Webb',
             'gender'        => 'M',
             'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
 
-        $BKuhlGuardian = User::findOrFail($BKuhlGuardian->id);
-        $playerCreator->create($BKuhlGuardian, [
+        self::$guardian = User::findOrFail(self::$guardian->id);
+        $playerCreator->create(self::$guardian, [
             'first_name'    => 'Ethan',
             'last_name'     => 'Smith',
             'gender'        => 'M',
             'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
 
-        $playerCreator->create($BKuhlGuardian, [
+        $playerCreator->create(self::$guardian, [
             'first_name'    => 'Olivia',
             'last_name'     => 'Brown',
             'gender'        => 'F',
             'birthday'      => $this->faker->dateTimeBetween('-18 years', '-9 years')->format('m/d/Y'),
         ]);
 
-        $playerCreator->create($BKuhlGuardian, [
+        $playerCreator->create(self::$guardian, [
             'first_name'    => 'Brad',
             'last_name'     => 'Anderson',
             'gender'        => 'M',
@@ -229,7 +232,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $BKuhlGuardian = User::create([
+        self::$guardian = User::create([
             'status'                   => User::STATUS_CONFIRMED,
             'first_name'               => 'Ben',
             'last_name'                => 'Quizmaster',
@@ -238,7 +241,7 @@ class DatabaseSeeder extends Seeder
             'password'                 => bcrypt('changeme'),
             'primary_address_id'       => $savedAddresses[0]->id,
         ]);
-        $BKuhlGuardian->addresses()->saveMany($savedAddresses);
+        self::$guardian->addresses()->saveMany($savedAddresses);
     }
 
     private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)
@@ -458,7 +461,7 @@ class DatabaseSeeder extends Seeder
 
         $receipt->items()->create([
             'sku'           => $program->sku,
-            'description'   => $program->description.' Seasonal Registration',
+            'description'   => $program->name.' Seasonal Registration',
             'quantity'      => '2',
             'price'         => $program->registration_fee,
         ]);

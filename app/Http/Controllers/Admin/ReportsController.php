@@ -3,7 +3,9 @@
 namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\Request;
+use BibleBowl\Program;
 use BibleBowl\RegistrationSurveyQuestion;
+use BibleBowl\Reporting\FinancialsRepository;
 use BibleBowl\Reporting\GroupMetricsRepository;
 use BibleBowl\Reporting\MetricsRepository;
 use BibleBowl\Reporting\PlayerMetricsRepository;
@@ -37,6 +39,16 @@ class ReportsController extends Controller
             'playerStats'       => $playerMetrics->playerStats($currentSeason),
             'bySchoolSegment'   => $playerMetrics->bySchoolSegment($currentSeason),
             'groupStats'        => $groupMetrics->groupStats($currentSeason),
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function getFinancials(Request $request, FinancialsRepository $financialsRepository)
+    {
+        return view('admin.reports.financials', [
+            'invoiceItemSummary' => $financialsRepository->invoiceItemSummary()
         ]);
     }
 

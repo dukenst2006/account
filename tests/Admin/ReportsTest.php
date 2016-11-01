@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 
 class ReportsTest extends TestCase
 {
@@ -14,25 +15,31 @@ class ReportsTest extends TestCase
         $this->setupAsDirector();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canViewGrowthReports()
     {
         $this->visit('/admin/reports/growth');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canViewSeasonReports()
     {
         $this->visit('/admin/reports/seasons');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
+    public function canViewFinancialReports()
+    {
+        $this->visit('/admin/reports/financials')
+            ->see(Carbon::now()->subMonths(2)->format('M'))
+
+            ->see(Carbon::now()->subMonth()->format('M'))
+            ->see('$75')
+
+            ->see('$50');
+    }
+
+    /** @test */
     public function canViewRegistrationSurveyReports()
     {
         $this->visit('/admin/reports/registration-surveys');

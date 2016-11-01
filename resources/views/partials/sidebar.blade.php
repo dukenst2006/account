@@ -107,6 +107,12 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                                 <a href="/admin/reports/seasons">Seasons</a>
                             </li>
                             <li
+                                @if(str_contains(Route::current()->uri(), 'reports/financials'))
+                                    class="active"
+                                @endif>
+                                <a href="/admin/reports/financials">Financials</a>
+                            </li>
+                            <li
                                 @if(str_contains(Route::current()->uri(), 'reports/registration-surveys'))
                                     class="active"
                                 @endif>

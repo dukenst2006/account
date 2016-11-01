@@ -251,6 +251,7 @@ Route::group(['middleware' => 'auth'], function () {
         ], function () {
             Route::get('reports/growth', 'ReportsController@getGrowth');
             Route::get('reports/seasons', 'ReportsController@getSeason');
+            Route::get('reports/financials', 'ReportsController@getFinancials');
             Route::get('reports/registration-surveys', 'ReportsController@getRegistrationSurveys');
         });
 
