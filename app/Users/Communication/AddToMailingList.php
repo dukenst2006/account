@@ -39,7 +39,7 @@ class AddToMailingList implements ShouldQueue
         // to continue without error so it's removed from the
         // queue.  It's possible a job that adds a user to a
         // role has beat us to the punch
-        if ($list->isSubscribed($user->email) === false) {
+        if ($list->isOnList($user->email) === false) {
             $list->subscribe(
                 $user->email,
                 $user->first_name,

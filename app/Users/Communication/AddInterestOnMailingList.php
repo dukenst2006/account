@@ -39,7 +39,7 @@ class AddInterestOnMailingList implements ShouldQueue
 
         // It's possible this recipient isn't actually subscribed
         // yet so we'll go ahead and subscribe them.
-        if ($list->isSubscribed($user->email)) {
+        if ($list->isOnList($user->email)) {
             $subscriberInfo = $list->subscriberInfo($user->email);
 
             $interests = $subscriberInfo->get('interests');

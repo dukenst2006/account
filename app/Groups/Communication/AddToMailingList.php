@@ -31,7 +31,7 @@ class AddToMailingList implements ShouldQueue
             $mailchimp = new Easychimp(new Mailchimp($group->settings->mailchimpKey()));
             $list = $mailchimp->mailingList($group->settings->mailchimpListId());
 
-            if ($list->isSubscribed($guardian->email) === false) {
+            if ($list->isOnList($guardian->email) === false) {
                 $list->subscribe(
                     $guardian->email,
                     $guardian->first_name,
