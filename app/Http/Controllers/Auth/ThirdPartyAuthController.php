@@ -5,6 +5,7 @@ namespace BibleBowl\Http\Controllers\Auth;
 use Auth;
 use BibleBowl\Users\Auth\EmailAlreadyInUse;
 use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
+use BibleBowl\Users\Auth\ThirdPartyEmailEmpty;
 use BibleBowl\Users\Auth\ThirdPartyRegistrar;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,11 @@ class ThirdPartyAuthController extends LoginController
 
         try {
             $user = $authenticator->findOrCreateUser($provider);
+        } catch (ThirdPartyEmailEmpty $e) {
+            return redirect('/login')
+                ->withErrors([
+                    'email' => "We couldn't get your email address from that account, please try another.",
+                ]);
         } catch (EmailAlreadyInUse $e) {
             return redirect('/login')
                 ->withErrors([

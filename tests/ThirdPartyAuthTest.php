@@ -95,4 +95,38 @@ class ThirdPartyAuthTest extends TestCase
                 ->count() > 0;
         $this->assertFalse($createdUser);
     }
+
+    /** @test */
+    public function requiresEmailAddress()
+    {
+        //simulate what we would get from an OAuth2 provider
+        $this->providerUser = new ThirdPartyUser();
+        $this->providerUser->map([
+            'id'            => uniqid(),
+            'name'          => 'John Peterson',
+            'email'         => '',
+            'avatar'        => 'avatar'.time().'.jpg',
+        ]);
+        $this->socialite = Mockery::mock('Laravel\Socialite\SocialiteManager');
+        $this->socialite->shouldReceive('driver')->andReturn($this->socialite);
+        $this->socialite->shouldReceive('user')->andReturn($this->providerUser);
+        $this->app->instance('Laravel\Socialite\Contracts\Factory', $this->socialite);
+
+        $this->call('GET', '/login/'.ThirdPartyAuthenticator::PROVIDER_GOOGLE, [
+            'code' => uniqid(),
+        ]);
+
+        // logged in as pre-existing user
+        $this->followRedirects()
+            ->see("We couldn't get your email address from that account");
+
+        //assert user was not created
+        $name = explode(' ', $this->providerUser->getName());
+        $createdUser = User::where('first_name', $name[0])
+                ->where('last_name', $name[1])
+                ->where('email', $this->providerUser->getEmail())
+                ->where('avatar', $this->providerUser->getAvatar())
+                ->count() > 0;
+        $this->assertFalse($createdUser);
+    }
 }

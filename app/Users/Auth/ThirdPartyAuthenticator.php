@@ -4,6 +4,7 @@ namespace BibleBowl\Users\Auth;
 
 use BibleBowl\User;
 use BibleBowl\UserProvider;
+use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class ThirdPartyAuthenticator
@@ -70,6 +71,11 @@ class ThirdPartyAuthenticator
         $providerUser = $this->socialite->driver($provider)->user();
 
         $user = User::byProvider($provider, $providerUser->id)->first();
+        
+        if (strlen($providerUser->getEmail()) < 1) {
+            throw new ThirdPartyEmailEmpty();
+        }
+        
         if (is_null($user)) {
             $user = User::where('email', $providerUser->getEmail())->first();
             // If provider isn't associated with user, do that now
