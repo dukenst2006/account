@@ -27,8 +27,8 @@ class TeamSetController extends Controller
      */
     public function create()
     {
-        $teamSets = Session::group()->teamSets()->season(Session::season())->pluck('name', 'id')->toArray();
-        array_unshift($teamSets, '');
+        $teamSets = [''];
+        $teamSets += Session::group()->teamSets()->season(Session::season())->pluck('name', 'id')->toArray();
 
         return view('teamset.create')
             ->with('teamSetOptions', $teamSets);
