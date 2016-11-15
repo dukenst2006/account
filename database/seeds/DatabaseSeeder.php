@@ -275,7 +275,7 @@ class DatabaseSeeder extends Seeder
         // Seed inactive player
         $player = seedPlayer($guardian);
         $player->update([
-            'first_name' => 'Inactive',
+            'last_name' => 'Inactive',
             'first_name' => 'Joe',
         ]);
         $this->season->players()->attach($player->id, [
