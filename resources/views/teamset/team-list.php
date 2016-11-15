@@ -1,6 +1,7 @@
 <div v-show="teamSet.teams.length == 0" class="text-center p-t-40" id="no-teams">
     To get started you'll need to add your first team by clicking "+ Add Team"
 </div>
+<div style="display: flex;flex-flow: row wrap;justify-content: flex-start;">
 <div v-for="team in teamSet.teams" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div id="team-{{ team.id }}" class="team col-md-12" data-teamId="{{ team.id }}">
         <div class="edit fa fa-edit" @click="editingTeamName($index, $event)" @blur="doneEditingTeamName()"></div>
@@ -35,4 +36,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
