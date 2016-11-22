@@ -2,7 +2,9 @@
 
 namespace BibleBowl;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ParticipantFee extends Model
 {
@@ -17,19 +19,43 @@ class ParticipantFee extends Model
         $this->attributes['onsite_fee'] = $onsiteFee;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function tournament()
+    public function scopeRequiresRegistration(Builder $q) : Builder
+    {
+        return $q->where('requires_registration', 1);
+    }
+
+    public function tournament() : BelongsTo
     {
         return $this->belongsTo(Tournament::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function participantType()
+    public function participantType() : BelongsTo
     {
         return $this->belongsTo(ParticipantType::class);
+    }
+
+    public function requiresRegistration() : bool
+    {
+        return $this->requires_registration == 1;
+    }
+
+    public function hasEarlybirdFee() : bool
+    {
+        return $this->earlybird_fee != null;
+    }
+
+    public function hasOnsiteFee() : bool
+    {
+        return $this->onsite_fee != null;
+    }
+
+    public function hasFee() : bool
+    {
+        return $this->fee != null;
+    }
+
+    public function hasAnyFees() : bool
+    {
+        return $this->hasEarlybirdFee() || $this->hasFee() || $this->hasOnsiteFee();
     }
 }

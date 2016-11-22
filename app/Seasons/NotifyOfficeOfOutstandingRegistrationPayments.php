@@ -3,6 +3,7 @@
 namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
+use BibleBowl\Season;
 use Carbon\Carbon;
 use Config;
 use Illuminate\Console\Command;
@@ -38,7 +39,7 @@ class NotifyOfficeOfOutstandingRegistrationPayments extends Command
         $notifyOfficeOfOutstandingPaymentsAfter = config('biblebowl.reminders.notify-office-of-outstanding-registration-payments-after');
         $relativeTime = $notifyOfficeOfOutstandingPaymentsAfter.' ago';
         $playersRegistrationUnpaidSince = new Carbon($relativeTime);
-        if (Group::hasPendingRegistrationPayments($playersRegistrationUnpaidSince)->count() > 0) {
+        if (Group::hasPendingRegistrationPayments(Season::current()->first(), $playersRegistrationUnpaidSince)->count() > 0) {
             Mail::queue(
                 'emails.notify-office-of-outstanding-pending-payments',
                 [],

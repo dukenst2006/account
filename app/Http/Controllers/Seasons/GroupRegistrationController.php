@@ -4,7 +4,6 @@ namespace BibleBowl\Http\Controllers\Seasons;
 
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
 use BibleBowl\Http\Requests\GroupHeadCoachOnlyRequest;
 use BibleBowl\Season;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;

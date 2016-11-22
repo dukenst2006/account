@@ -25,12 +25,14 @@ class TournamentCreateRequest extends Request
     public function rules()
     {
         return [
-            'name'                  => 'required',
-            'start'                 => 'required',
-            'end'                   => 'required',
-            'registration_start'    => 'required',
-            'registration_end'      => 'required',
-            'max_teams'             => 'required',
+            'name'                      => 'required',
+            'start'                     => 'required',
+            'end'                       => 'required',
+            'registration_start'        => 'required',
+            'registration_end'          => 'required',
+            'max_teams'                 => 'required',
+            'minimum_players_per_team'  => 'required',
+            'maximum_players_per_team'  => 'required',
         ];
     }
 
@@ -42,11 +44,13 @@ class TournamentCreateRequest extends Request
     public function messages()
     {
         return [
-            'start.required'                => 'A start date is required',
-            'end.required'                  => 'An end date is required',
-            'registration_start.required'   => 'A registration start date is required',
-            'registration_end.required'     => 'A registration end date is required',
-            'max_teams.required'            => 'Max number of teams is required',
+            'start.required'                    => 'A start date is required',
+            'end.required'                      => 'An end date is required',
+            'registration_start.required'       => 'A registration start date is required',
+            'registration_end.required'         => 'A registration end date is required',
+            'max_teams.required'                => 'Max number of teams is required',
+            'minimum_players_per_team.required' => 'Minimum number of players per team is required',
+            'maximum_players_per_team.required' => 'Maximum number of players per team is required',
         ];
     }
 }

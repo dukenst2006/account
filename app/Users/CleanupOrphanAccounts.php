@@ -2,8 +2,8 @@
 
 namespace BibleBowl\Users;
 
-use BibleBowl\Users\Notifications\AccountDeleted;
 use BibleBowl\User;
+use BibleBowl\Users\Notifications\AccountDeleted;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

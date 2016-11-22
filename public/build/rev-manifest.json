@@ -1,10 +1,10 @@
 {
-  "js/backend.js": "js/backend-7ef5937b.js",
-  "assets/js/dashboard.js": "assets/js/dashboard-c72f80d4.js",
-  "assets/js/forms.js": "assets/js/forms-aafd11e1.js",
-  "assets/js/payment.js": "assets/js/payment-0a1b04e5.js",
-  "assets/js/tournaments/quizmasters.js": "assets/js/tournaments/quizmasters-a4a51903.js",
-  "css/core.css": "css/core-6a594c1b.css",
-  "css/teamsets.css": "css/teamsets-dba2ef70.css",
-  "js/teamsets.js": "js/teamsets-7610393c.js"
+  "assets/js/dashboard.js": "assets/js/dashboard-c72f80d47c.js",
+  "assets/js/forms.js": "assets/js/forms-aafd11e166.js",
+  "assets/js/payment.js": "assets/js/payment-0a1b04e54c.js",
+  "assets/js/tournaments/quizmasters.js": "assets/js/tournaments/quizmasters-a4a519038a.js",
+  "css/core.css": "css/core-fbe85192f9.css",
+  "css/teamsets.css": "css/teamsets-1f0c8b8e2e.css",
+  "js/backend.js": "js/backend-7ef5937b09.js",
+  "js/teamsets.js": "js/teamsets-8c60eb848d.js"
 }

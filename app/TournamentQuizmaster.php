@@ -2,13 +2,22 @@
 
 namespace BibleBowl;
 
-use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
+use BibleBowl\Competition\Tournaments\CanBeRegisteredByHeadCoach;
+use BibleBowl\Competition\Tournaments\Quizmasters\QuizzingPreferences;
+use BibleBowl\Shop\HasReceipts;
+use BibleBowl\Support\Scrubber;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
 class TournamentQuizmaster extends Model
 {
     const REGISTRATION_SKU = 'TOURNAMENT_REG_QUIZMASTER';
+
+    use Notifiable;
+    use HasReceipts;
+    use CanBeRegisteredByHeadCoach;
 
     /**
      * The attributes that are not mass assignable.
@@ -16,6 +25,11 @@ class TournamentQuizmaster extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    protected $attributes = [
+        'shirt_size'    => null,
+        'user_id'       => null,
+    ];
 
     public static function boot()
     {
@@ -56,34 +70,22 @@ class TournamentQuizmaster extends Model
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function receipt()
+    public function receipt() : BelongsTo
     {
         return $this->belongsTo(Receipt::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function group()
+    public function group() : BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function tournament()
+    public function tournament() : BelongsTo
     {
         return $this->belongsTo(Tournament::class);
     }
@@ -129,6 +131,17 @@ class TournamentQuizmaster extends Model
         return $this->first_name.' '.$this->last_name;
     }
 
+    public function setPhoneAttribute($attribute)
+    {
+        if ($this->user_id != null) {
+            return $this->user->phone;
+        }
+
+        /** @var Scrubber $scrubber */
+        $scrubber = app(Scrubber::class);
+        $this->attributes['phone'] = $scrubber->phone($attribute);
+    }
+
     /**
      * @param $value
      *
@@ -143,16 +156,25 @@ class TournamentQuizmaster extends Model
         return app(QuizzingPreferences::class, [$this->fromJson($value)]);
     }
 
-    /**
-     * @param QuizzingPreferences $value
-     */
     public function setQuizzingPreferencesAttribute(QuizzingPreferences $value)
     {
         $this->attributes['quizzing_preferences'] = $value->toJson();
     }
 
-    public function hasPaid()
+    public function hasQuizzingPreferences() : bool
     {
-        return $this->receipt_id != null;
+        return $this->quizzing_preferences !== null && $this->quizzing_preferences != '';
+    }
+
+    /**
+     * Default to null.
+     */
+    public function setShirtSizeAttribute($shirtSize)
+    {
+        if (strlen($shirtSize) > 0) {
+            $this->attributes['shirt_size'] = $shirtSize;
+        } else {
+            $this->attributes['shirt_size'] = null;
+        }
     }
 }

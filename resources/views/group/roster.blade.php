@@ -13,7 +13,9 @@
                                 <h4>Player <span class="semi-bold">Roster</span></h4>
                             </div>
                             <div class="col-md-3 text-right p-r-20 p-t-15">
-                                <a href="/roster/export" type="button" class="btn btn-primary btn-cons"><i class="fa fa-download"></i>&nbsp;Download CSV</a>
+                                @if(count($active_players) > 0)
+                                    <a href="/roster/export" type="button" class="btn btn-primary btn-cons"><i class="fa fa-download"></i>&nbsp;Download CSV</a>
+                                @endif
                             </div>
                         </div>
                     </div>

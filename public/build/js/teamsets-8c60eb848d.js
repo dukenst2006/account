@@ -1316,7 +1316,9 @@ var vm = new Vue({
         },
         canEditTeamSetName: !registeredWithTournament,
         canEditTeamName: !registeredWithTournament,
-        canEditTeams: teamsEditable
+        canEditTeams: teamsEditable,
+        minPlayersPerTeam: minPlayersPerTeam,
+        maxPlayersPerTeam: maxPlayersPerTeam
     },
     methods: {
         saveTeamSetName: function () {
@@ -1504,6 +1506,7 @@ var vm = new Vue({
          }).disableSelection();
     },
      createTeam = function (teamName, callback) {
+
          $.post('/teamsets/'+teamSet.id+'/createTeam/', {
                  name: teamName
              },
@@ -1512,6 +1515,9 @@ var vm = new Vue({
                  // is added to the drag path
                  callback(data, function () {
                      initSortable();
+                     updatePlayerCountWarning(data.id);
+                     console.log(data.id);
+                     $('[data-toggle="tooltip"]').tooltip();
                  });
              }
          );
@@ -1531,17 +1537,38 @@ var vm = new Vue({
          });
      },
      addPlayerToTeam = function(teamId, playerId) {
+         updatePlayerCountWarning(teamId);
          $.post('/teams/'+teamId+'/addPlayer/', {
              playerId: playerId
          });
      },
      removePlayerFromTeam = function(teamId, playerId) {
+         updatePlayerCountWarning(teamId);
          $.post('/teams/'+teamId+'/removePlayer/', {
              playerId: playerId
          });
+     },
+     updatePlayerCountWarning = function (teamId) {
+         if ($.isNumeric(minPlayersPerTeam) === false || $.isNumeric(maxPlayersPerTeam) === false) {
+             return;
+         }
+
+         var team = $('#team-'+teamId),
+             playerCount = $('.players li', team).length;
+         if (playerCount < minPlayersPerTeam || playerCount > maxPlayersPerTeam) {
+             $('.team-requirements-error', team).show();
+         } else {
+             $('.team-requirements-error', team).hide();
+         }
      };
 
 if (teamsEditable) {
     initSortable();
+    $('[data-toggle="tooltip"]').tooltip();
+
+    // update requirement errors on load
+    $('[data-teamId]').each(function (idx, el) {
+        updatePlayerCountWarning($(el).attr('data-teamId'));
+    });
 }
 //# sourceMappingURL=teamsets.js.map

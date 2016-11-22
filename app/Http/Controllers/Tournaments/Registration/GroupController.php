@@ -2,59 +2,176 @@
 
 namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
-use BibleBowl\Competition\Tournaments\GroupRegistration;
+use BibleBowl\Competition\Teams\Duplicater;
+use BibleBowl\Competition\Tournaments\Groups\RegistrationPaymentReceived;
+use BibleBowl\Event;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
+use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
 use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
+use Cart;
+use DB;
 use Session;
 
 class GroupController extends Controller
 {
-    public function index($slug)
+    public function index(HeadCoachOnlyRequest $request, $slug)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
         $group = Session::group();
 
         return view('tournaments.registration.group-overview', [
-            'tournament'    => $tournament,
-            'group'         => $group,
+            'tournament'                => $tournament,
+            'group'                     => $group,
+            'teamSet'                   => $teamSet = $group->teamSet($tournament),
+            'teamCount'                 => $teamSet == null ? 0 : $teamSet->teams()->count(),
+            'playerCount'               => $teamSet == null ? 0 : $teamSet->players()->count(),
+            'individualEventCount'      => $tournament->individualEvents()->count(),
 
             // show unpaid first, then paid
-            'quizmasters'   => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
-            'spectators'    => $tournament->spectators()->with('minors', 'user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
+            'quizmasters'               => $tournament->tournamentQuizmasters()->registeredByHeadCoach()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
+            'spectators'                => $tournament->spectators()->registeredByHeadCoach()->with('minors', 'user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
         ]);
     }
 
-    public function chooseTeams($slug)
+    public function chooseTeams(HeadCoachOnlyRequest $request, $slug)
     {
-        return view('tournaments.choose-teams', [
-            'tournament'    => Tournament::where('slug', $slug)->firstOrFail(),
-            'teamSets'      => Session::group()->teamSets()->season(Session::season())->get(),
+        $group = Session::group();
+        $teamSets = $group->teamSets()->season(Session::season())->get();
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        if (count($teamSets) == 0) {
+            $teamSet = $this->findOrCreateTeamSetForTournament($tournament, $group);
+
+            return redirect('/teamsets/'.$teamSet->id);
+        }
+
+        return view('tournaments.registration.choose-teams', [
+            'tournament'    => $tournament,
+            'teamSets'      => $teamSets,
         ]);
     }
 
-    public function setTeamSet($slug, TeamSet $teamSet)
+    public function newTeamSet(HeadCoachOnlyRequest $request, $slug)
+    {
+        $group = Session::group();
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        $teamSet = $this->findOrCreateTeamSetForTournament($tournament, $group);
+
+        return redirect('/teamsets/'.$teamSet->id);
+    }
+
+    public function setTeamSet(HeadCoachOnlyRequest $request, $slug, TeamSet $teamSet, Duplicater $duplicater)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
-        /** @var GroupRegistration $registration */
-        $registration = Session::tournamentGroupRegistration();
-        $registration->setTournament($tournament);
-        $registration->setTeamSet($teamSet);
-        Session::setTournamentGroupRegistration($registration);
+        // duplicate
+        DB::beginTransaction();
+        $newTeamSet = $duplicater->duplicate($teamSet, [
+            'tournament_id',
+        ]);
+        $newTeamSet->update([
+            'name'          => $tournament->name.' Teams',
+            'tournament_id' => $tournament->id,
+        ]);
+        DB::commit();
 
-        return redirect('tournaments/group/quizmasters');
+        return redirect('tournaments/'.$slug.'/registration/group/events');
     }
 
-    public function quizmasters()
+    public function events(HeadCoachOnlyRequest $request, $slug)
     {
-        /** @var GroupRegistration $registration */
-        $registration = Session::tournamentGroupRegistration();
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
-        return view('tournaments.quizmasters', [
-            'tournament'    => $registration->tournament(),
-            'teamSet'       => $registration->teamSet(),
+        // if there aren't any events, back to group summary
+        if ($tournament->individualEvents()->count() == 0) {
+            return redirect('tournaments/'.$slug.'/group');
+        }
+
+        $teamSet = $tournament->teamSet(Session::group());
+
+        return view('tournaments.registration.events', [
+            'tournament'    => $tournament,
+            'events'        => $tournament->individualEvents()->with('type')->get(),
+            'players'       => $playerCount = $teamSet->players()->get(),
+            'playerCount'   => count($playerCount),
+        ]);
+    }
+
+    public function postEvents(HeadCoachOnlyRequest $request, $slug)
+    {
+        $tournament = Tournament::where('slug', $slug)
+            ->with('events')
+            ->with('events.players')
+            ->firstOrFail();
+
+        DB::beginTransaction();
+
+        foreach ($request->get('event', []) as $eventId => $players) {
+            /** @var Event $event */
+            $event = $tournament->events->find($eventId);
+
+            // sync preserves receipt_id unless a player is removed
+            $event->players()->sync(array_keys($players));
+        }
+
+        DB::commit();
+
+        return redirect('tournaments/'.$slug.'/group');
+    }
+
+    public function pay(
+        HeadCoachOnlyRequest $request,
+        $slug,
+        RegistrationPaymentReceived $groupRegistrationPaymentReceived
+    ) {
+        $group = Session::group();
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        $unpaidTeamCount = $tournament->teamSet($group)->teams()->unpaid()->count();
+        $spotsLeft = $tournament->teamSpotsLeft();
+        if ($unpaidTeamCount > $spotsLeft) {
+            return redirect()->back()->withErrors('There are only '.$spotsLeft.' team slots left.  Reduce your number of teams and try again.');
+        }
+
+        $ineligibleTeamCount = $tournament->teamSet($group)->teams()->withoutEnoughPlayers($tournament)->unpaid()->count();
+        if ($ineligibleTeamCount > 0) {
+            return redirect()->back()->withErrors($ineligibleTeamCount.' team(s) must be updated to have between '.$tournament->settings->minimumPlayersPerTeam().'-'.$tournament->settings->maximumPlayersPerTeam().' players before you can submit payment.');
+        }
+
+        // build cart and redirect
+        $groupRegistration = $tournament->eligibleRegistrationWithOutstandingFees($group);
+        $groupRegistrationPaymentReceived->setGroupRegistration($groupRegistration);
+
+        $cart = Cart::clear();
+        $cart->setPostPurchaseEvent($groupRegistrationPaymentReceived)->save();
+        $groupRegistration->populateCart($cart);
+
+        return redirect('/cart');
+    }
+
+    protected function findOrCreateTeamSetForTournament(Tournament $tournament, Group $group) : TeamSet
+    {
+        $existingTeamSet = TeamSet::where([
+            'group_id'      => $group->id,
+            'tournament_id' => $tournament->id,
+        ])->orWhere([
+            'group_id'      => $group->id,
+            'season_id'     => $tournament->season_id,
+            'name'          => $tournament->name.' Teams',
+        ])->first();
+
+        if ($existingTeamSet != null && $existingTeamSet->exists) {
+            return $existingTeamSet;
+        }
+
+        return TeamSet::create([
+            'group_id'      => $group->id,
+            'season_id'     => $tournament->season_id,
+            'tournament_id' => $tournament->id,
+            'name'          => $tournament->name.' Teams',
         ]);
     }
 }

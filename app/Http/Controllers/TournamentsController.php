@@ -10,8 +10,9 @@ class TournamentsController extends Controller
     {
         return view('tournaments.show',
             [
-            'tournament'    => $tournament = Tournament::where('slug', $slug)->firstOrFail(),
-            'events'        => $tournament->events()->with('type')->get(),
+            'tournament'            => $tournament = Tournament::where('slug', $slug)->firstOrFail(),
+            'events'                => $tournament->events()->with('type')->get(),
+            'participantFees'       => $tournament->participantFees()->with('participantType')->get()->keyBy('participant_type_id'),
         ]);
     }
 }

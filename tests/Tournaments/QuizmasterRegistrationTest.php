@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Competition\Tournaments\Settings;
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
 use BibleBowl\Tournament;
@@ -14,6 +15,16 @@ class QuizmasterRegistrationTest extends TestCase
     use ActingAsGuardian;
     use SimulatesTransactions;
 
+    /** @var Tournament */
+    protected $tournament;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->tournament = Tournament::firstOrFail();
+    }
+
     /**
      * @test
      */
@@ -24,9 +35,8 @@ class QuizmasterRegistrationTest extends TestCase
 
         $shirtSize = 'XL';
         $gamesQuizzedThisSeason = 'Fewer than 30';
-        $tournament = Tournament::firstOrFail();
         $this
-            ->visit('/tournaments/'.$tournament->slug.'/registration/quizmaster')
+            ->visit('/tournaments/'.$this->tournament->slug.'/registration/quizmaster')
             ->select($gamesQuizzedThisSeason, 'games_quizzed_this_season')
             ->select($shirtSize, 'shirt_size')
             ->press('Continue')
@@ -51,25 +61,94 @@ class QuizmasterRegistrationTest extends TestCase
     /**
      * @test
      */
+    public function canRegisterWithoutShirtSize()
+    {
+        $this->setupAsGuardian();
+
+        $gamesQuizzedThisSeason = 'Fewer than 30';
+
+        /** @var Settings $settings */
+        $settings = $this->tournament->settings;
+        $settings->collectShirtSizes(false);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/registration/quizmaster')
+            ->select($gamesQuizzedThisSeason, 'games_quizzed_this_season')
+            ->dontSee('T-Shirt Size')
+            ->press('Continue')
+            ->seePageIs('/cart')
+            ->see('Quizmaster Tournament Registration');
+
+        $quizmaster = TournamentQuizmaster::orderBy('id', 'desc')->first();
+        $this->assertNull($quizmaster->shirt_size);
+    }
+
+    /**
+     * @test
+     */
+    public function cantRegisterMoreThanOnce()
+    {
+        $this->setupAsGuardian();
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug);
+
+        TournamentQuizmaster::create([
+            'tournament_id' => $this->tournament->id,
+            'user_id'       => $this->guardian()->id,
+        ]);
+
+        $this
+            ->click('#register-quizmaster')
+            ->see("You've already registered for this tournament");
+    }
+
+    /**
+     * @test
+     */
+    public function canRegisterWithoutQuizzingPreferences()
+    {
+        $this->setupAsGuardian();
+
+        /** @var Settings $settings */
+        $settings = $this->tournament->settings;
+        $settings->collectQuizmasterPreferences(false);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/registration/quizmaster')
+            ->dontSee('How many games have you quizzed this season?')
+            ->press('Continue')
+            ->seePageIs('/cart')
+            ->see('Quizmaster Tournament Registration');
+    }
+
+    /**
+     * @test
+     */
     public function canRegisterWithGroupAndWithoutFees()
     {
         $this->setupAsGuardian();
         $this->simulateTransaction();
 
         $gamesQuizzedThisSeason = 'Fewer than 30';
-        $tournament = Tournament::firstOrFail();
 
         // Remove fees for quizmasters
-        $tournament->participantFees()
+        $this->tournament->participantFees()
             ->where('participant_type_id', ParticipantType::QUIZMASTER)
             ->update([
                 'earlybird_fee' => 0,
                 'fee'           => 0,
         ]);
 
-        $group = Group::byProgram($tournament->program_id)->first();
+        $group = Group::byProgram($this->tournament->program_id)->first();
         $this
-            ->visit('/tournaments/'.$tournament->slug.'/registration/quizmaster')
+            ->visit('/tournaments/'.$this->tournament->slug.'/registration/quizmaster')
             ->select($group->id, 'group_id')
             ->select($gamesQuizzedThisSeason, 'games_quizzed_this_season')
             ->press('Submit')
@@ -91,13 +170,11 @@ class QuizmasterRegistrationTest extends TestCase
      */
     public function cantRegisterAsGuest()
     {
-        // assert there's a button on the page and we can't click it
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('The selected node does not have a form ancestor');
-
-        $tournament = Tournament::firstOrFail();
         $this
-            ->visit('/tournaments/'.$tournament->slug)
-            ->press('Quizmaster'); // asserts it's a button
+            ->visit('/tournaments/'.$this->tournament->slug)
+            ->click('#register-quizmaster')
+
+            // if we don't go anywhere, the tooltip was hopefully shown
+            ->seePageIs('/tournaments/'.$this->tournament->slug);
     }
 }

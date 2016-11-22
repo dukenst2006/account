@@ -1,12 +1,12 @@
 <?php
 
-use Carbon\Carbon;
-use BibleBowl\Program;
-use BibleBowl\Receipt;
 use BibleBowl\Address;
 use BibleBowl\Players\PlayerCreator;
+use BibleBowl\Program;
+use BibleBowl\Receipt;
 use BibleBowl\Role;
 use BibleBowl\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 

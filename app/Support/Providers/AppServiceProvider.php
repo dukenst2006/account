@@ -10,12 +10,15 @@ use BibleBowl\Invitation;
 use BibleBowl\Presentation\EmailTemplate;
 use BibleBowl\Presentation\Html;
 use BibleBowl\Role;
+use BibleBowl\TournamentQuizmaster;
 use BibleBowl\Users\Auth\SessionManager;
 use Blade;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
 use Session;
 use Silber\Bouncer\Database\Models;
 use URL;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -169,6 +172,19 @@ class AppServiceProvider extends ServiceProvider
                 }
              ?>
 EOF;
+        });
+
+        Validator::extend('quizmaster_not_registered', function ($attribute, $value, $parameters, $validator) {
+            //dd('validation-rule', TournamentQuizmaster::where('tournament_id', $parameters[0])->where('email', $value)->count());
+            // check if the quizmaster was registered by email address
+            if (TournamentQuizmaster::where('tournament_id', $parameters[0])->where('email', $value)->count() > 0) {
+                return false;
+            }
+
+            // check by user id
+            return TournamentQuizmaster::where('tournament_id', $parameters[0])->whereHas('user', function (Builder $q) use ($value) {
+                $q->where('email', $value);
+            })->count() == 0;
         });
     }
 

@@ -10,6 +10,10 @@ use Config;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Mail\Message;
 use Mail;
 use Ramsey\Uuid\Uuid;
@@ -91,34 +95,22 @@ class Group extends Model
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function address()
+    public function address() : BelongsTo
     {
         return $this->belongsTo(Address::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function type()
+    public function type() : BelongsTo
     {
         return $this->belongsTo(GroupType::class, 'group_type_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function meetingAddress()
+    public function meetingAddress() : BelongsTo
     {
         return $this->belongsTo(Address::class, 'meeting_address_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function players()
+    public function players() : BelongsToMany
     {
         // if this relation is updated, update Season too
         return $this->belongsToMany(Player::class, 'player_season')
@@ -145,18 +137,17 @@ class Group extends Model
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournamentQuizmasters()
+    public function tournamentQuizmasters() : HasMany
     {
         return $this->hasMany(TournamentQuizmaster::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function invitations()
+    public function spectators() : HasMany
+    {
+        return $this->hasMany(Spectator::class);
+    }
+
+    public function invitations() : HasMany
     {
         return $this->hasMany(Invitation::class);
     }
@@ -213,15 +204,80 @@ class Group extends Model
     /**
      * Query scope for inactive guardians.
      */
-    public function scopeHasPendingRegistrationPayments(Builder $query, Carbon $pendingSince = null, $playerCount = null)
+    public function scopeHasPendingRegistrationPayments(Builder $query, Season $season, Carbon $pendingSince = null)
     {
-        return $query->whereHas('players', function (Builder $q) use ($pendingSince) {
+        return $query->whereHas('players', function (Builder $q) use ($season, $pendingSince) {
             if ($pendingSince != null) {
                 $q->where('player_season.created_at', '>', $pendingSince->toDateTimeString());
             }
 
+            $q->where('player_season.season_id', $season->id);
             $q->whereNull('player_season.paid');
         });
+    }
+
+    public function scopeHasPendingTournamentRegistrationFees(Builder $query, Tournament $tournament)
+    {
+        $previousEntry = false;
+        if ($tournament->hasFee(ParticipantType::QUIZMASTER)) {
+            $query->whereHas('tournamentQuizmasters', function (Builder $q) {
+                $q->whereNull('receipt_id');
+            });
+            $previousEntry = true;
+        }
+
+        if ($tournament->hasFee(ParticipantType::ADULT)) {
+            $builderMethod = $previousEntry ? 'orWhereHas' : 'whereHas';
+            $query->{$builderMethod}('spectators', function (Builder $q) {
+                $q->whereNull('receipt_id');
+                $q->whereNull('spouse_first_name');
+                $q->whereDoesntHave('minors', function (Builder $q) {
+                    $q->where('tournament_spectator_minors.spectator_id');
+                });
+            });
+            $previousEntry = true;
+        }
+
+        if ($tournament->hasFee(ParticipantType::FAMILY)) {
+            $builderMethod = $previousEntry ? 'orWhereHas' : 'whereHas';
+            $query->{$builderMethod}('spectators', function (Builder $q) {
+                $q->whereNull('receipt_id');
+                $q->where(function ($q) {
+                    $q->whereNotNull('spouse_first_name');
+                    $q->orWhereHas('minors', function (Builder $q) {
+                        $q->where('tournament_spectator_minors.spectator_id');
+                    });
+                });
+            });
+            $previousEntry = true;
+        }
+
+        if ($tournament->hasFee(ParticipantType::TEAM)) {
+            $builderMethod = $previousEntry ? 'orWhereHas' : 'whereHas';
+            $query->{$builderMethod}('teamSets', function (Builder $q) use ($tournament) {
+                $q->where('team_sets.tournament_id', $tournament->id);
+                $q->whereHas('teams', function ($q) {
+                    $q->whereNull('teams.receipt_id');
+                });
+            });
+            $previousEntry = true;
+        }
+
+        if ($tournament->hasFee(ParticipantType::PLAYER)) {
+            $builderMethod = $previousEntry ? 'orWhereHas' : 'whereHas';
+            $query->{$builderMethod}('teamSets', function (Builder $q) use ($tournament) {
+                $q->where('team_sets.tournament_id', $tournament->id);
+                $q->whereHas('teams', function ($q) {
+                    $q->whereNull('teams.receipt_id');
+                });
+                $q->leftJoin('tournament_players', function (JoinClause $join) use ($tournament) {
+                    $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
+                });
+                $q->whereNull('tournament_players.receipt_id');
+            });
+        }
+
+        return $query;
     }
 
     /**
@@ -282,52 +338,32 @@ class Group extends Model
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function users()
+    public function users() : BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function owner()
+    public function owner() : BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function program()
+    public function program() : BelongsTo
     {
         return $this->belongsTo(Program::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function seasons()
+    public function seasons() : HasMany
     {
         return $this->hasMany(Season::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function teamSets()
+    public function teamSets() : HasMany
     {
         return $this->hasMany(TeamSet::class);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function isOwner(User $user)
+    public function isOwner(User $user) : bool
     {
         return $user->id == $this->owner_id;
     }
@@ -381,7 +417,7 @@ class Group extends Model
     public function addHeadCoach(User $user)
     {
         $user->groups()->attach($this->id);
-//dd($user->id, $this->id, $user->isNot(Role::HEAD_COACH));
+
         // make the owner a head coach if they aren't already
         if ($user->isNotA(Role::HEAD_COACH)) {
             $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
@@ -407,12 +443,21 @@ class Group extends Model
         }
     }
 
-    public function isActive()
+    /** @todo set TeamSet return value */
+    public function teamSet(Tournament $tournament)
+    {
+        return $this->teamSets()->where([
+            'group_id'      => $this->id,
+            'tournament_id' => $tournament->id,
+        ])->first();
+    }
+
+    public function isActive() : bool
     {
         return is_null($this->inactive);
     }
 
-    public function isInactive()
+    public function isInactive() : bool
     {
         return $this->isActive() === false;
     }
@@ -424,20 +469,16 @@ class Group extends Model
 
     /**
      * Registration link to register for this specific group.
-     *
-     * @return string
      */
-    public function registrationReferralLink()
+    public function registrationReferralLink() : string
     {
         return 'group/'.$this->guid.'/register';
     }
 
     /**
      * Registration link to register for this specific group.
-     *
-     * @return string
      */
-    public function registerLink()
+    public function registerLink() : string
     {
         return '/register/group/'.$this->id;
     }

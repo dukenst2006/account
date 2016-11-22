@@ -3,7 +3,7 @@
 namespace BibleBowl\Presentation;
 
 use BibleBowl\Address;
-use Illuminate\Html\HtmlBuilder;
+use Collective\Html\HtmlBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class Html extends HtmlBuilder

@@ -6,15 +6,15 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
+                @include('tournaments.partials.tournament-summary', [
+                    'tournament' => $tournament
+                ])
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <h4>Quizzing <span class="semi-bold">Preferences</span></h4>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        @include('tournaments.partials.tournament-summary', [
-                            'tournament' => $tournament
-                        ])
                         @include('tournaments.partials.group-summary', [
                             'group' => $group
                         ])

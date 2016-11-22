@@ -6,15 +6,15 @@
     <div class="content" id="page" v-cloak>
         <div class="row">
             <div class="col-md-12">
+                @include('tournaments.partials.tournament-summary', [
+                    'tournament' => $tournament
+                ])
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <h4>Add <span class="semi-bold">A Quizmaster</span></h4>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        @include('tournaments.partials.tournament-summary', [
-                            'tournament' => $tournament
-                        ])
                         {!! Form::open([
                             'url' => '/tournaments/'.$tournament->slug.'/registration/quizmaster',
                             'class' => 'form-horizontal',
@@ -56,20 +56,30 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-6">
+                                        <label class="form-label">Cell Phone</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            {!! Form::phone('phone', old('phone'), ['class' => 'form-control']) !!}<br/>
+                                        </div>
+                                    </div>
+                                    @if($tournament->settings->shouldCollectShirtSizes())
+                                    <div class="col-md-6 col-sm-6">
                                         <label class="form-label">T-Shirt Size</label>
                                         <span class="help"></span>
                                         <div class="controls">
                                             {!! Form::selectShirtSize('shirt_size', old('shirt_size'), ['class' => 'form-control']) !!}<br/>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
-                                <p>We'll reach out to this quizmaster via email once you hit save so they can provide their quizzing preferences and revise their t-shirt size.  Their response is not required for their registration to be complete.</p>
+                                <p>Once their registration is complete we'll be sure to notify them.</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center p-t-30">
-                                <button class="btn btn-primary btn-cons" type="submit">Save & Continue</button>
+                                <input class="btn btn-primary btn-cons" type="submit" name='save' value="Save"/>
+                                <input class="btn btn-primary btn-cons m-l-25" type="submit" name='save-and-add' value="Save & Add Another"/>
                             </div>
                         </div>
                         {!! Form::close() !!}

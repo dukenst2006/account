@@ -4,6 +4,7 @@ namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Group;
 use BibleBowl\Http\Requests\AdminOnlyRequest;
+use BibleBowl\Season;
 use BibleBowl\User;
 use Config;
 use Input;
@@ -67,7 +68,7 @@ class GroupController extends Controller
 
         return view('admin.groups.outstanding-registration-fees', [
             'unpaidSince'   => $relativeTime,
-            'groups'        => Group::hasPendingRegistrationPayments($playersRegistrationUnpaidSince)
+            'groups'        => Group::hasPendingRegistrationPayments(Season::current()->first(), $playersRegistrationUnpaidSince)
                 ->with([
                     'owner',
                     'program',

@@ -17,7 +17,12 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th style="width:10%"></th>
+                                        <th style="width:10%">
+                                            <div class="checkbox check-default">
+                                                {!! Form::checkbox('all-players', 1, old('all-players', true), [ 'id' => 'all-players', 'class' => 'checkall' ]) !!}
+                                                <label for="all-players"></label>
+                                            </div>
+                                        </th>
                                         <th style="width:30%">Player</th>
                                         <th style="width:30%">Grade</th>
                                     </tr>

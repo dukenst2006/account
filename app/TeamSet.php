@@ -2,9 +2,13 @@
 
 namespace BibleBowl;
 
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * BibleBowl\Season.
@@ -53,23 +57,31 @@ class TeamSet extends Model
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function group()
+    public function group() : BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function season()
+    public function season() : BelongsTo
     {
         return $this->belongsTo(Season::class);
     }
 
-    public function players()
+    public function tournament() : BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
+    }
+
+    public function canBeEdited(User $user)
+    {
+        if ($this->registeredWithTournament() && $this->tournament->teamsAreLocked()) {
+            return $this->tournament->canEditLockedTeams($user);
+        }
+
+        return true;
+    }
+
+    public function players() : Builder
     {
         $teamIds = $this->teams->modelKeys();
 
@@ -78,19 +90,33 @@ class TeamSet extends Model
         });
     }
 
-    /**
-     * @param Builder $query
-     * @param Season  $season
-     */
-    public function scopeSeason(Builder $query, Season $season)
+    public function unpaidPlayers() : Builder
     {
-        $query->where('season_id', $season->id);
+        if ($this->tournament_id == null) {
+            throw new \RuntimeException("Teamsets without tournaments can't have unpaid players");
+        }
+
+        // without select.* it isn't sure which data to provide where tables share the same columns
+        $tournamentId = $this->tournament_id;
+
+        return $this->players()->select('players.*')
+            ->leftJoin('tournament_players', function (JoinClause $join) use ($tournamentId) {
+                $join->on('tournament_id', '=', DB::raw($tournamentId));
+            })
+            ->whereNull('tournament_players.receipt_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function teams()
+    public function scopeSeason(Builder $query, Season $season) : Builder
+    {
+        return $query->where('season_id', $season->id);
+    }
+
+    public function registeredWithTournament() : bool
+    {
+        return $this->tournament_id != null;
+    }
+
+    public function teams() : HasMany
     {
         $seasonId = $this->season_id;
 

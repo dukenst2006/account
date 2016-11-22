@@ -28,7 +28,7 @@
                         {{ $child->full_name }}
                     </td>
                     <td class="text-center v-align-middle hidden-xs hidden-sm">
-                        {!! HTML::genderIcon($child->gender) !!} {{ $child->gender }}
+                        {!! Html::genderIcon($child->gender) !!} {{ $child->gender }}
                     </td>
                     <td class="text-center v-align-middle hidden-xs hidden-sm">
                         {{ $child->age() }}

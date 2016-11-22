@@ -1,9 +1,3 @@
-<div class="row b-b b-grey p-b-10">
-    <div class="col-md-3 col-sm-3 col-xs-4 p-t-20">
-        Tournament:
-    </div>
-    <div class="col-md-9 col-sm-9 col-xs-8">
-        <h5 class="semi-bold">{{ $tournament->name }}</h5>
-        <span class="help">{{ $tournament->dateSpan() }}</span>
-    </div>
-</div>
+<h4 class="semi-bold p-t-10 p-b-10 p-l-15 p-r-15" style="color: #fff; background-color: #586c84; margin-bottom: 0">
+    {{ $tournament->name }} Registration
+</h4>

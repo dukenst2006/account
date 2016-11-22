@@ -2,6 +2,7 @@
 
 namespace BibleBowl\Support\Providers;
 
+use BibleBowl\Competition\Tournaments\Groups\RemindEarlyBirdFeeEnding;
 use BibleBowl\Location\GroupMapUpdater;
 use BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
 use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
@@ -21,6 +22,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         RemindGroupsOfPendingRegistrationPayments::class,
         NotifyOfficeOfOutstandingRegistrationPayments::class,
         GroupMapUpdater::class,
+        RemindEarlyBirdFeeEnding::class,
         CleanupOrphanAccounts::class,
     ];
 
@@ -39,7 +41,10 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         $schedule->command(GroupMapUpdater::COMMAND)
             ->daily()->thenPing('https://hchk.io/5e3052eb-7c81-4e0f-aa34-dfcc833ed7c7');
         $schedule->command(CleanupOrphanAccounts::COMMAND)
-            ->daily();
+            ->daily()->thenPing('https://hchk.io/3c277ce8-e586-40ff-ab30-75a3cce94e80');
+
+        $schedule->command(RemindEarlyBirdFeeEnding::COMMAND)
+            ->daily()->thenPing('https://hchk.io/ddb0ba20-1b4f-48d4-845b-f035ce3c164e');
 
         // reminders for unpaid registration fees
         $schedule->command(RemindGroupsOfPendingRegistrationPayments::COMMAND)

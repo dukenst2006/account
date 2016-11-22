@@ -25,9 +25,6 @@
                                     @if($tournament->isRegistrationOpen())
                                         <span class="text-success">Open</span><br/>
                                         Closes: {{ $tournament->registration_end->toFormattedDateString() }}
-                                        @if($tournament->hasEarlyBirdRegistration())
-                                            <br/>Early bird ends: {{ $tournament->earlybird_ends->format('M j, Y') }}
-                                        @endif
                                     @else
                                         <span class="text-danger">Closed</span><br/>
                                         @if(\Carbon\Carbon::now()->lte($tournament->registration_start))
@@ -67,37 +64,40 @@
                                 @include('partials.messages')
                                 <h4>Register a...</h4>
                                 @if($tournament->isRegistrationOpen())
-                                <div class="row">
+                                <div class="row m-t-15">
                                     @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
                                         <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                                            <?php $spectatorLabel = '<span class="semi-bold">Adult / Family</span><br/><small>Just wanting to spectate</small>'; ?>
                                             @if(Auth::user() !== null && $tournament->isRegisteredAsSpectator(Auth::user()))
-                                                <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a spectator">Adult / Family</button>
+                                                <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a spectator">{!! $spectatorLabel !!}</button>
                                             @else
-                                                <a href="/tournaments/{{ $tournament->slug }}/registration/spectator" class="btn btn-success btn-cons" id="register-spectator">Adult / Family</a>
+                                                <a href="/tournaments/{{ $tournament->slug }}/registration/spectator" class="btn btn-success btn-cons" id="register-spectator">{!! $spectatorLabel !!}</a>
                                             @endif
                                         </div>
                                     @endif
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                                        <?php $groupLabel = '<span class="semi-bold">Group</span><br/><small>Coaches, teams, players, etc.</small>'; ?>
                                         @if(Auth::user() !== null)
                                             @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
-                                                <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">Group</a>
+                                                <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">{!! $groupLabel !!}</a>
                                             @else
-                                                <button title="Only head coaches can register their groups" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom">Group</button>
+                                                <a href="#" title="Only head coaches can register their groups" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" id="register-group">{!! $groupLabel !!}</a>
                                             @endif
                                         @else
-                                            <button title="You must be logged in to register a group" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom">Group</button>
+                                                <a href="#" title="You must be logged in to register a group" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" id="register-group">{!! $groupLabel !!}</a>
                                         @endif
                                     </div>
                                     @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                                        <?php $quizmasterLabel = '<span class="semi-bold">Quizmaster</span><br/><small>To quiz the rounds</small>'; ?>
                                         @if(Auth::user() !== null)
                                             @if($tournament->isRegisteredAsQuizmaster(Auth::user()))
-                                                <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a quizmaster">Quizmaster</button>
+                                                <a href="#" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You're already registered as a quizmaster" id="register-quizmaster">{!! $quizmasterLabel !!}</a>
                                             @else
-                                                <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-success btn-cons" id="register-quizmaster">Quizmaster</a>
+                                                <a href="/tournaments/{{ $tournament->slug }}/registration/quizmaster" class="btn btn-success btn-cons" id="register-quizmaster">{!! $quizmasterLabel !!}</a>
                                             @endif
                                         @else
-                                            <button type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register as a quizmaster">Quizmaster</button>
+                                                <a href="#" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" title="You must be logged in to register as a quizmaster" id="register-quizmaster">{!! $quizmasterLabel !!}</a>
                                         @endif
                                     </div>
                                     @endif
@@ -109,6 +109,63 @@
                                 @endif
                                 <hr/>
                                 {!! $tournament->details !!}
+
+                                @if($tournament->hasAnyParticipantFees())
+                                <h3 class="m-t-40">Registration Fees</h3>
+                                <hr/>
+                                <?php
+                                    $allowsOnSiteRegistration = $tournament->allowsOnSiteRegistration();
+                                    $hasEarlyBirdRegistration = $tournament->hasEarlyBirdRegistration();
+                                ?>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:30%"></th>
+                                        @if($hasEarlyBirdRegistration)
+                                            <th class='text-center' style="width:25%">
+                                                Early Bird
+                                                <br/>(ends {{ $tournament->earlybird_ends->format('M j, Y') }})
+                                            </th>
+                                        @endif
+                                        <th class='text-center' style="width:15%">Registration Fee</th>
+                                        @if($allowsOnSiteRegistration)
+                                        <th class='text-center' style="width:15%">On-site Fee</th>
+                                        @endif
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($participantFees as $fee)
+                                        <tr>
+                                            <td>
+                                                <strong>{{ $fee->participantType->name }}</strong>
+                                                <div class="muted">{{ $fee->participantType->description }}</div>
+                                            </td>
+                                            @if($hasEarlyBirdRegistration)
+                                                <td class="text-center">
+                                                    @if($fee->hasEarlybirdFee())
+                                                        ${{ $fee->earlybird_fee }}
+                                                    @endif
+                                                </td>
+                                            @endif
+                                            <td class="text-center">
+                                                @if($fee->requiresRegistration())
+                                                    @if($fee->hasFee())
+                                                        ${{ $fee->fee }}
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            @if($allowsOnSiteRegistration)
+                                                <td class="text-center">
+                                                    @if($fee->hasOnsiteFee())
+                                                        ${{ $fee->onsite_fee }}
+                                                    @endif
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                @endif
                             </div>
                         </div>
                     </div>

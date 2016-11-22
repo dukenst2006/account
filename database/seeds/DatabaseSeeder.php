@@ -335,16 +335,21 @@ class DatabaseSeeder extends Seeder
         ]);
         $tournament->events()->create([
             'event_type_id'         => EventType::ROUND_ROBIN,
-            'price_per_participant' => '25.00',
         ]);
         $tournament->events()->create([
             'event_type_id'         => EventType::DOUBLE_ELIMINATION,
-            'price_per_participant' => '35.00',
+        ]);
+        $tournament->events()->create([
+            'event_type_id'         => EventType::QUOTE_BEE,
+            'price_per_participant' => '10.00',
+        ]);
+        $tournament->events()->create([
+            'event_type_id'         => EventType::BUZZ_OFF,
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::PLAYER,
             'requires_registration' => 1,
-            'fee'                   => '15.00',
+            'fee'                   => '13.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::TEAM,
@@ -355,14 +360,14 @@ class DatabaseSeeder extends Seeder
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::QUIZMASTER,
             'requires_registration' => 1,
-            'fee'                   => '30.00',
+            'fee'                   => '12.00',
             'onsite_fee'            => '40.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::ADULT,
             'requires_registration' => 1,
             'fee'                   => '30.00',
-            'onsite_fee'            => '40.00',
+            'onsite_fee'            => '43.00',
         ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::FAMILY,
@@ -371,9 +376,10 @@ class DatabaseSeeder extends Seeder
             'onsite_fee'            => '75.00',
         ]);
 
-        $groupId = 2;
+        $group = Group::findOrFail(2);
         $tournament->tournamentQuizmasters()->create([
-            'group_id'      => $groupId,
+            'group_id'      => $group->id,
+            'registered_by' => $group->owner_id,
             'first_name'    => 'Keith',
             'last_name'     => 'Webb',
             'email'         => 'kwebb@domain.com',
@@ -383,7 +389,7 @@ class DatabaseSeeder extends Seeder
         $user = User::where('email', self::QUIZMASTER_EMAIL)->first();
         $receipt = $this->seedReceipt($user);
         $tournament->tournamentQuizmasters()->create([
-            'group_id'      => $groupId,
+            'group_id'      => $group->id,
             'receipt_id'    => $receipt->id,
             'first_name'    => 'Warner',
             'last_name'     => 'Jackson',
@@ -394,7 +400,8 @@ class DatabaseSeeder extends Seeder
         // guest spectators
         $director = User::where('email', self::DIRECTOR_EMAIL)->first();
         $tournament->spectators()->create([
-            'group_id'      => $groupId,
+            'group_id'      => $group->id,
+            'registered_by' => $group->owner_id,
             'receipt_id'    => $receipt->id,
             'first_name'    => 'Sarah',
             'last_name'     => 'Jones',
@@ -404,7 +411,8 @@ class DatabaseSeeder extends Seeder
             'address_id'    => $director->primary_address_id,
         ]);
         $tournament->spectators()->create([
-            'group_id'      => $groupId,
+            'group_id'      => $group->id,
+            'registered_by' => $group->owner_id,
             'first_name'    => 'Jonathan',
             'last_name'     => 'Wicker',
             'shirt_size'    => 'L',
@@ -415,7 +423,7 @@ class DatabaseSeeder extends Seeder
 
         // family spectators
         $tournament->spectators()->create([
-            'group_id'          => $groupId,
+            'group_id'          => $group->id,
             'user_id'           => $director->id,
             'receipt_id'        => $receipt->id,
             'spouse_first_name' => 'Michelle',
@@ -423,7 +431,8 @@ class DatabaseSeeder extends Seeder
             'spouse_shirt_size' => 'M',
         ]);
         $spectator = $tournament->spectators()->create([
-            'group_id'          => $groupId,
+            'group_id'          => $group->id,
+            'registered_by'     => $group->owner_id,
             'first_name'        => 'Clark',
             'last_name'         => 'Larkson',
             'shirt_size'        => 'XL',

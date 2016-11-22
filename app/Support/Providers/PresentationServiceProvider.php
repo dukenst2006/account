@@ -7,7 +7,7 @@ use BibleBowl\Http\Controllers\Seasons\PlayerRegistrationController;
 use BibleBowl\Presentation\Form;
 use BibleBowl\Presentation\Html;
 
-class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
+class PresentationServiceProvider extends \Collective\Html\HtmlServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -41,7 +41,7 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
     protected function registerHtmlBuilder()
     {
         $this->app->singleton('html', function ($app) {
-            return new Html($app['url']);
+            return new Html($app['url'], $app['view']);
         });
     }
 
@@ -53,10 +53,20 @@ class PresentationServiceProvider extends \Illuminate\Html\HtmlServiceProvider
     protected function registerFormBuilder()
     {
         $this->app->singleton('form', function ($app) {
-            $form = new Form($app['html'], $app['url'], $app['session.store']->getToken());
+            $form = new Form($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
 
             return $form->setSessionStore($app['session.store']);
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['html', 'form'];
     }
 
     private function registerComposers()

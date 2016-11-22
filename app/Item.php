@@ -35,8 +35,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $is_shoppable
  * @property-read mixed $shop_url
  *
- * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel whereSKU($sku)
- * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopItemModel findBySKU($sku)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereCartId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereSku($value)
@@ -61,7 +59,7 @@ class Item extends Model
      *
      * @return string
      */
-    public function name()
+    public function name() : string
     {
         // seasonal registrations
         $seasonalGroupRegistrationPrefix = 'SEASON_REG_';
@@ -78,7 +76,26 @@ class Item extends Model
             unset($pieces[0]);
             unset($pieces[1]);
 
-            return ucwords(strtolower(implode(' ', $pieces))).' Tournament Registration';
+            // remove early bird from description so we can append it after
+            if ($isEarlyBird = ends_with($this->sku, 'EARLY_BIRD')) {
+                array_pop($pieces);
+                array_pop($pieces);
+            }
+
+            if (starts_with($this->sku, $tournamentRegistrationPrefix.'EVENT')) {
+                $eventType = EventType::find($pieces[3]);
+                $description = $eventType->participantType->name.' '.$eventType->name;
+            } else {
+                $description = ucwords(strtolower(implode(' ', $pieces))).' Tournament';
+            }
+
+            $description .= ' Registration';
+
+            if ($isEarlyBird) {
+                $description .= ' (Early Bird)';
+            }
+
+            return $description;
         }
 
         return $this->sku;

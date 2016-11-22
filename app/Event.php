@@ -2,7 +2,10 @@
 
 namespace BibleBowl;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * BibleBowl\Event.
@@ -28,28 +31,34 @@ class Event extends Model
 {
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function tournament()
+    public function tournament() : BelongsTo
     {
         return $this->belongsTo(Tournament::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function eventPlayers()
+    public function players() : BelongsToMany
     {
-        return $this->hasMany(EventPlayer::class);
+        return $this->belongsToMany(Player::class)
+            ->withPivot('receipt_id')
+            ->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function players()
+    public function scopeRequiringFees(Builder $q) : Builder
     {
-        return $this->hasManyThrough(Player::class, EventPlayer::class);
+        return $q->whereNotNull('price_per_participant');
+    }
+
+    public function unpaidPlayers() : BelongsToMany
+    {
+        return $this->belongsToMany(Player::class)
+            ->wherePivot('receipt_id', null);
+    }
+
+    public function scopeByParticipantType(Builder $builder, int $participantTypeId)
+    {
+        return $builder->whereHas('type', function (Builder $q) use ($participantTypeId) {
+            $q->where('participant_type_id', $participantTypeId);
+        });
     }
 
     public function setPricePerParticipantAttribute($price)
@@ -98,5 +107,10 @@ class Event extends Model
 
             echo '$'.$price.' / '.$this->type->participantType->name;
         }
+    }
+
+    public function sku() : string
+    {
+        return 'TOURNAMENT_REG_EVENT_'.$this->event_type_id;
     }
 }

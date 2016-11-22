@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id='price-field'>
     <div class="col-md-12 form-group">
         <label class="form-label">Price</label>
         <span class="help">Leave empty if the event is free or included</span>

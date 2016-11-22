@@ -685,7 +685,9 @@ ul.messenger-theme-flat .messenger-spinner {
 .team h5 {
     margin: 0 0 .5em 0;
     font-weight: bold;
-    text-align: center;
+}
+.team h5 .name {
+    margin-right: 5px;
 }
 .team .delete {
     position: absolute;
@@ -778,5 +780,8 @@ h3 > .fa-edit {
     font-size: 110%;
     font-style: italic;
     color: #ccc;
+}
+.team-requirements-error {
+    display: none;
 }
 /*# sourceMappingURL=teamsets.css.map */

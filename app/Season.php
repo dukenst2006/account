@@ -4,6 +4,7 @@ namespace BibleBowl;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * BibleBowl\Season.
@@ -63,18 +64,12 @@ class Season extends Model
         return $query->orderBy('id', 'desc')->limit(1);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournaments()
+    public function tournaments() : HasMany
     {
         return $this->hasMany(Tournament::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function teamSets()
+    public function teamSets() : HasMany
     {
         return $this->hasMany(TeamSet::class);
     }

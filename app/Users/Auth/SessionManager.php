@@ -3,8 +3,7 @@
 namespace BibleBowl\Users\Auth;
 
 use Auth;
-use BibleBowl\Cart;
-use BibleBowl\Competition\Tournaments\GroupRegistration as TournamentGroupRegistration;
+use BibleBowl\Competition\Tournaments as TournamentGroupRegistration;
 use BibleBowl\Group;
 use BibleBowl\Invitation;
 use BibleBowl\Season;

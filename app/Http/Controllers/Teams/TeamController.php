@@ -3,8 +3,8 @@
 namespace BibleBowl\Http\Controllers\Teams;
 
 use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\TeamGroupOnlyRequest;
-use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
+use BibleBowl\Http\Requests\TeamSetUpdateRequest;
+use BibleBowl\Http\Requests\TeamUpdateRequest;
 use BibleBowl\Team;
 use DB;
 
@@ -16,7 +16,7 @@ class TeamController extends Controller
      *
      * @return mixed
      */
-    public function store(TeamSetGroupOnlyRequest $request)
+    public function store(TeamSetUpdateRequest $request)
     {
         $request->merge([
             'team_set_id' => $request->route('teamset'),
@@ -37,7 +37,7 @@ class TeamController extends Controller
      *
      * @return mixed
      */
-    public function update(TeamGroupOnlyRequest $request)
+    public function update(TeamUpdateRequest $request)
     {
         $request->team()->update([
             'name' => $request->input('name'),
@@ -52,7 +52,7 @@ class TeamController extends Controller
      *
      * @return mixed
      */
-    public function destroy(TeamGroupOnlyRequest $request)
+    public function destroy(TeamUpdateRequest $request)
     {
         $request->team()->delete();
 
@@ -65,7 +65,7 @@ class TeamController extends Controller
      *
      * @return mixed
      */
-    public function addPlayer(TeamGroupOnlyRequest $request, $id)
+    public function addPlayer(TeamUpdateRequest $request, $id)
     {
         // prevent duplicates
         if ($request->team()->players()->where('player_id', $request->get('playerId'))->count() == 0) {
@@ -81,7 +81,7 @@ class TeamController extends Controller
      *
      * @return mixed
      */
-    public function removePlayer(TeamGroupOnlyRequest $request, $id)
+    public function removePlayer(TeamUpdateRequest $request, $id)
     {
         $request->team()->players()->detach($request->get('playerId'));
 
@@ -96,7 +96,7 @@ class TeamController extends Controller
      *
      * @return mixed
      */
-    public function updateOrder(TeamGroupOnlyRequest $request, $id)
+    public function updateOrder(TeamUpdateRequest $request, $id)
     {
         DB::transaction(function () use ($request) {
             foreach ($request->input('sortOrder') as $index => $playerId) {

@@ -3,12 +3,30 @@
 @section('title', 'Editing '.$teamSet->name)
 
 @section('content')
-    <div class="content" id="page" v-cloak>
-        @include('teamset.edit-teamset', [
-            'players'   => $players,
-            'teamSet'   => $teamSet
-        ])
+    @include('partials.messages')
+
+    <div class="content">
+        @if($teamSet->registeredWithTournament())
+            @include('tournaments.partials.tournament-summary', [
+                'tournament' => $teamSet->tournament,
+                'hideBorder' => true
+            ])
+        @endif
+        <div id="page" v-cloak>
+            @include('teamset.edit-teamset', [
+                'players'   => $players,
+                'teamSet'   => $teamSet
+            ])
+        </div>
     </div>
+    @if($teamSet->registeredWithTournament())
+        <section style="position: fixed; bottom: 0px; width: 100%;">
+            <div style="background-color: #fff; border-top:2px solid #e5e9ec" class="text-center p-t-10">
+                <p>If this tournament has fees associated with adding players and/or teams, those fees must be paid before team changes are final.</p>
+                <a href="/tournaments/{{ $teamSet->tournament->slug }}/group" class="btn btn-primary btn-cons">Save & Continue</a>
+            </div>
+        </section>
+    @endif
 @endsection
 
 @includeVueJs
@@ -22,5 +40,9 @@
 @includeCss(elixir('css/teamsets.css'))
 
 @jsData
-    var teamSet = {!! $teamSet->toJson() !!}
+    var teamSet = {!! $teamSet->toJson() !!},
+        registeredWithTournament = {{ $teamSet->registeredWithTournament() ? 'true' : 'false' }},
+        teamsEditable = {{ $teamSet->canBeEdited(Auth::user()) ? 'true' : 'false' }},
+        minPlayersPerTeam = {{ $teamSet->registeredWithTournament() ? $teamSet->tournament->settings->minimumPlayersPerTeam() : 'null' }},
+        maxPlayersPerTeam = {{ $teamSet->registeredWithTournament() ? $teamSet->tournament->settings->maximumPlayersPerTeam() : 'null' }};
 @endjsData

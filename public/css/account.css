@@ -34,6 +34,7 @@
 }
 .address-card .grid.simple .grid-title .tools .dropdown-menu li:hover {
   background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));
   background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));
   border-right: 1px solid;
 }
