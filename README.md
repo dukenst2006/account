@@ -15,3 +15,15 @@ This app integrates with:
 #### Tournaments
  * Sends early bird fee expiration reminders to head coaches a week before early bird fees expire
  * Allows quizmaster, spectator, team and player registrations; paid or free
+
+#### Groups
+ * Allows anyone to create a group
+ * Allows Mailchimp integration for any group to keep parent's email addresses updated on their email list
+
+#### Seasonal Registration
+ * Allows parents to add their players to the database, then register them each season with their repsective group
+ * Groups pay fees for all players
+ * Groups get notification reminders if their players go too long without fees
+
+#### home.biblebowl.org
+ * Updates the Google Map daily on the Join a team map page
