@@ -2,11 +2,11 @@
 
 namespace BibleBowl\Http\Requests;
 
-use Session;
 use Auth;
 use BibleBowl\Group;
 use BibleBowl\Role;
 use Illuminate\Database\Eloquent\Builder;
+use Session;
 
 class GroupHeadCoachOnlyRequest extends Request
 {
@@ -25,7 +25,7 @@ class GroupHeadCoachOnlyRequest extends Request
         if ($groupId == null) {
             $groupId = Session::group()->id;
         }
-        
+
         return Group::where('id', $groupId)
             ->whereHas('users', function (Builder $q) {
                 $q->where('users.id', Auth::user()->id);

@@ -2,12 +2,8 @@
 
 namespace BibleBowl\Reporting;
 
-use BibleBowl\Group;
-use BibleBowl\ReceiptItem;
-use BibleBowl\Season;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Database\Eloquent\Builder;
 
 class FinancialsRepository
 {
@@ -29,9 +25,9 @@ class FinancialsRepository
         foreach ($monthItems as $monthItemSummary) {
             if (!array_key_exists($monthItemSummary->description, $items)) {
                 $items[$monthItemSummary->description] = [
-                    'thisMonth' => 0,
-                    'lastMonth' => 0,
-                    'monthBeforeLast' => 0
+                    'thisMonth'       => 0,
+                    'lastMonth'       => 0,
+                    'monthBeforeLast' => 0,
                 ];
             }
 

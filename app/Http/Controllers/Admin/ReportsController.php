@@ -3,7 +3,6 @@
 namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\Request;
-use BibleBowl\Program;
 use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Reporting\FinancialsRepository;
 use BibleBowl\Reporting\GroupMetricsRepository;
@@ -48,7 +47,7 @@ class ReportsController extends Controller
     public function getFinancials(Request $request, FinancialsRepository $financialsRepository)
     {
         return view('admin.reports.financials', [
-            'invoiceItemSummary' => $financialsRepository->invoiceItemSummary()
+            'invoiceItemSummary' => $financialsRepository->invoiceItemSummary(),
         ]);
     }
 
