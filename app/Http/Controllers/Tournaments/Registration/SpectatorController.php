@@ -3,15 +3,19 @@
 namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use Auth;
-use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrar;
-use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrationPaymentReceived;
+use BibleBowl\Competition\Tournaments\Spectators\Registrar;
+use BibleBowl\Competition\Tournaments\Spectators\RegistrationConfirmation;
+use BibleBowl\Competition\Tournaments\Spectators\RegistrationPaymentReceived;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
+use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\SpectatorRegistrationRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneSpectatorRegistrationRequest;
 use BibleBowl\ParticipantType;
+use BibleBowl\Spectator;
 use BibleBowl\Tournament;
 use Cart;
+use DB;
 use Session;
 
 class SpectatorController extends Controller
@@ -19,8 +23,6 @@ class SpectatorController extends Controller
     public function getRegistration($slug)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
-        $adultParticipantType = ParticipantType::findOrFail(ParticipantType::ADULT);
-        $familyParticipantType = ParticipantType::findOrFail(ParticipantType::FAMILY);
 
         // determine if the head coach is registering this spectator
         if (Session::group() == null) {
@@ -31,8 +33,8 @@ class SpectatorController extends Controller
 
         return view($view, [
             'tournament'            => $tournament,
-            'adultFee'              => $tournament->fee($adultParticipantType),
-            'familyFee'             => $tournament->fee($familyParticipantType),
+            'adultFee'              => $tournament->fee(ParticipantType::ADULT),
+            'familyFee'             => $tournament->fee(ParticipantType::FAMILY),
         ]);
     }
 
@@ -42,14 +44,13 @@ class SpectatorController extends Controller
      */
     public function postStandaloneRegistration(
         StandaloneSpectatorRegistrationRequest $request,
-        $slug,
-        SpectatorRegistrationPaymentReceived $spectatorRegistrationPaymentReceived,
-        SpectatorRegistrar $spectatorRegistrar
+        RegistrationPaymentReceived $spectatorRegistrationPaymentReceived,
+        Registrar $spectatorRegistrar
     ) {
-        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+        DB::beginTransaction();
 
         $spectator = $spectatorRegistrar->register(
-            $tournament,
+            $request->tournament(),
             $request->except('_token'),
             Auth::user(),
             $request->get('group_id') ? Group::findOrFail($request->get('group_id')) : null
@@ -58,7 +59,7 @@ class SpectatorController extends Controller
         $spectatorRegistrationPaymentReceived->setSpectator($spectator);
 
         // registrations with fees go to the cart
-        $fee = $tournament->fee($spectator->participant_type);
+        $fee = $request->tournament()->fee($spectator->participant_type->id);
         if ($fee > 0) {
             $cart = Cart::clear();
             $cart->setPostPurchaseEvent($spectatorRegistrationPaymentReceived)->save();
@@ -69,8 +70,14 @@ class SpectatorController extends Controller
                 1
             );
 
+            DB::commit();
+
             return redirect('/cart');
         }
+
+        $spectator->notify(new RegistrationConfirmation());
+
+        DB::commit();
 
         return $spectatorRegistrationPaymentReceived->successStep();
     }
@@ -81,23 +88,45 @@ class SpectatorController extends Controller
      */
     public function postRegistration(
         SpectatorRegistrationRequest $request,
-        $slug,
-        SpectatorRegistrar $spectatorRegistrar
+        Registrar $spectatorRegistrar
     ) {
-        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+        DB::beginTransaction();
 
         $spectator = $spectatorRegistrar->register(
-            $tournament,
+            $request->tournament(),
             $request->except('_token'),
             $request->get('registering_as_current_user') == 1 ? Auth::user() : null,
-            Session::group()
+            Session::group(),
+            Auth::user()
         );
 
-        $registrationType = 'Adult';
-        if ($spectator->isFamily()) {
-            $registrationType = 'Family';
+        $redirectUrl = '/tournaments/'.$request->tournament()->slug.'/group';
+        if ($request->has('save-and-add')) {
+            $redirectUrl = '/tournaments/'.$request->tournament()->slug.'/registration/spectator';
         }
 
-        return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess($registrationType.' has been added');
+        if ($request->tournament()->hasFee(ParticipantType::ADULT) === false && $spectator->isAdult()) {
+            $spectator->notify(new RegistrationConfirmation());
+        } elseif ($request->tournament()->hasFee(ParticipantType::FAMILY) === false && $spectator->isFamily()) {
+            $spectator->notify(new RegistrationConfirmation());
+        }
+
+        DB::commit();
+
+        return redirect($redirectUrl)->withFlashSuccess($spectator->type().' has been added');
+    }
+
+    public function deleteRegistration(HeadCoachOnlyRequest $request, $slug, $guid)
+    {
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        $spectator = Spectator::where('guid', $guid)->firstOrFail();
+
+        DB::transaction(function () use ($spectator) {
+            $spectator->minors()->delete();
+            $spectator->delete();
+        });
+
+        return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess($spectator->full_name.' has been removed');
     }
 }

@@ -45,6 +45,9 @@
                                 @endif
                                 <h4 class="m-t-20">Payment Method</h4>
                                 <p>We accept Visa, MasterCard, American Express, JCB, Discover, and Diners Club.  Checks and other forms of payment are not accepted.</p>
+                                @if(Auth::user() != null)
+                                    <p>Receipts are available at any time in the "My Receipts" section of your account.</p>
+                                @endif
                                 <div class="alert alert-danger payment-errors" style="display: none;"></div>
                                 <div class="row m-t-10">
                                     <div class="col-md-6 col-sm-6 col-xs-6">

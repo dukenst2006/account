@@ -9,3 +9,9 @@ This app integrates with:
  * Mailchimp - A running list of registered users and their roles are kept up to date on Mailchimp
  * Facebook, Twitter and Google+ - Allows users to login with any of these services
  * Stripe for accepting payments
+ 
+## Features
+
+#### Tournaments
+ * Sends early bird fee expiration reminders to head coaches a week before early bird fees expire
+ * Allows quizmaster, spectator, team and player registrations; paid or free

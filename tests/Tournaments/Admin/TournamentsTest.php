@@ -76,6 +76,23 @@ class TournamentsTest extends TestCase
     /**
      * @test
      */
+    public function doesntShowRegistrationFees()
+    {
+        $tournament = Tournament::findOrFail(1);
+        $tournament->participantFees()->update([
+            'fee'           => null,
+            'onsite_fee'    => null,
+            'earlybird_fee' => null,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug)
+            ->dontSee('RegistrationFees');
+    }
+
+    /**
+     * @test
+     */
     public function viewUser()
     {
         $tournament = Tournament::first();

@@ -25,14 +25,19 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <p>Teams are automatically opted-in to team events.  Player events will be opt-in events during registration.</p>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label class="form-label">Type <span class="required">*</span></label>
                                     <span class="help"></span>
                                     <div class="controls">
                                         @foreach($eventTypes as $eventType)
                                             <div class="radio">
-                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id]) !!}
-                                                <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> (priced per {{ $eventType->participantType->name }})</label>
+                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id, 'class' => ($eventType->participant_type_id == \BibleBowl\ParticipantType::PLAYER ? 'canHaveFee' : '')]) !!}
+                                                <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> ({{ $eventType->participantType->name }} event)</label>
                                             </div>
                                             <br/>
                                         @endforeach
@@ -54,13 +59,16 @@
         </div>
     </div>
 @endsection
-
-@includeDatePicker
 @js
     $(document).ready(function () {
-        $('.input-append.date').datepicker({
-            autoclose: true,
-            todayHighlight: true
+        $('input[name="event_type_id"]').change(function () {
+            console.log($(this).hasClass('canHaveFee'));
+            if ($(this).hasClass('canHaveFee')) {
+                $('#price-field').show();
+            } else {
+                $('#price-field').hide();
+                $('input[name="price_per_participant"]').val('');
+            }
         });
     });
 @endjs

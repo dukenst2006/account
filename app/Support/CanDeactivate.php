@@ -54,7 +54,7 @@ trait CanDeactivate
 
     public function isInactive() : bool
     {
-        return !$this->active();
+        return !$this->isActive();
     }
 
     /**

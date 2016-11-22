@@ -2,6 +2,7 @@
 
 namespace BibleBowl\Competition;
 
+use BibleBowl\Competition\Tournaments\Settings;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
 use BibleBowl\User;
@@ -27,6 +28,14 @@ class TournamentCreator
         } else {
             $attributes['slug'] = $attributes['name'];
         }
+
+        /** @var Settings $settings */
+        $settings = new Settings();
+        $settings->collectShirtSizes(array_pull($attributes, 'collect_shirt_sizes'));
+        $settings->collectQuizmasterPreferences(array_pull($attributes, 'collect_quizmaster_preferences'));
+        $settings->setMinimumPlayersPerTeam(array_pull($attributes, 'minimum_players_per_team'));
+        $settings->setMaximumPlayersPerTeam(array_pull($attributes, 'maximum_players_per_team'));
+        $attributes['settings'] = $settings;
 
         DB::beginTransaction();
 

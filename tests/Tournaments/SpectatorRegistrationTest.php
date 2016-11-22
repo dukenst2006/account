@@ -1,5 +1,6 @@
 <?php
 
+use BibleBowl\Competition\Tournaments\Settings;
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
 use BibleBowl\Spectator;
@@ -59,7 +60,7 @@ class SpectatorRegistrationTest extends TestCase
             ->update([
                 'earlybird_fee' => 0,
                 'fee'           => 0,
-        ]);
+            ]);
 
         $group = Group::byProgram($tournament->program_id)->first();
         $this
@@ -131,5 +132,60 @@ class SpectatorRegistrationTest extends TestCase
 
         // assert minor is there
         $this->assertEquals($playerFirstName, $spectator->minors()->first()->name);
+    }
+
+    /**
+     * @test
+     */
+    public function canRegisterAFamilyAsGuestWithoutShirtSize()
+    {
+        $tournament = Tournament::firstOrFail();
+
+        /** @var Settings $settings */
+        $settings = $tournament->settings;
+        $settings->collectShirtSizes(false);
+        $tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $firstName = 'John';
+        $lastName = 'Smith';
+        $email = 'testuser'.time().'@example.com';
+        $street = '123 Test Street';
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
+            ->type($firstName, 'first_name')
+            ->type($lastName, 'last_name')
+            ->type($email, 'email')
+            ->type($street, 'address_one')
+            ->type('12345', 'zip_code')
+            ->dontSee('T-Shirt Size')
+            ->type('Spouse', 'spouse_first_name')
+            ->press('Continue')
+            ->seePageIs('/cart')
+            ->see('Family Tournament Registration');
+
+        $spectator = Spectator::orderBy('id', 'desc')->first();
+        $this->assertNull($spectator->shirt_size);
+    }
+
+    /**
+     * @test
+     */
+    public function cantRegisterWithSameEmailAddress()
+    {
+        $tournament = Tournament::firstOrFail();
+        $spectator = $tournament->spectators()->first();
+        $street = '123 Tester Street';
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
+            ->type($spectator->first_name, 'first_name')
+            ->type($spectator->last_name, 'last_name')
+            ->type($spectator->email, 'email')
+            ->type($street, 'address_one')
+            ->type('12345', 'zip_code')
+            ->select('M', 'shirt_size')
+            ->press('Continue')
+            ->see('A spectator with this email address has already been added');
     }
 }

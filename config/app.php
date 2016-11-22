@@ -246,8 +246,8 @@ return [
         /*
          * 3rd party facades
          */
-        'Form'        => \Illuminate\Html\FormFacade::class,
-        'HTML'        => \Illuminate\Html\HtmlFacade::class,
+        'Form'        => \Collective\Html\FormFacade::class,
+        'Html'        => \Collective\Html\HtmlFacade::class,
         'Gravatar'    => \Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
         'Omnipay'     => \Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
         'Bouncer'     => \Silber\Bouncer\BouncerFacade::class,

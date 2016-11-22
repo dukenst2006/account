@@ -2,11 +2,18 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Competition\Tournaments;
+use BibleBowl\Competition\Tournaments\Groups\Registration;
+use BibleBowl\Competition\Tournaments\Settings;
 use BibleBowl\Presentation\Describer;
 use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 
 /**
@@ -22,6 +29,7 @@ use Illuminate\Support\Collection;
  * @property string $registration_start
  * @property string $registration_end
  * @property string $url
+ * @property Settings $settings
  * @property int $creator_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -29,19 +37,19 @@ use Illuminate\Support\Collection;
  * @property-read Season $season
  * @property-read User $creator
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereSeasonId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereActive($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereStart($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereEnd($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereRegistrationStart($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereRegistrationEnd($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereCreatorId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereSeasonId($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereActive($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereStart($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereEnd($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereRegistrationStart($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereRegistrationEnd($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereCreatorId($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Tournament whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Tournament extends Model
@@ -56,68 +64,80 @@ class Tournament extends Model
     ];
 
     protected $attributes = [
-        'lock_teams'    => null,
+        'lock_teams'            => null,
     ];
 
     protected $guarded = ['id'];
 
-    protected $casts = ['active'];
+    protected $casts = [
+        'active',
+        'settings' => Settings::class,
+    ];
+
+    protected $teamSetCache = [];
+
+    private $isRegistrationOpenCache = null;
 
     private $participantTypesWithOnSiteRegistrationCache = null;
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function events()
+    public function events() : HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function participantFees()
+    public function individualEvents() : HasMany
+    {
+        return $this->events()->byParticipantType(ParticipantType::PLAYER);
+    }
+
+    public function teamEvents() : HasMany
+    {
+        return $this->events()->byParticipantType(ParticipantType::TEAM);
+    }
+
+    public function participantFees() : HasMany
     {
         return $this->hasMany(ParticipantFee::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function spectators()
+    public function spectators() : HasMany
     {
         return $this->hasMany(Spectator::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function season()
+    public function teams() : HasManyThrough
+    {
+        return $this->hasManyThrough(Team::class, TeamSet::class);
+    }
+
+    public function season() : BelongsTo
     {
         return $this->belongsTo(Season::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function creator()
+    public function creator() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function program()
+    public function program() : BelongsTo
     {
         return $this->belongsTo(Program::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournamentQuizmasters()
+    public function players() : BelongsToMany
     {
+        return $this->belongsToMany(Player::class)
+            ->withPivot('receipt_id')
+            ->withTimestamps();
+    }
+
+    public function tournamentQuizmasters(Group $group = null) : HasMany
+    {
+        if ($group instanceof Group) {
+            return $this->hasMany(TournamentQuizmaster::class)->where('group_id', $group->id);
+        }
+
         return $this->hasMany(TournamentQuizmaster::class);
     }
 
@@ -215,6 +235,28 @@ class Tournament extends Model
     }
 
     /**
+     * @param $value
+     *
+     * @return Settings
+     */
+    public function getSettingsAttribute($value)
+    {
+        if (is_null($value)) {
+            return app(Settings::class);
+        }
+
+        return app(Settings::class, [$this->fromJson($value)]);
+    }
+
+    /**
+     * @param Settings $value
+     */
+    public function setSettingsAttribute(Settings $value)
+    {
+        $this->attributes['settings'] = $value->toJson();
+    }
+
+    /**
      * Convert from m/d/Y to a Carbon object for saving.
      *
      * @param $end
@@ -244,6 +286,16 @@ class Tournament extends Model
         return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
     }
 
+    public function teamSet(Group $group) : TeamSet
+    {
+        // cache this since we access it on several pages more than once
+        if (!array_key_exists($group->id, $this->teamSetCache)) {
+            $this->teamSetCache[$group->id] = $group->teamSet($this);
+        }
+
+        return $this->teamSetCache[$group->id];
+    }
+
     /**
      * Convert from m/d/Y to a Carbon object for saving.
      *
@@ -253,6 +305,8 @@ class Tournament extends Model
     {
         if (is_null($earlybird_ends) || strlen($earlybird_ends) == 0) {
             $this->attributes['earlybird_ends'] = null;
+        } elseif ($earlybird_ends instanceof Carbon) {
+            $this->attributes['earlybird_ends'] = $earlybird_ends;
         } else {
             $this->attributes['earlybird_ends'] = Carbon::createFromFormat('m/d/Y', $earlybird_ends);
         }
@@ -282,6 +336,11 @@ class Tournament extends Model
         return $this->teamsWillLock() && Carbon::now()->gte($this->lock_teams);
     }
 
+    public function canEditLockedTeams(User $user) : bool
+    {
+        return $this->isCreator($user) || $user->isA(Role::ADMIN);
+    }
+
     public function hasEarlyBirdRegistration() : bool
     {
         return is_null($this->earlybird_ends) == false;
@@ -292,9 +351,13 @@ class Tournament extends Model
      */
     public function isRegistrationOpen() : bool
     {
-        $now = Carbon::now();
+        if ($this->isRegistrationOpenCache == null) {
+            $now = Carbon::now();
 
-        return $now->gte($this->registration_start) && $now->lte($this->registration_end);
+            $this->isRegistrationOpenCache = $now->gte($this->registration_start) && $now->lte($this->registration_end);
+        }
+
+        return $this->isRegistrationOpenCache;
     }
 
     public function isRegistrationClosed() : bool
@@ -318,26 +381,58 @@ class Tournament extends Model
         return Describer::dateSpan($this->registration_start, $this->registration_end);
     }
 
+    public function hasFee(int $participantTypeId) : bool
+    {
+        return $this->fee($participantTypeId) > 0;
+    }
+
+    public function hasAnyParticipantFees() : bool
+    {
+        return $this->participantFees->filter(function (ParticipantFee $fee) {
+            return $fee->hasAnyFees();
+        })->count() > 0;
+    }
+
+    public function hasEarlyBirdRegistrationFee(int $participantTypeId) : bool
+    {
+        if ($this->hasEarlyBirdRegistration()) {
+            /** @var ParticipantFee $participantFee */
+            $participantFee = $this->participantFees
+                ->where('participant_type_id', $participantTypeId)
+                ->first();
+
+            return $participantFee->hasEarlybirdFee() && $this->inEarlyBirdWindow();
+        }
+
+        return false;
+    }
+
+    public function inEarlyBirdWindow() : bool
+    {
+        return Carbon::now()->lte($this->earlybird_ends);
+    }
+
     /**
      * Get the fee for a ParticipantType.
      */
-    public function fee(ParticipantType $participantType)
+    public function fee(int $participantTypeId)
     {
         /** @var ParticipantFee $participantFee */
-        $participantFee = $this->participantFees()
-            ->where('participant_type_id', $participantType->id)
+        $participantFee = $this->participantFees
+            ->where('participant_type_id', $participantTypeId)
             ->first();
-        if ($this->hasEarlyBirdRegistration() && $participantFee->earlybird_fee != null && Carbon::now()->lte($this->earlybird_ends)) {
-            return $participantFee->earlybird_free;
+
+        if ($this->hasEarlyBirdRegistrationFee($participantTypeId)) {
+            return $participantFee->earlybird_fee;
         }
 
         return $participantFee->fee;
     }
 
-    public function registrationIsEnabled(int $participantTypeId)
+    public function registrationIsEnabled(int $participantTypeId) : bool
     {
         return $this->participantFees->filter(function ($fee) use ($participantTypeId) {
-            return $fee->participant_type_id == $participantTypeId && $fee->requires_registration;
+            return $fee->participant_type_id == $participantTypeId && $fee->requiresRegistration();
         })->count() > 0;
     }
 
@@ -361,18 +456,31 @@ class Tournament extends Model
         return $this->participantTypesWithOnSiteRegistrationCache;
     }
 
-    public function isRegisteredAsQuizmaster(User $user)
+    public function isRegisteredAsQuizmaster(User $user) : bool
     {
         return $this->tournamentQuizmasters()->where('user_id', $user->id)->count() > 0;
     }
 
-    public function isRegisteredAsSpectator(User $user)
+    public function isRegisteredAsSpectator(User $user) : bool
     {
         return $this->spectators()->where('user_id', $user->id)->count() > 0;
     }
 
+    public function isCreator(User $user) : bool
+    {
+        return $this->creator_id == $user->id;
+    }
+
     /**
-     * Fetch tournaments that are.
+     * Number of teams spots left to fill.
+     */
+    public function teamSpotsLeft() : int
+    {
+        return $this->max_teams - $this->teams()->count();
+    }
+
+    /**
+     * Fetch tournaments that are visible to the public.
      */
     public function scopeVisible(Builder $query, $programId, Season $season)
     {
@@ -380,5 +488,47 @@ class Tournament extends Model
             ->where('season_id', $season->id)
             ->whereDate('registration_start', '<=', Carbon::now())
             ->orderBy('start', 'ASC');
+    }
+
+    public function shouldWarnAboutTeamLocking() : bool
+    {
+        return $this->lock_teams->lt(\Carbon\Carbon::now()->addDays(7));
+    }
+
+    public function eligibleRegistrationWithOutstandingFees(Group $group) : Registration
+    {
+        $groupRegistration = new Registration();
+        $teamSet = $this->teamSet($group);
+
+        $groupRegistration->setTournament($this);
+
+        if ($this->hasFee(ParticipantType::TEAM)) {
+            $groupRegistration->setTeamIds($teamSet->teams()->withEnoughPlayers($this)->unpaid()->get()->modelKeys());
+        }
+
+        if ($this->hasFee(ParticipantType::PLAYER)) {
+            $groupRegistration->setPlayerIds($teamSet->unpaidPlayers()->get()->modelKeys());
+        }
+
+        if ($this->hasFee(ParticipantType::QUIZMASTER)) {
+            $groupRegistration->setQuizmasterIds($this->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->get()->modelKeys());
+        }
+
+        if ($this->hasFee(ParticipantType::ADULT)) {
+            $groupRegistration->setAdultIds($this->spectators()->registeredByHeadCoach()->adults()->unpaid()->group($group)->get()->modelKeys());
+        }
+
+        if ($this->hasFee(ParticipantType::FAMILY)) {
+            $groupRegistration->setFamilyIds($this->spectators()->registeredByHeadCoach()->families()->unpaid()->group($group)->get()->modelKeys());
+        }
+
+        foreach ($this->events()->byParticipantType(ParticipantType::PLAYER)->requiringFees()->get() as $event) {
+            $unpaidPlayerIds = $event->unpaidPlayers()->onTeamSet($teamSet)->get()->modelKeys();
+            if (count($unpaidPlayerIds) > 0) {
+                $groupRegistration->addEventParticipants($event->id, $unpaidPlayerIds);
+            }
+        }
+
+        return $groupRegistration;
     }
 }

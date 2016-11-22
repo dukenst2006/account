@@ -3,6 +3,8 @@
 namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * BibleBowl\EventType.
@@ -29,6 +31,7 @@ class EventType extends Model
     const DOUBLE_ELIMINATION = 3;
     const BUZZ_OFF = 4;
     const KING_OF_THE_HILL = 5;
+    const WRITTEN_TEST = 6;
 
     protected $guarded = ['id'];
 
@@ -41,18 +44,12 @@ class EventType extends Model
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function events()
+    public function events() : HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function participantType()
+    public function participantType() : BelongsTo
     {
         return $this->belongsTo(ParticipantType::class);
     }
@@ -69,4 +66,14 @@ class EventType extends Model
 
         $this->attributes['price_per_participant'] = $price;
     }
+
+//    /**
+//     *
+//     */
+//    public function participants() : Collection
+//    {
+//        if ($this->participant_type_id == ParticipantType::PLAYER) {
+//            return
+//        }
+//    }
 }

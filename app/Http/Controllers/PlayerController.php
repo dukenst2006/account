@@ -28,9 +28,11 @@ class PlayerController extends Controller
         $rules['first_name'] = $rules['first_name'].'|guardian_isnt_duplicate_player';
         $this->validate($request, $rules, Player::validationMessages());
 
-        $player = $playerCreator->create(Auth::user(), $request->all());
+        $playerCreator->create(Auth::user(), $request->all());
 
-        return redirect('/dashboard')->withFlashSuccess($player->full_name.' has been added');
+        // excluding a success message here because it caused parents
+        // to think their registration was complete
+        return redirect('/dashboard');
     }
 
     /**

@@ -8,7 +8,7 @@ use BibleBowl\GroupType;
 use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use Carbon\Carbon;
-use Illuminate\Html\FormBuilder;
+use Collective\Html\FormBuilder;
 
 class Form extends FormBuilder
 {

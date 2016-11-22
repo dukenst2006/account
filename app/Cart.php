@@ -2,8 +2,9 @@
 
 namespace BibleBowl;
 
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
-use BibleBowl\Competition\Tournaments\Registration\SpectatorRegistrationPaymentReceived;
+use BibleBowl\Competition\Tournaments\Groups\RegistrationPaymentReceived as GroupRegistrationPaymentReceived;
+use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationPaymentReceived as QuizmasterRegistrationPaymentReceived;
+use BibleBowl\Competition\Tournaments\Spectators\RegistrationPaymentReceived as SpectatorRegistrationPaymentReceived;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Shop\UnrecognizedPurchaseEvent;
@@ -32,10 +33,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $display_total
  * @property-read mixed $calculations_cache_key
  *
- * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel current()
- * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel whereUser($userId)
- * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel whereCurrent()
- * @method static \Illuminate\Database\Query\Builder|\Amsgames\LaravelShop\Models\ShopCartModel findByUser($userId)
+ * @method static \Illuminate\Database\Query\Builder current()
+ * @method static \Illuminate\Database\Query\Builder whereUser($userId)
+ * @method static \Illuminate\Database\Query\Builder whereCurrent()
+ * @method static \Illuminate\Database\Query\Builder findByUser($userId)
  *
  * @property string $post_purchase_event
  */
@@ -64,8 +65,9 @@ class Cart extends Model
         ProgramRegistrationPaymentReceived::EVENT       => ProgramRegistrationPaymentReceived::class,
 
         // tournament registrations
-        QuizmasterRegistrationPaymentReceived::EVENT    => QuizmasterRegistrationPaymentReceived::class,
+        GroupRegistrationPaymentReceived::EVENT         => GroupRegistrationPaymentReceived::class,
         SpectatorRegistrationPaymentReceived::EVENT     => SpectatorRegistrationPaymentReceived::class,
+        QuizmasterRegistrationPaymentReceived::EVENT    => QuizmasterRegistrationPaymentReceived::class,
     ];
 
     /**

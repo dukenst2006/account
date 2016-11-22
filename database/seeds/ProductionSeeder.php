@@ -92,6 +92,10 @@ class ProductionSeeder extends Seeder
             'participant_type_id'   => ParticipantType::PLAYER,
             'name'                  => 'King of the Hill',
         ]);
+        EventType::create([
+            'participant_type_id'   => ParticipantType::PLAYER,
+            'name'                  => 'Written Test',
+        ]);
 
         Bouncer::allow(Role::ADMIN)->to([
             Ability::VIEW_REPORTS,

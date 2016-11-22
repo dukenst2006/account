@@ -53,6 +53,7 @@ class TournamentsController extends Controller
             'eventTypes'        => EventType::orderBy('name', 'ASC')->get(),
             'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get(),
             'defaultEventTypes' => [
+                EventType::WRITTEN_TEST,
                 EventType::ROUND_ROBIN,
                 EventType::DOUBLE_ELIMINATION,
             ],

@@ -1,13 +1,14 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Registration;
+namespace BibleBowl\Competition\Tournaments\Quizmasters;
 
+use BibleBowl\Competition\Tournaments;
 use BibleBowl\Receipt;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\TournamentQuizmaster;
 use Illuminate\Http\Response;
 
-class QuizmasterRegistrationPaymentReceived extends PostPurchaseEvent
+class RegistrationPaymentReceived extends PostPurchaseEvent
 {
     const EVENT = 'tournament.registration.quizmaster.payment';
 
@@ -51,14 +52,20 @@ class QuizmasterRegistrationPaymentReceived extends PostPurchaseEvent
      *
      * @return void
      */
-    public function fire(Receipt $receipt)
+    public function fire(Receipt $receipt = null)
     {
-        $this->tournamentQuizmaster()->update([
-            'receipt_id' => $receipt->id,
-        ]);
+        $quizmaster = $this->tournamentQuizmaster();
+
+        if ($receipt != null) {
+            $quizmaster->update([
+                'receipt_id' => $receipt->id,
+            ]);
+        }
+
+        $quizmaster->notify(new RegistrationConfirmation());
 
         event($this->event(), [
-            $this->quizmasterRegistration(),
+            $this->tournamentQuizmaster(),
         ]);
     }
 }

@@ -3,11 +3,13 @@
 namespace BibleBowl\Http\Controllers\Tournaments\Registration;
 
 use Auth;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrar;
-use BibleBowl\Competition\Tournaments\Registration\QuizmasterRegistrationPaymentReceived;
-use BibleBowl\Competition\Tournaments\Registration\QuizzingPreferences;
+use BibleBowl\Competition\Tournaments\Quizmasters\QuizzingPreferences;
+use BibleBowl\Competition\Tournaments\Quizmasters\Registrar;
+use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationConfirmation;
+use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationPaymentReceived;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
+use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
 use BibleBowl\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
@@ -15,6 +17,8 @@ use BibleBowl\ParticipantType;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
 use Cart;
+use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Session;
 
 class QuizmasterController extends Controller
@@ -22,17 +26,22 @@ class QuizmasterController extends Controller
     public function getRegistration($slug)
     {
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
-        $participantType = ParticipantType::findOrFail(ParticipantType::QUIZMASTER);
 
         // determine if the head coach is registering this quizmaster
         if (Session::group() == null) {
+            if ($tournament->whereHas('tournamentQuizmasters', function (Builder $q) {
+                $q->where('user_id', Auth::user()->id);
+            })->count() > 0) {
+                return redirect()->back()->withErrors("You've already registered for this tournament");
+            }
+
             $view = 'tournaments.registration.standalone-quizmaster';
         } else {
             $groups = null;
             $view = 'tournaments.registration.headcoach-quizmaster';
         }
 
-        $fee = $tournament->fee($participantType);
+        $fee = $tournament->fee(ParticipantType::QUIZMASTER);
 
         return view($view, [
             'tournament'            => $tournament,
@@ -49,11 +58,12 @@ class QuizmasterController extends Controller
     public function postStandaloneRegistration(
         StandaloneQuizmasterRegistrationRequest $request,
         $slug,
-        QuizmasterRegistrationPaymentReceived $quizmasterRegistrationPaymentReceived,
-        QuizmasterRegistrar $quizmasterRegistrar
+        RegistrationPaymentReceived $quizmasterRegistrationPaymentReceived,
+        Registrar $quizmasterRegistrar
     ) {
-        $tournament = Tournament::where('slug', $slug)->firstOrFail();
-        $participantType = ParticipantType::findOrFail(ParticipantType::QUIZMASTER);
+        $tournament = $request->tournament();
+
+        DB::beginTransaction();
 
         $tournamentQuizmaster = $quizmasterRegistrar->register(
             $tournament,
@@ -65,7 +75,7 @@ class QuizmasterController extends Controller
         $quizmasterRegistrationPaymentReceived->setTournamentQuizmaster($tournamentQuizmaster);
 
         // registrations with fees go to the cart
-        $fee = $tournament->fee($participantType);
+        $fee = $tournament->fee(ParticipantType::QUIZMASTER);
         if ($fee > 0) {
             $cart = Cart::clear();
             $cart->setPostPurchaseEvent($quizmasterRegistrationPaymentReceived)->save();
@@ -76,8 +86,15 @@ class QuizmasterController extends Controller
                 1
             );
 
+            DB::commit();
+
             return redirect('/cart');
         }
+
+        // no fees, so do the deed and get on it with it
+        $quizmasterRegistrationPaymentReceived->fire();
+
+        DB::commit();
 
         return $quizmasterRegistrationPaymentReceived->successStep();
     }
@@ -89,18 +106,32 @@ class QuizmasterController extends Controller
     public function postRegistration(
         QuizmasterRegistrationRequest $request,
         $slug,
-        QuizmasterRegistrar $quizmasterRegistrar
+        Registrar $quizmasterRegistrar
     ) {
-        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+        $tournament = $request->tournament();
 
-        $quizmasterRegistrar->register(
+        DB::beginTransaction();
+
+        $quizmaster = $quizmasterRegistrar->register(
             $tournament,
             $request->except('_token'),
             null,
-            Session::group()
+            Session::group(),
+            Auth::user() != null ? Auth::user() : null
         );
 
-        return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess('Quizmaster has been added');
+        $redirectUrl = '/tournaments/'.$tournament->slug.'/group';
+        if ($request->has('save-and-add')) {
+            $redirectUrl = '/tournaments/'.$tournament->slug.'/registration/quizmaster';
+        }
+
+        if ($tournament->hasFee(ParticipantType::QUIZMASTER) === false) {
+            $quizmaster->notify(new RegistrationConfirmation());
+        }
+
+        DB::commit();
+
+        return redirect($redirectUrl)->withFlashSuccess('Quizmaster has been added');
     }
 
     public function getPreferences($slug, $guid)
@@ -138,5 +169,15 @@ class QuizmasterController extends Controller
         $tournamentQuizmaster->save();
 
         return redirect('/tournaments/'.$tournamentQuizmaster->tournament->slug)->withFlashSuccess('Your quizzing preferences have been updated');
+    }
+
+    public function deleteRegistration(HeadCoachOnlyRequest $request, $slug, $guid)
+    {
+        $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        $quizmaster = TournamentQuizmaster::where('guid', $guid)->firstOrFail();
+        $quizmaster->delete();
+
+        return redirect('/tournaments/'.$tournament->slug.'/group')->withFlashSuccess($quizmaster->full_name.' has been removed');
     }
 }

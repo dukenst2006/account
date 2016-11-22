@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Registration;
+namespace BibleBowl\Competition\Tournaments\Quizmasters;
 
 use Illuminate\Support\Fluent;
 

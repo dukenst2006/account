@@ -3,9 +3,18 @@
 namespace BibleBowl\Http\Requests\Tournament\Registration;
 
 use BibleBowl\Http\Requests\Request;
+use BibleBowl\Tournament;
 
 class QuizzingPreferencesRequest extends Request
 {
+    /** @var Tournament */
+    protected $tournament;
+
+    public function tournament() : Tournament
+    {
+        return $this->tournament;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -13,12 +22,18 @@ class QuizzingPreferencesRequest extends Request
      */
     public function rules()
     {
-        return [
-            'quizzed_at_tournament'         => 'required',
-            'times_quizzed_at_tournament'   => 'required_if:quizzed_at_tournament,1',
-            'games_quizzed_this_season'     => 'required',
-            'quizzing_interest'             => 'required',
-        ];
+        $this->tournament = Tournament::where('slug', $this->route('slug'))->first();
+
+        if ($this->tournament->settings->shouldCollectQuizmasterPreferences()) {
+            return [
+                'quizzed_at_tournament'         => 'required',
+                'times_quizzed_at_tournament'   => 'required_if:quizzed_at_tournament,1',
+                'games_quizzed_this_season'     => 'required',
+                'quizzing_interest'             => 'required',
+            ];
+        }
+
+        return [];
     }
 
     public function messages()

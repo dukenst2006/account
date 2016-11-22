@@ -3,6 +3,7 @@
 namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
+use BibleBowl\Season;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Message;
@@ -33,9 +34,10 @@ class RemindGroupsOfPendingRegistrationPayments extends Command
      */
     public function fire()
     {
+        $season = Season::current()->first();
         $remindGroupsOfPendingPaymentsAfter = config('biblebowl.reminders.remind-groups-of-pending-payments-after');
         $playersRegistrationUnpaidSince = new Carbon($remindGroupsOfPendingPaymentsAfter.' ago');
-        $groups = Group::hasPendingRegistrationPayments($playersRegistrationUnpaidSince)->get();
+        $groups = Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->get();
         foreach ($groups as $group) {
             foreach ($group->users as $user) {
                 Mail::queue(

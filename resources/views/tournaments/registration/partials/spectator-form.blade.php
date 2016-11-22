@@ -18,7 +18,7 @@
         <div id="non-current-user-registration">
             <div class="row form-group">
                 <div class="col-md-12">
-                    <label class="form-label">Name</label>
+                    <label class="form-label">Name <span class="required">*</span></label>
                     <span class="help"></span>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,28 +32,39 @@
             </div>
             <div class="row form-group">
                 <div class="col-md-12">
-                    <label class="form-label">Email</label>
+                    <label class="form-label">Email <span class="required">*</span></label>
                     <span class="help"></span>
                     <div class="controls">
                         {!! Form::email('email', old('email'), ['class' => 'form-control', 'maxlength' => 64]) !!}
                     </div>
                 </div>
             </div>
-            @include('account.address.form')
+            @include('account.address.form', [
+                'required' => true
+            ])
             <div class="p-b-20"></div>
         </div>
         @endif
         <div class="row form-group">
+            @if($tournament->settings->shouldCollectShirtSizes())
             <div class="col-md-6 col-sm-6">
-                <label class="form-label">T-Shirt Size</label>
+                <label class="form-label">T-Shirt Size <span class="required">*</span></label>
                 <span class="help"></span>
                 <div class="controls">
                     {!! Form::selectShirtSize('shirt_size', old('shirt_size'), ['class' => 'form-control']) !!}<br/>
                 </div>
             </div>
+            @endif
+            <div class="col-md-6 col-sm-6">
+                <label class="form-label">Phone <span class="required">*</span></label>
+                <span class="help"></span>
+                <div class="controls">
+                    {!! Form::phone('phone', old('phone'), ['class' => 'form-control']) !!}<br/>
+                </div>
+            </div>
             @if(Auth::user() == null || Session::hasGroup())
                 <div class="col-md-6 col-sm-6">
-                    <label class="form-label">Gender</label>
+                    <label class="form-label">Gender <span class="required">*</span></label>
                     <span class="help"></span>
                     <div class="controls">
                         @include('partials.forms.gender')
@@ -82,6 +93,7 @@
                         {!! Form::text('spouse_first_name', old('spouse_first_name'), ['class' => 'form-control', 'placeholder' => 'First', 'maxlength' => 64]) !!}
                     </div>
                 </div>
+                @if($tournament->settings->shouldCollectShirtSizes())
                 <div class="col-md-4 col-sm-4">
                     <label class="form-label">T-Shirt Size</label>
                     <span class="help"></span>
@@ -89,6 +101,7 @@
                         {!! Form::selectShirtSize('spouse_shirt_size', old('spouse_shirt_size'), ['class' => 'form-control']) !!}<br/>
                     </div>
                 </div>
+                @endif
                 <div class="col-md-4 col-sm-4">
                     <label class="form-label">Gender</label>
                     <span class="help"></span>
@@ -104,6 +117,7 @@
     <div class="row p-t-20">
         <div class="col-md-3">
             Minors:
+            <p class="muted">Children 2 and under do not need to register</p>
         </div>
         <div class="col-md-9">
             <div class="row form-group">
@@ -111,10 +125,12 @@
                     <label class="form-label">Name</label>
                     <span class="help"></span>
                 </div>
+                @if($tournament->settings->shouldCollectShirtSizes())
                 <div class="col-md-3 col-sm-3 col-xs-3">
                     <label class="form-label">T-Shirt Size</label>
                     <span class="help"></span>
                 </div>
+                @endif
                 <div class="col-md-2 col-sm-2 col-xs-2">
                     <label class="form-label">Age</label>
                     <span class="help"></span>
@@ -131,11 +147,13 @@
                         {!! Form::text('minor['.$x.'][first_name]', old('minor['.$x.'][first_name]'), ['class' => 'form-control', 'placeholder' => 'First', 'maxlength' => 64]) !!}
                     </div>
                 </div>
+                @if($tournament->settings->shouldCollectShirtSizes())
                 <div class="col-md-3 col-sm-3 col-xs-3">
                     <div class="controls">
                         {!! Form::selectShirtSize('minor['.$x.'][shirt_size]', old('minor['.$x.'][shirt_size]'), ['class' => 'form-control']) !!}<br/>
                     </div>
                 </div>
+                @endif
                 <div class="col-md-2 col-sm-2 col-xs-2">
                     <div class="controls">
                         {!! Form::select('minor['.$x.'][age]', array_combine(range(3, 17), range(3, 17)), old('minor['.$x.'][age]'), ['class' => 'form-control']) !!}<br/>
@@ -157,13 +175,13 @@
     $(document).ready(function() {
         // hide/show spouse/minor registration
         $('#register-family').change(function() {
-            if ($(this).isAn(':checked')) {
+            if ($(this).is(':checked')) {
                 $('#family-registration').show();
             } else {
                 $('#family-registration').hide();
             }
         });
-        if ($('#register-family').isAn(':checked')) {
+        if ($('#register-family').is(':checked')) {
             $('#family-registration').show();
         } else {
             $('#family-registration').hide();

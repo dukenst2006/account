@@ -5,6 +5,7 @@ namespace BibleBowl\Http\Controllers\Teams;
 use Auth;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
+use BibleBowl\Http\Requests\TeamSetUpdateRequest;
 use BibleBowl\Team;
 use BibleBowl\TeamSet;
 use DB;
@@ -79,11 +80,9 @@ class TeamSetController extends Controller
      */
     public function show(TeamSetGroupOnlyRequest $request, $id)
     {
-        $teamSet = TeamSet::findOrFail($id);
-
         return view('teamset.show')
-                ->with('teamSet', $teamSet)
-                ->withPlayers(Session::group()->players()->notOnTeamSet($teamSet)->get());
+                ->with('teamSet', $request->teamSet())
+                ->withPlayers(Session::group()->players()->notOnTeamSet($request->teamSet())->get());
     }
 
     /**
@@ -92,7 +91,7 @@ class TeamSetController extends Controller
      *
      * @return mixed
      */
-    public function update(TeamSetGroupOnlyRequest $request, $id)
+    public function update(TeamSetUpdateRequest $request, $id)
     {
         $teamSet = TeamSet::findOrFail($id);
         $teamSet->update($request->only('name'));
@@ -127,9 +126,9 @@ class TeamSetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TeamSetGroupOnlyRequest $request)
+    public function destroy(TeamSetUpdateRequest $request)
     {
-        TeamSet::findOrFail($request->route('teamset'))->delete();
+        $request->teamSet()->delete();
 
         return redirect('/teamsets')->withFlashSuccess('Teams have been deleted');
     }

@@ -6,7 +6,7 @@ use BibleBowl\TeamSet;
 use BibleBowl\Users\Auth\SessionManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class TeamTest extends TestCase
+class TeamsTest extends TestCase
 {
     use DatabaseTransactions;
     use \Helpers\ActingAsHeadCoach;
@@ -16,6 +16,16 @@ class TeamTest extends TestCase
         parent::setUp();
 
         $this->setupAsHeadCoach();
+    }
+
+    /**
+     * @test
+     */
+    public function canViewTeams()
+    {
+        $this
+            ->visit('/teamsets/1')
+            ->assertResponseOk();
     }
 
     /**

@@ -2,7 +2,11 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Shop\HasReceipts;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * BibleBowl\Season.
@@ -32,17 +36,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Team extends Model
 {
-    /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
+    const REGISTRATION_SKU = 'TOURNAMENT_REG_TEAM';
+
+    use HasReceipts;
+
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function teamSet()
+    public function teamSet() : BelongsTo
     {
         return $this->belongsTo(TeamSet::class);
     }
@@ -52,10 +52,7 @@ class Team extends Model
         $this->attributes['name'] = ucwords(strtolower($name));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function players()
+    public function players() : BelongsToMany
     {
         $seasonId = $this->teamSet->season_id;
 
@@ -66,6 +63,18 @@ class Team extends Model
                 $query->where('season_id', $seasonId);
             }])
             ->orderBy('team_player.order', 'ASC');
+    }
+
+    public function scopeWithEnoughPlayers(Builder $q, Tournament $tournament)
+    {
+        return $q->has('players', '>=', $tournament->settings->minimumPlayersPerTeam())
+            ->has('players', '<=', $tournament->settings->maximumPlayersPerTeam());
+    }
+
+    public function scopeWithoutEnoughPlayers(Builder $q, Tournament $tournament)
+    {
+        return $q->has('players', '<', $tournament->settings->minimumPlayersPerTeam())
+            ->orHas('players', '>', $tournament->settings->maximumPlayersPerTeam());
     }
 
     protected static function boot()

@@ -6,6 +6,8 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
 use Validator;
 
@@ -57,6 +59,8 @@ use Validator;
  */
 class Player extends Model
 {
+    const REGISTRATION_SKU = 'TOURNAMENT_REG_PLAYER';
+
     /**
      * The attributes that are not mass assignable.
      *
@@ -155,7 +159,21 @@ class Player extends Model
      */
     public function teamSet()
     {
-        return $this->hasManyThrough(Team::class);
+        return $this->hasManyThrough(TeamSet::class, Team::class);
+    }
+
+    public function events() : HasMany
+    {
+        return $this->belongsToMany(Event::class)
+            ->withPivot('receipt_id')
+            ->withTimestamps();
+    }
+
+    public function tournaments()
+    {
+        return $this->belongsToMany(Tournament::class)
+            ->withPivot('receipt_id')
+            ->withTimestamps();
     }
 
     /**
@@ -258,6 +276,14 @@ class Player extends Model
             ->active($season);
     }
 
+    public function scopeWithUnpaidRegistration(Builder $query, Tournament $tournament)
+    {
+        return $query->join('tournament_players', function (JoinClause $join) use ($tournament) {
+            $join->on('tournament_id', '=', $tournament->id)
+                ->on('player_id', '=', 'players.id');
+        })->whereNull('tournament_players.receipt_id');
+    }
+
     /**
      * Group the current player is registered with.
      *
@@ -285,6 +311,16 @@ class Player extends Model
     public function scopeNotOnTeamSet(Builder $query, TeamSet $teamSet)
     {
         return $query->whereDoesntHave(
+            'teams',
+            function (Builder $query) use ($teamSet) {
+                $query->where('teams.team_set_id', $teamSet->id);
+            }
+        );
+    }
+
+    public function scopeOnTeamSet(Builder $query, TeamSet $teamSet)
+    {
+        return $query->whereHas(
             'teams',
             function (Builder $query) use ($teamSet) {
                 $query->where('teams.team_set_id', $teamSet->id);

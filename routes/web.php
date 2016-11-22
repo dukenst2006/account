@@ -192,15 +192,23 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('quizmaster', 'QuizmasterController@getRegistration');
             Route::post('standalone-quizmaster', 'QuizmasterController@postStandaloneRegistration');
             Route::post('quizmaster', 'QuizmasterController@postRegistration');
-
+            Route::delete('quizmaster/{guid}', 'QuizmasterController@deleteRegistration');
 
             Route::get('quizmaster-preferences/{guid}', 'QuizmasterController@getPreferences');
             Route::post('quizmaster-preferences/{guid}', 'QuizmasterController@postPreferences');
 
+            // spectators
+            Route::delete('spectator/{guid}', 'SpectatorController@deleteRegistration');
+
             // groups
+            Route::get('group/teams/new', 'GroupController@newTeamSet');
             Route::get('group/choose-teams', 'GroupController@chooseTeams');
-            Route::get('/group/teams/{teamSet}', 'GroupController@setTeamSet');
+            Route::get('group/teams/{teamSet}', 'GroupController@setTeamSet');
             Route::get('group/quizmasters', 'GroupController@quizmasters');
+            Route::get('group/events', 'GroupController@events');
+            Route::post('group/events', 'GroupController@postEvents');
+            Route::get('group/pay', 'GroupController@pay');
+            Route::post('group/pay', 'GroupController@postPay');
         });
 
         Route::get('group', 'Registration\GroupController@index');

@@ -624,6 +624,13 @@ ul.messenger-theme-flat .messenger-spinner {
     border: 2px dotted #ccc;
     height: 34px;
 }
+.editable label,
+.editable > li:not(.beingDragged) {
+    cursor: pointer;
+}
+.editable.players > li:hover {
+    border-color: #999;
+}
 .players > li:not(.beingDragged) {
     padding: 4px 6px;
     border: 1px solid #ccc;
@@ -640,15 +647,10 @@ ul.messenger-theme-flat .messenger-spinner {
     -webkit-transition: border-color 0.3s ease-out;
     -ms-transition: border-color 0.3s ease-out;
     transition: border-color 0.3s ease-out;
-    cursor: pointer;
 }
-    .players > li:hover {
-        border-color: #999;
-    }
     .players label {
         margin: 0;
         font-size: 90%;
-        cursor: pointer;
     }
 .team {
     position: relative;
@@ -683,7 +685,9 @@ ul.messenger-theme-flat .messenger-spinner {
 .team h5 {
     margin: 0 0 .5em 0;
     font-weight: bold;
-    text-align: center;
+}
+.team h5 .name {
+    margin-right: 5px;
 }
 .team .delete {
     position: absolute;
@@ -776,5 +780,8 @@ h3 > .fa-edit {
     font-size: 110%;
     font-style: italic;
     color: #ccc;
+}
+.team-requirements-error {
+    display: none;
 }
 /*# sourceMappingURL=teamsets.css.map */

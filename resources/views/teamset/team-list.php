@@ -4,16 +4,17 @@
 <div style="display: flex;flex-flow: row wrap;justify-content: flex-start;">
 <div v-for="team in teamSet.teams" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
     <div id="team-{{ team.id }}" class="team col-md-12" data-teamId="{{ team.id }}">
-        <div class="edit fa fa-edit" @click="editingTeamName($index, $event)" @blur="doneEditingTeamName()"></div>
-        <div class="delete fa fa-trash-o" data-toggle="modal" data-target="#teamDeleteConfirmation-{{ team.id }}" data-team-name="{{ team.name }}"></div>
+        <div class="edit fa fa-edit" v-if="canEditTeamName" @click="editingTeamName($index, $event)" @blur="doneEditingTeamName()"></div>
+        <div class="delete fa fa-trash-o" v-if="canEditTeams" data-toggle="modal" data-target="#teamDeleteConfirmation-{{ team.id }}" data-team-name="{{ team.name }}"></div>
         <input v-if="isEditingTeamIndex == $index" type="text" v-model="team.name" class="bold m-l-15 edit-team-name" @keyup.enter="saveTeamName()" @keyup.esc="isEditingTeamIndex = null" @blur="isEditingTeamIndex = null" maxlength="16"/>
         <h5 v-if="isEditingTeamIndex != $index">
-            {{ team.name }}
+            <span class="name">{{ team.name }}</span>
+            <i class="fa fa-warning text-error team-requirements-error" data-toggle="tooltip" title="This team must have between {{ minPlayersPerTeam }}-{{ maxPlayersPerTeam }} players."></i>
         </h5>
-        <div class="drag-here" v-cloak v-show="team.players.length == 0 && $index == 0">
+        <div class="drag-here" v-cloak v-show="canEditTeams && team.players.length == 0 && $index == 0">
             Drag players here
         </div>
-        <ul class="players">
+        <ul class="players" v-bind:class="{'editable': canEditTeams}">
             <li v-for="player in team.players" class="grade-{{ player.seasons[0].pivot.grade }}" data-playerId="{{ player.seasons[0].pivot.player_id }}">
                 <label>{{ player.full_name }}</label>
             </li>

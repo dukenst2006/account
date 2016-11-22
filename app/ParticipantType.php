@@ -3,6 +3,8 @@
 namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use RuntimException;
 
 class ParticipantType extends Model
 {
@@ -14,24 +16,44 @@ class ParticipantType extends Model
 
     protected $guarded = ['id'];
 
-    public function getSummaryAttribute()
+    public function getSummaryAttribute() : string
     {
         return str_replace('Spectator - ', '', $this->name);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function participantFee()
+    public function participantFee() : HasMany
     {
         return $this->hasMany(ParticipantFee::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function events()
+    public function events() : HasMany
     {
         return $this->hasMany(Event::class);
+    }
+
+    public static function sku(Tournament $tournament, int $participantTypeId)
+    {
+        $sku = null;
+        if (self::TEAM == $participantTypeId) {
+            $sku = Team::REGISTRATION_SKU;
+        } elseif (self::PLAYER == $participantTypeId) {
+            $sku = Player::REGISTRATION_SKU;
+        } elseif (self::QUIZMASTER == $participantTypeId) {
+            $sku = TournamentQuizmaster::REGISTRATION_SKU;
+        } elseif (self::ADULT == $participantTypeId) {
+            $sku = Spectator::REGISTRATION_ADULT_SKU;
+        } elseif (self::FAMILY == $participantTypeId) {
+            $sku = Spectator::REGISTRATION_FAMILY_SKU;
+        }
+
+        if ($sku == null) {
+            throw RuntimException('Trying to generate a sku for a ParticipationType that does not exist');
+        }
+
+        if ($tournament->hasEarlyBirdRegistrationFee($participantTypeId)) {
+            $sku .= '_EARLY_BIRD';
+        }
+
+        return $sku;
     }
 }

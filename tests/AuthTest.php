@@ -10,18 +10,18 @@ class AuthTest extends TestCase
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     protected $password = 'asdfasdf';
-//
-//    /**
-//     * @test
-//     */
-//    public function canLogout()
-//    {
-//        $this->setupAsGuardian();
-//
-//        $this
-//            ->visit('logout')
-//            ->seePageIs('/login');
-//    }
+
+    /**
+     * @test
+     */
+    public function canLogout()
+    {
+        $this->setupAsGuardian();
+
+        $this
+            ->visit('logout')
+            ->seePageIs('/login');
+    }
 
     /**
      * @test
@@ -88,7 +88,7 @@ class AuthTest extends TestCase
         $otherAnswer = RegistrationSurveyAnswer::where('question_id', 1)->where('answer', 'Other')->first();
         $userSurvey = $user->surveys->get(2);
 
-        $this->assertEquals($answerId, $user->surveys->first()->answer_id);
+        $this->assertTrue(in_array($answerId, $user->surveys()->pluck('answer_id')->toArray()));
         $this->assertEquals($otherAnswer->id, $userSurvey->answer_id);
         $this->assertEquals($otherText, $userSurvey->other);
     }

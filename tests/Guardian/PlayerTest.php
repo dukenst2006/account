@@ -37,7 +37,7 @@ class PlayerTest extends TestCase
             ->see('The first name field is required.')
             ->type($this->firstName, 'first_name')
             ->press('Save')
-            ->see($this->firstName.' '.$this->lastName.' has been added');
+            ->see($this->firstName.' '.$this->lastName);
     }
 
     /**

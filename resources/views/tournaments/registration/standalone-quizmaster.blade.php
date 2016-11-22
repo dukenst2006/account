@@ -6,15 +6,15 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
+                @include('tournaments.partials.tournament-summary', [
+                    'tournament' => $tournament
+                ])
                 <div class="grid simple">
                     <div class="grid-title no-border">
                         <h4>Register <span class="semi-bold">To Quiz</span></h4>
                     </div>
                     <div class="grid-body no-border">
                         @include('partials.messages')
-                        @include('tournaments.partials.tournament-summary', [
-                            'tournament' => $tournament
-                        ])
                         {!! Form::open([
                             'url' => '/tournaments/'.$tournament->slug.'/registration/standalone-quizmaster',
                             'class' => 'form-horizontal',
@@ -34,6 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if($tournament->settings->shouldCollectShirtSizes())
                                 <div class="row form-group">
                                     <div class="col-md-6">
                                         <label class="form-label">T-Shirt Size</label>
@@ -43,7 +44,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                @include('tournaments.registration.partials.quizzing-preferences')
+                                @endif
+                                @if($tournament->settings->shouldCollectQuizmasterPreferences())
+                                    @include('tournaments.registration.partials.quizzing-preferences')
+                                @endif
                             </div>
                         </div>
                         <div class="row">

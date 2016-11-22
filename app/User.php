@@ -103,13 +103,6 @@ class User extends Model implements
         }
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'users';
-
-    /**
      * The default attributes for this model.
      *
      * @var []

@@ -33,25 +33,6 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4 col-sm-4 col-xs-4 form-group">
-        <label class="form-label">Maximum Teams <span class="required">*</span></label>
-        <div class="controls p-b-20">
-            {!! Form::text('max_teams', null, ['class' => 'form-control', 'maxlength' => 3]) !!}
-        </div>
-    </div>
-    <div class="col-md-2 col-sm-2 col-xs-2"></div>
-    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-        <label class="form-label">Lock Teams</label>
-        <span class="help">If provided, teams can only be changed by you after this date</span>
-        <div class="controls p-b-10">
-            <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) && $tournament->teamsWillLock() ? $tournament->lock_teams->format('m/d/Y') : '') }}">
-                {!! Form::text('lock_teams', (isset($tournament) && $tournament->teamsWillLock() ? $tournament->lock_teams->format('m/d/Y') : null), ['class' => 'form-control']) !!}
-                <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-12 form-group">
         <label class="form-label">Participants</label>
         <div class="help">Player and Team participants are assumed for all tournaments so they will automatically be required to register</div>
@@ -63,7 +44,7 @@
                     <th style="width:15%">Registration Required <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Enables registration for participants"></i></th>
                     <th style="width:20%">Early Bird <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Allows for lower fees for those that register before a given date. If no date is set, early bird fees will be ignored"></i></th>
                     <th style="width:15%">Fee</th>
-                    <th style="width:15%">On-site Fee</th>
+                    <th style="width:15%">On-site Fee <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="On-site is an offline registration and will not use this web site"></i></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -100,6 +81,56 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-6 form-group">
+        <label class="form-label">Maximum Teams <span class="required">*</span></label>
+        <div class="controls p-b-20">
+            {!! Form::text('max_teams', null, ['class' => 'form-control', 'maxlength' => 3, 'style' => 'width: 100px']) !!}
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-6 form-group">
+        <label class="form-label">Lock Teams</label>
+        <span class="help">If provided, teams can only be changed by you after this date</span>
+        <div class="controls p-b-10">
+            <div class="input-append success date" style='width:100px' data-date="{{ (isset($tournament) && $tournament->teamsWillLock() ? $tournament->lock_teams->format('m/d/Y') : '') }}">
+                {!! Form::text('lock_teams', (isset($tournament) && $tournament->teamsWillLock() ? $tournament->lock_teams->format('m/d/Y') : null), ['class' => 'form-control']) !!}
+                <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3 col-sm-3 col-xs-12 form-group m-l-10">
+        <label class="form-label">Players per team <span class="required">*</span></label>
+        <div class="controls p-b-20">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="help">Minimum</div>
+                    {!! Form::text('minimum_players_per_team', old('minimum_players_per_team', (isset($tournament) ? $tournament->settings->minimumPlayersPerTeam() : \BibleBowl\Competition\Tournaments\Settings::DEFAULT_MINIMUM_PLAYERS_PER_TEAM)), ['class' => 'form-control', 'maxlength' => 1]) !!}
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="help">Maximum</div>
+                    {!! Form::text('maximum_players_per_team', old('maximum_players_per_team', (isset($tournament) ? $tournament->settings->maximumPlayersPerTeam() : \BibleBowl\Competition\Tournaments\Settings::DEFAULT_MAXIMUM_PLAYERS_PER_TEAM)), ['class' => 'form-control', 'maxlength' => 1]) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label class="form-label">Other Options</label>
+        <div class="controls p-b-20 p-l-20">
+            <div class="checkbox check-primary">
+                {!! Form::checkbox("collect_shirt_sizes", 1, old("collect_shirt_sizes", (isset($tournament) ? $tournament->settings->shouldCollectShirtSizes() : true)), [ "id" => 'collectShirtSizes' ]) !!}
+                <label for="collectShirtSizes"><strong>Collect T-Shirt Sizes</strong> - Collects t-shirt sizes for all participants who register online</label>
+            </div>
+            <br/>
+            <div class="checkbox check-primary">
+                {!! Form::checkbox("collect_quizmaster_preferences", 1, old("collect_quizmaster_preferences", (isset($tournament) ? $tournament->settings->shouldCollectQuizmasterPreferences() : true)), [ "id" => 'collectQuizmasterPreferences' ]) !!}
+                <label for="collectQuizmasterPreferences"><strong>Collect Quizzing Preferences</strong> - Allows quizmasters to provide information on quizzing interest/history</label>
+            </div>
         </div>
     </div>
 </div>

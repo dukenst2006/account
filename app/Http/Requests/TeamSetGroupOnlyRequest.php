@@ -7,6 +7,9 @@ use Session;
 
 class TeamSetGroupOnlyRequest extends Request
 {
+    /** @var TeamSet */
+    protected $teamSet;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,6 +17,13 @@ class TeamSetGroupOnlyRequest extends Request
      */
     public function authorize()
     {
-        return Session::group()->id == TeamSet::findOrFail($this->route('teamset'))->group_id;
+        $this->teamSet = TeamSet::findOrFail($this->route('teamset'));
+
+        return Session::group()->id == $this->teamSet->group_id;
+    }
+
+    public function teamSet() : TeamSet
+    {
+        return $this->teamSet;
     }
 }

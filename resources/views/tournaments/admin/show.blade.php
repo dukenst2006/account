@@ -70,22 +70,22 @@
                                                 {{ $fee->participantType->name }}
                                             </td>
                                             <td class="text-center">
-                                                @if($fee->requires_registration)
+                                                @if($fee->requiresRegistration())
                                                     <i class="fa fa-check"></i>
-                                                    @if($fee->fee > 0)
+                                                    @if($fee->hasFee())
                                                         ${{ $fee->fee }}
                                                     @endif
                                                 @endif
                                             </td>
                                             @if($tournament->hasEarlyBirdRegistration())
                                             <td class="text-center">
-                                                @if($fee->earlybird_fee > 0)
+                                                @if($fee->hasEarlybirdFee())
                                                     ${{ $fee->earlybird_fee }}
                                                 @endif
                                             </td>
                                             @endif
                                             <td class="text-center">
-                                                @if($fee->onsite_fee > 0)
+                                                @if($fee->hasOnsiteFee())
                                                     ${{ $fee->onsite_fee }}
                                                 @endif
                                             </td>
@@ -114,7 +114,9 @@
                                             <td class="text-center">{{ $event->displayPrice() }}</td>
                                             <td>
                                                 {!! Form::open(['url' => '/admin/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
+                                                @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
                                                 <a href="{{ route('admin.tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
+                                                @endif
                                                 <a class="fa fa-trash-o p-l-20" onclick="$(this).closest('form').submit();" id="delete-{{ $event->id }}"></a>
                                                 {!! Form::close() !!}
                                             </td>

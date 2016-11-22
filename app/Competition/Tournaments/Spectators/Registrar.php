@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Registration;
+namespace BibleBowl\Competition\Tournaments\Spectators;
 
 use BibleBowl\Address;
 use BibleBowl\Group;
@@ -9,19 +9,23 @@ use BibleBowl\Spectator;
 use BibleBowl\Tournament;
 use BibleBowl\User;
 
-class SpectatorRegistrar
+class Registrar
 {
     public function register(
         Tournament $tournament,
         array $attributes = null,
         User $user = null,
-        Group $group = null
+        Group $group = null,
+        User $registeredBy = null
     ) : Spectator {
         $adult = app(Spectator::class, [[
             'tournament_id' => $tournament->id,
             'group_id'      => $group == null ? null : $group->id,
-            'shirt_size'    => $attributes['shirt_size'],
         ]]);
+
+        if ($tournament->settings->shouldCollectShirtSizes()) {
+            $adult->shirt_size = $attributes['shirt_size'];
+        }
 
         if ($user != null) {
             $adult->user_id = $user->id;
@@ -46,6 +50,11 @@ class SpectatorRegistrar
             }
         }
 
+        // record if registered by another user
+        if ($registeredBy != null && $adult->user_id != $registeredBy->id) {
+            $adult->registered_by = $registeredBy->id;
+        }
+
         // fields are set by head coaches when they register for adults
         if (isset($attributes['first_name'])) {
             $adult->first_name = $attributes['first_name'];
@@ -59,12 +68,17 @@ class SpectatorRegistrar
         if (isset($attributes['gender'])) {
             $adult->gender = $attributes['gender'];
         }
+        if (isset($attributes['phone'])) {
+            $adult->phone = $attributes['phone'];
+        }
 
         // spouse data
         if (isset($attributes['spouse_first_name']) && !empty($attributes['spouse_first_name'])) {
             $adult->spouse_first_name = $attributes['spouse_first_name'];
             $adult->spouse_gender = $attributes['spouse_gender'];
-            $adult->spouse_shirt_size = $attributes['spouse_shirt_size'];
+            if ($tournament->settings->shouldCollectShirtSizes()) {
+                $adult->spouse_shirt_size = $attributes['spouse_shirt_size'];
+            }
         }
 
         $adult->save();
@@ -74,12 +88,17 @@ class SpectatorRegistrar
             $minors = [];
             foreach ($attributes['minor'] as $minor) {
                 if (strlen($minor['first_name']) > 0) {
-                    $minors[] = app(Minor::class, [[
+                    $minorData = [
                         'name'          => $minor['first_name'],
                         'age'           => $minor['age'],
-                        'shirt_size'    => $minor['shirt_size'],
                         'gender'        => $minor['gender'],
-                    ]]);
+                    ];
+
+                    if ($tournament->settings->shouldCollectShirtSizes()) {
+                        $minorData['shirt_size'] = $minor['shirt_size'];
+                    }
+
+                    $minors[] = app(Minor::class, [$minorData]);
                 }
             }
 

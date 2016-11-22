@@ -13,7 +13,6 @@ use BibleBowl\Http\Requests\Groups\RetractUserInviteRequest;
 use BibleBowl\Http\Requests\Groups\UserInviteRequest;
 use BibleBowl\Http\Requests\MailchimpIntegrationRequest;
 use BibleBowl\Invitation;
-use BibleBowl\Program;
 use BibleBowl\User;
 use DB;
 use Illuminate\Mail\Message;

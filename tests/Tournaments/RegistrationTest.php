@@ -21,7 +21,7 @@ class RegistrationTest extends TestCase
 
         $this
             ->visit('/tournaments/'.$tournament->slug)
-            ->see('Online registration is now closed');
+            ->see('Online registration for this tournament is now closed');
     }
 
     /**

@@ -1,13 +1,13 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Registration;
+namespace BibleBowl\Competition\Tournaments\Spectators;
 
 use BibleBowl\Receipt;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Spectator;
 use Illuminate\Http\Response;
 
-class SpectatorRegistrationPaymentReceived extends PostPurchaseEvent
+class RegistrationPaymentReceived extends PostPurchaseEvent
 {
     const EVENT = 'tournament.registration.spectator.payment';
 

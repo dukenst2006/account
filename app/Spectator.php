@@ -2,12 +2,24 @@
 
 namespace BibleBowl;
 
+use BibleBowl\Competition\Tournaments\CanBeRegisteredByHeadCoach;
+use BibleBowl\Shop\HasReceipts;
+use BibleBowl\Support\Scrubber;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
+use Ramsey\Uuid\Uuid;
 
 class Spectator extends Model
 {
     const REGISTRATION_ADULT_SKU = 'TOURNAMENT_REG_ADULT';
     const REGISTRATION_FAMILY_SKU = 'TOURNAMENT_REG_FAMILY';
+
+    use Notifiable;
+    use HasReceipts;
+    use CanBeRegisteredByHeadCoach;
 
     private $isFamily = null;
 
@@ -36,42 +48,44 @@ class Spectator extends Model
      */
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function minors()
+    public static function boot()
+    {
+        parent::boot();
+
+        // assign a guid for each model
+        static::creating(function ($spectator) {
+            $spectator->guid = Uuid::uuid4();
+
+            return true;
+        });
+    }
+
+    public function minors() : HasMany
     {
         return $this->hasMany(Minor::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function tournament()
+    public function tournament() : BelongsTo
     {
         return $this->belongsTo(Tournament::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function receipt()
+    public function group() : BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function receipt() : BelongsTo
     {
         return $this->belongsTo(Receipt::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function address()
+    public function address() : BelongsTo
     {
         return $this->belongsTo(Address::class);
     }
@@ -83,6 +97,21 @@ class Spectator extends Model
         }
 
         return ParticipantType::find(ParticipantType::ADULT);
+    }
+
+    public function scopeGroup(Builder $q, Group $group) : Builder
+    {
+        return $q->where('group_id', $group->id);
+    }
+
+    public function scopeFamilies(Builder $q) : Builder
+    {
+        return $q->whereNotNull('spouse_first_name')->orHas('minors', '>', 0);
+    }
+
+    public function scopeAdults(Builder $q) : Builder
+    {
+        return $q->whereNull('spouse_first_name')->has('minors', '=', 0);
     }
 
     public function getFirstNameAttribute()
@@ -126,6 +155,17 @@ class Spectator extends Model
         return $this->first_name.' '.$this->last_name;
     }
 
+    public function setPhoneAttribute($attribute)
+    {
+        if ($this->user_id != null) {
+            return $this->user->phone;
+        }
+
+        /** @var Scrubber $scrubber */
+        $scrubber = app(Scrubber::class);
+        $this->attributes['phone'] = $scrubber->phone($attribute);
+    }
+
     public function isFamily() : bool
     {
         if ($this->isFamily == null) {
@@ -135,17 +175,31 @@ class Spectator extends Model
         return $this->isFamily;
     }
 
-    public function sku()
+    public function type() : string
+    {
+        if ($this->isFamily()) {
+            return 'Family';
+        }
+
+        return 'Adult';
+    }
+
+    public function isAdult() : bool
+    {
+        return !$this->isFamily();
+    }
+
+    public function hasSpouse() : bool
+    {
+        return strlen($this->spouse_first_name) > 0;
+    }
+
+    public function sku() : string
     {
         if ($this->isFamily()) {
             return self::REGISTRATION_FAMILY_SKU;
         }
 
         return self::REGISTRATION_ADULT_SKU;
-    }
-
-    public function hasPaid()
-    {
-        return $this->receipt_id != null;
     }
 }
