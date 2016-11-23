@@ -1,6 +1,5 @@
 <?php
 
-use BibleBowl\Competition\Tournaments\Groups\RemindEarlyBirdFeeEnding;
 use BibleBowl\ParticipantType;
 use BibleBowl\Receipt;
 use BibleBowl\Spectator;

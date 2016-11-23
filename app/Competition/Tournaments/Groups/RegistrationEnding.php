@@ -31,7 +31,7 @@ class RegistrationEnding extends Notification implements ShouldQueue
         $message = new MailMessage();
         $message->subject('Registration Ending Soon');
         $message->greeting($this->tournament->name.' Registration');
-        $message->line('Registration for '.$this->tournament->name.' ends on '.$this->tournament->registration_end->format('l F j').".  Register any additional players, quizmasters or spectators before this date.");
+        $message->line('Registration for '.$this->tournament->name.' ends on '.$this->tournament->registration_end->format('l F j').'.  Register any additional players, quizmasters or spectators before this date.');
         $message->action('Manage Registration', url('tournaments/'.$this->tournament->slug.'/group'));
 
         return $message;

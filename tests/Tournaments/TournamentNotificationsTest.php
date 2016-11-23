@@ -1,12 +1,11 @@
 <?php
 
 use BibleBowl\Competition\Tournaments\Groups\RemindEarlyBirdFeeEnding;
+use BibleBowl\Competition\Tournaments\Groups\RemindRegistrationEnding;
 use BibleBowl\ParticipantType;
 use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
-use BibleBowl\User;
 use Carbon\Carbon;
-use BibleBowl\Competition\Tournaments\Groups\RemindRegistrationEnding;
 
 class TournamentNotificationsTest extends TestCase
 {

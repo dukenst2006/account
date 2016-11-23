@@ -3,7 +3,6 @@
 namespace BibleBowl\Competition\Tournaments\Groups;
 
 use BibleBowl\Group;
-use BibleBowl\Program;
 use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
