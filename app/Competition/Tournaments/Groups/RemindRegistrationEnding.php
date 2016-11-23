@@ -3,16 +3,15 @@
 namespace BibleBowl\Competition\Tournaments\Groups;
 
 use BibleBowl\Group;
-use BibleBowl\Program;
 use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class RemindEarlyBirdFeeEnding extends Command
+class RemindRegistrationEnding extends Command
 {
-    const COMMAND = 'biblebowl:tournament-early-bird-fee-reminder';
+    const COMMAND = 'biblebowl:tournament-registration-ending-reminder';
 
     /**
      * The console command name.
@@ -26,7 +25,7 @@ class RemindEarlyBirdFeeEnding extends Command
      *
      * @var string
      */
-    protected $description = 'Remind unpaid tournament registrations that the early bird fees are expiring soon';
+    protected $description = 'Remind all groups that registration ends soon';
 
     /**
      * Execute the console command.
@@ -38,13 +37,11 @@ class RemindEarlyBirdFeeEnding extends Command
         $season = Season::current()->firstOrFail();
         /** @var Tournament $tournament */
         foreach (Tournament::visible($season)->active()->get() as $tournament) {
-            if ($tournament->hasEarlyBirdRegistration() && Carbon::now()->isSameDay($tournament->earlybird_ends->subDays(7))) {
-                /** @var Group[] $groups */
-                $groups = Group::hasPendingTournamentRegistrationFees($tournament)->get();
-                foreach ($groups as $group) {
-                    foreach ($group->users()->with('roles')->get() as $user) {
+            if (Carbon::now()->isSameDay($tournament->registration_end->subDays(7))) {
+                foreach ($tournament->teamSets()->with('group')->get() as $teamSet) {
+                    foreach ($teamSet->group->users()->with('roles')->get() as $user) {
                         if ($user->isA(Role::HEAD_COACH)) {
-                            $user->notify(new EarlyBirdExpirationNotification($tournament));
+                            $user->notify(new RegistrationEnding($tournament));
                         }
                     }
                 }

@@ -105,6 +105,11 @@ class Tournament extends Model
         return $this->hasMany(Spectator::class);
     }
 
+    public function teamSets() : HasMany
+    {
+        return $this->hasMany(TeamSet::class);
+    }
+
     public function teams() : HasManyThrough
     {
         return $this->hasManyThrough(Team::class, TeamSet::class);
@@ -197,7 +202,11 @@ class Tournament extends Model
      */
     public function setRegistrationStartAttribute($registration_start)
     {
-        $this->attributes['registration_start'] = Carbon::createFromFormat('m/d/Y', $registration_start);
+        if ($registration_start instanceof Carbon) {
+            $this->attributes['registration_start'] = $registration_start;
+        } else {
+            $this->attributes['registration_start'] = Carbon::createFromFormat('m/d/Y', $registration_start);
+        }
     }
 
     /**
@@ -219,7 +228,11 @@ class Tournament extends Model
      */
     public function setRegistrationEndAttribute($registration_end)
     {
-        $this->attributes['registration_end'] = Carbon::createFromFormat('m/d/Y', $registration_end);
+        if ($registration_end instanceof Carbon) {
+            $this->attributes['registration_end'] = $registration_end;
+        } else {
+            $this->attributes['registration_end'] = Carbon::createFromFormat('m/d/Y', $registration_end);
+        }
     }
 
     /**
@@ -482,12 +495,19 @@ class Tournament extends Model
     /**
      * Fetch tournaments that are visible to the public.
      */
-    public function scopeVisible(Builder $query, $programId, Season $season)
+    public function scopeVisible(Builder $query, Season $season, int $programId = null)
     {
-        return $query->where('program_id', $programId)
-            ->where('season_id', $season->id)
+        $query->where('season_id', $season->id);
+
+        if ($programId != null) {
+            $query->where('program_id', $programId);
+        }
+
+        $query
             ->whereDate('registration_start', '<=', Carbon::now())
             ->orderBy('start', 'ASC');
+
+        return $query;
     }
 
     public function shouldWarnAboutTeamLocking() : bool

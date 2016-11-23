@@ -451,22 +451,6 @@ class GroupRegistrationTest extends TestCase
     }
 
     /** @test */
-    public function remindsHeadCoachesOfExpiringEarlyBirdOpportunities()
-    {
-        $this->tournament->update([
-            'earlybird_ends' => Carbon::now()->addDays(7),
-        ]);
-        $this->tournament->participantFees()->update([
-            'fee' => null,
-        ]);
-        $this->tournament->participantFees()->where('participant_type_id', ParticipantType::QUIZMASTER)->update([
-            'fee' => 5,
-        ]);
-
-        $this->artisan(RemindEarlyBirdFeeEnding::COMMAND);
-    }
-
-    /** @test */
     public function promptsForFeesWhenOnlyEventsHaveOutstandingFees()
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();

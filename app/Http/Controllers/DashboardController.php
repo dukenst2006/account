@@ -123,7 +123,7 @@ class DashboardController extends Controller
             $season = Session::season();
             $view->with(
                 'tournaments',
-                Tournament::visible(Session::group()->program_id, $season)->get()
+                Tournament::visible($season, Session::group()->program_id)->get()
             );
         });
     }
