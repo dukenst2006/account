@@ -37,7 +37,7 @@
                 ])
                 {{ $guardian['email'] }}
                 @if(isset($guardian['phone']) && !empty($guardian['phone']))
-                    <br/><a href="tel:{{ $guardian['phone'] }}">{{ HTML::formatPhone($guardian['phone']) }}</a>
+                    <br/><a href="tel:{{ $guardian['phone'] }}">{{ Html::formatPhone($guardian['phone']) }}</a>
                 @endif
 
                 @foreach ($players as $player)

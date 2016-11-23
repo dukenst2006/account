@@ -41,7 +41,7 @@
                                     </a>
                                 </td>
                                 <td class="text-center"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
-                                <td class="text-center hidden-sm hidden-xs"><a href="tel:+1{{ $user->phone }}">{{ HTML::formatPhone($user->phone) }}</a></td>
+                                <td class="text-center hidden-sm hidden-xs"><a href="tel:+1{{ $user->phone }}">{{ Html::formatPhone($user->phone) }}</a></td>
                             </tr>
                         @endforeach
                     @endif

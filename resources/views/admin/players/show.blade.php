@@ -11,7 +11,7 @@
                         <h3 class="semi-bold p-t-10 p-b-10">{{ $player->full_name }}</h3>
                     </div>
                     <div class="col-md-4 text-right p-r-20 p-t-15 text-black col-xs-4">
-                        {!! HTML::genderIcon($player->gender) !!} {!! \BibleBowl\Presentation\Describer::describeGender($player->gender) !!}<br/>
+                        {!! Html::genderIcon($player->gender) !!} {!! \BibleBowl\Presentation\Describer::describeGender($player->gender) !!}<br/>
                         {{ $player->age() }} years old
                     </div>
                 </div>

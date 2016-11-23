@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-md-5 col-sm-5 text-right p-r-20 p-t-15 col-xs-6">
                         @if(!is_null($user->phone))
-                            <a href='tel:+1{{ $user->phone }}'>{{ HTML::formatPhone($user->phone) }}</a><br/>
+                            <a href='tel:+1{{ $user->phone }}'>{{ Html::formatPhone($user->phone) }}</a><br/>
                         @endif
                         <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                         @if($user->status == \BibleBowl\User::STATUS_UNCONFIRMED)
@@ -85,7 +85,7 @@
                                 <tr>
                                     <td><a href="/admin/players/{{ $player->id }}">{{ $player->full_name }}</a></td>
                                     <td class="text-center">{{ $player->age() }}</td>
-                                    <td class="text-center">{!! HTML::genderIcon($player->gender) !!}</td>
+                                    <td class="text-center">{!! Html::genderIcon($player->gender) !!}</td>
                                     @if($isRegistered)
                                         <td class="text-center">
                                             {{ \BibleBowl\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}

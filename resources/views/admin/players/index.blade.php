@@ -35,7 +35,7 @@
                                 <td>
                                     <a href="/admin/players/{{ $player->id }}" class="semi-bold">{{ $player->last_name }}, {{ $player->first_name }}</a>
                                 </td>
-                                <td class="text-center hidden-xs">{!! HTML::genderIcon($player->gender) !!}</td>
+                                <td class="text-center hidden-xs">{!! Html::genderIcon($player->gender) !!}</td>
                                 <td class="text-center">{{ $player->age() }}</td>
                                 <td class="text-center"><a href="/admin/users/{{ $player->guardian_id }}">{{ $player->guardian->full_name }}</a></td>
                             </tr>

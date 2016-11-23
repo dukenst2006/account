@@ -5,7 +5,7 @@
                 <div class="grid-body">
                     <h5><span class="semi-bold">{{ $group->name }}</span></h5>
                     <address>
-                        {!! HTML::address($group->meetingAddress) !!}
+                        {!! Html::address($group->meetingAddress) !!}
                     </address>
                     <div class="p-t-10 text-center">
                         <a href="{{ str_replace('[ID]', $group->id, $actionUrl) }}" class="btn btn-primary btn-sm btn-small" id="select-nearby-group-{{ $group->id }}">{{ $actionButton }}</a>

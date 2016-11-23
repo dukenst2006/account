@@ -51,7 +51,7 @@
             icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
             title: "{{ $group->name }}",
             infoWindow: {
-                content: "<h4 class='bold'>{{ $group->name }}</h4><p>{!! HTML::address($meetingAddress) !!}</p><p>{!! HTML::formatPhone($group->phone) !!}</p>"
+                content: "<h4 class='bold'>{{ $group->name }}</h4><p>{!! Html::address($meetingAddress) !!}</p><p>{!! Html::formatPhone($group->phone) !!}</p>"
             }
         });
 
@@ -71,10 +71,10 @@
                 title: "{{ $guardian->last_name }} Family",
                 infoWindow: {
                     content: "<h4 class='bold'>{{ $guardian->last_name }} Family</h4>"+
-                        "<p>{!! HTML::address($guardian->primaryAddress) !!}</p>"+
+                        "<p>{!! Html::address($guardian->primaryAddress) !!}</p>"+
                         "<p><i class='fa fa-envelope-o'></i> <a href='mailto:{{ $guardian->email }}'>{{ $guardian->email }}</a><br/>"+
                         @if (!is_null($guardian->phone))
-                        "<i class='fa fa-phone'></i> <a href='tel:+1{{ $guardian->phone }}'>{!! HTML::formatPhone($guardian->phone) !!}</a></p>"+
+                        "<i class='fa fa-phone'></i> <a href='tel:+1{{ $guardian->phone }}'>{!! Html::formatPhone($guardian->phone) !!}</a></p>"+
                         @endif
                         "{!! $playerList !!}"
                 }

@@ -15,7 +15,7 @@
         <tr>
             <td><a href="/admin/players/{{ $player->id }}">{{ $player->full_name }}</a></td>
             <td class="text-center hidden-sm hidden-xs">{{ $player->age() }}</td>
-            <td class="text-center hidden-sm hidden-xs">{!! HTML::genderIcon($player->gender) !!}</td>
+            <td class="text-center hidden-sm hidden-xs">{!! Html::genderIcon($player->gender) !!}</td>
             <td class="text-center hidden-xs">
                 {{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}
             </td>

@@ -16,7 +16,7 @@
                     <div class="grid-body no-border m-t-20">
                         <h5><span class="semi-bold">{{ $group->name }}</span></h5>
                         <address>
-                            {!! HTML::address($group->meetingAddress) !!}
+                            {!! Html::address($group->meetingAddress) !!}
                         </address>
                         <div class="p-t-10 text-center">
                             <a href="{{ str_replace('[ID]', $group->id, $actionUrl) }}" class="btn btn-primary btn-sm btn-small">{{ $actionButton }}</a>

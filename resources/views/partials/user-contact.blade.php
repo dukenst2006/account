@@ -5,6 +5,6 @@
 @endif
 <br/>
 @if(!is_null($user->phone))
-    <a href='tel:+1{{ $user->phone }}'>{{ HTML::formatPhone($user->phone) }}</a><br/>
+    <a href='tel:+1{{ $user->phone }}'>{{ Html::formatPhone($user->phone) }}</a><br/>
 @endif
 <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
