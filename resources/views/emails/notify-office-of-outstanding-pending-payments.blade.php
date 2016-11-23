@@ -7,7 +7,8 @@
         $outstandingAtLeast = Config::get('biblebowl.reminders.notify-office-of-outstanding-registration-payments-after');
         $relativeTime = $outstandingAtLeast.' ago';
         $playersRegistrationUnpaidSince = new \Carbon\Carbon($relativeTime);
-        $groupCount = \BibleBowl\Group::hasPendingRegistrationPayments($playersRegistrationUnpaidSince)->count();
+        $season = \BibleBowl\Season::current()->first();
+        $groupCount = \BibleBowl\Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->count();
     ?>
 
     @include('emails.theme.header', [
