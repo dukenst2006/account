@@ -7,9 +7,8 @@ use BibleBowl\Tournament;
 use BibleBowl\User;
 use Carbon\Carbon;
 use BibleBowl\Competition\Tournaments\Groups\RemindRegistrationEnding;
-use BibleBowl\Competition\Tournaments\Groups\RegistrationEnding;
 
-class GroupRegistrationTest extends TestCase
+class TournamentNotificationsTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsHeadCoach;
