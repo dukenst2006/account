@@ -1,3 +1,11 @@
+<?php
+/**
+ * This template was customized by:
+ *  - using an image as the logo
+ *  - using {!!  !!} for intro/outro lines
+ */
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -47,6 +55,7 @@ $style = [
     'paragraph' => 'margin-top: 0; color: #74787E; font-size: 16px; line-height: 1.5em;',
     'paragraph-sub' => 'margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;',
     'paragraph-center' => 'text-align: center;',
+    'bullet-point' => 'color: #74787E;',
 
     /* Buttons ------------------------------ */
 
@@ -71,7 +80,7 @@ $style = [
                     <tr>
                         <td style="{{ $style['email-masthead'] }}">
                             <a style="{{ $fontFamily }} {{ $style['email-masthead_name'] }}" href="{{ url('/') }}" target="_blank">
-                                {{ config('app.name') }}
+                                <img src="{!! url('https://account.biblebowl.org/img/logo-blue.png') !!}" width="200">
                             </a>
                         </td>
                     </tr>
@@ -92,7 +101,7 @@ $style = [
                                         <!-- Intro -->
                                         @foreach ($introLines as $line)
                                             <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
+                                                {!! str_replace('<li>', '<li style="'.$style['bullet-point'].'">', $line) !!}
                                             </p>
                                         @endforeach
 
@@ -128,7 +137,7 @@ $style = [
                                         <!-- Outro -->
                                         @foreach ($outroLines as $line)
                                             <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
+                                                {!! str_replace('<li>', '<li style="'.$style['bullet-point'].'">', $line) !!}
                                             </p>
                                         @endforeach
 

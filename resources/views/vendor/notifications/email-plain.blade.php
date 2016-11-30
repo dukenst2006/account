@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This template was customized by:
+ *  - using strip_tags
+ */
+
 if (! empty($greeting)) {
     echo $greeting, "\n\n";
 } else {
@@ -7,7 +12,7 @@ if (! empty($greeting)) {
 }
 
 if (! empty($introLines)) {
-    echo implode("\n", $introLines), "\n\n";
+    echo strip_tags(implode("\n", $introLines), '<a>'), "\n\n";
 }
 
 if (isset($actionText)) {
@@ -15,7 +20,7 @@ if (isset($actionText)) {
 }
 
 if (! empty($outroLines)) {
-    echo implode("\n", $outroLines), "\n\n";
+    echo strip_tags(implode("\n", $outroLines), '<a>'), "\n\n";
 }
 
 echo 'Regards,', "\n";

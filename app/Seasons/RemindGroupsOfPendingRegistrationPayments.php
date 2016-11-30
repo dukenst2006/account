@@ -4,6 +4,7 @@ namespace BibleBowl\Seasons;
 
 use BibleBowl\Group;
 use BibleBowl\Season;
+use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Message;
@@ -40,16 +41,7 @@ class RemindGroupsOfPendingRegistrationPayments extends Command
         $groups = Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->get();
         foreach ($groups as $group) {
             foreach ($group->users as $user) {
-                Mail::queue(
-                    'emails.remind-groups-of-pending-payments',
-                    [
-                        'groupId'   => $group->id,
-                    ],
-                    function (Message $message) use ($group, $user) {
-                        $message->to($user->email, $user->full_name)
-                            ->subject('Registration Fee Reminder');
-                    }
-                );
+                $user->notify(new RemindPendingSeasonalRegistrationFees($group));
             }
         }
     }
