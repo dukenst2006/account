@@ -201,9 +201,6 @@ class Group extends Model
             ->whereNotNull('player_season.inactive');
     }
 
-    /**
-     * Query scope for inactive guardians.
-     */
     public function scopeHasPendingRegistrationPayments(Builder $query, Season $season, Carbon $pendingSince = null)
     {
         return $query->whereHas('players', function (Builder $q) use ($season, $pendingSince) {
@@ -211,8 +208,7 @@ class Group extends Model
                 $q->where('player_season.created_at', '>', $pendingSince->toDateTimeString());
             }
 
-            $q->where('player_season.season_id', $season->id);
-            $q->whereNull('player_season.paid');
+            $q->pendingRegistrationPayment($season);
         });
     }
 

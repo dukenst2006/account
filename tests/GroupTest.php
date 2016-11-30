@@ -5,10 +5,27 @@ use BibleBowl\ParticipantType;
 use BibleBowl\Player;
 use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
+use BibleBowl\Season;
 
 class GroupTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
+
+    /** @test */
+    public function hasPendingSeasonalRegistrations()
+    {
+        $season = Season::current()->firstOrFail();
+
+        $this->assertEquals(1, Group::hasPendingRegistrationPayments($season)->count());
+    }
+
+    /** @test */
+    public function hasNoPendingSeasonalRegistrationsWhenAllPlayersAreInactive()
+    {
+        $season = Season::current()->firstOrFail();
+        DB::update('UPDATE player_season SET inactive = NOW()');
+        $this->assertEquals(0, Group::hasPendingRegistrationPayments($season)->count());
+    }
 
     /** @test */
     public function noPendingFeesWhenThereAreNoFees()
