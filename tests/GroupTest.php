@@ -3,9 +3,9 @@
 use BibleBowl\Group;
 use BibleBowl\ParticipantType;
 use BibleBowl\Player;
+use BibleBowl\Season;
 use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
-use BibleBowl\Season;
 
 class GroupTest extends TestCase
 {
