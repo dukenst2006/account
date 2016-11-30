@@ -42,11 +42,9 @@
         <div class="controls p-b-20">
             {!! Form::select('quizzing_interest', [
                 '1' => '1 - Only if you really need me',
-                '2' => '2',
-                '3' => '3',
-                '4' => '4',
-                '5' => "5 - I prefer quizzing over watching"
-            ], old('games_quizzed_this_season', $quizzingPreferences->quizzingInterest()), ['class' => 'form-control']) !!}
+                '2' => '2 - Whatever you need',
+                '3' => "3 - I prefer quizzing over watching"
+            ], old('quizzing_interest', $quizzingPreferences->quizzingInterest()), ['class' => 'form-control']) !!}
         </div>
     </div>
 </div>
