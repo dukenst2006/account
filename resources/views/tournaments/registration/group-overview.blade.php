@@ -11,7 +11,6 @@
                 ])
                 <div class="grid simple">
                     <div class="grid-body no-border">
-                        @include('partials.messages')
                         @if($tournament->shouldWarnAboutTeamLocking())
                             <div class="alert alert-info m-t-10 text-center">
                                 You have {{ $tournament->lock_teams->diffForHumans(null, true) }} left to make changes to teams and other player events (if applicable)
@@ -100,6 +99,7 @@
                                 </div>
                             </div>
                         @endif
+                        @include('partials.messages')
                         @if(
                         $tournament->isRegistrationOpen() && (
                             (isset($teamsRequiringPayment) && $teamsRequiringPayment > 0) ||

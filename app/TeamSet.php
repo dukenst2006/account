@@ -131,11 +131,6 @@ class TeamSet extends Model
             ]);
     }
 
-    public function setNameAttribute($name)
-    {
-        $this->attributes['name'] = ucwords(strtolower($name));
-    }
-
     protected static function boot()
     {
         parent::boot();
