@@ -7,8 +7,6 @@ use BibleBowl\Season;
 use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Mail\Message;
-use Mail;
 
 class RemindGroupsOfPendingRegistrationPayments extends Command
 {
