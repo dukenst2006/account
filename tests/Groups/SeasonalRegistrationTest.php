@@ -48,7 +48,6 @@ class SeasonalRegistrationTest extends TestCase
      */
     public function receivesNotificationsForPastDueRegistrationFees()
     {
-        Mail::shouldReceive('queue')->once();
         Artisan::call(\BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments::COMMAND);
     }
 }

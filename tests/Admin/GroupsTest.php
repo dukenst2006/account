@@ -80,7 +80,7 @@ class GroupsTest extends TestCase
      */
     public function receivesNotificationsForOutstandingRegistrationFees()
     {
-        Mail::shouldReceive('queue')->once();
+        DB::update('UPDATE player_season SET inactive = NULL, created_at = DATE_SUB(curdate(), INTERVAL 2 WEEK)');
         Artisan::call(\BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments::COMMAND);
     }
 }

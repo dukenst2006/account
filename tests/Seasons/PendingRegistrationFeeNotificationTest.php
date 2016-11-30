@@ -5,6 +5,7 @@ use BibleBowl\Season;
 use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 
 class PendingRegistrationFeeNotificationTest extends TestCase
 {
@@ -23,9 +24,12 @@ class PendingRegistrationFeeNotificationTest extends TestCase
             $season->id,
         ]);
 
-        $this->assertEquals($groupId, Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->first()->id);
+        $group = Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->first();
+        $this->assertEquals($groupId, $group->id);
 
-        Mail::shouldReceive('queue')->once();
+        foreach ($group->users as $user) {
+            $this->expectsNotification($user, RemindPendingSeasonalRegistrationFees::class);
+        }
 
         Artisan::call(RemindGroupsOfPendingRegistrationPayments::COMMAND);
     }
@@ -44,9 +48,7 @@ class PendingRegistrationFeeNotificationTest extends TestCase
         ]);
 
         $this->assertNull(Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->first());
-
-        Mail::shouldReceive('queue')->never();
-
+        
         Artisan::call(RemindGroupsOfPendingRegistrationPayments::COMMAND);
     }
 }

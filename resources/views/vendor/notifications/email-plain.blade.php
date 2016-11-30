@@ -12,7 +12,7 @@ if (! empty($greeting)) {
 }
 
 if (! empty($introLines)) {
-    echo strip_tags(implode("\n", $introLines), '<a>'), "\n\n";
+    echo strip_tags(implode("\n", $introLines)), "\n\n";
 }
 
 if (isset($actionText)) {
@@ -20,7 +20,7 @@ if (isset($actionText)) {
 }
 
 if (! empty($outroLines)) {
-    echo strip_tags(implode("\n", $outroLines), '<a>'), "\n\n";
+    echo strip_tags(implode("\n", $outroLines)), "\n\n";
 }
 
 echo 'Regards,', "\n";
