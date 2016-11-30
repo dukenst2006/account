@@ -31,7 +31,7 @@
                             </div>
                         @else
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-5 col-sm-5">
                                     <h4 class="pull-left semi-bold">Teams</h4>
                                     <div class="pull-right p-t-10">
                                         @if($teamCount > 0)
@@ -57,9 +57,9 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-md-offset-1 col-sm-6 col-sm-offset-1">
                                     @if($individualEventCount > 0)
-                                    <h4 class="pull-left semi-bold">Events</h4>
+                                    <h4 class="pull-left semi-bold">Optional Events</h4>
                                     <div class="pull-right p-t-10">
                                         @if($tournament->isRegistrationOpen())
                                             <a href="/tournaments/{{ $tournament->slug }}/registration/group/events" class="btn btn-primary btn-small">Manage Participation</a>

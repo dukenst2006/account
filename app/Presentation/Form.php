@@ -285,7 +285,7 @@ class Form extends FormBuilder
         ];
         $list = [];
         foreach ($months as $monthId => $month) {
-            $list[$monthId] = $monthId.' - '.$month;
+            $list[$monthId] = date('m', strtotime($month)).' - '.$month;
         }
 
         if ($optional) {
