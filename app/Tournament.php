@@ -112,6 +112,11 @@ class Tournament extends Model
         return $this->hasMany(TeamSet::class);
     }
 
+    public function receipts() : HasMany
+    {
+        return $this->hasMany(Receipt::class);
+    }
+
     public function eligibleTeams() : HasManyThrough
     {
         if ($this->hasFee(ParticipantType::TEAM)) {

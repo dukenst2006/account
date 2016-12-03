@@ -50,6 +50,11 @@ class RegistrationPaymentReceived extends PostPurchaseEvent
     /**
      * Fire the event.
      *
+     * This even is also fired manually when no
+     * payment was actually made, so receipt is
+     * optional.  This gives us a single point
+     * in the app where these steps are executed.
+     *
      * @return void
      */
     public function fire(Receipt $receipt = null)
@@ -59,6 +64,9 @@ class RegistrationPaymentReceived extends PostPurchaseEvent
         if ($receipt != null) {
             $quizmaster->update([
                 'receipt_id' => $receipt->id,
+            ]);
+            $receipt->update([
+                'tournament_id' => $this->tournamentQuizmaster()->tournament_id
             ]);
         }
 

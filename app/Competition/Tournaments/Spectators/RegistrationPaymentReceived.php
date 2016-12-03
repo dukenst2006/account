@@ -57,6 +57,10 @@ class RegistrationPaymentReceived extends PostPurchaseEvent
             'receipt_id' => $receipt->id,
         ]);
 
+        $receipt->update([
+            'tournament_id' => $this->spectator()->tournament_id
+        ]);
+
         event($this->event(), [
             $this->quizmasterRegistration(),
         ]);

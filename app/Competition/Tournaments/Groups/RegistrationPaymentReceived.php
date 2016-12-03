@@ -56,6 +56,11 @@ class RegistrationPaymentReceived extends PostPurchaseEvent
     public function fire(Receipt $receipt)
     {
         $registration = $this->groupRegistration();
+        $tournament = $registration->tournament();
+
+        $receipt->update([
+            'tournament_id' => $tournament->id
+        ]);
 
         // ----------------------------------
         // associate receipts with players, quizmasters, events and such
@@ -69,7 +74,7 @@ class RegistrationPaymentReceived extends PostPurchaseEvent
             $insertData = [];
             foreach ($registration->playerIds() as $playerId) {
                 $insertData[] = [
-                    'tournament_id' => $registration->tournament()->id,
+                    'tournament_id' => $tournament->id,
                     'player_id'     => $playerId,
                     'receipt_id'    => $receipt->id,
                     'updated_at'    => Carbon::now()->toDateTimeString(),
