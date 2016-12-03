@@ -51,49 +51,32 @@
                                     <a href="{{ route('admin.tournaments.edit', [$tournament->id]) }}" class="btn btn-small btn-primary">Edit</a>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-sm-8">
-                                @if(count($participantFees) > 0)
-                                <h5><i class="fa fa-usd"></i> <span class="semi-bold">Fees</span></h5>
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <th style="width:35%"></th>
-                                            <th style="width:30%" class="text-center">Online Registration Required</th>
-                                            @if($tournament->hasEarlyBirdRegistration())
-                                            <th style="width:20%" class="text-center">Early Bird Fee</th>
-                                            @endif
-                                            <th style="width:15%" class="text-center">On-site Fee</th>
-                                        </tr>
-                                    @foreach ($participantFees as $fee)
-                                        <tr>
-                                            <td>
-                                                {{ $fee->participantType->name }}
-                                            </td>
-                                            <td class="text-center">
-                                                @if($fee->requiresRegistration())
-                                                    <i class="fa fa-check"></i>
-                                                    @if($fee->hasFee())
-                                                        ${{ $fee->fee }}
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            @if($tournament->hasEarlyBirdRegistration())
-                                            <td class="text-center">
-                                                @if($fee->hasEarlybirdFee())
-                                                    ${{ $fee->earlybird_fee }}
-                                                @endif
-                                            </td>
-                                            @endif
-                                            <td class="text-center">
-                                                @if($fee->hasOnsiteFee())
-                                                    ${{ $fee->onsite_fee }}
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                @endif
+                            <div class="col-md-8 col-sm-8 m-b-20">
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 text-center">
+                                        <a href="#">
+                                            <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format($tournament->eligibleTeams()->count()) }}</h2>
+                                            <div class="tiles-title blend p-b-25">TEAMS</div>
+                                        </a>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 text-center">
+                                        <a href="#">
+                                            <h2 class="semi-bold text-success no-margin p-t-35 p-b-10">{{ number_format($tournament->eligiblePlayers()->count()) }}</h2>
+                                            <div class="tiles-title blend p-b-25">PLAYERS</div>
+                                        </a>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 text-center">
+                                        <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
+                                            0
+                                        </h2>
+                                        <div class="tiles-title blend p-b-25">xxxxxxx</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-6 col-xs-6">
                                         <h5><i class="fa fa-trophy"></i> <span class="semi-bold">Events</span></h5>
@@ -105,17 +88,23 @@
                                 <table class="table">
                                     <tr>
                                         <th>Type</th>
-                                        <th class="text-center">Price</th>
+                                        <th class="text-center hidden-xs hidden-sm">Price</th>
+                                        <th class="text-center">Participants</th>
                                         <th width="20%"></th>
                                     </tr>
                                     @foreach ($tournament->events()->with('type')->get() as $event)
                                         <tr>
                                             <td>{{ $event->type->name }}</td>
-                                            <td class="text-center">{{ $event->displayPrice() }}</td>
+                                            <td class="text-center hidden-xs hidden-sm">{{ $event->displayPrice() }}</td>
+                                            <td class="text-center">
+                                                @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
+                                                    {{ number_format($event->eligiblePlayers()->count()) }}
+                                                @endif
+                                            </td>
                                             <td>
                                                 {!! Form::open(['url' => '/admin/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
                                                 @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
-                                                <a href="{{ route('admin.tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
+                                                    <a href="{{ route('admin.tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
                                                 @endif
                                                 <a class="fa fa-trash-o p-l-20" onclick="$(this).closest('form').submit();" id="delete-{{ $event->id }}"></a>
                                                 {!! Form::close() !!}

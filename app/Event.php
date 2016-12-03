@@ -43,9 +43,24 @@ class Event extends Model
             ->withTimestamps();
     }
 
+    public function eligiblePlayers() : BelongsToMany
+    {
+        if ($this->isFree()) {
+            return $this->players();
+        }
+
+        return $this->unpaidPlayers();
+    }
+
     public function scopeRequiringFees(Builder $q) : Builder
     {
         return $q->whereNotNull('price_per_participant');
+    }
+
+    public function paidPlayers() : BelongsToMany
+    {
+        return $this->belongsToMany(Player::class)
+            ->wherePivot('receipt_id', '!=', null);
     }
 
     public function unpaidPlayers() : BelongsToMany
@@ -79,10 +94,7 @@ class Event extends Model
         return money_format('%.2n', $this->attributes['price_per_participant']);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function type()
+    public function type() : BelongsTo
     {
         return $this->belongsTo(EventType::class, 'event_type_id');
     }

@@ -8,12 +8,14 @@ use BibleBowl\Competition\Tournaments\Settings;
 use BibleBowl\Presentation\Describer;
 use BibleBowl\Support\CanDeactivate;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 
 /**
@@ -110,6 +112,15 @@ class Tournament extends Model
         return $this->hasMany(TeamSet::class);
     }
 
+    public function eligibleTeams() : HasManyThrough
+    {
+        if ($this->hasFee(ParticipantType::TEAM)) {
+            return $this->teams()->withEnoughPaidPlayers($this);
+        }
+
+        return $this->teams()->withEnoughPlayers($this);
+    }
+
     public function teams() : HasManyThrough
     {
         return $this->hasManyThrough(Team::class, TeamSet::class);
@@ -130,9 +141,27 @@ class Tournament extends Model
         return $this->belongsTo(Program::class);
     }
 
+    public function eligiblePlayers() : Builder
+    {
+        // if there's a fee, we'll assume any team-related checks
+        // (e.g. - number of players per team) were performed
+        // before players were paid for
+        if ($this->hasFee(ParticipantType::PLAYER)) {
+            return $this->players()->whereNotNull('tournament_players.receipt_id')->getQuery();
+        }
+
+        $tournament = $this;
+        return Player::whereHas('teams', function (Builder $q) use ($tournament) {
+            $q->whereHas('teamSet', function (Builder $q) use ($tournament) {
+                $q->where('tournament_id', $tournament->id);
+            })
+            ->withEnoughPlayers($this);
+        });
+    }
+
     public function players() : BelongsToMany
     {
-        return $this->belongsToMany(Player::class)
+        return $this->belongsToMany(Player::class, 'tournament_players')
             ->withPivot('receipt_id')
             ->withTimestamps();
     }

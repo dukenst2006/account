@@ -8,6 +8,8 @@ use BibleBowl\Tournament;
 use Helpers\ActingAsGuardian;
 use Helpers\SimulatesTransactions;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use BibleBowl\User;
+use BibleBowl\TournamentQuizmaster;
 
 class SpectatorRegistrationTest extends TestCase
 {
@@ -186,6 +188,23 @@ class SpectatorRegistrationTest extends TestCase
             ->type('12345', 'zip_code')
             ->select('M', 'shirt_size')
             ->press('Continue')
-            ->see('A spectator with this email address has already been added');
+            ->see('A spectator with this email address has already been registered');
+    }
+
+    /** @test */
+    public function cantRegisterWithSameEmailAddressAsAUser()
+    {
+        $user = \BibleBowl\User::firstOrFail();
+        $tournament = Tournament::firstOrFail();
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
+            ->type($user->first_name, 'first_name')
+            ->type($user->last_name, 'last_name')
+            ->type($user->email, 'email')
+            ->type('123 Test Street', 'address_one')
+            ->type('12345', 'zip_code')
+            ->select('M', 'shirt_size')
+            ->press('Continue')
+            ->see('A spectator with this email address has already been registered');
     }
 }

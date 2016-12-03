@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\JoinClause;
+use DB;
 
 /**
  * BibleBowl\Season.
@@ -69,6 +71,24 @@ class Team extends Model
     {
         return $q->has('players', '>=', $tournament->settings->minimumPlayersPerTeam())
             ->has('players', '<=', $tournament->settings->maximumPlayersPerTeam());
+    }
+
+    public function scopeWithEnoughPaidPlayers(Builder $q, Tournament $tournament)
+    {
+        return $q->whereHas('players', function (Builder $q) use ($tournament) {
+                $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
+                    $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
+                    $join->on('tournament_players.player_id', '=', 'players.id');
+                })
+                ->whereNotNull('tournament_players.receipt_id');
+            }, '>=', $tournament->settings->minimumPlayersPerTeam())
+            ->whereHas('players', function (Builder $q) use ($tournament) {
+                $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
+                    $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
+                    $join->on('tournament_players.player_id', '=', 'players.id');
+                })
+                ->whereNotNull('tournament_players.receipt_id');
+            }, '<=', $tournament->settings->maximumPlayersPerTeam());
     }
 
     public function scopeWithoutEnoughPlayers(Builder $q, Tournament $tournament)

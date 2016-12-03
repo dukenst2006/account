@@ -6,6 +6,7 @@ use BibleBowl\Address;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Spectator;
 use BibleBowl\Tournament;
+use Illuminate\Database\Eloquent\Builder;
 use Validator;
 
 class StandaloneSpectatorRegistrationRequest extends Request
@@ -30,7 +31,10 @@ class StandaloneSpectatorRegistrationRequest extends Request
 
         // Prevent multiple spectators from registering using the same email
         Validator::extend('spectator_hasnt_registered', function ($attribute, $value, $parameters, $validator) use ($tournament) {
-            return Spectator::where('tournament_id', $this->tournament->id)->where('email', $value)->count() == 0;
+            return Spectator::where('tournament_id', $this->tournament->id)->where('email', $value)->count() == 0 &&
+            Spectator::where('tournament_id', $this->tournament->id)->whereHas('user', function (Builder $q) use ($value) {
+                $q->where('email', $value);
+            })->count() == 0;
         });
 
         $rules = [
@@ -68,7 +72,7 @@ class StandaloneSpectatorRegistrationRequest extends Request
             'email.required_unless'             => 'The email field is required',
             'gender.required_unless'            => 'The gender field is required',
             'shirt_size.required'               => 'The tshirt size is required',
-            'email.spectator_hasnt_registered'  => 'A spectator with this email address has already been added',
+            'email.spectator_hasnt_registered'  => 'A spectator with this email address has already been registered',
 
             'address_one.required_unless'   => 'The street address field is required',
             'zip_code.required_unless'      => 'The zip code field is required',
