@@ -14,6 +14,7 @@
                         <h4>Choose <span class="semi-bold">Your Teams</span></h4>
                     </div>
                     <div class="grid-body no-border">
+                        <p>Use teams you've already created or create new ones.</p>
                         <div class="row p-t-10">
                             <div class="col-md-3">
                                 Teams:
