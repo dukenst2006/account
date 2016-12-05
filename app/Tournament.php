@@ -180,6 +180,15 @@ class Tournament extends Model
         return $this->hasMany(TournamentQuizmaster::class);
     }
 
+    public function eligibleQuizmasters() : HasMany
+    {
+        if ($this->hasFee(ParticipantType::QUIZMASTER)) {
+            return $this->tournamentQuizmasters()->paid();
+        }
+
+        return $this->tournamentQuizmasters();
+    }
+
     public function setSlugAttribute($slug)
     {
         $this->attributes['slug'] = str_slug($slug);

@@ -8691,6 +8691,12 @@ td.visible-print {
 .theme tr.row_selected {
   background-color: transparent !important;
 }
+.theme .radio.radio-with-form-fields label:before {
+  bottom: 10px;
+}
+.theme .radio.radio-with-form-fields label:after {
+  top: 7px;
+}
 .address-card .grid.simple > a.button-grid {
   display: block;
   padding: 42px 0 104px 0 !important;
@@ -8988,6 +8994,12 @@ th .tooltip {
 }
 tr.row_selected {
   background-color: transparent !important;
+}
+.radio.radio-with-form-fields label:before {
+  bottom: 10px;
+}
+.radio.radio-with-form-fields label:after {
+  top: 7px;
 }
 /*!
 * direction.less v0.1.0
@@ -17325,6 +17337,12 @@ body.rtl .footer-widget {
 .theme tr.row_selected {
   background-color: transparent !important;
 }
+.theme .radio.radio-with-form-fields label:before {
+  bottom: 10px;
+}
+.theme .radio.radio-with-form-fields label:after {
+  top: 7px;
+}
 .address-card .grid.simple > a.button-grid {
   display: block;
   padding: 42px 0 104px 0 !important;
@@ -17621,6 +17639,12 @@ th .tooltip {
 }
 tr.row_selected {
   background-color: transparent !important;
+}
+.radio.radio-with-form-fields label:before {
+  bottom: 10px;
+}
+.radio.radio-with-form-fields label:after {
+  top: 7px;
 }
 @media only screen and (min-width: 1824px) {
   body {

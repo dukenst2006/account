@@ -31,10 +31,14 @@ class TournamentCreator
 
         /** @var Settings $settings */
         $settings = new Settings();
-        $settings->collectShirtSizes(array_pull($attributes, 'collect_shirt_sizes'));
-        $settings->collectQuizmasterPreferences(array_pull($attributes, 'collect_quizmaster_preferences'));
+        $settings->collectShirtSizes(array_pull($attributes, 'collect_shirt_sizes', false));
+        $settings->collectQuizmasterPreferences(array_pull($attributes, 'collect_quizmaster_preferences', false));
         $settings->setMinimumPlayersPerTeam(array_pull($attributes, 'minimum_players_per_team'));
         $settings->setMaximumPlayersPerTeam(array_pull($attributes, 'maximum_players_per_team'));
+        $settings->requireQuizmasters(array_pull($attributes, 'require_quizmasters_per'));
+        $settings->setQuizmastersToRequireByGroup(array_pull($attributes, 'quizmasters_per_group'));
+        $settings->setQuizmastersToRequireByTeamCount(array_pull($attributes, 'quizmasters_per_team_count'));
+        $settings->setTeamCountToRequireQuizmastersBy(array_pull($attributes, 'quizmasters_team_count'));
         $attributes['settings'] = $settings;
 
         DB::beginTransaction();

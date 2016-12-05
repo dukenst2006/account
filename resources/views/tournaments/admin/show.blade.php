@@ -38,7 +38,7 @@
                                 </div>
                                 <h5><i class="fa fa-users"></i> <span class="semi-bold">Teams</span></h5>
                                 <div class="m-l-20 m-b-20">
-                                    0 of {{ number_format($tournament->max_teams) }} registered<br/>
+                                    Max of {{ number_format($tournament->max_teams) }}<br/>
                                     @if($tournament->teamsWillLock())
                                         @if($tournament->teamsAreLocked())
                                             Changes are <span class="text-danger">locked</span>
@@ -70,9 +70,9 @@
                                     </div>
                                     <div class="col-md-4 col-sm-4 text-center">
                                         <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
-                                            0
+                                            {{ number_format($tournament->eligibleQuizmasters()->count()) }}
                                         </h2>
-                                        <div class="tiles-title blend p-b-25">xxxxxxx</div>
+                                        <div class="tiles-title blend p-b-25">QUIZMASTERS</div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>

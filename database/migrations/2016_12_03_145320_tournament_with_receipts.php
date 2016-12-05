@@ -27,6 +27,7 @@ class TournamentWithReceipts extends Migration
     public function down()
     {
         Schema::table('receipts', function (Blueprint $table) {
+            $table->dropForeign('receipts_tournament_id_foreign');
             $table->dropColumn('tournament_id');
         });
     }
