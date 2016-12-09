@@ -1,5 +1,8 @@
 <div class="grid simple">
     <div class="grid-title no-border">
+        <div class="alert alert-notice visible-xs">
+            This page is not optimized for mobile devices and may not work as intended.
+        </div>
         <div class="row">
             <div class="col-md-6 col-sm-8 col-xs-8">
                 @include('teamset.edit-teamset-name', [
@@ -7,7 +10,7 @@
                 ])
             </div>
             <div class="col-md-6 col-sm-4 col-xs-4 text-right">
-                <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-info m-r-10"><i class="fa fa-download"></i> PDF</a>
+                <a href="/teamsets/{{ $teamSet->id }}/pdf" class="btn btn-info m-r-10" target="_blank"><i class="fa fa-download"></i> PDF</a>
                 @if($teamSet->canBeEdited(Auth::user()))
                     <div id='add-team' class="btn btn-primary" @click="addTeam()">+ Add Team</div>
                 @endif

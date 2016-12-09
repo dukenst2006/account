@@ -16,6 +16,61 @@ class Settings extends Fluent
         }
     }
 
+    public function quizmasterRequirement() : string
+    {
+        return $this->get('requireQuizmasters', 'none');
+    }
+
+    public function shouldRequireQuizmasters() : bool
+    {
+        return $this->get('requireQuizmasters', 'none') != 'none';
+    }
+
+    public function shouldRequireQuizmastersByGroup() : bool
+    {
+        return $this->get('requireQuizmasters', null) == 'group';
+    }
+
+    public function quizmastersToRequireByGroup() : int
+    {
+        return $this->get('quizmastersToRequireByGroup', 1);
+    }
+
+    public function setQuizmastersToRequireByGroup(int $quizmasterCount)
+    {
+        $this->quizmastersToRequireByGroup = $quizmasterCount;
+    }
+
+    public function shouldRequireQuizmastersByTeamCount() : bool
+    {
+        return $this->get('requireQuizmasters', null) == 'team_count';
+    }
+
+    public function quizmastersToRequireByTeamCount() : int
+    {
+        return $this->get('quizmastersToRequireByTeamCount', 1);
+    }
+
+    public function setQuizmastersToRequireByTeamCount(int $teamCount)
+    {
+        $this->quizmastersToRequireByTeamCount = $teamCount;
+    }
+
+    public function teamCountToRequireQuizmastersBy() : int
+    {
+        return $this->get('teamCountToRequireQuizmastersBy', 2);
+    }
+
+    public function setTeamCountToRequireQuizmastersBy(int $teamCount)
+    {
+        $this->teamCountToRequireQuizmastersBy = $teamCount;
+    }
+
+    public function requireQuizmasters(string $type)
+    {
+        $this->requireQuizmasters = $type;
+    }
+
     public function shouldCollectShirtSizes() : bool
     {
         return (bool) $this->get('collectShirtSizes', true);

@@ -110,6 +110,28 @@ class Tournament extends Model
         return $this->hasMany(TeamSet::class);
     }
 
+    public function receipts() : HasMany
+    {
+        return $this->hasMany(Receipt::class);
+    }
+
+    public function eligibleTeams() : HasManyThrough
+    {
+        if ($this->hasFee(ParticipantType::TEAM)) {
+            $teams = $this->teams()->withEnoughPaidPlayers($this);
+        } else {
+            $teams = $this->teams()->withEnoughPlayers($this);
+        }
+
+        if ($this->settings->shouldRequireQuizmastersByGroup()) {
+            $teams->withEnoughQuizmastersInGroup($this);
+        } elseif ($this->settings->shouldRequireQuizmastersByTeamCount()) {
+            $teams->withEnoughQuizmastersBasedOnTeamCount($this);
+        }
+
+        return $teams;
+    }
+
     public function teams() : HasManyThrough
     {
         return $this->hasManyThrough(Team::class, TeamSet::class);
@@ -130,9 +152,28 @@ class Tournament extends Model
         return $this->belongsTo(Program::class);
     }
 
+    public function eligiblePlayers() : Builder
+    {
+        // if there's a fee, we'll assume any team-related checks
+        // (e.g. - number of players per team) were performed
+        // before players were paid for
+        if ($this->hasFee(ParticipantType::PLAYER)) {
+            return $this->players()->whereNotNull('tournament_players.receipt_id')->getQuery();
+        }
+
+        $tournament = $this;
+
+        return Player::whereHas('teams', function (Builder $q) use ($tournament) {
+            $q->whereHas('teamSet', function (Builder $q) use ($tournament) {
+                $q->where('tournament_id', $tournament->id);
+            })
+            ->withEnoughPlayers($this);
+        });
+    }
+
     public function players() : BelongsToMany
     {
-        return $this->belongsToMany(Player::class)
+        return $this->belongsToMany(Player::class, 'tournament_players')
             ->withPivot('receipt_id')
             ->withTimestamps();
     }
@@ -144,6 +185,15 @@ class Tournament extends Model
         }
 
         return $this->hasMany(TournamentQuizmaster::class);
+    }
+
+    public function eligibleQuizmasters() : HasMany
+    {
+        if ($this->hasFee(ParticipantType::QUIZMASTER)) {
+            return $this->tournamentQuizmasters()->paid();
+        }
+
+        return $this->tournamentQuizmasters();
     }
 
     public function setSlugAttribute($slug)
@@ -513,6 +563,17 @@ class Tournament extends Model
     public function shouldWarnAboutTeamLocking() : bool
     {
         return $this->lock_teams->lt(\Carbon\Carbon::now()->addDays(7));
+    }
+
+    public function numberOfQuizmastersRequiredByTeamCount(int $teamCount) : int
+    {
+        $quizmastersRequired = floor(($this->settings->quizmastersToRequireByTeamCount() * $teamCount) / $this->settings->teamCountToRequireQuizmastersBy());
+
+        if ($quizmastersRequired < $this->settings->quizmastersToRequireByTeamCount()) {
+            return $this->settings->quizmastersToRequireByTeamCount();
+        }
+
+        return $quizmastersRequired;
     }
 
     public function eligibleRegistrationWithOutstandingFees(Group $group) : Registration

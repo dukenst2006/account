@@ -3,10 +3,12 @@
 namespace BibleBowl;
 
 use BibleBowl\Shop\HasReceipts;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * BibleBowl\Season.
@@ -71,10 +73,50 @@ class Team extends Model
             ->has('players', '<=', $tournament->settings->maximumPlayersPerTeam());
     }
 
+    public function scopeWithEnoughPaidPlayers(Builder $q, Tournament $tournament)
+    {
+        return $q->whereHas('players', function (Builder $q) use ($tournament) {
+            $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
+                $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
+                $join->on('tournament_players.player_id', '=', 'players.id');
+            })
+                ->whereNotNull('tournament_players.receipt_id');
+        }, '>=', $tournament->settings->minimumPlayersPerTeam())
+            ->whereHas('players', function (Builder $q) use ($tournament) {
+                $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
+                    $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
+                    $join->on('tournament_players.player_id', '=', 'players.id');
+                })
+                ->whereNotNull('tournament_players.receipt_id');
+            }, '<=', $tournament->settings->maximumPlayersPerTeam());
+    }
+
     public function scopeWithoutEnoughPlayers(Builder $q, Tournament $tournament)
     {
         return $q->has('players', '<', $tournament->settings->minimumPlayersPerTeam())
             ->orHas('players', '>', $tournament->settings->maximumPlayersPerTeam());
+    }
+
+    public function scopeWithEnoughQuizmastersInGroup(Builder $q, Tournament $tournament)
+    {
+        return $q->whereHas('teamSet', function (Builder $q) use ($tournament) {
+            $q->whereHas('group', function (Builder $q) use ($tournament) {
+                $q->where('tournament_id', $tournament->id);
+                $q->has('tournamentQuizmasters', '>=', $tournament->settings->quizmastersToRequireByGroup());
+            });
+        });
+    }
+
+    public function scopeWithEnoughQuizmastersBasedOnTeamCount(Builder $q, Tournament $tournament)
+    {
+        $teamCount = $this->teamSet->teams()->withEnoughPlayers($tournament)->count();
+
+        return $q->whereHas('teamSet', function (Builder $q) use ($tournament, $teamCount) {
+            $q->whereHas('group', function (Builder $q) use ($tournament, $teamCount) {
+                $q->where('tournament_id', $tournament->id);
+                $q->has('tournamentQuizmasters', '>=', $tournament->numberOfQuizmastersRequiredByTeamCount($teamCount));
+            });
+        });
     }
 
     protected static function boot()

@@ -6,7 +6,10 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
 use Validator;
@@ -126,12 +129,8 @@ class Player extends Model
 
     /**
      * Determine if a player's birthday can be edited.
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isBirthdayEditable(User $user)
+    public function isBirthdayEditable(User $user) : bool
     {
         // some people can always edit it
         if ($user->isA(Role::ADMIN)) {
@@ -146,18 +145,12 @@ class Player extends Model
         return $this->seasons()->count() >= 1;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function guardian()
+    public function guardian() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function teamSet()
+    public function teamSet() : HasManyThrough
     {
         return $this->hasManyThrough(TeamSet::class, Team::class);
     }
@@ -176,40 +169,28 @@ class Player extends Model
             ->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function seasons()
+    public function seasons() : BelongsToMany
     {
         return $this->belongsToMany(Season::class, 'player_season')
             ->withPivot('group_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function groups()
+    public function groups() : BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'player_season')
             ->withPivot('season_id', 'grade', 'shirt_size', 'inactive')
             ->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function programs()
+    public function programs() : BelongsToMany
     {
         return $this->hasManyThrough(Program::class, Group::class, 'player_season')
             ->withPivot('group_id', 'season_id', 'grade', 'shirt_size')
             ->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function teams()
+    public function teams() : BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'team_player')
             ->withPivot('order')
@@ -236,10 +217,7 @@ class Player extends Model
         $this->attributes['last_name'] = ucwords(strtolower(trim($attribute)));
     }
 
-    /**
-     * @return string
-     */
-    public function getFullNameAttribute()
+    public function getFullNameAttribute() : string
     {
         return $this->first_name.' '.$this->last_name;
     }
@@ -296,14 +274,7 @@ class Player extends Model
         return $this->groups()->wherePivot('season_id', $season->id)->first();
     }
 
-    /**
-     * If the current player has registered with a group.
-     *
-     * @param Season $season
-     *
-     * @return bool
-     */
-    public function isRegisteredWithGroup(Season $season)
+    public function isRegisteredWithGroup(Season $season) : bool
     {
         return $this->groups()->wherePivot('season_id', $season->id)->count() > 0;
     }
@@ -368,9 +339,6 @@ class Player extends Model
             ]);
     }
 
-    /**
-     * Query scope for inactive groups.
-     */
     public function scopeActive($query, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
@@ -379,9 +347,6 @@ class Player extends Model
             ->whereNull('player_season.inactive');
     }
 
-    /**
-     * Query scope for inactive players.
-     */
     public function scopeInactive($query, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {

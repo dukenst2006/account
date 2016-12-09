@@ -49,6 +49,8 @@ class CleanupOrphanAccounts extends Command
         foreach ($orphanUsers as $user) {
             $user->notify(new AccountDeleted());
 
+            // if registered with social media, delete those associations first
+            $user->providers()->delete();
             $user->delete();
         }
     }

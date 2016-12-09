@@ -181,3 +181,41 @@ h3 > .fa-edit {
 .team-requirements-error {
     display: none;
 }
+
+/* --- Footer for tournament teamsets --- */
+#fee-warning {
+    background-color: #fff;
+    border-top: 10px solid #e5e9ec;
+    padding-top: .5em;
+}
+#fee-warning .alert {
+    margin: 0 10px 10px 10px;
+}
+#tournament-prompt {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+/*** Desktops & Laptops ***/
+@media (min-width: 980px) {
+    #tournament-prompt {
+        left: 250px;
+    }
+}
+/*** General tablets and phones ***/
+@media (max-width: 979px) {
+    #tournament-prompt {
+        left: 0;
+    }
+}
+/* Portrait view of all tablet devices */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    #tournament-prompt {
+        left: 250px;
+    }
+}
+@media (min-width: 767px) and (max-width: 1025px) {
+    #tournament-prompt {
+        left: 50px;
+    }
+}

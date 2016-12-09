@@ -120,6 +120,31 @@
 </div>
 <div class="row">
     <div class="col-md-12 form-group">
+        <label class="form-label">Requiring Quizmasters</label>
+        <div class="controls p-b-20 p-l-20">
+            <div class="radio">
+                {!! Form::radio('require_quizmasters_per', 'none', old('require_quizmasters_per', (isset($tournament) ? $tournament->settings->quizmasterRequirement() : true)), ['id' => 'requireQuizmastersPerNothing']) !!}
+                <label for="requireQuizmastersPerNothing"><strong>Don't require quizmasters</strong> - Quizmasters can still register (if enabled) but don't contribute to group/team eligibility</label>
+            </div>
+            <br/>
+            <div class="radio radio-primary radio-with-form-fields">
+                {!! Form::radio('require_quizmasters_per', 'group', old('require_quizmasters_per', (isset($tournament) ? $tournament->settings->shouldRequireQuizmastersByGroup() : false)), ['id' => 'requireQuizmastersPerGroup']) !!}
+                <label for="requireQuizmastersPerGroup"><strong>Require {!! Form::selectRange('quizmasters_per_group', 1, 5, (isset($tournament) ? $tournament->settings->quizmastersToRequireByGroup() : old('quizmasters_per_group')), ['style' => 'width: 40px']) !!} quizmaster(s) per group</strong></label>
+            </div>
+            <br/>
+            <div class="radio radio-primary radio-with-form-fields">
+                {!! Form::radio('require_quizmasters_per', 'team_count', old('require_quizmasters_per', (isset($tournament) ? $tournament->settings->shouldRequireQuizmastersByTeamCount() : false)), ['id' => 'requireQuizmastersPerTeamCount']) !!}
+                <label for="requireQuizmastersPerTeamCount"><strong>Require
+                        {!! Form::selectRange('quizmasters_per_team_count', 1, 5, (isset($tournament) ? $tournament->settings->quizmastersToRequireByTeamCount() : old('quizmasters_per_team_count')), ['style' => 'width: 40px']) !!}
+                        quizmaster(s) per group's
+                        {!! Form::selectRange('quizmasters_team_count', 1, 5, (isset($tournament) ? $tournament->settings->teamCountToRequireQuizmastersBy() : old('quizmasters_team_count', 2)), ['style' => 'width: 40px']) !!}
+                        team(s)</strong></label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
         <label class="form-label">Other Options</label>
         <div class="controls p-b-20 p-l-20">
             <div class="checkbox check-primary">
@@ -128,7 +153,7 @@
             </div>
             <br/>
             <div class="checkbox check-primary">
-                {!! Form::checkbox("collect_quizmaster_preferences", 1, old("collect_quizmaster_preferences", (isset($tournament) ? $tournament->settings->shouldCollectQuizmasterPreferences() : true)), [ "id" => 'collectQuizmasterPreferences' ]) !!}
+                {!! Form::checkbox("collect_quizmaster_preferences", 1, old("collect_quizmaster_preferences", (isset($tournament) ? $tournament->settings->shouldCollectQuizmasterPreferences() : false)), [ "id" => 'collectQuizmasterPreferences' ]) !!}
                 <label for="collectQuizmasterPreferences"><strong>Collect Quizzing Preferences</strong> - Allows quizmasters to provide information on quizzing interest/history</label>
             </div>
         </div>

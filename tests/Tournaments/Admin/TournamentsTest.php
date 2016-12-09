@@ -16,9 +16,7 @@ class TournamentsTest extends TestCase
         $this->setupAsDirector();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canCreateTournament()
     {
         $name = 'My Tournament '.time();
@@ -38,7 +36,11 @@ class TournamentsTest extends TestCase
             ->type(33.30, 'participantTypes['.ParticipantType::PLAYER.'][earlybird_fee]')
             ->type(25.50, 'participantTypes['.ParticipantType::PLAYER.'][fee]')
             ->type(45.30, 'participantTypes['.ParticipantType::PLAYER.'][onsite_fee]')
-            ->check('participantTypes[3][requireRegistration]')
+            ->select('team_count', 'require_quizmasters_per')
+            ->select('2', 'quizmasters_per_team_count')
+            ->select('3', 'quizmasters_team_count')
+            ->select('4', 'quizmasters_per_group')
+            ->check('participantTypes['.ParticipantType::QUIZMASTER.'][requireRegistration]')
             ->press('Save')
             ->seePageIs('/admin/tournaments')
             ->see($name);
@@ -48,11 +50,35 @@ class TournamentsTest extends TestCase
         $this->assertEquals('33.30', $playerFees->earlybird_fee);
         $this->assertEquals('25.50', $playerFees->fee);
         $this->assertEquals('45.30', $playerFees->onsite_fee);
+
+        // verify all options are saved, even though we're only actually requiring QM's for groups
+        $this->assertTrue($tournament->settings->shouldRequireQuizmasters());
+
+        $this->assertFalse($tournament->settings->shouldRequireQuizmastersByGroup());
+        $this->assertEquals(4, $tournament->settings->quizmastersToRequireByGroup());
+
+        $this->assertTrue($tournament->settings->shouldRequireQuizmastersByTeamCount());
+        $this->assertEquals(2, $tournament->settings->quizmastersToRequireByTeamCount());
+        $this->assertEquals(3, $tournament->settings->teamCountToRequireQuizmastersBy());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
+    public function quizmasterRegistrationIsRequiredWhenRequiringQuizmastersOfGroups()
+    {
+        $name = 'My Tournament '.time();
+
+        $this
+            ->visit('/admin/tournaments/create')
+            ->type($name, 'name')
+            ->select('team_count', 'require_quizmasters_per')
+            ->select('2', 'quizmasters_per_team_count')
+            ->select('3', 'quizmasters_team_count')
+            ->select('4', 'quizmasters_per_group')
+            ->press('Save')
+            ->see('Quizmaster registration must be enabled in order to require groups to bring quizmasters');
+    }
+
+    /** @test */
     public function canEditTournament()
     {
         $tournament = Tournament::findOrFail(1);
@@ -73,9 +99,7 @@ class TournamentsTest extends TestCase
         $this->assertEquals('45.10', $playerFees->onsite_fee);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function doesntShowRegistrationFees()
     {
         $tournament = Tournament::findOrFail(1);
@@ -90,9 +114,7 @@ class TournamentsTest extends TestCase
             ->dontSee('RegistrationFees');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function viewUser()
     {
         $tournament = Tournament::first();

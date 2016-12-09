@@ -1560,6 +1560,13 @@ var vm = new Vue({
          } else {
              $('.team-requirements-error', team).hide();
          }
+
+         // show warning at the bottom of the page
+         if ($('.team-requirements-error:visible').length > 0) {
+             $('#fee-warning .alert').show();
+         } else {
+             $('#fee-warning .alert').hide();
+         }
      };
 
 if (teamsEditable) {

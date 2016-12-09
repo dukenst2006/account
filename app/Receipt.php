@@ -3,6 +3,9 @@
 namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * BibleBowl\Receipt.
@@ -45,58 +48,42 @@ class Receipt extends Model
         $this->attributes['last_name'] = ucwords(strtolower(trim($attribute)));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournamentQuizmasters()
+    public function tournamentQuizmasters() : HasMany
     {
         return $this->hasMany(TournamentQuizmaster::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function address()
+    public function address() : BelongsTo
     {
         return $this->belongsTo(Address::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items()
+    public function tournament() : BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
+    }
+
+    public function items() : HasMany
     {
         return $this->hasMany(ReceiptItem::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function spectators()
+    public function spectators() : HasMany
     {
         return $this->hasMany(Spectator::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function eventPlayers()
+    public function eventPlayers() : HasMany
     {
         return $this->hasMany(EventPlayer::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function players()
+    public function players() : HasManyThrough
     {
         return $this->hasManyThrough(Player::class, EventPlayer::class);
     }

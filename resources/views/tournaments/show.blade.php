@@ -116,6 +116,22 @@
                                 <?php
                                     $allowsOnSiteRegistration = $tournament->allowsOnSiteRegistration();
                                     $hasEarlyBirdRegistration = $tournament->hasEarlyBirdRegistration();
+
+                                    if ($tournament->settings->shouldRequireQuizmastersByGroup()) {
+                                        $quizmasterRegistrationNotice = 'Groups registering teams are required to register '.$tournament->settings->quizmastersToRequireByGroup().' quizmaster';
+                                        if ($tournament->settings->quizmastersToRequireByGroup() > 1) {
+                                            $quizmasterRegistrationNotice .= 's';
+                                        }
+                                    } elseif ($tournament->settings->shouldRequireQuizmastersByTeamCount()) {
+                                        $quizmasterRegistrationNotice = 'Groups registering teams are required to register '.$tournament->settings->quizmastersToRequireByTeamCount().' quizmaster';
+                                        if ($tournament->settings->quizmastersToRequireByTeamCount() > 1) {
+                                            $quizmasterRegistrationNotice .= 's';
+                                        }
+                                        $quizmasterRegistrationNotice .= ' for every '.$tournament->settings->teamCountToRequireQuizmastersBy().' team';
+                                        if ($tournament->settings->teamCountToRequireQuizmastersBy() > 1) {
+                                            $quizmasterRegistrationNotice .= 's';
+                                        }
+                                    }
                                 ?>
                                 <table class="table">
                                     <thead>
@@ -137,7 +153,12 @@
                                     @foreach ($participantFees as $fee)
                                         <tr>
                                             <td>
-                                                <strong>{{ $fee->participantType->name }}</strong>
+                                                <strong>
+                                                    {{ $fee->participantType->name }}
+                                                    @if($fee->participant_type_id == \BibleBowl\ParticipantType::TEAM && isset($quizmasterRegistrationNotice))
+                                                        *
+                                                    @endif
+                                                </strong>
                                                 <div class="muted">{{ $fee->participantType->description }}</div>
                                             </td>
                                             @if($hasEarlyBirdRegistration)
@@ -165,6 +186,9 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                    @if(isset($quizmasterRegistrationNotice))
+                                        <p>* {{ $quizmasterRegistrationNotice }}</p>
+                                    @endif
                                 @endif
                             </div>
                         </div>

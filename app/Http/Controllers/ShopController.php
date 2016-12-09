@@ -51,7 +51,6 @@ class ShopController extends Controller
             return redirect()->back()->withErrors($e->getMessage());
         }
 
-
         return $postPurchaseEvent->successStep();
     }
 }
