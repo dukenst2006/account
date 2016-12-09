@@ -3,9 +3,9 @@
 use BibleBowl\Group;
 use BibleBowl\Season;
 use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
+use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 
 class PendingRegistrationFeeNotificationTest extends TestCase
 {
@@ -48,7 +48,7 @@ class PendingRegistrationFeeNotificationTest extends TestCase
         ]);
 
         $this->assertNull(Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)->first());
-        
+
         Artisan::call(RemindGroupsOfPendingRegistrationPayments::COMMAND);
     }
 }

@@ -34,7 +34,6 @@
                                             Dates: {{ $tournament->registrationDateSpan() }}
                                         @endif
                                     @endif
-
                                 </div>
                                 <h5><i class="fa fa-users"></i> <span class="semi-bold">Teams</span></h5>
                                 <div class="m-l-20 m-b-20">

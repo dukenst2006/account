@@ -4,6 +4,7 @@ use BibleBowl\Receipt;
 use BibleBowl\Player;
 use BibleBowl\Tournament;
 use BibleBowl\TeamSet;
+use BibleBowl\Group;
 
 class TournamentTest extends TestCase
 {
@@ -102,6 +103,69 @@ class TournamentTest extends TestCase
     }
 
     /** @test */
+    public function tournamentsOnlyIncludeTeamsWithEnoughQuizmastersForTheGroup()
+    {
+        // remove all fees
+        $this->tournament->participantFees()->update([
+            'fee'               => null,
+            'onsite_fee'        => null,
+            'earlybird_fee'     => null,
+        ]);
+
+        $settings = $this->tournament->settings;
+        $settings->requireQuizmasters('group');
+        $settings->setQuizmastersToRequireByGroup(4);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        // make sure the team has enough players
+        $firstTeam = $this->tournament->teams()->first();
+        $firstTeam->players()->sync([1, 2, 3, 4]);
+
+        // exclude teams without enough quizmasters
+        $this->assertEquals(0, $this->tournament->eligibleTeams()->count());
+
+        // ensure if they have enough quizmasters they're included
+        $settings->setQuizmastersToRequireByGroup(2);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
+    }
+
+    /** @test */
+    public function tournamentsOnlyIncludeTeamsWithEnoughQuizmastersForTheirTeams()
+    {
+        // remove all fees
+        $this->tournament->participantFees()->update([
+            'fee'               => null,
+            'onsite_fee'        => null,
+            'earlybird_fee'     => null,
+        ]);
+
+        $settings = $this->tournament->settings;
+        $settings->requireQuizmasters('team_count');
+        $settings->setQuizmastersToRequireByTeamCount(3);
+        $settings->setTeamCountToRequireQuizmastersBy(1);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $firstTeam = $this->tournament->teams()->first();
+        $firstTeam->players()->sync([1, 2, 3, 4]);
+
+        $this->assertEquals(0, $this->tournament->eligibleTeams()->count());
+
+        // ensure if they have enough quizmasters they're included
+        $settings->setQuizmastersToRequireByTeamCount(2);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
+    }
+
+    /** @test */
     public function tournamentsWithFeesExcludePlayersOnTeamsWithoutEnoughPlayers()
     {
         $this->assertEquals(0, $this->tournament->eligiblePlayers()->count());
@@ -180,6 +244,26 @@ class TournamentTest extends TestCase
         $this->assertEquals(4, $this->tournament->eligiblePlayers()->count());
     }
 
+    /** @test */
+    public function requiredQuizmasterCountIsBasedOffOfTeams()
+    {
+        $group = Mockery::mock(Group::class);
+        $group->shouldReceive('getAttribute')->andReturn($group);
+
+        $tournament = Tournament::firstOrFail();
+        $settings = $tournament->settings;
+        $settings->setQuizmastersToRequireByTeamCount(2);
+        $settings->setTeamCountToRequireQuizmastersBy(4);
+        $tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this->assertEquals(2, $tournament->numberOfQuizmastersRequiredByTeamCount(3));
+        $this->assertEquals(2, $tournament->numberOfQuizmastersRequiredByTeamCount(4));
+        $this->assertEquals(4, $tournament->numberOfQuizmastersRequiredByTeamCount(8));
+        $this->assertEquals(4, $tournament->numberOfQuizmastersRequiredByTeamCount(9));
+    }
+
     protected function markPlayersAsPaid(array $playerIds)
     {
         $receipt = Receipt::firstOrFail();
@@ -188,7 +272,7 @@ class TournamentTest extends TestCase
             $insertData[] = [
                 'tournament_id' => $this->tournament->id,
                 'player_id'     => $playerId,
-                'receipt_id'    => $receipt->id
+                'receipt_id'    => $receipt->id,
             ];
         }
         DB::table('tournament_players')->insert($insertData);

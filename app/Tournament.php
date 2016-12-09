@@ -120,10 +120,18 @@ class Tournament extends Model
     public function eligibleTeams() : HasManyThrough
     {
         if ($this->hasFee(ParticipantType::TEAM)) {
-            return $this->teams()->withEnoughPaidPlayers($this);
+            $teams = $this->teams()->withEnoughPaidPlayers($this);
+        } else {
+            $teams = $this->teams()->withEnoughPlayers($this);
         }
 
-        return $this->teams()->withEnoughPlayers($this);
+        if ($this->settings->shouldRequireQuizmastersByGroup()) {
+            $teams->withEnoughQuizmastersInGroup($this);
+        } elseif ($this->settings->shouldRequireQuizmastersByTeamCount()) {
+            $teams->withEnoughQuizmastersBasedOnTeamCount($this);
+        }
+
+        return $teams;
     }
 
     public function teams() : HasManyThrough
@@ -556,6 +564,17 @@ class Tournament extends Model
     public function shouldWarnAboutTeamLocking() : bool
     {
         return $this->lock_teams->lt(\Carbon\Carbon::now()->addDays(7));
+    }
+
+    public function numberOfQuizmastersRequiredByTeamCount(int $teamCount) : int
+    {
+        $quizmastersRequired = floor(($this->settings->quizmastersToRequireByTeamCount() * $teamCount) / $this->settings->teamCountToRequireQuizmastersBy());
+
+        if ($quizmastersRequired < $this->settings->quizmastersToRequireByTeamCount()) {
+            return $this->settings->quizmastersToRequireByTeamCount();
+        }
+
+        return $quizmastersRequired;
     }
 
     public function eligibleRegistrationWithOutstandingFees(Group $group) : Registration

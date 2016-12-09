@@ -27,9 +27,7 @@ class GroupRegistrationTest extends TestCase
         $this->tournament = Tournament::firstOrFail();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canViewGroupRegistrationStatus()
     {
         $this
@@ -38,9 +36,7 @@ class GroupRegistrationTest extends TestCase
             ->see('Quizmasters');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canInviteQuizmasters()
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
@@ -63,9 +59,7 @@ class GroupRegistrationTest extends TestCase
         $this->assertEquals($phone, $spectator->phone);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function cantInviteQuizmasterWhoIsAlreadyRegistered()
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
@@ -83,9 +77,7 @@ class GroupRegistrationTest extends TestCase
             ->see('This quizmaster is already registered for this tournament');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function cantInviteQuizmasterWhoIsUserAndAlreadyRegistered()
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
@@ -107,9 +99,7 @@ class GroupRegistrationTest extends TestCase
             ->see('This quizmaster is already registered for this tournament');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function cantRegisterAsGuest()
     {
         // since only the guardian login is seeded, we can tear down
@@ -125,9 +115,7 @@ class GroupRegistrationTest extends TestCase
             ->seePageIs('/tournaments/'.$this->tournament->slug);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function quizmasterCanProvideQuizzingPreferences()
     {
         $tournamentQuizmaster = TournamentQuizmaster::firstOrFail();
@@ -145,9 +133,7 @@ class GroupRegistrationTest extends TestCase
         $this->assertEquals($gamesQuizzed, $tournamentQuizmaster->quizzing_preferences->gamesQuizzedThisSeason());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function headCoachCanRegisterAsSpectator()
     {
         $this->bypassInitialRegistrationInstructions();
@@ -177,9 +163,7 @@ class GroupRegistrationTest extends TestCase
             ->dontSee('planning to attend this tournament you');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canRegisterSpectator()
     {
         $this->bypassInitialRegistrationInstructions();
@@ -213,9 +197,7 @@ class GroupRegistrationTest extends TestCase
         $this->assertEquals($phone, $spectator->phone);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function cantModifyRegistrationWhenRegistrationClosed()
     {
         $this->tournament->update([
@@ -245,9 +227,7 @@ class GroupRegistrationTest extends TestCase
             ->see('Online registration for this tournament is now closed');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canDuplicateTeams()
     {
         $teamSet = TeamSet::firstOrFail();
@@ -265,9 +245,7 @@ class GroupRegistrationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canSetTeams()
     {
         $this
@@ -284,9 +262,7 @@ class GroupRegistrationTest extends TestCase
             ->see('2 require payment');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function dontSeeQuizmasterAndSpectatorsWhenThereAreNotAny()
     {
         $this->tournament->tournamentQuizmasters()->delete();
@@ -302,9 +278,7 @@ class GroupRegistrationTest extends TestCase
             ->see('Register Teams');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createsNewTeams()
     {
         $this
@@ -317,9 +291,7 @@ class GroupRegistrationTest extends TestCase
         $this->seePageIs('/teamsets/'.$teamSet->id);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createsNewTeamsIfNoExistingTeamsToChooseFrom()
     {
         $this->group()->teamSets()->update([
@@ -334,9 +306,7 @@ class GroupRegistrationTest extends TestCase
         $this->seePageIs('/teamsets/'.$teamSet->id);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canSignupPlayersForOptionalEvents()
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
@@ -551,6 +521,120 @@ class GroupRegistrationTest extends TestCase
             ->see($spectator->full_name)
             ->press('delete-spectator-'.$spectator->id)
             ->see($spectator->full_name.' has been removed');
+    }
+
+    /** @test */
+    public function doesntAllowRegistrationPaymentWhenQuizmasterCriteriaIsntMetForGroups()
+    {
+        $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        $settings = $this->tournament->settings;
+        $settings->requireQuizmasters('group');
+        $settings->setQuizmastersToRequireByGroup(2);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/group')
+            ->click('Pay Fees')
+            ->dontSee('You need to register 2 quizmaster(s) before you can proceed.');
+    }
+
+    /** @test */
+    public function doesntAllowRegistrationPaymentWhenQuizmasterCriteriaIsntMetByGroup()
+    {
+        $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        $settings = $this->tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+
+        $settings->requireQuizmasters('group');
+        $settings->setQuizmastersToRequireByGroup(10);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/group')
+            ->click('Pay Fees')
+            ->see('You need to register 10 quizmaster(s) before you can proceed.');
+    }
+
+    /** @test */
+    public function doesntAllowRegistrationPaymentWhenQuizmasterCriteriaIsntMetForTeamCount()
+    {
+        $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        $settings = $this->tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+
+        $settings->requireQuizmasters('team_count');
+        $settings->setQuizmastersToRequireByTeamCount(2);
+        $settings->setTeamCountToRequireQuizmastersBy(1);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/group')
+            ->click('Pay Fees')
+            ->see('Because you have 8 team(s), you need 16 quizmaster(s) before you can proceed.');
+    }
+
+    /** @test */
+    public function showsIneligibleWarningWhenQuizmasterCriteriaIsntMetByGroup()
+    {
+        $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        // eliminate fees so we don't need to seed players as paid
+        $this->tournament->participantFees()->where('participant_type_id', ParticipantType::QUIZMASTER)->update([
+            'fee' => null,
+        ]);
+
+        $settings = $this->tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+
+        $settings->requireQuizmasters('group');
+        $settings->setQuizmastersToRequireByGroup(10);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/group')
+            ->see('You need to register '.$this->tournament->settings->quizmastersToRequireByGroup().' quizmaster(s) before your registration is complete.');
+    }
+
+    /** @test */
+    public function showsIneligibleWarningWhenQuizmasterCriteriaIsntMetByTeamCount()
+    {
+        $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        // eliminate fees so we don't need to seed players as paid
+        $this->tournament->participantFees()->where('participant_type_id', ParticipantType::QUIZMASTER)->update([
+            'fee' => null,
+        ]);
+
+        $settings = $this->tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+
+        $settings->requireQuizmasters('team_count');
+        $settings->setQuizmastersToRequireByTeamCount(4);
+        $settings->setTeamCountToRequireQuizmastersBy(1);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $teamCount = $this->tournament->teamSet($this->group())->teams()->count();
+        $numberOfQuizmastersRequired = $this->tournament->numberOfQuizmastersRequiredByTeamCount($teamCount);
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/group')
+            ->see('Because you have '.$teamCount.' team(s), you need '.$numberOfQuizmastersRequired.' quizmaster(s) before your registration is complete.');
     }
 
     private function bypassInitialRegistrationInstructions() : TeamSet

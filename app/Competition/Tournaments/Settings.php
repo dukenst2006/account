@@ -58,7 +58,7 @@ class Settings extends Fluent
 
     public function teamCountToRequireQuizmastersBy() : int
     {
-        return $this->get('teamCountToRequireQuizmastersBy', 1);
+        return $this->get('teamCountToRequireQuizmastersBy', 2);
     }
 
     public function setTeamCountToRequireQuizmastersBy(int $teamCount)

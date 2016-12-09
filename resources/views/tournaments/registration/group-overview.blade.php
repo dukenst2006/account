@@ -3,6 +3,7 @@
 @section('title', 'Group Overview - '.$tournament->name)
 
 @section('content')
+    <?php $quizmasterCount = count($quizmasters); ?>
     <div class="content">
         <div class="row">
             <div class="col-md-12">
@@ -115,6 +116,23 @@
                         </div>
                         @endif
                         @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER) && ($teamSet != null || ($teamSet == null && count($quizmasters) > 0)))
+                            @if($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) == false && ($tournament->settings->shouldRequireQuizmastersByGroup() || $tournament->settings->shouldRequireQuizmastersByTeamCount()))
+                                @if($tournament->settings->shouldRequireQuizmastersByGroup() && $quizmasterCount < $tournament->settings->quizmastersToRequireByGroup())
+                                    <div class="alert alert-error text-center">
+                                        You need to register {{ $tournament->settings->quizmastersToRequireByGroup() }} quizmaster(s) before your registration is complete.
+                                    </div>
+                                @elseif ($tournament->settings->shouldRequireQuizmastersByTeamCount())
+                                    <?php
+                                    $teamCount = $tournament->teamSet($group)->teams()->count();
+                                    $numberOfQuizmastersRequired = $tournament->numberOfQuizmastersRequiredByTeamCount($teamCount);
+                                    ?>
+                                    @if($quizmasterCount < $numberOfQuizmastersRequired)
+                                    <div class="alert alert-error text-center">
+                                        Because you have {{ $teamCount }} team(s), you need {{ $numberOfQuizmastersRequired }} quizmaster(s) before your registration is complete.
+                                    </div>
+                                    @endif
+                                @endif
+                            @endif
                             <div class="row form-group">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
@@ -141,7 +159,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if(count($quizmasters) > 0)
+                                        @if($quizmasterCount > 0)
                                             @foreach($quizmasters as $quizmaster)
                                                 <tr>
                                                     <td class="v-align-middle">{{ $quizmaster->full_name }}</td>

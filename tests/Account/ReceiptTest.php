@@ -19,7 +19,7 @@ class ReceiptsTest extends TestCase
     {
         $this
             ->visit('/account/receipts')
-            ->click('#1000')
+            ->click('#1001')
             ->assertResponseOk();
     }
 }

@@ -137,7 +137,7 @@
                 <label for="requireQuizmastersPerTeamCount"><strong>Require
                         {!! Form::selectRange('quizmasters_per_team_count', 1, 5, (isset($tournament) ? $tournament->settings->quizmastersToRequireByTeamCount() : old('quizmasters_per_team_count')), ['style' => 'width: 40px']) !!}
                         quizmaster(s) per group's
-                        {!! Form::selectRange('quizmasters_team_count', 1, 5, (isset($tournament) ? $tournament->settings->teamCountToRequireQuizmastersBy() : old('quizmasters_team_count')), ['style' => 'width: 40px']) !!}
+                        {!! Form::selectRange('quizmasters_team_count', 1, 5, (isset($tournament) ? $tournament->settings->teamCountToRequireQuizmastersBy() : old('quizmasters_team_count', 2)), ['style' => 'width: 40px']) !!}
                         team(s)</strong></label>
             </div>
         </div>

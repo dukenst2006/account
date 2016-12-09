@@ -8,9 +8,7 @@ class RegistrationTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function cantRegisterWhenRegistrationClosed()
     {
         $tournament = Tournament::firstOrFail();
@@ -24,9 +22,7 @@ class RegistrationTest extends TestCase
             ->see('Online registration for this tournament is now closed');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function suggestsOnsiteRegistration()
     {
         $tournament = Tournament::firstOrFail();
@@ -38,5 +34,38 @@ class RegistrationTest extends TestCase
         $this
             ->visit('/tournaments/'.$tournament->slug)
             ->see('Quizmaster, Adult and Family registrations will be accepted onsite.');
+    }
+
+    /** @test */
+    public function showsNoticeForNumberOfRequiredQuizmasters()
+    {
+        $tournament = Tournament::firstOrFail();
+        $settings = $tournament->settings;
+        $settings->requireQuizmasters('group');
+        $settings->setQuizmastersToRequireByGroup(2);
+        $tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug)
+            ->see('Groups registering teams are required to register 2 quizmasters');
+    }
+
+    /** @test */
+    public function showsNoticeForRequiringQuizmastersByTeamCount()
+    {
+        $tournament = Tournament::firstOrFail();
+        $settings = $tournament->settings;
+        $settings->requireQuizmasters('team_count');
+        $settings->setQuizmastersToRequireByTeamCount(3);
+        $settings->setTeamCountToRequireQuizmastersBy(4);
+        $tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $this
+            ->visit('/tournaments/'.$tournament->slug)
+            ->see('Groups registering teams are required to register 3 quizmasters for every 4 teams');
     }
 }

@@ -35,7 +35,7 @@ class TournamentCreateRequest extends Request
             'minimum_players_per_team'                                              => 'required',
             'maximum_players_per_team'                                              => 'required',
 
-            'participantTypes.'.ParticipantType::QUIZMASTER.'.requireRegistration'  => 'required_unless:require_quizmasters_per,none'
+            'participantTypes.'.ParticipantType::QUIZMASTER.'.requireRegistration'  => 'required_unless:require_quizmasters_per,none',
         ];
     }
 
@@ -54,7 +54,7 @@ class TournamentCreateRequest extends Request
             'max_teams.required'                                                                    => 'Max number of teams is required',
             'minimum_players_per_team.required'                                                     => 'Minimum number of players per team is required',
             'maximum_players_per_team.required'                                                     => 'Maximum number of players per team is required',
-            'participantTypes.'.ParticipantType::QUIZMASTER.'.requireRegistration.required_unless'  => 'Quizmaster registration must be enabled in order to require quizmasters by groups',
+            'participantTypes.'.ParticipantType::QUIZMASTER.'.requireRegistration.required_unless'  => 'Quizmaster registration must be enabled in order to require groups to bring quizmasters',
         ];
     }
 }

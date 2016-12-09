@@ -1,4 +1,4 @@
-FROM php:7-fpm-alpine
+FROM php:7.0-fpm-alpine
 LABEL application="laravel"
 
 # add the application to the container
@@ -12,9 +12,6 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
 
     && apk add --update --no-cache vim \
 
-        # needed for mcrypt
-        libmcrypt \
-
         # needed for composer
         git zip unzip \
 
@@ -22,7 +19,7 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
         libpng-dev libjpeg-turbo-dev \
 
     # php extensions the app will need
-    && docker-php-ext-install mcrypt mbstring pdo_mysql gd \
+    && docker-php-ext-install mbstring pdo_mysql gd \
 
     # install composer
     && wget -O /usr/local/bin/composer http://getcomposer.org/composer.phar \
@@ -43,6 +40,6 @@ RUN composer install --no-interaction --no-dev --prefer-dist
 # as light of a container as possible
 USER root
 
-RUN apk del libmcrypt git zip unzip
+RUN apk del git zip unzip
 
 USER www-data

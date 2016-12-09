@@ -75,7 +75,7 @@ class TournamentsTest extends TestCase
             ->select('3', 'quizmasters_team_count')
             ->select('4', 'quizmasters_per_group')
             ->press('Save')
-            ->see('Quizmaster registration must be enabled in order to require quizmasters by groups');
+            ->see('Quizmaster registration must be enabled in order to require groups to bring quizmasters');
     }
 
     /** @test */

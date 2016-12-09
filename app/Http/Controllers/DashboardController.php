@@ -67,7 +67,6 @@ class DashboardController extends Controller
         $season = Session::season();
         $view = view('dashboard');
 
-
         if (Auth::user()->isA(Role::HEAD_COACH)) {
             $view->with('rosterOverview', [
                 'playerStats' => $this->playerMetrics->playerStats(

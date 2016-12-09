@@ -58,7 +58,7 @@ class RegistrationPaymentReceived extends PostPurchaseEvent
         ]);
 
         $receipt->update([
-            'tournament_id' => $this->spectator()->tournament_id
+            'tournament_id' => $this->spectator()->tournament_id,
         ]);
 
         event($this->event(), [
