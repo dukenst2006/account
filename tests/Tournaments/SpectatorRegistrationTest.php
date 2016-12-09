@@ -8,8 +8,6 @@ use BibleBowl\Tournament;
 use Helpers\ActingAsGuardian;
 use Helpers\SimulatesTransactions;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use BibleBowl\User;
-use BibleBowl\TournamentQuizmaster;
 
 class SpectatorRegistrationTest extends TestCase
 {

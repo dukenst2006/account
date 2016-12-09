@@ -76,12 +76,12 @@ class Team extends Model
     public function scopeWithEnoughPaidPlayers(Builder $q, Tournament $tournament)
     {
         return $q->whereHas('players', function (Builder $q) use ($tournament) {
-                $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
-                    $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
-                    $join->on('tournament_players.player_id', '=', 'players.id');
-                })
+            $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
+                $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));
+                $join->on('tournament_players.player_id', '=', 'players.id');
+            })
                 ->whereNotNull('tournament_players.receipt_id');
-            }, '>=', $tournament->settings->minimumPlayersPerTeam())
+        }, '>=', $tournament->settings->minimumPlayersPerTeam())
             ->whereHas('players', function (Builder $q) use ($tournament) {
                 $q->join('tournament_players', function (JoinClause $join) use ($tournament) {
                     $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id));

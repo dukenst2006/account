@@ -1,10 +1,9 @@
 <?php
 
-use BibleBowl\Receipt;
-use BibleBowl\Player;
-use BibleBowl\Tournament;
-use BibleBowl\TeamSet;
 use BibleBowl\Group;
+use BibleBowl\Receipt;
+use BibleBowl\TeamSet;
+use BibleBowl\Tournament;
 
 class TournamentTest extends TestCase
 {
