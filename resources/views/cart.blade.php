@@ -68,6 +68,17 @@
                                         {!! Form::selectYear('expYear', date('Y'), date('Y')+5, old('expYear'), ['class' => 'form-control', 'data-stripe' => 'exp-year'], false) !!}
                                     </div>
                                 </div>
+                                @if(Session::isNotMyself())
+                                <div class="row">
+                                    <div class="alert alert-info m-t-20">
+                                        <p class="semi-bold">Payment Reference Number</p>
+                                        <p>As an administrator you have the option of accepting alternate payment methods manually.  To bypass paying by credit card you can provide a payment reference number.  No email receipts will be sent.</p>
+                                        <p class="m-t-25">
+                                            {!! Form::text('payment_reference_number', old('payment_reference_number'), ['placeholder' => 'Check #, etc.', 'class' => 'form-control']) !!}
+                                        </p>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="row m-t-20">
                                     <div class="col-md-12 text-center">
                                         <button class="btn btn-primary btn-cons" type="submit">Submit</button>

@@ -36,13 +36,28 @@ class ShopController extends Controller
         DB::beginTransaction();
 
         try {
-            if ($transactionId = $paymentProcessor->pay(
-                $request->input('stripeToken'),
+            $receipt = $paymentProcessor->createReceipt(
                 Cart::total(),
                 Cart::receiptItems(),
                 Auth::user() ?? Auth::user()
-            )) {
-                $postPurchaseEvent->fire($paymentProcessor->receipt());
+            );
+
+            // admins can provide a payment reference number to bypass credit card charges
+            if ($request->has('payment_reference_number')) {
+                $transactionId = $request->get('payment_reference_number');
+                $receipt->update([
+                    'payment_reference_number' => $request->get('payment_reference_number'),
+                ]);
+            } else {
+                $transactionId = $paymentProcessor->pay(
+                    $request->input('stripeToken'),
+                    Cart::total(),
+                    $receipt
+                );
+            }
+
+            if ($transactionId) {
+                $postPurchaseEvent->fire($receipt);
             }
             DB::commit();
         } catch (PaymentFailed $e) {

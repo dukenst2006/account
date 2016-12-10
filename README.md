@@ -24,6 +24,7 @@ This app integrates with:
  * Allows parents to add their players to the database, then register them each season with their repsective group
  * Groups pay fees for all players
  * Groups get notification reminders if their players go too long without fees
+ * Direction can optionally login as head coach and record payment by providing a check #
 
 #### home.biblebowl.org
  * Updates the Google Map daily on the Join a team map page

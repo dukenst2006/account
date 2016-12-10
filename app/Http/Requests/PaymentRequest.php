@@ -12,14 +12,14 @@ class PaymentRequest extends Request
     public function rules()
     {
         return [
-            'stripeToken' => 'required',
+            'stripeToken' => 'required_without:payment_reference_number',
         ];
     }
 
     public function messages()
     {
         return [
-            'stripeToken.required'  => 'Unable to process credit card information',
+            'stripeToken.required_unless'  => 'Unable to process credit card information',
         ];
     }
 }

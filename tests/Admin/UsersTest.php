@@ -67,10 +67,9 @@ class UsersTest extends TestCase
     {
         $guardian = User::whereEmail(DatabaseSeeder::GUARDIAN_EMAIL)->firstOrFail();
 
-        $this
-            ->visit('/dashboard')
-            ->visit('/admin/switchUser/'.$guardian->id)
-            ->assertEquals($guardian->email, $this->app['auth.driver']->user()->email);
+        $this->visit('/dashboard');
+
+        $this->loginAdminAs(DatabaseSeeder::HEAD_COACH_EMAIL);
 
         $this
             ->visit('/logout')

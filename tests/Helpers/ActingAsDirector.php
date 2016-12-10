@@ -26,6 +26,14 @@ trait ActingAsDirector
             ]);
     }
 
+    public function loginAdminAs(string $email)
+    {
+        $headCoach = User::where('email', $email)->first();
+        $this
+            ->visit('/admin/switchUser/'.$headCoach->id)
+            ->assertEquals($headCoach->email, $this->app['auth.driver']->user()->email);
+    }
+
     public function season()
     {
         return $this->season;

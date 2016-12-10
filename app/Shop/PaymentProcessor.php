@@ -10,31 +10,9 @@ use Omnipay;
 
 class PaymentProcessor
 {
-    private $receipt;
-
-    /**
-     * @param $token
-     * @param $total
-     * @param Collection $receiptItems
-     * @param User       $user
-     *
-     * @return bool
-     */
-    public function pay($token, $total, Collection $receiptItems, User $user = null)
+    public function pay(string $token, $total, Receipt $receipt) : bool
     {
         DB::beginTransaction();
-
-        $receiptDetails = [
-            'total' => $total,
-        ];
-
-        if ($user != null) {
-            $receiptDetails['user_id'] = $user->id;
-            $receiptDetails['address_id'] = $user->primary_address_id;
-        }
-
-        $receipt = Receipt::create($receiptDetails);
-        $receipt->items()->saveMany($receiptItems);
 
         $chargeData = [
             'currency'      => 'USD',
@@ -53,8 +31,8 @@ class PaymentProcessor
         ];
 
         // allow Stripe to send receipt emails for us
-        if ($user != null) {
-            $chargeData['receipt_email'] = $user->email;
+        if ($receipt->user != null) {
+            $chargeData['receipt_email'] = $receipt->user->email;
         }
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -65,8 +43,6 @@ class PaymentProcessor
                 'payment_reference_number' => $response->getTransactionReference(),
             ]);
 
-            $this->receipt = $receipt;
-
             DB::commit();
 
             return true;
@@ -75,8 +51,20 @@ class PaymentProcessor
         throw new PaymentFailed($response->getMessage());
     }
 
-    public function receipt()
+    public function createReceipt($total, Collection $receiptItems, User $user = null) : Receipt
     {
-        return $this->receipt;
+        $receiptDetails = [
+            'total' => $total,
+        ];
+
+        if ($user != null) {
+            $receiptDetails['user_id'] = $user->id;
+            $receiptDetails['address_id'] = $user->primary_address_id;
+        }
+
+        $receipt = Receipt::create($receiptDetails);
+        $receipt->items()->saveMany($receiptItems);
+
+        return $receipt;
     }
 }
