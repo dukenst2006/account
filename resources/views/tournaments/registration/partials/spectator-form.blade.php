@@ -118,6 +118,7 @@
         <div class="col-md-3">
             Minors:
             <p class="muted">Children 2 and under do not need to register</p>
+            <p class="muted">Do not register players, their head coach(es) will do that</p>
         </div>
         <div class="col-md-9">
             <div class="row form-group">
