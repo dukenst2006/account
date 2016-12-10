@@ -189,6 +189,26 @@ class SpectatorRegistrationTest extends TestCase
             ->see('A spectator with this email address has already been registered');
     }
 
+    /**
+     * @test
+     */
+    public function cantRegisterWithQuizmasterEmailAddress()
+    {
+        $tournament = Tournament::firstOrFail();
+        $spectator = $tournament->spectators()->first();
+        $street = '123 Tester Street';
+        $this
+            ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')
+            ->type($spectator->first_name, 'first_name')
+            ->type($spectator->last_name, 'last_name')
+            ->type('kwebb@domain.com', 'email')
+            ->type($street, 'address_one')
+            ->type('12345', 'zip_code')
+            ->select('M', 'shirt_size')
+            ->press('Continue')
+            ->see('This spectator is already registered as a quizmaster');
+    }
+
     /** @test */
     public function cantRegisterWithSameEmailAddressAsAUser()
     {

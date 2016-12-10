@@ -6,6 +6,7 @@ use BibleBowl\Address;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Spectator;
 use BibleBowl\Tournament;
+use BibleBowl\TournamentQuizmaster;
 use Illuminate\Database\Eloquent\Builder;
 use Validator;
 
@@ -37,6 +38,14 @@ class StandaloneSpectatorRegistrationRequest extends Request
             })->count() == 0;
         });
 
+        // Prevent spectators from registering if they're already quizzing
+        Validator::extend('spectator_isnt_quizzing', function ($attribute, $value, $parameters, $validator) use ($tournament) {
+            return TournamentQuizmaster::where('tournament_id', $this->tournament->id)->where('email', $value)->count() == 0 &&
+            TournamentQuizmaster::where('tournament_id', $this->tournament->id)->whereHas('user', function (Builder $q) use ($value) {
+                $q->where('email', $value);
+            })->count() == 0;
+        });
+
         $rules = [
             'spouse_gender'         => 'required_with:spouse_first_name',
 
@@ -45,7 +54,7 @@ class StandaloneSpectatorRegistrationRequest extends Request
 
             'first_name'            => 'required_unless:registering_as_current_user,1|max:32',
             'last_name'             => 'required_unless:registering_as_current_user,1|max:32',
-            'email'                 => 'required_unless:registering_as_current_user,1|email|max:128|spectator_hasnt_registered',
+            'email'                 => 'required_unless:registering_as_current_user,1|email|max:128|spectator_hasnt_registered|spectator_isnt_quizzing',
             'gender'                => 'required_unless:registering_as_current_user,1',
         ];
 
@@ -73,6 +82,7 @@ class StandaloneSpectatorRegistrationRequest extends Request
             'gender.required_unless'            => 'The gender field is required',
             'shirt_size.required'               => 'The tshirt size is required',
             'email.spectator_hasnt_registered'  => 'A spectator with this email address has already been registered',
+            'email.spectator_isnt_quizzing'     => 'This spectator is already registered as a quizmaster',
 
             'address_one.required_unless'   => 'The street address field is required',
             'zip_code.required_unless'      => 'The zip code field is required',

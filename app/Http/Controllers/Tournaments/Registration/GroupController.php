@@ -30,8 +30,8 @@ class GroupController extends Controller
             'individualEventCount'      => $tournament->individualEvents()->count(),
 
             // show unpaid first, then paid
-            'quizmasters'               => $tournament->tournamentQuizmasters()->registeredByHeadCoach()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
-            'spectators'                => $tournament->spectators()->registeredByHeadCoach()->with('minors', 'user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
+            'quizmasters'               => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
+            'spectators'                => $tournament->spectators()->with('minors', 'user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
         ]);
     }
 
