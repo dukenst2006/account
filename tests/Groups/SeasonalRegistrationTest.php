@@ -2,11 +2,10 @@
 
 use BibleBowl\Group;
 use BibleBowl\Receipt;
+use Helpers\ActingAsDirector;
 use Helpers\ActingAsHeadCoach;
 use Helpers\SimulatesTransactions;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Helpers\ActingAsDirector;
-use BibleBowl\User;
 
 class SeasonalRegistrationTest extends TestCase
 {

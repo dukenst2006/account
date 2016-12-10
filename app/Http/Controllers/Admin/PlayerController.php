@@ -2,14 +2,13 @@
 
 namespace BibleBowl\Http\Controllers\Admin;
 
-use DB;
-use Html;
-use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
-use Maatwebsite\Excel\Excel;
 use BibleBowl\Http\Requests\AdminOnlyRequest;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Player;
+use Html;
 use Input;
+use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
+use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\CellWriter;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
@@ -48,10 +47,8 @@ class PlayerController extends Controller
             ->orderBy('first_name', 'ASC')
             ->get();
 
-        $excel->create('BibleBowlPlayers', function(LaravelExcelWriter $excel) use ($players) {
-
-            $excel->sheet('Sheetname', function(LaravelExcelWorksheet $sheet) use ($players) {
-
+        $excel->create('BibleBowlPlayers', function (LaravelExcelWriter $excel) use ($players) {
+            $excel->sheet('Sheetname', function (LaravelExcelWorksheet $sheet) use ($players) {
                 $sheet->appendRow([
                     'GUID',
                     'Last Name',
@@ -71,7 +68,7 @@ class PlayerController extends Controller
                     'Guardian Phone',
                 ]);
 
-                $sheet->row(1, function(CellWriter $row) {
+                $sheet->row(1, function (CellWriter $row) {
                     $row->setFontWeight('bold');
                 });
 
@@ -96,9 +93,7 @@ class PlayerController extends Controller
                         Html::formatPhone($player->guardian->phone),
                     ]);
                 }
-
             });
-
         })->download($format);
     }
 
