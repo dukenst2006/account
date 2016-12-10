@@ -235,6 +235,7 @@ Route::group(['middleware' => 'auth'], function () {
             'middleware' => ['can:'.Ability::MANAGE_PLAYERS],
         ], function () {
             Route::get('players', 'PlayerController@index');
+            Route::get('players/export/{format}', 'PlayerController@export');
             Route::get('players/{playerId}', 'PlayerController@show');
             Route::delete('players/{playerId}', 'PlayerController@destroy');
         });

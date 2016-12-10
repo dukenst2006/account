@@ -6,16 +6,23 @@
     <div class="content">
         <div class="grid simple">
             <div class="grid-body dataTables_wrapper">
-                <form method="get">
                 <div class="row">
                     <div class="col-md-6 col-xs-4">
                         <h4 class="semi-bold">Players</h4>
                     </div>
-                    <div class="input-group transparent col-md-4 col-md-offset-8 col-xs-8">
-                        <input type="text" class="form-control" placeholder="Search by player or guardian name" name="q" value="{{ Input::get('q') }}"/>
-                        <span class="input-group-addon">
-                            <i class="fa fa-search"></i>
-                        </span>
+                    <div class="col-md-6 text-right">
+                        <a href="/admin/players/export/csv" class="btn btn-info btn-cons">Export All</a>
+                    </div>
+                </div>
+                <form method="get">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 text-right col-md-offset-6 col-sm-offset-6">
+                        <div class="input-group transparent">
+                            <input type="text" class="form-control" placeholder="Search by player or guardian name" name="q" value="{{ Input::get('q') }}" autofocus/>
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 </form>

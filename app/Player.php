@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use Auth;
+use BibleBowl\Http\Requests\Request;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
 use Validator;
+use DB;
 
 /**
  * BibleBowl\Player.
@@ -143,6 +145,26 @@ class Player extends Model
         }
 
         return $this->seasons()->count() >= 1;
+    }
+
+    public function scopeSearch(Builder $q, Request $input) : Builder
+    {
+        $q->where('first_name', 'LIKE', '%'.$input->get('q').'%')
+            ->orWhere('last_name', 'LIKE', '%'.$input->get('q').'%')
+            ->orWhereHas('guardian', function ($q) use ($input) {
+                $q->where('users.first_name', 'LIKE', '%'.$input->get('q').'%')
+                    ->orWhere('users.last_name', 'LIKE', '%'.$input->get('q').'%')
+                    ->orWhere('email', 'LIKE', '%'.$input->get('q').'%');
+            });
+
+        return $q;
+    }
+
+    public function scopeWithSeasonCount(Builder $q) : Builder
+    {
+        return $q
+            ->selectRaw('COUNT(player_season.season_id) as seasonCount')
+            ->leftJoin('player_season', 'player_season.player_id', '=', 'players.id');
     }
 
     public function guardian() : BelongsTo

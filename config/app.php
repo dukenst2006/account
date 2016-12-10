@@ -187,6 +187,7 @@ return [
         \Barryvdh\DomPDF\ServiceProvider::class,
         \anlutro\LaravelSettings\ServiceProvider::class,
         \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
+        \Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
