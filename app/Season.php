@@ -4,6 +4,7 @@ namespace BibleBowl;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -39,19 +40,16 @@ class Season extends Model
      */
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function players()
+    public function players() : BelongsToMany
     {
         // if this relation is updated, update Player too
         return $this->belongsToMany(Player::class, 'player_season')
-            ->withPivot('group_id', 'grade', 'shirt_size')
+            ->withPivot('group_id', 'grade', 'shirt_size', 'memory_master')
             ->withTimestamps()
             ->orderBy('birthday', 'DESC');
     }
 
-    public function groups()
+    public function groups() : BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'player_season')
             ->withPivot('season_id', 'grade', 'shirt_size')

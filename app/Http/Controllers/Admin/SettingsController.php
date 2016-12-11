@@ -20,6 +20,7 @@ class SettingsController extends Controller
     {
         return view('admin.settings')
             ->with('seasonEnd', Setting::seasonEnd())
+            ->with('memoryMasterDeadline', Setting::memoryMasterDeadline())
             ->with('programs', Program::orderBy('name', 'ASC')->get());
     }
 
@@ -32,6 +33,7 @@ class SettingsController extends Controller
     {
         DB::transaction(function () use ($request) {
             Setting::setSeasonEnd(Carbon::createFromTimestamp(strtotime($request->get('season_end'))));
+            Setting::setMemoryMasterDeadline(Carbon::createFromTimestamp(strtotime($request->get('memory_master_deadline'))));
             Setting::save();
 
             // update programs

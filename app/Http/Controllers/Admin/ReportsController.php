@@ -3,10 +3,12 @@
 namespace BibleBowl\Http\Controllers\Admin;
 
 use BibleBowl\Http\Requests\Request;
+use BibleBowl\Player;
 use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Reporting\FinancialsRepository;
 use BibleBowl\Reporting\GroupMetricsRepository;
 use BibleBowl\Reporting\MetricsRepository;
+use BibleBowl\Reporting\PlayerExporter;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Reporting\SurveyMetricsRepository;
 use BibleBowl\Season;
@@ -40,6 +42,20 @@ class ReportsController extends Controller
             'groupStats'        => $groupMetrics->groupStats($currentSeason),
         ]);
     }
+
+//    public function exportMemoryMaster(Request $request, PlayerExporter $exporter)
+//    {
+//        $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : Season::current()->first();
+//
+//        $players = Player::achievedMemoryMaster($currentSeason)
+//            ->withSeasonCount()
+//            ->with('guardian', 'guardian.primaryAddress')
+//            ->orderBy('last_name', 'ASC')
+//            ->orderBy('first_name', 'ASC')
+//            ->get();
+//
+//        $exporter->export($currentSeason->name.'_MemoryMasterAchievers', $players)->download('csv');
+//    }
 
     /**
      * @return \Illuminate\View\View

@@ -166,6 +166,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('guardian/{guardian}', 'Groups\GuardianController@show');
         Route::get('player/{player}/activate', 'Groups\PlayerController@activate');
         Route::get('player/{player}/deactivate', 'Groups\PlayerController@deactivate');
+
+        Route::get('memory-master', 'Groups\MemoryMasterController@showAchievers');
+        Route::post('memory-master', 'Groups\MemoryMasterController@updateAchievers');
     });
 
     Route::group([
@@ -260,6 +263,7 @@ Route::group(['middleware' => 'auth'], function () {
         ], function () {
             Route::get('reports/growth', 'ReportsController@getGrowth');
             Route::get('reports/seasons', 'ReportsController@getSeason');
+            Route::get('reports/export-memory-master', 'ReportsController@exportMemoryMaster');
             Route::get('reports/financials', 'ReportsController@getFinancials');
             Route::get('reports/registration-surveys', 'ReportsController@getRegistrationSurveys');
         });

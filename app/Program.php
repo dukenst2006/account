@@ -5,6 +5,8 @@ namespace BibleBowl;
 use BibleBowl\Presentation\Describer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * BibleBowl\Program.
@@ -51,18 +53,12 @@ class Program extends Model
      */
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function providers()
+    public function providers() : HasMany
     {
         return $this->hasMany(Group::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tournaments()
+    public function tournaments() : HasMany
     {
         return $this->hasMany(Tournament::class);
     }
@@ -72,14 +68,11 @@ class Program extends Model
         return $query->where('slug', $slug);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function players()
+    public function players() : BelongsToMany
     {
         // if this relation is updated, update Season too
         return $this->hasManyThrough(Player::class, Group::class, 'player_season')
-            ->withPivot('season_id', 'group_id', 'grade', 'shirt_size')
+            ->withPivot('season_id', 'group_id', 'grade', 'shirt_size', 'inactive', 'memory_master')
             ->withTimestamps()
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC');

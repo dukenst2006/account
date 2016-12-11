@@ -8,7 +8,7 @@
             <div class="grid-body no-border">
                 <div class="row">
                     <div class="col-md-6 p-t-20">
-                        <h2>Season Statistics</h2>
+                        <h2>Season</h2>
                     </div>
                     <div class="col-md-6 p-t-30 text-right">
                         <div class="btn-group"> <a class="btn btn-info dropdown-toggle btn-demo-space" data-toggle="dropdown" href="#"> {{ $currentSeason->name }} Season <span class="caret"></span> </a>
@@ -18,6 +18,16 @@
                                 @endforeach
                             </ul>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4 text-center">
+                        <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format(\BibleBowl\Player::achievedMemoryMaster($currentSeason)->count()) }}</h2>
+                        <div class="tiles-title blend p-b-25">
+                            MEMORY MASTER ACHIEVERS
+                            <a href="/admin/reports/export-memory-master" class="btn btn-xs btn-mini">Download CSV</a>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="row">

@@ -11,7 +11,7 @@
                         <h4 class="semi-bold">Players</h4>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="/admin/players/export/csv" class="btn btn-info btn-cons">Export All</a>
+                        <a href="/admin/players/export/csv" class="btn btn-info btn-sm btn-small">Export All</a>
                     </div>
                 </div>
                 <form method="get">

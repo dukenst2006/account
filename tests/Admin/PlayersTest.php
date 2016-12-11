@@ -17,9 +17,7 @@ class PlayersTest extends TestCase
         $this->setupAsDirector();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function searchUserList()
     {
         $this
@@ -29,9 +27,7 @@ class PlayersTest extends TestCase
             ->dontSee('Webb, David');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function viewPlayer()
     {
         $player = Player::first();
@@ -41,9 +37,7 @@ class PlayersTest extends TestCase
             ->see($player->full_name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canDeletePlayer()
     {
         $player = Player::first();

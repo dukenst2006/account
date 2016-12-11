@@ -12,10 +12,7 @@ class Settings extends SettingsManager
         parent::__construct($app);
     }
 
-    /**
-     * @return Carbon
-     */
-    public function seasonEnd()
+    public function seasonEnd() : Carbon
     {
         $seasonEnd = Carbon::createFromTimestamp(strtotime($this->get('season_end', 'July 10')));
 
@@ -27,10 +24,7 @@ class Settings extends SettingsManager
         return $seasonEnd;
     }
 
-    /**
-     * @return Carbon
-     */
-    public function seasonStart()
+    public function seasonStart() : Carbon
     {
         $seasonEnd = $this->seasonEnd();
 
@@ -42,11 +36,25 @@ class Settings extends SettingsManager
         return $seasonEnd;
     }
 
-    /**
-     * @param Carbon $date
-     */
     public function setSeasonEnd(Carbon $date)
     {
         $this->set('season_end', $date->format('F j'));
+    }
+
+    public function memoryMasterDeadline() : Carbon
+    {
+        $memoryMasterDeadline = Carbon::createFromTimestamp(strtotime($this->get('memory_master_deadline', 'May 1')));
+
+        // if August or later, end date represents next year
+        if ($memoryMasterDeadline->format('m') <= 8) {
+            return $memoryMasterDeadline->addYear();
+        }
+
+        return $memoryMasterDeadline;
+    }
+
+    public function setMemoryMasterDeadline(Carbon $date)
+    {
+        $this->set('memory_master_deadline', $date->format('F j'));
     }
 }

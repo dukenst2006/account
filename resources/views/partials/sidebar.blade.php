@@ -32,8 +32,12 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                     <a href="/roster"> <i class="fa fa-user"></i>  <span class="title">Player Roster</span> </a>
                 </li>
                 <li @if(Route::current()->getUri() == 'roster/map')
-                        class="active"
-                    @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
+                    class="active"
+                        @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
+                </li>
+                <li @if(Route::current()->getUri() == 'memory-master')
+                    class="active"
+                        @endif> <a href="/memory-master"><i class="fa fa-certificate"></i> <span class="title">Memory Master</span> </a>
                 </li>
             @endcan
             @can(BibleBowl\Ability::MANAGE_TEAMS)

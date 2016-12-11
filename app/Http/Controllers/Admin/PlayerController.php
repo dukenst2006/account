@@ -2,6 +2,7 @@
 
 namespace BibleBowl\Http\Controllers\Admin;
 
+use BibleBowl\Reporting\PlayerExporter;
 use DB;
 use Html;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
@@ -38,68 +39,15 @@ class PlayerController extends Controller
         ]);
     }
 
-    public function export(Request $request, string $format, Excel $excel)
+    public function export(Request $request, string $format, PlayerExporter $exporter)
     {
         $players = Player::search($request)
             ->withSeasonCount()
             ->with('guardian', 'guardian.primaryAddress')
-            ->groupBy('players.id')
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC')
             ->get();
-
-        $excel->create('BibleBowlPlayers', function(LaravelExcelWriter $excel) use ($players) {
-
-            $excel->sheet('Sheetname', function(LaravelExcelWorksheet $sheet) use ($players) {
-
-                $sheet->appendRow([
-                    'GUID',
-                    'Last Name',
-                    'First Name',
-                    'Gender',
-                    'Birthday',
-                    'Seasons Played',
-                    'Address One',
-                    'Address Two',
-                    'City',
-                    'State',
-                    'Zip Code',
-                    'Guardian GUID',
-                    'Guardian Last Name',
-                    'Guardian First Name',
-                    'Guardian Email',
-                    'Guardian Phone',
-                ]);
-
-                $sheet->row(1, function(CellWriter $row) {
-                    $row->setFontWeight('bold');
-                });
-
-                /** @var Player $player */
-                foreach ($players as $player) {
-                    $sheet->appendRow([
-                        $player->guid,
-                        $player->last_name,
-                        $player->first_name,
-                        $player->gender,
-                        $player->birthday->toDateString(),
-                        $player->seasonCount,
-                        $player->guardian->primaryAddress->address_one,
-                        $player->guardian->primaryAddress->address_two,
-                        $player->guardian->primaryAddress->city,
-                        $player->guardian->primaryAddress->state,
-                        $player->guardian->primaryAddress->zip_code,
-                        $player->guardian->guid,
-                        $player->guardian->last_name,
-                        $player->guardian->first_name,
-                        $player->guardian->email,
-                        Html::formatPhone($player->guardian->phone),
-                    ]);
-                }
-
-            });
-
-        })->download($format);
+        $exporter->export('Players', $players)->download($format);
     }
 
     public function destroy(AdminOnlyRequest $request, $playerId)

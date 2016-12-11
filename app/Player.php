@@ -163,8 +163,10 @@ class Player extends Model
     public function scopeWithSeasonCount(Builder $q) : Builder
     {
         return $q
+            ->addSelect('players.*')
             ->selectRaw('COUNT(player_season.season_id) as seasonCount')
-            ->leftJoin('player_season', 'player_season.player_id', '=', 'players.id');
+            ->leftJoin('player_season', 'player_season.player_id', '=', 'players.id')
+            ->groupBy('players.id');
     }
 
     public function guardian() : BelongsTo
@@ -194,21 +196,21 @@ class Player extends Model
     public function seasons() : BelongsToMany
     {
         return $this->belongsToMany(Season::class, 'player_season')
-            ->withPivot('group_id', 'grade', 'shirt_size')
+            ->withPivot('group_id', 'grade', 'shirt_size', 'memory_master')
             ->withTimestamps();
     }
 
     public function groups() : BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'player_season')
-            ->withPivot('season_id', 'grade', 'shirt_size', 'inactive')
+            ->withPivot('season_id', 'grade', 'shirt_size', 'memory_master')
             ->withTimestamps();
     }
 
     public function programs() : BelongsToMany
     {
         return $this->hasManyThrough(Program::class, Group::class, 'player_season')
-            ->withPivot('group_id', 'season_id', 'grade', 'shirt_size')
+            ->withPivot('group_id', 'season_id', 'grade', 'shirt_size', 'memory_master')
             ->withTimestamps();
     }
 
@@ -274,6 +276,15 @@ class Player extends Model
     {
         return $query->whereNull('player_season.paid')
             ->active($season);
+    }
+
+    public function scopeAchievedMemoryMaster(Builder $query, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $query) use ($season) {
+            $query
+                ->where('seasons.id', $season->id)
+                ->where('player_season.memory_master', 1);
+        });
     }
 
     public function scopeWithUnpaidRegistration(Builder $query, Tournament $tournament)

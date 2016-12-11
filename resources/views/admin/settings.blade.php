@@ -15,7 +15,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-md-offset-3 col-md-6 col-sm-6 col-sm-offset-3">
+            <div class="col-md-offset-3 col-md-8 col-sm-6 col-sm-offset-3">
                 <div class="grid simple">
                     {!! Form::open(['url' => ['/admin/settings'], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
                     <div class="grid-title no-border">
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 p-b-20">
+                            <div class="col-md-12">
                                 <label class="form-label">Registration Fees</label>
                                 <span class="help"></span>
                                 <div class="controls p-b-20">
@@ -49,19 +49,29 @@
                                         </thead>
                                         <tbody>
                                         @foreach($programs as $program)
-                                        <tr>
-                                            <td>{{ $program->name }}</td>
-                                            <td>
-                                                {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>{{ $program->name }}</td>
+                                                <td>
+                                                    {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
+                                                </td>
+                                            </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-12 p-b-20">
+                                <label class="form-label">Memory Master Deadline</label>
+                                <div class="controls p-b-20">
+                                    <div class="input-append success date col-md-10 col-lg-6 no-padding" data-date="{{ $memoryMasterDeadline->format('M j') }}">
+                                        {!! Form::text('memory_master_deadline', old('memory_master_deadline', $memoryMasterDeadline->format('M j')), ['class' => 'form-control']) !!}
+                                        <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary btn-cons" type="submit">Save</button>
