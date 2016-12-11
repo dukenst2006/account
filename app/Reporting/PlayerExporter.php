@@ -2,8 +2,8 @@
 
 namespace BibleBowl\Reporting;
 
-use Html;
 use BibleBowl\Player;
+use Html;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;

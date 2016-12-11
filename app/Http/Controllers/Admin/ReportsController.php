@@ -8,7 +8,6 @@ use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Reporting\FinancialsRepository;
 use BibleBowl\Reporting\GroupMetricsRepository;
 use BibleBowl\Reporting\MetricsRepository;
-use BibleBowl\Reporting\PlayerExporter;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Reporting\SurveyMetricsRepository;
 use BibleBowl\Season;

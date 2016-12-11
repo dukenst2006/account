@@ -2,9 +2,9 @@
 
 namespace BibleBowl\Http\Controllers\Groups;
 
+use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
 use DB;
-use BibleBowl\Http\Controllers\Controller;
 use Session;
 
 class MemoryMasterController extends Controller

@@ -2,20 +2,13 @@
 
 namespace BibleBowl\Http\Controllers\Admin;
 
-use BibleBowl\Reporting\PlayerExporter;
-use DB;
-use Html;
-use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
-use Maatwebsite\Excel\Excel;
 use BibleBowl\Http\Requests\AdminOnlyRequest;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Player;
+use BibleBowl\Reporting\PlayerExporter;
+use DB;
 use Html;
 use Input;
-use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
-use Maatwebsite\Excel\Excel;
-use Maatwebsite\Excel\Writers\CellWriter;
-use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
 class PlayerController extends Controller
 {
