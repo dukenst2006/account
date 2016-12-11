@@ -10,7 +10,10 @@ use Maatwebsite\Excel\Excel;
 use BibleBowl\Http\Requests\AdminOnlyRequest;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Player;
+use Html;
 use Input;
+use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
+use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\CellWriter;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
