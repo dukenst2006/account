@@ -54,17 +54,13 @@
 
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 text-center">
-                                        <a href="#">
-                                            <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format($tournament->eligibleTeams()->count()) }}</h2>
-                                            <div class="tiles-title blend p-b-25">TEAMS</div>
-                                        </a>
+                                        <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format($tournament->eligibleTeams()->count()) }}</h2>
+                                        <div class="tiles-title blend p-b-25">TEAMS</div>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="col-md-4 col-sm-4 text-center">
-                                        <a href="#">
-                                            <h2 class="semi-bold text-success no-margin p-t-35 p-b-10">{{ number_format($tournament->eligiblePlayers()->count()) }}</h2>
-                                            <div class="tiles-title blend p-b-25">PLAYERS</div>
-                                        </a>
+                                        <h2 class="semi-bold text-success no-margin p-t-35 p-b-10">{{ number_format($tournament->eligiblePlayers()->count()) }}</h2>
+                                        <div class="tiles-title blend p-b-25">PLAYERS</div>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="col-md-4 col-sm-4 text-center">
@@ -97,7 +93,10 @@
                                             <td class="text-center hidden-xs hidden-sm">{{ $event->displayPrice() }}</td>
                                             <td class="text-center">
                                                 @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
-                                                    {{ number_format($event->eligiblePlayers()->count()) }}
+                                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/events/{{ $event->id }}/participants/export/csv">
+                                                        <i class="fa fa-download"></i>
+                                                        {{ number_format($event->eligiblePlayers()->count()) }}
+                                                    </a>
                                                 @endif
                                             </td>
                                             <td>

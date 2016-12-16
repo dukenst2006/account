@@ -181,6 +181,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('tournaments.events', 'EventsController', [
             'except' => ['index', 'show'],
         ]);
+        Route::get('tournaments/{tournamentId}/events/{eventId}/participants/export/{format}', 'EventsController@exportParticipants');
     });
 
     Route::group([

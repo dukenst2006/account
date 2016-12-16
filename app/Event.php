@@ -49,7 +49,7 @@ class Event extends Model
             return $this->players();
         }
 
-        return $this->unpaidPlayers();
+        return $this->paidPlayers();
     }
 
     public function scopeRequiringFees(Builder $q) : Builder
@@ -60,13 +60,17 @@ class Event extends Model
     public function paidPlayers() : BelongsToMany
     {
         return $this->belongsToMany(Player::class)
-            ->wherePivot('receipt_id', '!=', null);
+            ->wherePivot('receipt_id', '!=', null)
+            ->withPivot('receipt_id')
+            ->withTimestamps();
     }
 
     public function unpaidPlayers() : BelongsToMany
     {
         return $this->belongsToMany(Player::class)
-            ->wherePivot('receipt_id', null);
+            ->wherePivot('receipt_id', null)
+            ->withPivot('receipt_id')
+            ->withTimestamps();
     }
 
     public function scopeByParticipantType(Builder $builder, int $participantTypeId)
