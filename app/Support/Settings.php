@@ -17,7 +17,7 @@ class Settings extends SettingsManager
         $seasonEnd = Carbon::createFromTimestamp(strtotime($this->get('season_end', 'July 10')));
 
         // if August or later, end date represents next year
-        if ($seasonEnd->format('m') >= 8) {
+        if (Carbon::now()->gt($seasonEnd)) {
             return $seasonEnd->addYear();
         }
 
@@ -30,7 +30,7 @@ class Settings extends SettingsManager
 
         // season has already rotated, should be next year
         if ($seasonEnd->lt(Carbon::now())) {
-            $seasonEnd->addYear(1);
+            $seasonEnd->addYear();
         }
 
         return $seasonEnd;
@@ -45,9 +45,9 @@ class Settings extends SettingsManager
     {
         $memoryMasterDeadline = Carbon::createFromTimestamp(strtotime($this->get('memory_master_deadline', 'May 1')));
 
-        // if August or later, end date represents next year
-        if ($memoryMasterDeadline->format('m') <= 8) {
-            return $memoryMasterDeadline->addYear();
+        // season has already ended this year, should be next year
+        if ($memoryMasterDeadline->lt(Carbon::now())) {
+            $memoryMasterDeadline->addYear();
         }
 
         return $memoryMasterDeadline;

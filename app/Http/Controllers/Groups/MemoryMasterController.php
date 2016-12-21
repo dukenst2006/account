@@ -2,6 +2,8 @@
 
 namespace BibleBowl\Http\Controllers\Groups;
 
+use Carbon\Carbon;
+use Setting;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
 use DB;
@@ -16,6 +18,9 @@ class MemoryMasterController extends Controller
 
         return view('group.roster.memory-master')
             ->withPlayers($group->players)
+            ->with('group', $group)
+            ->with('season', $season)
+            ->with('tooLateToSubmit', Setting::memoryMasterDeadline()->lt(Carbon::now()))
             ->with('playersWhoAchieved', $group->players()->achievedMemoryMaster($season)->get()->modelKeys());
     }
 

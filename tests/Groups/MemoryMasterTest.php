@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class MemoryMasterTest extends TestCase
 {
     use \Helpers\ActingAsHeadCoach;
@@ -20,5 +22,14 @@ class MemoryMasterTest extends TestCase
             ->press('Save')
             ->see('Your changes have been saved')
             ->seeIsChecked('player[6]');
+    }
+
+    /** @test */
+    public function cantChangeMemoryMasterAfterDeadline()
+    {
+        Carbon::setTestNow(Carbon::now()->addYear());
+        $this
+            ->visit('/memory-master')
+            ->see('The deadline for submitting Memory Master achievers has passed');
     }
 }

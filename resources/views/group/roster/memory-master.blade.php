@@ -12,45 +12,57 @@
                         <h4>Memory <span class="semi-bold">Master</span></h4>
                     </div>
                     <div class="grid-body no-border">
-                        <p>Check the players who have completed the Memory Master challenge so we can recognize them.</p>
                         @include('partials.messages')
-                        {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th style="width:20%">
-                                    <div class="checkbox check-default">
-                                        {!! Form::checkbox('all-players', 1, false, [ 'id' => 'all-players', 'class' => 'checkall' ]) !!}
-                                        <label for="all-players"></label>
-                                    </div>
-                                </th>
-                                <th style="width:80%">Player</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                        @if(count($players) > 0)
-                            @foreach($players as $player)
-                            <tr>
-                                <td>
-                                    <div class="checkbox check-default">
-                                        {!! Form::checkbox("player[".$player->id."]", 1, old('player['.$player->id.']', in_array($player->id, $playersWhoAchieved)), [ "id" => "player".$player->id ]) !!}
-                                        <label for="player{{ $player->id }}"></label>
-                                    </div>
-                                </td>
-                                <td class="v-align-middle">{{ $player->last_name }}, {{ $player->first_name }}</td>
-                            </tr>
-                            @endforeach
+                        @if ($tooLateToSubmit)
+                            <p>The deadline for submitting Memory Master achievers has passed.</p>
+                            @if(count($players) > 0)
+                                <p>Here's a list of your players who made it:</p>
+                                <ul>
+                                    @foreach($group->players()->achievedMemoryMaster($season)->get() as $player)
+                                        <li>{{ $player->full_name }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
                         @else
-                            <tr>
-                                <td class="text-center" colspan="7"><div class="muted m-t-40" style="font-style: italic">No players have registered yet</div></td>
-                            </tr>
+                            <p>Select the players who have completed the Memory Verse Master chart so we can recognize them.  Please have this completed by <strong>{{ Setting::memoryMasterDeadline()->format('F jS') }}.</strong></p>
+                            {!! Form::open(['class' => 'form-horizontal', 'role' => 'form']) !!}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th style="width:20%">
+                                        <div class="checkbox check-default">
+                                            {!! Form::checkbox('all-players', 1, false, [ 'id' => 'all-players', 'class' => 'checkall' ]) !!}
+                                            <label for="all-players"></label>
+                                        </div>
+                                    </th>
+                                    <th style="width:80%">Player</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                            @if(count($players) > 0)
+                                @foreach($players as $player)
+                                <tr>
+                                    <td>
+                                        <div class="checkbox check-default">
+                                            {!! Form::checkbox("player[".$player->id."]", 1, old('player['.$player->id.']', in_array($player->id, $playersWhoAchieved)), [ "id" => "player".$player->id ]) !!}
+                                            <label for="player{{ $player->id }}"></label>
+                                        </div>
+                                    </td>
+                                    <td class="v-align-middle">{{ $player->last_name }}, {{ $player->first_name }}</td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="7"><div class="muted m-t-40" style="font-style: italic">No players have registered yet</div></td>
+                                </tr>
+                            @endif
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-cons" type="submit">Save</button>
+                            </div>
+                            {!! Form::close() !!}
                         @endif
-                            </tbody>
-                        </table>
-                        <div class="text-center">
-                            <button class="btn btn-primary btn-cons" type="submit">Save</button>
-                        </div>
-                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>

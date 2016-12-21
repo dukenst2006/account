@@ -175,7 +175,6 @@ EOF;
         });
 
         Validator::extend('quizmaster_not_registered', function ($attribute, $value, $parameters, $validator) {
-            //dd('validation-rule', TournamentQuizmaster::where('tournament_id', $parameters[0])->where('email', $value)->count());
             // check if the quizmaster was registered by email address
             if (TournamentQuizmaster::where('tournament_id', $parameters[0])->where('email', $value)->count() > 0) {
                 return false;
