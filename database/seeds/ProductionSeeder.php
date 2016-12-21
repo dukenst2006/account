@@ -85,6 +85,10 @@ class ProductionSeeder extends Seeder
             'name'                  => 'Double Elimination',
         ]);
         EventType::create([
+            'participant_type_id'   => ParticipantType::TEAM,
+            'name'                  => 'Single Elimination',
+        ]);
+        EventType::create([
             'participant_type_id'   => ParticipantType::PLAYER,
             'name'                  => 'BuzzOff',
         ]);
@@ -95,6 +99,10 @@ class ProductionSeeder extends Seeder
         EventType::create([
             'participant_type_id'   => ParticipantType::PLAYER,
             'name'                  => 'Written Test',
+        ]);
+        EventType::create([
+            'participant_type_id'   => ParticipantType::PLAYER,
+            'name'                  => 'Individual Tournament',
         ]);
 
         Bouncer::allow(Role::ADMIN)->to([
