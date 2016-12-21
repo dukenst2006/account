@@ -23,10 +23,9 @@ class PlayerExporter
     public function export(string $filename, Collection $players) : LaravelExcelWriter
     {
         $excel = $this->excel;
-        return $excel->create($filename, function(LaravelExcelWriter $excel) use ($players) {
 
-            $excel->sheet('Players', function(LaravelExcelWorksheet $sheet) use ($players) {
-
+        return $excel->create($filename, function (LaravelExcelWriter $excel) use ($players) {
+            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
                 $sheet->appendRow([
                     'GUID',
                     'Last Name',
@@ -46,7 +45,7 @@ class PlayerExporter
                     'Guardian Phone',
                 ]);
 
-                $sheet->row(1, function(CellWriter $row) {
+                $sheet->row(1, function (CellWriter $row) {
                     $row->setFontWeight('bold');
                 });
 
@@ -71,9 +70,7 @@ class PlayerExporter
                         Html::formatPhone($player->guardian->phone),
                     ]);
                 }
-
             });
-
         });
     }
 }

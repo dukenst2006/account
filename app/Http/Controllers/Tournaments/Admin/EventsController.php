@@ -10,11 +10,9 @@ use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
-use Maatwebsite\Excel\Writers\CellWriter;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
 class EventsController extends Controller
@@ -91,14 +89,12 @@ class EventsController extends Controller
                 },
                 'groups' => function ($q) use ($season) {
                     $q->where('player_season.season_id', $season->id);
-                }
+                },
             ])
             ->get();
 
-        $document = $excel->create($tournament->slug.'_'.str_slug($event->type->name).'_participants', function(LaravelExcelWriter $excel) use ($players) {
-
-            $excel->sheet('Players', function(LaravelExcelWorksheet $sheet) use ($players) {
-
+        $document = $excel->create($tournament->slug.'_'.str_slug($event->type->name).'_participants', function (LaravelExcelWriter $excel) use ($players) {
+            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
                 $sheet->appendRow([
                     'Last Name',
                     'First Name',
@@ -119,9 +115,7 @@ class EventsController extends Controller
                         $player->pivot->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
                     ]);
                 }
-
             });
-
         });
 
         if (app()->environment('testing')) {

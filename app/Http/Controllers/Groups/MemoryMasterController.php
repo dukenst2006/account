@@ -2,12 +2,12 @@
 
 namespace BibleBowl\Http\Controllers\Groups;
 
-use Carbon\Carbon;
-use Setting;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
+use Carbon\Carbon;
 use DB;
 use Session;
+use Setting;
 
 class MemoryMasterController extends Controller
 {
@@ -34,13 +34,13 @@ class MemoryMasterController extends Controller
         // remove all memory masters
         DB::update('UPDATE player_season SET memory_master = 0 WHERE group_id = ? AND season_id = ?', [
             $group->id,
-            $season->id
+            $season->id,
         ]);
 
         // flag certain players as memory masters
         DB::update('UPDATE player_season SET memory_master = 1 WHERE group_id = ? AND season_id = ? AND player_id IN('.implode(',', array_keys($request->get('player'))).')', [
             $group->id,
-            $season->id
+            $season->id,
         ]);
 
         DB::commit();

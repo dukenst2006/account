@@ -1,8 +1,5 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Player;
-use BibleBowl\Season;
 use Carbon\Carbon;
 
 class ApplicationSettingsTest extends TestCase
@@ -10,7 +7,7 @@ class ApplicationSettingsTest extends TestCase
     protected function tearDown()
     {
         Carbon::setTestNow();
-        
+
         parent::tearDown();
     }
 

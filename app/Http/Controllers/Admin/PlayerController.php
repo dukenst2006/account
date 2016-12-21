@@ -6,8 +6,6 @@ use BibleBowl\Http\Requests\AdminOnlyRequest;
 use BibleBowl\Http\Requests\Request;
 use BibleBowl\Player;
 use BibleBowl\Reporting\PlayerExporter;
-use DB;
-use Html;
 use Input;
 
 class PlayerController extends Controller
