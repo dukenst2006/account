@@ -14,7 +14,8 @@ class CleanupOrphanAccountsTest extends TestCase
         $userCount = User::count();
         $orphanedFor = Carbon::now()->subDays(config('biblebowl.cleanup-orphan-accounts-after'));
         $shouldBeDeletedCount = User::where('status', User::STATUS_UNCONFIRMED)->where('created_at', '>', $orphanedFor)->count();
-        $this->assertEquals(5, $shouldBeDeletedCount);
+
+        $this->assertEquals(1, $shouldBeDeletedCount);
 
         $this->artisan(CleanupOrphanAccounts::COMMAND);
 
