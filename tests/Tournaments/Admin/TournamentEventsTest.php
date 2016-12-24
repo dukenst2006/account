@@ -38,7 +38,7 @@ class TournamentEventsTest extends TestCase
      */
     public function canEditEvent()
     {
-        $event = Event::where('participant_type_id', EventType::QUOTE_BEE)->first();
+        $event = Event::where('event_type_id', EventType::QUOTE_BEE)->first();
         $newPrice = rand(1, 100);
         $this
             ->visit('/admin/tournaments/1')
