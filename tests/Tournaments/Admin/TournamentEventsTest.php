@@ -3,6 +3,7 @@
 use BibleBowl\Event;
 use BibleBowl\Player;
 use BibleBowl\Season;
+use BibleBowl\EventType;
 
 class TournamentEventsTest extends TestCase
 {
@@ -37,7 +38,7 @@ class TournamentEventsTest extends TestCase
      */
     public function canEditEvent()
     {
-        $event = Event::orderBy('created_at', 'DESC')->first();
+        $event = Event::where('participant_type_id', EventType::QUOTE_BEE)->first();
         $newPrice = rand(1, 100);
         $this
             ->visit('/admin/tournaments/1')
