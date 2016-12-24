@@ -1,9 +1,8 @@
 <?php
 
-use BibleBowl\Seasons\SeasonRotator;
+use BibleBowl\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use BibleBowl\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
 
 class RemindUpcomingMemoryMasterDeadlineTest extends TestCase
 {

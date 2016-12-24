@@ -23,7 +23,7 @@ class UpcomingMemoryMasterDeadline extends Notification implements ShouldQueue
         $message = new MailMessage();
         $message->subject('Upcoming Memory Master Deadline - '.Setting::memoryMasterDeadline()->format('F j'));
         $message->greeting('Memory Master Deadline');
-        $message->line('The deadline for players to achieve Memory Master is quickly approaching.  Be sure to select the players in your group who have completed the Memory Verse Master chart before <strong>'.Setting::memoryMasterDeadline()->format('F j')."</strong>.");
+        $message->line('The deadline for players to achieve Memory Master is quickly approaching.  Be sure to select the players in your group who have completed the Memory Verse Master chart before <strong>'.Setting::memoryMasterDeadline()->format('F j').'</strong>.');
         $message->action('Manage Memory Master', url('memory-master'));
 
         return $message;
