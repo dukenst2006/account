@@ -286,6 +286,15 @@ class Player extends Model
         });
     }
 
+    public function scopeHaveNotAchievedMemoryMaster(Builder $query, Season $season)
+    {
+        return $query->whereHas('seasons', function (Builder $query) use ($season) {
+            $query
+                ->where('seasons.id', $season->id)
+                ->where('player_season.memory_master', 0);
+        });
+    }
+
     public function scopeWithUnpaidRegistration(Builder $query, Tournament $tournament)
     {
         return $query->join('tournament_players', function (JoinClause $join) use ($tournament) {
