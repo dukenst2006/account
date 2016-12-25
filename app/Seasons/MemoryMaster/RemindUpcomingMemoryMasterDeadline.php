@@ -6,6 +6,7 @@ use BibleBowl\Group;
 use BibleBowl\Role;
 use BibleBowl\Season;
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 class RemindUpcomingMemoryMasterDeadline extends Command
 {
@@ -33,9 +34,9 @@ class RemindUpcomingMemoryMasterDeadline extends Command
     public function fire()
     {
         // only a week before
-//        if (!Carbon::now()->isSameDay(Setting::memoryMasterDeadline()->subDays(7))) {
-//            return;
-//        }
+        if (!Carbon::now()->isSameDay(Setting::memoryMasterDeadline()->subDays(7))) {
+            return;
+        }
 
         $season = Season::current()->firstOrFail();
 
