@@ -2,6 +2,7 @@
 
 namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
+use Html;
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
 use BibleBowl\Competition\TournamentUpdater;
@@ -14,6 +15,10 @@ use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
 use BibleBowl\Program;
 use BibleBowl\Tournament;
+use BibleBowl\TournamentQuizmaster;
+use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
+use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 use Session;
 
 class TournamentsController extends Controller
@@ -109,5 +114,84 @@ class TournamentsController extends Controller
         );
 
         return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
+    }
+
+    public function exportQuizmasters(int $tournamentId, string $format, Excel $excel)
+    {
+        $tournament = Tournament::findOrFail($tournamentId);
+        $quizmasters = $tournament->eligibleQuizmasters()
+            ->with('user', 'group')
+            ->get();
+
+        $document = $excel->create($tournament->slug.'_quizmasters', function (LaravelExcelWriter $excel) use ($quizmasters, $tournament) {
+            $excel->sheet('Quizmasters', function (LaravelExcelWorksheet $sheet) use ($quizmasters, $tournament) {
+
+                $headers = [
+                    'Group',
+                    'First Name',
+                    'Last Name',
+                    'E-mail',
+                    'Phone',
+                    'Gender',
+                    'Registered',
+                ];
+
+                if ($tournament->settings->shouldCollectShirtSizes()) {
+                    $headers = array_merge($headers, [
+                        'T-shirt Size',
+                    ]);
+                }
+
+                if ($tournament->settings->shouldCollectQuizmasterPreferences()) {
+                    $headers = array_merge($headers, [
+                        'Quizzed At This Tournament Before',
+                        'Times Quizzed At This Tournament',
+                        'Games Quizzed This Season',
+                        'Quizzing Interest (1-3)',
+                        'Quizzing Frequency',
+                    ]);
+                }
+
+                $sheet->appendRow($headers);
+
+                /** @var TournamentQuizmaster $quizmasters */
+                foreach ($quizmasters as $quizmaster) {
+                    $data = [
+                        $quizmaster->group_id == null ? '' : $quizmaster->group->name,
+                        $quizmaster->first_name,
+                        $quizmaster->last_name,
+                        $quizmaster->email,
+                        Html::formatPhone($quizmaster->phone),
+                        $quizmaster->gender,
+                        $quizmaster->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                    ];
+
+                    if ($tournament->settings->shouldCollectShirtSizes()) {
+                        $data = array_merge($data, [
+                            $quizmaster->shirt_size,
+                        ]);
+                    }
+
+                    if ($tournament->settings->shouldCollectQuizmasterPreferences()) {
+                        $data = array_merge($data, [
+                            $quizmaster->quizzing_preferences->quizzedAtThisTournamentBefore() ? 'Y' : 'N',
+                            $quizmaster->quizzing_preferences->timesQuizzedAtThisTournament(),
+                            $quizmaster->quizzing_preferences->gamesQuizzedThisSeason(),
+                            $quizmaster->quizzing_preferences->quizzingInterest() > 0 ? $quizmaster->quizzing_preferences->quizzingInterest() : '',
+                            $quizmaster->quizzing_preferences->quizzingFrequency(),
+                        ]);
+                    }
+
+                    $sheet->appendRow($data);
+                }
+            });
+        });
+//
+//        if (app()->environment('testing')) {
+//            echo $document->string('csv');
+//        } else {
+//            $document->download($format);
+//        }
+        echo $document->string('csv');
     }
 }

@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-md-8 col-sm-8 m-b-20">
 
-                                <div class="row">
+                                <div class="row m-b-10">
                                     <div class="col-md-4 col-sm-4 text-center">
                                         <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format($tournament->eligibleTeams()->count()) }}</h2>
                                         <div class="tiles-title blend p-b-25">TEAMS</div>
@@ -67,7 +67,15 @@
                                         <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
                                             {{ number_format($tournament->eligibleQuizmasters()->count()) }}
                                         </h2>
-                                        <div class="tiles-title blend p-b-25">QUIZMASTERS</div>
+                                        <div class="tiles-title blend p-b-25">
+                                            QUIZMASTERS
+                                            <div class="m-t-10">
+                                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/quizmasters/export/csv">
+                                                    <i class="fa fa-download"></i>
+                                                    Export
+                                                </a>
+                                            </div>
+                                        </div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
