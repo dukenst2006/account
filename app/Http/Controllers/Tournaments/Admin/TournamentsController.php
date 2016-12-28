@@ -14,6 +14,8 @@ use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
 use BibleBowl\Program;
+use BibleBowl\Player;
+use BibleBowl\Season;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
@@ -116,6 +118,63 @@ class TournamentsController extends Controller
         return redirect('/admin/tournaments/'.$id)->withFlashSuccess('Your changes were saved');
     }
 
+    public function exportTeams(int $tournamentId, string $format, Excel $excel)
+    {
+        $season = Season::current()->firstOrFail();
+        $tournament = Tournament::findOrFail($tournamentId);
+
+        // get some info about them this season
+        $players = $tournament->eligiblePlayers()
+            ->with([
+                'seasons' => function ($q) use ($season) {
+                    $q->where('seasons.id', $season->id);
+                },
+                'groups' => function ($q) use ($season) {
+                    $q->where('player_season.season_id', $season->id);
+                },
+                'teams' => function ($q) use ($tournament) {
+                    $q->whereHas('teamSet', function ($q) use ($tournament) {
+                        $q->where('team_sets.tournament_id', $tournament->id);
+                    });
+                },
+            ])
+            ->get();
+
+        $document = $excel->create($tournament->slug.'_teams', function (LaravelExcelWriter $excel) use ($players) {
+            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
+                $sheet->appendRow([
+                    'Group',
+                    'Team',
+                    'First Name',
+                    'Last Name',
+                    'Gender',
+                    'Grade',
+                    'Added To Team',
+                ]);
+
+                /** @var Player $player */
+                foreach ($players as $player) {
+                    $team = $player->teams->first();
+                    $sheet->appendRow([
+                        $player->groups->first()->name,
+                        $team->name,
+                        $player->first_name,
+                        $player->last_name,
+                        $player->gender,
+                        $player->seasons->first()->pivot->grade,
+                        $team->pivot->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                    ]);
+                }
+            });
+        });
+
+        if (app()->environment('testing')) {
+            echo $document->string('csv');
+        } else {
+            $document->download($format);
+        }
+    }
+
     public function exportQuizmasters(int $tournamentId, string $format, Excel $excel)
     {
         $tournament = Tournament::findOrFail($tournamentId);
@@ -186,12 +245,11 @@ class TournamentsController extends Controller
                 }
             });
         });
-//
-//        if (app()->environment('testing')) {
-//            echo $document->string('csv');
-//        } else {
-//            $document->download($format);
-//        }
-        echo $document->string('csv');
+
+        if (app()->environment('testing')) {
+            echo $document->string('csv');
+        } else {
+            $document->download($format);
+        }
     }
 }

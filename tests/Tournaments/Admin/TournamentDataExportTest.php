@@ -1,6 +1,7 @@
 <?php
 
 use BibleBowl\Tournament;
+use BibleBowl\TeamSet;
 
 class TournamentDataExportTest extends TestCase
 {
@@ -81,5 +82,47 @@ class TournamentDataExportTest extends TestCase
         $this->assertContains($quizmaster->last_name, $csvContents);
         $this->assertContains('Mount Pleasant', $csvContents);
         $this->assertNotContains('Times Quizzed At This Tournament', $csvContents);
+    }
+
+    /** @test */
+    public function canExportTeams()
+    {
+        $tournament = Tournament::first();
+
+        // remove fees
+        $tournament->participantFees()->update([
+            'fee'           => null,
+            'onsite_fee'    => null,
+            'earlybird_fee' => null,
+        ]);
+
+        // remove number of players on team restriction
+        $settings = $tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+        $tournament->update([
+            'settings' => $settings,
+        ]);
+
+        // link teams to tournament
+        $teamSet = TeamSet::firstOrFail();
+        $teamSet->update([
+            'tournament_id' => $tournament->id,
+        ]);
+
+        $player = $tournament->eligiblePlayers()->first();
+
+        ob_start();
+        $this
+            ->visit('/admin/tournaments/'.$tournament->id.'/participants/teams/export/csv')
+            ->assertResponseOk();
+
+        $csvContents = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains($player->first_name, $csvContents);
+        $this->assertContains($player->last_name, $csvContents);
+        $this->assertContains('Mount Pleasant', $csvContents);
+        $this->assertContains('Team 3', $csvContents);
     }
 }
