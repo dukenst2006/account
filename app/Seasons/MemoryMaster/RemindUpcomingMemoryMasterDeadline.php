@@ -6,8 +6,8 @@ use BibleBowl\Group;
 use BibleBowl\Role;
 use BibleBowl\Season;
 use Carbon\Carbon;
-use Setting;
 use Illuminate\Console\Command;
+use Setting;
 
 class RemindUpcomingMemoryMasterDeadline extends Command
 {
