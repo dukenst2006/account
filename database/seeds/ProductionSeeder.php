@@ -10,8 +10,8 @@ use BibleBowl\RegistrationSurveyAnswer;
 use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Role;
 use BibleBowl\Season;
-use Illuminate\Database\Seeder;
 use BibleBowl\TournamentType;
+use Illuminate\Database\Seeder;
 
 class ProductionSeeder extends Seeder
 {
