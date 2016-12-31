@@ -152,6 +152,11 @@ class Tournament extends Model
         return $this->belongsTo(Program::class);
     }
 
+    public function type() : BelongsTo
+    {
+        return $this->belongsTo(TournamentType::class);
+    }
+
     public function eligiblePlayers() : Builder
     {
         // if there's a fee, we'll assume any team-related checks

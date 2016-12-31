@@ -11,6 +11,7 @@ use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Role;
 use BibleBowl\Season;
 use Illuminate\Database\Seeder;
+use BibleBowl\TournamentType;
 
 class ProductionSeeder extends Seeder
 {
@@ -204,6 +205,16 @@ class ProductionSeeder extends Seeder
                 'answer'    => 'Other',
                 'order'     => '5',
             ]]),
+        ]);
+
+        TournamentType::create([
+            'name' => 'National',
+        ]);
+        TournamentType::create([
+            'name' => 'College',
+        ]);
+        TournamentType::create([
+            'name' => 'Other',
         ]);
     }
 }

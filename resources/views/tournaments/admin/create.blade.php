@@ -14,15 +14,21 @@
                         @include('partials.messages')
                         {!! Form::open(['url' => '/admin/tournaments', 'role' => 'form']) !!}
                         <div class="row">
-                            <div class="col-md-6 col-sm-6 form-group">
+                            <div class="col-md-4 col-sm-4 form-group">
                                 <label class="form-label">Name <span class="required">*</span></label>
                                 <span class="help"></span>
                                 <div class="controls">
                                     {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 128]) !!}
                                 </div>
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-5 form-group">
+                            <div class="col-md-4 col-sm-4 form-group">
+                                <label class="form-label">Type</label>
+                                <span class="help"></span>
+                                <div class="controls p-b-10">
+                                    {!! Form::select('tournament_type_id', $tournamentTypes, null, ['class' => 'form-control']) !!}<br/>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 form-group">
                                 <label class="form-label">Program</label>
                                 <span class="help"></span>
                                 <div class="controls p-b-10">

@@ -14,9 +14,11 @@ use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
 use BibleBowl\Player;
 use BibleBowl\Program;
+use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
+use BibleBowl\TournamentType;
 use Carbon\Carbon;
 use DB;
 use Html;
@@ -60,10 +62,19 @@ class TournamentsController extends Controller
             $programs[$program->id] = $program.'';
         }
 
+        $types = [];
+        foreach (TournamentType::all() as $type) {
+            if (Auth::user()->isA(Role::ADMIN) === false && $type->id == TournamentType::NATIONAL) {
+                continue;
+            }
+            $types[$type->id] = $type->name.'';
+        }
+
         return view('tournaments.admin.create', [
             'programs'          => $programs,
             'eventTypes'        => EventType::orderBy('name', 'ASC')->get(),
             'participantTypes'  => ParticipantType::orderBy('name', 'ASC')->get(),
+            'tournamentTypes'   => $types,
             'defaultEventTypes' => [
                 EventType::WRITTEN_TEST,
                 EventType::ROUND_ROBIN,
