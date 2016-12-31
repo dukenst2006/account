@@ -34,7 +34,7 @@ class AddTournamentType extends Migration
     public function down()
     {
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->dropIndex('tournaments_tournament_type_id_foreign');
+            $table->dropForeign('tournaments_tournament_type_id_foreign');
             $table->dropColumn('tournament_type_id');
         });
         Schema::drop('tournament_types');
