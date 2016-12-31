@@ -285,7 +285,11 @@ class Form extends FormBuilder
         ];
         $list = [];
         foreach ($months as $monthId => $month) {
-            $list[$monthId] = date('m', strtotime($month)).' - '.$month;
+            if ($monthId < 10) {
+                $list[$monthId] = '0'.$monthId.' - '.$month;
+            } else {
+                $list[$monthId] = $monthId.' - '.$month;
+            }
         }
 
         if ($optional) {
