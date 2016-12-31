@@ -2,6 +2,8 @@
 
 namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
+use BibleBowl\Reporting\PlayerExporter;
+use Carbon\Carbon;
 use Html;
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
@@ -18,6 +20,10 @@ use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
+use DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
@@ -120,24 +126,28 @@ class TournamentsController extends Controller
 
     public function exportTeams(int $tournamentId, string $format, Excel $excel)
     {
-        $season = Season::current()->firstOrFail();
         $tournament = Tournament::findOrFail($tournamentId);
 
         // get some info about them this season
         $players = $tournament->eligiblePlayers()
-            ->with([
-                'seasons' => function ($q) use ($season) {
-                    $q->where('seasons.id', $season->id);
-                },
-                'groups' => function ($q) use ($season) {
-                    $q->where('player_season.season_id', $season->id);
-                },
-                'teams' => function ($q) use ($tournament) {
-                    $q->whereHas('teamSet', function ($q) use ($tournament) {
-                        $q->where('team_sets.tournament_id', $tournament->id);
-                    });
-                },
-            ])
+            ->select(
+                'players.*',
+                'groups.name AS group_name',
+                'player_season.grade AS player_grade',
+                'teams.name AS team_name',
+                'team_player.created_at AS added_to_team'
+            )
+            ->join('player_season', function (JoinClause $join) use ($tournament) {
+                $join->on('player_season.player_id', '=', 'players.id');
+                $join->on('player_season.season_id', '=', DB::raw($tournament->season_id));
+            })
+            ->join('team_sets', 'team_sets.tournament_id', '=', DB::raw($tournament->id))
+            ->join('groups', 'groups.id', '=', 'team_sets.group_id')
+            ->join('team_player', 'team_player.player_id', '=', 'players.id')
+            ->join('teams', 'teams.team_set_id', '=', 'team_sets.id')
+            ->orderBy('groups.name', 'ASC')
+            ->orderBy('teams.name', 'ASC')
+
             ->get();
 
         $document = $excel->create($tournament->slug.'_teams', function (LaravelExcelWriter $excel) use ($players) {
@@ -154,15 +164,96 @@ class TournamentsController extends Controller
 
                 /** @var Player $player */
                 foreach ($players as $player) {
-                    $team = $player->teams->first();
                     $sheet->appendRow([
-                        $player->groups->first()->name,
-                        $team->name,
+                        $player->group_name,
+                        $player->team_name,
                         $player->first_name,
                         $player->last_name,
                         $player->gender,
-                        $player->seasons->first()->pivot->grade,
-                        $team->pivot->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                        $player->player_grade,
+                        (new Carbon($player->added_to_team))->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                    ]);
+                }
+            });
+        });
+
+        if (app()->environment('testing')) {
+            echo $document->string('csv');
+        } else {
+            $document->download($format);
+        }
+    }
+
+    public function exportPlayers(Request $request, int $tournamentId, string $format, Excel $excel)
+    {
+        $tournament = Tournament::findOrFail($tournamentId);
+        $playerQuery = $tournament->eligiblePlayers()
+            ->select(
+                'players.*',
+                'groups.name AS group_name',
+                'player_season.grade AS player_grade'
+            )
+            ->with('guardian', 'guardian.primaryAddress')
+
+            // join on groups so we can order by group name
+            ->join('player_season', 'player_season.player_id', '=', 'players.id')
+            ->join('groups', 'groups.id', '=', 'player_season.group_id')
+            ->where('player_season.season_id', $tournament->season->id)
+            ->orderBy('groups.name', 'ASC')
+
+            ->orderBy('last_name', 'ASC')
+            ->orderBy('first_name', 'ASC');
+
+        if ($request->has('grade')) {
+            $playerQuery->whereHas('seasons', function (Builder $q) use ($request, $tournament) {
+                $q->where('seasons.id', $tournament->season_id)
+                    ->where('player_season.grade', $request->get('grade'));
+            });
+        }
+
+        $players = $playerQuery->get();
+
+        $document = $excel->create($tournament->slug.'_players', function (LaravelExcelWriter $excel) use ($players, $tournament) {
+            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players, $tournament) {
+
+                $headers = [
+                    'Group',
+                    'First Name',
+                    'Last Name',
+                    'Gender',
+                    'Birthday',
+                    'Grade',
+                    'Address One',
+                    'Address Two',
+                    'City',
+                    'State',
+                    'Zip Code',
+                    'Guardian Last Name',
+                    'Guardian First Name',
+                    'Guardian Email',
+                    'Guardian Phone',
+                ];
+
+                $sheet->appendRow($headers);
+
+                /** @var Player $player */
+                foreach ($players as $player) {
+                    $sheet->appendRow([
+                        $player->group_name,
+                        $player->last_name,
+                        $player->first_name,
+                        $player->gender,
+                        $player->birthday->toDateString(),
+                        $player->player_grade,
+                        $player->guardian->primaryAddress->address_one,
+                        $player->guardian->primaryAddress->address_two,
+                        $player->guardian->primaryAddress->city,
+                        $player->guardian->primaryAddress->state,
+                        $player->guardian->primaryAddress->zip_code,
+                        $player->guardian->last_name,
+                        $player->guardian->first_name,
+                        $player->guardian->email,
+                        Html::formatPhone($player->guardian->phone),
                     ]);
                 }
             });
@@ -180,6 +271,8 @@ class TournamentsController extends Controller
         $tournament = Tournament::findOrFail($tournamentId);
         $quizmasters = $tournament->eligibleQuizmasters()
             ->with('user', 'group')
+            ->orderBy('last_name', 'ASC')
+            ->orderBy('first_name', 'ASC')
             ->get();
 
         $document = $excel->create($tournament->slug.'_quizmasters', function (LaravelExcelWriter $excel) use ($quizmasters, $tournament) {

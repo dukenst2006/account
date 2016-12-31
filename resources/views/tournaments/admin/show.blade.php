@@ -74,6 +74,14 @@
                                         <h2 class="semi-bold text-success no-margin p-t-35 p-b-10">{{ number_format($playerCount) }}</h2>
                                         <div class="tiles-title blend p-b-25">
                                             PLAYERS
+                                            @if ($playerCount > 0)
+                                                <div class="m-t-10">
+                                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/players/export/csv?grade=12">
+                                                        <i class="fa fa-download"></i>
+                                                        Export Seniors
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>

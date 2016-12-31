@@ -8,6 +8,7 @@ use BibleBowl\RegistrationSurveyQuestion;
 use BibleBowl\Reporting\FinancialsRepository;
 use BibleBowl\Reporting\GroupMetricsRepository;
 use BibleBowl\Reporting\MetricsRepository;
+use BibleBowl\Reporting\PlayerExporter;
 use BibleBowl\Reporting\PlayerMetricsRepository;
 use BibleBowl\Reporting\SurveyMetricsRepository;
 use BibleBowl\Season;
@@ -42,19 +43,19 @@ class ReportsController extends Controller
         ]);
     }
 
-//    public function exportMemoryMaster(Request $request, PlayerExporter $exporter)
-//    {
-//        $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : Season::current()->first();
-//
-//        $players = Player::achievedMemoryMaster($currentSeason)
-//            ->withSeasonCount()
-//            ->with('guardian', 'guardian.primaryAddress')
-//            ->orderBy('last_name', 'ASC')
-//            ->orderBy('first_name', 'ASC')
-//            ->get();
-//
-//        $exporter->export($currentSeason->name.'_MemoryMasterAchievers', $players)->download('csv');
-//    }
+    public function exportMemoryMaster(Request $request, PlayerExporter $exporter)
+    {
+        $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : Season::current()->first();
+
+        $players = Player::achievedMemoryMaster($currentSeason)
+            ->withSeasonCount()
+            ->with('guardian', 'guardian.primaryAddress')
+            ->orderBy('last_name', 'ASC')
+            ->orderBy('first_name', 'ASC')
+            ->get();
+
+        echo $exporter->export($currentSeason->name.'_memory-master-achievers', $players)->string('csv');
+    }
 
     /**
      * @return \Illuminate\View\View
