@@ -20,7 +20,6 @@ use BibleBowl\TournamentQuizmaster;
 use Carbon\Carbon;
 use DB;
 use Html;
-use Html;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
