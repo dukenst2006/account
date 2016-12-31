@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\Season;
 use BibleBowl\Player;
+use BibleBowl\Season;
 use Carbon\Carbon;
 
 class ReportsTest extends TestCase
@@ -54,7 +54,7 @@ class ReportsTest extends TestCase
         $currentSeason = Season::current()->firstOrFail();
         $player = $currentSeason->players()->firstOrFail();
         $currentSeason->players()->updateExistingPivot($player->id, [
-            'memory_master' => 1
+            'memory_master' => 1,
         ]);
         $player = Player::achievedMemoryMaster($currentSeason)->firstOrFail();
 
