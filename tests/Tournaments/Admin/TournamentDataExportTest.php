@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\Tournament;
 use BibleBowl\TeamSet;
+use BibleBowl\Tournament;
 
 class TournamentDataExportTest extends TestCase
 {

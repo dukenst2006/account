@@ -15,8 +15,8 @@ use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
-use BibleBowl\Program;
 use BibleBowl\Player;
+use BibleBowl\Program;
 use BibleBowl\Season;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
@@ -24,6 +24,7 @@ use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
+use Html;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
@@ -277,7 +278,6 @@ class TournamentsController extends Controller
 
         $document = $excel->create($tournament->slug.'_quizmasters', function (LaravelExcelWriter $excel) use ($quizmasters, $tournament) {
             $excel->sheet('Quizmasters', function (LaravelExcelWorksheet $sheet) use ($quizmasters, $tournament) {
-
                 $headers = [
                     'Group',
                     'First Name',
