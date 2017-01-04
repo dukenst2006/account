@@ -384,6 +384,7 @@ class DatabaseSeeder extends Seeder
             'last_name'     => 'Webb',
             'email'         => 'kwebb@domain.com',
             'gender'        => 'M',
+            'shirt_size'    => 'XL',
         ]);
 
         $user = User::where('email', self::QUIZMASTER_EMAIL)->first();
@@ -395,6 +396,7 @@ class DatabaseSeeder extends Seeder
             'last_name'     => 'Jackson',
             'email'         => 'wjackson@domain.com',
             'gender'        => 'F',
+            'shirt_size'    => 'M',
         ]);
 
         // guest spectators

@@ -143,6 +143,22 @@
                                         </tr>
                                     @endforeach
                                 </table>
+
+                                @if($tournament->settings->shouldCollectShirtSizes())
+                                <h5><i class="fa fa-gift"></i> <span class="semi-bold">T-Shirt Sizes</span></h5>
+                                <div class="b-grey b-b m-t-10"></div>
+                                <div class="text-center p-t-10">
+                                    @if($tournament->isRegistrationOpen())
+                                        <p>Registration is still open, so these t-shirt size counts are <strong>not final</strong>.</p>
+                                    @else
+                                        <p>You'll have to order extra t-shirts if you're accepting on-site registrations and want them to have t-shirts.</p>
+                                    @endif
+                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/tshirts/export/csv">
+                                        <i class="fa fa-download"></i>
+                                        Export
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

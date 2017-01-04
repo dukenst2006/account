@@ -185,6 +185,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('tournaments/{tournamentId}/participants/teams/export/{format}', 'TournamentsController@exportTeams');
         Route::get('tournaments/{tournamentId}/participants/players/export/{format}', 'TournamentsController@exportPlayers');
         Route::get('tournaments/{tournamentId}/participants/quizmasters/export/{format}', 'TournamentsController@exportQuizmasters');
+        Route::get('tournaments/{tournamentId}/participants/tshirts/export/{format}', 'TournamentsController@exportTshirts');
     });
 
     Route::group([

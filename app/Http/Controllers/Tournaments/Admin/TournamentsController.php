@@ -4,6 +4,7 @@ namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
+use BibleBowl\Competition\Tournaments\ShirtSizeExporter;
 use BibleBowl\Competition\TournamentUpdater;
 use BibleBowl\EventType;
 use BibleBowl\Http\Controllers\Controller;
@@ -13,6 +14,7 @@ use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
 use BibleBowl\Player;
+use BibleBowl\Presentation\Describer;
 use BibleBowl\Program;
 use BibleBowl\Role;
 use BibleBowl\Season;
@@ -347,6 +349,21 @@ class TournamentsController extends Controller
             });
         });
 
+        if (app()->environment('testing')) {
+            echo $document->string('csv');
+        } else {
+            $document->download($format);
+        }
+    }
+
+    public function exportTshirts(int $tournamentId, string $format, ShirtSizeExporter $shirtSizeExporter)
+    {
+        $tournament = Tournament::findOrFail($tournamentId);
+
+        $document = $shirtSizeExporter->export($tournament);
+
+        echo $document->string('csv');
+        exit;
         if (app()->environment('testing')) {
             echo $document->string('csv');
         } else {

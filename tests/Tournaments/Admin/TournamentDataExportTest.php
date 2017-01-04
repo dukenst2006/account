@@ -166,4 +166,43 @@ class TournamentDataExportTest extends TestCase
         $this->assertContains($player->last_name, $csvContents);
         $this->assertContains('Mount Pleasant', $csvContents);
     }
+
+    /** @test */
+    public function canExportShirtSizes()
+    {
+        $tournament = Tournament::first();
+
+        // remove fees
+        $tournament->participantFees()->update([
+            'fee'           => null,
+            'onsite_fee'    => null,
+            'earlybird_fee' => null,
+        ]);
+
+        // remove number of players on team restriction
+        $settings = $tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+        $tournament->update([
+            'settings' => $settings,
+        ]);
+
+        // link teams to tournament
+        $teamSet = TeamSet::firstOrFail();
+        $teamSet->update([
+            'tournament_id' => $tournament->id,
+        ]);
+
+        ob_start();
+        $this
+            ->visit('/admin/tournaments/'.$tournament->id.'/participants/tshirts/export/csv')
+            ->assertResponseOk();
+
+        $csvContents = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains('"Quizmasters","0","0","0","0","1","0","1","0"', $csvContents);
+        $this->assertContains('"Players","2","0","0","1","1","0","0","0"', $csvContents);
+        $this->assertContains('"Adults/Families","1","1","0","0","0","2","1","0"', $csvContents);
+    }
 }

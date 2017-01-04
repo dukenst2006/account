@@ -105,6 +105,43 @@ class Tournament extends Model
         return $this->hasMany(Spectator::class);
     }
 
+    public function eligibleSpectators() : Builder
+    {
+        $q = $this->spectators();
+
+        if ($this->hasFee(ParticipantType::ADULT) && $this->hasFee(ParticipantType::FAMILY)) {
+            return $q->paid();
+        }
+
+        if ($this->hasFee(ParticipantType::ADULT) && $this->hasFee(ParticipantType::FAMILY) === false) {
+            return $q->paid()->adults();
+        }
+
+        if ($this->hasFee(ParticipantType::FAMILY) && $this->hasFee(ParticipantType::ADULT) === false) {
+            return $q->paid()->families();
+        }
+
+        return $q->getQuery();
+    }
+
+    public function eligibleMinors() : Builder
+    {
+        $q = $this->minors();
+
+        if ($this->hasFee(ParticipantType::FAMILY)) {
+            return $q->whereHas('spectators', function (Builder $q) {
+                $q->paid()->families();
+            });
+        }
+
+        return $q->getQuery();
+    }
+
+    public function minors() : HasManyThrough
+    {
+        return $this->hasManyThrough(Minor::class, Spectator::class);
+    }
+
     public function teamSets() : HasMany
     {
         return $this->hasMany(TeamSet::class);

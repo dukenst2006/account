@@ -9,6 +9,17 @@ use Carbon\Carbon;
  */
 class Describer
 {
+    const SHIRT_SIZES = [
+        'YS'  => 'YS - Youth Small',
+        'YM'  => 'YM - Youth Medium',
+        'YL'  => 'YL - Youth Large',
+        'S'   => 'S - Small',
+        'M'   => 'M - Medium',
+        'L'   => 'L - Large',
+        'XL'  => 'XL - X-Large',
+        'XXL' => 'XXL - XX-Large',
+    ];
+
     public static function describeGrade($grade)
     {
         $grades = [
@@ -66,16 +77,7 @@ class Describer
 
     public static function describeShirtSize($size)
     {
-        $sizes = [
-            'YS'  => 'YS - Youth Small',
-            'YM'  => 'YM - Youth Medium',
-            'YL'  => 'YL - Youth Large',
-            'S'   => 'S - Small',
-            'M'   => 'M - Medium',
-            'L'   => 'L - Large',
-            'XL'  => 'XL - X-Large',
-            'XXL' => 'XXL - XX-Large',
-        ];
+        $sizes = self::SHIRT_SIZES;
 
         if (array_key_exists($size, $sizes)) {
             return $sizes[$size];
