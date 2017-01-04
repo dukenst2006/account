@@ -110,15 +110,15 @@ class Tournament extends Model
         $q = $this->spectators();
 
         if ($this->hasFee(ParticipantType::ADULT) && $this->hasFee(ParticipantType::FAMILY)) {
-            return $q->paid();
+            return $q->paid()->getQuery();
         }
 
         if ($this->hasFee(ParticipantType::ADULT) && $this->hasFee(ParticipantType::FAMILY) === false) {
-            return $q->paid()->adults();
+            return $q->paid()->adults()->getQuery();
         }
 
         if ($this->hasFee(ParticipantType::FAMILY) && $this->hasFee(ParticipantType::ADULT) === false) {
-            return $q->paid()->families();
+            return $q->paid()->families()->getQuery();
         }
 
         return $q->getQuery();
