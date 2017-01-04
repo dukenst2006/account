@@ -168,6 +168,37 @@ class TournamentDataExportTest extends TestCase
     }
 
     /** @test */
+    public function canExportSpectators()
+    {
+        $tournament = Tournament::first();
+
+        // remove fees
+        $tournament->participantFees()->update([
+            'fee'           => null,
+            'onsite_fee'    => null,
+            'earlybird_fee' => null,
+        ]);
+
+        $spectator = $tournament->eligibleSpectators()->first();
+
+        ob_start();
+        $this
+            ->visit('/admin/tournaments/'.$tournament->id.'/participants/spectators/export/csv')
+            ->assertResponseOk();
+
+        $csvContents = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains($spectator->first_name, $csvContents);
+        $this->assertContains($spectator->last_name, $csvContents);
+        $this->assertContains('Mount Pleasant', $csvContents);
+
+        $minor = $spectator->minors->first();
+
+        $this->assertContains($minor->name, $csvContents);
+    }
+
+    /** @test */
     public function canExportShirtSizes()
     {
         $tournament = Tournament::first();

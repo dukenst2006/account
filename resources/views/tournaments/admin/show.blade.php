@@ -54,13 +54,13 @@
 
                                 <div class="row m-b-10">
                                     <?php $teamCount = $tournament->eligibleTeams()->count(); ?>
-                                    <div class="col-md-4 col-sm-4 text-center">
+                                    <div class="col-md-3 col-sm-3 text-center">
                                         <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format($teamCount) }}</h2>
                                         <div class="tiles-title blend p-b-25">
                                             TEAMS
                                             @if ($teamCount > 0)
                                                 <div class="m-t-10">
-                                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/teams/export/csv">
+                                                    <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/teams/export/csv">
                                                         <i class="fa fa-download"></i>
                                                         Export
                                                     </a>
@@ -70,13 +70,13 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <?php $playerCount = $tournament->eligiblePlayers()->count(); ?>
-                                    <div class="col-md-4 col-sm-4 text-center">
+                                    <div class="col-md-3 col-sm-3 text-center">
                                         <h2 class="semi-bold text-success no-margin p-t-35 p-b-10">{{ number_format($playerCount) }}</h2>
                                         <div class="tiles-title blend p-b-25">
                                             PLAYERS
                                             @if ($playerCount > 0)
                                                 <div class="m-t-10">
-                                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/players/export/csv?grade=12">
+                                                    <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/players/export/csv?grade=12">
                                                         <i class="fa fa-download"></i>
                                                         Export Seniors
                                                     </a>
@@ -86,7 +86,7 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <?php $quizmasterCount = $tournament->eligibleQuizmasters()->count(); ?>
-                                    <div class="col-md-4 col-sm-4 text-center">
+                                    <div class="col-md-3 col-sm-3 text-center">
                                         <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
                                             {{ number_format($quizmasterCount) }}
                                         </h2>
@@ -94,11 +94,29 @@
                                             QUIZMASTERS
                                             @if ($quizmasterCount > 0)
                                             <div class="m-t-10">
-                                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/quizmasters/export/csv">
+                                                <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/quizmasters/export/csv">
                                                     <i class="fa fa-download"></i>
                                                     Export
                                                 </a>
                                             </div>
+                                            @endif
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <?php $spectatorCount = $tournament->eligibleSpectators()->count() + $tournament->eligibleMinors()->count(); ?>
+                                    <div class="col-md-3 col-sm-3 text-center">
+                                        <h2 class="semi-bold text-purple no-margin p-t-35 p-b-10">
+                                            {{ number_format($spectatorCount) }}
+                                        </h2>
+                                        <div class="tiles-title blend p-b-25">
+                                            SPECTATORS
+                                            @if ($spectatorCount > 0)
+                                                <div class="m-t-10">
+                                                    <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/spectators/export/csv">
+                                                        <i class="fa fa-download"></i>
+                                                        Export
+                                                    </a>
+                                                </div>
                                             @endif
                                         </div>
                                         <div class="clearfix"></div>
@@ -126,7 +144,7 @@
                                             <td class="text-center hidden-xs hidden-sm">{{ $event->displayPrice() }}</td>
                                             <td class="text-center">
                                                 @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
-                                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/events/{{ $event->id }}/participants/export/csv">
+                                                    <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/events/{{ $event->id }}/participants/export/csv">
                                                         <i class="fa fa-download"></i>
                                                         {{ number_format($event->eligiblePlayers()->count()) }}
                                                     </a>
@@ -153,7 +171,7 @@
                                     @else
                                         <p>You'll have to order extra t-shirts if you're accepting on-site registrations and want them to have t-shirts.</p>
                                     @endif
-                                    <a class="btn btn-primary btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/tshirts/export/csv">
+                                    <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/tshirts/export/csv">
                                         <i class="fa fa-download"></i>
                                         Export
                                     </a>

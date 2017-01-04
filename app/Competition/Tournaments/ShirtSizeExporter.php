@@ -107,14 +107,23 @@ class ShirtSizeExporter
 
     private function spectatorSizes(Tournament $tournament) : array
     {
+        $sizes = [];
+
         $spectatorShirts = $tournament->eligibleSpectators()
             ->select(DB::raw('COUNT(tournament_spectators.id) AS shirt_count'), 'shirt_size')
-            ->with('minors')
             ->groupBy('shirt_size')
             ->get();
-        $sizes = [];
-        foreach ($spectatorShirts as $minorSizes) {
-            $sizes[$minorSizes->shirt_size] = $minorSizes->shirt_count;
+        foreach ($spectatorShirts as $adultSizes) {
+            $sizes[$adultSizes->shirt_size] = $adultSizes->shirt_count;
+        }
+
+        $spouseShirts = $tournament->eligibleSpectators()
+            ->select(DB::raw('COUNT(tournament_spectators.id) AS shirt_count'), 'spouse_shirt_size')
+            ->whereNotNull('spouse_shirt_size')
+            ->groupBy('spouse_shirt_size')
+            ->get();
+        foreach ($spouseShirts as $spouseSizes) {
+            $sizes[$spouseSizes->shirt_size] = isset($sizes[$spouseSizes->shirt_size]) ? $sizes[$spouseSizes->shirt_size] + $spouseSizes->shirt_count : $spouseSizes->shirt_count;
         }
 
         $minorShirts = $tournament->eligibleMinors()
@@ -122,7 +131,7 @@ class ShirtSizeExporter
             ->groupBy('tournament_spectator_minors.shirt_size')
             ->get();
         foreach ($minorShirts as $minorSizes) {
-            $sizes[$minorSizes->shirt_size] = $minorSizes->shirt_count;
+            $sizes[$minorSizes->shirt_size] = isset($sizes[$minorSizes->shirt_size]) ? $sizes[$minorSizes->shirt_size] + $minorSizes->shirt_count : $minorSizes->shirt_count;
         }
 
         return $sizes;

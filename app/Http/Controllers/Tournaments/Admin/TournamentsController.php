@@ -18,6 +18,7 @@ use BibleBowl\Presentation\Describer;
 use BibleBowl\Program;
 use BibleBowl\Role;
 use BibleBowl\Season;
+use BibleBowl\Spectator;
 use BibleBowl\Tournament;
 use BibleBowl\TournamentQuizmaster;
 use BibleBowl\TournamentType;
@@ -203,7 +204,8 @@ class TournamentsController extends Controller
             ->select(
                 'players.*',
                 'groups.name AS group_name',
-                'player_season.grade AS player_grade'
+                'player_season.grade AS player_grade',
+                'player_season.shirt_size AS player_shirt_size'
             )
             ->with('guardian', 'guardian.primaryAddress')
 
@@ -234,6 +236,15 @@ class TournamentsController extends Controller
                     'Gender',
                     'Birthday',
                     'Grade',
+                ];
+
+                if ($tournament->settings->shouldCollectShirtSizes()) {
+                    $headers = array_merge($headers, [
+                        'T-shirt Size',
+                    ]);
+                }
+
+                $headers = array_merge($headers, [
                     'Address One',
                     'Address Two',
                     'City',
@@ -243,19 +254,28 @@ class TournamentsController extends Controller
                     'Guardian First Name',
                     'Guardian Email',
                     'Guardian Phone',
-                ];
+                ]);
 
                 $sheet->appendRow($headers);
 
                 /** @var Player $player */
                 foreach ($players as $player) {
-                    $sheet->appendRow([
+                    $data = [
                         $player->group_name,
                         $player->last_name,
                         $player->first_name,
                         $player->gender,
                         $player->birthday->toDateString(),
                         $player->player_grade,
+                    ];
+
+                    if ($tournament->settings->shouldCollectShirtSizes()) {
+                        $data = array_merge($data, [
+                            $player->player_shirt_size,
+                        ]);
+                    }
+
+                    $data = array_merge($data, [
                         $player->guardian->primaryAddress->address_one,
                         $player->guardian->primaryAddress->address_two,
                         $player->guardian->primaryAddress->city,
@@ -266,6 +286,7 @@ class TournamentsController extends Controller
                         $player->guardian->email,
                         Html::formatPhone($player->guardian->phone),
                     ]);
+                    $sheet->appendRow($data);
                 }
             });
         });
@@ -281,7 +302,7 @@ class TournamentsController extends Controller
     {
         $tournament = Tournament::findOrFail($tournamentId);
         $quizmasters = $tournament->eligibleQuizmasters()
-            ->with('user', 'group')
+            ->with('user', 'group', 'registeredBy')
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC')
             ->get();
@@ -295,7 +316,6 @@ class TournamentsController extends Controller
                     'E-mail',
                     'Phone',
                     'Gender',
-                    'Registered',
                 ];
 
                 if ($tournament->settings->shouldCollectShirtSizes()) {
@@ -313,19 +333,22 @@ class TournamentsController extends Controller
                         'Quizzing Frequency',
                     ]);
                 }
+                $headers = array_merge($headers, [
+                    'Registered',
+                    'Registered By',
+                ]);
 
                 $sheet->appendRow($headers);
 
                 /** @var TournamentQuizmaster $quizmasters */
                 foreach ($quizmasters as $quizmaster) {
                     $data = [
-                        $quizmaster->group_id == null ? '' : $quizmaster->group->name,
+                        $quizmaster->hasGroup() ? $quizmaster->group->name : '',
                         $quizmaster->first_name,
                         $quizmaster->last_name,
                         $quizmaster->email,
                         Html::formatPhone($quizmaster->phone),
                         $quizmaster->gender,
-                        $quizmaster->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
                     ];
 
                     if ($tournament->settings->shouldCollectShirtSizes()) {
@@ -343,6 +366,11 @@ class TournamentsController extends Controller
                             $quizmaster->quizzing_preferences->quizzingFrequency(),
                         ]);
                     }
+
+                    $data = array_merge($data, [
+                        $quizmaster->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                        $quizmaster->wasRegisteredByHeadCoach() ? $quizmaster->registeredBy->full_name : '',
+                    ]);
 
                     $sheet->appendRow($data);
                 }
@@ -362,8 +390,146 @@ class TournamentsController extends Controller
 
         $document = $shirtSizeExporter->export($tournament);
 
-        echo $document->string('csv');
-        exit;
+        if (app()->environment('testing')) {
+            echo $document->string('csv');
+        } else {
+            $document->download($format);
+        }
+    }
+
+    public function exportSpectators(int $tournamentId, string $format, Excel $excel)
+    {
+        $tournament = Tournament::findOrFail($tournamentId);
+        $spectators = $tournament->eligibleSpectators()
+            ->with('minors', 'group', 'address')
+            ->orderBy('last_name', 'ASC')
+            ->orderBy('first_name', 'ASC')
+            ->get();
+
+        // determine the max number of minors so we can
+        // have the appropriate number of columns
+        $maxMinors = 0;
+        foreach ($spectators as $spectator) {
+            if ($spectator->isFamily()) {
+                $minorCount = $spectator->minors->count();
+                if ($minorCount > $maxMinors) {
+                    $maxMinors = $minorCount;
+                }
+            }
+        }
+
+        $document = $excel->create($tournament->slug.'_spectators', function (LaravelExcelWriter $excel) use ($spectators, $tournament, $maxMinors) {
+            $excel->sheet('Spectators', function (LaravelExcelWorksheet $sheet) use ($spectators, $tournament, $maxMinors) {
+                $headers = [
+                    'Group',
+                    'First Name',
+                    'Last Name',
+                    'E-mail',
+                    'Phone',
+                    'Gender',
+                ];
+                if ($tournament->settings->shouldCollectShirtSizes()) {
+                    $headers = array_merge($headers, [
+                        'T-shirt Size',
+                    ]);
+                }
+
+                $headers = array_merge($headers, [
+                    'Spouse Name',
+                    'Spouse Gender',
+                ]);
+                if ($tournament->settings->shouldCollectShirtSizes()) {
+                    $headers = array_merge($headers, [
+                        'Spouse T-shirt Size',
+                    ]);
+                }
+
+                // add appropriate columns for each minor
+                if ($maxMinors > 0) {
+                    $minorColumns = [];
+                    for ($x = 1; $x <= $maxMinors; $x++) {
+                        $minorColumns = array_merge($minorColumns, [
+                            'Minor '.$x.' Name',
+                            'Minor '.$x.' Age',
+                            'Minor '.$x.' Gender',
+                        ]);
+                        if ($tournament->settings->shouldCollectShirtSizes()) {
+                            $minorColumns = array_merge($minorColumns, [
+                                'Minor '.$x.' T-shirt Size',
+                            ]);
+                        }
+                    }
+                    if (count($minorColumns) > 0) {
+                        array_unshift($minorColumns, 'Minors');
+                        $headers = array_merge($headers, $minorColumns);
+                    }
+                }
+
+                $headers = array_merge($headers, [
+                    'Registered',
+                    'Registered By',
+                ]);
+
+                $sheet->appendRow($headers);
+
+                /** @var Spectator $spectators */
+                foreach ($spectators as $spectator) {
+                    $data = [
+                        $spectator->hasGroup() ? $spectator->group->name : '',
+                        $spectator->first_name,
+                        $spectator->last_name,
+                        $spectator->email,
+                        Html::formatPhone($spectator->phone),
+                        $spectator->gender,
+                    ];
+
+                    if ($tournament->settings->shouldCollectShirtSizes()) {
+                        $data = array_merge($data, [
+                            $spectator->shirt_size,
+                        ]);
+                    }
+
+                    $data = array_merge($data, [
+                        $spectator->spouse_first_name,
+                        $spectator->spouse_gender,
+                    ]);
+
+                    if ($tournament->settings->shouldCollectShirtSizes()) {
+                        $data = array_merge($data, [
+                            $spectator->spouse_shirt_size,
+                        ]);
+                    }
+
+                    // add appropriate minor data
+                    if ($maxMinors > 0) {
+                        $data = array_merge($data, [
+                            $spectator->minors->count(),
+                        ]);
+                        foreach ($spectator->minors as $minor) {
+                            $data = array_merge($data, [
+                                $minor->name,
+                                $minor->age,
+                                $minor->gender,
+                            ]);
+
+                            if ($tournament->settings->shouldCollectShirtSizes()) {
+                                $data = array_merge($data, [
+                                    $minor->shirt_size,
+                                ]);
+                            }
+                        }
+                    }
+
+                    $data = array_merge($data, [
+                        $spectator->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                        $spectator->wasRegisteredByHeadCoach() ? $spectator->registeredBy->full_name : '',
+                    ]);
+
+                    $sheet->appendRow($data);
+                }
+            });
+        });
+
         if (app()->environment('testing')) {
             echo $document->string('csv');
         } else {

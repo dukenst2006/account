@@ -2,7 +2,9 @@
 
 namespace BibleBowl\Competition\Tournaments;
 
+use BibleBowl\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait CanBeRegisteredByHeadCoach
 {
@@ -19,5 +21,10 @@ trait CanBeRegisteredByHeadCoach
     public function hasGroup() : bool
     {
         return $this->group_id !== null;
+    }
+
+    public function registeredBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'registered_by');
     }
 }
