@@ -14,7 +14,6 @@ use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
 use BibleBowl\Player;
-use BibleBowl\Presentation\Describer;
 use BibleBowl\Program;
 use BibleBowl\Role;
 use BibleBowl\Season;
