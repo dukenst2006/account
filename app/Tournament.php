@@ -131,7 +131,7 @@ class Tournament extends Model
         if ($this->hasFee(ParticipantType::FAMILY)) {
             return $q->whereHas('spectators', function (Builder $q) {
                 $q->paid()->families();
-            });
+            })->getQuery();
         }
 
         return $q->getQuery();
