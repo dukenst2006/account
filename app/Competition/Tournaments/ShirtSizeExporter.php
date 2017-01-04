@@ -3,11 +3,10 @@
 namespace BibleBowl\Competition\Tournaments;
 
 use BibleBowl\ParticipantType;
-use BibleBowl\Tournament;
-use DB;
 use BibleBowl\Player;
 use BibleBowl\Presentation\Describer;
-use Html;
+use BibleBowl\Tournament;
+use DB;
 use Illuminate\Database\Query\JoinClause;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
@@ -16,7 +15,6 @@ use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
 class ShirtSizeExporter
 {
-
     /** Excel */
     protected $excel;
 
@@ -43,15 +41,15 @@ class ShirtSizeExporter
                     $row->setFontWeight('bold');
                 });
 
-                if($tournament->registrationIsEnabled(ParticipantType::QUIZMASTER)) {
+                if ($tournament->registrationIsEnabled(ParticipantType::QUIZMASTER)) {
                     $this->mapSizesToRow($sheet, $tournament, 'Quizmasters', $this->quizmasterSizes($tournament));
                 }
 
-                if($tournament->registrationIsEnabled(ParticipantType::PLAYER)) {
+                if ($tournament->registrationIsEnabled(ParticipantType::PLAYER)) {
                     $this->mapSizesToRow($sheet, $tournament, 'Players', $this->playerSizes($tournament));
                 }
 
-                if($tournament->registrationIsEnabled(ParticipantType::ADULT) || $tournament->registrationIsEnabled(ParticipantType::FAMILY)) {
+                if ($tournament->registrationIsEnabled(ParticipantType::ADULT) || $tournament->registrationIsEnabled(ParticipantType::FAMILY)) {
                     $this->mapSizesToRow($sheet, $tournament, 'Adults/Families', $this->spectatorSizes($tournament));
                 }
             });
