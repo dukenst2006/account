@@ -36,7 +36,7 @@ class ApplicationSettingsTest extends TestCase
         Carbon::setTestNow(new Carbon('July 11 '.$this->currentYear));
         Setting::setSeasonEnd(new Carbon('July 10 '.$this->currentYear));
 
-        $this->assertEquals(($this->currentYear+1).'-07-10', Setting::seasonEnd()->toDateString());
+        $this->assertEquals(($this->currentYear + 1).'-07-10', Setting::seasonEnd()->toDateString());
     }
 
     /** @test */
@@ -54,6 +54,6 @@ class ApplicationSettingsTest extends TestCase
         Carbon::setTestNow(new Carbon('May 11 '.$this->currentYear));
         Setting::setMemoryMasterDeadline(new Carbon('May 10 '.$this->currentYear));
 
-        $this->assertEquals(($this->currentYear+1).'-05-10', Setting::memoryMasterDeadline()->toDateString());
+        $this->assertEquals(($this->currentYear + 1).'-05-10', Setting::memoryMasterDeadline()->toDateString());
     }
 }
