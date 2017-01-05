@@ -27,7 +27,8 @@ class MemoryMasterTest extends TestCase
     /** @test */
     public function cantChangeMemoryMasterAfterDeadline()
     {
-        Carbon::setTestNow(Carbon::now()->addYear());
+        Carbon::setTestNow(new Carbon('May 2nd '.date('Y')));
+
         $this
             ->visit('/memory-master')
             ->see('The deadline for submitting Memory Master achievers has passed');

@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Minor extends Model
 {
@@ -20,10 +21,7 @@ class Minor extends Model
      */
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function spectators()
+    public function spectator() : BelongsTo
     {
         return $this->belongsTo(Spectator::class);
     }

@@ -9,9 +9,9 @@ class ApplicationSettingsTest extends TestCase
 
     public function setUp()
     {
-        $this->currentYear = date('Y');
-
         parent::setUp();
+
+        $this->currentYear = date('Y');
     }
 
     protected function tearDown()
@@ -24,8 +24,8 @@ class ApplicationSettingsTest extends TestCase
     /** @test */
     public function seasonEndStaysInCurrentYear()
     {
-        Carbon::setTestNow(new Carbon('Jan 1 '.$this->currentYear));
-        Setting::setSeasonEnd(new Carbon('July 10 '.$this->currentYear));
+        Carbon::setTestNow(new Carbon('Jan 1'));
+        Setting::setSeasonEnd(new Carbon('July 10'));
 
         $this->assertEquals($this->currentYear.'-07-10', Setting::seasonEnd()->toDateString());
     }
@@ -33,8 +33,8 @@ class ApplicationSettingsTest extends TestCase
     /** @test */
     public function seasonEndRotatesToNextYearAfterEndingDatePassed()
     {
-        Carbon::setTestNow(new Carbon('July 11 '.$this->currentYear));
-        Setting::setSeasonEnd(new Carbon('July 10 '.$this->currentYear));
+        Carbon::setTestNow(new Carbon('July 11'));
+        Setting::setSeasonEnd(new Carbon('July 10'));
 
         $this->assertEquals(($this->currentYear + 1).'-07-10', Setting::seasonEnd()->toDateString());
     }
@@ -42,8 +42,8 @@ class ApplicationSettingsTest extends TestCase
     /** @test */
     public function memoryMasterStaysInCurrentYear()
     {
-        Carbon::setTestNow(new Carbon('May 1 '.$this->currentYear));
-        Setting::setMemoryMasterDeadline(new Carbon('May 10 '.$this->currentYear));
+        Carbon::setTestNow(new Carbon('May 1'));
+        Setting::setMemoryMasterDeadline(new Carbon('May 10'));
 
         $this->assertEquals($this->currentYear.'-05-10', Setting::memoryMasterDeadline()->toDateString());
     }
@@ -51,9 +51,18 @@ class ApplicationSettingsTest extends TestCase
     /** @test */
     public function memoryMasterRotatesToNextYearAfterEndingDatePassed()
     {
-        Carbon::setTestNow(new Carbon('May 11 '.$this->currentYear));
-        Setting::setMemoryMasterDeadline(new Carbon('May 10 '.$this->currentYear));
+        Carbon::setTestNow(new Carbon('July 11'));
+        Setting::setMemoryMasterDeadline(new Carbon('May 10'));
 
         $this->assertEquals(($this->currentYear + 1).'-05-10', Setting::memoryMasterDeadline()->toDateString());
+    }
+
+    /** @test */
+    public function memoryMasterDoesNotRotateYearIfStillInSeason()
+    {
+        Carbon::setTestNow(new Carbon('May 11'));
+        Setting::setMemoryMasterDeadline(new Carbon('May 10'));
+
+        $this->assertEquals($this->currentYear.'-05-10', Setting::memoryMasterDeadline()->toDateString());
     }
 }

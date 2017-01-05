@@ -18,7 +18,7 @@ script:
   # Seed database
   - docker-compose exec fpm sh -c "php artisan migrate --seed"
   # Run tests
-  - docker-compose exec fpm sh -c "vendor/bin/phpunit"
+  - docker-compose exec fpm sh -c "composer test"
   # Build cli container
   - docker build -t "bkuhl/biblebowl:cli" -f containers/cli/Dockerfile .
 after_success:

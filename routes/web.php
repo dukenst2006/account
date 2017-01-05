@@ -182,11 +182,11 @@ Route::group(['middleware' => 'auth'], function () {
             'except' => ['index', 'show'],
         ]);
         Route::get('tournaments/{tournamentId}/events/{eventId}/participants/export/{format}', 'EventsController@exportParticipants');
-        Route::get('tournaments/{tournamentId}/participants/teams/export/{format}', 'TournamentsController@exportTeams');
-        Route::get('tournaments/{tournamentId}/participants/players/export/{format}', 'TournamentsController@exportPlayers');
-        Route::get('tournaments/{tournamentId}/participants/quizmasters/export/{format}', 'TournamentsController@exportQuizmasters');
-        Route::get('tournaments/{tournamentId}/participants/tshirts/export/{format}', 'TournamentsController@exportTshirts');
-        Route::get('tournaments/{tournamentId}/participants/spectators/export/{format}', 'TournamentsController@exportSpectators');
+        Route::get('tournaments/{tournamentId}/participants/teams/export/{format}', 'TournamentExportController@exportTeams');
+        Route::get('tournaments/{tournamentId}/participants/players/export/{format}', 'TournamentExportController@exportPlayers');
+        Route::get('tournaments/{tournamentId}/participants/quizmasters/export/{format}', 'TournamentExportController@exportQuizmasters');
+        Route::get('tournaments/{tournamentId}/participants/tshirts/export/{format}', 'TournamentExportController@exportTshirts');
+        Route::get('tournaments/{tournamentId}/participants/spectators/export/{format}', 'TournamentExportController@exportSpectators');
     });
 
     Route::group([

@@ -31,10 +31,7 @@ class ShirtSizeExporter
             $excel->sheet('T-shirt Sizes', function (LaravelExcelWorksheet $sheet) use ($tournament) {
 
                 // build headers as "    |   YS    |    YM   | etc... "
-                $headers = [''];
-                foreach (Describer::SHIRT_SIZES as $shirtSize => $description) {
-                    $headers[] = $shirtSize;
-                }
+                $headers = [''] + array_keys(Describer::SHIRT_SIZES);
                 $sheet->appendRow($headers);
 
                 $sheet->row(1, function (CellWriter $row) {
@@ -42,16 +39,36 @@ class ShirtSizeExporter
                 });
 
                 if ($tournament->registrationIsEnabled(ParticipantType::QUIZMASTER)) {
-                    $this->mapSizesToRow($sheet, $tournament, 'Quizmasters', $this->quizmasterSizes($tournament));
+                    $quizmasterSizes = $this->quizmasterSizes($tournament);
+                    $this->mapSizesToRow($sheet, $tournament, 'Quizmasters', $quizmasterSizes);
                 }
 
                 if ($tournament->registrationIsEnabled(ParticipantType::PLAYER)) {
-                    $this->mapSizesToRow($sheet, $tournament, 'Players', $this->playerSizes($tournament));
+                    $playerSizes = $this->playerSizes($tournament);
+                    $this->mapSizesToRow($sheet, $tournament, 'Players', $playerSizes);
                 }
 
                 if ($tournament->registrationIsEnabled(ParticipantType::ADULT) || $tournament->registrationIsEnabled(ParticipantType::FAMILY)) {
-                    $this->mapSizesToRow($sheet, $tournament, 'Adults/Families', $this->spectatorSizes($tournament));
+                    $spectatorSizes = $this->spectatorSizes($tournament);
+                    $this->mapSizesToRow($sheet, $tournament, 'Adults/Families', $spectatorSizes);
                 }
+
+                $totals = ['Totals'] + array_fill_keys(array_keys(Describer::SHIRT_SIZES), 0);
+                foreach ($headers as $size) {
+                    // skip columns without labels
+                    if ($size != '') {
+                        if (isset($quizmasterSizes[$size])) {
+                            $totals[$size] += $quizmasterSizes[$size];
+                        }
+                        if (isset($playerSizes[$size])) {
+                            $totals[$size] += $playerSizes[$size];
+                        }
+                        if (isset($spectatorSizes[$size])) {
+                            $totals[$size] += $spectatorSizes[$size];
+                        }
+                    }
+                }
+                $sheet->appendRow($totals);
             });
         });
     }
@@ -112,16 +129,21 @@ class ShirtSizeExporter
             ->groupBy('shirt_size')
             ->get();
         foreach ($spectatorShirts as $adultSizes) {
-            $sizes[$adultSizes->shirt_size] = $adultSizes->shirt_count;
+            if ($adultSizes->shirt_size != null) {
+                $sizes[$adultSizes->shirt_size] = $adultSizes->shirt_count;
+            }
         }
-
         $spouseShirts = $tournament->eligibleSpectators()
             ->select(DB::raw('COUNT(tournament_spectators.id) AS shirt_count'), 'spouse_shirt_size')
             ->whereNotNull('spouse_shirt_size')
             ->groupBy('spouse_shirt_size')
             ->get();
         foreach ($spouseShirts as $spouseSizes) {
-            $sizes[$spouseSizes->shirt_size] = isset($sizes[$spouseSizes->shirt_size]) ? $sizes[$spouseSizes->shirt_size] + $spouseSizes->shirt_count : $spouseSizes->shirt_count;
+            if (isset($sizes[$spouseSizes->spouse_shirt_size])) {
+                $sizes[$spouseSizes->spouse_shirt_size] += $spouseSizes->shirt_count;
+            } else {
+                $sizes[$spouseSizes->spouse_shirt_size] = $spouseSizes->shirt_count;
+            }
         }
 
         $minorShirts = $tournament->eligibleMinors()
@@ -129,7 +151,11 @@ class ShirtSizeExporter
             ->groupBy('tournament_spectator_minors.shirt_size')
             ->get();
         foreach ($minorShirts as $minorSizes) {
-            $sizes[$minorSizes->shirt_size] = isset($sizes[$minorSizes->shirt_size]) ? $sizes[$minorSizes->shirt_size] + $minorSizes->shirt_count : $minorSizes->shirt_count;
+            if (isset($sizes[$minorSizes->shirt_size])) {
+                $sizes[$minorSizes->shirt_size] += $minorSizes->shirt_count;
+            } else {
+                $sizes[$minorSizes->shirt_size] = $minorSizes->shirt_count;
+            }
         }
 
         return $sizes;
