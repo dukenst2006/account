@@ -4,7 +4,6 @@ namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 
 use Auth;
 use BibleBowl\Competition\TournamentCreator;
-use BibleBowl\Competition\Tournaments\ShirtSizeExporter;
 use BibleBowl\Competition\TournamentUpdater;
 use BibleBowl\EventType;
 use BibleBowl\Http\Controllers\Controller;
@@ -13,23 +12,11 @@ use BibleBowl\Http\Requests\TournamentCreateRequest;
 use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
 use BibleBowl\Http\Requests\TournamentEditRequest;
 use BibleBowl\ParticipantType;
-use BibleBowl\Player;
 use BibleBowl\Program;
 use BibleBowl\Role;
 use BibleBowl\Season;
-use BibleBowl\Spectator;
 use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
 use BibleBowl\TournamentType;
-use Carbon\Carbon;
-use DB;
-use Html;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
-use Maatwebsite\Excel\Excel;
-use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 use Session;
 
 class TournamentsController extends Controller
