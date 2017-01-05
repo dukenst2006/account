@@ -265,7 +265,7 @@ class DatabaseSeeder extends Seeder
             $this->season->players()->attach($player->id, [
                 'group_id'      => $group->id,
                 'grade'         => rand(6, 12),
-                'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
+                'shirt_size'    => 'YS',
 
                 // needed for outstanding registration fee reminder
                 'created_at'    => Carbon::now()->subWeeks('10')->toDateTimeString(),
