@@ -233,8 +233,8 @@ class TournamentDataExportTest extends TestCase
         ob_end_clean();
 
         $this->assertContains('"Quizmasters","0","0","0","0","1","0","1","0"', $csvContents);
-        $this->assertContains('"Players","2","0","0","0","0","0","0","0"', $csvContents);
+        $this->assertContains('"Players","1","0","0","0","1","0","0","0"', $csvContents);
         $this->assertContains('"Adults/Families","1","1","0","0","2","2","1","0"', $csvContents);
-        $this->assertContains('"Totals","3","1","0","1","3","2","2","0"', $csvContents);
+        $this->assertContains('"Totals","2","1","0","0","4","2","2","0"', $csvContents);
     }
 }

@@ -253,7 +253,6 @@ class StagingSeeder extends Seeder
             'meeting_address_id'    => $address->id,
         ]);
 
-        $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
         $guardian = seedGuardian([], [
             'latitude'  => $guardianLat,
             'longitude' => $guardianLng,
@@ -263,7 +262,7 @@ class StagingSeeder extends Seeder
             $this->season->players()->attach($player->id, [
                 'group_id'      => $group->id,
                 'grade'         => rand(6, 12),
-                'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
+                'shirt_size'    => 'M',
             ]);
         }
 
@@ -273,7 +272,7 @@ class StagingSeeder extends Seeder
             'inactive'      => Carbon::now()->toDateTimeString(),
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
-            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
+            'shirt_size'    => 'YM',
         ]);
     }
 

@@ -92,11 +92,11 @@ function seedGuardian($attrs = [], $addressAttrs = [])
 /**
  * @return \BibleBowl\Player
  */
-function seedPlayer(User $user)
+function seedPlayer(User $user, array $attrs = [])
 {
-    $player = factory(Player::class)->create([
+    $player = factory(Player::class)->create(array_merge($attrs, [
         'guardian_id' => $user->id,
-    ]);
+    ]));
 
     return $player;
 }

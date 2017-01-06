@@ -170,7 +170,6 @@ class DatabaseSeeder extends Seeder
 
     private function seedGuardian()
     {
-        $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
         $addresses = ['Home', 'Work', 'Church', 'Vacation Home'];
         $savedAddresses = [];
         foreach ($addresses as $key => $name) {
@@ -254,23 +253,30 @@ class DatabaseSeeder extends Seeder
             'meeting_address_id'    => $address->id,
         ]);
 
-        $shirtSizes = ['S', 'YS', 'M', 'L', 'YL', 'YM'];
         $guardian = seedGuardian([], [
             'latitude'  => '38.301815',
             'longitude' => '-85.597701',
         ]);
 
-        for ($x = 0; $x <= 2; $x++) {
-            $player = seedPlayer($guardian);
-            $this->season->players()->attach($player->id, [
-                'group_id'      => $group->id,
-                'grade'         => rand(6, 12),
-                'shirt_size'    => 'YS',
+        $player = seedPlayer($guardian);
+        $this->season->players()->attach($player->id, [
+            'group_id'      => $group->id,
+            'grade'         => rand(6, 12),
+            'shirt_size'    => 'YS',
 
-                // needed for outstanding registration fee reminder
-                'created_at'    => Carbon::now()->subWeeks('10')->toDateTimeString(),
-            ]);
-        }
+            // needed for outstanding registration fee reminder
+            'created_at'    => Carbon::now()->subWeeks('10')->toDateTimeString(),
+        ]);
+
+        $player = seedPlayer($guardian);
+        $this->season->players()->attach($player->id, [
+            'group_id'      => $group->id,
+            'grade'         => rand(6, 12),
+            'shirt_size'    => 'YM',
+
+            // needed for outstanding registration fee reminder
+            'created_at'    => Carbon::now()->subWeeks('10')->toDateTimeString(),
+        ]);
 
         // Seed inactive player
         $player = seedPlayer($guardian);
@@ -282,7 +288,7 @@ class DatabaseSeeder extends Seeder
             'inactive'      => Carbon::now()->toDateTimeString(),
             'group_id'      => $group->id,
             'grade'         => rand(6, 12),
-            'shirt_size'    => $shirtSizes[array_rand($shirtSizes)],
+            'shirt_size'    => 'M',
         ]);
 
         return $group;

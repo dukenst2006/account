@@ -31,7 +31,8 @@ class ShirtSizeExporter
             $excel->sheet('T-shirt Sizes', function (LaravelExcelWorksheet $sheet) use ($tournament) {
 
                 // build headers as "    |   YS    |    YM   | etc... "
-                $headers = [''] + array_keys(Describer::SHIRT_SIZES);
+                $headers = array_keys(Describer::SHIRT_SIZES);
+                array_unshift($headers, '');
                 $sheet->appendRow($headers);
 
                 $sheet->row(1, function (CellWriter $row) {
@@ -53,7 +54,8 @@ class ShirtSizeExporter
                     $this->mapSizesToRow($sheet, $tournament, 'Adults/Families', $spectatorSizes);
                 }
 
-                $totals = ['Totals'] + array_fill_keys(array_keys(Describer::SHIRT_SIZES), 0);
+                $totals = array_fill_keys(array_keys(Describer::SHIRT_SIZES), 0);
+                array_unshift($totals, 'Totals');
                 foreach ($headers as $size) {
                     // skip columns without labels
                     if ($size != '') {
@@ -68,6 +70,7 @@ class ShirtSizeExporter
                         }
                     }
                 }
+                
                 $sheet->appendRow($totals);
             });
         });
