@@ -301,7 +301,7 @@ class DatabaseSeeder extends Seeder
             'season_id'     => $this->season->id,
             'name'          => 'League Teams',
         ]);
-        $players = $group->players;
+        $players = $group->players()->active($this->season)->get();
         for ($x = 1; $x <= 8; $x++) {
             $team = Team::create([
                 'team_set_id'   => $teamSet->id,
