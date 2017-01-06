@@ -70,7 +70,7 @@ class ShirtSizeExporter
                         }
                     }
                 }
-                
+
                 $sheet->appendRow($totals);
             });
         });
