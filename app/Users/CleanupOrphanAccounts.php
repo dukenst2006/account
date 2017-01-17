@@ -47,8 +47,6 @@ class CleanupOrphanAccounts extends Command
         $orphanUsers = User::where('status', User::STATUS_UNCONFIRMED)->where('created_at', '>', $orphanedFor)->get();
 
         foreach ($orphanUsers as $user) {
-            $user->notify(new AccountDeleted());
-
             // if registered with social media, delete those associations first
             $user->providers()->delete();
 
@@ -61,6 +59,8 @@ class CleanupOrphanAccounts extends Command
             }
 
             $user->delete();
+
+            $user->notify(new AccountDeleted());
         }
     }
 }
