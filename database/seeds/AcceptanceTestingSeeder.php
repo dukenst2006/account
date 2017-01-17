@@ -55,12 +55,13 @@ class AcceptanceTestingSeeder extends Seeder
         $TestUser->addresses()->save($homeAddress);
 
         // used for asserting you can't login without being confirmed
+        $unconfirmedAddress = factory(Address::class)->create();
         User::create([
             'first_name'               => self::USER_FIRST_NAME.'-unconfirmed',
             'last_name'                => self::USER_LAST_NAME,
             'email'                    => self::UNCONFIRMED_USER_EMAIL,
             'password'                 => bcrypt(self::USER_PASSWORD),
-            'primary_address_id'       => $homeAddress->id,
+            'primary_address_id'       => $unconfirmedAddress->id,
         ]);
 
         $this->seedGuardian();
