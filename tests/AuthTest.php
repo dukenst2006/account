@@ -40,6 +40,19 @@ class AuthTest extends TestCase
             ->seePageIs('/dashboard');
     }
 
+    /** @test */
+    public function requiresAccountSetup()
+    {
+        $user = User::where('email', AcceptanceTestingSeeder::USER_EMAIL)->first();
+        $user->update([
+            'primary_address_id' => null
+        ]);
+
+        $this
+            ->login($user->email)
+            ->seePageIs('/account/setup');
+    }
+
     /**
      * @test
      */
