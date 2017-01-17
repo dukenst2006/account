@@ -51,6 +51,11 @@ class CleanupOrphanAccounts extends Command
 
             // if registered with social media, delete those associations first
             $user->providers()->delete();
+
+            if ($user->primary_address_id != null) {
+                $user->primaryAddress()->delete();
+            }
+
             $user->delete();
         }
     }
