@@ -7,7 +7,6 @@ use BibleBowl\Users\Auth\EmailAlreadyInUse;
 use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
 use BibleBowl\Users\Auth\ThirdPartyEmailEmpty;
 use BibleBowl\Users\Auth\ThirdPartyRegistrar;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ThirdPartyAuthController extends LoginController
