@@ -45,7 +45,7 @@ class AuthTest extends TestCase
     {
         $user = User::where('email', AcceptanceTestingSeeder::USER_EMAIL)->first();
         $user->update([
-            'primary_address_id' => null
+            'primary_address_id' => null,
         ]);
 
         $this
