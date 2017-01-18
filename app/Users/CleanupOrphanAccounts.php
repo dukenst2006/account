@@ -53,7 +53,7 @@ class CleanupOrphanAccounts extends Command
             // unlink & remove primary address
             if ($user->primary_address_id != null) {
                 $user->update([
-                    'primary_address_id' => null
+                    'primary_address_id' => null,
                 ]);
                 $user->primaryAddress()->delete();
             }
