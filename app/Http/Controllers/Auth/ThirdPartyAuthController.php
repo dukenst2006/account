@@ -7,6 +7,7 @@ use BibleBowl\Users\Auth\EmailAlreadyInUse;
 use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
 use BibleBowl\Users\Auth\ThirdPartyEmailEmpty;
 use BibleBowl\Users\Auth\ThirdPartyRegistrar;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ThirdPartyAuthController extends LoginController
@@ -43,6 +44,11 @@ class ThirdPartyAuthController extends LoginController
         }
 
         Auth::login($user);
+
+        // some users aren't being impacted by the middleware on the site
+        if ($user->requiresSetup()) {
+            return new RedirectResponse(url('/account/setup'));
+        }
 
         return redirect()->intended($this->redirectPath());
     }
