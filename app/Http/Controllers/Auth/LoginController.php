@@ -80,6 +80,11 @@ class LoginController extends Controller
                     'email' => "Your email address is not yet confirmed.  We've resent your confirmation email.",
                 ]);
         }
+
+        // some users aren't being impacted by the middleware on the site
+        if ($user->requiresSetup()) {
+            return redirect('/account/setup');
+        }
     }
 
     /**

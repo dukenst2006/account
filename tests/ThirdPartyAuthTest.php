@@ -25,10 +25,10 @@ class ThirdPartyAuthTest extends TestCase
             'email'         => 'john.'.uniqid().'@peterson.example.com',
             'avatar'        => 'avatar'.time().'.jpg',
         ]);
-        $this->socialite = Mockery::mock('Laravel\Socialite\SocialiteManager');
+        $this->socialite = Mockery::mock(\Laravel\Socialite\SocialiteManager::class);
         $this->socialite->shouldReceive('driver')->andReturn($this->socialite);
         $this->socialite->shouldReceive('user')->andReturn($this->providerUser);
-        $this->app->instance('Laravel\Socialite\Contracts\Factory', $this->socialite);
+        $this->app->instance(\Laravel\Socialite\Contracts\Factory::class, $this->socialite);
     }
 
     /**
@@ -43,7 +43,8 @@ class ThirdPartyAuthTest extends TestCase
             'code' => uniqid(),
         ]);
 
-        $this->assertRedirectedTo('/dashboard');
+        // verify requires setup since there's no mailing address
+        $this->assertRedirectedTo('/account/setup');
 
         //assert user created
         $name = explode(' ', $this->providerUser->getName());

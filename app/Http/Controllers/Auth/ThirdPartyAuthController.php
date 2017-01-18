@@ -47,7 +47,7 @@ class ThirdPartyAuthController extends LoginController
 
         // some users aren't being impacted by the middleware on the site
         if ($user->requiresSetup()) {
-            return new RedirectResponse(url('/account/setup'));
+            return redirect('/account/setup');
         }
 
         return redirect()->intended($this->redirectPath());
