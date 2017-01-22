@@ -50,7 +50,7 @@
         </div>
         <div class="row">
                 <div class="col-md-12 col-sm-12 text-center">
-                    <a href="/roster">{{ number_format($playerStats['total']) }} active players</a> this season
+                    <a href="/roster">{{ number_format($playerStats['total']) }} active players</a> this season among {{ number_format($familyCount) }} {{ $familyCount > 1 ? 'families' : 'family' }}
                 </div>
             @else
                 <div class="p-t-40 p-b-40 text-center muted" style="font-style:italic">Use the blue button in the top right corner to get a link you can give to parents them register with your group</div>

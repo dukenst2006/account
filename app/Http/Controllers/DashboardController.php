@@ -73,6 +73,7 @@ class DashboardController extends Controller
                     $season,
                     Session::group()
                 ),
+                'familyCount' => Session::group()->guardians($season)->count()
             ]);
             $view->with('playersPendingPayment', Session::group()->players()->pendingRegistrationPayment($season)->get());
         }
