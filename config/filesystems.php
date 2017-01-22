@@ -68,6 +68,7 @@ return [
             'secret' => env('S3_SECRET'),
             'region' => 'us-west-2',
             'bucket' => 'biblebowl-account-backups',
+            'visibility' => 'private',
         ],
 
     ],
