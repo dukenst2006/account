@@ -62,6 +62,14 @@ return [
             'bucket' => 'static.biblebowl.org',
         ],
 
+        'backups' => [
+            'driver' => 's3',
+            'key'    => env('S3_KEY'),
+            'secret' => env('S3_SECRET'),
+            'region' => 'us-west-2',
+            'bucket' => 'biblebowl-account-backups',
+        ],
+
     ],
 
 ];

@@ -12,6 +12,9 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
 
     &&  apk add --update --no-cache \
 
+        # needed for spatie/laravel-backup
+        mysql-client
+
         # needed for composer
         git zip unzip \
 

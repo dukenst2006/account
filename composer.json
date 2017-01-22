@@ -25,7 +25,8 @@
 		"jenssegers/rollbar": "^1.5",
 		"jmikola/geojson": "~1.0",
 		"fzaninotto/faker": "^1.5",
-		"maatwebsite/excel": "~2.1.0"
+		"maatwebsite/excel": "~2.1.0",
+		"spatie/laravel-backup": "^4.0.0"
 	},
 	"require-dev": {
 		"symfony/dom-crawler": "~3.0",
