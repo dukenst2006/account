@@ -74,7 +74,7 @@ class Player extends Model
 
     protected $appends = ['full_name'];
 
-    protected $hidden = ['id', 'first_name', 'last_name'];
+    protected $hidden = ['id'];
 
     public static function boot()
     {
