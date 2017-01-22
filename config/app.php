@@ -188,7 +188,7 @@ return [
         \anlutro\LaravelSettings\ServiceProvider::class,
         \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
         \Maatwebsite\Excel\ExcelServiceProvider::class,
-        \Spatie\Backup\BackupServiceProvider::class
+        \Spatie\Backup\BackupServiceProvider::class,
 
     ],
 
