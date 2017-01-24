@@ -10,19 +10,20 @@
                 <p>Groups listed below have players who registered <strong>{{ $unpaidSince }}</strong> or more and have been notified via email several times of outstanding fees.</p>
                 <table class="table table-condensed">
                     <thead>
-                        <tr>
-                            <th class="col-md-5">Name</th>
-                            <th class="col-md-1 text-center">Players</th>
-                            <th class="col-md-2 text-center">Fees</th>
-                            <th class="col-md-2 text-center">Most Outstanding*</th>
-                            <th class="col-md-3 text-center">Owner</th>
-                        </tr>
+                    <tr>
+                        <th class="col-md-5">Name</th>
+                        <th class="col-md-1 text-center">Players</th>
+                        <th class="col-md-2 text-center">Fees</th>
+                        <th class="col-md-2 text-center">Most Outstanding*</th>
+                        <th class="col-md-3 text-center">Owner</th>
+                    </tr>
                     </thead>
                     <tbody>
                     @if(count($groups) > 0)
                         @foreach ($groups as $group)
                             <?php
                             $pendingPlayerCount = $group->players()->pendingRegistrationPayment(Session::season())->count();
+                            $firstPlayer = $group->players()->pendingRegistrationPayment(Session::season())->orderBy('player_season.created_at', 'ASC')->first();
                             ?>
                             <tr>
                                 <td>
@@ -41,7 +42,7 @@
                                     ${{ number_format($pendingPlayerCount * $group->program->registration_fee, 2) }}
                                 </td>
                                 <td class="text-center">
-                                    {{ (new \Carbon\Carbon($group->players->first()->pivot->created_at))->timezone(Auth::user()->settings->timeszone())->diffInWeeks() }} weeks ago
+                                    {{ (new \Carbon\Carbon($firstPlayer->pivot->created_at))->timezone(Auth::user()->settings->timeszone())->diffInWeeks() }} weeks ago
                                 </td>
                                 <td class="text-center">
                                     <a href="/admin/users/{{ $group->owner->id }}">{{ $group->owner->full_name }}</a><br/>

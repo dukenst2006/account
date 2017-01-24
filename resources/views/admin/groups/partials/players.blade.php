@@ -25,14 +25,18 @@
                         // allow for some special syntax for customizable additional columns
                         // pivot->[COLUMN] - Displays a pivot column
                         // [TIMESTAMP_COLUMN]|date - Formats as a date
-                        $start = strpos($pivotColumn, '>')+1;
                         if (starts_with($pivotColumn, 'pivot->')) {
+                            $start = strpos($pivotColumn, '>')+1;
                             $end = strlen($pivotColumn);
                             if (str_contains($pivotColumn, '|')) {
                                 $end = strpos($pivotColumn, '|')-$start;
                             }
                             $newPivotColumn = substr($pivotColumn, $start, $end);
 
+                            $columnValue = $player->pivot->{$newPivotColumn};
+                        } elseif (str_contains($pivotColumn, '|')) {
+                            $end = strpos($pivotColumn, '|');
+                            $newPivotColumn = substr($pivotColumn, 0, $end);
                             $columnValue = $player->pivot->{$newPivotColumn};
                         } else {
                             $columnValue = $player->{$pivotColumn};
