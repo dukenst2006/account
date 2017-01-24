@@ -3,6 +3,7 @@
 namespace BibleBowl\Http\Controllers\Teams;
 
 use Auth;
+use BibleBowl\Competition\Tournaments\Groups\PLayerInvitationRequestNotification;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
 use BibleBowl\Http\Requests\TeamSetUpdateRequest;
@@ -119,6 +120,25 @@ class TeamSetController extends Controller
         ]);
 
         return $pdf->stream();
+    }
+
+    public function invite(TeamSetGroupOnlyRequest $request, $id)
+    {
+        /** @var TeamSet $teamSet */
+        $teamSet = TeamSet::findOrFail($id);
+
+        /** @var Team $team */
+        $team = Team::findOrFail($request->get('team'));
+        
+        $teamSet->tournament->creator->notify(new PLayerInvitationRequestNotification(
+            $teamSet->tournament,
+            $request->get('player'),
+            Session::group(),
+            $team->name,
+            Auth::user()
+        ));
+
+        return redirect()->back()->withFlashSuccess('Request has been submitted');
     }
 
     /**

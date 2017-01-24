@@ -156,6 +156,11 @@
                 {!! Form::checkbox("collect_quizmaster_preferences", 1, old("collect_quizmaster_preferences", (isset($tournament) ? $tournament->settings->shouldCollectQuizmasterPreferences() : false)), [ "id" => 'collectQuizmasterPreferences' ]) !!}
                 <label for="collectQuizmasterPreferences"><strong>Collect Quizzing Preferences</strong> - Allows quizmasters to provide information on quizzing interest/history</label>
             </div>
+            <br/>
+            <div class="checkbox check-primary">
+                {!! Form::checkbox("allow_guest_players", 1, old("allow_guest_players", (isset($tournament) ? $tournament->settings->shouldAllowGuestPlayers() : false)), [ "id" => 'allowsGuestPlayers' ]) !!}
+                <label for="allowsGuestPlayers"><strong>Allow Guest Players</strong> - Allows players from groups not participating in the tournament to play with groups that are</label>
+            </div>
         </div>
     </div>
 </div>

@@ -9,6 +9,13 @@
             </li>
         @endforeach
         </ul>
+
+        @if($teamSet->registeredWithTournament() && $teamSet->tournament->settings->shouldAllowGuestPlayers())
+            @include('teamset.invitation', [
+                'teamSet' => $teamSet,
+                'tournament' => $teamSet->tournament
+            ])
+        @endif
     </div>
     <div id="teams" class="col-md-10 col-sm-9 col-xs-7 row">
     @else

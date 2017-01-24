@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
         'middleware'   => ['can:'.Ability::MANAGE_TEAMS],
     ], function () {
         Route::resource('teamsets', 'TeamSetController');
+        Route::post('teamsets/{teamset}/invite', 'TeamSetController@invite');
         Route::get('teamsets/{teamset}/pdf', 'TeamSetController@pdf');
         Route::post('teamsets/{teamset}/createTeam', 'TeamController@store');
 

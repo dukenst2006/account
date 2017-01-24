@@ -110,4 +110,14 @@ class Settings extends Fluent
     {
         $this->minimumPlayersPerTeam = $minimumPlayersPerTeam;
     }
+
+    public function shouldAllowGuestPlayers() : bool
+    {
+        return $this->get('allowsGuestPlayers', false);
+    }
+
+    public function setAllowGuestPlayers(bool $allowsGuestPlayers)
+    {
+        $this->allowsGuestPlayers = $allowsGuestPlayers;
+    }
 }

@@ -16,6 +16,7 @@ class TournamentUpdater
         $settings = $tournament->settings;
         $settings->collectShirtSizes(array_pull($attributes, 'collect_shirt_sizes', false));
         $settings->collectQuizmasterPreferences(array_pull($attributes, 'collect_quizmaster_preferences', false));
+        $settings->setAllowGuestPlayers(array_pull($attributes, 'allow_guest_players', false));
         $settings->setMinimumPlayersPerTeam(array_pull($attributes, 'minimum_players_per_team'));
         $settings->setMaximumPlayersPerTeam(array_pull($attributes, 'maximum_players_per_team'));
         $settings->requireQuizmasters(array_pull($attributes, 'require_quizmasters_per'));
