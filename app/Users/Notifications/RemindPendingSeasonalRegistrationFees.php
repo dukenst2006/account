@@ -56,7 +56,7 @@ class RemindPendingSeasonalRegistrationFees extends Notification
 
         $mailMessage = new MailMessage();
         $mailMessage->greeting('Registration Fee Reminder');
-        $mailMessage->line('<strong>'.$this->group->name.'</strong> has <strong>'.count($players).'</strong> player(s) with outstanding '.$this->group->program->name.' seasonal registration fees.');
+        $mailMessage->line('<strong>'.$this->group->name.'</strong> has <strong>'.count($players).'</strong> player(s) with outstanding '.$this->group->program->name.' seasonal registration fees.  Only the Head Coach can pay the fees.');
 
         $mailMessage->action('Pay Fees', url('players/pay'));
 
