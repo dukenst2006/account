@@ -205,7 +205,7 @@ class Group extends Model
     {
         return $query->whereHas('players', function (Builder $q) use ($season, $pendingSince) {
             if ($pendingSince != null) {
-                $q->where('player_season.created_at', '>', $pendingSince->toDateTimeString());
+                $q->where('player_season.created_at', '<', $pendingSince->toDateTimeString());
             }
 
             $q->pendingRegistrationPayment($season);

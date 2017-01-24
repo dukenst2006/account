@@ -23,7 +23,7 @@
                         @foreach ($groups as $group)
                             <?php
                             $pendingPlayerCount = $group->players()->pendingRegistrationPayment(Session::season())->count();
-                            $firstPlayer = $group->players()->pendingRegistrationPayment(Session::season())->orderBy('player_season.created_at', 'ASC')->first();
+                            $firstPlayer = $group->players()->pendingRegistrationPayment(Session::season())->first();
                             ?>
                             <tr>
                                 <td>
