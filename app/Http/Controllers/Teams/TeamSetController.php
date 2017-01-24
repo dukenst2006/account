@@ -129,7 +129,7 @@ class TeamSetController extends Controller
 
         /** @var Team $team */
         $team = Team::findOrFail($request->get('team'));
-        
+
         $teamSet->tournament->creator->notify(new PLayerInvitationRequestNotification(
             $teamSet->tournament,
             $request->get('player'),

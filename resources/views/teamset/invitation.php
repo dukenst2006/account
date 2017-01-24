@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <label class="form-label">Group the player regularly plays with</label>
                         <div class="controls p-b-20">
-                            <?=Form::selectGroup($tournament->program_id, 'group', null, [ 'style'=>"width: 100%"])?>
+                            <?=Form::selectGroup($tournament->program_id, 'group', null, ['style'=>'width: 100%'])?>
                         </div>
                     </div>
                 </div>
