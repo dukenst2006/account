@@ -26,7 +26,7 @@
                             <tbody>
                             @foreach($inactive_players as $player)
                             <tr>
-                                <td class="v-align-middle">{{ $player->last_name }}<span class="hidden-xs">, {{ $player->first_name }}</span></td>
+                                <td class="v-align-middle"><span class="hidden-xs">{{ $player->last_name }}, </span>{{ $player->first_name }}</td>
                                 <td class="v-align-middle">{{ $player->guardian->full_name }}</td>
                                 <td class="v-align-middle text-center hidden-xs">{{ $player->age() }}</td>
                                 <td class="v-align-middle text-center hidden-xs">{{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}</td>

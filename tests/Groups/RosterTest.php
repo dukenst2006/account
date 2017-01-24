@@ -22,7 +22,10 @@ class RosterTest extends TestCase
             ->visit('/roster')
             ->see('Player Roster')
             ->see('Download CSV')
-            ->see($player->last_name.', '.$player->first_name)
+
+            // last names are hidden on mobile, so we can't assert them as a single string
+            ->see($player->first_name)
+            ->see($player->last_name)
 
             // Test toggling active/inactive players
             ->click('#deactivate-'.$player->id)
