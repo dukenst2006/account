@@ -3,10 +3,10 @@
 namespace BibleBowl\Http\Controllers\Seasons;
 
 use Auth;
-use BibleBowl\Role;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\GroupHeadCoachOnlyRequest;
+use BibleBowl\Role;
 use BibleBowl\Season;
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use Cart;
@@ -24,10 +24,10 @@ class GroupRegistrationController extends Controller
     public function getPayPlayerRegistration()
     {
         // Sometimes Head Coaches forward the pay email to the parent, leading them to this page and seeing an error
-        if(Auth::user()->isA(Role::HEAD_COACH) === false) {
+        if (Auth::user()->isA(Role::HEAD_COACH) === false) {
             return redirect('/dashboard')->withFlashError('Please submit your seasonal registration fee to the Head Coach of your group, and they will pay collectively for the group');
         }
-        
+
         $season = Session::season();
         $group = Session::group();
 
