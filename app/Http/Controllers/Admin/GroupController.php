@@ -64,12 +64,11 @@ class GroupController extends Controller
     {
         $outstandingAtLeast = Config::get('biblebowl.reminders.notify-office-of-outstanding-registration-payments-after');
         $relativeTime = $outstandingAtLeast.' ago';
-        $playersRegistrationUnpaidSince = new \Carbon\Carbon($relativeTime);
         $season = Season::current()->first();
 
         return view('admin.groups.outstanding-registration-fees', [
             'unpaidSince'   => $relativeTime,
-            'groups'        => Group::hasPendingRegistrationPayments($season, $playersRegistrationUnpaidSince)
+            'groups'        => Group::hasPendingRegistrationPayments($season)
                 ->with([
                     'owner',
                     'program',
