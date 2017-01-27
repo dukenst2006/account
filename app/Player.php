@@ -271,6 +271,11 @@ class Player extends Model
         return $birthday;
     }
 
+    public function scopeWithoutPendingPayment(Builder $query)
+    {
+        return $query->whereNotNull('player_season.paid');
+    }
+
     public function scopePendingRegistrationPayment(Builder $query, Season $season)
     {
         return $query->whereNull('player_season.paid')

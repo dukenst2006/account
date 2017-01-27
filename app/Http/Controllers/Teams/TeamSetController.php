@@ -83,7 +83,11 @@ class TeamSetController extends Controller
     {
         return view('teamset.show')
                 ->with('teamSet', $request->teamSet())
-                ->withPlayers(Session::group()->players()->notOnTeamSet($request->teamSet())->get());
+                ->withPlayers(Session::group()->players()
+                    ->active($request->teamSet()->season)
+                    ->withoutPendingPayment()
+                    ->notOnTeamSet($request->teamSet())
+                    ->get());
     }
 
     /**
