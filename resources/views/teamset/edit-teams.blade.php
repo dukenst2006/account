@@ -9,7 +9,9 @@
             </li>
         @endforeach
         </ul>
-
+        <p class="text-center">
+            <a href='#' class="m-b-20" data-toggle="tooltip" title="Only active players who have paid any due seasonal registration fees will be available here.">Missing players?</a>
+        </p>
         @if($teamSet->registeredWithTournament() && $teamSet->tournament->settings->shouldAllowGuestPlayers())
             @include('teamset.invitation', [
                 'teamSet' => $teamSet,
