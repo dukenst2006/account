@@ -36,7 +36,7 @@ class ParticipantFee extends Model
 
     public function requiresRegistration() : bool
     {
-        return $this->requires_registration == 1;
+        return $this->participant_type_id == ParticipantType::PLAYER || $this->requires_registration == 1;
     }
 
     public function hasEarlybirdFee() : bool
