@@ -12,7 +12,7 @@ class Registration extends Fluent
 {
     protected $attributes = [
         'tournamentId'      => null,
-        'teamIds'           => null,
+        'teamIds'           => [],
         'quizmasterIds'     => [],
         'spectatorIds'      => [],
         'playerIds'         => [],
