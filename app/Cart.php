@@ -10,6 +10,8 @@ use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Shop\UnrecognizedPurchaseEvent;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * BibleBowl\Cart.
@@ -100,18 +102,12 @@ class Cart extends Model
         );
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items()
+    public function items() : HasMany
     {
         return $this->hasMany(Item::class);
     }
@@ -137,7 +133,7 @@ class Cart extends Model
      */
     public function total()
     {
-        return $this->items()->sum(DB::raw('quantity * price'));
+        return $this->items()->sum('price');
     }
 
     /**
