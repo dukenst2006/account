@@ -51,7 +51,7 @@ class Registrar
         }
 
         // record if registered by another user
-        if ($registeredBy != null && $adult->user_id != $registeredBy->id) {
+        if ($registeredBy != null) {
             $adult->registered_by = $registeredBy->id;
         }
 

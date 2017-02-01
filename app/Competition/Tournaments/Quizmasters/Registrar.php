@@ -32,7 +32,7 @@ class Registrar
         }
 
         // record if registered by another user
-        if ($registeredBy != null && $tournamentQuizmaster->user_id != $registeredBy->id) {
+        if ($registeredBy != null) {
             $tournamentQuizmaster->registered_by = $registeredBy->id;
         }
 
