@@ -8,7 +8,6 @@ use BibleBowl\Competition\Tournaments\Spectators\RegistrationPaymentReceived as 
 use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use BibleBowl\Shop\PostPurchaseEvent;
 use BibleBowl\Shop\UnrecognizedPurchaseEvent;
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
