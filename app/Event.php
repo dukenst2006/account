@@ -80,6 +80,11 @@ class Event extends Model
         });
     }
 
+    public function scopeWithOptionalParticipation(Builder $builder)
+    {
+        return $builder->where('required', 0);
+    }
+
     public function setPricePerParticipantAttribute($price)
     {
         if ($price == '' || intval($price) == 0) {
@@ -103,9 +108,14 @@ class Event extends Model
         return $this->belongsTo(EventType::class, 'event_type_id');
     }
 
-    public function isFree()
+    public function isFree() : bool
     {
         return is_null($this->price_per_participant);
+    }
+
+    public function isParticipationOptional() : bool
+    {
+        return $this->type->participant_type_id == ParticipantType::PLAYER && $this->required == 0;
     }
 
     public function displayPrice()

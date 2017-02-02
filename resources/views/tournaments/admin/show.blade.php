@@ -143,11 +143,15 @@
                                             <td>{{ $event->type->name }}</td>
                                             <td class="text-center hidden-xs hidden-sm">{{ $event->displayPrice() }}</td>
                                             <td class="text-center">
-                                                @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
+                                                @if($event->isParticipationOptional())
                                                     <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/events/{{ $event->id }}/participants/export/csv">
                                                         <i class="fa fa-download"></i>
                                                         {{ number_format($event->eligiblePlayers()->count()) }}
                                                     </a>
+                                                @elseif($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
+                                                    All Players
+                                                @elseif($event->type->participant_type_id == \BibleBowl\ParticipantType::TEAM)
+                                                    All Teams
                                                 @endif
                                             </td>
                                             <td>

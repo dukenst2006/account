@@ -10,3 +10,11 @@
         </div>
     </div>
 </div>
+<div class="row" id='required-participation'>
+    <div class="col-md-12 form-group">
+        <div class="checkbox check-primary">
+            {!! Form::checkbox("required", 1, old("required"), [ "id" => 'requiresParticipation' ]) !!}
+            <label for="requiresParticipation"><strong>Participation Required</strong> - All players will participate in this event</label>
+        </div>
+    </div>
+</div>

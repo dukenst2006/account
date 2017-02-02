@@ -66,14 +66,4 @@ class EventType extends Model
 
         $this->attributes['price_per_participant'] = $price;
     }
-
-//    /**
-//     *
-//     */
-//    public function participants() : Collection
-//    {
-//        if ($this->participant_type_id == ParticipantType::PLAYER) {
-//            return
-//        }
-//    }
 }

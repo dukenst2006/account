@@ -27,7 +27,7 @@ class GroupController extends Controller
             'teamSet'                   => $teamSet = $group->teamSet($tournament),
             'teamCount'                 => $teamSet == null ? 0 : $teamSet->teams()->count(),
             'playerCount'               => $teamSet == null ? 0 : $teamSet->players()->count(),
-            'individualEventCount'      => $tournament->individualEvents()->count(),
+            'individualEventCount'      => $tournament->individualEvents()->withOptionalParticipation()->count(),
 
             // show unpaid first, then paid
             'quizmasters'               => $tournament->tournamentQuizmasters()->with('user')->where('group_id', $group->id)->orderBy('receipt_id', 'ASC')->get(),
@@ -86,7 +86,7 @@ class GroupController extends Controller
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
         // if there aren't any events, back to group summary
-        if ($tournament->individualEvents()->count() == 0) {
+        if ($tournament->individualEvents()->withOptionalParticipation()->count() == 0) {
             return redirect('tournaments/'.$slug.'/group');
         }
 
@@ -94,7 +94,7 @@ class GroupController extends Controller
 
         return view('tournaments.registration.events', [
             'tournament'    => $tournament,
-            'events'        => $tournament->individualEvents()->with('type')->get(),
+            'events'        => $tournament->individualEvents()->withOptionalParticipation()->with('type')->get(),
             'players'       => $playerCount = $teamSet->players()->get(),
             'playerCount'   => count($playerCount),
         ]);

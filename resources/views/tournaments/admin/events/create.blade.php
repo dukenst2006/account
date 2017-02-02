@@ -36,7 +36,7 @@
                                     <div class="controls">
                                         @foreach($eventTypes as $eventType)
                                             <div class="radio">
-                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id, 'class' => ($eventType->participant_type_id == \BibleBowl\ParticipantType::PLAYER ? 'canHaveFee' : '')]) !!}
+                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id, 'class' => ($eventType->participant_type_id == \BibleBowl\ParticipantType::PLAYER ? 'canHaveFee canHaveRequiredParticipation' : '')]) !!}
                                                 <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> ({{ $eventType->participantType->name }} event)</label>
                                             </div>
                                             <br/>
@@ -62,12 +62,18 @@
 @js
     $(document).ready(function () {
         $('input[name="event_type_id"]').change(function () {
-            console.log($(this).hasClass('canHaveFee'));
             if ($(this).hasClass('canHaveFee')) {
                 $('#price-field').show();
             } else {
                 $('#price-field').hide();
                 $('input[name="price_per_participant"]').val('');
+            }
+
+            if ($(this).hasClass('canHaveRequiredParticipation')) {
+                $('#required-participation').show();
+            } else {
+                $('#required-participation').hide();
+                $('input[name="required"]').prop('checked', false);
             }
         });
     });

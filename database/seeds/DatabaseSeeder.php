@@ -352,6 +352,10 @@ class DatabaseSeeder extends Seeder
         $tournament->events()->create([
             'event_type_id'         => EventType::BUZZ_OFF,
         ]);
+        $tournament->events()->create([
+            'event_type_id'         => EventType::WRITTEN_TEST,
+            'required'              => true,
+        ]);
         $tournament->participantFees()->create([
             'participant_type_id'   => ParticipantType::PLAYER,
             'requires_registration' => 1,

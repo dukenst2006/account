@@ -76,7 +76,7 @@
                                         </thead>
                                         <tbody>
                                         <?php $eventPlayersRequiringPayment = 0; ?>
-                                        @foreach($tournament->individualEvents()->get() as $event)
+                                        @foreach($tournament->individualEvents()->withOptionalParticipation()->get() as $event)
                                             <?php $eventPlayers = $event->players()->registeredWithGroup(Session::season(), $group)->count(); ?>
                                             <tr>
                                                 <td class="v-align-middle">{{ $event->type->name }}</td>
