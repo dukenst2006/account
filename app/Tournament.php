@@ -161,7 +161,7 @@ class Tournament extends Model
         }
 
         if ($this->hasFee(ParticipantType::TEAM)) {
-            $teams->hasPaid();
+            $teams->paid();
         }
 
         if ($this->settings->shouldRequireQuizmastersByGroup()) {
