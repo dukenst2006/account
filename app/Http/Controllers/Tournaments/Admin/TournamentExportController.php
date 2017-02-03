@@ -48,7 +48,7 @@ class TournamentExportController extends Controller
             ->with([
                 'events' => function (BelongsToMany $q) use ($tournament) {
                     $q->where('events.tournament_id', $tournament->id);
-                }
+                },
             ])
             ->groupBy('players.id')
             ->orderBy('groups.name', 'ASC')
@@ -80,7 +80,6 @@ class TournamentExportController extends Controller
 
                 /** @var Player $player */
                 foreach ($players as $player) {
-
                     $data = [
                         $player->group_name,
                         $player->team_name,
@@ -100,7 +99,6 @@ class TournamentExportController extends Controller
                         } else {
                             $data[] = 'N';
                         }
-
                     }
 
                     $sheet->appendRow($data);
