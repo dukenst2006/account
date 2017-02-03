@@ -35,7 +35,7 @@ class TournamentTest extends TestCase
     {
         $firstTeam = $this->tournament->teams()->first();
         $firstTeam->update([
-            'receipt_id' => Receipt::firstOrFail()->id
+            'receipt_id' => Receipt::firstOrFail()->id,
         ]);
         $playerIds = [1, 2, 3, 4];
         $firstTeam->players()->sync($playerIds);
