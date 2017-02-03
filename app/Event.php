@@ -113,6 +113,11 @@ class Event extends Model
         return is_null($this->price_per_participant);
     }
 
+    public function hasFee() : bool
+    {
+        return is_null($this->price_per_participant) === false;
+    }
+
     public function isParticipationOptional() : bool
     {
         return $this->type->participant_type_id == ParticipantType::PLAYER && $this->required == 0;

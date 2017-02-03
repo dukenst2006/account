@@ -5,6 +5,7 @@ namespace BibleBowl\Http\Controllers\Tournaments\Admin;
 use Auth;
 use BibleBowl\Competition\Tournaments\ShirtSizeExporter;
 use BibleBowl\Http\Controllers\Controller;
+use BibleBowl\ParticipantType;
 use BibleBowl\Player;
 use BibleBowl\Season;
 use BibleBowl\Spectator;
@@ -14,6 +15,7 @@ use Carbon\Carbon;
 use DB;
 use Html;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
@@ -43,14 +45,26 @@ class TournamentExportController extends Controller
             ->join('groups', 'groups.id', '=', 'team_sets.group_id')
             ->join('team_player', 'team_player.player_id', '=', 'players.id')
             ->join('teams', 'teams.team_set_id', '=', 'team_sets.id')
+            ->with([
+                'events' => function (BelongsToMany $q) use ($tournament) {
+                    $q->where('events.tournament_id', $tournament->id);
+                }
+            ])
+            ->groupBy('players.id')
             ->orderBy('groups.name', 'ASC')
             ->orderBy('teams.name', 'ASC')
-
             ->get();
 
-        $document = $excel->create($tournament->slug.'_teams', function (LaravelExcelWriter $excel) use ($players) {
-            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
-                $sheet->appendRow([
+        // we're including optional player events here (Quote Bee, Individual Tournament, etc.)
+        // since there's no other export that includes all of the player's information
+        $optionalPlayerEvents = $tournament->events()->with('type')
+            ->byParticipantType(ParticipantType::PLAYER)
+            ->withOptionalParticipation()
+            ->get();
+
+        $document = $excel->create($tournament->slug.'_teams', function (LaravelExcelWriter $excel) use ($players, $optionalPlayerEvents) {
+            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players, $optionalPlayerEvents) {
+                $headers = [
                     'Group',
                     'Team',
                     'First Name',
@@ -58,11 +72,16 @@ class TournamentExportController extends Controller
                     'Gender',
                     'Grade',
                     'Added To Team',
-                ]);
+                ];
+                foreach ($optionalPlayerEvents as $optionalPlayerEvent) {
+                    $headers[] = $optionalPlayerEvent->type->name;
+                }
+                $sheet->appendRow($headers);
 
                 /** @var Player $player */
                 foreach ($players as $player) {
-                    $sheet->appendRow([
+
+                    $data = [
                         $player->group_name,
                         $player->team_name,
                         $player->first_name,
@@ -70,7 +89,21 @@ class TournamentExportController extends Controller
                         $player->gender,
                         $player->player_grade,
                         (new Carbon($player->added_to_team))->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
-                    ]);
+                    ];
+
+                    foreach ($optionalPlayerEvents as $optionalPlayerEvent) {
+                        $hasUnpaidFees = $player->events->filter(function ($item) use ($optionalPlayerEvent) {
+                            return $item->id == $optionalPlayerEvent->id && $item->pivot->receipt_id != null;
+                        })->count() == 0;
+                        if ($player->events->contains($optionalPlayerEvent->id) && $hasUnpaidFees === false) {
+                            $data[] = 'Y';
+                        } else {
+                            $data[] = 'N';
+                        }
+
+                    }
+
+                    $sheet->appendRow($data);
                 }
             });
         });

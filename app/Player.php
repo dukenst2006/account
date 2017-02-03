@@ -178,7 +178,7 @@ class Player extends Model
         return $this->hasManyThrough(TeamSet::class, Team::class);
     }
 
-    public function events() : HasMany
+    public function events() : BelongsToMany
     {
         return $this->belongsToMany(Event::class)
             ->withPivot('receipt_id')
