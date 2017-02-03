@@ -34,6 +34,9 @@ class TournamentTest extends TestCase
     public function tournamentsWithFeesIncludeTeamsWithEnoughPlayers()
     {
         $firstTeam = $this->tournament->teams()->first();
+        $firstTeam->update([
+            'receipt_id' => Receipt::firstOrFail()->id
+        ]);
         $playerIds = [1, 2, 3, 4];
         $firstTeam->players()->sync($playerIds);
         $this->markPlayersAsPaid($playerIds);
