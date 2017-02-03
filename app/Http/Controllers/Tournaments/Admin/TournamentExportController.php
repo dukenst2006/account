@@ -41,10 +41,13 @@ class TournamentExportController extends Controller
                 $join->on('player_season.player_id', '=', 'players.id');
                 $join->on('player_season.season_id', '=', DB::raw($tournament->season_id));
             })
-            ->join('team_sets', 'team_sets.tournament_id', '=', DB::raw($tournament->id))
-            ->join('groups', 'groups.id', '=', 'team_sets.group_id')
             ->join('team_player', 'team_player.player_id', '=', 'players.id')
-            ->join('teams', 'teams.team_set_id', '=', 'team_sets.id')
+            ->join('team_sets', 'team_sets.tournament_id', '=', DB::raw($tournament->id))
+            ->join('teams', function (JoinClause $join) {
+                $join->on('teams.team_set_id', '=', 'team_sets.id')
+                    ->on('teams.id', '=', 'team_player.team_id');
+            })
+            ->join('groups', 'groups.id', '=', 'team_sets.group_id')
             ->with([
                 'events' => function (BelongsToMany $q) use ($tournament) {
                     $q->where('events.tournament_id', $tournament->id);
