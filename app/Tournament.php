@@ -154,10 +154,14 @@ class Tournament extends Model
 
     public function eligibleTeams() : HasManyThrough
     {
-        if ($this->hasFee(ParticipantType::TEAM)) {
+        if ($this->hasFee(ParticipantType::PLAYER)) {
             $teams = $this->teams()->withEnoughPaidPlayers($this);
         } else {
             $teams = $this->teams()->withEnoughPlayers($this);
+        }
+
+        if ($this->hasFee(ParticipantType::TEAM)) {
+            $teams->hasPaid();
         }
 
         if ($this->settings->shouldRequireQuizmastersByGroup()) {
