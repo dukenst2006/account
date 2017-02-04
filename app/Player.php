@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
 use Validator;
+use Setting;
 
 /**
  * BibleBowl\Player.
@@ -272,11 +273,22 @@ class Player extends Model
 
     public function scopeWithoutPendingPayment(Builder $query)
     {
+        if (Setting::firstYearFree()) {
+            $query->orWhere(function ($q) {
+                $q->has('seasons', '=', 1)
+                    ->whereNull('player_season.paid');
+            });
+        }
+
         return $query->whereNotNull('player_season.paid');
     }
 
     public function scopePendingRegistrationPayment(Builder $query, Season $season)
     {
+        if (Setting::firstYearFree()) {
+            $query->has('seasons', '>', 1);
+        }
+
         return $query->whereNull('player_season.paid')
             ->active($season);
     }

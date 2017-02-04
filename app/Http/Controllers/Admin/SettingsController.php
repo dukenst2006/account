@@ -33,6 +33,7 @@ class SettingsController extends Controller
     {
         DB::transaction(function () use ($request) {
             Setting::setSeasonEnd(Carbon::createFromTimestamp(strtotime($request->get('season_end'))));
+            Setting::setFirstYearFree((bool) $request->get('first_year_free'));
             Setting::setMemoryMasterDeadline(Carbon::createFromTimestamp(strtotime($request->get('memory_master_deadline'))));
             Setting::save();
 

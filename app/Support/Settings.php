@@ -62,4 +62,14 @@ class Settings extends SettingsManager
     {
         $this->set('memory_master_deadline', $date->format('F j'));
     }
+
+    public function setFirstYearFree(bool $firstYearFree)
+    {
+        $this->set('first_year_free', $firstYearFree);
+    }
+
+    public function firstYearFree() : bool
+    {
+        return $this->get('first_year_free', false);
+    }
 }

@@ -25,7 +25,7 @@
                         @include('partials.messages')
                         <div class="row">
                             <div class="col-md-12 p-b-20">
-                                <label class="form-label">Season Rollover Date</label>
+                                <h4>Season Rollover Date</h4>
                                 <span class="help">The season will roll to the next season on this date</span>
                                 <div class="controls p-b-20">
                                     <div class="input-append success date col-md-10 col-lg-6 no-padding" data-date="{{ $seasonEnd->format('M j') }}">
@@ -36,39 +36,38 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <label class="form-label">Registration Fees</label>
-                                <span class="help"></span>
-                                <div class="controls p-b-20">
-                                    <table class="table">
-                                        <thead>
+                            <div class="col-md-12 p-b-20">
+                                <h4>Registration Fees</h4>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Program</th>
+                                        <th class="text-center" style="width:150px">Fee</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($programs as $program)
                                         <tr>
-                                            <th class="text-center">Program</th>
-                                            <th class="text-center" style="width:150px">Fee</th>
+                                            <td>{{ $program->name }}</td>
+                                            <td>
+                                                {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
+                                            </td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($programs as $program)
-                                            <tr>
-                                                <td>{{ $program->name }}</td>
-                                                <td>
-                                                    {!! Form::money("program[".$program->id."][registration_fee]", old("program[".$program->id."][register]", $program->registration_fee), [ 'required', 'class' => 'form-control' ]) !!}
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="checkbox check-primary">
+                                    {!! Form::checkbox("first_year_free", 1, old("first_year_free", Setting::firstYearFree()), [ "id" => 'firstYearFree' ]) !!}
+                                    <label for="firstYearFree"><strong>No fees for first year players</strong></label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 p-b-20">
-                                <label class="form-label">Memory Master Deadline</label>
-                                <div class="controls p-b-20">
-                                    <div class="input-append success date col-md-10 col-lg-6 no-padding" data-date="{{ $memoryMasterDeadline->format('M j') }}">
-                                        {!! Form::text('memory_master_deadline', old('memory_master_deadline', $memoryMasterDeadline->format('M j')), ['class' => 'form-control']) !!}
-                                        <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                    </div>
+                                <h4>Memory Master Deadline</h4>
+                                <div class="input-append success date col-md-10 col-lg-6 no-padding" data-date="{{ $memoryMasterDeadline->format('M j') }}">
+                                    {!! Form::text('memory_master_deadline', old('memory_master_deadline', $memoryMasterDeadline->format('M j')), ['class' => 'form-control']) !!}
+                                    <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
                                 </div>
                             </div>
                         </div>
