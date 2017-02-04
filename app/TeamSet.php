@@ -101,7 +101,8 @@ class TeamSet extends Model
 
         return $this->players()->select('players.*')
             ->leftJoin('tournament_players', function (JoinClause $join) use ($tournamentId) {
-                $join->on('tournament_id', '=', DB::raw($tournamentId));
+                $join->on('tournament_players.tournament_id', '=', DB::raw($tournamentId))
+                    ->on('tournament_players.player_id', '=', 'players.id');
             })
             ->whereNull('tournament_players.receipt_id');
     }
