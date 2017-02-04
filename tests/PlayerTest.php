@@ -4,6 +4,7 @@ namespace BibleBowl;
 
 use Setting;
 use TestCase;
+use DB;
 
 class PlayerTest extends TestCase
 {
