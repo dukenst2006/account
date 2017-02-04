@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
-use Validator;
 use Setting;
+use Validator;
 
 /**
  * BibleBowl\Player.
