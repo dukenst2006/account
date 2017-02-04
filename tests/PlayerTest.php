@@ -2,9 +2,9 @@
 
 namespace BibleBowl;
 
+use DB;
 use Setting;
 use TestCase;
-use DB;
 
 class PlayerTest extends TestCase
 {
