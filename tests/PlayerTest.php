@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Player;
-use BibleBowl\Season;
+namespace BibleBowl;
+
+use TestCase;
 
 class PlayerTest extends TestCase
 {
