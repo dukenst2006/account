@@ -13,7 +13,7 @@ use BibleBowl\User;
 class SessionManager extends \Illuminate\Session\SessionManager
 {
     const SEASON = 'season';
-    const GROUP = 'group';
+    const GROUP = 'groupId';
     const CART = 'cart';
     const PENDING_INVITATION = 'pending_invitation';
     const REGISTER_WITH_GROUP = 'register_with_group';
@@ -67,8 +67,13 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function group()
     {
         if (is_null($this->group) && $this->get(self::GROUP) != null) {
+            $this->group = Group::findOrFail($this->get(self::GROUP));
+        }
+
+        // maintain support for older sessions
+        if (is_null($this->group) && $this->get('group') != null) {
             Group::unguard();
-            $this->group = $this->app->make(Group::class, [$this->get(self::GROUP)]);
+            $this->group = $this->app->make(Group::class, [$this->get('group')]);
             Group::reguard();
         }
 
@@ -88,11 +93,8 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function setGroup(Group $group = null)
     {
         $this->group = $group;
-        if (!is_null($group)) {
-            $group = $group->toArray();
-        }
 
-        $this->set(self::GROUP, $group);
+        $this->set(self::GROUP, $group->id);
     }
 
     /**
