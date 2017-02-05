@@ -4,6 +4,7 @@
 
 @section('content')
     <?php $quizmasterCount = count($quizmasters); ?>
+    <?php $playersRequiringPayment = 0; ?>
     <div class="content">
         <div class="row">
             <div class="col-md-12">
@@ -83,13 +84,13 @@
                                                 <td class="v-align-middle text-center">
                                                     {{ $eventPlayers }} player{{ $eventPlayers != 1 ? 's' : '' }}
                                                     @if ($event->isFree() === false)
-                                                        <?php $playersRequiringPayment = $event->unpaidPlayers()->count(); ?>
-                                                        @if($playersRequiringPayment > 0)
-                                                            <?php $eventPlayersRequiringPayment += $playersRequiringPayment; ?>
-                                                        <span class="text-error">({{ number_format($playersRequiringPayment) }} require payment)</span>
+                                                        <?php $eventPlayersRequiringPayment = $event->unpaidPlayers()->count(); ?>
+                                                        @if($eventPlayersRequiringPayment > 0)
+                                                            <?php $playersRequiringPayment += $eventPlayersRequiringPayment; ?>
+                                                        <span class="text-error">({{ number_format($eventPlayersRequiringPayment) }} require payment)</span>
                                                         @endif
                                                     @else
-                                                        <?php $playersRequiringPayment = 0; ?>
+
                                                     @endif
                                                 </td>
                                             </tr>
