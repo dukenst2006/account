@@ -45,7 +45,7 @@ class ThirdPartyAuthController extends LoginController
         Auth::login($user);
 
         // some users aren't being impacted by the middleware on the site
-        if ($user->requiresSetup()) {
+        if ($user->stillRequiresSetup()) {
             return redirect('/account/setup');
         }
 

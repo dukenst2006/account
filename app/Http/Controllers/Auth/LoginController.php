@@ -82,7 +82,7 @@ class LoginController extends Controller
         }
 
         // some users aren't being impacted by the middleware on the site
-        if ($user->requiresSetup()) {
+        if ($user->stillRequiresSetup()) {
             return redirect('/account/setup');
         }
     }

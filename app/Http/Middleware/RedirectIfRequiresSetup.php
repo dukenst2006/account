@@ -35,7 +35,7 @@ class RedirectIfRequiresSetup
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->user() != null && $this->auth->user()->requiresSetup()) {
+        if ($this->auth->user() != null && $this->auth->user()->stillRequiresSetup()) {
             return new RedirectResponse(url('/account/setup'));
         }
 

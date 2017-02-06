@@ -1,21 +1,25 @@
 <?php
 
+use Carbon\Carbon;
 use BibleBowl\User;
+use BibleBowl\Users\CleanupOrphanAccounts;
 
 class CleanupOrphanAccountsTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     /** @test */
-    public function onlyDeletesUnconfirmedAccounts()
+    public function onlyDeletesAccountsRequiringSetup()
     {
+        $this->cleanupAfter = config('biblebowl.cleanup-orphan-accounts-after');
+        $orphanedFor = Carbon::now()->subDays($this->cleanupAfter);
         $userCount = User::count();
-        $shouldBeDeletedCount = User::where('status', User::STATUS_UNCONFIRMED)->count();
+        $shouldBeDeletedCount = User::where('created_at', '<', $orphanedFor)->requiresSetup()->count();
         $this->assertGreaterThan(0, $shouldBeDeletedCount);
 
-        $this->artisan(\BibleBowl\Users\CleanupOrphanAccounts::COMMAND);
+        $this->artisan(CleanupOrphanAccounts::COMMAND);
 
-        $this->assertEquals(0, User::where('status', User::STATUS_UNCONFIRMED)->count());
+        $this->assertEquals(0, User::where('created_at', '<', $orphanedFor)->requiresSetup()->count());
         $this->assertEquals($userCount - $shouldBeDeletedCount, User::count());
     }
 }

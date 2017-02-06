@@ -259,7 +259,7 @@ class User extends Model implements
     /**
      * Determines if this user still lacks basic account information.
      */
-    public function requiresSetup() : bool
+    public function stillRequiresSetup() : bool
     {
         return is_null($this->primary_address_id);
     }
