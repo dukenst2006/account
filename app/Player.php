@@ -14,7 +14,6 @@ use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
 use Setting;
 use Validator;
-use DB;
 
 /**
  * BibleBowl\Player.
@@ -291,8 +290,8 @@ class Player extends Model
         }
 
         return $query->whereHas('seasons', function ($q) {
-                $q->whereNull('player_season.paid');
-            })
+            $q->whereNull('player_season.paid');
+        })
             ->active($season);
     }
 

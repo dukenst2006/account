@@ -8,7 +8,6 @@ use BibleBowl\Event;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
-use BibleBowl\ParticipantType;
 use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
 use Cart;
