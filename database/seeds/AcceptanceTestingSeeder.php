@@ -68,7 +68,7 @@ class AcceptanceTestingSeeder extends Seeder
         $this->seedReceipts();
 
         factory(User::class)->create([
-            'created_at' => new Carbon('-6 months')
+            'created_at' => new Carbon('-6 months'),
         ]);
 
         if (app()->environment('local')) {
