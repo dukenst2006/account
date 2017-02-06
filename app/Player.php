@@ -14,6 +14,7 @@ use Illuminate\Database\Query\JoinClause;
 use Ramsey\Uuid\Uuid;
 use Setting;
 use Validator;
+use DB;
 
 /**
  * BibleBowl\Player.
@@ -289,7 +290,9 @@ class Player extends Model
             $query->has('seasons', '>', 1);
         }
 
-        return $query->whereNull('player_season.paid')
+        return $query->whereHas('seasons', function ($q) {
+                $q->whereNull('player_season.paid');
+            })
             ->active($season);
     }
 
@@ -399,16 +402,16 @@ class Player extends Model
     public function scopeActive($query, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
-            $q->where('seasons.id', $season->id);
-        })
-            ->whereNull('player_season.inactive');
+            $q->where('seasons.id', $season->id)
+                ->whereNull('player_season.inactive');
+        });
     }
 
     public function scopeInactive($query, Season $season)
     {
         return $query->whereHas('seasons', function (Builder $q) use ($season) {
-            $q->where('seasons.id', $season->id);
-        })
-            ->whereNotNull('player_season.inactive');
+            $q->where('seasons.id', $season->id)
+                ->whereNotNull('player_season.inactive');
+        });
     }
 }

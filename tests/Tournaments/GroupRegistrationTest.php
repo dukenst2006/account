@@ -349,6 +349,8 @@ class GroupRegistrationTest extends TestCase
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
 
+        $this->skipErrorAboutPlayersStillRequiringSeasonalFees();
+
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
             ->click('Pay Fees')
@@ -360,6 +362,8 @@ class GroupRegistrationTest extends TestCase
     {
         $this->simulateTransaction();
         $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        $this->skipErrorAboutPlayersStillRequiringSeasonalFees();
 
         $players = $teamSet->players()->get();
         $event = $this->tournament->individualEvents()->requiringFees()->first();
@@ -411,6 +415,8 @@ class GroupRegistrationTest extends TestCase
             'max_teams' => 0,
         ]);
         $this->bypassInitialRegistrationInstructions();
+
+        $this->skipErrorAboutPlayersStillRequiringSeasonalFees();
 
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
@@ -546,6 +552,8 @@ class GroupRegistrationTest extends TestCase
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
 
+        $this->skipErrorAboutPlayersStillRequiringSeasonalFees();
+
         $settings = $this->tournament->settings;
         $settings->setMinimumPlayersPerTeam(0);
         $settings->setMaximumPlayersPerTeam(10);
@@ -566,6 +574,8 @@ class GroupRegistrationTest extends TestCase
     public function doesntAllowRegistrationPaymentWhenQuizmasterCriteriaIsntMetForTeamCount()
     {
         $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        $this->skipErrorAboutPlayersStillRequiringSeasonalFees();
 
         $settings = $this->tournament->settings;
         $settings->setMinimumPlayersPerTeam(0);
@@ -637,6 +647,27 @@ class GroupRegistrationTest extends TestCase
             ->see('Because you have '.$teamCount.' team(s), you need '.$numberOfQuizmastersRequired.' quizmaster(s) before your registration is complete.');
     }
 
+    /** @test */
+    public function rejectsPlayersWithOutstandingFees()
+    {
+        $teamSet = $this->bypassInitialRegistrationInstructions();
+
+        DB::update('UPDATE player_season SET paid = NULL');
+
+        $settings = $this->tournament->settings;
+        $settings->setMinimumPlayersPerTeam(0);
+        $settings->setMaximumPlayersPerTeam(10);
+        $this->tournament->update([
+            'settings' => $settings,
+        ]);
+
+        $playersWithUnpaidSeasonalFees = $this->tournament->teamSet($this->group())->players()->pendingRegistrationPayment($this->tournament->season)->count();
+        $this
+            ->visit('/tournaments/'.$this->tournament->slug.'/group')
+            ->click('Pay Fees')
+            ->see($playersWithUnpaidSeasonalFees.' player(s) still have outstanding seasonal registration fees');
+    }
+
     private function bypassInitialRegistrationInstructions() : TeamSet
     {
         $teamSet = TeamSet::firstOrFail();
@@ -645,5 +676,10 @@ class GroupRegistrationTest extends TestCase
         ]);
 
         return $teamSet;
+    }
+
+    private function skipErrorAboutPlayersStillRequiringSeasonalFees()
+    {
+        DB::update('UPDATE player_season SET paid = NOW()');
     }
 }

@@ -8,6 +8,7 @@ use BibleBowl\Event;
 use BibleBowl\Group;
 use BibleBowl\Http\Controllers\Controller;
 use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
+use BibleBowl\ParticipantType;
 use BibleBowl\TeamSet;
 use BibleBowl\Tournament;
 use Cart;
@@ -129,6 +130,11 @@ class GroupController extends Controller
     ) {
         $group = Session::group();
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
+
+        $playersWithUnpaidSeasonalFees = $tournament->teamSet($group)->players()->pendingRegistrationPayment($tournament->season)->count();
+        if ($playersWithUnpaidSeasonalFees > 0) {
+            return redirect()->back()->withErrors($playersWithUnpaidSeasonalFees.' player(s) still have outstanding seasonal registration fees');
+        }
 
         $unpaidTeamCount = $tournament->teamSet($group)->teams()->unpaid()->count();
         $spotsLeft = $tournament->teamSpotsLeft();
