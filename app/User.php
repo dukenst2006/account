@@ -264,6 +264,11 @@ class User extends Model implements
         return is_null($this->primary_address_id);
     }
 
+    public function scopeRequiresSetup(Builder $q)
+    {
+        $q->whereNull('primary_address_id');
+    }
+
     /**
      * @param $value
      *

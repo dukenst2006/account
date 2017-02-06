@@ -44,7 +44,7 @@ class CleanupOrphanAccounts extends Command
     public function fire()
     {
         $orphanedFor = Carbon::now()->subDays($this->cleanupAfter);
-        $orphanUsers = User::where('status', User::STATUS_UNCONFIRMED)->where('created_at', '>', $orphanedFor)->get();
+        $orphanUsers = User::where('created_at', '<', $orphanedFor)->requiresSetup()->get();
 
         foreach ($orphanUsers as $user) {
             // if registered with social media, delete those associations first
