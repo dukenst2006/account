@@ -5,7 +5,7 @@
         <ul class="players editable">
         @foreach($players as $player)
             <li class="grade-{{ $player->seasons->first()->pivot->grade }}" data-playerId="{{ $player->id }}">
-                <label>{{ $player->first_name }} <span class="hidden-xlg hidden-lg hidden-md" style="display: inline-block">{{ $player->last_name[0] }}.</span> <span class="hidden-sm hidden-xs" style="display: inline-block">{{ $player->last_name }}</span></label>
+                <label>{{ $player->first_name }} <span class="hidden-xlg hidden-lg" style="display: inline-block">{{ $player->last_name[0] }}.</span> <span class="hidden-sm hidden-xs hidden-md" style="display: inline-block">{{ $player->last_name }}</span></label>
             </li>
         @endforeach
         </ul>

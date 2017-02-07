@@ -16,7 +16,7 @@
         </div>
         <ul class="players" v-bind:class="{'editable': canEditTeams}">
             <li v-for="player in team.players" class="grade-{{ player.seasons[0].pivot.grade }}" data-playerId="{{ player.seasons[0].pivot.player_id }}">
-                <label>{{ player.first_name }} <span class="hidden-xlg hidden-lg hidden-md" style="display: inline-block">{{ player.last_name.charAt(0) }}.</span> <span class="hidden-sm hidden-xs" style="display: inline-block">{{ player.last_name }}</span></label>
+                <label>{{ player.first_name }} <span class="hidden-xlg hidden-lg" style="display: inline-block">{{ player.last_name.charAt(0) }}.</span> <span class="hidden-sm hidden-xs hidden-md" style="display: inline-block">{{ player.last_name }}</span></label>
             </li>
         </ul>
     </div>
