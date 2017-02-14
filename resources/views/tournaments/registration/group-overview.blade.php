@@ -107,9 +107,9 @@
                             (isset($teamsRequiringPayment) && $teamsRequiringPayment > 0) ||
                             (isset($playersRequiringPayment) && $playersRequiringPayment > 0) ||
                             (isset($eventPlayersRequiringPayment) && $eventPlayersRequiringPayment > 0) ||
-                            ($tournament->hasFee(\BibleBowl\ParticipantType::FAMILY) && $tournament->spectators()->families()->registeredByHeadCoach()->unpaid()->count() > 0) ||
-                            ($tournament->hasFee(\BibleBowl\ParticipantType::ADULT) && $tournament->spectators()->adults()->registeredByHeadCoach()->unpaid()->count() > 0) ||
-                            ($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) && $tournament->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->count() > 0)
+                            ($tournament->hasFee(\BibleBowl\ParticipantType::FAMILY) && $tournament->spectators()->families()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0) ||
+                            ($tournament->hasFee(\BibleBowl\ParticipantType::ADULT) && $tournament->spectators()->adults()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0) ||
+                            ($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) && $tournament->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0)
                         ))
                         <div class="alert text-center">
                             Portions of your registration require payment before they are complete.<br/>
