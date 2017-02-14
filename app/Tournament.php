@@ -638,7 +638,7 @@ class Tournament extends Model
         }
 
         if ($this->hasFee(ParticipantType::QUIZMASTER)) {
-            $groupRegistration->setQuizmasterIds($this->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->get()->modelKeys());
+            $groupRegistration->setQuizmasterIds($this->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->group($group)->get()->modelKeys());
         }
 
         if ($this->hasFee(ParticipantType::ADULT)) {
