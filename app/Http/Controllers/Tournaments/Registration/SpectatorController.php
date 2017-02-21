@@ -65,7 +65,7 @@ class SpectatorController extends Controller
             $cart->setPostPurchaseEvent($spectatorRegistrationPaymentReceived)->save();
 
             $cart->add(
-                $spectator->sku(),
+                ParticipantType::sku($request->tournament(), $spectator->participant_type->id),
                 $fee,
                 1
             );

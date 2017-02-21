@@ -193,13 +193,4 @@ class Spectator extends Model
     {
         return strlen($this->spouse_first_name) > 0;
     }
-
-    public function sku() : string
-    {
-        if ($this->isFamily()) {
-            return self::REGISTRATION_FAMILY_SKU;
-        }
-
-        return self::REGISTRATION_ADULT_SKU;
-    }
 }

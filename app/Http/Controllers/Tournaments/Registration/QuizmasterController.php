@@ -81,7 +81,7 @@ class QuizmasterController extends Controller
             $cart->setPostPurchaseEvent($quizmasterRegistrationPaymentReceived)->save();
 
             $cart->add(
-                TournamentQuizmaster::REGISTRATION_SKU,
+                ParticipantType::sku($tournament, ParticipantType::QUIZMASTER),
                 $fee,
                 1
             );
