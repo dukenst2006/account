@@ -379,8 +379,6 @@ class GroupRegistrationTest extends TestCase
             $players->first()->id,
         ]);
 
-
-
         $this->assertEquals(1, $event->players()->count());
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
