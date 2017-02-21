@@ -11,6 +11,7 @@ use BibleBowl\Shop\UnrecognizedPurchaseEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use DB;
 
 /**
  * BibleBowl\Cart.
@@ -115,10 +116,8 @@ class Cart extends Model
      * @param string $sku
      * @param float  $price
      * @param int    $quantity
-     *
-     * @return Item
      */
-    public function add($sku, $price, $quantity = 1)
+    public function add(string $sku, $price, int $quantity = 1) : Item
     {
         return $this->items()->create([
             'sku'       => $sku,
@@ -132,7 +131,7 @@ class Cart extends Model
      */
     public function total()
     {
-        return $this->items()->sum('price');
+        return $this->items()->sum(DB::raw('quantity * price'));
     }
 
     /**

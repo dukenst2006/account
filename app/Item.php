@@ -3,6 +3,7 @@
 namespace BibleBowl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * BibleBowl\Item.
@@ -101,10 +102,7 @@ class Item extends Model
         return $this->sku;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function cart()
+    public function cart() : BelongsTo
     {
         return $this->belongsTo(Cart::class);
     }

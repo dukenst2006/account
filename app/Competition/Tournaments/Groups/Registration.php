@@ -105,7 +105,7 @@ class Registration extends Fluent
         if ($teamCount > 0) {
             $cart->add(
                 ParticipantType::sku($tournament, ParticipantType::TEAM),
-                $tournament->fee(ParticipantType::TEAM) * $teamCount,
+                $tournament->fee(ParticipantType::TEAM),
                 $teamCount
             );
         }
@@ -114,7 +114,7 @@ class Registration extends Fluent
         if ($playerCount > 0) {
             $cart->add(
                 ParticipantType::sku($tournament, ParticipantType::PLAYER),
-                $tournament->fee(ParticipantType::PLAYER) * $playerCount,
+                $tournament->fee(ParticipantType::PLAYER),
                 $playerCount
             );
         }
@@ -123,7 +123,7 @@ class Registration extends Fluent
         if ($quizmasterCount > 0) {
             $cart->add(
                 ParticipantType::sku($tournament, ParticipantType::QUIZMASTER),
-                $tournament->fee(ParticipantType::QUIZMASTER) * $quizmasterCount,
+                $tournament->fee(ParticipantType::QUIZMASTER),
                 $quizmasterCount
             );
         }
@@ -132,7 +132,7 @@ class Registration extends Fluent
         if ($adultCount > 0) {
             $cart->add(
                 ParticipantType::sku($tournament, ParticipantType::ADULT),
-                $tournament->fee(ParticipantType::ADULT) * $adultCount,
+                $tournament->fee(ParticipantType::ADULT),
                 $adultCount
             );
         }
@@ -141,7 +141,7 @@ class Registration extends Fluent
         if ($familyCount > 0) {
             $cart->add(
                 ParticipantType::sku($tournament, ParticipantType::FAMILY),
-                $tournament->fee(ParticipantType::FAMILY) * $familyCount,
+                $tournament->fee(ParticipantType::FAMILY),
                 $familyCount
             );
         }
@@ -151,7 +151,7 @@ class Registration extends Fluent
             $participantCount = count($participantIds);
             $cart->add(
                 $event->sku(),
-                $event->price_per_participant * $participantCount,
+                $event->price_per_participant,
                 $participantCount
             );
         }
