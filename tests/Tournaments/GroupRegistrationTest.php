@@ -379,25 +379,27 @@ class GroupRegistrationTest extends TestCase
             $players->first()->id,
         ]);
 
+
+
         $this->assertEquals(1, $event->players()->count());
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
             ->click('Pay Fees')
 
             ->see('Team Tournament Registration (Early Bird)')
-            ->see('$400.00')
+            ->see('$'.$this->tournament->fee(ParticipantType::TEAM))
 
             ->see('Player Tournament Registration')
-            ->see('$26.00')
+            ->see('$'.$this->tournament->fee(ParticipantType::PLAYER))
 
             ->see('Quizmaster Tournament Registration')
-            ->see('$12.00')
+            ->see('$'.$this->tournament->fee(ParticipantType::QUIZMASTER))
 
             ->see('Adult Tournament Registration')
-            ->see('$30.00')
+            ->see('$'.$this->tournament->fee(ParticipantType::ADULT))
 
             ->see('Family Tournament Registration')
-            ->see('$60.00')
+            ->see('$'.$this->tournament->fee(ParticipantType::FAMILY))
 
             ->see('Player Quote Bee Registration')
             ->see('$10.00')
