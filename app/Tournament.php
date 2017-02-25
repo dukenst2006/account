@@ -36,7 +36,6 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
  * @property-read Season $season
  * @property-read User $creator
- *
  * @method static \Illuminate\Database\Query\Builder|Tournament whereId($value)
  * @method static \Illuminate\Database\Query\Builder|Tournament whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|Tournament whereSeasonId($value)
@@ -51,6 +50,38 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Query\Builder|Tournament whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Tournament whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $tournament_type_id
+ * @property string $inactive
+ * @property string $slug
+ * @property int $program_id
+ * @property string $details
+ * @property string $fees
+ * @property bool $max_teams
+ * @property static $lock_teams
+ * @property static $earlybird_ends
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Minor[] $minors
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\ParticipantFee[] $participantFees
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $players
+ * @property-read \BibleBowl\Program $program
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $receipts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TeamSet[] $teamSets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Team[] $teams
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ * @property-read \BibleBowl\TournamentType $type
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament active()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament inactive()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament visible(\BibleBowl\Season $season, $programId = null)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereDetails($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereEarlybirdEnds($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereFees($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereInactive($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereLockTeams($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereMaxTeams($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereProgramId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereSettings($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament whereTournamentTypeId($value)
  */
 class Tournament extends Model
 {

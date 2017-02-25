@@ -5,6 +5,34 @@ namespace BibleBowl;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * BibleBowl\Invitation
+ *
+ * @property int $id
+ * @property string $guid
+ * @property string $status
+ * @property string $type
+ * @property string $email
+ * @property int $group_id
+ * @property int $inviter_id
+ * @property int $user_id
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $created_at
+ * @property-read \BibleBowl\Group $group
+ * @property-read \BibleBowl\User $inviter
+ * @property-read \BibleBowl\User $user
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereInviterId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Invitation extends Model
 {
     const ACCEPTED = 'accepted';

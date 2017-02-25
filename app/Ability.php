@@ -12,7 +12,6 @@ namespace BibleBowl;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereDisplayName($value)
@@ -20,17 +19,17 @@ namespace BibleBowl;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereUpdatedAt($value)
  * @mixin \Eloquent
- *
  * @property int $entity_id
  * @property string $entity_type
  * @property-read mixed $identifier
  * @property-read mixed $slug
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereEntityId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereEntityType($value)
  * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Ability byName($name, $strict = false)
  * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Ability simpleAbility()
  * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Ability forModel($model, $strict = false)
+ * @property bool $only_owned
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereOnlyOwned($value)
  */
 class Ability extends \Silber\Bouncer\Database\Ability
 {

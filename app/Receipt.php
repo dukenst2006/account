@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property-read \BibleBowl\Address $address
  * @property-read \BibleBowl\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\ReceiptItem[] $items
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereTotal($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt wherePaymentReferenceNumber($value)
@@ -33,6 +32,11 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereCreatedAt($value)
  * @mixin \Eloquent
+ * @property int $tournament_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
+ * @property-read \BibleBowl\Tournament $tournament
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereTournamentId($value)
  */
 class Receipt extends Model
 {
@@ -76,15 +80,5 @@ class Receipt extends Model
     public function spectators() : HasMany
     {
         return $this->hasMany(Spectator::class);
-    }
-
-    public function eventPlayers() : HasMany
-    {
-        return $this->hasMany(EventPlayer::class);
-    }
-
-    public function players() : HasManyThrough
-    {
-        return $this->hasManyThrough(Player::class, EventPlayer::class);
     }
 }

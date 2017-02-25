@@ -12,6 +12,65 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * BibleBowl\Spectator
+ *
+ * @property int $id
+ * @property string $guid
+ * @property int $tournament_id
+ * @property int $group_id
+ * @property int $registered_by
+ * @property int $user_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property int $phone
+ * @property string $gender
+ * @property string $shirt_size
+ * @property string $spouse_first_name
+ * @property string $spouse_gender
+ * @property string $spouse_shirt_size
+ * @property int $address_id
+ * @property int $receipt_id
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $created_at
+ * @property-read \BibleBowl\Address $address
+ * @property-read mixed $full_name
+ * @property-read mixed $participant_type
+ * @property-read \BibleBowl\Group $group
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Minor[] $minors
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \BibleBowl\Receipt $receipt
+ * @property-read \BibleBowl\User $registeredBy
+ * @property-read \BibleBowl\Tournament $tournament
+ * @property-read \BibleBowl\User $user
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator adults()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator families()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator group(\BibleBowl\Group $group)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator paid()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator registeredByHeadCoach()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator unpaid()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereReceiptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereRegisteredBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereSpouseFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereSpouseGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereSpouseShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Spectator extends Model
 {
     const REGISTRATION_ADULT_SKU = 'TOURNAMENT_REG_ADULT';

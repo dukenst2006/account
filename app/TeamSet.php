@@ -19,27 +19,26 @@ use Illuminate\Database\Query\JoinClause;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player')
  *             ->withPivot('grade[] $players
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereUpdatedAt($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
- *
  * @property int $group_id
  * @property int $season_id
  * @property-read Group $group
  * @property-read Season $season
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
  * @mixin \Eloquent
+ * @property int $tournament_id
+ * @property-read \BibleBowl\Tournament $tournament
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet season(\BibleBowl\Season $season)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereTournamentId($value)
  */
 class TeamSet extends Model
 {

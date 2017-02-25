@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property \Carbon\Carbon $updated_at
  * @property-read Tournament $tournament
  * @property-read EventType $type
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereTournamentId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereEventTypeId($value)
@@ -26,6 +25,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $required
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $paidPlayers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $players
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $unpaidPlayers
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event byParticipantType($participantTypeId)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event requiringFees()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereRequired($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event withOptionalParticipation()
  */
 class Event extends Model
 {

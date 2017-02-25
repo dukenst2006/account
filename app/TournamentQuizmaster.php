@@ -11,6 +11,53 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * BibleBowl\TournamentQuizmaster
+ *
+ * @property int $id
+ * @property string $guid
+ * @property int $tournament_id
+ * @property int $group_id
+ * @property int $registered_by
+ * @property int $receipt_id
+ * @property int $user_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property int $phone
+ * @property string $gender
+ * @property string $shirt_size
+ * @property QuizzingPreferences $quizzing_preferences
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $created_at
+ * @property-read mixed $full_name
+ * @property-read \BibleBowl\Group $group
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \BibleBowl\Receipt $receipt
+ * @property-read \BibleBowl\User $registeredBy
+ * @property-read \BibleBowl\Tournament $tournament
+ * @property-read \BibleBowl\User $user
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster paid()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster registeredByHeadCoach()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster unpaid()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereQuizzingPreferences($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereReceiptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereRegisteredBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereUserId($value)
+ * @mixin \Eloquent
+ */
 class TournamentQuizmaster extends Model
 {
     const REGISTRATION_SKU = 'TOURNAMENT_REG_QUIZMASTER';

@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \BibleBowl\User $user
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereProvider($value)

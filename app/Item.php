@@ -35,7 +35,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read mixed $was_purchased
  * @property-read mixed $is_shoppable
  * @property-read mixed $shop_url
- *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereCartId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereSku($value)

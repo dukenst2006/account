@@ -34,13 +34,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read mixed $display_total_discount
  * @property-read mixed $display_total
  * @property-read mixed $calculations_cache_key
- *
  * @method static \Illuminate\Database\Query\Builder current()
  * @method static \Illuminate\Database\Query\Builder whereUser($userId)
  * @method static \Illuminate\Database\Query\Builder whereCurrent()
  * @method static \Illuminate\Database\Query\Builder findByUser($userId)
- *
  * @property string $post_purchase_event
+ * @property array $metadata
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereMetadata($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereUserId($value)
+ * @mixin \Eloquent
  */
 class Cart extends Model
 {

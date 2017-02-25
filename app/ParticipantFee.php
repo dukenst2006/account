@@ -6,6 +6,32 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * BibleBowl\ParticipantFee
+ *
+ * @property int $id
+ * @property int $tournament_id
+ * @property int $participant_type_id
+ * @property bool $requires_registration
+ * @property float $earlybird_fee
+ * @property float $fee
+ * @property float $onsite_fee
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $created_at
+ * @property-read \BibleBowl\ParticipantType $participantType
+ * @property-read \BibleBowl\Tournament $tournament
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee requiresRegistration()
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereEarlybirdFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereOnsiteFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereParticipantTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereRequiresRegistration($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class ParticipantFee extends Model
 {
     protected $guarded = ['id'];
