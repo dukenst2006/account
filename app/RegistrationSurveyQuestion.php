@@ -5,7 +5,7 @@ namespace BibleBowl;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\RegistrationSurveyQuestion
+ * BibleBowl\RegistrationSurveyQuestion.
  *
  * @property int $id
  * @property string $question
@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\RegistrationSurveyAnswer[] $answers
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\RegistrationSurvey[] $surveys
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereOrder($value)

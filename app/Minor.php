@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * BibleBowl\Minor
+ * BibleBowl\Minor.
  *
  * @property int $id
  * @property int $spectator_id
@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
  * @property-read \BibleBowl\Spectator $spectator
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereAge($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereGender($value)

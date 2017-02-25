@@ -47,6 +47,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read mixed $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGuid($value)
@@ -62,23 +63,28 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereUpdatedAt($value)
  * @method static \BibleBowl\User byProviderId($id)
+ *
  * @property int $primary_address_id
  * @property-read Address $primaryAddress
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $ownedGroups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePrimaryAddressId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
+ *
  * @property-read \BibleBowl\Cart $cart
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $orders
  * @property-read mixed $shop_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Ability[] $abilities
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIs($role)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIsAll($role)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCan($ability, $model = null)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCannot($ability, $model = null)
  * @mixin \Eloquent
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Invitation[] $invitationsReceived
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Invitation[] $invitationsSent
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -86,6 +92,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\RegistrationSurvey[] $surveys
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User byProvider($provider, $id)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User requiresSetup()
  */

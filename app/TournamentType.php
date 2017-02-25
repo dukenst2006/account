@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\TournamentType
+ * BibleBowl\TournamentType.
  *
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Tournament[] $tournaments
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereName($value)

@@ -36,6 +36,7 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
  * @property-read Season $season
  * @property-read User $creator
+ *
  * @method static \Illuminate\Database\Query\Builder|Tournament whereId($value)
  * @method static \Illuminate\Database\Query\Builder|Tournament whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|Tournament whereSeasonId($value)
@@ -50,6 +51,7 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Query\Builder|Tournament whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Tournament whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
  * @property int $tournament_type_id
  * @property string $inactive
  * @property string $slug
@@ -69,6 +71,7 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Team[] $teams
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
  * @property-read \BibleBowl\TournamentType $type
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament active()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament inactive()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Tournament visible(\BibleBowl\Season $season, $programId = null)

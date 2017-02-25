@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 /**
- * BibleBowl\Invitation
+ * BibleBowl\Invitation.
  *
  * @property int $id
  * @property string $guid
@@ -21,6 +21,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \BibleBowl\Group $group
  * @property-read \BibleBowl\User $inviter
  * @property-read \BibleBowl\User $user
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereGroupId($value)

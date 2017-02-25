@@ -5,7 +5,6 @@ namespace BibleBowl;
 use BibleBowl\Presentation\Describer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -20,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $providers
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereAbbreviation($value)
@@ -28,15 +28,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
+ *
  * @property float $registration_fee
  * @property-read mixed $product_sku
  * @property bool $min_grade
  * @property bool $max_grade
  * @property-read mixed $sku
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereRegistrationFee($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMinGrade($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMaxGrade($value)
  * @mixin \Eloquent
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Tournament[] $tournaments
  */
 class Program extends Model
