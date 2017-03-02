@@ -1,19 +1,17 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Account;
+namespace App\Http\Controllers\Account;
 
-use App;
+use App\Address;
+use App\Http\Controllers\Controller;
+use App\RegistrationSurvey;
+use App\RegistrationSurveyAnswer;
+use App\RegistrationSurveyQuestion;
+use App\Support\Scrubber;
+use App\User;
 use Auth;
-use BibleBowl\Address;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\RegistrationSurvey;
-use BibleBowl\RegistrationSurveyAnswer;
-use BibleBowl\RegistrationSurveyQuestion;
-use BibleBowl\Support\Scrubber;
-use BibleBowl\User;
 use DB;
 use Illuminate\Http\Request;
-use Redirect;
 
 class SetupController extends Controller
 {
@@ -56,9 +54,9 @@ class SetupController extends Controller
             ]);
 
             // add user address
-            $address = App::make(Address::class, [$request->except([
+            $address = new Address($request->except([
                 'first_name', 'last_name', 'phone', 'gender', 'timezone', 'answer', 'other',
-            ])]);
+            ]));
             $user->addresses()->save($address);
             $user->update(['primary_address_id' => $address->id]);
 
@@ -67,18 +65,18 @@ class SetupController extends Controller
                 $surveys = [];
                 foreach ($request->get('answer') as $questionId => $answers) {
                     foreach ($answers as $answerId => $true) {
-                        $surveys[] = app(RegistrationSurvey::class, [[
+                        $surveys[] = new RegistrationSurvey([
                             'answer_id' => $answerId,
-                        ]]);
+                        ]);
                     }
 
                     // update that question's "Other"
                     if ($request->has('other.'.$questionId) && strlen($request->get('other')[$questionId]) > 0) {
                         $otherAnswer = RegistrationSurveyAnswer::where('question_id', $questionId)->where('answer', 'Other')->first();
-                        $surveys[] = app(RegistrationSurvey::class, [[
+                        $surveys[] = new RegistrationSurvey([
                             'answer_id'     => $otherAnswer->id,
                             'other'         => $request->get('other')[$questionId],
-                        ]]);
+                        ]);
                     }
                 }
                 $user->surveys()->saveMany($surveys);

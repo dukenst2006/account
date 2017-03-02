@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Shop;
+namespace App\Shop;
 
 class PaymentFailed extends \Exception
 {

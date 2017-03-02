@@ -1,72 +1,27 @@
-@extends('emails.simple')
+@component('mail::message')
+# Registration Notification
 
-@section('body')
-    <?php
-        // Serialized objects need to be re-instantiated in order
-        // to have a successful database connection
-        $primaryAddress = \BibleBowl\Address::findOrFail($guardian['primary_address_id']);
-        $group = \BibleBowl\Group::findOrFail($groupId);
-        $playerCount = count($players);
-    ?>
+<?php echo (count($players) > 1 ? 'A few players have' : 'A player has'); ?> just registered for **{{ $group->name }} ({{ $group->program->name }})**.  You can see where they live in relation to where your group meets on the [Player Map]({{ url('roster/map') }}).
 
-    @include('emails.theme.header', [
-        'header' => 'Registration Notification'
-    ])
+**{{ $guardian['full_name'] }}**<br/>
+{{ $guardian->primaryAddress->address_one }}<br/>
+@if(!is_null($guardian->primaryAddress->address_two))
+    {{ $guardian->primaryAddress->address_two }}<br/>
+@endif
+{{ $guardian->primaryAddress->city }}, {{ $guardian->primaryAddress->state }} {{ $guardian->primaryAddress->zip_code }}<br/>
+[{{ $guardian['email'] }}](mailto:{{ $guardian['email'] }})
+@if(isset($guardian['phone']) && !empty($guardian['phone']))
+    [{{ Html::formatPhone($guardian['phone']) }}](tel:{{ $guardian['phone'] }})@endif
 
-    @include('emails.theme.text-block', [
-        'body' => ($playerCount > 1 ? 'A few players have' : 'A player has').' just registered for <strong>'. $group->name .' ('. $group->program->name .')</strong>.  You can see where they live in relation to where your group meets on the '. EmailTemplate::link(url('roster/map'), 'Player Map') .'.'
-    ])
+@component('mail::table')
+| Name       | Gender         | Age  | Grade  | T-Shirt Size  |
+| ------------- |:-------------:|:--------:|:--------:|:--------:|
+@foreach ($players as $player)
+    | {{ $player['full_name'] }}      | {{ $player['gender'] }}      | {{ $player->age() }}      | {{ \App\Presentation\Describer::describeGradeShort($grades[$player['id']]) }}      | {{ $shirtSizes[$player['id']] }}      |
+@endforeach
 
-    <table width="600" align="center" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0" class="table600">
-        <tr>
-            <!--=========== JUST ENTER YOUR INFO HERE =========-->
-            <td valign="middle" align="center" bgcolor="#f4f4f4" height="10" class="sectionRegularInfoTextTD" style="border-collapse: collapse;color: #42484c;font-family: Arial, Tahoma, Verdana, sans-serif;font-size: 13px;font-weight: lighter;padding: 0;margin: 0;text-align: left;line-height: 165%;letter-spacing: 0;">
+@endcomponent
 
+*If you do not want to receive these emails, please go to [Notification Preferences]({{ url('account/notifications') }}) to disable them.*
 
-                <!--================== BEGIN SHOWING GUARDIAN/PLAYER INFO =================-->
-                <table align="left" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0">
-                    <tbody>
-                    <tr>
-                        <td><br/>
-                            <strong>{{ $guardian['full_name'] }}</strong>
-                            @include('partials.address', [
-                                'address' => $primaryAddress
-                            ])
-                            <a href="mailto:{{ $guardian['email'] }}">{{ $guardian['email'] }}</a>
-                            @if(isset($guardian['phone']) && !empty($guardian['phone']))
-                                <br/><a href="tel:{{ $guardian['phone'] }}">{{ Html::formatPhone($guardian['phone']) }}</a>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><br/>
-                            <h2>Players</h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        @foreach ($players as $player)
-                            <td valign="top" bgcolor="#f4f4f4" style="border-collapse: collapse;">
-                                <table width="280" align="center" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" border="0" class="table280">
-                                    <tr>
-                                        <td valign="top" align="center" height="10" bgcolor="#f4f4f4" class="sectionRegularInfoTextTD" style="border-collapse: collapse;color: #42484c;font-family: Arial, Tahoma, Verdana, sans-serif;font-size: 13px;font-weight: lighter;padding: 0;margin: 0;text-align: left;line-height: 165%;letter-spacing: 0;">
-                                            <strong>{{ $player['full_name'] }}</strong><br/>
-                                            Gender: {{ $player['gender'] }}<br/>
-                                            Age: {{ $player->age() }}<br/>
-                                            Grade: {{ \BibleBowl\Presentation\Describer::describeGrade($grades[$player['id']]) }}<br/>
-                                            T-Shirt size: {{ \BibleBowl\Presentation\Describer::describeShirtSize($shirtSizes[$player['id']]) }}
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        @endforeach
-                    </tr>
-                    </tbody>
-                </table>
-
-            </td>
-            <!--================ End of the section ============-->
-        </tr>
-        @include('emails.unsubscribe-notifications')
-    </table>
-@endsection
+@endcomponent

@@ -1,21 +1,21 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Tournaments\Registration;
+namespace App\Http\Controllers\Tournaments\Registration;
 
+use App\Competition\Tournaments\Quizmasters\QuizzingPreferences;
+use App\Competition\Tournaments\Quizmasters\Registrar;
+use App\Competition\Tournaments\Quizmasters\RegistrationConfirmation;
+use App\Competition\Tournaments\Quizmasters\RegistrationPaymentReceived;
+use App\Group;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\HeadCoachOnlyRequest;
+use App\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
+use App\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
+use App\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
+use App\ParticipantType;
+use App\Tournament;
+use App\TournamentQuizmaster;
 use Auth;
-use BibleBowl\Competition\Tournaments\Quizmasters\QuizzingPreferences;
-use BibleBowl\Competition\Tournaments\Quizmasters\Registrar;
-use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationConfirmation;
-use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationPaymentReceived;
-use BibleBowl\Group;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\QuizmasterRegistrationRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\QuizzingPreferencesRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\StandaloneQuizmasterRegistrationRequest;
-use BibleBowl\ParticipantType;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
 use Cart;
 use DB;
 use Illuminate\Database\Eloquent\Builder;

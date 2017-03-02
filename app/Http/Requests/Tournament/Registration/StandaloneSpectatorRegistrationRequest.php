@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl\Http\Requests\Tournament\Registration;
+namespace App\Http\Requests\Tournament\Registration;
 
-use BibleBowl\Address;
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Spectator;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
+use App\Address;
+use App\Http\Requests\Request;
+use App\Spectator;
+use App\Tournament;
+use App\TournamentQuizmaster;
 use Illuminate\Database\Eloquent\Builder;
 use Validator;
 

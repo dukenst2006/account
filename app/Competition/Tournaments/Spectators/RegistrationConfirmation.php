@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Spectators;
+namespace App\Competition\Tournaments\Spectators;
 
-use BibleBowl\Spectator;
+use App\Spectator;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

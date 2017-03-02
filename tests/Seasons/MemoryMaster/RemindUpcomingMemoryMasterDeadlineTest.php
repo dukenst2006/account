@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
+use App\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Support\Facades;
+namespace App\Support\Facades;
 
-use BibleBowl\Support\Settings;
+use App\Support\Settings;
 
 class SettingsManager extends \Illuminate\Support\Facades\Facade
 {

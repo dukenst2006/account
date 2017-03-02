@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Support\Providers;
+namespace App\Support\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

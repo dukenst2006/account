@@ -1,15 +1,15 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Tournaments\Registration;
+namespace App\Http\Controllers\Tournaments\Registration;
 
-use BibleBowl\Competition\Teams\Duplicater;
-use BibleBowl\Competition\Tournaments\Groups\RegistrationPaymentReceived;
-use BibleBowl\Event;
-use BibleBowl\Group;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
-use BibleBowl\TeamSet;
-use BibleBowl\Tournament;
+use App\Competition\Teams\Duplicater;
+use App\Competition\Tournaments\Groups\RegistrationPaymentReceived;
+use App\Event;
+use App\Group;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\HeadCoachOnlyRequest;
+use App\TeamSet;
+use App\Tournament;
 use Cart;
 use DB;
 use Session;

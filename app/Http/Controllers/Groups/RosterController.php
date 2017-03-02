@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Groups;
+namespace App\Http\Controllers\Groups;
 
-use BibleBowl\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Session;

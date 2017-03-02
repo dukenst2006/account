@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\TeamSet;
 use Auth;
-use BibleBowl\TeamSet;
 use Session;
 
 class TeamSetUpdateRequest extends TeamSetGroupOnlyRequest

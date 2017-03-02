@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\Address;
 use Auth;
-use BibleBowl\Address;
 
 class AddressOwnerOnlyRequest extends Request
 {

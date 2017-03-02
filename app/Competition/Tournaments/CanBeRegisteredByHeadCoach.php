@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments;
+namespace App\Competition\Tournaments;
 
-use BibleBowl\User;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

@@ -19,77 +19,77 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
         <!-- BEGIN SIDEBAR MENU -->
         <ul>
             <li class="start
-            @if(Route::current()->getUri() == 'dashboard')
+            @if(Route::current()->uri() == 'dashboard')
                     active
                 @endif">
                 <a href="/dashboard"> <i class="icon-custom-home"></i>  <span class="title">Dashboard</span></a>
             </li>
-            @can(BibleBowl\Ability::MANAGE_ROSTER)
+            @can(App\Ability::MANAGE_ROSTER)
                 <li class="start
-                @if(Route::current()->getUri() == 'roster')
+                @if(Route::current()->uri() == 'roster')
                         active
                     @endif">
                     <a href="/roster"> <i class="fa fa-user"></i>  <span class="title">Player Roster</span> </a>
                 </li>
-                <li @if(Route::current()->getUri() == 'roster/map')
+                <li @if(Route::current()->uri() == 'roster/map')
                     class="active"
                         @endif> <a href="/roster/map"><i class="icon-custom-map"></i> <span class="title">Player Map</span> </a>
                 </li>
-                <li @if(Route::current()->getUri() == 'memory-master')
+                <li @if(Route::current()->uri() == 'memory-master')
                     class="active"
                         @endif> <a href="/memory-master"><i class="fa fa-certificate"></i> <span class="title">Memory Master</span> </a>
                 </li>
             @endcan
-            @can(BibleBowl\Ability::MANAGE_TEAMS)
+            @can(App\Ability::MANAGE_TEAMS)
                 <li class="start
-                @if(Route::current()->getUri() == 'team')
+                @if(Route::current()->uri() == 'team')
                         active
                     @endif">
                     <a href="/teamsets"> <i class="fa fa-users"></i>  <span class="title">Teams</span> </a>
                 </li>
             @endcan
-            @can(BibleBowl\Ability::CREATE_TOURNAMENTS)
+            @can(App\Ability::CREATE_TOURNAMENTS)
                 <li class="start
-                        @if(Route::current()->getUri() == 'admin/tournaments')
+                        @if(Route::current()->uri() == 'admin/tournaments')
                     active
                 @endif">
                 <a href="/admin/tournaments"> <i class="fa fa-trophy"></i> <span class="title">Tournaments</span></a>
             </li>
             @endcan
             @if(
-                Bouncer::allows(BibleBowl\Ability::MANAGE_GROUPS) ||
-                Bouncer::allows(BibleBowl\Ability::MANAGE_PLAYERS) ||
-                Bouncer::allows(BibleBowl\Ability::MANAGE_USERS) ||
-                Bouncer::allows(BibleBowl\Ability::VIEW_REPORTS) ||
-                Bouncer::allows(BibleBowl\Ability::MANAGE_SETTINGS)
+                Bouncer::allows(App\Ability::MANAGE_GROUPS) ||
+                Bouncer::allows(App\Ability::MANAGE_PLAYERS) ||
+                Bouncer::allows(App\Ability::MANAGE_USERS) ||
+                Bouncer::allows(App\Ability::VIEW_REPORTS) ||
+                Bouncer::allows(App\Ability::MANAGE_SETTINGS)
             )
                 <p class="menu-title">ADMIN</p>
-                @can(BibleBowl\Ability::MANAGE_GROUPS)
+                @can(App\Ability::MANAGE_GROUPS)
                     <li class="
-                        @if(Route::current()->getUri() == 'admin/groups')
+                        @if(Route::current()->uri() == 'admin/groups')
                             active
                         @endif">
                         <a href="/admin/groups"> <i class="fa fa-home"></i> <span class="title">Groups</span></a>
                     </li>
                 @endcan
-                @can(BibleBowl\Ability::MANAGE_PLAYERS)
+                @can(App\Ability::MANAGE_PLAYERS)
                 <li class="
-                            @if(Route::current()->getUri() == 'admin/players')
+                            @if(Route::current()->uri() == 'admin/players')
                         active
                     @endif">
                     <a href="/admin/players"> <i class="fa fa-users"></i> <span class="title">Players</span></a>
                 </li>
                 @endcan
-                @can(BibleBowl\Ability::MANAGE_USERS)
+                @can(App\Ability::MANAGE_USERS)
                     <li class="
-                        @if(Route::current()->getUri() == 'admin/users')
+                        @if(Route::current()->uri() == 'admin/users')
                             active
                         @endif">
                         <a href="/admin/users"> <i class="fa fa-user"></i> <span class="title">Users</span></a>
                     </li>
                 @endcan
                 <?php $isReportsOpen = false; ?>
-                @can(BibleBowl\Ability::VIEW_REPORTS)
+                @can(App\Ability::VIEW_REPORTS)
                     @if(str_contains(Route::current()->uri(), 'reports/growth'))
                         <?php $isReportsOpen = true; ?>
                     @endif
@@ -125,9 +125,9 @@ Gravatar::setDefaultImage(url('img/default-avatar.png'))
                         </ul>
                     </li>
                 @endcan
-                @can(BibleBowl\Ability::MANAGE_SETTINGS)
+                @can(App\Ability::MANAGE_SETTINGS)
                     <li class="
-                        @if(Route::current()->getUri() == 'admin/settings')
+                        @if(Route::current()->uri() == 'admin/settings')
                             active
                         @endif">
                         <a href="/admin/settings"> <i class="fa fa-gears"></i> <span class="title">Settings</span></a>

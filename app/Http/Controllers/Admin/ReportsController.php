@@ -1,17 +1,17 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Player;
-use BibleBowl\RegistrationSurveyQuestion;
-use BibleBowl\Reporting\FinancialsRepository;
-use BibleBowl\Reporting\GroupMetricsRepository;
-use BibleBowl\Reporting\MetricsRepository;
-use BibleBowl\Reporting\PlayerExporter;
-use BibleBowl\Reporting\PlayerMetricsRepository;
-use BibleBowl\Reporting\SurveyMetricsRepository;
-use BibleBowl\Season;
+use App\Http\Requests\Request;
+use App\Player;
+use App\RegistrationSurveyQuestion;
+use App\Reporting\FinancialsRepository;
+use App\Reporting\GroupMetricsRepository;
+use App\Reporting\MetricsRepository;
+use App\Reporting\PlayerExporter;
+use App\Reporting\PlayerMetricsRepository;
+use App\Reporting\SurveyMetricsRepository;
+use App\Season;
 
 class ReportsController extends Controller
 {

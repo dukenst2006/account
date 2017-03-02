@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Reporting;
+namespace App\Reporting;
 
-use BibleBowl\Group;
-use BibleBowl\Program;
-use BibleBowl\Season;
+use App\Group;
+use App\Program;
+use App\Season;
 use DB;
 
 /**

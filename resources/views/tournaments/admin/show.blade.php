@@ -148,15 +148,15 @@
                                                         <i class="fa fa-download"></i>
                                                         {{ number_format($event->eligiblePlayers()->count()) }}
                                                     </a>
-                                                @elseif($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
+                                                @elseif($event->type->participant_type_id == \App\ParticipantType::PLAYER)
                                                     All Players
-                                                @elseif($event->type->participant_type_id == \BibleBowl\ParticipantType::TEAM)
+                                                @elseif($event->type->participant_type_id == \App\ParticipantType::TEAM)
                                                     All Teams
                                                 @endif
                                             </td>
                                             <td>
                                                 {!! Form::open(['url' => '/admin/tournaments/'.$tournament->id.'/events/'.$event->id, 'method' => 'delete']) !!}
-                                                @if($event->type->participant_type_id == \BibleBowl\ParticipantType::PLAYER)
+                                                @if($event->type->participant_type_id == \App\ParticipantType::PLAYER)
                                                     <a href="{{ route('admin.tournaments.events.edit', [$tournament->id, $event->id]) }}" class="fa fa-edit" id="edit-{{ $event->id }}"></a>
                                                 @endif
                                                 <a class="fa fa-trash-o p-l-20" onclick="$(this).closest('form').submit();" id="delete-{{ $event->id }}"></a>

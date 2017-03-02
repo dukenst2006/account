@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Quizmasters;
+namespace App\Competition\Tournaments\Quizmasters;
 
-use BibleBowl\TournamentQuizmaster;
+use App\TournamentQuizmaster;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

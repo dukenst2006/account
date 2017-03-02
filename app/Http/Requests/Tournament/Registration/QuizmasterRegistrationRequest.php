@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests\Tournament\Registration;
+namespace App\Http\Requests\Tournament\Registration;
 
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Tournament;
+use App\Http\Requests\Request;
+use App\Tournament;
 
 class QuizmasterRegistrationRequest extends Request
 {

@@ -168,16 +168,17 @@ return [
         /*
          * Application Service Providers...
          */
-        \BibleBowl\Support\Providers\AuthServiceProvider::class,
-        \BibleBowl\Support\Providers\AppServiceProvider::class,
-        \BibleBowl\Support\Providers\ConfigServiceProvider::class,
-        \BibleBowl\Support\Providers\EventServiceProvider::class,
-        \BibleBowl\Support\Providers\RouteServiceProvider::class,
-        \BibleBowl\Support\Providers\PresentationServiceProvider::class,
+        \App\Support\Providers\AuthServiceProvider::class,
+        \App\Support\Providers\AppServiceProvider::class,
+        \App\Support\Providers\ConfigServiceProvider::class,
+        \App\Support\Providers\EventServiceProvider::class,
+        \App\Support\Providers\RouteServiceProvider::class,
+        \App\Support\Providers\PresentationServiceProvider::class,
 
         /*
          * 3rd Party Service Providers...
          */
+        \Laravel\Tinker\TinkerServiceProvider::class,
         \Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
         \Laravel\Socialite\SocialiteServiceProvider::class,
         \Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
@@ -241,9 +242,9 @@ return [
         /*
          * Application facades
          */
-        'EmailTemplate'        => \BibleBowl\Support\Facades\EmailTemplate::class,
-        'Setting'              => \BibleBowl\Support\Facades\SettingsManager::class,
-        'Cart'                 => \BibleBowl\Support\Facades\ShoppingCart::class,
+        'EmailTemplate'        => \App\Support\Facades\EmailTemplate::class,
+        'Setting'              => \App\Support\Facades\SettingsManager::class,
+        'Cart'                 => \App\Support\Facades\ShoppingCart::class,
 
         /*
          * 3rd party facades

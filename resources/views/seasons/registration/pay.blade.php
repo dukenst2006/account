@@ -37,7 +37,7 @@
                                                 </div>
                                             </td>
                                             <td>{{ $player->full_name }}</td>
-                                            <td>{{ \BibleBowl\Presentation\Describer::describeGrade($player->seasons->first()->pivot->grade) }}</td>
+                                            <td>{{ \App\Presentation\Describer::describeGrade($player->seasons->first()->pivot->grade) }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

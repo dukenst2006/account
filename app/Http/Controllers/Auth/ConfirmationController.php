@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\User;
+use App\Http\Controllers\Controller;
+use App\User;
 
 class ConfirmationController extends Controller
 {

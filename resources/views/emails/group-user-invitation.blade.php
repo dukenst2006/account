@@ -1,12 +1,14 @@
-@extends('emails.simple')
+@component('mail::message')
+# {{ $header }}
 
-@section('body')
+{{ $invitationText }}
 
-    @include('emails.theme.header', [
-        'header' => $header
-    ])
+@component('mail::button', ['url' => url('invitation/'.$invitation->guid.'/accept'), 'color' => 'green'])
+Accept
+@endcomponent
 
-    <p>{!! $invitationText !!}</p>
-    <p>{!! EmailTemplate::link(url('invitation/'.$invitation->guid.'/accept'), 'Accept') !!} or {!! EmailTemplate::link(url('invitation/'.$invitation->guid.'/decline'), 'Decline') !!}</p>
+@component('mail::button', ['url' => url('invitation/'.$invitation->guid.'/decline'), 'color' => 'red'])
+Decline
+@endcomponent
 
-@endsection
+@endcomponent

@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Groups;
+namespace App\Competition\Tournaments\Groups;
 
-use BibleBowl\Group;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\Tournament;
+use App\Group;
+use App\Role;
+use App\Season;
+use App\Tournament;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\UserProvider.
+ * App\UserProvider.
  *
  * @property int $id
  * @property int $user_id
@@ -13,14 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $provider_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \BibleBowl\User $user
+ * @property-read \App\User $user
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereProvider($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereProviderId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\UserProvider whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\UserProvider whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\UserProvider whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\UserProvider whereProvider($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\UserProvider whereProviderId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\UserProvider whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\UserProvider whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class UserProvider extends Model
@@ -37,6 +37,6 @@ class UserProvider extends Model
      */
     public function user()
     {
-        return $this->belongsTo('BibleBowl\User');
+        return $this->belongsTo('App\User');
     }
 }

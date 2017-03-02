@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\Group;
+use App\Role;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Session;
 

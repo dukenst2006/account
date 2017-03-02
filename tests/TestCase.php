@@ -1,6 +1,8 @@
 <?php
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase
+use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
+
+class TestCase extends BaseTestCase
 {
     protected $baseUrl = 'http://localhost';
 
@@ -16,11 +18,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         // prevent the same assets from being loaded each pageload
-        \BibleBowl\Presentation\Html::$includeCss = [];
-        \BibleBowl\Presentation\Html::$includeJs = [];
-        \BibleBowl\Presentation\Html::$js = '';
-        \BibleBowl\Presentation\Html::$jsData = '';
-        \BibleBowl\Presentation\Html::$css = '';
+        \App\Presentation\Html::$includeCss = [];
+        \App\Presentation\Html::$includeJs = [];
+        \App\Presentation\Html::$js = '';
+        \App\Presentation\Html::$jsData = '';
+        \App\Presentation\Html::$css = '';
 
         return $app;
     }

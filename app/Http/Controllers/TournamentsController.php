@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Http\Controllers;
+namespace App\Http\Controllers;
 
-use BibleBowl\Tournament;
+use App\Tournament;
 
 class TournamentsController extends Controller
 {

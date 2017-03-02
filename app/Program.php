@@ -1,14 +1,14 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
-use BibleBowl\Presentation\Describer;
+use App\Presentation\Describer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\Program.
+ * App\Program.
  *
  * @property int $id
  * @property string $name
@@ -20,14 +20,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $providers
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereAbbreviation($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program slug($slug)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereAbbreviation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program slug($slug)
  *
  * @property float $registration_fee
  * @property-read mixed $product_sku
@@ -35,12 +35,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property bool $max_grade
  * @property-read mixed $sku
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereRegistrationFee($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMinGrade($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Program whereMaxGrade($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereRegistrationFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereMinGrade($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Program whereMaxGrade($value)
  * @mixin \Eloquent
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Tournament[] $tournaments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tournament[] $tournaments
  */
 class Program extends Model
 {

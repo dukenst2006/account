@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
 class UserRequiresSetup extends \Exception
 {

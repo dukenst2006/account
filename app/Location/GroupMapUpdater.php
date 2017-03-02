@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Location;
+namespace App\Location;
 
-use BibleBowl\Group;
-use BibleBowl\Location\Maps\Location;
-use BibleBowl\Location\Maps\Map;
+use App\Group;
+use App\Location\Maps\Location;
+use App\Location\Maps\Map;
 use DB;
 use Illuminate\Console\Command;
 

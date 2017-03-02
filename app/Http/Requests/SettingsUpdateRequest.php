@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
-use BibleBowl\Ability;
+use App\Ability;
 use Bouncer;
 
 class SettingsUpdateRequest extends GroupJoinRequest

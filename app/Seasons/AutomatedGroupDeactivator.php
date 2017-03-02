@@ -1,9 +1,10 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Group;
-use Illuminate\Mail\Message;
+use App\Group;
+use App\Groups\DeactivatedNotification;
+use App\Groups\DeactivatedSummary;
 use Mail;
 
 class AutomatedGroupDeactivator
@@ -20,32 +21,13 @@ class AutomatedGroupDeactivator
                 'inactive' => 1, // will convert to a timestamp on save
             ]);
 
-            Mail::queue(
-                'emails.inactive-group-notification',
-                [
-                    'group'     => $group,
-                    'season'    => $season,
-                ],
-                function (Message $message) use ($group) {
-                    $message->to($group->owner->email, $group->owner->full_name)
-                        ->subject($group->name.' Automatically Deactivated');
-                }
-            );
+            Mail::to($group->owner)->queue(new DeactivatedNotification($group, $season));
         }
 
         // summarize impacted groups for the office
         $deactivatedGroups = $groupsToDeactivate->count();
         if ($deactivatedGroups > 0) {
-            Mail::queue(
-                'emails.inactive-group-summary',
-                [
-                    'groupIds' => $groupsToDeactivate->modelKeys(),
-                ],
-                function (Message $message) use ($deactivatedGroups) {
-                    $message->to(config('biblebowl.officeEmail'))
-                        ->subject('Group'.($deactivatedGroups > 1 ? 's' : '').' Automatically Deactivated');
-                }
-            );
+            Mail::to(config('biblebowl.officeEmail'))->queue(new DeactivatedSummary($groupsToDeactivate->modelKeys()));
         }
     }
 }

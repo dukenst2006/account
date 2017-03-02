@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Users;
+namespace App\Users;
 
 use Illuminate\Support\Fluent;
 
@@ -27,14 +27,14 @@ class Settings extends Fluent
      * Determine if the user desires to be notified when a new
      * user joins the group.  Defaults to true.
      */
-    public function shouldBeNotifiedWhenUserJoinsGroup()
+    public function shouldBeNotifiedWhenUserJoinsGroup() : bool
     {
         return $this->get('notifyWhenUserJoinsGroup', true);
     }
 
-    public function notifyWhenUserJoinsGroup($newValue)
+    public function notifyWhenUserJoinsGroup(bool $newValue)
     {
         // force this value to be boolean
-        return $this->notifyWhenUserJoinsGroup = (bool) $newValue;
+        return $this->notifyWhenUserJoinsGroup = $newValue;
     }
 }

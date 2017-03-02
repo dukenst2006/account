@@ -2,7 +2,7 @@
 
 namespace Helpers;
 
-use BibleBowl\User;
+use App\User;
 use DatabaseSeeder;
 
 trait ActingAsQuizmaster

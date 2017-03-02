@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Http\Requests\PaymentRequest;
+use App\Shop\PaymentFailed;
+use App\Shop\PaymentProcessor;
 use Auth;
-use BibleBowl\Http\Requests\PaymentRequest;
-use BibleBowl\Shop\PaymentFailed;
-use BibleBowl\Shop\PaymentProcessor;
 use Cart;
 use DB;
 

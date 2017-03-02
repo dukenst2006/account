@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Support\Providers;
+namespace App\Support\Providers;
 
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
@@ -16,11 +16,6 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
-        /*
-         * Authenticate the user's personal channel...
-         */
-        Broadcast::channel('BibleBowl.User.*', function ($user, $userId) {
-            return (int) $user->id === (int) $userId;
-        });
+        require base_path('routes/channels.php');
     }
 }

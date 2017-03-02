@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Location\Maps;
+namespace App\Location\Maps;
 
-use BibleBowl\Group;
-use BibleBowl\Program;
+use App\Group;
+use App\Program;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model

@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * BibleBowl\Item.
+ * App\Item.
  *
  * @property int $id
  * @property int $user_id
@@ -22,9 +22,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $reference_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \BibleBowl\User $user
- * @property-read \BibleBowl\Cart $cart
- * @property-read \BibleBowl\Receipt $order
+ * @property-read \App\User $user
+ * @property-read \App\Cart $cart
+ * @property-read \App\Receipt $order
  * @property-read mixed $has_object
  * @property-read mixed $object
  * @property-read mixed $display_name
@@ -36,13 +36,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read mixed $is_shoppable
  * @property-read mixed $shop_url
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereCartId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereSku($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item wherePrice($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereQuantity($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Item whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereCartId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereSku($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item wherePrice($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereQuantity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Item extends Model

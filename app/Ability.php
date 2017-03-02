@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 /**
- * BibleBowl\Permission.
+ * App\Permission.
  *
  * @property int $id
  * @property string $name
@@ -13,12 +13,12 @@ namespace BibleBowl;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereDisplayName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereDisplayName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereUpdatedAt($value)
  * @mixin \Eloquent
  *
  * @property int $entity_id
@@ -26,15 +26,15 @@ namespace BibleBowl;
  * @property-read mixed $identifier
  * @property-read mixed $slug
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereEntityId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereEntityType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereEntityId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereEntityType($value)
  * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Ability byName($name, $strict = false)
  * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Ability simpleAbility()
  * @method static \Illuminate\Database\Query\Builder|\Silber\Bouncer\Database\Ability forModel($model, $strict = false)
  *
  * @property bool $only_owned
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Ability whereOnlyOwned($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ability whereOnlyOwned($value)
  */
 class Ability extends \Silber\Bouncer\Database\Ability
 {

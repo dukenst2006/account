@@ -1,22 +1,22 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\GroupType.
+ * App\GroupType.
  *
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Group[] $groups
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\GroupType whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\GroupType whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\GroupType whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\GroupType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\GroupType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\GroupType whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\GroupType whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\GroupType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class GroupType extends Model

@@ -1,16 +1,16 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Tournaments\Admin;
+namespace App\Http\Controllers\Tournaments\Admin;
 
+use App\Competition\Tournaments\ShirtSizeExporter;
+use App\Http\Controllers\Controller;
+use App\ParticipantType;
+use App\Player;
+use App\Season;
+use App\Spectator;
+use App\Tournament;
+use App\TournamentQuizmaster;
 use Auth;
-use BibleBowl\Competition\Tournaments\ShirtSizeExporter;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\ParticipantType;
-use BibleBowl\Player;
-use BibleBowl\Season;
-use BibleBowl\Spectator;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
 use Carbon\Carbon;
 use DB;
 use Html;

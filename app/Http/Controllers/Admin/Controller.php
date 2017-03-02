@@ -1,7 +1,7 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-abstract class Controller extends \BibleBowl\Http\Controllers\Controller
+abstract class Controller extends \App\Http\Controllers\Controller
 {
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Http\Requests\Groups;
+namespace App\Http\Requests\Groups;
 
+use App\Group;
+use App\Http\Requests\Request;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Builder;
 
 class RemoveUserRequest extends Request

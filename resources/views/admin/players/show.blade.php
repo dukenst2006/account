@@ -11,7 +11,7 @@
                         <h3 class="semi-bold p-t-10 p-b-10">{{ $player->full_name }}</h3>
                     </div>
                     <div class="col-md-4 text-right p-r-20 p-t-15 text-black col-xs-4">
-                        {!! Html::genderIcon($player->gender) !!} {!! \BibleBowl\Presentation\Describer::describeGender($player->gender) !!}<br/>
+                        {!! Html::genderIcon($player->gender) !!} {!! \App\Presentation\Describer::describeGender($player->gender) !!}<br/>
                         {{ $player->age() }} years old
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                                     <td>{{ $season->name }}</td>
                                     @if($isRegistered)
                                         <td class="text-center">
-                                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
+                                            {{ \App\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
                                         </td>
                                         <td class="text-center hidden-xs">
                                             {{ $groupRegisteredWith->pivot->shirt_size }}
@@ -71,7 +71,7 @@
                                 </tr>
                             @endforeach
                         </table>
-                        @if(Auth::user()->isAn(\BibleBowl\Role::ADMIN) && count($seasons) == 0)
+                        @if(Auth::user()->isAn(\App\Role::ADMIN) && count($seasons) == 0)
                             <div class="text-center m-b-10">
                                 {!! Form::open(['url' => '/admin/players/'.$player->id, 'method' => 'delete']) !!}
                                 <button class="btn btn-small btn-danger" data-toggle="tooltip" title="Only players who haven't participated in a season may be deleted." >Delete Player</button>

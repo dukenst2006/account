@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
+use App\Users\Auth\EmailAlreadyInUse;
+use App\Users\Auth\ThirdPartyAuthenticator;
+use App\Users\Auth\ThirdPartyEmailEmpty;
+use App\Users\Auth\ThirdPartyRegistrar;
 use Auth;
-use BibleBowl\Users\Auth\EmailAlreadyInUse;
-use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
-use BibleBowl\Users\Auth\ThirdPartyEmailEmpty;
-use BibleBowl\Users\Auth\ThirdPartyRegistrar;
 use Illuminate\Http\Request;
 
 class ThirdPartyAuthController extends LoginController
@@ -16,7 +16,7 @@ class ThirdPartyAuthController extends LoginController
      *
      * @param $provider
      *
-     * @throws \BibleBowl\Users\Auth\UnsupportedProvider
+     * @throws \App\Users\Auth\UnsupportedProvider
      *
      * @return mixed
      */

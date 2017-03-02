@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Spectators;
+namespace App\Competition\Tournaments\Spectators;
 
-use BibleBowl\Receipt;
-use BibleBowl\Shop\PostPurchaseEvent;
-use BibleBowl\Spectator;
+use App\Receipt;
+use App\Shop\PostPurchaseEvent;
+use App\Spectator;
 use Illuminate\Http\Response;
 
 class RegistrationPaymentReceived extends PostPurchaseEvent

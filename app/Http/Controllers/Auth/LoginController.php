@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\User;
 use Auth;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\User;
 use Event;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;

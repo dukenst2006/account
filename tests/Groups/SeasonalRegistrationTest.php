@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Receipt;
+use App\Group;
+use App\Receipt;
 use Helpers\ActingAsDirector;
 use Helpers\ActingAsHeadCoach;
 use Helpers\SimulatesTransactions;
@@ -77,6 +77,6 @@ class SeasonalRegistrationTest extends TestCase
     /** @test */
     public function receivesNotificationsForPastDueRegistrationFees()
     {
-        Artisan::call(\BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments::COMMAND);
+        Artisan::call(\App\Seasons\RemindGroupsOfPendingRegistrationPayments::COMMAND);
     }
 }

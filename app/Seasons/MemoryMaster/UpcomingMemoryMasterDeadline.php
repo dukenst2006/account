@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Seasons\MemoryMaster;
+namespace App\Seasons\MemoryMaster;
 
-use BibleBowl\User;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

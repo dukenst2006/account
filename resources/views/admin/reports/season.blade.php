@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4 text-center">
-                        <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format(\BibleBowl\Player::achievedMemoryMaster($currentSeason)->count()) }}</h2>
+                        <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format(\App\Player::achievedMemoryMaster($currentSeason)->count()) }}</h2>
                         <div class="tiles-title blend p-b-25">
                             MEMORY MASTER ACHIEVERS
                             <div class="m-t-10">
@@ -57,28 +57,28 @@
                             var data = google.visualization.arrayToDataTable([
                                 ['Gender', 'Players'],
                                 @foreach($playerStats['byGender'] as $genderData)
-                                    ['{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}', {{ $genderData['total'] }}],
+                                    ['{{ \App\Presentation\Describer::describeGender($genderData['gender']) }}', {{ $genderData['total'] }}],
                                 @endforeach
                             ]);
 
                             var chart = new google.visualization.PieChart(document.getElementById('byGender'));
                             chart.draw(data, {
                                 title: 'By Gender',
-                                colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                                colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                             });
 
                             // ------------ byGrade ------------
                             var data = google.visualization.arrayToDataTable([
                                 ['Grade', 'Players'],
                                 @foreach($playerStats['byGrade'] as $gradeData)
-                                    ['{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}', {{ $gradeData['total'] }}],
+                                    ['{{ \App\Presentation\Describer::describeGrade($gradeData['grade']) }}', {{ $gradeData['total'] }}],
                                 @endforeach
                             ]);
 
                             var chart = new google.visualization.PieChart(document.getElementById('byGrade'));
                             chart.draw(data, {
                                 title: 'By Grade',
-                                colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                                colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                             });
                         });
                     @endjs
@@ -98,7 +98,7 @@
                             var chart = new google.visualization.PieChart(document.getElementById('bySchool'));
                             chart.draw(data, {
                                 title: 'By School Segment',
-                                colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                                colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                             });
                         });
                         @endjs
@@ -133,7 +133,7 @@
                         var chart = new google.visualization.PieChart(document.getElementById('groupsByProgram'));
                             chart.draw(data, {
                             title: 'By Program',
-                            colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                            colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                         });
 
                         // ------------ groupsByType ------------
@@ -147,7 +147,7 @@
                         var chart = new google.visualization.PieChart(document.getElementById('groupsByType'));
                             chart.draw(data, {
                             title: 'By Type',
-                            colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                            colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                         });
                     });
                     @endjs

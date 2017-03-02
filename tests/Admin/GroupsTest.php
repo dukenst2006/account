@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Role;
-use BibleBowl\User;
+use App\Group;
+use App\Role;
+use App\User;
 
 class GroupsTest extends TestCase
 {
@@ -81,6 +81,6 @@ class GroupsTest extends TestCase
     public function receivesNotificationsForOutstandingRegistrationFees()
     {
         DB::update('UPDATE player_season SET inactive = NULL, created_at = DATE_SUB(curdate(), INTERVAL 2 WEEK)');
-        Artisan::call(\BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments::COMMAND);
+        Artisan::call(\App\Seasons\NotifyOfficeOfOutstandingRegistrationPayments::COMMAND);
     }
 }

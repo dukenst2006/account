@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * BibleBowl\Event.
+ * App\Event.
  *
  * @property int $id
  * @property int $tournament_id
@@ -19,23 +19,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read Tournament $tournament
  * @property-read EventType $type
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereTournamentId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereEventTypeId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event wherePricePerParticipant($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event whereEventTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event wherePricePerParticipant($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event whereUpdatedAt($value)
  * @mixin \Eloquent
  *
  * @property bool $required
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $paidPlayers
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $players
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player[] $unpaidPlayers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player[] $paidPlayers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player[] $players
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player[] $unpaidPlayers
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event byParticipantType($participantTypeId)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event requiringFees()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event whereRequired($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Event withOptionalParticipation()
+ * @method static \Illuminate\Database\Query\Builder|\App\Event byParticipantType($participantTypeId)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event requiringFees()
+ * @method static \Illuminate\Database\Query\Builder|\App\Event whereRequired($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Event withOptionalParticipation()
  */
 class Event extends Model
 {

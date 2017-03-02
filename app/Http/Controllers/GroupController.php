@@ -1,15 +1,15 @@
 <?php
 
-namespace BibleBowl\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Group;
+use App\Groups\GroupCreator;
+use App\Http\Requests\GroupCreationRequest;
+use App\Http\Requests\GroupCreatorOnlyRequest;
+use App\Http\Requests\GroupEditRequest;
+use App\Http\Requests\GroupHeadCoachOnlyRequest;
+use App\Program;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\Groups\GroupCreator;
-use BibleBowl\Http\Requests\GroupCreationRequest;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
-use BibleBowl\Http\Requests\GroupEditRequest;
-use BibleBowl\Http\Requests\GroupHeadCoachOnlyRequest;
-use BibleBowl\Program;
 use Input;
 use Session;
 

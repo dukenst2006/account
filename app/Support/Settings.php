@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Support;
+namespace App\Support;
 
 use anlutro\LaravelSettings\SettingsManager;
 use Carbon\Carbon;

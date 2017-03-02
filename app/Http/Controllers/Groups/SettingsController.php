@@ -1,21 +1,22 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Groups;
+namespace App\Http\Controllers\Groups;
 
+use App\Group;
+use App\Groups\GroupRegistrationTest;
+use App\Groups\InviteHeadCoach;
+use App\Groups\RegistrationConfirmation;
+use App\Groups\Settings;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\GroupCreatorOnlyRequest;
+use App\Http\Requests\Groups\RemoveUserRequest;
+use App\Http\Requests\Groups\RetractUserInviteRequest;
+use App\Http\Requests\Groups\UserInviteRequest;
+use App\Http\Requests\MailchimpIntegrationRequest;
+use App\Invitation;
+use App\User;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\Groups\RegistrationConfirmation;
-use BibleBowl\Groups\Settings;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupCreatorOnlyRequest;
-use BibleBowl\Http\Requests\Groups\RemoveUserRequest;
-use BibleBowl\Http\Requests\Groups\RetractUserInviteRequest;
-use BibleBowl\Http\Requests\Groups\UserInviteRequest;
-use BibleBowl\Http\Requests\MailchimpIntegrationRequest;
-use BibleBowl\Invitation;
-use BibleBowl\User;
 use DB;
-use Illuminate\Mail\Message;
 use Mail;
 use Session;
 
@@ -49,12 +50,16 @@ class SettingsController extends Controller
             ->withFlashSuccess('Your email settings have been saved');
     }
 
-    public function sendTestEmail(GroupCreatorOnlyRequest $request, RegistrationConfirmation $registrationConfirmation)
+    public function sendTestEmail(GroupCreatorOnlyRequest $request)
     {
         /** @var Group $group */
         $group = Group::findOrFail($request->route('group'));
 
-        $registrationConfirmation->sendTest(Auth::user(), $group, $request->get('body'));
+        /** @var GroupRegistrationTest $registration */
+        $registration = app(GroupRegistrationTest::class);
+        $registration->addGroup($group);
+
+        Mail::to(Auth::user())->send(new RegistrationConfirmation($request->user(), $group, $registration, $request->get('body')));
     }
 
     public function editIntegrations(GroupCreatorOnlyRequest $request)
@@ -136,18 +141,7 @@ class SettingsController extends Controller
             'group_id'      => $group->id,
         ]);
 
-        Mail::queue(
-            'emails.group-user-invitation',
-            [
-                'invitation'        => $invitation,
-                'header'            => 'Group Management Invitation',
-                'invitationText'    => '<strong>'.Auth::user()->full_name.'</strong> has invited you to help manage the '.$group->program->abbreviation.' <strong>'.$group->name.'</strong> group.',
-            ],
-            function (Message $message) use ($recipientEmail, $recipientName) {
-                $message->to($recipientEmail, $recipientName)
-                    ->subject('Bible Bowl Group Management Invitation');
-            }
-        );
+        Mail::to($recipientEmail, $recipientName)->queue(new InviteHeadCoach($invitation));
 
         DB::commit();
 

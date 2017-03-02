@@ -1,10 +1,10 @@
 <?php
 
-use BibleBowl\Competition\Tournaments\Settings;
-use BibleBowl\Group;
-use BibleBowl\ParticipantType;
-use BibleBowl\Spectator;
-use BibleBowl\Tournament;
+use App\Competition\Tournaments\Settings;
+use App\Group;
+use App\ParticipantType;
+use App\Spectator;
+use App\Tournament;
 use Helpers\ActingAsGuardian;
 use Helpers\SimulatesTransactions;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -212,7 +212,7 @@ class SpectatorRegistrationTest extends TestCase
     /** @test */
     public function cantRegisterWithSameEmailAddressAsAUser()
     {
-        $user = \BibleBowl\User::firstOrFail();
+        $user = \App\User::firstOrFail();
         $tournament = Tournament::firstOrFail();
         $this
             ->visit('/tournaments/'.$tournament->slug.'/registration/spectator')

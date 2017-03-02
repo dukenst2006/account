@@ -67,7 +67,7 @@
                             <div class="help">{{ $type->description }}</div>
                         </td>
                         <td>
-                            @if(!in_array($type->id, \BibleBowl\Tournament::PARTICIPANTS_REQUIRED_TO_REGISTER))
+                            @if(!in_array($type->id, \App\Tournament::PARTICIPANTS_REQUIRED_TO_REGISTER))
                                 <div class="checkbox check-default">
                                     {!! Form::checkbox("participantTypes[".$type->id."][requireRegistration]", 1, old("participantTypes[".$type->id."][requireRegistration]", isset($tournament) && $participantFees->has($type->id) && $participantFees->get($type->id)->requires_registration), [ "id" => 'participantType'.$type->id.'requireRegistration' ]) !!}
                                     <label for='participantType{{ $type->id }}requireRegistration'></label>
@@ -108,11 +108,11 @@
             <div class="row">
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="help">Minimum</div>
-                    {!! Form::text('minimum_players_per_team', old('minimum_players_per_team', (isset($tournament) ? $tournament->settings->minimumPlayersPerTeam() : \BibleBowl\Competition\Tournaments\Settings::DEFAULT_MINIMUM_PLAYERS_PER_TEAM)), ['class' => 'form-control', 'maxlength' => 1]) !!}
+                    {!! Form::text('minimum_players_per_team', old('minimum_players_per_team', (isset($tournament) ? $tournament->settings->minimumPlayersPerTeam() : \App\Competition\Tournaments\Settings::DEFAULT_MINIMUM_PLAYERS_PER_TEAM)), ['class' => 'form-control', 'maxlength' => 1]) !!}
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="help">Maximum</div>
-                    {!! Form::text('maximum_players_per_team', old('maximum_players_per_team', (isset($tournament) ? $tournament->settings->maximumPlayersPerTeam() : \BibleBowl\Competition\Tournaments\Settings::DEFAULT_MAXIMUM_PLAYERS_PER_TEAM)), ['class' => 'form-control', 'maxlength' => 1]) !!}
+                    {!! Form::text('maximum_players_per_team', old('maximum_players_per_team', (isset($tournament) ? $tournament->settings->maximumPlayersPerTeam() : \App\Competition\Tournaments\Settings::DEFAULT_MAXIMUM_PLAYERS_PER_TEAM)), ['class' => 'form-control', 'maxlength' => 1]) !!}
                 </div>
             </div>
         </div>

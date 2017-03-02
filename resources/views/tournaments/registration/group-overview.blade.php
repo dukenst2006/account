@@ -47,13 +47,13 @@
                                     <p></p>
                                     <ul>
                                         <li><strong>{{ number_format($teamCount) }} team{{ $teamCount != 1 ? 's' : '' }}</strong>
-                                            @if($tournament->hasFee(\BibleBowl\ParticipantType::TEAM) && ($teamsRequiringPayment = $teamSet->teams()->unpaid()->count()) > 0)
+                                            @if($tournament->hasFee(\App\ParticipantType::TEAM) && ($teamsRequiringPayment = $teamSet->teams()->unpaid()->count()) > 0)
                                                 <span class="text-error">({{ number_format($teamsRequiringPayment) }} require payment)</span>
                                             @endif
                                         </li>
                                         <li>
                                             <strong>{{ number_format($playerCount) }} player{{ $playerCount != 1 ? 's' : '' }}</strong>
-                                            @if($tournament->hasFee(\BibleBowl\ParticipantType::PLAYER) && ($playersRequiringPayment = $teamSet->unpaidPlayers()->count()) > 0)
+                                            @if($tournament->hasFee(\App\ParticipantType::PLAYER) && ($playersRequiringPayment = $teamSet->unpaidPlayers()->count()) > 0)
                                                 <span class="text-error">({{ number_format($playersRequiringPayment) }} require payment)</span>
                                             @endif
                                         </li>
@@ -107,17 +107,17 @@
                             (isset($teamsRequiringPayment) && $teamsRequiringPayment > 0) ||
                             (isset($playersRequiringPayment) && $playersRequiringPayment > 0) ||
                             (isset($eventPlayersRequiringPayment) && $eventPlayersRequiringPayment > 0) ||
-                            ($tournament->hasFee(\BibleBowl\ParticipantType::FAMILY) && $tournament->spectators()->families()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0) ||
-                            ($tournament->hasFee(\BibleBowl\ParticipantType::ADULT) && $tournament->spectators()->adults()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0) ||
-                            ($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) && $tournament->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0)
+                            ($tournament->hasFee(\App\ParticipantType::FAMILY) && $tournament->spectators()->families()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0) ||
+                            ($tournament->hasFee(\App\ParticipantType::ADULT) && $tournament->spectators()->adults()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0) ||
+                            ($tournament->hasFee(\App\ParticipantType::QUIZMASTER) && $tournament->tournamentQuizmasters()->registeredByHeadCoach()->unpaid()->where('group_id', $group->id)->count() > 0)
                         ))
                         <div class="alert text-center">
                             Portions of your registration require payment before they are complete.<br/>
                             <a href='/tournaments/{{ $tournament->slug }}/registration/group/pay' class="btn btn-warning btn-small btn-cons m-t-10">Pay Fees</a>
                         </div>
                         @endif
-                        @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER) && ($teamSet != null || ($teamSet == null && count($quizmasters) > 0)))
-                            @if($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) == false && ($tournament->settings->shouldRequireQuizmastersByGroup() || $tournament->settings->shouldRequireQuizmastersByTeamCount()))
+                        @if($tournament->registrationIsEnabled(\App\ParticipantType::QUIZMASTER) && ($teamSet != null || ($teamSet == null && count($quizmasters) > 0)))
+                            @if($tournament->hasFee(\App\ParticipantType::QUIZMASTER) == false && ($tournament->settings->shouldRequireQuizmastersByGroup() || $tournament->settings->shouldRequireQuizmastersByTeamCount()))
                                 @if($tournament->settings->shouldRequireQuizmastersByGroup() && $quizmasterCount < $tournament->settings->quizmastersToRequireByGroup())
                                     <div class="alert alert-error text-center">
                                         You need to register {{ $tournament->settings->quizmastersToRequireByGroup() }} quizmaster(s) before your registration is complete.
@@ -150,7 +150,7 @@
                                         <thead>
                                         <tr>
                                             <th>Name</th>
-                                            @if($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER))
+                                            @if($tournament->hasFee(\App\ParticipantType::QUIZMASTER))
                                                 <th class="text-center">Fees</th>
                                                 <th class="text-center hidden-xs">Email</th>
                                             @else
@@ -164,7 +164,7 @@
                                             @foreach($quizmasters as $quizmaster)
                                                 <tr>
                                                     <td class="v-align-middle">{{ $quizmaster->full_name }}</td>
-                                                    @if($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER))
+                                                    @if($tournament->hasFee(\App\ParticipantType::QUIZMASTER))
                                                         <td class="v-align-middle text-center">
                                                             @if($quizmaster->hasPaid())
                                                                 <span class="text-success">PAID</span>
@@ -177,7 +177,7 @@
                                                         <td class="v-align-middle text-center"><a href="mailto:{{ $quizmaster->email }}">{{ $quizmaster->email }}</a></td>
                                                     @endif
                                                     <td class="v-align-middle text-center visible-xs">
-                                                    @if($tournament->isRegistrationOpen() && (($tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) && $quizmaster->hasntPaid()) || $tournament->hasFee(\BibleBowl\ParticipantType::QUIZMASTER) === false))
+                                                    @if($tournament->isRegistrationOpen() && (($tournament->hasFee(\App\ParticipantType::QUIZMASTER) && $quizmaster->hasntPaid()) || $tournament->hasFee(\App\ParticipantType::QUIZMASTER) === false))
                                                         {!! Form::open(['url' => ['/tournaments/'.$tournament->slug.'/registration/quizmaster/'.$quizmaster->guid], 'method' => 'delete']) !!}
                                                         <td class="text-center">
                                                             <button class="btn btn-danger-dark btn-xs btn-mini m-l-10" name="delete-quizmaster-{{ $quizmaster->id }}"><i class="fa fa-trash-o"></i> Delete</button>
@@ -197,7 +197,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if(($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY)) && ($teamSet != null || ($teamSet == null && count($spectators) > 0)))
+                        @if(($tournament->registrationIsEnabled(\App\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\App\ParticipantType::FAMILY)) && ($teamSet != null || ($teamSet == null && count($spectators) > 0)))
                             <div class="row form-group">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
@@ -215,7 +215,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th class="text-center">Family</th>
-                                            @if($tournament->hasFee(\BibleBowl\ParticipantType::ADULT) || $tournament->hasFee(\BibleBowl\ParticipantType::FAMILY))
+                                            @if($tournament->hasFee(\App\ParticipantType::ADULT) || $tournament->hasFee(\App\ParticipantType::FAMILY))
                                                 <th class="text-center">Fees</th>
                                                 <th class="text-center hidden-xs">Email</th>
                                             @else
@@ -250,7 +250,7 @@
                                                         @endif
                                                     </td>
                                                     <td class="v-align-middle text-center">
-                                                        @if(($tournament->hasFee(\BibleBowl\ParticipantType::ADULT) && $spectator->isAdult()) || ($tournament->hasFee(\BibleBowl\ParticipantType::FAMILY) && $spectator->isFamily()))
+                                                        @if(($tournament->hasFee(\App\ParticipantType::ADULT) && $spectator->isAdult()) || ($tournament->hasFee(\App\ParticipantType::FAMILY) && $spectator->isFamily()))
                                                             @if($spectator->hasPaid())
                                                                 <span class="text-success">PAID</span>
                                                             @else
@@ -260,7 +260,7 @@
                                                     </td>
                                                     <td class="v-align-middle text-center hidden-xs"><a href="mailto:{{ $spectator->email }}">{{ $spectator->email }}</a></td>
                                                     <td class="v-align-middle text-center visible-xs">
-                                                        @if($tournament->isRegistrationOpen() && (($tournament->hasFee(\BibleBowl\ParticipantType::ADULT) && $spectator->isAdult() && $spectator->hasntPaid()) || ($tournament->hasFee(\BibleBowl\ParticipantType::FAMILY) && $spectator->isFamily() && $spectator->hasntPaid()) || ($tournament->hasFee(\BibleBowl\ParticipantType::FAMILY) === false && $tournament->hasFee(\BibleBowl\ParticipantType::ADULT) === false)))
+                                                        @if($tournament->isRegistrationOpen() && (($tournament->hasFee(\App\ParticipantType::ADULT) && $spectator->isAdult() && $spectator->hasntPaid()) || ($tournament->hasFee(\App\ParticipantType::FAMILY) && $spectator->isFamily() && $spectator->hasntPaid()) || ($tournament->hasFee(\App\ParticipantType::FAMILY) === false && $tournament->hasFee(\App\ParticipantType::ADULT) === false)))
                                                             {!! Form::open(['url' => ['/tournaments/'.$tournament->slug.'/registration/spectator/'.$spectator->guid], 'method' => 'delete']) !!}
                                                             <td class="text-center">
                                                                 <button class="btn btn-danger-dark btn-xs btn-mini m-l-10" name="delete-spectator-{{ $spectator->id }}"><i class="fa fa-trash-o"></i> Delete</button>

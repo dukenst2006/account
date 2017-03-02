@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Players;
+namespace App\Players;
 
-use BibleBowl\Player;
-use BibleBowl\Role;
-use BibleBowl\User;
+use App\Player;
+use App\Role;
+use App\User;
 use DB;
 
 class PlayerCreator

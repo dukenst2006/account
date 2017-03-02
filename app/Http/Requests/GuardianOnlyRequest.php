@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
 use Auth;
 
@@ -13,7 +13,7 @@ class GuardianOnlyRequest extends Request
      */
     public function authorize()
     {
-        return Auth::user()->isA(\BibleBowl\Role::GUARDIAN);
+        return Auth::user()->isA(\App\Role::GUARDIAN);
     }
 
     /**

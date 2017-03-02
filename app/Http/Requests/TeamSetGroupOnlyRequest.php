@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
-use BibleBowl\TeamSet;
+use App\TeamSet;
 use Session;
 
 class TeamSetGroupOnlyRequest extends Request

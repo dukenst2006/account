@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Competition;
+namespace App\Competition;
 
-use BibleBowl\Competition\Tournaments\Settings;
-use BibleBowl\Season;
-use BibleBowl\Tournament;
-use BibleBowl\User;
+use App\Competition\Tournaments\Settings;
+use App\Season;
+use App\Tournament;
+use App\User;
 use DB;
 
 class TournamentCreator

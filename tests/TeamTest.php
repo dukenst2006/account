@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\Player;
-use BibleBowl\Team;
-use BibleBowl\Tournament;
+use App\Player;
+use App\Team;
+use App\Tournament;
 
 class TeamTest extends TestCase
 {

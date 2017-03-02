@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Jackpopp\GeoDistance\GeoDistanceTrait;
 
 /**
- * BibleBowl\Address.
+ * App\Address.
  *
  * @property int $id
  * @property int $user_id
@@ -24,27 +24,27 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @property-read User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $group
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereAddressOne($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereAddressTwo($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereCity($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereState($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereZipCode($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereLatitude($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereLongitude($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereDeletedAt($value)
- * @method static \BibleBowl\Address within($distance, $measurement = null, $lat = null, $lng = null)
- * @method static \BibleBowl\Address outside($distance, $measurement = null, $lat = null, $lng = null)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereAddressOne($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereAddressTwo($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereZipCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereLatitude($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereLongitude($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Address whereDeletedAt($value)
+ * @method static \App\Address within($distance, $measurement = null, $lat = null, $lng = null)
+ * @method static \App\Address outside($distance, $measurement = null, $lat = null, $lng = null)
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Receipt[] $invoices
  * @mixin \Eloquent
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $receipts
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Receipt[] $receipts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Spectator[] $spectators
  */
 class Address extends Model
 {

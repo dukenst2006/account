@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\Group;
+use App\Group;
 
 class ManageTest extends TestCase
 {

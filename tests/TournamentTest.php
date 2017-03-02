@@ -1,9 +1,9 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Receipt;
-use BibleBowl\TeamSet;
-use BibleBowl\Tournament;
+use App\Group;
+use App\Receipt;
+use App\TeamSet;
+use App\Tournament;
 
 class TournamentTest extends TestCase
 {

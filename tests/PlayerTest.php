@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use DB;
 use Setting;

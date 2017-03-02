@@ -1,19 +1,19 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Tournaments\Registration;
+namespace App\Http\Controllers\Tournaments\Registration;
 
+use App\Competition\Tournaments\Spectators\Registrar;
+use App\Competition\Tournaments\Spectators\RegistrationConfirmation;
+use App\Competition\Tournaments\Spectators\RegistrationPaymentReceived;
+use App\Group;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\HeadCoachOnlyRequest;
+use App\Http\Requests\Tournament\Registration\SpectatorRegistrationRequest;
+use App\Http\Requests\Tournament\Registration\StandaloneSpectatorRegistrationRequest;
+use App\ParticipantType;
+use App\Spectator;
+use App\Tournament;
 use Auth;
-use BibleBowl\Competition\Tournaments\Spectators\Registrar;
-use BibleBowl\Competition\Tournaments\Spectators\RegistrationConfirmation;
-use BibleBowl\Competition\Tournaments\Spectators\RegistrationPaymentReceived;
-use BibleBowl\Group;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\HeadCoachOnlyRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\SpectatorRegistrationRequest;
-use BibleBowl\Http\Requests\Tournament\Registration\StandaloneSpectatorRegistrationRequest;
-use BibleBowl\ParticipantType;
-use BibleBowl\Spectator;
-use BibleBowl\Tournament;
 use Cart;
 use DB;
 use Session;

@@ -1,9 +1,8 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
-use BibleBowl\User;
-use Illuminate\Mail\Message;
+use App\User;
 use Mail;
 
 class SendConfirmationEmail
@@ -18,16 +17,7 @@ class SendConfirmationEmail
     public function handle(User $user)
     {
         if ($user->status == User::STATUS_UNCONFIRMED) {
-            Mail::queue(
-                'emails.email-confirmation',
-                [
-                    'user' => $user,
-                ],
-                function (Message $message) use ($user) {
-                    $message->to($user->email, $user->full_name)
-                        ->subject('Bible Bowl Account Email Confirmation');
-                }
-            );
+            Mail::to($user)->queue(new ConfirmationEmail($user));
         }
     }
 }

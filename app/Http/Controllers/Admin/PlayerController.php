@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-use BibleBowl\Http\Requests\AdminOnlyRequest;
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Player;
-use BibleBowl\Reporting\PlayerExporter;
+use App\Http\Requests\AdminOnlyRequest;
+use App\Http\Requests\Request;
+use App\Player;
+use App\Reporting\PlayerExporter;
 use Input;
 
 class PlayerController extends Controller

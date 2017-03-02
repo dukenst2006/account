@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Support\Providers;
+namespace App\Support\Providers;
 
+use App\User;
 use Auth;
-use BibleBowl\User;
 use Jenssegers\Rollbar\RollbarLogHandler;
 
 class RollbarServiceProvider extends \Jenssegers\Rollbar\RollbarServiceProvider

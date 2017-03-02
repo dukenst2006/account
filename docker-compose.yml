@@ -4,20 +4,22 @@ services:
   fpm:
     build:
       context: .
-      dockerfile: containers/fpm/Dockerfile
+      dockerfile: infrastructure/fpm/Dockerfile
     image: bkuhl/biblebowl:fpm
     env_file: .env
     volumes:
       - ./:/var/www/html
+    links:
+      - db
   web:
     build:
       context: .
-      dockerfile: containers/nginx/Dockerfile
+      dockerfile: infrastructure/nginx/Dockerfile
     image: bkuhl/biblebowl:nginx
     volumes_from:
       - fpm
     volumes:
-      - ./containers/nginx:/etc/nginx/conf.d
+      - ./infrastructure/nginx:/etc/nginx/conf.d
     ports:
       - "80:80"
   redis:

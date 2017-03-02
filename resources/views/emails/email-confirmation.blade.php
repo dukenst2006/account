@@ -1,13 +1,5 @@
-@extends('emails.simple')
+@component('mail::message')
+# Confirm Your Email Address
 
-@section('body')
-
-    @include('emails.theme.header', [
-        'header' => 'Confirm your email address'
-    ])
-
-    @include('emails.theme.text-block', [
-        'body' => 'To verify your email address, please follow '. EmailTemplate::link(url('register/confirm/'.$user->guid), 'this link') .'.'
-    ])
-
-@endsection
+To verify your email address, please follow [this link]({!! url('register/confirm/'.$user->guid) !!}).
+@endcomponent

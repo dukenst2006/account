@@ -1,15 +1,15 @@
 <?php
 
-namespace BibleBowl\Support\Providers;
+namespace App\Support\Providers;
 
-use BibleBowl\Location\FetchCoordinatesForAddress;
-use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
-use BibleBowl\Seasons\RecordSeasonalRegistrationPayment;
-use BibleBowl\Users\Auth\OnLogin;
-use BibleBowl\Users\Auth\SendConfirmationEmail;
-use BibleBowl\Users\Communication\AddInterestOnMailingList;
-use BibleBowl\Users\Communication\RemoveInterestOnMailingList;
-use BibleBowl\Users\Communication\UpdateSubscriberInformation;
+use App\Location\FetchCoordinatesForAddress;
+use App\Seasons\ProgramRegistrationPaymentReceived;
+use App\Seasons\RecordSeasonalRegistrationPayment;
+use App\Users\Auth\OnLogin;
+use App\Users\Auth\SendConfirmationEmail;
+use App\Users\Communication\AddInterestOnMailingList;
+use App\Users\Communication\RemoveInterestOnMailingList;
+use App\Users\Communication\UpdateSubscriberInformation;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -38,20 +38,20 @@ class EventServiceProvider extends ServiceProvider
         'user.profile.updated' => [
             UpdateSubscriberInformation::class,
         ],
-        'eloquent.created: BibleBowl\User' => [
-            \BibleBowl\Users\Communication\AddToMailingList::class,
+        'eloquent.created: App\User' => [
+            \App\Users\Communication\AddToMailingList::class,
         ],
-        'eloquent.created: BibleBowl\Address' => [
+        'eloquent.created: App\Address' => [
             FetchCoordinatesForAddress::class,
         ],
-        'eloquent.updated: BibleBowl\Address' => [
+        'eloquent.updated: App\Address' => [
             FetchCoordinatesForAddress::class,
         ],
         ProgramRegistrationPaymentReceived::EVENT => [
             RecordSeasonalRegistrationPayment::class,
         ],
         'players.registered.with.group' => [
-            \BibleBowl\Groups\Communication\AddToMailingList::class,
+            \App\Groups\Communication\AddToMailingList::class,
         ],
     ];
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
-use BibleBowl\Competition\Tournaments\CanBeRegisteredByHeadCoach;
-use BibleBowl\Shop\HasReceipts;
-use BibleBowl\Support\Scrubber;
+use App\Competition\Tournaments\CanBeRegisteredByHeadCoach;
+use App\Shop\HasReceipts;
+use App\Support\Scrubber;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
 /**
- * BibleBowl\Spectator.
+ * App\Spectator.
  *
  * @property int $id
  * @property string $guid
@@ -34,42 +34,42 @@ use Ramsey\Uuid\Uuid;
  * @property int $receipt_id
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\Address $address
+ * @property-read \App\Address $address
  * @property-read mixed $full_name
  * @property-read mixed $participant_type
- * @property-read \BibleBowl\Group $group
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Minor[] $minors
+ * @property-read \App\Group $group
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Minor[] $minors
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \BibleBowl\Receipt $receipt
- * @property-read \BibleBowl\User $registeredBy
- * @property-read \BibleBowl\Tournament $tournament
- * @property-read \BibleBowl\User $user
+ * @property-read \App\Receipt $receipt
+ * @property-read \App\User $registeredBy
+ * @property-read \App\Tournament $tournament
+ * @property-read \App\User $user
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator adults()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator families()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator group(\BibleBowl\Group $group)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator paid()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator registeredByHeadCoach()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator unpaid()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereAddressId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereGender($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereGroupId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereReceiptId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereRegisteredBy($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereShirtSize($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereSpouseFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereSpouseGender($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereSpouseShirtSize($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereTournamentId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator adults()
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator families()
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator group(\App\Group $group)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator paid()
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator registeredByHeadCoach()
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator unpaid()
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereReceiptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereRegisteredBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereSpouseFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereSpouseGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereSpouseShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Spectator whereUserId($value)
  * @mixin \Eloquent
  */
 class Spectator extends Model

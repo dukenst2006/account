@@ -3,7 +3,7 @@
         <h4 class="bold">Getting Started</h4>
     </div>
     <div class="grid-body no-border" style="padding-bottom:0;">
-        @if(!Auth::user()->isA(\BibleBowl\Role::GUARDIAN))
+        @if(!Auth::user()->isA(\App\Role::GUARDIAN))
         <div class="row">
             <div class="col-md-7 col-sm-7">
                 <h4 class="semi-bold">For Parents</h4>
@@ -16,9 +16,9 @@
             </div>
         </div>
         @endif
-        @if(!Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
+        @if(!Auth::user()->isA(\App\Role::HEAD_COACH))
         <div class="row
-            @if(!Auth::user()->isA(\BibleBowl\Role::GUARDIAN))
+            @if(!Auth::user()->isA(\App\Role::GUARDIAN))
                 b-grey b-t
             @endif
                 ">

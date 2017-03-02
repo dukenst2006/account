@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Groups;
+namespace App\Http\Controllers\Groups;
 
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\Groups\PlayerInactiveToggleRequest;
-use BibleBowl\Player;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Groups\PlayerInactiveToggleRequest;
+use App\Player;
 use Session;
 
 class PlayerController extends Controller

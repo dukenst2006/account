@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="checkbox check-default">
                                 <input id="notifyWhenUserJoinsGroup" type="checkbox" name="notifyWhenUserJoinsGroup" value="1"
-                                        @if((Input::has('notifyWhenUserJoinsGroup') && Input::old('notifyWhenUserJoinsGroup') == 1) || $settings->shouldBeNotifiedWhenUserJoinsGroup())
+                                        @if(old('notifyWhenUserJoinsGroup') == 1 || $settings->shouldBeNotifiedWhenUserJoinsGroup())
                                             checked
                                         @endif>
                                 <label for="notifyWhenUserJoinsGroup">Email me whenever a new player joins one of my groups</label>

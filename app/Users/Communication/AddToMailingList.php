@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Users\Communication;
+namespace App\Users\Communication;
 
-use BibleBowl\User;
+use App\User;
 use DatabaseSeeder;
 use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;

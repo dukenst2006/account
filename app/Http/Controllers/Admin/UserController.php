@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-use BibleBowl\Role;
-use BibleBowl\User;
+use App\Role;
+use App\User;
 use DB;
 use Illuminate\Http\Request;
 use Input;

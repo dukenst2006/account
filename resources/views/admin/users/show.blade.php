@@ -18,11 +18,11 @@
                             <a href='tel:+1{{ $user->phone }}'>{{ Html::formatPhone($user->phone) }}</a><br/>
                         @endif
                         <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
-                        @if($user->status == \BibleBowl\User::STATUS_UNCONFIRMED)
+                        @if($user->status == \App\User::STATUS_UNCONFIRMED)
                             <span class="text-muted">(unconfirmed)</span>
                         @endif
                         <br/>
-                        @if(\Bouncer::allows(BibleBowl\Ability::SWITCH_ACCOUNTS))
+                        @if(\Bouncer::allows(App\Ability::SWITCH_ACCOUNTS))
                             <a href="/admin/switchUser/{{ $user->id }}" class="btn btn-white btn-xs btn-mini"><i class="fa fa-exchange"></i> Login as this user</a>
                         @endif
                     </div>
@@ -51,7 +51,7 @@
                         </ul>
                     </div>
                     <div class="col-md-5 col-sm-6">
-                        @if($user->isA(\BibleBowl\Role::HEAD_COACH))
+                        @if($user->isA(\App\Role::HEAD_COACH))
                             <h5><i class="fa fa-house"></i> <span class="semi-bold">Groups</span></h5>
                             <ul>
                                 @foreach ($user->groups()->with('program')->get() as $group)
@@ -66,7 +66,7 @@
                 </div>
                 <div class="row m-t-10">
                     <div class="col-md-12">
-                        @if($user->isA(\BibleBowl\Role::GUARDIAN))
+                        @if($user->isA(\App\Role::GUARDIAN))
                             <h5><i class="fa fa-users"></i> <span class="semi-bold">Students</span></h5>
                         <table class="table">
                             <tr>
@@ -88,7 +88,7 @@
                                     <td class="text-center">{!! Html::genderIcon($player->gender) !!}</td>
                                     @if($isRegistered)
                                         <td class="text-center">
-                                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
+                                            {{ \App\Presentation\Describer::describeGradeShort($groupRegisteredWith->pivot->grade) }}
                                         </td>
                                         <td class="text-center">
                                             {{ $groupRegisteredWith->pivot->shirt_size }}

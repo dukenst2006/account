@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Shop;
+namespace App\Shop;
 
-use BibleBowl\Receipt;
-use BibleBowl\User;
+use App\Receipt;
+use App\User;
 use DB;
 use Illuminate\Support\Collection;
 use Omnipay;

@@ -2,10 +2,10 @@
 
 namespace Helpers;
 
-use BibleBowl\Group;
-use BibleBowl\Season;
-use BibleBowl\User;
-use BibleBowl\Users\Auth\SessionManager;
+use App\Group;
+use App\Season;
+use App\User;
+use App\Users\Auth\SessionManager;
 use DatabaseSeeder;
 
 trait ActingAsHeadCoach

@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Http\Requests\Groups;
+namespace App\Http\Requests\Groups;
 
-use BibleBowl\Http\Requests\Request;
+use App\Http\Requests\Request;
 use Session;
 
 class PlayerInactiveToggleRequest extends Request

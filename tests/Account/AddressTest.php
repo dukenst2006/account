@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\Address;
+use App\Address;
 
 class AddressTest extends TestCase
 {

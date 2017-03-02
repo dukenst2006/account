@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\Group;
 use Auth;
-use BibleBowl\Group;
 
 class GroupCreationRequest extends Request
 {

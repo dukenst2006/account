@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Users\Notifications;
+namespace App\Users\Notifications;
 
-use BibleBowl\Group;
-use BibleBowl\Season;
+use App\Group;
+use App\Season;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

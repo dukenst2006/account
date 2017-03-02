@@ -1,9 +1,9 @@
 <?php
 
-use BibleBowl\Event;
-use BibleBowl\EventType;
-use BibleBowl\Player;
-use BibleBowl\Season;
+use App\Event;
+use App\EventType;
+use App\Player;
+use App\Season;
 
 class TournamentEventsTest extends TestCase
 {

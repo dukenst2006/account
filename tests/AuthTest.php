@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\RegistrationSurveyAnswer;
-use BibleBowl\Tournament;
-use BibleBowl\User;
+use App\RegistrationSurveyAnswer;
+use App\Tournament;
+use App\User;
 
 class AuthTest extends TestCase
 {

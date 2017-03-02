@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -8,25 +8,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\Season.
+ * App\Season.
  *
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player')
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player')
  *             ->withPivot('grade[] $players
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereUpdatedAt($value)
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
+ * @method static \Illuminate\Database\Query\Builder|\App\Season current()
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  * @mixin \Eloquent

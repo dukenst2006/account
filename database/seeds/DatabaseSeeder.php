@@ -1,21 +1,21 @@
 <?php
 
-use BibleBowl\Address;
-use BibleBowl\EventType;
-use BibleBowl\Group;
-use BibleBowl\Groups\GroupCreator;
-use BibleBowl\GroupType;
-use BibleBowl\Invitation;
-use BibleBowl\ParticipantType;
-use BibleBowl\Players\PlayerCreator;
-use BibleBowl\Program;
-use BibleBowl\Receipt;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\Team;
-use BibleBowl\TeamSet;
-use BibleBowl\Tournament;
-use BibleBowl\User;
+use App\Address;
+use App\EventType;
+use App\Group;
+use App\Groups\GroupCreator;
+use App\GroupType;
+use App\Invitation;
+use App\ParticipantType;
+use App\Players\PlayerCreator;
+use App\Program;
+use App\Receipt;
+use App\Role;
+use App\Season;
+use App\Team;
+use App\TeamSet;
+use App\Tournament;
+use App\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;

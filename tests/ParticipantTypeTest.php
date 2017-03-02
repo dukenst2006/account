@@ -1,11 +1,11 @@
 <?php
 
-use BibleBowl\ParticipantType;
-use BibleBowl\Player;
-use BibleBowl\Spectator;
-use BibleBowl\Team;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
+use App\ParticipantType;
+use App\Player;
+use App\Spectator;
+use App\Team;
+use App\Tournament;
+use App\TournamentQuizmaster;
 
 class ParticipantTypeTest extends TestCase
 {
@@ -13,7 +13,7 @@ class ParticipantTypeTest extends TestCase
     public function providesEarlyBirdSkus()
     {
         $tournament = Mockery::mock(Tournament::class);
-        $tournament->shouldReceive('hasEarlyBirdRegistrationFee')->andReturnTrue();
+        $tournament->shouldReceive('hasEarlyBirdRegistrationFee')->andReturn(true);
 
         $this->assertEquals(Team::REGISTRATION_SKU.'_EARLY_BIRD', ParticipantType::sku($tournament, ParticipantType::TEAM));
         $this->assertEquals(Player::REGISTRATION_SKU.'_EARLY_BIRD', ParticipantType::sku($tournament, ParticipantType::PLAYER));
@@ -26,7 +26,7 @@ class ParticipantTypeTest extends TestCase
     public function providesRegularSkus()
     {
         $tournament = Mockery::mock(Tournament::class);
-        $tournament->shouldReceive('hasEarlyBirdRegistrationFee')->andReturnFalse();
+        $tournament->shouldReceive('hasEarlyBirdRegistrationFee')->andReturn(false);
 
         $this->assertEquals(Team::REGISTRATION_SKU, ParticipantType::sku($tournament, ParticipantType::TEAM));
         $this->assertEquals(Player::REGISTRATION_SKU, ParticipantType::sku($tournament, ParticipantType::PLAYER));

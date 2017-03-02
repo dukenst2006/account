@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\ReceiptItem.
+ * App\ReceiptItem.
  *
  * @property int $id
  * @property int $receipt_id
@@ -15,16 +15,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $price
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\Receipt $receipt
+ * @property-read \App\Receipt $receipt
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereReceiptId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereSku($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereQuantity($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem wherePrice($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereReceiptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereSku($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereQuantity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem wherePrice($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ReceiptItem whereCreatedAt($value)
  * @mixin \Eloquent
  */
 class ReceiptItem extends Model

@@ -1,15 +1,15 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Tournaments\Admin;
+namespace App\Http\Controllers\Tournaments\Admin;
 
+use App\Event;
+use App\EventType;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TournamentCreatorOnlyRequest;
+use App\Player;
+use App\Season;
+use App\Tournament;
 use Auth;
-use BibleBowl\Event;
-use BibleBowl\EventType;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
-use BibleBowl\Player;
-use BibleBowl\Season;
-use BibleBowl\Tournament;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;

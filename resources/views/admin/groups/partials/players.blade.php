@@ -17,7 +17,7 @@
             <td class="text-center hidden-sm hidden-xs">{{ $player->age() }}</td>
             <td class="text-center hidden-sm hidden-xs">{!! Html::genderIcon($player->gender) !!}</td>
             <td class="text-center hidden-xs">
-                {{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}
+                {{ \App\Presentation\Describer::describeGradeShort($player->pivot->grade) }}
             </td>
             @if(isset($extraColumns))
                 @foreach ($extraColumns as $pivotColumn)

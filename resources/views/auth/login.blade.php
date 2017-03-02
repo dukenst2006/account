@@ -30,15 +30,15 @@
 				<div class="tiles grey text-black">
 					<div class="row p-t-20 p-b-20">
 						<div class="col-sm-5 col-sm-offset-0 col-md-5 col-md-offset-0 col-xs-10 col-xs-offset-1 p-l-30">
-							<a href='/login/{{ \BibleBowl\Users\Auth\ThirdPartyAuthenticator::PROVIDER_FACEBOOK }}' class="btn btn-block btn-info col-md-8">
+							<a href='/login/{{ \App\Users\Auth\ThirdPartyAuthenticator::PROVIDER_FACEBOOK }}' class="btn btn-block btn-info col-md-8">
 								<span class="pull-left"><i class="fa fa-facebook"></i></span>
 								<span class="bold">Login with Facebook</span>
 							</a>
-							<a href='/login/{{ \BibleBowl\Users\Auth\ThirdPartyAuthenticator::PROVIDER_GOOGLE }}' class="btn btn-block btn-danger col-md-8">
+							<a href='/login/{{ \App\Users\Auth\ThirdPartyAuthenticator::PROVIDER_GOOGLE }}' class="btn btn-block btn-danger col-md-8">
 								<span class="pull-left"><i class="fa fa-google-plus"></i></span>
 								<span class="bold">Login with Google</span>
 							</a>
-							<a href='/login/{{ \BibleBowl\Users\Auth\ThirdPartyAuthenticator::PROVIDER_TWITTER }}' class="btn btn-block btn-success col-md-8">
+							<a href='/login/{{ \App\Users\Auth\ThirdPartyAuthenticator::PROVIDER_TWITTER }}' class="btn btn-block btn-success col-md-8">
 								<span class="pull-left"><i class="fa fa-twitter"></i></span>
 								<span class="bold">Login with Twitter</span>
 							</a>

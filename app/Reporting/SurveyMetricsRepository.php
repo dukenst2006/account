@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Reporting;
+namespace App\Reporting;
 
-use BibleBowl\RegistrationSurveyQuestion;
-use BibleBowl\Season;
+use App\RegistrationSurveyQuestion;
+use App\Season;
 use DB;
 
 class SurveyMetricsRepository

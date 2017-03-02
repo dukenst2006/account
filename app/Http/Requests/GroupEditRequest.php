@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
-use BibleBowl\Group;
+use App\Group;
 
 class GroupEditRequest extends GroupCreatorOnlyRequest
 {

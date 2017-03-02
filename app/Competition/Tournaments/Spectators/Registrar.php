@@ -1,13 +1,13 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Spectators;
+namespace App\Competition\Tournaments\Spectators;
 
-use BibleBowl\Address;
-use BibleBowl\Group;
-use BibleBowl\Minor;
-use BibleBowl\Spectator;
-use BibleBowl\Tournament;
-use BibleBowl\User;
+use App\Address;
+use App\Group;
+use App\Minor;
+use App\Spectator;
+use App\Tournament;
+use App\User;
 
 class Registrar
 {
@@ -18,10 +18,10 @@ class Registrar
         Group $group = null,
         User $registeredBy = null
     ) : Spectator {
-        $adult = app(Spectator::class, [[
+        $adult = new Spectator([
             'tournament_id' => $tournament->id,
             'group_id'      => $group == null ? null : $group->id,
-        ]]);
+        ]);
 
         if ($tournament->settings->shouldCollectShirtSizes()) {
             $adult->shirt_size = $attributes['shirt_size'];
@@ -40,11 +40,11 @@ class Registrar
             }
 
             if (isset($attributes['address_one'])) {
-                $address = app(Address::class, [[
+                $address = new Address([
                     'address_one'   => $attributes['address_one'],
                     'address_two'   => $attributes['address_two'],
                     'zip_code'      => $attributes['zip_code'],
-                ]]);
+                ]);
                 $address->save();
                 $adult->address_id = $address->id;
             }
@@ -98,7 +98,7 @@ class Registrar
                         $minorData['shirt_size'] = $minor['shirt_size'];
                     }
 
-                    $minors[] = app(Minor::class, [$minorData]);
+                    $minors[] = new Minor($minorData);
                 }
             }
 

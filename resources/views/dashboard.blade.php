@@ -17,31 +17,31 @@
         </div>
     @endif
 
-    @if(Auth::user()->isA(\BibleBowl\Role::GUARDIAN))
+    @if(Auth::user()->isA(\App\Role::GUARDIAN))
         <div class="col-md-12 m-b-10">
             @include('dashboard.guardian-children')
         </div>
     @endif
 
-    @if(Bouncer::allows(\BibleBowl\Ability::VIEW_REPORTS))
+    @if(Bouncer::allows(\App\Ability::VIEW_REPORTS))
         <div class="col-md-6">
             @include('dashboard.season-overview')
         </div>
     @endif
 
-    @if(Auth::user()->isNotA(\BibleBowl\Role::HEAD_COACH) || Auth::user()->isNotA(\BibleBowl\Role::GUARDIAN))
+    @if(Auth::user()->isNotA(\App\Role::HEAD_COACH) || Auth::user()->isNotA(\App\Role::GUARDIAN))
         <div class="col-md-6">
             @include('dashboard.guidiance')
         </div>
     @endif
 
-    @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
+    @if(Auth::user()->isA(\App\Role::HEAD_COACH))
     <div class="col-md-6">
         @include('dashboard.registration-payment')
     </div>
     @endif
 
-    @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
+    @if(Auth::user()->isA(\App\Role::HEAD_COACH))
         @include('dashboard.tournaments')
     @endif
 @endsection

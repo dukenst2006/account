@@ -1,16 +1,15 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Groups;
+namespace App\Competition\Tournaments\Groups;
 
-use BibleBowl\Competition\Tournaments;
-use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationConfirmation as QuizmasterRegistrationConfirmation;
-use BibleBowl\Competition\Tournaments\Spectators\RegistrationConfirmation as SpectatorRegistrationConfirmation;
-use BibleBowl\Event;
-use BibleBowl\Receipt;
-use BibleBowl\Shop\PostPurchaseEvent;
-use BibleBowl\Spectator;
-use BibleBowl\Team;
-use BibleBowl\TournamentQuizmaster;
+use App\Competition\Tournaments\Quizmasters\RegistrationConfirmation as QuizmasterRegistrationConfirmation;
+use App\Competition\Tournaments\Spectators\RegistrationConfirmation as SpectatorRegistrationConfirmation;
+use App\Event;
+use App\Receipt;
+use App\Shop\PostPurchaseEvent;
+use App\Spectator;
+use App\Team;
+use App\TournamentQuizmaster;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Response;

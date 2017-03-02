@@ -1,13 +1,13 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * BibleBowl\ParticipantFee.
+ * App\ParticipantFee.
  *
  * @property int $id
  * @property int $tournament_id
@@ -18,19 +18,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $onsite_fee
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\ParticipantType $participantType
- * @property-read \BibleBowl\Tournament $tournament
+ * @property-read \App\ParticipantType $participantType
+ * @property-read \App\Tournament $tournament
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee requiresRegistration()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereEarlybirdFee($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereFee($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereOnsiteFee($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereParticipantTypeId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereRequiresRegistration($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereTournamentId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantFee whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee requiresRegistration()
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereEarlybirdFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereOnsiteFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereParticipantTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereRequiresRegistration($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantFee whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ParticipantFee extends Model

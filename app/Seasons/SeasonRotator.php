@@ -1,12 +1,10 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Program;
-use BibleBowl\Season;
+use App\Season;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Mail\Message;
 use Mail;
 use Setting;
 
@@ -45,18 +43,7 @@ class SeasonRotator extends Command
         // notify the office before the season rotates
         $rotateInDays = 7;
         if ($endDate->isBirthday(Carbon::now()->addDays($rotateInDays))) {
-            Mail::queue(
-                'emails.season-rotate-notification',
-                [
-                    'willRotateOn'      => $endDate->toFormattedDateString(),
-                    'nextSeasonName'    => $nextSeasonName,
-                    'programs'          => Program::orderBy('name', 'ASC')->get(),
-                ],
-                function (Message $message) use ($nextSeasonName, $rotateInDays) {
-                    $message->to(config('biblebowl.officeEmail'))
-                        ->subject('The '.$nextSeasonName.' season begins in '.$rotateInDays.' days');
-                }
-            );
+            Mail::to(config('biblebowl.officeEmail'))->queue(new SeasonRotationReminder($endDate, $nextSeasonName));
         }
 
         // rotate the season

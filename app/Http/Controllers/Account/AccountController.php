@@ -1,13 +1,12 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Account;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
+use App\Support\Scrubber;
+use App\User;
 use Auth;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Support\Scrubber;
-use BibleBowl\User;
 use Illuminate\Http\Request;
-use Redirect;
 
 class AccountController extends Controller
 {

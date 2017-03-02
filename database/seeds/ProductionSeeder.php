@@ -1,16 +1,16 @@
 <?php
 
-use BibleBowl\Ability;
-use BibleBowl\EventType;
-use BibleBowl\GroupType;
-use BibleBowl\ParticipantType;
-use BibleBowl\Player;
-use BibleBowl\Program;
-use BibleBowl\RegistrationSurveyAnswer;
-use BibleBowl\RegistrationSurveyQuestion;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\TournamentType;
+use App\Ability;
+use App\EventType;
+use App\GroupType;
+use App\ParticipantType;
+use App\Player;
+use App\Program;
+use App\RegistrationSurveyAnswer;
+use App\RegistrationSurveyQuestion;
+use App\Role;
+use App\Season;
+use App\TournamentType;
 use Illuminate\Database\Seeder;
 
 class ProductionSeeder extends Seeder
@@ -150,34 +150,34 @@ class ProductionSeeder extends Seeder
             'order'     => 1,
         ]);
         $howDidYouHearAbout->answers()->saveMany([
-            app(RegistrationSurveyAnswer::class, [[
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Friend',
                 'order'     => '1',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Church brochure/bulletin',
                 'order'     => '2',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Homeschool convention',
                 'order'     => '3',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'TV',
                 'order'     => '4',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Web Advertisement',
                 'order'     => '5',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Internet',
                 'order'     => '6',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Other',
                 'order'     => '7',
-            ]]),
+            ]),
         ]);
 
         $mostInfluential = RegistrationSurveyQuestion::create([
@@ -185,26 +185,26 @@ class ProductionSeeder extends Seeder
             'order'     => 2,
         ]);
         $mostInfluential->answers()->saveMany([
-            app(RegistrationSurveyAnswer::class, [[
+            new RegistrationSurveyAnswer([
                 'answer'    => "Friend's recommendation",
                 'order'     => '1',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Attending a practice/demo/meeting',
                 'order'     => '2',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Learning about it on the web site',
                 'order'     => '3',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Homeschool curriculum potential',
                 'order'     => '4',
-            ]]),
-            app(RegistrationSurveyAnswer::class, [[
+            ]),
+            new RegistrationSurveyAnswer([
                 'answer'    => 'Other',
                 'order'     => '5',
-            ]]),
+            ]),
         ]);
 
         TournamentType::create([

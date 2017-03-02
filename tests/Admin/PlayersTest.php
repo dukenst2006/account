@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\Player;
-use BibleBowl\Role;
+use App\Player;
+use App\Role;
 
 class PlayersTest extends TestCase
 {

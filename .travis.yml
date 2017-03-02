@@ -12,15 +12,17 @@ before_install:
 install:
   # Start the docker stuff
   - docker-compose up -d
+  - sleep 8
   # Install dev php dependencies
   - docker-compose exec fpm sh -c "composer install --no-interaction --prefer-dist"
 script:
+#  - mysql -u biblebowl -p biblebowl -e "select * from biblebowl_account.users"
   # Seed database
   - docker-compose exec fpm sh -c "php artisan migrate --seed"
   # Run tests
   - docker-compose exec fpm sh -c "composer test"
   # Build cli container
-  - docker build -t "bkuhl/biblebowl:cli" -f containers/cli/Dockerfile .
+  - docker build -t "bkuhl/biblebowl:cli" -f infrastructure/cli/Dockerfile .
 after_success:
   # Deployable image tags must be in format: [service].[branch].[commit-hash]
   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" ; fi

@@ -37,7 +37,7 @@
             {{-- Hide logged-in menu for guests --}}
             @if(Auth::user() != null)
             <ul class="nav quick-section group-section">
-                @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
+                @if(Auth::user()->isA(\App\Role::HEAD_COACH) && Auth::user()->groups->count() > 0)
                     <li class="group-menu">
                         <div class="group-menu">
                             <div class="groupname semi-bold">
@@ -72,7 +72,7 @@
                         <li><a href="/account/edit">My Account</a> </li>
                         <li><a href="/account/address">My Address Book</a> </li>
                         <li><a href="/account/receipts">My Receipts</a> </li>
-                        @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
+                        @if(Auth::user()->isA(\App\Role::HEAD_COACH))
                             <li><a href="/account/notifications">Notification Preferences</a> </li>
                         @endif
                         <li class="divider"></li>

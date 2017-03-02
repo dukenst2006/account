@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments;
+namespace App\Competition\Tournaments;
 
-use BibleBowl\ParticipantType;
-use BibleBowl\Player;
-use BibleBowl\Presentation\Describer;
-use BibleBowl\Tournament;
+use App\ParticipantType;
+use App\Player;
+use App\Presentation\Describer;
+use App\Tournament;
 use DB;
 use Illuminate\Database\Query\JoinClause;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;

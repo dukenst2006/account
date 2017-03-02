@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\Seasons\SeasonRotator;
+use App\Seasons\SeasonRotator;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

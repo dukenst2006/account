@@ -5,45 +5,51 @@
 	"type": "project",
     "license": "proprietary",
 	"require": {
-		"laravel/framework": "5.3.*",
-		"thomaswelton/laravel-gravatar": "^1.0",
-		"laravel/socialite": "^2.0",
-		"laravelcollective/html": "5.*",
-	  	"anhskohbo/no-captcha": "2.*",
-	  	"silber/bouncer": "1.0.0-alpha.2",
-	  	"alexpechkarev/google-geocoder": "dev-master",
-		"jackpopp/geodistance": "^1.2",
-		"ramsey/uuid": "3.*",
-		"aws/aws-sdk-php": "~3.0",
-		"landish/pagination": "~1.0",
-		"bkuhl/easychimp": "~1.0",
-		"barryvdh/laravel-dompdf": "0.*",
+		"php": ">=7.0",
+		"alexpechkarev/google-geocoder": "dev-master",
+		"anhskohbo/no-captcha": "2.*",
 		"anlutro/l4-settings": "0.*",
+		"aws/aws-sdk-php": "~3.0",
+		"barryvdh/laravel-dompdf": "0.*",
+		"bkuhl/easychimp": "~1.0",
+		"fzaninotto/faker": "^1.5",
 		"ignited/laravel-omnipay": "2.*",
-		"omnipay/stripe": "2.*",
-		"predis/predis": "1.*",
+		"jackpopp/geodistance": "^1.2",
 		"jenssegers/rollbar": "^1.5",
 		"jmikola/geojson": "~1.0",
-		"fzaninotto/faker": "^1.5",
+		"landish/pagination": "~1.0",
+		"laravel/framework": "5.4.*",
+		"laravel/socialite": "^3.0",
+		"laravel/tinker": "~1.0",
+		"laravelcollective/html": "5.*",
+		"league/html-to-markdown": "^4.4",
 		"maatwebsite/excel": "~2.1.0",
-		"spatie/laravel-backup": "^4.0.0"
+		"omnipay/stripe": "2.*",
+		"predis/predis": "1.*",
+		"ramsey/uuid": "3.*",
+		"silber/bouncer": "1.0.0-beta.2",
+		"spatie/laravel-backup": "^3.0.0",
+		"thomaswelton/laravel-gravatar": "^1.0"
 	},
 	"require-dev": {
-		"symfony/dom-crawler": "~3.0",
-		"symfony/css-selector": "~3.0",
+		"phpunit/phpunit": "5.*",
+		"symfony/css-selector": "3.2.*",
+		"symfony/dom-crawler": "3.2.*",
 	    "filp/whoops": "dev-master",
 	  	"barryvdh/laravel-ide-helper": "2.*",
 	  	"doctrine/dbal": "^2.5",
 	  	"barryvdh/laravel-debugbar": "^2.0",
-	  	"codeception/codeception": "~2.0",
-	    "mockery/mockery": "dev-master"
+	  	"spatie/laravel-tail": "dev-master",
+	    "mockery/mockery": "0.*",
+		"laravel/browser-kit-testing": "1.*"
 	},
 	"autoload": {
 		"classmap": [
-			"database"
+			"database",
+			"tests"
 		],
 		"psr-4": {
-			"BibleBowl\\": "app/"
+			"App\\": "app/"
 		}
 	},
 	"autoload-dev": {
@@ -72,6 +78,7 @@
 		]
 	},
 	"config": {
-		"preferred-install": "dist"
+		"preferred-install": "dist",
+		"sort-packages": true
 	}
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Player;
-use BibleBowl\Receipt;
-use BibleBowl\Shop\PostPurchaseEvent;
+use App\Player;
+use App\Receipt;
+use App\Shop\PostPurchaseEvent;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 

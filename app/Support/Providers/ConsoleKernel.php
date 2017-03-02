@@ -1,15 +1,15 @@
 <?php
 
-namespace BibleBowl\Support\Providers;
+namespace App\Support\Providers;
 
-use BibleBowl\Competition\Tournaments\Groups\RemindEarlyBirdFeeEnding;
-use BibleBowl\Competition\Tournaments\Groups\RemindRegistrationEnding;
-use BibleBowl\Location\GroupMapUpdater;
-use BibleBowl\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
-use BibleBowl\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
-use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
-use BibleBowl\Seasons\SeasonRotator;
-use BibleBowl\Users\CleanupOrphanAccounts;
+use App\Competition\Tournaments\Groups\RemindEarlyBirdFeeEnding;
+use App\Competition\Tournaments\Groups\RemindRegistrationEnding;
+use App\Location\GroupMapUpdater;
+use App\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
+use App\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
+use App\Seasons\RemindGroupsOfPendingRegistrationPayments;
+use App\Seasons\SeasonRotator;
+use App\Users\CleanupOrphanAccounts;
 use Illuminate\Console\Scheduling\Schedule;
 
 class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
@@ -59,5 +59,15 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
             ->cron('0 0 * 10,11,12,1,2,3,4,5 2 *'); // Oct-May every Tuesday
         $schedule->command(NotifyOfficeOfOutstandingRegistrationPayments::COMMAND)
             ->cron('0 0 * 10,11,12,1,2,3,4,5,6 3 *'); // Oct-Jun every Wednesday
+    }
+
+    /**
+     * Register the Closure based commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        require base_path('routes/console.php');
     }
 }

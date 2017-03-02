@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Reporting;
+namespace App\Reporting;
 
 use Carbon\Carbon;
 use DB;

@@ -2,6 +2,7 @@
 
 class InfoTest extends TestCase
 {
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
     use \Helpers\ActingAsGuardian;
 
     public function setUp()
@@ -11,9 +12,7 @@ class InfoTest extends TestCase
         $this->setupAsGuardian();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canUpdateAccountDetails()
     {
         $originalPhone = $this->guardian()->phone;

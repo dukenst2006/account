@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use App;
-use BibleBowl\Support\Scrubber;
-use BibleBowl\Users\Notifications\PasswordReset;
-use BibleBowl\Users\Settings;
+use App\Support\Scrubber;
+use App\Users\Notifications\PasswordReset;
+use App\Users\Settings;
 use Carbon\Carbon;
 use DatabaseSeeder;
 use Illuminate\Auth\Authenticatable;
@@ -24,7 +24,7 @@ use Ramsey\Uuid\Uuid;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
- * BibleBowl\User.
+ * App\User.
  *
  * @property int $id
  * @property bool $status
@@ -48,53 +48,53 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @property-read mixed $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\Config::get('entrust.role')[] $roles
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereGender($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereAvatar($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereLastLogin($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePassword($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereRememberToken($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereUpdatedAt($value)
- * @method static \BibleBowl\User byProviderId($id)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereLastLogin($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
+ * @method static \App\User byProviderId($id)
  *
  * @property int $primary_address_id
  * @property-read Address $primaryAddress
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $ownedGroups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User wherePrimaryAddressId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereSettings($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePrimaryAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereSettings($value)
  *
- * @property-read \BibleBowl\Cart $cart
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $orders
+ * @property-read \App\Cart $cart
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Receipt[] $orders
  * @property-read mixed $shop_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Ability[] $abilities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Receipt[] $invoices
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ability[] $abilities
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIs($role)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereIsAll($role)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCan($ability, $model = null)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User whereCannot($ability, $model = null)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereIs($role)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereIsAll($role)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCan($ability, $model = null)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCannot($ability, $model = null)
  * @mixin \Eloquent
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Invitation[] $invitationsReceived
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Invitation[] $invitationsSent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invitation[] $invitationsReceived
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invitation[] $invitationsSent
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $receipts
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\RegistrationSurvey[] $surveys
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Receipt[] $receipts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Spectator[] $spectators
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationSurvey[] $surveys
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\TournamentQuizmaster[] $tournamentQuizmasters
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User byProvider($provider, $id)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\User requiresSetup()
+ * @method static \Illuminate\Database\Query\Builder|\App\User byProvider($provider, $id)
+ * @method static \Illuminate\Database\Query\Builder|\App\User requiresSetup()
  */
 class User extends Model implements
     AuthorizableContract,
@@ -291,7 +291,7 @@ class User extends Model implements
             return app(Settings::class);
         }
 
-        return app(Settings::class, [$this->fromJson($value)]);
+        return new Settings($this->fromJson($value));
     }
 
     /**

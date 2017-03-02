@@ -45,9 +45,9 @@
                             <?php $playerNames[] = $player->full_name ?>
                             <tr>
                                 <td>{{ $player->full_name }}</td>
-                                <td class="text-center hidden-sm hidden-xs">{{ \BibleBowl\Presentation\Describer::describeGrade($registration->grade($player->id)) }}</td>
-                                <td class="text-center visible-sm visible-xs">{{ \BibleBowl\Presentation\Describer::describeGradeShort($registration->grade($player->id)) }}</td>
-                                <td class="text-center hidden-sm hidden-xs">{{ \BibleBowl\Presentation\Describer::describeShirtSize($registration->shirtSize($player->id)) }}</td>
+                                <td class="text-center hidden-sm hidden-xs">{{ \App\Presentation\Describer::describeGrade($registration->grade($player->id)) }}</td>
+                                <td class="text-center visible-sm visible-xs">{{ \App\Presentation\Describer::describeGradeShort($registration->grade($player->id)) }}</td>
+                                <td class="text-center hidden-sm hidden-xs">{{ \App\Presentation\Describer::describeShirtSize($registration->shirtSize($player->id)) }}</td>
                                 <td class="text-center visible-sm visible-xs">{{ $registration->shirtSize($player->id) }}</td>
                             </tr>
                         @endforeach

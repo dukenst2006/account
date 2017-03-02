@@ -1,13 +1,13 @@
 <?php
 
-use BibleBowl\Address;
-use BibleBowl\Groups\GroupCreator;
-use BibleBowl\GroupType;
-use BibleBowl\Players\PlayerCreator;
-use BibleBowl\Program;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\User;
+use App\Address;
+use App\Groups\GroupCreator;
+use App\GroupType;
+use App\Players\PlayerCreator;
+use App\Program;
+use App\Role;
+use App\Season;
+use App\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;

@@ -1,11 +1,13 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\RegistrationSurveyAnswer.
+ * App\RegistrationSurveyAnswer.
  *
  * @property int $id
  * @property int $question_id
@@ -13,15 +15,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $order
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\RegistrationSurveyQuestion $question
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\User[] $users
+ * @property-read \App\RegistrationSurveyQuestion $question
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyAnswer whereAnswer($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyAnswer whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyAnswer whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyAnswer whereOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyAnswer whereQuestionId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyAnswer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyAnswer whereAnswer($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyAnswer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyAnswer whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyAnswer whereOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyAnswer whereQuestionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyAnswer whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class RegistrationSurveyAnswer extends Model
@@ -33,18 +35,12 @@ class RegistrationSurveyAnswer extends Model
      */
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function question()
+    public function question() : BelongsTo
     {
         return $this->belongsTo(RegistrationSurveyQuestion::class, 'question_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function users()
+    public function users() : HasMany
     {
         return $this->hasManyThrough(User::class, RegistrationSurvey::class, null, 'answer_id')->orderBy('created_at', 'DESC');
     }

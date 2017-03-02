@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Groups;
+namespace App\Groups;
 
-use BibleBowl\Group;
-use BibleBowl\Player;
-use BibleBowl\Program;
-use BibleBowl\Seasons\GroupRegistration;
+use App\Group;
+use App\Player;
+use App\Program;
+use App\Seasons\GroupRegistration;
 
 /**
  * This class is a mock of a group registration

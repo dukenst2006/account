@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Group;
-use BibleBowl\Player;
+use App\Group;
+use App\Player;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Collection;

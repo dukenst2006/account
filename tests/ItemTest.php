@@ -1,12 +1,12 @@
 <?php
 
-use BibleBowl\EventType;
-use BibleBowl\Item;
-use BibleBowl\Player;
-use BibleBowl\Program;
-use BibleBowl\Spectator;
-use BibleBowl\Team;
-use BibleBowl\TournamentQuizmaster;
+use App\EventType;
+use App\Item;
+use App\Player;
+use App\Program;
+use App\Spectator;
+use App\Team;
+use App\TournamentQuizmaster;
 
 class ItemTest extends TestCase
 {

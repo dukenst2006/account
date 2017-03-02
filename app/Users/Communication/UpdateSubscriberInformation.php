@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Users\Communication;
+namespace App\Users\Communication;
 
-use BibleBowl\Role;
-use BibleBowl\User;
+use App\Role;
+use App\User;
 use DatabaseSeeder;
 use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -61,9 +61,7 @@ class UpdateSubscriberInformation implements ShouldQueue
             if ($group->settings->shouldUpdateSubscribers()) {
 
                 /** @var Easychimp $mailchimp */
-                $mailchimp = app(Easychimp::class, [
-                    $group->settings->mailchimpKey(),
-                ]);
+                $mailchimp = new Easychimp($group->settings->mailchimpKey());
                 $list = $mailchimp->mailingList($group->settings->mailchimpListId());
 
                 if ($user->isDirty('email')) {

@@ -1,17 +1,17 @@
 <?php
 
-namespace BibleBowl\Support\Providers;
+namespace App\Support\Providers;
 
+use App\Ability;
+use App\Cart;
+use App\Groups\HeadCoachInvitation;
+use App\Invitation;
+use App\Presentation\EmailTemplate;
+use App\Presentation\Html;
+use App\Role;
+use App\TournamentQuizmaster;
+use App\Users\Auth\SessionManager;
 use Auth;
-use BibleBowl\Ability;
-use BibleBowl\Cart;
-use BibleBowl\Groups\HeadCoachInvitation;
-use BibleBowl\Invitation;
-use BibleBowl\Presentation\EmailTemplate;
-use BibleBowl\Presentation\Html;
-use BibleBowl\Role;
-use BibleBowl\TournamentQuizmaster;
-use BibleBowl\Users\Auth\SessionManager;
 use Blade;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (app()->environment('production')) {
             // force production url since we're behind a load balancer
-            URL::forceSchema('https');
+            URL::forceScheme('https');
             URL::forceRootUrl(config('app.url'));
 
             // Use Rollbar for exception handling
@@ -196,7 +196,7 @@ EOF;
     {
         $this->app->bind(
             \Illuminate\Contracts\Auth\Registrar::class,
-            \BibleBowl\Users\Auth\Registrar::class
+            \App\Users\Auth\Registrar::class
         );
 
         $this->app->singleton('session', function ($app) {
@@ -217,7 +217,7 @@ EOF;
                 $cart = Cart::find(Session::get(SessionManager::CART));
             } else {
                 $cart = Cart::firstOrCreate([]);
-                Session::set(SessionManager::CART, $cart->id);
+                Session::put(SessionManager::CART, $cart->id);
             }
 
             return $cart;

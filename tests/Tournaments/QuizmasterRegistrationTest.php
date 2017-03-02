@@ -1,10 +1,10 @@
 <?php
 
-use BibleBowl\Competition\Tournaments\Settings;
-use BibleBowl\Group;
-use BibleBowl\ParticipantType;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
+use App\Competition\Tournaments\Settings;
+use App\Group;
+use App\ParticipantType;
+use App\Tournament;
+use App\TournamentQuizmaster;
 use Helpers\ActingAsGuardian;
 use Helpers\SimulatesTransactions;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

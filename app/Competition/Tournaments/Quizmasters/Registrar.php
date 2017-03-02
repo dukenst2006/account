@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Quizmasters;
+namespace App\Competition\Tournaments\Quizmasters;
 
-use BibleBowl\Group;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
-use BibleBowl\User;
+use App\Group;
+use App\Tournament;
+use App\TournamentQuizmaster;
+use App\User;
 
 class Registrar
 {
@@ -16,10 +16,10 @@ class Registrar
         Group $group = null,
         User $registeredBy = null
     ) : TournamentQuizmaster {
-        $tournamentQuizmaster = app(TournamentQuizmaster::class, [[
+        $tournamentQuizmaster = new TournamentQuizmaster([
             'tournament_id' => $tournament->id,
             'group_id'      => $group == null ? null : $group->id,
-        ]]);
+        ]);
 
         if ($user != null) {
             $tournamentQuizmaster->user_id = $user->id;

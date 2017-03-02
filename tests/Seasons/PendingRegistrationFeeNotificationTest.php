@@ -1,9 +1,9 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Season;
-use BibleBowl\Seasons\RemindGroupsOfPendingRegistrationPayments;
-use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
+use App\Group;
+use App\Season;
+use App\Seasons\RemindGroupsOfPendingRegistrationPayments;
+use App\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

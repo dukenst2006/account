@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Account;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
+use App\Receipt;
 use Auth;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Receipt;
 
 class ReceiptController extends Controller
 {

@@ -24,7 +24,7 @@ elixir(mix => {
         'css/style.css',
         'css/responsive.css'
     ],  'public/css/core.css', 'public');
-    
+
     mix.scripts([
         'assets/plugins/jquery-notifications/js/messenger.js',
         'assets/plugins/jquery-notifications/js/messenger-theme-flat.js',
@@ -33,7 +33,7 @@ elixir(mix => {
         'assets/plugins/jquery-notifications/css/messenger.css',
         'assets/plugins/jquery-notifications/css/messenger-theme-flat.css',
     ],  'public/css/notifications.css', 'public');
-    
+
     // compile assets for managing teams
     mix.scripts([
         'assets/plugins/jquery-notifications/js/messenger.js',
@@ -48,7 +48,7 @@ elixir(mix => {
         'assets/plugins/jquery-notifications/css/messenger-theme-flat.css',
         'assets/css/teamsets.css'
     ],  'public/css/teamsets.css', 'public');
-    
+
     // compile backend assets
     mix.scripts([
         '/assets/plugins/jquery-1.8.3.min.js',
@@ -62,7 +62,7 @@ elixir(mix => {
         '/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js',
         '/assets/js/core.js',
     ], 'public/js/backend.js', 'public');
-    
+
     mix.version([
         'js/backend.js',
         'assets/js/dashboard.js',
@@ -73,7 +73,7 @@ elixir(mix => {
         'css/teamsets.css',
         'js/teamsets.js'
     ]);
-    
+
     // Copy font-awesome assets.
     mix.copy('public/assets/plugins/font-awesome/fonts', 'public/build/fonts', 'public');
 });

@@ -35,7 +35,7 @@
                     </td>
                     @if($isRegistered)
                         <td class="text-center v-align-middle">
-                            {{ \BibleBowl\Presentation\Describer::describeGradeShort($group->pivot->grade) }}
+                            {{ \App\Presentation\Describer::describeGradeShort($group->pivot->grade) }}
                         </td>
                         <td class="text-center v-align-middle hidden-xs hidden-sm">
                             {{ $group->pivot->shirt_size }}
@@ -48,7 +48,7 @@
                         <td class="text-center v-align-middle">-</td>
                         <td class="text-center v-align-middle hidden-xs hidden-sm">-</td>
                         <td class="text-center v-align-middle">
-                            @can(BibleBowl\Ability::REGISTER_PLAYERS)
+                            @can(App\Ability::REGISTER_PLAYERS)
                                 <a href="/register/players">Register</a>
                             @endcan
                         </td>

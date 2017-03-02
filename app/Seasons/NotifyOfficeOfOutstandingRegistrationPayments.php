@@ -1,13 +1,11 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Group;
-use BibleBowl\Season;
+use App\Group;
+use App\Season;
 use Carbon\Carbon;
-use Config;
 use Illuminate\Console\Command;
-use Illuminate\Mail\Message;
 use Log;
 use Mail;
 
@@ -39,15 +37,9 @@ class NotifyOfficeOfOutstandingRegistrationPayments extends Command
         $notifyOfficeOfOutstandingPaymentsAfter = config('biblebowl.reminders.notify-office-of-outstanding-registration-payments-after');
         $relativeTime = $notifyOfficeOfOutstandingPaymentsAfter.' ago';
         $playersRegistrationUnpaidSince = new Carbon($relativeTime);
-        if (Group::hasPendingRegistrationPayments(Season::current()->first(), $playersRegistrationUnpaidSince)->count() > 0) {
-            Mail::queue(
-                'emails.notify-office-of-outstanding-pending-payments',
-                [],
-                function (Message $message) {
-                    $message->to(Config::get('biblebowl.officeEmail'))
-                        ->subject('Outstanding Registration Fees');
-                }
-            );
+        $groupCount = Group::hasPendingRegistrationPayments(Season::current()->first(), $playersRegistrationUnpaidSince)->count();
+        if ($groupCount > 0) {
+            Mail::to(config('biblebowl.officeEmail'))->queue(new OutstandingSeasonalRegistrationFeeReport($groupCount));
         } else {
             Log::info('No groups have registration fees older than '.$relativeTime);
         }

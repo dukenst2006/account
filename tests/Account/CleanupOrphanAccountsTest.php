@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\User;
-use BibleBowl\Users\CleanupOrphanAccounts;
+use App\User;
+use App\Users\CleanupOrphanAccounts;
 use Carbon\Carbon;
 
 class CleanupOrphanAccountsTest extends TestCase

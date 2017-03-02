@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\User;
+use App\Role;
+use App\Season;
+use App\User;
 use Illuminate\Auth\Events\Login;
 use Session;
 

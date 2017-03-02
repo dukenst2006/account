@@ -1,14 +1,14 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Seasons;
+namespace App\Http\Controllers\Seasons;
 
+use App\Group;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\GroupHeadCoachOnlyRequest;
+use App\Role;
+use App\Season;
+use App\Seasons\ProgramRegistrationPaymentReceived;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupHeadCoachOnlyRequest;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
 use Cart;
 use Illuminate\View\View;
 use Session;

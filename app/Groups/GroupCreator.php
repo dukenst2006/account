@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Groups;
+namespace App\Groups;
 
-use BibleBowl\Group;
-use BibleBowl\User;
+use App\Group;
+use App\User;
 use DB;
 
 class GroupCreator

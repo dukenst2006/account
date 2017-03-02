@@ -1,18 +1,18 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
-use BibleBowl\Competition\Tournaments\CanBeRegisteredByHeadCoach;
-use BibleBowl\Competition\Tournaments\Quizmasters\QuizzingPreferences;
-use BibleBowl\Shop\HasReceipts;
-use BibleBowl\Support\Scrubber;
+use App\Competition\Tournaments\CanBeRegisteredByHeadCoach;
+use App\Competition\Tournaments\Quizmasters\QuizzingPreferences;
+use App\Shop\HasReceipts;
+use App\Support\Scrubber;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
 /**
- * BibleBowl\TournamentQuizmaster.
+ * App\TournamentQuizmaster.
  *
  * @property int $id
  * @property string $guid
@@ -31,32 +31,32 @@ use Ramsey\Uuid\Uuid;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
  * @property-read mixed $full_name
- * @property-read \BibleBowl\Group $group
+ * @property-read \App\Group $group
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \BibleBowl\Receipt $receipt
- * @property-read \BibleBowl\User $registeredBy
- * @property-read \BibleBowl\Tournament $tournament
- * @property-read \BibleBowl\User $user
+ * @property-read \App\Receipt $receipt
+ * @property-read \App\User $registeredBy
+ * @property-read \App\Tournament $tournament
+ * @property-read \App\User $user
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster paid()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster registeredByHeadCoach()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster unpaid()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereGender($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereGroupId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereQuizzingPreferences($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereReceiptId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereRegisteredBy($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereShirtSize($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereTournamentId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster paid()
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster registeredByHeadCoach()
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster unpaid()
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereQuizzingPreferences($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereReceiptId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereRegisteredBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentQuizmaster whereUserId($value)
  * @mixin \Eloquent
  */
 class TournamentQuizmaster extends Model
@@ -201,7 +201,7 @@ class TournamentQuizmaster extends Model
             return app(QuizzingPreferences::class);
         }
 
-        return app(QuizzingPreferences::class, [$this->fromJson($value)]);
+        return new QuizzingPreferences($this->fromJson($value));
     }
 
     public function setQuizzingPreferencesAttribute(QuizzingPreferences $value)

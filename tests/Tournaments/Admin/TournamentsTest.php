@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\ParticipantType;
-use BibleBowl\Tournament;
+use App\ParticipantType;
+use App\Tournament;
 use Carbon\Carbon;
 
 class TournamentsTest extends TestCase

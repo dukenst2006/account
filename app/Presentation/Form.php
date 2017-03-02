@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl\Presentation;
+namespace App\Presentation;
 
+use App\Group;
+use App\GroupType;
+use App\ParticipantType;
+use App\Program;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\GroupType;
-use BibleBowl\ParticipantType;
-use BibleBowl\Program;
 use Carbon\Carbon;
 use Collective\Html\FormBuilder;
 

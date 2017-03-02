@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Quizmasters;
+namespace App\Competition\Tournaments\Quizmasters;
 
 use Illuminate\Support\Fluent;
 

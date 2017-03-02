@@ -29,7 +29,7 @@
                                 <td class="v-align-middle"><span class="hidden-xs">{{ $player->last_name }}, </span>{{ $player->first_name }}</td>
                                 <td class="v-align-middle">{{ $player->guardian->full_name }}</td>
                                 <td class="v-align-middle text-center hidden-xs">{{ $player->age() }}</td>
-                                <td class="v-align-middle text-center hidden-xs">{{ \BibleBowl\Presentation\Describer::describeGradeShort($player->pivot->grade) }}</td>
+                                <td class="v-align-middle text-center hidden-xs">{{ \App\Presentation\Describer::describeGradeShort($player->pivot->grade) }}</td>
                                 <td class="v-align-middle text-center hidden-xs">{{ $player->pivot->shirt_size }}</td>
                                 <td class="v-align-middle text-center">
                                     <a href="/player/{{ $player->id }}/activate" class="btn btn-primary btn-cons btn-small" id="activate-{{ $player->id }}">Activate</a>

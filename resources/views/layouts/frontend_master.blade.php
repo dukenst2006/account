@@ -10,13 +10,13 @@
     @yield('meta')
 
     <link href="{!! elixir('css/core.css') !!}" rel="stylesheet" type="text/css"/>
-    @foreach(\BibleBowl\Presentation\Html::$includeCss as $pathToCss)
+    @foreach(\App\Presentation\Html::$includeCss as $pathToCss)
         <link href="{!! $pathToCss !!}" rel="stylesheet" type="text/css"/>
     @endforeach
 
-    @if (isset(\BibleBowl\Presentation\Html::$css))
+    @if (isset(\App\Presentation\Html::$css))
         <style type="text/css">
-            {!! \BibleBowl\Presentation\Html::$css !!}
+            {!! \App\Presentation\Html::$css !!}
         </style>
     @endif
 
@@ -43,11 +43,11 @@
         </div>
     </div>
 </div>
-@foreach(\BibleBowl\Presentation\Html::$includeJs as $pathToJs)
+@foreach(\App\Presentation\Html::$includeJs as $pathToJs)
     <script src="{!! $pathToJs !!}" type="text/javascript"></script>
 @endforeach
 <script type="text/javascript">
-    {!! \BibleBowl\Presentation\Html::$js !!}
+    {!! \App\Presentation\Html::$js !!}
 
     // Include the UserVoice JavaScript SDK (only needed once on a page)
     UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/Zb0frmuahAO5JrkHDUH03w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();

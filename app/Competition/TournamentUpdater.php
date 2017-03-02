@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Competition;
+namespace App\Competition;
 
-use BibleBowl\Competition\Tournaments\Settings;
-use BibleBowl\Tournament;
+use App\Competition\Tournaments\Settings;
+use App\Tournament;
 use DB;
 
 class TournamentUpdater

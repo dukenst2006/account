@@ -1,13 +1,13 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\EventType.
+ * App\EventType.
  *
  * @property int $id
  * @property string $participant_type
@@ -17,17 +17,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
  * @property-write mixed $price_per_participant
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereParticipantType($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\EventType whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\EventType whereParticipantType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\EventType whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\EventType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\EventType whereUpdatedAt($value)
  * @mixin \Eloquent
  *
  * @property int $participant_type_id
- * @property-read \BibleBowl\ParticipantType $participantType
+ * @property-read \App\ParticipantType $participantType
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\EventType whereParticipantTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\EventType whereParticipantTypeId($value)
  */
 class EventType extends Model
 {

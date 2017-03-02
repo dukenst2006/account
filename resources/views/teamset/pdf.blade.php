@@ -86,7 +86,7 @@
                     <div class="players">
                         @if($team->players->count() > 0)
                             @foreach($team->players as $player)
-                                {{ $player->full_name }} ({{ \BibleBowl\Presentation\Describer::describeGradeShort($player->seasons()->wherePivot('season_id', $teamSet->season_id)->first()->pivot->grade) }})<br/>
+                                {{ $player->full_name }} ({{ \App\Presentation\Describer::describeGradeShort($player->seasons()->wherePivot('season_id', $teamSet->season_id)->first()->pivot->grade) }})<br/>
                             @endforeach
                         @else
                             &nbsp; <!-- Ensure there's some spacing -->

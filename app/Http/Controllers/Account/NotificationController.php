@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Account;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Controllers\Controller;
+use App\User;
 use Auth;
-use BibleBowl\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Redirect;
 
 class NotificationController extends Controller
 {
@@ -14,8 +14,10 @@ class NotificationController extends Controller
      */
     public function edit()
     {
+        $user = User::findOrFail(Auth::user()->id);
+
         return view('account.notifications')
-            ->withSettings(Auth::user()->settings);
+            ->withSettings($user->settings);
     }
 
     /**
@@ -23,9 +25,9 @@ class NotificationController extends Controller
      */
     public function update(Request $request)
     {
-        $user = Auth::user();
+        $user = User::findOrFail(Auth::user()->id);
         $settings = $user->settings;
-        $settings->notifyWhenUserJoinsGroup($request->input('notifyWhenUserJoinsGroup') == 1);
+        $settings->notifyWhenUserJoinsGroup($request->get('notifyWhenUserJoinsGroup') == 1);
         $user->update([
             'settings' => $settings,
         ]);

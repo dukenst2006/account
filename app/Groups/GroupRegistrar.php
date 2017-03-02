@@ -1,26 +1,17 @@
 <?php
 
-namespace BibleBowl\Groups;
+namespace App\Groups;
 
-use BibleBowl\Group;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\Seasons\GroupRegistration;
-use BibleBowl\User;
+use App\Group;
+use App\Role;
+use App\Season;
+use App\Seasons\GroupRegistration;
+use App\User;
 use DB;
-use Illuminate\Mail\Message;
 use Mail;
 
 class GroupRegistrar
 {
-    /** @var RegistrationConfirmation */
-    protected $registrationConfirmation;
-
-    public function __construct(RegistrationConfirmation $registrationConfirmation)
-    {
-        $this->registrationConfirmation = $registrationConfirmation;
-    }
-
     public function register(Season $season, User $guardian, GroupRegistration $registration)
     {
         DB::beginTransaction();
@@ -31,43 +22,14 @@ class GroupRegistrar
                 $season->players()->attach($playerId, $playerData);
             }
 
-            // Since this email is queued, we need to get pivot data now and include it with $players
-            // because once it actually gets processed $players won't be an object making it more
-            // difficult to fetch this data
-            $players = [];
-            $grades = [];
-            $shirtSizes = [];
-            foreach ($registration->players($group->program) as $player) {
-                $player->full_name = $player->full_name;
-                $grades[$player->id] = $registration->grade($player->id);
-                $shirtSizes[$player->id] = $registration->shirtSize($player->id);
-                $players[] = $player;
-            }
-
-            // setting this value so that it's available in the toArray() so queued mail can use it
-            $guardian->full_name = $guardian->full_name;
+            Mail::to($guardian)->queue(new RegistrationConfirmation($guardian, $group, $registration));
 
             /** @var User $user */
             foreach ($group->users()->with('roles')->get() as $user) {
                 if ($user->isA(Role::HEAD_COACH) && $user->settings->shouldBeNotifiedWhenUserJoinsGroup()) {
-                    Mail::queue(
-                        'emails.group-registration-notification',
-                        [
-                            'groupId'       => $group->id,
-                            'guardian'      => $guardian,
-                            'players'       => $players,
-                            'grades'        => $grades,
-                            'shirtSizes'    => $shirtSizes,
-                        ],
-                        function (Message $message) use ($group, $user, $players) {
-                            $message->to($user->email, $user->full_name)
-                                ->subject('New '.$group->name.' Registration'.(count($players) > 1 ? 's' : ''));
-                        }
-                    );
+                    Mail::to($user)->queue(new NewRegistrationNotification($guardian, $group, $registration));
                 }
             }
-
-            $this->registrationConfirmation->send($guardian, $group, $registration);
         }
 
         DB::commit();

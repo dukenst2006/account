@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Shop;
+namespace App\Shop;
 
-use BibleBowl\Receipt;
+use App\Receipt;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Fluent;
 

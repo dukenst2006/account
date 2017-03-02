@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
+use App\Http\Requests\Request;
 use Auth;
-use BibleBowl\Http\Requests\Request;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ use Setting;
 use Validator;
 
 /**
- * BibleBowl\Player.
+ * App\Player.
  *
  * @property int $id
  * @property string $guid
@@ -33,45 +33,45 @@ use Validator;
  * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
  * @property-read mixed $full_name
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuardianId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereShirtSize($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGender($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereBirthday($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereGuardianId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereBirthday($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player whereUpdatedAt($value)
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Program[] $programs
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegisteredWithNBB($season, $user)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithNBBOnly($season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithGroup($season, $group)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player notRegisteredWithNBB($season, $user)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player registeredWithNBBOnly($season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player registeredWithGroup($season, $group)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player active($season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player inactive($season)
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player pendingRegistrationPayment()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegistered($season, $user)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player notOnTeamSet($teamSet)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player pendingRegistrationPayment()
+ * @method static \Illuminate\Database\Query\Builder|\App\Player notRegistered($season, $user)
  * @mixin \Eloquent
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Event[] $events
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TeamSet[] $teamSet
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Tournament[] $tournaments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Event[] $events
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\TeamSet[] $teamSet
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tournament[] $tournaments
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player achievedMemoryMaster(\BibleBowl\Season $season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player haveNotAchievedMemoryMaster(\BibleBowl\Season $season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player onTeamSet(\BibleBowl\TeamSet $teamSet)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player search(\BibleBowl\Http\Requests\Request $input)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player withSeasonCount()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player withUnpaidRegistration(\BibleBowl\Tournament $tournament)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player withoutPendingPayment()
+ * @method static \Illuminate\Database\Query\Builder|\App\Player achievedMemoryMaster(\App\Season $season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player haveNotAchievedMemoryMaster(\App\Season $season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player onTeamSet(\App\TeamSet $teamSet)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player search(\App\Http\Requests\Request $input)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player withSeasonCount()
+ * @method static \Illuminate\Database\Query\Builder|\App\Player withUnpaidRegistration(\App\Tournament $tournament)
+ * @method static \Illuminate\Database\Query\Builder|\App\Player withoutPendingPayment()
  */
 class Player extends Model
 {

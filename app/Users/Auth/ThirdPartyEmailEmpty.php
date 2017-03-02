@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
 class ThirdPartyEmailEmpty extends \RuntimeException
 {

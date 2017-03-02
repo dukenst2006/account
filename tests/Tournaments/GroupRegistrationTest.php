@@ -1,12 +1,12 @@
 <?php
 
-use BibleBowl\ParticipantType;
-use BibleBowl\Receipt;
-use BibleBowl\Spectator;
-use BibleBowl\TeamSet;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentQuizmaster;
-use BibleBowl\User;
+use App\ParticipantType;
+use App\Receipt;
+use App\Spectator;
+use App\TeamSet;
+use App\Tournament;
+use App\TournamentQuizmaster;
+use App\User;
 use Carbon\Carbon;
 
 class GroupRegistrationTest extends TestCase
@@ -231,7 +231,7 @@ class GroupRegistrationTest extends TestCase
     public function canDuplicateTeams()
     {
         $teamSet = TeamSet::firstOrFail();
-        $duplicater = new \BibleBowl\Competition\Teams\Duplicater();
+        $duplicater = new \App\Competition\Teams\Duplicater();
         $newTeamSet = $duplicater->duplicate($teamSet, [
             'tournament_id', 'receipt_id',
         ]);

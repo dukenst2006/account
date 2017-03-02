@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments;
+namespace App\Competition\Tournaments;
 
 use Illuminate\Support\Fluent;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Groups;
+namespace App\Competition\Tournaments\Groups;
 
-use BibleBowl\Cart;
-use BibleBowl\Event;
-use BibleBowl\ParticipantType;
-use BibleBowl\Tournament;
+use App\Cart;
+use App\Event;
+use App\ParticipantType;
+use App\Tournament;
 use Illuminate\Support\Fluent;
 
 class Registration extends Fluent

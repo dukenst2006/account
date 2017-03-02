@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\Address;
-use BibleBowl\User;
-use BibleBowl\Users\Auth\ThirdPartyAuthenticator;
+use App\Address;
+use App\User;
+use App\Users\Auth\ThirdPartyAuthenticator;
 use Laravel\Socialite\Two\User as ThirdPartyUser;
 
 class ThirdPartyAuthTest extends TestCase

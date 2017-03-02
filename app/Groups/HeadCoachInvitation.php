@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Groups;
+namespace App\Groups;
 
+use App\Invitation;
+use App\User;
+use App\Users\AcceptsInvitations;
 use Auth;
-use BibleBowl\Invitation;
-use BibleBowl\User;
-use BibleBowl\Users\AcceptsInvitations;
 use Session;
 
 class HeadCoachInvitation
@@ -14,28 +14,15 @@ class HeadCoachInvitation
         accept as parentAccept;
     }
 
-    /** @var Invitation */
-    protected $invitation;
-
-    public function __construct(Invitation $invitation)
+    public function accept(User $accepter, Invitation $invitation) : bool
     {
-        $this->invitation = $invitation;
-    }
-
-    public function accept(User $accepter) : bool
-    {
-        $this->invitation->group->addHeadCoach($accepter);
+        $invitation->group->addHeadCoach($accepter);
 
         // default user to this group
         if (Auth::user() != null && Session::doesntHaveGroup()) {
-            Session::setGroup($this->invitation->group);
+            Session::setGroup($invitation->group);
         }
 
-        return $this->parentAccept($accepter);
-    }
-
-    protected function invitation() : Invitation
-    {
-        return $this->invitation;
+        return $this->parentAccept($accepter, $invitation);
     }
 }

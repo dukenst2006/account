@@ -1,14 +1,14 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
+use App\Competition\Tournaments as TournamentGroupRegistration;
+use App\Group;
+use App\Invitation;
+use App\Season;
+use App\Seasons\GroupRegistration;
+use App\User;
 use Auth;
-use BibleBowl\Competition\Tournaments as TournamentGroupRegistration;
-use BibleBowl\Group;
-use BibleBowl\Invitation;
-use BibleBowl\Season;
-use BibleBowl\Seasons\GroupRegistration;
-use BibleBowl\User;
 
 class SessionManager extends \Illuminate\Session\SessionManager
 {
@@ -48,7 +48,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     {
         if (is_null($this->season)) {
             Season::unguard();
-            $this->season = $this->app->make(Season::class, [$this->get(self::SEASON)]);
+            $this->season = new Season($this->get(self::SEASON));
             Season::reguard();
         }
 
@@ -58,7 +58,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function setSeason(Season $season)
     {
         $this->season = $season;
-        $this->set(self::SEASON, $season->toArray());
+        $this->put(self::SEASON, $season->toArray());
     }
 
     /**
@@ -68,7 +68,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     {
         if (is_null($this->group) && $this->get(self::GROUP) != null) {
             Group::unguard();
-            $this->group = $this->app->make(Group::class, [$this->get(self::GROUP)]);
+            $this->group = new Group($this->get(self::GROUP));
             Group::reguard();
         }
 
@@ -92,7 +92,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
             $group = $group->toArray();
         }
 
-        $this->set(self::GROUP, $group);
+        $this->put(self::GROUP, $group);
     }
 
     /**
@@ -100,7 +100,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function setSeasonalGroupRegistration(GroupRegistration $seasonalGroupRegistration)
     {
-        $this->set(self::SEASONAL_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
+        $this->put(self::SEASONAL_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
     }
 
     /**
@@ -110,7 +110,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     {
         $registrationInfo = $this->get(self::SEASONAL_GROUP_REGISTRATION, []);
 
-        return app(GroupRegistration::class, [$registrationInfo]);
+        return new GroupRegistration($registrationInfo);
     }
 
     /**
@@ -118,7 +118,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function setTournamentGroupRegistration(TournamentGroupRegistration $seasonalGroupRegistration)
     {
-        $this->set(self::TOURNAMENT_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
+        $this->put(self::TOURNAMENT_GROUP_REGISTRATION, $seasonalGroupRegistration->toArray());
     }
 
     /**
@@ -128,7 +128,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
     {
         $registrationInfo = $this->get(self::TOURNAMENT_GROUP_REGISTRATION, []);
 
-        return app(TournamentGroupRegistration::class, [$registrationInfo]);
+        return new TournamentGroupRegistration($registrationInfo);
     }
 
     /**
@@ -136,7 +136,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function setGroupToRegisterWith(Group $group)
     {
-        $this->set(self::REGISTER_WITH_GROUP, $group->guid);
+        $this->put(self::REGISTER_WITH_GROUP, $group->guid);
     }
 
     /**
@@ -149,7 +149,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
 
     public function rememberAdminStatus($adminId)
     {
-        $this->set(self::ADMIN_USER, $adminId);
+        $this->put(self::ADMIN_USER, $adminId);
     }
 
     /**
@@ -157,7 +157,7 @@ class SessionManager extends \Illuminate\Session\SessionManager
      */
     public function setRedirectToAfterAuth($url)
     {
-        $this->set(self::REDIRECT_TO_AFTER_AUTH, $url);
+        $this->put(self::REDIRECT_TO_AFTER_AUTH, $url);
     }
 
     public function redirectToAfterAuth()
@@ -201,9 +201,9 @@ class SessionManager extends \Illuminate\Session\SessionManager
     public function setPendingInvitation(Invitation $invitation = null)
     {
         if ($invitation == null) {
-            return $this->set(self::PENDING_INVITATION, $invitation);
+            return $this->put(self::PENDING_INVITATION, $invitation);
         }
 
-        $this->set(self::PENDING_INVITATION, $invitation->id);
+        $this->put(self::PENDING_INVITATION, $invitation->id);
     }
 }

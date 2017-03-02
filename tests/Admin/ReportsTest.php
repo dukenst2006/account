@@ -1,7 +1,7 @@
 <?php
 
-use BibleBowl\Player;
-use BibleBowl\Season;
+use App\Player;
+use App\Season;
 use Carbon\Carbon;
 
 class ReportsTest extends TestCase

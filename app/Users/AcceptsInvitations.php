@@ -1,17 +1,15 @@
 <?php
 
-namespace BibleBowl\Users;
+namespace App\Users;
 
-use BibleBowl\Invitation;
-use BibleBowl\User;
+use App\Invitation;
+use App\User;
 
 trait AcceptsInvitations
 {
-    abstract protected function invitation() : Invitation;
-
-    public function accept(User $accepter) : bool
+    public function accept(User $accepter, Invitation $invitation) : bool
     {
-        $this->invitation()->update([
+        $invitation->update([
             'status' => Invitation::ACCEPTED,
         ]);
 

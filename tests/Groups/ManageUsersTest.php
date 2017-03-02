@@ -1,8 +1,8 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Invitation;
-use BibleBowl\User;
+use App\Group;
+use App\Invitation;
+use App\User;
 use Helpers\ActingAsDirector;
 use Helpers\ActingAsHeadCoach;
 
@@ -109,7 +109,7 @@ class ManageUsersTest extends TestCase
             ->visit('/invitation/'.$invitation->guid.'/accept')
             ->followRedirects()
             ->see('Invitation has been accepted')
-            ->assertSessionHas(\BibleBowl\Users\Auth\SessionManager::GROUP, $invitation->group->toArray());
+            ->assertSessionHas(\App\Users\Auth\SessionManager::GROUP, $invitation->group->toArray());
 
         $invitation = Invitation::findOrFail($invitation->id);
         $this->assertEquals(Invitation::ACCEPTED, $invitation->status);

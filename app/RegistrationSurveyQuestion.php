@@ -1,25 +1,25 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\RegistrationSurveyQuestion.
+ * App\RegistrationSurveyQuestion.
  *
  * @property int $id
  * @property string $question
  * @property int $order
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\RegistrationSurveyAnswer[] $answers
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\RegistrationSurvey[] $surveys
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationSurveyAnswer[] $answers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationSurvey[] $surveys
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereQuestion($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurveyQuestion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyQuestion whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyQuestion whereOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyQuestion whereQuestion($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurveyQuestion whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class RegistrationSurveyQuestion extends Model

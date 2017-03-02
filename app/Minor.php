@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * BibleBowl\Minor.
+ * App\Minor.
  *
  * @property int $id
  * @property int $spectator_id
@@ -16,16 +16,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $gender
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\Spectator $spectator
+ * @property-read \App\Spectator $spectator
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereAge($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereGender($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereShirtSize($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereSpectatorId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Minor whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereAge($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereGender($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereShirtSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereSpectatorId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Minor whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Minor extends Model

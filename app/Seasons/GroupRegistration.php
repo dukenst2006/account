@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Group;
-use BibleBowl\Player;
-use BibleBowl\Program;
+use App\Group;
+use App\Player;
+use App\Program;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 
@@ -142,7 +142,7 @@ class GroupRegistration extends Fluent
             }
         }
 
-        return app(Collection::class, [$players]);
+        return new Collection($players);
     }
 
     /**

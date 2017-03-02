@@ -1,11 +1,11 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\ParticipantType;
-use BibleBowl\Player;
-use BibleBowl\Season;
-use BibleBowl\TeamSet;
-use BibleBowl\Tournament;
+use App\Group;
+use App\ParticipantType;
+use App\Player;
+use App\Season;
+use App\TeamSet;
+use App\Tournament;
 
 class GroupTest extends TestCase
 {

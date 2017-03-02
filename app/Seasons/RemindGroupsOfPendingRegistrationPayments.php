@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Seasons;
+namespace App\Seasons;
 
-use BibleBowl\Group;
-use BibleBowl\Season;
-use BibleBowl\Users\Notifications\RemindPendingSeasonalRegistrationFees;
+use App\Group;
+use App\Season;
+use App\Users\Notifications\RemindPendingSeasonalRegistrationFees;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

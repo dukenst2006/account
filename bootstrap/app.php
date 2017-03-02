@@ -28,17 +28,17 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    BibleBowl\Http\Kernel::class
+    App\Http\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    BibleBowl\Support\Providers\ConsoleKernel::class
+    App\Support\Providers\ConsoleKernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    BibleBowl\Support\ExceptionHandler::class
+    App\Support\ExceptionHandler::class
 );
 
 /*

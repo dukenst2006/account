@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Groups;
+namespace App\Http\Controllers\Groups;
 
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\User;
+use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Session;
 

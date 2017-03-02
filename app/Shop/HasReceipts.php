@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Shop;
+namespace App\Shop;
 
 use Illuminate\Database\Eloquent\Builder;
 

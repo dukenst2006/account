@@ -1,27 +1,27 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
-use BibleBowl\Competition\Tournaments\Groups\RegistrationPaymentReceived as GroupRegistrationPaymentReceived;
-use BibleBowl\Competition\Tournaments\Quizmasters\RegistrationPaymentReceived as QuizmasterRegistrationPaymentReceived;
-use BibleBowl\Competition\Tournaments\Spectators\RegistrationPaymentReceived as SpectatorRegistrationPaymentReceived;
-use BibleBowl\Seasons\ProgramRegistrationPaymentReceived;
-use BibleBowl\Shop\PostPurchaseEvent;
-use BibleBowl\Shop\UnrecognizedPurchaseEvent;
+use App\Competition\Tournaments\Groups\RegistrationPaymentReceived as GroupRegistrationPaymentReceived;
+use App\Competition\Tournaments\Quizmasters\RegistrationPaymentReceived as QuizmasterRegistrationPaymentReceived;
+use App\Competition\Tournaments\Spectators\RegistrationPaymentReceived as SpectatorRegistrationPaymentReceived;
+use App\Seasons\ProgramRegistrationPaymentReceived;
+use App\Shop\PostPurchaseEvent;
+use App\Shop\UnrecognizedPurchaseEvent;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\Cart.
+ * App\Cart.
  *
  * @property int $id
  * @property int $user_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \BibleBowl\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Item[] $items
+ * @property-read \App\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
  * @property-read mixed $count
  * @property-read mixed $total_price
  * @property-read mixed $total_tax
@@ -43,11 +43,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $post_purchase_event
  * @property array $metadata
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereMetadata($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Cart whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Cart whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Cart whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Cart whereMetadata($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Cart whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Cart whereUserId($value)
  * @mixin \Eloquent
  */
 class Cart extends Model
@@ -103,11 +103,9 @@ class Cart extends Model
      */
     public function postPurchaseEvent()
     {
+        $eventClass = $this->postPurchaseEvents[$this->metadata['event']];
         // the "metadata" array keys come from PostPurchaseEvent
-        return app(
-            $this->postPurchaseEvents[$this->metadata['event']],
-            [$this->metadata]
-        );
+        return new $eventClass($this->metadata);
     }
 
     public function user() : BelongsTo
@@ -159,12 +157,12 @@ class Cart extends Model
     {
         $receiptItems = collect();
         foreach ($this->items()->get() as $item) {
-            $receiptItems[] = app(ReceiptItem::class, [[
+            $receiptItems[] = new ReceiptItem([
                 'sku'           => $item->sku,
                 'description'   => $item->name(),
                 'price'         => $item->price,
                 'quantity'      => $item->quantity,
-            ]]);
+            ]);
         }
 
         return $receiptItems;

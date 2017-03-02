@@ -1,10 +1,11 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
-use BibleBowl\Groups\Settings;
-use BibleBowl\Location\Maps\Location;
-use BibleBowl\Support\CanDeactivate;
+use App\Groups\GroupOwnershipTransferred;
+use App\Groups\Settings;
+use App\Location\Maps\Location;
+use App\Support\CanDeactivate;
 use Carbon\Carbon;
 use Config;
 use DB;
@@ -14,13 +15,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Mail\Message;
 use Mail;
 use Ramsey\Uuid\Uuid;
 use Validator;
 
 /**
- * BibleBowl\Group.
+ * App\Group.
  *
  * @property int $id
  * @property string $guid
@@ -35,16 +35,16 @@ use Validator;
  * @property-read mixed $full_name
  * @property-read User $users
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereOwnerId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereAddressId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereMeetingAddressId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereUpdatedAt($value)
- * @method static \BibleBowl\Group near($address, $miles = null)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereOwnerId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereMeetingAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereUpdatedAt($value)
+ * @method static \App\Group near($address, $miles = null)
  *
  * @property int $program_id
  * @property \Carbon\Carbon $inactive
@@ -54,29 +54,29 @@ use Validator;
  * @property-read Program $program
  * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereProgramId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereInactive($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group byProgram($program)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group activeGuardians($group, $season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactiveGuardians($group, $season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group active()
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereProgramId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereInactive($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group byProgram($program)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group activeGuardians($group, $season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group inactiveGuardians($group, $season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group active()
+ * @method static \Illuminate\Database\Query\Builder|\App\Group inactive()
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  * @property string $settings
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereSettings($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group withoutActivePlayers($season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group hasPendingRegistrationPayments($pendingSince = null, $playerCount = null)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereSettings($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group withoutActivePlayers($season)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group hasPendingRegistrationPayments($pendingSince = null, $playerCount = null)
  * @mixin \Eloquent
  *
  * @property int $group_type_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Invitation[] $invitations
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invitation[] $invitations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Spectator[] $spectators
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\TournamentQuizmaster[] $tournamentQuizmasters
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group hasPendingTournamentRegistrationFees(\BibleBowl\Tournament $tournament)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereGroupTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group hasPendingTournamentRegistrationFees(\App\Tournament $tournament)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereGroupTypeId($value)
  */
 class Group extends Model
 {
@@ -372,9 +372,9 @@ class Group extends Model
         return $user->id == $this->owner_id;
     }
 
-    public function setOwner(User $user) : bool
+    public function setOwner(User $newOwner) : bool
     {
-        if ($this->isOwner($user)) {
+        if ($this->isOwner($newOwner)) {
             return false;
         }
 
@@ -386,34 +386,21 @@ class Group extends Model
         $ownerHasOtherGroups = $this->owner->groups()->where('groups.id', '!=', $this->id)->count() > 0;
         if ($ownerHasOtherGroups === false) {
             $role = Role::where('name', Role::HEAD_COACH)->firstOrFail();
-            $user->retract($role);
+            $newOwner->retract($role);
         }
 
         // add new owner as head coach
-        if ($this->isHeadCoach($user) === false) {
-            $this->addHeadCoach($user);
+        if ($this->isHeadCoach($newOwner) === false) {
+            $this->addHeadCoach($newOwner);
         }
 
         $this->update([
-            'owner_id' => $user->id,
+            'owner_id' => $newOwner->id,
         ]);
 
         DB::commit();
 
-        Mail::queue(
-            'emails.group-ownership-transfer',
-            [
-                'header'        => $this->name.' Ownership Transfer',
-                'group'         => $this,
-                'previousOwner' => $previousOwner,
-                'newOwner'      => $user,
-            ],
-            function (Message $message) use ($previousOwner, $user) {
-                $message->to($previousOwner->email, $previousOwner->full_name)
-                    ->cc($user->email, $user->full_name)
-                    ->subject($this->name.' Ownership Transfer');
-            }
-        );
+        Mail::to($newOwner)->queue(new GroupOwnershipTransferred($this, $previousOwner, $newOwner));
 
         return true;
     }
@@ -447,8 +434,7 @@ class Group extends Model
         }
     }
 
-    /** @todo set TeamSet return value */
-    public function teamSet(Tournament $tournament)
+    public function teamSet(Tournament $tournament) : ?TeamSet
     {
         return $this->teamSets()->where([
             'group_id'      => $this->id,
@@ -498,7 +484,7 @@ class Group extends Model
             return app(Settings::class);
         }
 
-        return app(Settings::class, [json_decode($value, true)]);
+        return new Settings(json_decode($value, true));
     }
 
     /**

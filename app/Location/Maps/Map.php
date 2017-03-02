@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Location\Maps;
+namespace App\Location\Maps;
 
 use Illuminate\Database\Eloquent\Model;
 

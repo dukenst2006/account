@@ -1,71 +1,83 @@
 <?php
 
-namespace BibleBowl\Groups;
+namespace App\Groups;
 
-use BibleBowl\Group;
-use BibleBowl\Seasons\GroupRegistration;
-use BibleBowl\User;
-use Illuminate\Mail\Message;
-use Mail;
+use App\Group;
+use App\Seasons\GroupRegistration;
+use App\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use League\HTMLToMarkdown\HtmlConverter;
 
-class RegistrationConfirmation
+class RegistrationConfirmation extends Mailable implements ShouldQueue
 {
-    public function send(
-        User $recipient,
+    use Queueable, SerializesModels;
+
+    /** @var User */
+    protected $guardian;
+
+    /** @var Group */
+    protected $group;
+
+    /** @var GroupRegistration */
+    protected $registration;
+
+    /** @var string */
+    protected $contentBody;
+
+    public function __construct(
+        User $guardian,
         Group $group,
         GroupRegistration $registration,
-        $queued = true,
-        $contentBody = null
+        string $contentBody = null
     ) {
+        $htmlConverter = new HtmlConverter();
+
+        $this->guardian = $guardian;
+        $this->group = $group;
+        $this->registration = $registration;
+
+        // the wisywig uses HTML, so convert to Markdown
+        if ($contentBody != null) {
+            $this->contentBody = $htmlConverter->convert($contentBody);
+        }
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
         // Since this email is queued, we need to get pivot data now and include it with $players
         // because once it actually gets processed $players won't be an object making it more
         // difficult to fetch this data
         $players = [];
         $grades = [];
         $shirtSizes = [];
-        foreach ($registration->players($group->program) as $player) {
+        foreach ($this->registration->players($this->group->program) as $player) {
             $player->full_name = $player->full_name;
-            $grades[$player->id] = $registration->grade($player->id);
-            $shirtSizes[$player->id] = $registration->shirtSize($player->id);
+            $grades[$player->id] = $this->registration->grade($player->id);
+            $shirtSizes[$player->id] = $this->registration->shirtSize($player->id);
             $players[] = $player;
         }
 
         // setting this value so that it's available in the toArray() so queued mail can use it
-        $recipient->full_name = $recipient->full_name;
+        $this->guardian->full_name = $this->guardian->full_name;
 
-        $view = 'emails.group-welcome-email';
-        $viewData = [
-            'groupId'       => $group->id,
-            'guardian'      => $recipient,
-            'players'       => $players,
-            'grades'        => $grades,
-            'shirtSizes'    => $shirtSizes,
-            'hasEmailBody'  => is_null($contentBody) ? $group->settings->hasRegistrationEmailContents() : true,
-            'emailBody'     => is_null($contentBody) ? $group->settings->registrationEmailContents() : $contentBody,
-        ];
-        $callBack = function (Message $message) use ($group, $recipient) {
-            $message->to($recipient->email, $recipient->full_name)
-                ->subject($group->name.' Registration');
-        };
-
-        if ($queued) {
-            Mail::queue($view, $viewData, $callBack);
-        } else {
-            Mail::send($view, $viewData, $callBack);
-        }
-    }
-
-    /**
-     * Send a sample email.
-     *
-     * @param User $user
-     */
-    public function sendTest(User $user, Group $group, $contentBody)
-    {
-        /** @var GroupRegistrationTest $registration */
-        $registration = app(GroupRegistrationTest::class);
-        $registration->addGroup($group);
-
-        $this->send($user, $group, $registration, $isQueued = false, $contentBody);
+        return $this->subject($this->group->name.' Registration')
+            ->markdown('emails.group-welcome-email')
+            ->with([
+                'group'         => $this->group,
+                'guardian'      => $this->guardian,
+                'players'       => $players,
+                'grades'        => $grades,
+                'shirtSizes'    => $shirtSizes,
+                'hasEmailBody'  => is_null($this->contentBody) ? $this->group->settings->hasRegistrationEmailContents() : true,
+                'emailBody'     => is_null($this->contentBody) ? $this->group->settings->registrationEmailContents() : $this->contentBody,
+            ]);
     }
 }

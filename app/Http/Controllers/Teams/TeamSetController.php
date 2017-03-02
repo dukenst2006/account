@@ -1,14 +1,14 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Teams;
+namespace App\Http\Controllers\Teams;
 
+use App\Competition\Tournaments\Groups\PLayerInvitationRequestNotification;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TeamSetGroupOnlyRequest;
+use App\Http\Requests\TeamSetUpdateRequest;
+use App\Team;
+use App\TeamSet;
 use Auth;
-use BibleBowl\Competition\Tournaments\Groups\PLayerInvitationRequestNotification;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\TeamSetGroupOnlyRequest;
-use BibleBowl\Http\Requests\TeamSetUpdateRequest;
-use BibleBowl\Team;
-use BibleBowl\TeamSet;
 use DB;
 use Illuminate\Http\Request;
 use Session;

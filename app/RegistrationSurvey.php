@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * BibleBowl\RegistrationSurvey.
+ * App\RegistrationSurvey.
  *
  * @property int $id
  * @property int $user_id
@@ -13,14 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $other
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\User $user
+ * @property-read \App\User $user
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurvey whereAnswerId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurvey whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurvey whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurvey whereOther($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurvey whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\RegistrationSurvey whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurvey whereAnswerId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurvey whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurvey whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurvey whereOther($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurvey whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\RegistrationSurvey whereUserId($value)
  * @mixin \Eloquent
  */
 class RegistrationSurvey extends Model

@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Invitation;
 use Auth;
-use BibleBowl\Invitation;
 use Session;
 
 class InvitationController extends Controller

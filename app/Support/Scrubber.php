@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Support;
+namespace App\Support;
 
 /**
  * Remove characters that don't match the given type.

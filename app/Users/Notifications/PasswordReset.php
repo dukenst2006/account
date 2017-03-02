@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Users\Notifications;
+namespace App\Users\Notifications;
 
-use BibleBowl\User;
+use App\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
 

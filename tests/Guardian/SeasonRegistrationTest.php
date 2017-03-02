@@ -1,11 +1,11 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Player;
-use BibleBowl\Program;
-use BibleBowl\Season;
-use BibleBowl\Seasons\GroupRegistration;
-use BibleBowl\Users\Auth\SessionManager;
+use App\Group;
+use App\Player;
+use App\Program;
+use App\Season;
+use App\Seasons\GroupRegistration;
+use App\Users\Auth\SessionManager;
 
 class SeasonRegistrationTest extends TestCase
 {
@@ -99,7 +99,7 @@ class SeasonRegistrationTest extends TestCase
 
         // verify beginner players have been removed
         $beginner = Program::findOrFail(Program::BEGINNER);
-        /** @var \BibleBowl\Seasons\GroupRegistration $registration */
+        /** @var \App\Seasons\GroupRegistration $registration */
         $registration = Session::seasonalGroupRegistration();
         $this->assertEquals(0, $registration->numberOfPlayers($beginner));
 

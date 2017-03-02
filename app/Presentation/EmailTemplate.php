@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Presentation;
+namespace App\Presentation;
 
 class EmailTemplate
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\Receipt.
+ * App\Receipt.
  *
  * @property int $id
  * @property string $total
@@ -18,27 +18,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $address_id
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\Address $address
- * @property-read \BibleBowl\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\ReceiptItem[] $items
+ * @property-read \App\Address $address
+ * @property-read \App\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ReceiptItem[] $items
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereTotal($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt wherePaymentReferenceNumber($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereAddressId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereTotal($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt wherePaymentReferenceNumber($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereCreatedAt($value)
  * @mixin \Eloquent
  *
  * @property int $tournament_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
- * @property-read \BibleBowl\Tournament $tournament
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Spectator[] $spectators
+ * @property-read \App\Tournament $tournament
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\TournamentQuizmaster[] $tournamentQuizmasters
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Receipt whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Receipt whereTournamentId($value)
  */
 class Receipt extends Model
 {

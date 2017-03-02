@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
 class SeasonRegistrationRequest extends GroupJoinRequest
 {

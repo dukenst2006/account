@@ -1,17 +1,17 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Seasons;
+namespace App\Http\Controllers\Seasons;
 
+use App\Group;
+use App\Groups\GroupRegistrar;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\PlayerRegistrationRequest;
+use App\Http\Requests\Request;
+use App\Http\Requests\SeasonRegistrationRequest;
+use App\Program;
+use App\Season;
+use App\Seasons\GroupRegistration;
 use Auth;
-use BibleBowl\Group;
-use BibleBowl\Groups\GroupRegistrar;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\PlayerRegistrationRequest;
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Http\Requests\SeasonRegistrationRequest;
-use BibleBowl\Program;
-use BibleBowl\Season;
-use BibleBowl\Seasons\GroupRegistration;
 use Illuminate\View\View;
 use Input;
 use Session;

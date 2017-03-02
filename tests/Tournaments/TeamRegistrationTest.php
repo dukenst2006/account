@@ -1,10 +1,10 @@
 <?php
 
-use BibleBowl\Group;
-use BibleBowl\Team;
-use BibleBowl\TeamSet;
-use BibleBowl\Tournament;
-use BibleBowl\Users\Auth\SessionManager;
+use App\Group;
+use App\Team;
+use App\TeamSet;
+use App\Tournament;
+use App\Users\Auth\SessionManager;
 use Carbon\Carbon;
 
 class TeamRegistrationTest extends TestCase

@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\Tournament;
 use Auth;
-use BibleBowl\Tournament;
 
 class TournamentCreatorOnlyRequest extends Request
 {

@@ -58,7 +58,7 @@
                                             } // Top x-axis.
                                         }
                                     },
-                                    'colors': ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                                    'colors': ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                                     });
                                 });
                             @endjs

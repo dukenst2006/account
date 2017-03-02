@@ -1,15 +1,15 @@
 <?php
 
-use BibleBowl\Address;
-use BibleBowl\Group;
-use BibleBowl\Groups\GroupCreator;
-use BibleBowl\GroupType;
-use BibleBowl\Player;
-use BibleBowl\Program;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\Tournament;
-use BibleBowl\User;
+use App\Address;
+use App\Group;
+use App\Groups\GroupCreator;
+use App\GroupType;
+use App\Player;
+use App\Program;
+use App\Role;
+use App\Season;
+use App\Tournament;
+use App\User;
 use Carbon\Carbon;
 use Faker\Generator;
 
@@ -90,7 +90,7 @@ function seedGuardian($attrs = [], $addressAttrs = [])
 }
 
 /**
- * @return \BibleBowl\Player
+ * @return \App\Player
  */
 function seedPlayer(User $user, array $attrs = [])
 {
@@ -102,7 +102,7 @@ function seedPlayer(User $user, array $attrs = [])
 }
 
 /**
- * @return \BibleBowl\Player
+ * @return \App\Player
  */
 function seedGroup(User $headCoach)
 {

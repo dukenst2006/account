@@ -4,19 +4,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | PDO Fetch Style
-    |--------------------------------------------------------------------------
-    |
-    | By default, database results will be returned as instances of the PHP
-    | stdClass object; however, you may desire to retrieve records in an
-    | array format for simplicity. Here you can tweak the fetch style.
-    |
-    */
-
-    'fetch' => PDO::FETCH_OBJ,
-
-    /*
-    |--------------------------------------------------------------------------
     | Default Database Connection Name
     |--------------------------------------------------------------------------
     |
@@ -56,7 +43,7 @@ return [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'db'),
             'port'      => env('DB_PORT', '3306'),
-            'database'  => env('DB_DATABASE', 'account'),
+            'database'  => env('DB_DATABASE', 'biblebowl_account'),
             'username'  => env('DB_USERNAME', 'account'),
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
@@ -119,7 +106,7 @@ return [
 
     'redis' => [
 
-        'cluster' => false,
+        'client' => 'predis',
 
         'default' => [
             'host'     => env('REDIS_HOST', 'redis'),

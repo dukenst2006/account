@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Presentation;
+namespace App\Presentation;
 
 class Pagination extends \Landish\Pagination\Pagination
 {

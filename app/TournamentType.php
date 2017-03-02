@@ -1,24 +1,23 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
-use BibleBowl\Competition\Tournaments;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * BibleBowl\TournamentType.
+ * App\TournamentType.
  *
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Tournament[] $tournaments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tournament[] $tournaments
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentType whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentType whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TournamentType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class TournamentType extends Model

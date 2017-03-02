@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Users;
+namespace App\Users;
 
-use BibleBowl\User;
-use BibleBowl\Users\Notifications\AccountDeleted;
+use App\User;
+use App\Users\Notifications\AccountDeleted;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

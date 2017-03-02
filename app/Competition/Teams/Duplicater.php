@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Competition\Teams;
+namespace App\Competition\Teams;
 
-use BibleBowl\TeamSet;
+use App\TeamSet;
 use DB;
 
 class Duplicater

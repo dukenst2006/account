@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Teams;
+namespace App\Http\Controllers\Teams;
 
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\TeamSetUpdateRequest;
-use BibleBowl\Http\Requests\TeamUpdateRequest;
-use BibleBowl\Team;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TeamSetUpdateRequest;
+use App\Http\Requests\TeamUpdateRequest;
+use App\Team;
 use DB;
 
 class TeamController extends Controller

@@ -1,9 +1,9 @@
 <?php
 
-use BibleBowl\Player;
-use BibleBowl\Season;
-use BibleBowl\User;
-use BibleBowl\Users\Auth\SessionManager;
+use App\Player;
+use App\Season;
+use App\User;
+use App\Users\Auth\SessionManager;
 use Carbon\Carbon;
 
 class PlayerTest extends TestCase

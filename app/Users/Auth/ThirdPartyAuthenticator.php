@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
-use BibleBowl\User;
-use BibleBowl\UserProvider;
+use App\User;
+use App\UserProvider;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class ThirdPartyAuthenticator
@@ -82,10 +82,10 @@ class ThirdPartyAuthenticator
                 return $this->registrar->create($provider, $providerUser);
             }
 
-            $userProvider = app(UserProvider::class, [[
+            $userProvider = new UserProvider([
                 'provider'        => $provider,
                 'provider_id'     => $providerUser->getId(),
-            ]]);
+            ]);
             $user->providers()->save($userProvider);
 
             return $user;

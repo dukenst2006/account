@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\Player;
 use Auth;
-use BibleBowl\Player;
 
 class PlayerGuardianOnlyRequest extends Request
 {

@@ -1,22 +1,22 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Tournaments\Admin;
+namespace App\Http\Controllers\Tournaments\Admin;
 
+use App\Competition\TournamentCreator;
+use App\Competition\TournamentUpdater;
+use App\EventType;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\GroupEditRequest;
+use App\Http\Requests\TournamentCreateRequest;
+use App\Http\Requests\TournamentCreatorOnlyRequest;
+use App\Http\Requests\TournamentEditRequest;
+use App\ParticipantType;
+use App\Program;
+use App\Role;
+use App\Season;
+use App\Tournament;
+use App\TournamentType;
 use Auth;
-use BibleBowl\Competition\TournamentCreator;
-use BibleBowl\Competition\TournamentUpdater;
-use BibleBowl\EventType;
-use BibleBowl\Http\Controllers\Controller;
-use BibleBowl\Http\Requests\GroupEditRequest;
-use BibleBowl\Http\Requests\TournamentCreateRequest;
-use BibleBowl\Http\Requests\TournamentCreatorOnlyRequest;
-use BibleBowl\Http\Requests\TournamentEditRequest;
-use BibleBowl\ParticipantType;
-use BibleBowl\Program;
-use BibleBowl\Role;
-use BibleBowl\Season;
-use BibleBowl\Tournament;
-use BibleBowl\TournamentType;
 use Session;
 
 class TournamentsController extends Controller

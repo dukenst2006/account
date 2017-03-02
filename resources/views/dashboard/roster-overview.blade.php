@@ -22,28 +22,28 @@
                         var data = google.visualization.arrayToDataTable([
                             ['Gender', 'Players'],
                         @foreach($playerStats['byGender'] as $genderData)
-                            ['{{ \BibleBowl\Presentation\Describer::describeGender($genderData['gender']) }}', {{ $genderData['total'] }}],
+                            ['{{ \App\Presentation\Describer::describeGender($genderData['gender']) }}', {{ $genderData['total'] }}],
                         @endforeach
                         ]);
 
                         var chart = new google.visualization.PieChart(document.getElementById('rosterByGender'));
                         chart.draw(data, {
                             title: 'By Gender',
-                            colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                            colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                         });
 
                         // ------------ byGrade ------------
                         var data = google.visualization.arrayToDataTable([
                         ['Grade', 'Players'],
                         @foreach($playerStats['byGrade'] as $gradeData)
-                            ['{{ \BibleBowl\Presentation\Describer::describeGrade($gradeData['grade']) }}', {{ $gradeData['total'] }}],
+                            ['{{ \App\Presentation\Describer::describeGrade($gradeData['grade']) }}', {{ $gradeData['total'] }}],
                         @endforeach
                         ]);
 
                         var chart = new google.visualization.PieChart(document.getElementById('rosterByGrade'));
                         chart.draw(data, {
                             title: 'By Grade',
-                            colors: ['{!! implode("','", \BibleBowl\Presentation\Html::ACCENT_COLORS) !!}']
+                            colors: ['{!! implode("','", \App\Presentation\Html::ACCENT_COLORS) !!}']
                         });
                     });
                 @endjs

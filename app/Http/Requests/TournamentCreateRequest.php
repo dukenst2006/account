@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
-use BibleBowl\Ability;
-use BibleBowl\ParticipantType;
+use App\Ability;
+use App\ParticipantType;
 use Bouncer;
 
 class TournamentCreateRequest extends Request

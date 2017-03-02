@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Groups\Communication;
+namespace App\Groups\Communication;
 
-use BibleBowl\Group;
-use BibleBowl\User;
+use App\Group;
+use App\User;
 use DatabaseSeeder;
 use Easychimp\Easychimp;
 use Illuminate\Contracts\Queue\ShouldQueue;

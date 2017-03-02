@@ -1,12 +1,12 @@
 <?php
 
-namespace BibleBowl\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Reporting\MetricsRepository;
+use App\Reporting\PlayerMetricsRepository;
+use App\Role;
+use App\Tournament;
 use Auth;
-use BibleBowl\Reporting\MetricsRepository;
-use BibleBowl\Reporting\PlayerMetricsRepository;
-use BibleBowl\Role;
-use BibleBowl\Tournament;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -49,7 +49,8 @@ class DashboardController extends Controller
         if (Session::hasPendingInvitation()) {
             DB::beginTransaction();
             $invitation = Session::pendingInvitation();
-            app($invitation->type, [$invitation])->accept(Auth::user());
+            $invitationType = app($invitation->type);
+            $invitationType->accept(Auth::user(), $invitation);
             Session::setPendingInvitation();
             DB::commit();
 

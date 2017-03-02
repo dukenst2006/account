@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-use BibleBowl\Http\Requests\Request;
-use BibleBowl\Http\Requests\SettingsUpdateRequest;
-use BibleBowl\Program;
+use App\Http\Requests\Request;
+use App\Http\Requests\SettingsUpdateRequest;
+use App\Program;
 use Carbon\Carbon;
 use DB;
 use Setting;

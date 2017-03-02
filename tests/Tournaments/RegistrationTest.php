@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\Tournament;
+use App\Tournament;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

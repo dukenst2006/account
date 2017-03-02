@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Reporting;
+namespace App\Reporting;
 
-use BibleBowl\Player;
+use App\Player;
 use Html;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;

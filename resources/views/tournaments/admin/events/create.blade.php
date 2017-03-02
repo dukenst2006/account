@@ -36,7 +36,7 @@
                                     <div class="controls">
                                         @foreach($eventTypes as $eventType)
                                             <div class="radio">
-                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id, 'class' => ($eventType->participant_type_id == \BibleBowl\ParticipantType::PLAYER ? 'canHaveFee canHaveRequiredParticipation' : '')]) !!}
+                                                {!! Form::radio('event_type_id', $eventType->id, null, ['id' => 'eventType'.$eventType->id, 'class' => ($eventType->participant_type_id == \App\ParticipantType::PLAYER ? 'canHaveFee canHaveRequiredParticipation' : '')]) !!}
                                                 <label for="eventType{{ $eventType->id }}"><strong>{{ $eventType->name }}</strong> ({{ $eventType->participantType->name }} event)</label>
                                             </div>
                                             <br/>

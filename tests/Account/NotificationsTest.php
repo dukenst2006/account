@@ -1,6 +1,6 @@
 <?php
 
-use BibleBowl\User;
+use App\User;
 
 class NotificationsTest extends TestCase
 {

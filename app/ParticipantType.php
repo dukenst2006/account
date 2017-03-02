@@ -1,28 +1,28 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use RuntimException;
 
 /**
- * BibleBowl\ParticipantType.
+ * App\ParticipantType.
  *
  * @property int $id
  * @property string $name
  * @property string $description
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Event[] $events
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Event[] $events
  * @property-read mixed $summary
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\ParticipantFee[] $participantFee
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ParticipantFee[] $participantFee
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantType whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantType whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantType whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ParticipantType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ParticipantType extends Model

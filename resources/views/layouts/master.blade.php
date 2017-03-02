@@ -11,13 +11,13 @@
     @yield('meta')
 
     <link href="{!! elixir('css/core.css') !!}" rel="stylesheet" type="text/css"/>
-    @foreach(\BibleBowl\Presentation\Html::$includeCss as $pathToCss)
+    @foreach(\App\Presentation\Html::$includeCss as $pathToCss)
         <link href="{!! $pathToCss !!}" rel="stylesheet" type="text/css"/>
     @endforeach
 
-    @if (isset(\BibleBowl\Presentation\Html::$css))
+    @if (isset(\App\Presentation\Html::$css))
         <style type="text/css">
-            {!! \BibleBowl\Presentation\Html::$css !!}
+            {!! \App\Presentation\Html::$css !!}
         </style>
     @endif
 
@@ -79,13 +79,13 @@
             }
         });
 
-        {!! \BibleBowl\Presentation\Html::$jsData !!}
+        {!! \App\Presentation\Html::$jsData !!}
     </script>
-    @foreach(\BibleBowl\Presentation\Html::$includeJs as $pathToJs)
+    @foreach(\App\Presentation\Html::$includeJs as $pathToJs)
         <script src="{!! $pathToJs !!}" type="text/javascript"></script>
     @endforeach
     <script type="text/javascript">
-        {!! \BibleBowl\Presentation\Html::$js !!}
+        {!! \App\Presentation\Html::$js !!}
 
         // Include the UserVoice JavaScript SDK (only needed once on a page)
         UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/Zb0frmuahAO5JrkHDUH03w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
@@ -104,7 +104,7 @@
             name:  '{{ Auth::user()->full_name }}',
             created_at:  {{ Auth::user()->created_at->timestamp }},
 
-            @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
+            @if(Auth::user()->isA(\App\Role::HEAD_COACH))
                 account: {
                     id: {{ Session::group()->id }},
                     name: '[{{ Session::group()->program->abbreviation }}] {{ Session::group()->name }}',

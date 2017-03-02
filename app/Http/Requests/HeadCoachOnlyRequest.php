@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Http\Requests;
+namespace App\Http\Requests;
 
+use App\Role;
 use Auth;
-use BibleBowl\Role;
 
 class HeadCoachOnlyRequest extends Request
 {

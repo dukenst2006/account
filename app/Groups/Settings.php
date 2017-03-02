@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl\Groups;
+namespace App\Groups;
 
 use Illuminate\Support\Fluent;
 

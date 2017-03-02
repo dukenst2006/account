@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Http\Requests\GuardianOnlyRequest;
+use App\Player;
+use App\Players\PlayerCreator;
 use Auth;
-use BibleBowl\Http\Requests\GuardianOnlyRequest;
-use BibleBowl\Player;
-use BibleBowl\Players\PlayerCreator;
 use Illuminate\Http\Request;
 use Session;
 

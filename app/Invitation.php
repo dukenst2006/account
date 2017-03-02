@@ -1,12 +1,13 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
 
 /**
- * BibleBowl\Invitation.
+ * App\Invitation.
  *
  * @property int $id
  * @property string $guid
@@ -18,20 +19,20 @@ use Ramsey\Uuid\Uuid;
  * @property int $user_id
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
- * @property-read \BibleBowl\Group $group
- * @property-read \BibleBowl\User $inviter
- * @property-read \BibleBowl\User $user
+ * @property-read \App\Group $group
+ * @property-read \App\User $inviter
+ * @property-read \App\User $user
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereGroupId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereGuid($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereInviterId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Invitation whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereGuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereInviterId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invitation whereUserId($value)
  * @mixin \Eloquent
  */
 class Invitation extends Model
@@ -60,26 +61,17 @@ class Invitation extends Model
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function inviter()
+    public function inviter() : BelongsTo
     {
-        return $this->belongsTo(User::class, null, 'inviter_id');
+        return $this->belongsTo(User::class, 'inviter_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function group()
+    public function group() : BelongsTo
     {
         return $this->belongsTo(Group::class);
     }

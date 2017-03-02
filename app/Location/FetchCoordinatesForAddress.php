@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Location;
+namespace App\Location;
 
 use App;
-use BibleBowl\Address;
+use App\Address;
 use DatabaseSeeder;
 use Geocoder;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Support\Facades;
+namespace App\Support\Facades;
 
-use BibleBowl\Cart;
+use App\Cart;
 
 class ShoppingCart extends \Illuminate\Support\Facades\Facade
 {

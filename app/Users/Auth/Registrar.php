@@ -1,9 +1,9 @@
 <?php
 
-namespace BibleBowl\Users\Auth;
+namespace App\Users\Auth;
 
 use App;
-use BibleBowl\User;
+use App\User;
 use Gravatar;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Log;
@@ -57,7 +57,7 @@ class Registrar
             }
         }
 
-        $user = App::make(User::class, [$data]);
+        $user = new User($data);
 
         //third party account creation won't have a password
         if (isset($data['password'])) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace BibleBowl;
+namespace App;
 
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,25 +11,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\JoinClause;
 
 /**
- * BibleBowl\Season.
+ * App\Season.
  *
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Player')
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player')
  *             ->withPivot('grade[] $players
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Season whereUpdatedAt($value)
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|Player[] $players
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Tournament[] $tournaments
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Season current()
+ * @method static \Illuminate\Database\Query\Builder|\App\Season current()
  *
  * @property int $group_id
  * @property int $season_id
@@ -37,15 +37,15 @@ use Illuminate\Database\Query\JoinClause;
  * @property-read Season $season
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereGroupId($value)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereSeasonId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TeamSet whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TeamSet whereSeasonId($value)
  * @mixin \Eloquent
  *
  * @property int $tournament_id
- * @property-read \BibleBowl\Tournament $tournament
+ * @property-read \App\Tournament $tournament
  *
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet season(\BibleBowl\Season $season)
- * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TeamSet whereTournamentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\TeamSet season(\App\Season $season)
+ * @method static \Illuminate\Database\Query\Builder|\App\TeamSet whereTournamentId($value)
  */
 class TeamSet extends Model
 {

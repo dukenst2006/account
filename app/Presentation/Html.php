@@ -1,8 +1,8 @@
 <?php
 
-namespace BibleBowl\Presentation;
+namespace App\Presentation;
 
-use BibleBowl\Address;
+use App\Address;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -93,7 +93,7 @@ class Html extends HtmlBuilder
 
         return '<div class="row">'.
                     '<div class="col-sm-6">Showing <b>'.number_format($numStartedOnPage).' to '.number_format($numEndedOnPage).'</b> of '.number_format($paginator->total()).' entries</div>'.
-                    '<div class="col-sm-6 text-right">'.(new \BibleBowl\Presentation\Pagination($paginator))->render().'</div>'.
+                    '<div class="col-sm-6 text-right">'.(new \App\Presentation\Pagination($paginator))->render().'</div>'.
                 '</div>';
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace BibleBowl\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-use BibleBowl\Group;
-use BibleBowl\Http\Requests\AdminOnlyRequest;
-use BibleBowl\Season;
-use BibleBowl\User;
+use App\Group;
+use App\Http\Requests\AdminOnlyRequest;
+use App\Season;
+use App\User;
 use Config;
 use Input;
 use Session;

@@ -1,11 +1,10 @@
 <?php
 
-namespace BibleBowl\Competition\Tournaments\Quizmasters;
+namespace App\Competition\Tournaments\Quizmasters;
 
-use BibleBowl\Competition\Tournaments;
-use BibleBowl\Receipt;
-use BibleBowl\Shop\PostPurchaseEvent;
-use BibleBowl\TournamentQuizmaster;
+use App\Receipt;
+use App\Shop\PostPurchaseEvent;
+use App\TournamentQuizmaster;
 use Illuminate\Http\Response;
 
 class RegistrationPaymentReceived extends PostPurchaseEvent

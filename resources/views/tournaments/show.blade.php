@@ -65,7 +65,7 @@
                                 <h4>Register a...</h4>
                                 @if($tournament->isRegistrationOpen())
                                 <div class="row m-t-15">
-                                    @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\BibleBowl\ParticipantType::FAMILY))
+                                    @if($tournament->registrationIsEnabled(\App\ParticipantType::ADULT) || $tournament->registrationIsEnabled(\App\ParticipantType::FAMILY))
                                         <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                             <?php $spectatorLabel = '<span class="semi-bold">Adult / Family</span><br/><small>Just wanting to spectate</small>'; ?>
                                             @if(Auth::user() !== null && $tournament->isRegisteredAsSpectator(Auth::user()))
@@ -78,7 +78,7 @@
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         <?php $groupLabel = '<span class="semi-bold">Group</span><br/><small>Coaches, teams, players, etc.</small>'; ?>
                                         @if(Auth::user() !== null)
-                                            @if(Auth::user()->isA(\BibleBowl\Role::HEAD_COACH))
+                                            @if(Auth::user()->isA(\App\Role::HEAD_COACH))
                                                 <a href="/tournaments/{{ $tournament->slug }}/group" class="btn btn-success btn-cons" id="register-group">{!! $groupLabel !!}</a>
                                             @else
                                                 <a href="#" title="Only head coaches can register their groups" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" id="register-group">{!! $groupLabel !!}</a>
@@ -87,7 +87,7 @@
                                                 <a href="#" title="You must be logged in to register a group" type="button" class="btn btn-success btn-cons" data-toggle="tooltip" data-placement="bottom" id="register-group">{!! $groupLabel !!}</a>
                                         @endif
                                     </div>
-                                    @if($tournament->registrationIsEnabled(\BibleBowl\ParticipantType::QUIZMASTER))
+                                    @if($tournament->registrationIsEnabled(\App\ParticipantType::QUIZMASTER))
                                     <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                         <?php $quizmasterLabel = '<span class="semi-bold">Quizmaster</span><br/><small>To quiz the rounds</small>'; ?>
                                         @if(Auth::user() !== null)
@@ -155,7 +155,7 @@
                                             <td>
                                                 <strong>
                                                     {{ $fee->participantType->name }}
-                                                    @if($fee->participant_type_id == \BibleBowl\ParticipantType::TEAM && isset($quizmasterRegistrationNotice))
+                                                    @if($fee->participant_type_id == \App\ParticipantType::TEAM && isset($quizmasterRegistrationNotice))
                                                         *
                                                     @endif
                                                 </strong>

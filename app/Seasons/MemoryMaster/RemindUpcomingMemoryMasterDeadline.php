@@ -1,10 +1,10 @@
 <?php
 
-namespace BibleBowl\Seasons\MemoryMaster;
+namespace App\Seasons\MemoryMaster;
 
-use BibleBowl\Group;
-use BibleBowl\Role;
-use BibleBowl\Season;
+use App\Group;
+use App\Role;
+use App\Season;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Setting;
