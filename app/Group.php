@@ -34,6 +34,7 @@ use Validator;
  * @property-read Address $address
  * @property-read mixed $full_name
  * @property-read User $users
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereType($value)
@@ -44,6 +45,7 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereUpdatedAt($value)
  * @method static \BibleBowl\Group near($address, $miles = null)
+ *
  * @property int $program_id
  * @property \Carbon\Carbon $inactive
  * @property-read Address $meetingAddress
@@ -51,6 +53,7 @@ use Validator;
  * @property-read User $owner
  * @property-read Program $program
  * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereProgramId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereInactive($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group byProgram($program)
@@ -58,16 +61,20 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactiveGuardians($group, $season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group active()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group inactive()
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|TeamSet[] $teamSets
  * @property string $settings
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereSettings($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group withoutActivePlayers($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group hasPendingRegistrationPayments($pendingSince = null, $playerCount = null)
  * @mixin \Eloquent
+ *
  * @property int $group_type_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Invitation[] $invitations
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TournamentQuizmaster[] $tournamentQuizmasters
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group hasPendingTournamentRegistrationFees(\BibleBowl\Tournament $tournament)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Group whereGroupTypeId($value)
  */

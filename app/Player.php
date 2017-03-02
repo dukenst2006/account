@@ -32,6 +32,7 @@ use Validator;
  * @property-read User $guardian
  * @property-read \Illuminate\Database\Eloquent\Collection|Season[] $seasons
  * @property-read mixed $full_name
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuid($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereGuardianId($value)
@@ -43,21 +44,27 @@ use Validator;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player whereUpdatedAt($value)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|Program[] $programs
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegisteredWithNBB($season, $user)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithNBBOnly($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player registeredWithGroup($season, $group)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player active($season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player inactive($season)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notOnTeamSet($teamSet)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player pendingRegistrationPayment()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player notRegistered($season, $user)
  * @mixin \Eloquent
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Event[] $events
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\TeamSet[] $teamSet
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Tournament[] $tournaments
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player achievedMemoryMaster(\BibleBowl\Season $season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player haveNotAchievedMemoryMaster(\BibleBowl\Season $season)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Player onTeamSet(\BibleBowl\TeamSet $teamSet)

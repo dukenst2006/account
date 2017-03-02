@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $created_at
  * @property-read \BibleBowl\Receipt $receipt
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereReceiptId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ReceiptItem whereSku($value)

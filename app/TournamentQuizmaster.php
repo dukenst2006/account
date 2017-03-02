@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
 /**
- * BibleBowl\TournamentQuizmaster
+ * BibleBowl\TournamentQuizmaster.
  *
  * @property int $id
  * @property string $guid
@@ -37,6 +37,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \BibleBowl\User $registeredBy
  * @property-read \BibleBowl\Tournament $tournament
  * @property-read \BibleBowl\User $user
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster paid()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster registeredByHeadCoach()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\TournamentQuizmaster unpaid()

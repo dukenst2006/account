@@ -23,6 +23,7 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @property string $deleted_at
  * @property-read User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $group
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereName($value)
@@ -38,8 +39,10 @@ use Jackpopp\GeoDistance\GeoDistanceTrait;
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Address whereDeletedAt($value)
  * @method static \BibleBowl\Address within($distance, $measurement = null, $lat = null, $lng = null)
  * @method static \BibleBowl\Address outside($distance, $measurement = null, $lat = null, $lng = null)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $invoices
  * @mixin \Eloquent
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Receipt[] $receipts
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Spectator[] $spectators
  */

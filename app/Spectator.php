@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Ramsey\Uuid\Uuid;
 
 /**
- * BibleBowl\Spectator
+ * BibleBowl\Spectator.
  *
  * @property int $id
  * @property string $guid
@@ -44,6 +44,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \BibleBowl\User $registeredBy
  * @property-read \BibleBowl\Tournament $tournament
  * @property-read \BibleBowl\User $user
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator adults()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator families()
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\Spectator group(\BibleBowl\Group $group)

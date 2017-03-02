@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use RuntimException;
 
 /**
- * BibleBowl\ParticipantType
+ * BibleBowl\ParticipantType.
  *
  * @property int $id
  * @property string $name
@@ -17,6 +17,7 @@ use RuntimException;
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\Event[] $events
  * @property-read mixed $summary
  * @property-read \Illuminate\Database\Eloquent\Collection|\BibleBowl\ParticipantFee[] $participantFee
+ *
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\BibleBowl\ParticipantType whereId($value)
