@@ -51,15 +51,15 @@
                                 <div class="alert alert-danger payment-errors" style="display: none;"></div>
                                 <div class="row m-t-10">
                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                        {!! Form::text('cardHolder', old('cardHolder', (Auth::user() != null ? Auth::user()->full_name : '')), ['placeholder' => "Cardholder's name", 'class' => 'form-control', 'required']) !!}
+                                        {!! Form::text('cardHolder', old('cardHolder', (Auth::user() != null ? Auth::user()->full_name : '')), ['placeholder' => "Cardholder's name", 'class' => 'form-control']) !!}
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                        {!! Form::number('number', old('number'), ['placeholder' => 'Credit card number', 'class' => 'form-control', 'pattern' => "[0-9]{13,16}", 'required', 'data-stripe' => 'number', 'id' => 'credit-card-number', 'autofocus']) !!}
+                                        {!! Form::number('number', old('number'), ['placeholder' => 'Credit card number', 'class' => 'form-control', 'pattern' => "[0-9]{13,16}", 'data-stripe' => 'number', 'id' => 'credit-card-number', 'autofocus']) !!}
                                     </div>
                                 </div>
                                 <div class="row m-t-10">
                                     <div class="col-md-2 col-sm-4 col-xs-4">
-                                        {!! Form::text('cvc', old('cvc'), ['placeholder' => 'CVC', 'class' => 'form-control', 'pattern' => "[0-9]*", 'required', 'data-stripe' => 'cvc']) !!}
+                                        {!! Form::text('cvc', old('cvc'), ['placeholder' => 'CVC', 'class' => 'form-control', 'pattern' => "[0-9]*", 'data-stripe' => 'cvc']) !!}
                                     </div>
                                     <div class="col-md-5 col-sm-4 col-xs-4">
                                         {!! Form::selectMonthNumeric('expMonth', old('expMonth'), ['class' => 'form-control', 'data-stripe' => 'exp-month']) !!}

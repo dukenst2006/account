@@ -2,9 +2,15 @@ $(document).ready(function () {
     // handle creation of credit card token
     $('#payment-form').submit(function(event) {
         var $form = $(this);
+        $refNumber = $('input[name="payment_reference_number"]');
 
         // Disable the submit button to prevent repeated clicks
         $form.find('button').prop('disabled', true);
+
+        // if a payment reference number was provided, skip Stripe
+        if ($refNumber.length > 0 && $refNumber.val().length > 0) {
+            return true;
+        }
 
         Stripe.card.createToken({
             name: $('input[name=cardHolder]').val(),
