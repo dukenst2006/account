@@ -87,6 +87,7 @@
                 <th>ITEM</th>
                 <th>QUANTITY</th>
                 <th>PRICE</th>
+                <th>TOTAL</th>
             </tr>
             <?php $total = 0; ?>
             @foreach($receipt->items as $item)
@@ -94,10 +95,12 @@
                     <td class="item-list">{{ $item->description }}</td>
                     <td class="item-list text-center">{{ number_format($item->quantity) }}</td>
                     <td class="item-list text-center">${{ $item->price }}</td>
+                    <td class="item-list text-center">${{ number_format($item->price*$item->quantity, 2) }}</td>
                 </tr>
                 <?php $total += ($item->price * $item->quantity); ?>
             @endforeach
             <tr>
+                <td></td>
                 <td></td>
                 <td style="text-align: right">TOTAL</td>
                 <td class="item-list text-center">${{ number_format($total, 2) }}</td>

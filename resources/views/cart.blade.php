@@ -13,29 +13,33 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row table-header">
-                                    <div class="col-md-7 col-sm-8 col-xs-8">Item</div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">Item</div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 text-center">Qty</div>
-                                    <div class="col-md-3 col-sm-2 col-xs-2 text-center">Price</div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 text-center">Price</div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 text-center">Total</div>
                                 </div>
                                 @foreach (Cart::items()->get() as $item)
                                 <div class="row table-row">
-                                    <div class="col-md-7 col-sm-8 col-xs-8">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
                                         {{ $item->name() }}
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 text-center">
                                         {{ number_format($item->quantity) }}
                                     </div>
-                                    <div class="col-md-3 col-sm-2 col-xs-2 text-center">
+                                    <div class="col-md-2 col-sm-2 col-xs-2 text-center">
                                         ${{ $item->price }}
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 text-center">
+                                        ${{ number_format($item->price * $item->quantity, 2) }}
                                     </div>
                                 </div>
                                 @endforeach
                                 <div class="row">
-                                    <div class="col-md-7 col-sm-8 col-xs-8"></div>
+                                    <div class="col-md-8 col-sm-8 col-xs-8"></div>
                                     <div class="col-md-2 col-sm-2 col-xs-2 p-t-10 b-t b-grey text-right">
                                         <strong>Total:</strong>
                                     </div>
-                                    <div class="col-md-3 col-sm-2 col-xs-2 p-t-10 b-t b-grey text-center">
+                                    <div class="col-md-2 col-sm-2 col-xs-2 p-t-10 b-t b-grey text-center">
                                         ${{ number_format(Cart::total(), 2) }}
                                     </div>
                                 </div>
