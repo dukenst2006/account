@@ -176,7 +176,7 @@ class Spectator extends Model
 
     public function getFirstNameAttribute()
     {
-        if ($this->user_id != null) {
+        if ($this->attributes['first_name'] == null && $this->user_id != null) {
             return $this->user->first_name;
         }
 
@@ -185,7 +185,7 @@ class Spectator extends Model
 
     public function getLastNameAttribute()
     {
-        if ($this->user_id != null) {
+        if ($this->attributes['last_name'] == null && $this->user_id != null) {
             return $this->user->last_name;
         }
 
@@ -194,7 +194,7 @@ class Spectator extends Model
 
     public function getEmailAttribute()
     {
-        if ($this->user_id != null) {
+        if ($this->attributes['email'] == null && $this->user_id != null) {
             return $this->user->email;
         }
 
@@ -203,7 +203,7 @@ class Spectator extends Model
 
     public function getGenderAttribute()
     {
-        if ($this->user_id != null) {
+        if ($this->attributes['gender'] == null && $this->user_id != null) {
             return $this->user->gender;
         }
 
@@ -213,6 +213,15 @@ class Spectator extends Model
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    public function getPhoneAttribute()
+    {
+        if ($this->attributes['phone'] == null && $this->user_id != null) {
+            return $this->user->phone;
+        }
+
+        return $this->attributes['phone'];
     }
 
     public function setPhoneAttribute($attribute)

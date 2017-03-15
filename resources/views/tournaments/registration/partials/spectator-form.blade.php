@@ -18,6 +18,15 @@
         <div id="non-current-user-registration">
             <div class="row form-group">
                 <div class="col-md-12">
+                    <label class="form-label">Email <span class="required">*</span></label>
+                    <span class="help"></span>
+                    <div class="controls">
+                        {!! Form::email('email', old('email'), ['class' => 'form-control', 'maxlength' => 64]) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
                     <label class="form-label">Name <span class="required">*</span></label>
                     <span class="help"></span>
                     <div class="row">
@@ -27,15 +36,6 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             {!! Form::text('last_name', old('last_name'), ['class' => 'form-control', 'placeholder' => 'Last', 'maxlength' => 64]) !!}
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-12">
-                    <label class="form-label">Email <span class="required">*</span></label>
-                    <span class="help"></span>
-                    <div class="controls">
-                        {!! Form::email('email', old('email'), ['class' => 'form-control', 'maxlength' => 64]) !!}
                     </div>
                 </div>
             </div>
