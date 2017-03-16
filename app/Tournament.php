@@ -551,7 +551,7 @@ class Tournament extends Model
 
     public function inEarlyBirdWindow() : bool
     {
-        return Carbon::now()->lte($this->earlybird_ends);
+        return Carbon::now()->lte($this->earlybird_ends->endOfDay());
     }
 
     /**
