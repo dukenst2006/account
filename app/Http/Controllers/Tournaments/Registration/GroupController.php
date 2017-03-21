@@ -130,9 +130,9 @@ class GroupController extends Controller
         $group = Session::group();
         $tournament = Tournament::where('slug', $slug)->firstOrFail();
 
-        $playersWithUnpaidSeasonalFees = $tournament->teamSet($group)->players()->pendingRegistrationPayment($tournament->season)->count();
-        if ($playersWithUnpaidSeasonalFees > 0) {
-            return redirect()->back()->withErrors($playersWithUnpaidSeasonalFees.' player(s) still have outstanding seasonal registration fees');
+        $playersWithUnpaidSeasonalFees = $tournament->teamSet($group)->players()->pendingRegistrationPayment($tournament->season)->get();
+        if ($playersWithUnpaidSeasonalFees->count() > 0) {
+            return redirect()->back()->withErrors('The following player(s) still have outstanding seasonal registration fees: '.implode(',', $playersWithUnpaidSeasonalFees->pluck('full_name')));
         }
 
         $unpaidTeamCount = $tournament->teamSet($group)->teams()->unpaid()->count();

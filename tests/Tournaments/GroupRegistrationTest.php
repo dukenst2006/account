@@ -661,11 +661,11 @@ class GroupRegistrationTest extends TestCase
             'settings' => $settings,
         ]);
 
-        $playersWithUnpaidSeasonalFees = $this->tournament->teamSet($this->group())->players()->pendingRegistrationPayment($this->tournament->season)->count();
+        $playersWithUnpaidSeasonalFees = $this->tournament->teamSet($this->group())->players()->pendingRegistrationPayment($this->tournament->season)->get();
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
             ->click('Pay Fees')
-            ->see($playersWithUnpaidSeasonalFees.' player(s) still have outstanding seasonal registration fees');
+            ->see('The following player(s) still have outstanding seasonal registration fees: '.implode(',', $playersWithUnpaidSeasonalFees->pluck('full_name')));
     }
 
     private function bypassInitialRegistrationInstructions() : TeamSet

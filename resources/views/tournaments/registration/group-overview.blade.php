@@ -183,6 +183,8 @@
                                                             <button class="btn btn-danger-dark btn-xs btn-mini m-l-10" name="delete-quizmaster-{{ $quizmaster->id }}"><i class="fa fa-trash-o"></i> Delete</button>
                                                         </td>
                                                         {!! Form::close() !!}
+                                                    @else
+                                                        <td></td>
                                                     @endif
                                                     </td>
                                                 </tr>
@@ -266,6 +268,8 @@
                                                                 <button class="btn btn-danger-dark btn-xs btn-mini m-l-10" name="delete-spectator-{{ $spectator->id }}"><i class="fa fa-trash-o"></i> Delete</button>
                                                             </td>
                                                             {!! Form::close() !!}
+                                                        @else
+                                                            <td></td>
                                                         @endif
                                                     </td>
                                                 </tr>
