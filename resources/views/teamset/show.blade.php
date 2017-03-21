@@ -5,7 +5,7 @@
 @section('content')
     @include('partials.messages')
 
-    <div class="content">
+    <div class="content p-b-100">
         @if($teamSet->registeredWithTournament())
             @include('tournaments.partials.tournament-summary', [
                 'tournament' => $teamSet->tournament,
