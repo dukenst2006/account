@@ -665,7 +665,7 @@ class GroupRegistrationTest extends TestCase
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
             ->click('Pay Fees')
-            ->see('The following player(s) still have outstanding seasonal registration fees: '.implode(',', $playersWithUnpaidSeasonalFees->pluck('full_name')));
+            ->see('The following player(s) still have outstanding seasonal registration fees: '.implode(',', $playersWithUnpaidSeasonalFees->pluck('full_name')->toArray()));
     }
 
     private function bypassInitialRegistrationInstructions() : TeamSet
