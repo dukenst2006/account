@@ -141,4 +141,17 @@ class TeamRegistrationTest extends TestCase
             ])
             ->assertResponseStatus(403); // teams are locked
     }
+
+    /** @test */
+    public function canInvitePlayersFromOtherTeams()
+    {
+        $this
+            ->post('/teamsets/'.$this->teamSet->id.'/invite', [
+                'player' => 'John Smith',
+                'group' => Group::where('id', '!=', $this->group->id)->firstOrFail()->id,
+                'team' => $this->teamSet->teams->get(1)->id,
+            ])
+            ->followRedirects()
+            ->see('Request has been submitted');
+    }
 }

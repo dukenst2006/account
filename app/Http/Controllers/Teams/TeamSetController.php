@@ -142,7 +142,7 @@ class TeamSetController extends Controller
             Auth::user()
         ));
 
-        return redirect()->back()->withFlashSuccess('Request has been submitted');
+        return redirect('/teamsets/'.$teamSet->id)->withFlashSuccess('Request has been submitted');
     }
 
     /**
