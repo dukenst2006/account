@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Tournament;
 
-use App\Group;
 use App\Http\Requests\Request;
 use App\Tournament;
 use Auth;

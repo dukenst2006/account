@@ -148,8 +148,8 @@ class TeamRegistrationTest extends TestCase
         $this
             ->post('/teamsets/'.$this->teamSet->id.'/invite', [
                 'player' => 'John Smith',
-                'group' => Group::where('id', '!=', $this->group->id)->firstOrFail()->id,
-                'team' => $this->teamSet->teams->get(1)->id,
+                'group'  => Group::where('id', '!=', $this->group->id)->firstOrFail()->id,
+                'team'   => $this->teamSet->teams->get(1)->id,
             ])
             ->followRedirects()
             ->see('Request has been submitted');

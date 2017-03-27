@@ -716,9 +716,9 @@ class Tournament extends Model
     public function isCoordinator(User $user) : bool
     {
         return $this->whereHas('users', function ($q) use ($user) {
-                $q->where('tournament_coordinators.tournament_id', $this->id)
+            $q->where('tournament_coordinators.tournament_id', $this->id)
                     ->where('tournament_coordinators.coordinator_id', $user->id);
-            })->count() > 0;
+        })->count() > 0;
     }
 
     public function removeCoordinator(User $user)

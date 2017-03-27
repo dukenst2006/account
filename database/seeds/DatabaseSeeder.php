@@ -473,7 +473,7 @@ class DatabaseSeeder extends Seeder
             'status'        => Invitation::SENT,
             'type'          => Invitation::TYPE_MANAGE_TOURNAMENTS,
             'inviter_id'    => $group->owner_id,
-            'user_id'       => User::where('email', AcceptanceTestingSeeder::GUARDIAN_EMAIL)->firstOrFail()->id
+            'user_id'       => User::where('email', AcceptanceTestingSeeder::GUARDIAN_EMAIL)->firstOrFail()->id,
         ]);
         $tournament->addCoordinator(User::where('email', self::HEAD_COACH_EMAIL)->firstOrFail());
     }

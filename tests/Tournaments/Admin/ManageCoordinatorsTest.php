@@ -1,11 +1,10 @@
 <?php
 
-use App\Group;
 use App\Invitation;
+use App\Tournament;
 use App\User;
 use Helpers\ActingAsDirector;
 use Helpers\ActingAsHeadCoach;
-use App\Tournament;
 use Helpers\ActingAsQuizmaster;
 
 class ManageCoordinatorsTest extends TestCase

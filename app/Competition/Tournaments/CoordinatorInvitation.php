@@ -5,8 +5,6 @@ namespace App\Competition\Tournaments;
 use App\Invitation;
 use App\User;
 use App\Users\AcceptsInvitations;
-use Auth;
-use Session;
 
 class CoordinatorInvitation
 {

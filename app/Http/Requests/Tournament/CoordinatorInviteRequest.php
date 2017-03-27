@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Tournament;
 
-use App\Group;
 use App\Http\Requests\Request;
 use App\Tournament;
 use Auth;
@@ -18,8 +17,8 @@ class CoordinatorInviteRequest extends Request
     public function authorize()
     {
         return Tournament::whereHas('coordinators', function (Builder $q) {
-                $q->where('id', Auth::user()->id);
-            })->where('id', $this->route('tournament'))->count() > 0;
+            $q->where('id', Auth::user()->id);
+        })->where('id', $this->route('tournament'))->count() > 0;
     }
 
     /**
