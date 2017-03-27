@@ -21,7 +21,7 @@ class AddUsersToTournaments extends Migration
             $table->timestamps();
             $table->unique(['tournament_id', 'coordinator_id']);
         });
-        Schema::table('invitations', function (Blueprint $table) {
+        Schema::table('invitations', function ($table) {
             $table->integer('group_id')->unsigned()->nullable()->change();
             $table->integer('tournament_id')->unsigned()->nullable()->after('group_id');
             $table->foreign('tournament_id')->references('id')->on('tournaments');
