@@ -29,6 +29,7 @@
 		"ramsey/uuid": "3.*",
 		"silber/bouncer": "1.0.0-beta.2",
 		"spatie/laravel-backup": "^3.0.0",
+		"doctrine/dbal": "^2.5",
 		"thomaswelton/laravel-gravatar": "^1.0"
 	},
 	"require-dev": {
@@ -37,7 +38,6 @@
 		"symfony/dom-crawler": "3.2.*",
 	    "filp/whoops": "dev-master",
 	  	"barryvdh/laravel-ide-helper": "2.*",
-	  	"doctrine/dbal": "^2.5",
 	  	"barryvdh/laravel-debugbar": "^2.0",
 	  	"spatie/laravel-tail": "dev-master",
 	    "mockery/mockery": "0.*",

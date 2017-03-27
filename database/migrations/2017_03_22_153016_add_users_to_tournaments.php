@@ -23,7 +23,7 @@ class AddUsersToTournaments extends Migration
         });
         Schema::table('invitations', function (Blueprint $table) {
             $table->integer('group_id')->unsigned()->nullable()->change();
-            $table->integer('tournament_id')->unsigned()->after('group_id')->nullable();
+            $table->integer('tournament_id')->unsigned()->nullable()->after('group_id');
             $table->foreign('tournament_id')->references('id')->on('tournaments');
         });
     }
