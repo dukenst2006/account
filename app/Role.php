@@ -56,6 +56,7 @@ class Role extends \Silber\Bouncer\Database\Role
         self::ADMIN,
         self::BOARD_MEMBER,
         self::QUIZMASTER,
+        self::TOURNAMENT_COORDINATOR,
     ];
 
     public function getDisplayNameAttribute()
