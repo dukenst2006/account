@@ -1,66 +1,12 @@
+## Deployments
+
+Deployments via docker containers are automated.  Travis-CI builds containers with the `-latest` suffix which are automatically deployed.
+
 ## Local Dev Environment
 
- * Setup [Laravel Homestead](https://github.com/laravel/homestead)
- * Clone this repo to `~/Personal` or wherever you would like it to live.
- * Run `composer install`, `npm install` and then `gulp` from the project directory (can also run on Homestead)
- * Add `192.168.10.10   bbowl.local` to `/etc/hosts` 
- * Configure Homestead by typing `homestead edit`:
-    * Add database `biblebowl`
-    * Add a synced folder mapping:
-
-```
-folders:
-    - map: ~/Personal
-      to: /var/www/Personal
-```
-
-    * Add a site mapping:
-    
-```
-sites:
-    - map: bbowl.local
-      to: /var/www/Personal/biblebowl/public
-```
-
- * Run `homestead up`
- * In the project root, create a `.env` file that will house your local configuration.  Use the below code block to populate this file:
-```
-APP_ENV=local
-APP_DEBUG=true
-APP_KEY=z7FIVROjI3UE7zbsGFKktgxORMSMvjux
-
-DB_HOST=192.168.99.100
-DB_DATABASE=biblebowl_account
-DB_USERNAME=biblebowl
-DB_PASSWORD=biblebowl
-
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_DRIVER=sync
-
-MAIL_DRIVER=smtp
-MAIL_HOST=mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-
-MAILCHIMP_API_KEY=
-MAILCHIMP_LIST_ID=
-
-FACEBOOK_CLIENT_ID=
-FACEBOOK_CLIENT_SECRET=
-FACEBOOK_REDIRECT=
-
-TWITTER_CLIENT_ID
-TWITTER_CLIENT_SECRET
-TWITTER_REDIRECT=
-
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-GOOGLE_REDIRECT=
-
-GOOGLE_API_KEY=
-```
+ * This project uses [Docker](https://www.docker.com), so run `docker-compose up`
+ * Run `cp .env.example .env`
+ * Run `echo '127.0.0.1   bbowl.local' >> /etc/hosts`
  * Run migrations with `php artisan migrate --seed` to build the database
  * Open [http://bbowl.local](http://bbowl.local) in your browser
 
@@ -71,7 +17,8 @@ GOOGLE_API_KEY=
 Please branch off of `master` and when your branch is ready to get merged back into master please create a pull request and assign it to BKuhl.
  
 ### Running PHPUnit tests
-To get them running, you'll need to increase [xdebug's max nesting](https://laracasts.com/discuss/channels/general-discussion/l5-maximum-function-nesting-level-of-100-reached-aborting).
+
+Run `composer test`, see `composer.json` for details on what this does.
  
 ### Testing OAuth2 Integration
 

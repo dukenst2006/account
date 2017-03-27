@@ -45,6 +45,7 @@ class TournamentCreator
         DB::beginTransaction();
 
         $tournament = Tournament::create($attributes);
+        $tournament->addCoordinator($owner);
 
         // add fees
         foreach ($participantTypes as $typeId => $registration) {

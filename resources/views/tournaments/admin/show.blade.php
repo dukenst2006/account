@@ -4,10 +4,16 @@
 
 @section('content')
     <div class="content">
-        <div class="grid simple">
+        <div class="grid simple horizontal-menu">
             <div class="grid-title no-border">
-                <h3 class="semi-bold p-t-10 m-l-15" style="margin-bottom: 0">{{ $tournament->name }}</h3>
-                <div class="b-grey b-b m-t-10"></div>
+                <h3 class="semi-bold p-t-10 m-l-15 p-b-15" style="margin-bottom: 0">{{ $tournament->name }}</h3>
+            </div>
+            <div class="bar">
+                <div class="bar-inner">
+                    @include('tournaments.admin.menu-partial', [
+                        'selected' => 'Overview'
+                    ])
+                </div>
             </div>
             <div class="grid-body no-border p-t-20">
                 <div class="row m-t-10">

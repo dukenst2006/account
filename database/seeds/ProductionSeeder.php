@@ -132,11 +132,16 @@ class ProductionSeeder extends Seeder
                 'mailchimp_interest_id' => '9b90dc8bdd',
             ]);
         Role::create([
+            'name'                  => Role::TOURNAMENT_COORDINATOR,
+            'mailchimp_interest_id' => 'd6fc432290',
+        ]);
+        Role::create([
                 'name'                  => Role::QUIZMASTER,
                 'mailchimp_interest_id' => 'fe3a183033',
             ]);
         Bouncer::allow(Role::QUIZMASTER);
         Bouncer::allow(Role::GUARDIAN)->to(Ability::REGISTER_PLAYERS);
+        Bouncer::allow(Role::TOURNAMENT_COORDINATOR)->to(Ability::CREATE_TOURNAMENTS);
 
         Role::where('name', Role::HEAD_COACH)->update([
             'mailchimp_interest_id' => 'be4c459134',

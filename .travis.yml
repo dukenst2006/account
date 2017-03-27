@@ -24,7 +24,10 @@ script:
   # Build cli container
   - docker build -t "bkuhl/biblebowl:cli" -f infrastructure/cli/Dockerfile .
 after_success:
-  # Deployable image tags must be in format: [service].[branch].[commit-hash]
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" ; fi
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:cli" "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" ; fi
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" ; fi
+  # Deployable image tags must be in format: fpm-latest, cli-latest, nginx-latest
+  - if [[ $TRAVIS_PULL_REQUEST = false && ($TRAVIS_BRANCH == 'master') ]]; then docker tag "bkuhl/biblebowl:fpm" "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:fpm.${TRAVIS_COMMIT::8}" ; fi
+  - if [[ $TRAVIS_PULL_REQUEST = false && ($TRAVIS_BRANCH == 'master') ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:fpm-latest" && docker push "bkuhl/biblebowl:fpm-latest" ; fi
+  - if [[ $TRAVIS_PULL_REQUEST = false && ($TRAVIS_BRANCH == 'master') ]]; then docker tag "bkuhl/biblebowl:cli" "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:cli.${TRAVIS_COMMIT::8}" ; fi
+  - if [[ $TRAVIS_PULL_REQUEST = false && ($TRAVIS_BRANCH == 'master') ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:cli-latest" && docker push "bkuhl/biblebowl:cli-latest" ; fi
+  - if [[ $TRAVIS_PULL_REQUEST = false && ($TRAVIS_BRANCH == 'master') ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" && docker push "bkuhl/biblebowl:nginx.${TRAVIS_COMMIT::8}" ; fi
+  - if [[ $TRAVIS_PULL_REQUEST = false && ($TRAVIS_BRANCH == 'master') ]]; then docker tag "bkuhl/biblebowl:nginx" "bkuhl/biblebowl:nginx-latest" && docker push "bkuhl/biblebowl:nginx-latest" ; fi

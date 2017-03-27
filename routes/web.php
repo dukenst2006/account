@@ -188,6 +188,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('tournaments/{tournamentId}/participants/quizmasters/export/{format}', 'TournamentExportController@exportQuizmasters');
         Route::get('tournaments/{tournamentId}/participants/tshirts/export/{format}', 'TournamentExportController@exportTshirts');
         Route::get('tournaments/{tournamentId}/participants/spectators/export/{format}', 'TournamentExportController@exportSpectators');
+
+        Route::get('tournaments/{tournament}/coordinators', 'CoordinatorsController@listCoordinators');
+        Route::get('tournaments/{tournament}/coordinators/invite', 'CoordinatorsController@getCoordinatorInvite');
+        Route::post('tournaments/{tournament}/coordinators/invite', 'CoordinatorsController@sendCoordinatorInvite');
+        Route::get('tournaments/{tournament}/coordinators/{userId}/remove', 'CoordinatorsController@removeCoordinator');
+        Route::get('tournaments/{tournament}/coordinators/invite/{invitationId}/retract', 'CoordinatorsController@retractInvite');
     });
 
     Route::group([

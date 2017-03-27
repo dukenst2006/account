@@ -231,6 +231,16 @@ class Tournament extends Model
         return $this->belongsTo(TournamentType::class);
     }
 
+    public function invitations() : HasMany
+    {
+        return $this->hasMany(Invitation::class);
+    }
+
+    public function coordinators() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'tournament_coordinators', null, 'coordinator_id');
+    }
+
     public function eligiblePlayers() : Builder
     {
         // if there's a fee, we'll assume any team-related checks
@@ -690,5 +700,34 @@ class Tournament extends Model
         }
 
         return $groupRegistration;
+    }
+
+    public function addCoordinator(User $user)
+    {
+        $user->tournaments()->attach($this->id);
+
+        // make the owner a head coach if they aren't already
+        if ($user->isNotA(Role::TOURNAMENT_COORDINATOR)) {
+            $role = Role::where('name', Role::TOURNAMENT_COORDINATOR)->firstOrFail();
+            $user->assign($role);
+        }
+    }
+
+    public function isCoordinator(User $user) : bool
+    {
+        return $this->whereHas('users', function ($q) use ($user) {
+                $q->where('tournament_coordinators.tournament_id', $this->id)
+                    ->where('tournament_coordinators.coordinator_id', $user->id);
+            })->count() > 0;
+    }
+
+    public function removeCoordinator(User $user)
+    {
+        $user->tournaments()->detach($this->id);
+
+        if ($user->tournaments()->count() == 0) {
+            $role = Role::where('name', Role::TOURNAMENT_COORDINATOR)->firstOrFail();
+            $user->retract($role);
+        }
     }
 }

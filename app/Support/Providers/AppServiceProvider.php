@@ -4,6 +4,7 @@ namespace App\Support\Providers;
 
 use App\Ability;
 use App\Cart;
+use App\Competition\Tournaments\CoordinatorInvitation;
 use App\Groups\HeadCoachInvitation;
 use App\Invitation;
 use App\Presentation\EmailTemplate;
@@ -227,6 +228,10 @@ EOF;
         $this->app->bind(
             Invitation::TYPE_MANAGE_GROUP,
             HeadCoachInvitation::class
+        );
+        $this->app->bind(
+            Invitation::TYPE_MANAGE_TOURNAMENTS,
+            CoordinatorInvitation::class
         );
 
         // putting this in the PresentServiceProvider causes issues

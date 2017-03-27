@@ -7,16 +7,19 @@ use App\Competition\TournamentUpdater;
 use App\EventType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GroupEditRequest;
+use App\Http\Requests\Groups\CoordinatorInviteRequest;
 use App\Http\Requests\TournamentCreateRequest;
 use App\Http\Requests\TournamentCreatorOnlyRequest;
 use App\Http\Requests\TournamentEditRequest;
+use App\Invitation;
 use App\ParticipantType;
 use App\Program;
 use App\Role;
-use App\Season;
 use App\Tournament;
 use App\TournamentType;
+use App\User;
 use Auth;
+use DB;
 use Session;
 
 class TournamentsController extends Controller

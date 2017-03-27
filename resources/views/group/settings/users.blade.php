@@ -54,9 +54,9 @@
                                     <td class="text-center v-align-middle">
                                         @if($group->isOwner($user) === false)
                                             @if($user->id == Auth::user()->id)
-                                                <a href="/group/{{ $group->id }}/settings/users/{{ $user->id }}/remove">Leave</a>
+                                                <a href="/group/{{ $group->id }}/settings/users/{{ $user->id }}/remove" class="btn btn-danger btn-small">Leave</a>
                                             @else
-                                                <a href="/group/{{ $group->id }}/settings/users/{{ $user->id }}/remove">Remove</a>
+                                                <a href="/group/{{ $group->id }}/settings/users/{{ $user->id }}/remove" class="btn btn-danger btn-small">Remove</a>
                                             @endif
                                         @endif
                                     </td>
@@ -93,7 +93,7 @@
                                             {{ $invitation->created_at->timezone(Auth::user()->settings->timeszone())->diffForHumans() }}
                                         </td>
                                         <td class="text-center v-align-middle">
-                                            <a href="/group/{{ $group->id }}/settings/users/invite/{{ $invitation->id }}/retract">Retract</a>
+                                            <a href="/group/{{ $group->id }}/settings/users/invite/{{ $invitation->id }}/retract" class="btn btn-small btn-danger">Retract</a>
                                         </td>
                                     </tr>
                                 @endforeach

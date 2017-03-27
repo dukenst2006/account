@@ -257,9 +257,9 @@ class User extends Model implements
         return $this->hasMany(RegistrationSurvey::class);
     }
 
-    public function tournaments() : HasMany
+    public function tournaments() : BelongsToMany
     {
-        return $this->hasMany(Tournament::class)->orderBy('start', 'ASC');
+        return $this->belongsToMany(Tournament::class, 'tournament_coordinators', 'coordinator_id')->orderBy('start', 'ASC');
     }
 
     public function spectators() : HasMany

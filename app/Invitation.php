@@ -42,6 +42,7 @@ class Invitation extends Model
     const SENT = 'sent';
 
     const TYPE_MANAGE_GROUP = 'manage-group';
+    const TYPE_MANAGE_TOURNAMENTS = 'manage-tournaments';
 
     protected $guarded = ['id'];
 
@@ -74,5 +75,10 @@ class Invitation extends Model
     public function group() : BelongsTo
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function tournament() : BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
     }
 }

@@ -296,5 +296,8 @@ class StagingSeeder extends Seeder
         Role::where('name', Role::GUARDIAN)->update([
             'mailchimp_interest_id' => '295ac3a88c',
         ]);
+        Role::where('name', Role::TOURNAMENT_COORDINATOR)->update([
+            'mailchimp_interest_id' => '1fdb17271e',
+        ]);
     }
 }

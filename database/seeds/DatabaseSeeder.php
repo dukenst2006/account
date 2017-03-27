@@ -339,6 +339,7 @@ class DatabaseSeeder extends Seeder
             'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y'),
             'earlybird_ends'        => Carbon::now()->addMonths(3)->format('m/d/Y'),
         ]);
+        $tournament->addCoordinator($director);
         $tournament->events()->create([
             'event_type_id'         => EventType::ROUND_ROBIN,
         ]);
@@ -466,6 +467,15 @@ class DatabaseSeeder extends Seeder
             'shirt_size'    => 'YM',
             'gender'        => 'F',
         ]);
+
+        // invitations
+        $tournament->invitations()->create([
+            'status'        => Invitation::SENT,
+            'type'          => Invitation::TYPE_MANAGE_TOURNAMENTS,
+            'inviter_id'    => $group->owner_id,
+            'user_id'       => User::where('email', AcceptanceTestingSeeder::GUARDIAN_EMAIL)->firstOrFail()->id
+        ]);
+        $tournament->addCoordinator(User::where('email', self::HEAD_COACH_EMAIL)->firstOrFail());
     }
 
     private function seedReceipt(User $user) : Receipt
