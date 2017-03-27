@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Teams;
 
-use App\Competition\Tournaments\Groups\PLayerInvitationRequestNotification;
+use App\Competition\Tournaments\Groups\PlayerInvitationRequestNotification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeamSetGroupOnlyRequest;
 use App\Http\Requests\TeamSetUpdateRequest;
@@ -134,7 +134,7 @@ class TeamSetController extends Controller
         /** @var Team $team */
         $team = Team::findOrFail($request->get('team'));
 
-        $teamSet->tournament->creator->notify(new PLayerInvitationRequestNotification(
+        $teamSet->tournament->creator->notify(new PlayerInvitationRequestNotification(
             $teamSet->tournament,
             $request->get('player'),
             Session::group(),

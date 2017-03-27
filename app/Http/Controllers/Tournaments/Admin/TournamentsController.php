@@ -24,8 +24,7 @@ class TournamentsController extends Controller
     public function index()
     {
         return view('tournaments.admin.index', [
-            'tournaments' => Tournament::where('season_id', Session::season()->id)
-                ->where('creator_id', Auth::user()->id)
+            'tournaments' => Auth::user()->tournaments()->where('season_id', Session::season()->id)
                 ->orderBy('start', 'DESC')
                 ->get(),
         ]);
