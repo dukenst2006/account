@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6ebfc7436fd58896ca98d13bd4670fa",
+    "content-hash": "055e780d4c96992443161a3cc6238843",
     "packages": [
         {
             "name": "alexpechkarev/google-geocoder",
@@ -145,16 +145,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.24.7",
+            "version": "3.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f062d7ea2123fe2aefef91da855c10ef8ff3af1c"
+                "reference": "8fc5e41cd5d4b965c552f52ac0efa726838c6f89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f062d7ea2123fe2aefef91da855c10ef8ff3af1c",
-                "reference": "f062d7ea2123fe2aefef91da855c10ef8ff3af1c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8fc5e41cd5d4b965c552f52ac0efa726838c6f89",
+                "reference": "8fc5e41cd5d4b965c552f52ac0efa726838c6f89",
                 "shasum": ""
             },
             "require": {
@@ -221,7 +221,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-03-23T22:17:20+00:00"
+            "time": "2017-03-31T00:04:32+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -879,16 +879,16 @@
         },
         {
             "name": "erusev/parsedown",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "20ff8bbb57205368b4b42d094642a3e52dac85fb"
+                "reference": "1bf24f7334fe16c88bf9d467863309ceaf285b01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/20ff8bbb57205368b4b42d094642a3e52dac85fb",
-                "reference": "20ff8bbb57205368b4b42d094642a3e52dac85fb",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/1bf24f7334fe16c88bf9d467863309ceaf285b01",
+                "reference": "1bf24f7334fe16c88bf9d467863309ceaf285b01",
                 "shasum": ""
             },
             "require": {
@@ -917,7 +917,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2016-11-02T15:56:58+00:00"
+            "time": "2017-03-29T16:04:15+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -1758,16 +1758,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v3.0.3",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "01588748beef55ad5dd4f172d235548d3a6be79a"
+                "reference": "441e0d467319044e4913b1748382d427795416e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/01588748beef55ad5dd4f172d235548d3a6be79a",
-                "reference": "01588748beef55ad5dd4f172d235548d3a6be79a",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/441e0d467319044e4913b1748382d427795416e9",
+                "reference": "441e0d467319044e4913b1748382d427795416e9",
                 "shasum": ""
             },
             "require": {
@@ -1808,7 +1808,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2017-02-01T13:43:56+00:00"
+            "time": "2017-03-27T19:43:19+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2134,16 +2134,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "2.1.14",
+            "version": "2.1.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "2a0f21352254c3c5b2248222cbaaf985253905bf"
+                "reference": "655def96b5e98d1fe0974d9c4e2ec5f2b591a322"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/2a0f21352254c3c5b2248222cbaaf985253905bf",
-                "reference": "2a0f21352254c3c5b2248222cbaaf985253905bf",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/655def96b5e98d1fe0974d9c4e2ec5f2b591a322",
+                "reference": "655def96b5e98d1fe0974d9c4e2ec5f2b591a322",
                 "shasum": ""
             },
             "require": {
@@ -2198,7 +2198,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2017-03-27T17:06:29+00:00"
+            "time": "2017-03-28T10:47:04+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3320,24 +3320,24 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "1.5.1",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "efdf41891a9dd4bb63fb6253044c9e51f34fff41"
+                "reference": "731a809475b0fab1dc79ded289537de5e66774a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/efdf41891a9dd4bb63fb6253044c9e51f34fff41",
-                "reference": "efdf41891a9dd4bb63fb6253044c9e51f34fff41",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/731a809475b0fab1dc79ded289537de5e66774a4",
+                "reference": "731a809475b0fab1dc79ded289537de5e66774a4",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5|^7.0",
-                "symfony/process": "^2.7|^3.0"
+                "php": "^7.0",
+                "symfony/process": "^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^5.5"
             },
             "type": "library",
             "autoload": {
@@ -3366,39 +3366,42 @@
                 "mysqldump",
                 "spatie"
             ],
-            "time": "2016-06-14T13:23:01+00:00"
+            "time": "2016-12-31T10:06:56+00:00"
         },
         {
             "name": "spatie/laravel-backup",
-            "version": "3.11.0",
+            "version": "4.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-backup.git",
-                "reference": "2382532ce52e3929ccb0e930539d14dfd09d22eb"
+                "reference": "5f231d431fb791d988ea4d36f6945a3be4e7fb4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/2382532ce52e3929ccb0e930539d14dfd09d22eb",
-                "reference": "2382532ce52e3929ccb0e930539d14dfd09d22eb",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/5f231d431fb791d988ea4d36f6945a3be4e7fb4d",
+                "reference": "5f231d431fb791d988ea4d36f6945a3be4e7fb4d",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
-                "illuminate/filesystem": "~5.1.20|~5.2.0|~5.3.0|~5.4.0",
-                "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
-                "league/flysystem": "^1.0.8",
-                "php": "^5.5|^7.0",
-                "spatie/db-dumper": "^1.3",
-                "symfony/finder": "^2.7|^3.0"
+                "illuminate/console": "~5.3.28|~5.4.0",
+                "illuminate/contracts": "~5.3.28|~5.4.0",
+                "illuminate/events": "~5.3.28|~5.4.0",
+                "illuminate/filesystem": "~5.3.28|~5.4.0",
+                "illuminate/notifications": "~5.3.28|~5.4.0",
+                "illuminate/support": "~5.3.28|~5.4.0",
+                "league/flysystem": "^1.0.27",
+                "php": "^7.0",
+                "spatie/db-dumper": "^2.3",
+                "spatie/temporary-directory": "^1.1",
+                "symfony/finder": "^3.0"
             },
             "require-dev": {
-                "mockery/mockery": "^0.9.4",
-                "orchestra/testbench": "^3.2",
-                "phpunit/phpunit": "^4.8"
+                "mockery/mockery": "^0.9.5",
+                "orchestra/testbench": "~3.3.3|~3.4.0",
+                "phpunit/phpunit": "^5.3.0"
             },
             "suggest": {
-                "irazasyed/telegram-bot-sdk": "Allows notifications to be sent using Telegram Bot",
-                "maknz/slack": "Allows notifications to be sent via Slack"
+                "guzzlehttp/guzzle": "Allows notifications to be sent via Slack"
             },
             "type": "library",
             "autoload": {
@@ -3429,7 +3432,53 @@
                 "laravel-backup",
                 "spatie"
             ],
-            "time": "2017-02-18T09:54:12+00:00"
+            "time": "2017-03-14T19:35:02+00:00"
+        },
+        {
+            "name": "spatie/temporary-directory",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/temporary-directory.git",
+                "reference": "58e80a88c3fd463d502807614e88c1aec62e79dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/58e80a88c3fd463d502807614e88c1aec62e79dc",
+                "reference": "58e80a88c3fd463d502807614e88c1aec62e79dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\TemporaryDirectory\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The `temporary-directory` package allows you to easily create, use and destroy temporary directories.",
+            "homepage": "https://github.com/spatie/temporary-directory",
+            "keywords": [
+                "spatie",
+                "temporary-directory"
+            ],
+            "time": "2017-02-02T13:08:42+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

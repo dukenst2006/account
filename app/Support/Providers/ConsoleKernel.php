@@ -59,6 +59,9 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
             ->cron('0 0 * 10,11,12,1,2,3,4,5 2 *'); // Oct-May every Tuesday
         $schedule->command(NotifyOfficeOfOutstandingRegistrationPayments::COMMAND)
             ->cron('0 0 * 10,11,12,1,2,3,4,5,6 3 *'); // Oct-Jun every Wednesday
+
+        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:run')->daily()->at('02:00');
     }
 
     /**

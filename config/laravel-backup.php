@@ -18,7 +18,7 @@ return [
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    // don't backup files
+                    base_path(),
                 ],
 
                 /*
@@ -51,14 +51,13 @@ return [
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => '',
+            'filename_prefix' => 'account',
 
             /*
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'local',
-                'backups',
+                's3',
             ],
         ],
     ],
@@ -103,9 +102,9 @@ return [
      */
     'monitorBackups' => [
         [
-            'name'                                   => env('APP_URL'),
-            'disks'                                  => ['local', 'backups'],
-            'newestBackupsShouldNotBeOlderThanDays'  => 1,
+            'name' => env('APP_URL'),
+            'disks' => ['local'],
+            'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],
 

@@ -49,7 +49,7 @@ RUN composer global require hirak/prestissimo \
 USER root
 
 # Remove composer installation dependencies
-RUN apk del git zip unzip
+RUN apk del git unzip
 
 # Make sure when users get into the container they aren't root
 USER www-data
