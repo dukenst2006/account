@@ -30,7 +30,8 @@
 		"ramsey/uuid": "3.*",
 		"silber/bouncer": "1.0.0-beta.2",
 		"spatie/laravel-backup": "^4.7",
-		"thomaswelton/laravel-gravatar": "^1.0"
+		"thomaswelton/laravel-gravatar": "^1.0",
+		"league/flysystem-aws-s3-v3": "^1.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "5.*",
