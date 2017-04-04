@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
 use App\Spectator;
 use App\Tournament;
-use App\TournamentQuizmaster;
 
 class SpectatorsController extends Controller
 {
@@ -14,7 +13,7 @@ class SpectatorsController extends Controller
     {
         return view('tournaments.admin.registrations.spectators.index', [
             'tournament'  => $tournament,
-            'spectators' => $tournament
+            'spectators'  => $tournament
                 ->spectators()
                 ->select('tournament_spectators.*')
                 ->leftJoin('users', 'users.id', '=', 'tournament_spectators.user_id')
@@ -34,7 +33,7 @@ class SpectatorsController extends Controller
     {
         return view('tournaments.admin.registrations.spectators.show', [
             'tournament' => $tournament,
-            'spectator' => $spectator,
+            'spectator'  => $spectator,
         ]);
     }
 }
