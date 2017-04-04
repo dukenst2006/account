@@ -1,6 +1,7 @@
 <?php
 
 use App\Address;
+use App\Competition\Tournaments\Quizmasters\QuizzingPreferences;
 use App\EventType;
 use App\Group;
 use App\Groups\GroupCreator;
@@ -400,14 +401,21 @@ class DatabaseSeeder extends Seeder
 
         $user = User::where('email', self::QUIZMASTER_EMAIL)->first();
         $receipt = $this->seedReceipt($user);
+        $quizzingPreferences = new QuizzingPreferences();
+        $quizzingPreferences->setGamesQuizzedThisSeason(rand(1, 10));
+        $quizzingPreferences->setQuizzingFrequency(rand(1, 5));
+        $quizzingPreferences->setQuizzedAtThisTournamentBefore(true);
+        $quizzingPreferences->setTimesQuizzedAtThisTournament(10);
         $tournament->tournamentQuizmasters()->create([
-            'group_id'      => $group->id,
-            'receipt_id'    => $receipt->id,
-            'first_name'    => 'Warner',
-            'last_name'     => 'Jackson',
-            'email'         => 'wjackson@domain.com',
-            'gender'        => 'F',
-            'shirt_size'    => 'M',
+            'group_id'              => $group->id,
+            'receipt_id'            => $receipt->id,
+            'first_name'            => 'Warner',
+            'last_name'             => 'Jackson',
+            'email'                 => 'wjackson@domain.com',
+            'quizzing_preferences'  => $quizzingPreferences,
+            'gender'                => 'F',
+            'phone'                 => '15553423434',
+            'shirt_size'            => 'M',
         ]);
 
         // guest spectators

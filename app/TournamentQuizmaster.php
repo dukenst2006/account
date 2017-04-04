@@ -138,6 +138,11 @@ class TournamentQuizmaster extends Model
         return $this->belongsTo(Tournament::class);
     }
 
+    public function hasGroup() : bool
+    {
+        return $this->group_id != null;
+    }
+
     public function getFirstNameAttribute()
     {
         if ($this->user_id != null) {

@@ -316,6 +316,9 @@
 .theme .radio.radio-with-form-fields label:after {
   top: 7px;
 }
+.theme .bar-inner ul.classic {
+  z-index: 2000;
+}
 .address-card .grid.simple > a.button-grid {
   display: block;
   padding: 42px 0 104px 0 !important;
@@ -618,6 +621,9 @@ tr.row_selected {
 }
 .radio.radio-with-form-fields label:after {
   top: 7px;
+}
+.bar-inner ul.classic {
+  z-index: 2000;
 }
 @media only screen and (min-width: 1824px) {
   body {
