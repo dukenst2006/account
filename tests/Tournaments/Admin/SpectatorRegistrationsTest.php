@@ -18,8 +18,8 @@ class SpectatorRegistrationsTest extends TestCase
     public function canSearchSpectators()
     {
         $tournament = Tournament::active()->firstOrFail();
-        $searchableSpectator = $tournament->tournamentSpectators->get(0);
-        $shouldntSeeSpectator = $tournament->tournamentSpectators->get(1);
+        $searchableSpectator = $tournament->spectators->get(0);
+        $shouldntSeeSpectator = $tournament->spectators->get(1);
 
         $this
             ->visit('/admin/tournaments/'.$tournament->id.'/registrations/spectators')
@@ -32,7 +32,7 @@ class SpectatorRegistrationsTest extends TestCase
     public function canViewSpectator()
     {
         $tournament = Tournament::active()->firstOrFail();
-        $spectator = $tournament->tournamentSpectators->get(0);
+        $spectator = $tournament->spectators->get(0);
 
         $this
             ->visit('/admin/tournaments/'.$tournament->id.'/registrations/spectators')
