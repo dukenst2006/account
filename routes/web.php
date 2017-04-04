@@ -182,6 +182,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('tournaments.events', 'EventsController', [
             'except' => ['index', 'show'],
         ]);
+
+        Route::group([
+            'prefix'        => 'tournaments/{tournament}/registrations',
+            'namespace'     => 'Registrations',
+        ], function () {
+            Route::get('quizmasters', 'QuizmastersController@index');
+            Route::get('quizmasters/{quizmaster}', 'QuizmastersController@show');
+        });
+
         Route::get('tournaments/{tournamentId}/events/{eventId}/participants/export/{format}', 'EventsController@exportParticipants');
         Route::get('tournaments/{tournamentId}/participants/teams/export/{format}', 'TournamentExportController@exportTeams');
         Route::get('tournaments/{tournamentId}/participants/players/export/{format}', 'TournamentExportController@exportPlayers');
