@@ -25,7 +25,10 @@ RUN apk add --update --no-cache git zip unzip \
 RUN docker-php-ext-install pdo_mysql gd \
 
         # needed for forking processes in laravel queues as of Laravel 5.3
-        pcntl
+        pcntl \
+
+        # needed for spatie/laravel-backup
+        zip
 
 # Install Composer
 RUN php /var/www/html/infrastructure/install_composer.php
@@ -49,7 +52,7 @@ RUN composer global require hirak/prestissimo \
 USER root
 
 # Remove composer installation dependencies
-RUN apk del git unzip
+RUN apk del git zip unzip
 
 # Make sure when users get into the container they aren't root
 USER www-data
