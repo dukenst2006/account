@@ -427,6 +427,7 @@ class DatabaseSeeder extends Seeder
             'first_name'    => 'Sarah',
             'last_name'     => 'Jones',
             'shirt_size'    => 'L',
+            'phone'         => '555123'.rand(1234, 9999),
             'email'         => 'sjones@domain.com',
             'gender'        => 'F',
             'address_id'    => $director->primary_address_id,
@@ -437,6 +438,7 @@ class DatabaseSeeder extends Seeder
             'first_name'    => 'Jonathan',
             'last_name'     => 'Wicker',
             'shirt_size'    => 'L',
+            'phone'         => '555123'.rand(1234, 9999),
             'email'         => 'jwicker@domain.com',
             'gender'        => 'M',
             'address_id'    => $director->primary_address_id,
@@ -450,6 +452,7 @@ class DatabaseSeeder extends Seeder
             'spouse_first_name' => 'Michelle',
             'spouse_gender'     => 'F',
             'spouse_shirt_size' => 'M',
+            'phone'             => '555123'.rand(1234, 9999),
         ]);
         $spectator = $tournament->spectators()->create([
             'group_id'          => $group->id,
@@ -457,11 +460,13 @@ class DatabaseSeeder extends Seeder
             'first_name'        => 'Clark',
             'last_name'         => 'Larkson',
             'shirt_size'        => 'XL',
+            'phone'             => '555123'.rand(1234, 9999),
             'email'             => 'clarkson@domain.com',
             'gender'            => 'M',
             'spouse_first_name' => 'Lucy',
             'spouse_gender'     => 'F',
             'spouse_shirt_size' => 'M',
+            'address_id'        => $director->primary_address_id,
         ]);
         $spectator->minors()->create([
             'name'          => 'Jonathan',

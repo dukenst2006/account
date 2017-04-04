@@ -189,6 +189,9 @@ Route::group(['middleware' => 'auth'], function () {
         ], function () {
             Route::get('quizmasters', 'QuizmastersController@index');
             Route::get('quizmasters/{quizmaster}', 'QuizmastersController@show');
+
+            Route::get('spectators', 'SpectatorsController@index');
+            Route::get('spectators/{spectator}', 'SpectatorsController@show');
         });
 
         Route::get('tournaments/{tournamentId}/events/{eventId}/participants/export/{format}', 'EventsController@exportParticipants');

@@ -235,6 +235,15 @@ class Spectator extends Model
         $this->attributes['phone'] = $scrubber->phone($attribute);
     }
 
+    public function getAddressIdAttribute()
+    {
+        if ($this->attributes['address_id'] == null && $this->user_id != null) {
+            return $this->user->primary_address_id;
+        }
+
+        return $this->attributes['address_id'];
+    }
+
     public function isFamily() : bool
     {
         if ($this->isFamily == null) {

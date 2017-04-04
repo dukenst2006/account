@@ -18,9 +18,9 @@
             {{--<li>--}}
                 {{--<a href="/admin/tournaments/{{ $tournament->id }}/registrations/groups">Groups</a>--}}
             {{--</li>--}}
-            {{--<li>--}}
-                {{--<a href="/admin/tournaments/{{ $tournament->id }}/registrations/spectators">Spectators</a>--}}
-            {{--</li>--}}
+            <li>
+                <a href="/admin/tournaments/{{ $tournament->id }}/registrations/spectators">Spectators</a>
+            </li>
             <li>
                 <a href="/admin/tournaments/{{ $tournament->id }}/registrations/quizmasters">Quizmasters</a>
             </li>

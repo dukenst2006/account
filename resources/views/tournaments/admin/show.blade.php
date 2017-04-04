@@ -93,39 +93,27 @@
                                     </div>
                                     <?php $quizmasterCount = $tournament->eligibleQuizmasters()->count(); ?>
                                     <div class="col-md-3 col-sm-3 text-center">
+                                        <a href="/admin/tournaments/{{ $tournament->id }}/registrations/quizmasters">
                                         <h2 class="semi-bold text-warning no-margin p-t-35 p-b-10">
                                             {{ number_format($quizmasterCount) }}
                                         </h2>
                                         <div class="tiles-title blend p-b-25">
                                             QUIZMASTERS
-                                            @if ($quizmasterCount > 0)
-                                            <div class="m-t-10">
-                                                <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/quizmasters/export/csv">
-                                                    <i class="fa fa-download"></i>
-                                                    Export
-                                                </a>
-                                            </div>
-                                            @endif
                                         </div>
                                         <div class="clearfix"></div>
+                                        </a>
                                     </div>
                                     <?php $spectatorCount = $tournament->eligibleSpectators()->count() + $tournament->eligibleMinors()->count(); ?>
                                     <div class="col-md-3 col-sm-3 text-center">
+                                        <a href="/admin/tournaments/{{ $tournament->id }}/registrations/spectators">
                                         <h2 class="semi-bold text-purple no-margin p-t-35 p-b-10">
                                             {{ number_format($spectatorCount) }}
                                         </h2>
                                         <div class="tiles-title blend p-b-25">
                                             SPECTATORS
-                                            @if ($spectatorCount > 0)
-                                                <div class="m-t-10">
-                                                    <a class="btn btn-info btn-xs btn-mini" href="/admin/tournaments/{{ $tournament->id }}/participants/spectators/export/csv">
-                                                        <i class="fa fa-download"></i>
-                                                        Export
-                                                    </a>
-                                                </div>
-                                            @endif
                                         </div>
                                         <div class="clearfix"></div>
+                                        </a>
                                     </div>
                                 </div>
 
