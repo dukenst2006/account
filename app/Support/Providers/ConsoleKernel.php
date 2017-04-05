@@ -40,19 +40,19 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(SeasonRotator::COMMAND)
-            ->dailyAt('1:00')->thenPing('https://hchk.io/c9e89191-f417-44ee-bf88-03739c439f74');
+            ->dailyAt('5:00')->thenPing('https://hchk.io/c9e89191-f417-44ee-bf88-03739c439f74');
 
         $schedule->command(GroupMapUpdater::COMMAND)
-            ->dailyAt('1:02')->thenPing('https://hchk.io/5e3052eb-7c81-4e0f-aa34-dfcc833ed7c7');
+            ->dailyAt('5:02')->thenPing('https://hchk.io/5e3052eb-7c81-4e0f-aa34-dfcc833ed7c7');
         $schedule->command(CleanupOrphanAccounts::COMMAND)
-            ->dailyAt('1:04')->thenPing('https://hchk.io/3c277ce8-e586-40ff-ab30-75a3cce94e80');
+            ->dailyAt('5:04')->thenPing('https://hchk.io/3c277ce8-e586-40ff-ab30-75a3cce94e80');
 
         $schedule->command(RemindEarlyBirdFeeEnding::COMMAND)
-            ->dailyAt('1:06')->thenPing('https://hchk.io/ddb0ba20-1b4f-48d4-845b-f035ce3c164e');
+            ->dailyAt('5:06')->thenPing('https://hchk.io/ddb0ba20-1b4f-48d4-845b-f035ce3c164e');
         $schedule->command(RemindRegistrationEnding::COMMAND)
-            ->dailyAt('1:08')->thenPing('https://hchk.io/fb06645d-0fab-4204-a28a-dc3d5b7694d5');
+            ->dailyAt('5:08')->thenPing('https://hchk.io/fb06645d-0fab-4204-a28a-dc3d5b7694d5');
         $schedule->command(RemindUpcomingMemoryMasterDeadline::COMMAND)
-            ->dailyAt('1:10')->thenPing('https://hchk.io/57141569-eca7-4630-9018-c221a0636e86');
+            ->dailyAt('5:10')->thenPing('https://hchk.io/57141569-eca7-4630-9018-c221a0636e86');
 
         // reminders for unpaid seasonal registration fees
         $schedule->command(RemindGroupsOfPendingRegistrationPayments::COMMAND)
@@ -60,8 +60,9 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         $schedule->command(NotifyOfficeOfOutstandingRegistrationPayments::COMMAND)
             ->cron('0 0 * 10,11,12,1,2,3,4,5,6 3 *'); // Oct-Jun every Wednesday
 
-        $schedule->command('backup:clean')->daily()->at('01:00');
-        $schedule->command('backup:run')->daily()->at('02:00');
+        $schedule->command('backup:clean')->dailyAt('04:30');
+        $schedule->command('backup:run')->dailyAt('06:00')
+            ->thenPing('https://hchk.io/8d602e0d-8b35-49e3-8c57-7139ad979feb');
     }
 
     /**
