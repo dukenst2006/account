@@ -47,12 +47,16 @@ class CleanupOrphanAccounts extends Command
         $orphanUsers = User::where('created_at', '<', $orphanedFor)->requiresSetup()->get();
 
         foreach ($orphanUsers as $user) {
-            // if registered with social media, delete those associations first
-            $user->providers()->delete();
+            try {
+                // if registered with social media, delete those associations first
+                $user->providers()->delete();
 
-            $user->delete();
+                $user->delete();
 
-            $user->notify(new AccountDeleted());
+                $user->notify(new AccountDeleted());
+            } catch (\Exception $e) {
+                app('log')->error($e);
+            }
         }
     }
 }
