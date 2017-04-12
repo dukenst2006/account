@@ -14,11 +14,11 @@ class TeamTest extends TestCase
         $tournament = Tournament::firstOrFail();
         $team = Team::firstOrFail();
 
-        $this->assertEquals(0, Team::withEnoughPlayers($tournament)->count());
+        $this->assertEquals(1, Team::withEnoughPlayers($tournament)->count());
 
         $team->players()->sync(Player::limit(3)->get());
 
-        $this->assertEquals(1, Team::withEnoughPlayers($tournament)->count());
+        $this->assertEquals(2, Team::withEnoughPlayers($tournament)->count());
     }
 
     /** @test */
@@ -29,10 +29,10 @@ class TeamTest extends TestCase
 
         $team->players()->sync(Player::limit(7)->get());
 
-        $this->assertEquals(0, Team::withEnoughPlayers($tournament)->count());
+        $this->assertEquals(1, Team::withEnoughPlayers($tournament)->count());
 
         $team->players()->sync(Player::limit(6)->get());
 
-        $this->assertEquals(1, Team::withEnoughPlayers($tournament)->count());
+        $this->assertEquals(2, Team::withEnoughPlayers($tournament)->count());
     }
 }

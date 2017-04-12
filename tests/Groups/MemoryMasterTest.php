@@ -18,10 +18,10 @@ class MemoryMasterTest extends TestCase
     {
         $this
             ->visit('/memory-master')
-            ->check('player[6]')
+            ->check('player[9]')
             ->press('Save')
             ->see('Your changes have been saved')
-            ->seeIsChecked('player[6]');
+            ->seeIsChecked('player[9]');
     }
 
     /** @test */

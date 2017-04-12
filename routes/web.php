@@ -187,6 +187,9 @@ Route::group(['middleware' => 'auth'], function () {
             'prefix'        => 'tournaments/{tournament}/registrations',
             'namespace'     => 'Registrations',
         ], function () {
+            Route::get('groups', 'GroupsController@index');
+            Route::get('groups/{group}', 'GroupsController@show');
+
             Route::get('quizmasters', 'QuizmastersController@index');
             Route::get('quizmasters/{quizmaster}', 'QuizmastersController@show');
 

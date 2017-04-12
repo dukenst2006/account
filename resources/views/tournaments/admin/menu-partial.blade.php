@@ -15,9 +15,9 @@
             Registrations <span class="arrow"></span>
         </a>
         <ul class="classic">
-            {{--<li>--}}
-                {{--<a href="/admin/tournaments/{{ $tournament->id }}/registrations/groups">Groups</a>--}}
-            {{--</li>--}}
+            <li>
+                <a href="/admin/tournaments/{{ $tournament->id }}/registrations/groups">Groups</a>
+            </li>
             <li>
                 <a href="/admin/tournaments/{{ $tournament->id }}/registrations/spectators">Spectators</a>
             </li>

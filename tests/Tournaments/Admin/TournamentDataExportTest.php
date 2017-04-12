@@ -123,7 +123,7 @@ class TournamentDataExportTest extends TestCase
         $this->assertContains($player->first_name, $csvContents);
         $this->assertContains($player->last_name, $csvContents);
         $this->assertContains('Mount Pleasant', $csvContents);
-        $this->assertContains('Team 3', $csvContents);
+        $this->assertContains('Team 1', $csvContents);
     }
 
     /** @test */
@@ -233,8 +233,8 @@ class TournamentDataExportTest extends TestCase
         ob_end_clean();
 
         $this->assertContains('"Quizmasters","0","0","0","0","1","0","1","0"', $csvContents);
-        $this->assertContains('"Players","1","1","0","0","0","0","0","0"', $csvContents);
+        $this->assertContains('"Players","2","3","0","0","0","0","0","0"', $csvContents);
         $this->assertContains('"Adults/Families","1","1","0","0","2","2","1","0"', $csvContents);
-        $this->assertContains('"Totals","2","2","0","0","3","2","2","0"', $csvContents);
+        $this->assertContains('"Totals","3","4","0","0","3","2","2","0"', $csvContents);
     }
 }

@@ -114,7 +114,7 @@ class TeamsTest extends TestCase
 
         $teamSet = TeamSet::findOrFail(1);
         $team = $teamSet->teams()->first();
-        $playerId = $group->players()->first()->id;
+        $playerId = $group->players()->inactive($this->season)->first()->id;
         $startCount = $team->players()->count();
 
         // add a player
@@ -155,7 +155,7 @@ class TeamsTest extends TestCase
         ]);
 
         $teamSet = TeamSet::findOrFail(1);
-        $team = $teamSet->teams->get(2);
+        $team = $teamSet->teams->get(0);
         $startingPlayerOrder = [
             $team->players->first()->id,
             $team->players->get(1)->id,

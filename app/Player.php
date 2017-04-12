@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Requests\Request;
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -321,9 +322,17 @@ class Player extends Model
     public function scopeWithUnpaidRegistration(Builder $query, Tournament $tournament)
     {
         return $query->join('tournament_players', function (JoinClause $join) use ($tournament) {
-            $join->on('tournament_id', '=', $tournament->id)
+            $join->on('tournament_id', '=', DB::raw($tournament->id))
                 ->on('player_id', '=', 'players.id');
         })->whereNull('tournament_players.receipt_id');
+    }
+
+    public function scopeWithPaidRegistration(Builder $query, Tournament $tournament)
+    {
+        return $query->join('tournament_players', function (JoinClause $join) use ($tournament) {
+            $join->on('tournament_players.tournament_id', '=', DB::raw($tournament->id))
+                ->on('tournament_players.player_id', '=', 'players.id');
+        })->whereNotNull('tournament_players.receipt_id');
     }
 
     /**

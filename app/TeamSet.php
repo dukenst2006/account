@@ -128,7 +128,7 @@ class TeamSet extends Model
         $seasonId = $this->season_id;
 
         return $this->hasMany(Team::class)
-
+            // @TODO POATENTIAL HUGE RED FLAG FOR EXTERNAL GROUP INVITES
             // exclude players who are not registered with this group
             ->with([
                 'players.seasons' => function (BelongsToMany $query) use ($seasonId) {

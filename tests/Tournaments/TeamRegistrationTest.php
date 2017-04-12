@@ -126,7 +126,7 @@ class TeamRegistrationTest extends TestCase
      */
     public function canReorderPlayers()
     {
-        $team = $this->teamSet->teams->get(2);
+        $team = $this->teamSet->teams->first();
         $startingPlayerOrder = [
             $team->players->first()->id,
             $team->players->get(1)->id,

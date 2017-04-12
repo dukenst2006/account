@@ -41,7 +41,7 @@ class PlayerTest extends TestCase
         Setting::shouldReceive('firstYearFree')->once()->andReturn(true);
 
         $season = Season::findOrFail(2);
-        $this->assertEquals(3, $season->players()->withoutPendingPayment($season)->count());
+        $this->assertEquals(6, $season->players()->withoutPendingPayment($season)->count());
     }
 
     /** @test */
@@ -52,6 +52,6 @@ class PlayerTest extends TestCase
         DB::update('UPDATE player_season SET paid = NOW() WHERE inactive IS NULL LIMIT 1');
 
         $season = Season::findOrFail(2);
-        $this->assertEquals(1, $season->players()->withoutPendingPayment($season)->count());
+        $this->assertEquals(3, $season->players()->withoutPendingPayment($season)->count());
     }
 }

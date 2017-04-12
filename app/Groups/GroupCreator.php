@@ -14,7 +14,7 @@ class GroupCreator
      *
      * @return static
      */
-    public function create(User $owner, array $attributes)
+    public function create(User $owner, array $attributes) : Group
     {
         $attributes['owner_id'] = $owner->id;
 

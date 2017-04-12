@@ -27,7 +27,7 @@ class TournamentTest extends TestCase
     /** @test */
     public function tournamentsWithFeesExcludeTeamsWithoutEnoughPlayers()
     {
-        $this->assertEquals(0, $this->tournament->eligibleTeams()->count());
+        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
     }
 
     /** @test */
@@ -41,7 +41,7 @@ class TournamentTest extends TestCase
         $firstTeam->players()->sync($playerIds);
         $this->markPlayersAsPaid($playerIds);
 
-        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
+        $this->assertEquals(2, $this->tournament->eligibleTeams()->count());
 
         // assert a receipt is required
         DB::update('UPDATE tournament_players SET receipt_id = null');
@@ -52,11 +52,11 @@ class TournamentTest extends TestCase
     public function tournamentsWithFeesExcludeTeamsWithTooManyPlayers()
     {
         $firstTeam = $this->tournament->teams()->first();
-        $playerIds = [1, 2, 3, 4, 5, 6, 7];
+        $playerIds = [1, 2, 3, 4];
         $firstTeam->players()->sync($playerIds);
         $this->markPlayersAsPaid($playerIds);
 
-        $this->assertEquals(0, $this->tournament->eligibleTeams()->count());
+        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class TournamentTest extends TestCase
             'earlybird_fee'     => null,
         ]);
 
-        $this->assertEquals(0, $this->tournament->eligibleTeams()->count());
+        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
     }
 
     /** @test */
@@ -85,7 +85,7 @@ class TournamentTest extends TestCase
         $firstTeam = $this->tournament->teams()->first();
         $firstTeam->players()->sync([1, 2, 3, 4]);
 
-        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
+        $this->assertEquals(2, $this->tournament->eligibleTeams()->count());
     }
 
     /** @test */
@@ -101,7 +101,7 @@ class TournamentTest extends TestCase
         $firstTeam = $this->tournament->teams()->first();
         $firstTeam->players()->sync([1, 2, 3, 4, 5, 6, 7]);
 
-        $this->assertEquals(0, $this->tournament->eligibleTeams()->count());
+        $this->assertEquals(1, $this->tournament->eligibleTeams()->count());
     }
 
     /** @test */
@@ -170,7 +170,7 @@ class TournamentTest extends TestCase
     /** @test */
     public function tournamentsWithFeesExcludePlayersOnTeamsWithoutEnoughPlayers()
     {
-        $this->assertEquals(0, $this->tournament->eligiblePlayers()->count());
+        $this->assertEquals(3, $this->tournament->eligiblePlayers()->count());
     }
 
     /** @test */
@@ -181,7 +181,7 @@ class TournamentTest extends TestCase
         $firstTeam->players()->sync($playerIds);
         $this->markPlayersAsPaid($playerIds);
 
-        $this->assertEquals(4, $this->tournament->eligiblePlayers()->count());
+        $this->assertEquals(7, $this->tournament->eligiblePlayers()->count());
 
         // assert a receipt is required
         DB::update('UPDATE tournament_players SET receipt_id = null');
@@ -192,7 +192,7 @@ class TournamentTest extends TestCase
     public function tournamentsWithFeesIncludePlayersOnTeamsWithTooManyPlayers()
     {
         $firstTeam = $this->tournament->teams()->first();
-        $playerIds = [1, 2, 3, 4, 5, 6, 7];
+        $playerIds = [1, 2, 3, 4];
         $firstTeam->players()->sync($playerIds);
         $this->markPlayersAsPaid($playerIds);
 
@@ -214,7 +214,7 @@ class TournamentTest extends TestCase
         $firstTeam = $this->tournament->teams()->first();
         $firstTeam->players()->sync([1, 2, 3, 4, 5, 6, 7]);
 
-        $this->assertEquals(0, $this->tournament->eligiblePlayers()->count());
+        $this->assertEquals(3, $this->tournament->eligiblePlayers()->count());
     }
 
     /** @test */
@@ -227,7 +227,7 @@ class TournamentTest extends TestCase
             'earlybird_fee'     => null,
         ]);
 
-        $this->assertEquals(0, $this->tournament->eligiblePlayers()->count());
+        $this->assertEquals(3, $this->tournament->eligiblePlayers()->count());
     }
 
     /** @test */
@@ -243,7 +243,7 @@ class TournamentTest extends TestCase
         $firstTeam = $this->tournament->teams()->first();
         $firstTeam->players()->sync([1, 2, 3, 4]);
 
-        $this->assertEquals(4, $this->tournament->eligiblePlayers()->count());
+        $this->assertEquals(7, $this->tournament->eligiblePlayers()->count());
     }
 
     /** @test */

@@ -256,7 +256,34 @@ class Tournament extends Model
             $q->whereHas('teamSet', function (Builder $q) use ($tournament) {
                 $q->where('tournament_id', $tournament->id);
             })
-            ->withEnoughPlayers($this);
+                ->withEnoughPlayers($this);
+        });
+    }
+
+    public function eligibleGroups() : Builder
+    {
+        $tournament = $this;
+
+        // if there's a fee, we'll assume any team-related checks
+        // (e.g. - number of players per team) were performed
+        // before players were paid for
+        if ($this->hasFee(ParticipantType::TEAM)) {
+            return Group::whereHas('teamSets', function (Builder $q) use ($tournament) {
+                $q->where('tournament_id', $tournament->id)
+                    ->whereHas('teams', function (Builder $q) use ($tournament) {
+                        $q->withEnoughPlayers($tournament)
+                            ->whereHas('players', function (Builder $q) use ($tournament) {
+                                $q->withPaidRegistration($tournament);
+                            });
+                    });
+            });
+        }
+
+        return Group::whereHas('teamSets', function (Builder $q) use ($tournament) {
+            $q->where('tournament_id', $tournament->id)
+                ->whereHas('teams', function (Builder $q) use ($tournament) {
+                    $q->withEnoughPlayers($this);
+                });
         });
     }
 

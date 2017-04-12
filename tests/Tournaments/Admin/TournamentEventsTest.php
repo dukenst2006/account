@@ -90,6 +90,6 @@ class TournamentEventsTest extends TestCase
 
         $this->assertContains($player->first_name, $csvContents);
         $this->assertContains($player->last_name, $csvContents);
-        $this->assertContains('Mount Pleasant', $csvContents);
+        $this->assertContains('Southeast', $csvContents);
     }
 }

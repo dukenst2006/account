@@ -79,8 +79,30 @@ class DatabaseSeeder extends Seeder
         if (app()->environment('staging')) {
             $this->call('StagingSeeder');
         }
+        $tournament = $this->seedTournament($director);
 
-        $this->seedTournament($director);
+        // associate head coach's tournament as a registered team with the tournament
+        // under the Southeast group
+        $receipt = Receipt::firstOrFail();
+        $group = Group::where('name', '!=', self::GROUP_NAME)->firstOrFail();
+        $teamSet = $this->seedTeamSet($group, 1);
+        $teamSet->update([
+            'tournament_id' => Tournament::firstOrFail()->id,
+        ]);
+        $teamSet->teams()->update([
+            'receipt_id' => $receipt->id
+        ]);
+        $insertData = [];
+        foreach ($group->players()->active($this->season)->get() as $player) {
+            $insertData[] = [
+                'tournament_id' => $tournament->id,
+                'player_id'     => $player->id,
+                'receipt_id'    => $receipt->id,
+                'updated_at'    => Carbon::now()->toDateTimeString(),
+                'created_at'    => Carbon::now()->toDateTimeString(),
+            ];
+        }
+        DB::table('tournament_players')->insert($insertData);
 
         Invitation::create([
             'type'          => Invitation::TYPE_MANAGE_GROUP,
@@ -93,9 +115,6 @@ class DatabaseSeeder extends Seeder
         self::$isSeeding = false;
     }
 
-    /**
-     * @return User
-     */
     private function seedAdmin()
     {
         $address = Address::create([
@@ -148,12 +167,39 @@ class DatabaseSeeder extends Seeder
 
         /** @var GroupCreator $groupCreator */
         $groupCreator = App::make(GroupCreator::class);
-        $groupCreator->create($BKuhlHeadCoach, [
+        $group = $groupCreator->create($BKuhlHeadCoach, [
             'name'                  => 'Southeast Christian Church',
             'group_type_id'         => GroupType::CHURCH,
             'program_id'            => Program::TEEN,
             'address_id'            => $address->id,
             'meeting_address_id'    => $address->id,
+        ]);
+
+        $guardian = seedGuardian([], [
+            'latitude'  => '38.301815',
+            'longitude' => '-85.597701',
+        ]);
+
+        $player = seedPlayer($guardian);
+        $this->season->players()->attach($player->id, [
+            'group_id'      => $group->id,
+            'paid'          => new Carbon(),
+            'grade'         => rand(6, 12),
+            'shirt_size'    => 'YS',
+        ]);
+        $player = seedPlayer($guardian);
+        $this->season->players()->attach($player->id, [
+            'group_id'      => $group->id,
+            'paid'          => new Carbon(),
+            'grade'         => rand(6, 12),
+            'shirt_size'    => 'YM',
+        ]);
+        $player = seedPlayer($guardian);
+        $this->season->players()->attach($player->id, [
+            'group_id'      => $group->id,
+            'paid'          => new Carbon(),
+            'grade'         => rand(6, 12),
+            'shirt_size'    => 'YM',
         ]);
 
         $address = factory(Address::class)->create([
@@ -295,7 +341,7 @@ class DatabaseSeeder extends Seeder
         return $group;
     }
 
-    private function seedTeamSet(Group $group)
+    private function seedTeamSet(Group $group, $maxTeams = 6) : TeamSet
     {
         $teamSet = TeamSet::create([
             'group_id'      => $group->id,
@@ -303,15 +349,14 @@ class DatabaseSeeder extends Seeder
             'name'          => 'League Teams',
         ]);
         $players = $group->players()->active($this->season)->get();
-        for ($x = 1; $x <= 8; $x++) {
+        for ($x = 0; $x < $maxTeams; $x++) {
             $team = Team::create([
                 'team_set_id'   => $teamSet->id,
-                'name'          => 'Team '.$x,
+                'name'          => 'Team '.($x+1),
             ]);
 
-            $playerCount = ($x <= 3 ? $x - 1 : 0);
-            if ($playerCount > 0) {
-                foreach ($players->random($playerCount) as $idx => $player) {
+            if ($x === 0) {
+                foreach ($players->random($players->count() < 6 ? $players->count() : 3) as $idx => $player) {
                     if (is_object($player)) {
                         $team->players()->attach($player->id, [
                             'order' => $idx + 1,
@@ -320,9 +365,11 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+
+        return $teamSet;
     }
 
-    private function seedTournament($director)
+    private function seedTournament($director) : Tournament
     {
         $tournamentName = 'My Test Tournament';
         $tournament = Tournament::create([
@@ -489,6 +536,8 @@ class DatabaseSeeder extends Seeder
             'user_id'       => User::where('email', AcceptanceTestingSeeder::GUARDIAN_EMAIL)->firstOrFail()->id,
         ]);
         $tournament->addCoordinator(User::where('email', self::HEAD_COACH_EMAIL)->firstOrFail());
+
+        return $tournament;
     }
 
     private function seedReceipt(User $user) : Receipt

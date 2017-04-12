@@ -258,7 +258,7 @@ class GroupRegistrationTest extends TestCase
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
 
             // assert we're indicating some teams aren't yet paid for
-            ->see('8 require payment')
+            ->see('6 require payment')
             ->see('2 require payment');
     }
 
@@ -354,7 +354,7 @@ class GroupRegistrationTest extends TestCase
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
             ->click('Pay Fees')
-            ->see('8 team(s) must be updated to have between 3-6 players before you can submit payment.');
+            ->see('6 team(s) must be updated to have between 3-6 players before you can submit payment.');
     }
 
     /** @test */
@@ -591,7 +591,7 @@ class GroupRegistrationTest extends TestCase
         $this
             ->visit('/tournaments/'.$this->tournament->slug.'/group')
             ->click('Pay Fees')
-            ->see('Because you have 8 team(s), you need 16 quizmaster(s) before you can proceed.');
+            ->see('Because you have 6 team(s), you need 12 quizmaster(s) before you can proceed.');
     }
 
     /** @test */
