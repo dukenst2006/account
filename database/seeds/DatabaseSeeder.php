@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             'tournament_id' => Tournament::firstOrFail()->id,
         ]);
         $teamSet->teams()->update([
-            'receipt_id' => $receipt->id
+            'receipt_id' => $receipt->id,
         ]);
         $insertData = [];
         foreach ($group->players()->active($this->season)->get() as $player) {
@@ -352,7 +352,7 @@ class DatabaseSeeder extends Seeder
         for ($x = 0; $x < $maxTeams; $x++) {
             $team = Team::create([
                 'team_set_id'   => $teamSet->id,
-                'name'          => 'Team '.($x+1),
+                'name'          => 'Team '.($x + 1),
             ]);
 
             if ($x === 0) {

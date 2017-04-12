@@ -1,7 +1,7 @@
 <?php
 
-use App\Tournament;
 use App\Group;
+use App\Tournament;
 
 class GroupRegistrationsTest extends TestCase
 {
