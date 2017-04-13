@@ -121,7 +121,7 @@ class GroupController extends Controller
                     // append the receipt if needed
                     if ($event->players->where('id', $playerId)->count() > 0) {
                         $playersToSync[$playerId] = [
-                            'receipt_id' => $event->players->where('id', $playerId)->first()->pivot->receipt_id
+                            'receipt_id' => $event->players->where('id', $playerId)->first()->pivot->receipt_id,
                         ];
                     } else {
                         $playersToSync[$playerId] = [];
