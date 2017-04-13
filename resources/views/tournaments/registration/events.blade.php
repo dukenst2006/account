@@ -62,7 +62,7 @@
                                             @foreach ($events as $event)
                                                 <td>
                                                     <div class="checkbox check-default">
-                                                        {!! Form::checkbox('event['.$event->id.']['.$player->id.']', 1, old('event['.$event->id.']['.$player->id.']', false), [ "id" => 'event-'.$event->id.'-player-'.$player->id ]) !!}
+                                                        {!! Form::checkbox('event['.$event->id.']['.$player->id.']', 1, old('event['.$event->id.']['.$player->id.']', $event->players->where('id', $player->id)->count() > 0), [ "id" => 'event-'.$event->id.'-player-'.$player->id ]) !!}
                                                         <label for="event-{{ $event->id }}-player-{{ $player->id }}"></label>
                                                     </div>
                                                 </td>

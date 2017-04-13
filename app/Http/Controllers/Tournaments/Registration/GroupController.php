@@ -8,6 +8,7 @@ use App\Event;
 use App\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HeadCoachOnlyRequest;
+use App\ParticipantType;
 use App\TeamSet;
 use App\Tournament;
 use Cart;
@@ -113,8 +114,25 @@ class GroupController extends Controller
             /** @var Event $event */
             $event = $tournament->events->find($eventId);
 
+            // retain the receipt_id if there's a fee
+            if ($tournament->hasFee(ParticipantType::PLAYER)) {
+                $playersToSync = [];
+                foreach ($players as $playerId => $null) {
+                    // append the receipt if needed
+                    if ($event->players->where('id', $playerId)->count() > 0) {
+                        $playersToSync[$playerId] = [
+                            'receipt_id' => $event->players->where('id', $playerId)->first()->pivot->receipt_id
+                        ];
+                    } else {
+                        $playersToSync[$playerId] = [];
+                    }
+                }
+            } else {
+                $playersToSync = array_keys($players);
+            }
+
             // sync preserves receipt_id unless a player is removed
-            $event->players()->sync(array_keys($players));
+            $event->players()->sync($playersToSync);
         }
 
         DB::commit();
