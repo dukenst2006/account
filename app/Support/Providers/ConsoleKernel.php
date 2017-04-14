@@ -9,6 +9,7 @@ use App\Seasons\MemoryMaster\RemindUpcomingMemoryMasterDeadline;
 use App\Seasons\NotifyOfficeOfOutstandingRegistrationPayments;
 use App\Seasons\RemindGroupsOfPendingRegistrationPayments;
 use App\Seasons\SeasonRotator;
+use App\Support\Bugs\NotifyOfBug;
 use App\Users\CleanupOrphanAccounts;
 use Illuminate\Console\Scheduling\Schedule;
 
@@ -28,6 +29,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         CleanupOrphanAccounts::class,
         RemindRegistrationEnding::class,
         RemindUpcomingMemoryMasterDeadline::class,
+        NotifyOfBug::class,
     ];
 
     /**

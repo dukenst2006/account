@@ -8,7 +8,6 @@ use App\Event;
 use App\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HeadCoachOnlyRequest;
-use App\ParticipantType;
 use App\TeamSet;
 use App\Tournament;
 use Cart;
