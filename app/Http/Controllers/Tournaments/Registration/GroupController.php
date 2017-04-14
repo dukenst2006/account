@@ -110,29 +110,16 @@ class GroupController extends Controller
 
         DB::beginTransaction();
 
+        $playersInRoster = Session::group()->players()->pluck('players.id')->toArray();
         foreach ($request->get('event', []) as $eventId => $players) {
             /** @var Event $event */
             $event = $tournament->events->find($eventId);
+            $playersParticipatingInEvent = array_keys($players);
+            $playersNotParticipatingInEvent = array_diff($playersInRoster, $playersParticipatingInEvent);
+            $newParticipants = array_diff($playersParticipatingInEvent, $event->players()->pluck('players.id')->toArray());
 
-            // retain the receipt_id if there's a fee
-            if ($tournament->hasFee(ParticipantType::PLAYER)) {
-                $playersToSync = [];
-                foreach ($players as $playerId => $null) {
-                    // append the receipt if needed
-                    if ($event->players->where('id', $playerId)->count() > 0) {
-                        $playersToSync[$playerId] = [
-                            'receipt_id' => $event->players->where('id', $playerId)->first()->pivot->receipt_id
-                        ];
-                    } else {
-                        $playersToSync[$playerId] = [];
-                    }
-                }
-            } else {
-                $playersToSync = array_keys($players);
-            }
-
-            // sync preserves receipt_id unless a player is removed
-            $event->players()->sync($playersToSync);
+            $event->players()->detach($playersNotParticipatingInEvent);
+            $event->players()->attach($newParticipants);
         }
 
         DB::commit();
