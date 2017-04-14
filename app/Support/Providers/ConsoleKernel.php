@@ -29,7 +29,7 @@ class ConsoleKernel extends \Illuminate\Foundation\Console\Kernel
         CleanupOrphanAccounts::class,
         RemindRegistrationEnding::class,
         RemindUpcomingMemoryMasterDeadline::class,
-        NotifyOfBug::class,
+        //NotifyOfBug::class,
     ];
 
     /**
