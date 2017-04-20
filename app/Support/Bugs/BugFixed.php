@@ -38,7 +38,7 @@ class BugFixed extends Notification implements ShouldQueue
         $message->greeting('Quote Bee & Individual Tournament Participants');
         $message->line("We just fixed a bug in the online nationals registration where a group's Quote Bee and Individual Tournament participants could be overwritten/erased.");
         $message->line("We've fixed this issue, but unfortunately some information has been lost.  Please login and review your group's participants to for these events to make sure your players are signed up who want to participate.");
-        $message->line("If you have any questions please contact us at office@biblebowl.org.");
+        $message->line('If you have any questions please contact us at office@biblebowl.org.');
         $message->action('Manage Participants', url('tournaments/'.$this->tournament->slug.'/registration/group/events'));
 
         return $message;
