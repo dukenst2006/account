@@ -95,7 +95,7 @@ class GroupController extends Controller
         return view('tournaments.registration.events', [
             'tournament'    => $tournament,
             'events'        => $tournament->individualEvents()->withOptionalParticipation()->with('type')->get(),
-            'players'       => $playerCount = $teamSet->players()->get(),
+            'players'       => $playerCount = $teamSet->players()->orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->get(),
             'playerCount'   => count($playerCount),
         ]);
     }
