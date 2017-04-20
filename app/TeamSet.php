@@ -94,8 +94,8 @@ class TeamSet extends Model
         return Player::whereHas('teams', function ($q) use ($teamIds) {
                 $q->whereIn('id', $teamIds);
             })
-            ->orderBy('last_name', 'ASC')
-            ->orderBy('first_name', 'ASC');
+            ->orderBy('players.last_name', 'ASC')
+            ->orderBy('players.first_name', 'ASC');
     }
 
     public function unpaidPlayers() : Builder

@@ -72,7 +72,9 @@ class Event extends Model
         return $this->belongsToMany(Player::class)
             ->wherePivot('receipt_id', '!=', null)
             ->withPivot('receipt_id')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->orderBy('players.last_name', 'ASC')
+            ->orderBy('players.first_name', 'ASC');
     }
 
     public function unpaidPlayers() : BelongsToMany
@@ -80,7 +82,9 @@ class Event extends Model
         return $this->belongsToMany(Player::class)
             ->wherePivot('receipt_id', null)
             ->withPivot('receipt_id')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->orderBy('players.last_name', 'ASC')
+            ->orderBy('players.first_name', 'ASC');
     }
 
     public function scopeByParticipantType(Builder $builder, int $participantTypeId)
