@@ -92,8 +92,8 @@ class TeamSet extends Model
         $teamIds = $this->teams->modelKeys();
 
         return Player::whereHas('teams', function ($q) use ($teamIds) {
-                $q->whereIn('id', $teamIds);
-            })
+            $q->whereIn('id', $teamIds);
+        })
             ->orderBy('players.last_name', 'ASC')
             ->orderBy('players.first_name', 'ASC');
     }
