@@ -339,9 +339,9 @@ class GroupRegistrationTest extends TestCase
             ->see('1 require payment');
 
         $this->assertEquals(2, $event->players()->count());
-        dd($event->players->toArray());
+
         // verify previously set receipt_id isn't overwritten
-        $this->assertEquals($receipt->id, $event->players->get(0)->pivot->receipt_id);
+        $this->assertEquals($receipt->id, $event->players->get(1)->pivot->receipt_id);
     }
 
     /** @test */
