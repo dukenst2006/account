@@ -3,9 +3,10 @@
 @section('title', 'Editing '.$teamSet->name)
 
 @section('content')
-    @include('partials.messages')
 
     <div class="content p-b-100">
+        @include('partials.messages')
+
         @if($teamSet->registeredWithTournament())
             @include('tournaments.partials.tournament-summary', [
                 'tournament' => $teamSet->tournament,

@@ -150,15 +150,17 @@ class GroupController extends Controller
             return redirect()->back()->withErrors($ineligibleTeamCount.' team(s) must be updated to have between '.$tournament->settings->minimumPlayersPerTeam().'-'.$tournament->settings->maximumPlayersPerTeam().' players before you can submit payment.');
         }
 
-        // require quizmaster counts to be up to speed before proceeding
-        $quizmasterCount = $tournament->tournamentQuizmasters()->where('group_id', $group->id)->count();
-        if ($tournament->settings->shouldRequireQuizmastersByGroup() && $quizmasterCount < $tournament->settings->quizmastersToRequireByGroup()) {
-            return redirect()->back()->withErrors('You need to register '.$tournament->settings->quizmastersToRequireByGroup().' quizmaster(s) before you can proceed.');
-        } elseif ($tournament->settings->shouldRequireQuizmastersByTeamCount()) {
-            $teamCount = $tournament->teamSet($group)->teams()->count();
-            $numberOfQuizmastersRequired = $tournament->numberOfQuizmastersRequiredByTeamCount($teamCount);
-            if ($quizmasterCount < $numberOfQuizmastersRequired) {
-                return redirect()->back()->withErrors('Because you have '.$teamCount.' team(s), you need '.$numberOfQuizmastersRequired.' quizmaster(s) before you can proceed.');
+        // require quizmaster counts to be up to speed before proceeding, if they have teams
+        if ($tournament->teamSet($group)->teams()->count() > 0) {
+            $quizmasterCount = $tournament->tournamentQuizmasters()->where('group_id', $group->id)->count();
+            if ($tournament->settings->shouldRequireQuizmastersByGroup() && $quizmasterCount < $tournament->settings->quizmastersToRequireByGroup()) {
+                return redirect()->back()->withErrors('You need to register '.$tournament->settings->quizmastersToRequireByGroup().' quizmaster(s) before you can proceed.');
+            } elseif ($tournament->settings->shouldRequireQuizmastersByTeamCount()) {
+                $teamCount = $tournament->teamSet($group)->teams()->count();
+                $numberOfQuizmastersRequired = $tournament->numberOfQuizmastersRequiredByTeamCount($teamCount);
+                if ($quizmasterCount < $numberOfQuizmastersRequired) {
+                    return redirect()->back()->withErrors('Because you have '.$teamCount.' team(s), you need '.$numberOfQuizmastersRequired.' quizmaster(s) before you can proceed.');
+                }
             }
         }
 
