@@ -531,7 +531,7 @@ class Tournament extends Model
     public function isRegistrationOpen() : bool
     {
         if ($this->isRegistrationOpenCache == null) {
-            $now = Carbon::now();
+            $now = Carbon::now('America/New_York');
 
             $this->isRegistrationOpenCache = $now->gte($this->registration_start) && $now->lte($this->registration_end);
         }
