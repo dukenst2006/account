@@ -13,7 +13,7 @@
                 ])
                 <div class="grid simple">
                     <div class="grid-body no-border">
-                        @if($tournament->shouldWarnAboutTeamLocking())
+                        @if($tournament->shouldWarnAboutTeamLocking() && $tournament->teamsAreLocked() === false)
                             <div class="alert alert-info m-t-10 text-center">
                                 You have {{ $tournament->lock_teams->diffForHumans(null, true) }} left to make changes to teams and other player events (if applicable)
                             </div>
