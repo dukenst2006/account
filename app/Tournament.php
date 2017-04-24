@@ -336,7 +336,7 @@ class Tournament extends Model
      */
     public function getStartAttribute($start)
     {
-        return Carbon::createFromFormat('Y-m-d', $start);
+        return Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
     }
 
     /**
@@ -358,7 +358,7 @@ class Tournament extends Model
      */
     public function getEndAttribute($end)
     {
-        return Carbon::createFromFormat('Y-m-d', $end);
+        return Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
     }
 
     /**
@@ -371,7 +371,7 @@ class Tournament extends Model
         if ($registration_start instanceof Carbon) {
             $this->attributes['registration_start'] = $registration_start;
         } else {
-            $this->attributes['registration_start'] = Carbon::createFromFormat('m/d/Y', $registration_start);
+            $this->attributes['registration_start'] = Carbon::createFromFormat('m/d/Y', $registration_start)->startOfDay();
         }
     }
 
@@ -397,7 +397,7 @@ class Tournament extends Model
         if ($registration_end instanceof Carbon) {
             $this->attributes['registration_end'] = $registration_end;
         } else {
-            $this->attributes['registration_end'] = Carbon::createFromFormat('m/d/Y', $registration_end);
+            $this->attributes['registration_end'] = Carbon::createFromFormat('m/d/Y', $registration_end)->endOfDay();
         }
     }
 
