@@ -37,7 +37,7 @@ class TeamRegistrationTest extends TestCase
 
         // lock teams
         $this->tournament->update([
-            'lock_teams' => Carbon::now()->subMinute(1)->format('m/d/Y'),
+            'lock_teams' => Carbon::now('America/New_York')->subDay(1)->format('m/d/Y'),
         ]);
     }
 

@@ -377,15 +377,15 @@ class DatabaseSeeder extends Seeder
             'slug'                  => $this->season->name.' '.$tournamentName,
             'season_id'             => $this->season->id,
             'name'                  => $tournamentName,
-            'start'                 => Carbon::now()->addMonths(5)->format('m/d/Y'),
-            'end'                   => Carbon::now()->addMonths(7)->format('m/d/Y'),
-            'registration_start'    => Carbon::now()->subMonths(3)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->addDays(4)->format('m/d/Y'),
+            'start'                 => Carbon::now('America/New_York')->addMonths(5)->format('m/d/Y'),
+            'end'                   => Carbon::now('America/New_York')->addMonths(7)->format('m/d/Y'),
+            'registration_start'    => Carbon::now('America/New_York')->subMonths(3)->format('m/d/Y'),
+            'registration_end'      => Carbon::now('America/New_York')->addDays(4)->format('m/d/Y'),
             'creator_id'            => $director->id,
             'details'               => '<h3>Nearby Hotels</h3><p>There are a few nearby:</p><ul><li>Option #1</li></ul>',
             'max_teams'             => 64,
-            'lock_teams'            => Carbon::now()->addMonths(3)->addWeeks(2)->format('m/d/Y'),
-            'earlybird_ends'        => Carbon::now()->addMonths(3)->format('m/d/Y'),
+            'lock_teams'            => Carbon::now('America/New_York')->addMonths(3)->addWeeks(2)->format('m/d/Y'),
+            'earlybird_ends'        => Carbon::now('America/New_York')->addMonths(3)->format('m/d/Y'),
         ]);
         $tournament->addCoordinator($director);
         $tournament->events()->create([

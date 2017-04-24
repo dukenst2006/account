@@ -452,8 +452,10 @@ class Tournament extends Model
     {
         if (is_null($lock_teams) || strlen($lock_teams) == 0) {
             $this->attributes['lock_teams'] = null;
+        } elseif ($lock_teams instanceof Carbon) {
+            $this->attributes['lock_teams'] = $lock_teams->timezone('America/New_York')->endOfDay();
         } else {
-            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teams, 'America/New_York');
+            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teams, 'America/New_York')->endOfDay();
         }
     }
 
@@ -464,13 +466,17 @@ class Tournament extends Model
      *
      * @return static
      */
-    public function getLockTeamsAttribute($lock_teamsed)
+    public function getLockTeamsAttribute($lock_teams)
     {
-        if (is_null($lock_teamsed)) {
+        if (is_null($lock_teams)) {
             return;
         }
 
-        return Carbon::createFromFormat('Y-m-d', $lock_teamsed, 'America/New_York');
+        if ($lock_teams instanceof Carbon) {
+            return $lock_teams->timezone('America/New_York')->endOfDay();
+        }
+
+        return Carbon::createFromFormat('Y-m-d', $lock_teams, 'America/New_York')->endOfDay();
     }
 
     public function teamSet(Group $group) : TeamSet
@@ -520,7 +526,7 @@ class Tournament extends Model
 
     public function teamsAreLocked() : bool
     {
-        return $this->teamsWillLock() && Carbon::now()->gte($this->lock_teams);
+        return $this->teamsWillLock() && Carbon::now('America/New_York')->gte($this->lock_teams);
     }
 
     public function canEditLockedTeams(User $user) : bool

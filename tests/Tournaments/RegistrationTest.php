@@ -13,8 +13,8 @@ class RegistrationTest extends TestCase
     {
         $tournament = Tournament::firstOrFail();
         $tournament->update([
-            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y'),
+            'registration_start'    => Carbon::now('America/New_York')->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now('America/New_York')->subDays(1)->format('m/d/Y'),
         ]);
 
         $this
@@ -27,8 +27,8 @@ class RegistrationTest extends TestCase
     {
         $tournament = Tournament::firstOrFail();
         $tournament->update([
-            'registration_start'    => Carbon::now()->subDays(10)->format('m/d/Y'),
-            'registration_end'      => Carbon::now()->subDays(1)->format('m/d/Y'),
+            'registration_start'    => Carbon::now('America/New_York')->subDays(10)->format('m/d/Y'),
+            'registration_end'      => Carbon::now('America/New_York')->subDays(1)->format('m/d/Y'),
         ]);
 
         $this
