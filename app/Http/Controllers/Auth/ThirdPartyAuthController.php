@@ -42,7 +42,7 @@ class ThirdPartyAuthController extends LoginController
                 ]);
         }
 
-        Auth::login($user);
+        Auth::login($user, true);
 
         // some users aren't being impacted by the middleware on the site
         if ($user->stillRequiresSetup()) {
