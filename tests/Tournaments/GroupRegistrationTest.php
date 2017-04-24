@@ -341,7 +341,7 @@ class GroupRegistrationTest extends TestCase
         $this->assertEquals(2, $event->players()->count());
 
         // verify previously set receipt_id isn't overwritten
-        $this->assertEquals($receipt->id, $event->players->get(1)->pivot->receipt_id);
+        $this->assertTrue($receipt->id == $event->players->get(1)->pivot->receipt_id || $receipt->id == $event->players->get(0)->pivot->receipt_id);
     }
 
     /** @test */
