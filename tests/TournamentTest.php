@@ -4,6 +4,7 @@ use App\Group;
 use App\Receipt;
 use App\TeamSet;
 use App\Tournament;
+use Carbon\Carbon;
 
 class TournamentTest extends TestCase
 {
@@ -264,6 +265,14 @@ class TournamentTest extends TestCase
         $this->assertEquals(2, $tournament->numberOfQuizmastersRequiredByTeamCount(4));
         $this->assertEquals(4, $tournament->numberOfQuizmastersRequiredByTeamCount(8));
         $this->assertEquals(4, $tournament->numberOfQuizmastersRequiredByTeamCount(9));
+    }
+
+    /** @test */
+    public function registrationEndsAtEndOfTheDay()
+    {
+        $this->tournament->registration_end = Carbon::createFromTime(23, 59, 59, 'America/New_York');
+
+        $this->assertTrue($this->tournament->isRegistrationOpen());
     }
 
     protected function markPlayersAsPaid(array $playerIds)

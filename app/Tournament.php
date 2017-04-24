@@ -324,7 +324,7 @@ class Tournament extends Model
      */
     public function setStartAttribute($start)
     {
-        $this->attributes['start'] = Carbon::createFromFormat('m/d/Y', $start);
+        $this->attributes['start'] = Carbon::createFromFormat('m/d/Y', $start, 'America/New_York');
     }
 
     /**
@@ -336,7 +336,7 @@ class Tournament extends Model
      */
     public function getStartAttribute($start)
     {
-        return Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        return Carbon::createFromFormat('Y-m-d', $start, 'America/New_York')->startOfDay();
     }
 
     /**
@@ -346,7 +346,7 @@ class Tournament extends Model
      */
     public function setEndAttribute($end)
     {
-        $this->attributes['end'] = Carbon::createFromFormat('m/d/Y', $end);
+        $this->attributes['end'] = Carbon::createFromFormat('m/d/Y', $end, 'America/New_York');
     }
 
     /**
@@ -358,7 +358,7 @@ class Tournament extends Model
      */
     public function getEndAttribute($end)
     {
-        return Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+        return Carbon::createFromFormat('Y-m-d', $end, 'America/New_York')->endOfDay();
     }
 
     /**
@@ -369,9 +369,9 @@ class Tournament extends Model
     public function setRegistrationStartAttribute($registration_start)
     {
         if ($registration_start instanceof Carbon) {
-            $this->attributes['registration_start'] = $registration_start;
+            $this->attributes['registration_start'] = $registration_start->timezone('America/New_York')->startOfDay();
         } else {
-            $this->attributes['registration_start'] = Carbon::createFromFormat('m/d/Y', $registration_start)->startOfDay();
+            $this->attributes['registration_start'] = Carbon::createFromFormat('m/d/Y', $registration_start, 'America/New_York')->startOfDay();
         }
     }
 
@@ -384,7 +384,11 @@ class Tournament extends Model
      */
     public function getRegistrationStartAttribute($registration_start)
     {
-        return Carbon::createFromFormat('Y-m-d', $registration_start)->startOfDay();
+        if ($registration_start instanceof Carbon) {
+            return $registration_start->timezone('America/New_York')->endOfDay();
+        }
+
+        return Carbon::createFromFormat('Y-m-d', $registration_start, 'America/New_York')->startOfDay();
     }
 
     /**
@@ -395,9 +399,9 @@ class Tournament extends Model
     public function setRegistrationEndAttribute($registration_end)
     {
         if ($registration_end instanceof Carbon) {
-            $this->attributes['registration_end'] = $registration_end;
+            $this->attributes['registration_end'] = $registration_end->timezone('America/New_York')->endOfDay();
         } else {
-            $this->attributes['registration_end'] = Carbon::createFromFormat('m/d/Y', $registration_end)->endOfDay();
+            $this->attributes['registration_end'] = Carbon::createFromFormat('m/d/Y', $registration_end, 'America/New_York')->endOfDay();
         }
     }
 
@@ -410,7 +414,11 @@ class Tournament extends Model
      */
     public function getRegistrationEndAttribute($registration_end)
     {
-        return Carbon::createFromFormat('Y-m-d', $registration_end)->endOfDay();
+        if ($registration_end instanceof Carbon) {
+            return $registration_end->endOfDay();
+        }
+
+        return Carbon::createFromFormat('Y-m-d', $registration_end, 'America/New_York')->endOfDay();
     }
 
     /**
@@ -445,7 +453,7 @@ class Tournament extends Model
         if (is_null($lock_teams) || strlen($lock_teams) == 0) {
             $this->attributes['lock_teams'] = null;
         } else {
-            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teams);
+            $this->attributes['lock_teams'] = Carbon::createFromFormat('m/d/Y', $lock_teams, 'America/New_York');
         }
     }
 
@@ -462,7 +470,7 @@ class Tournament extends Model
             return;
         }
 
-        return Carbon::createFromFormat('Y-m-d', $lock_teamsed);
+        return Carbon::createFromFormat('Y-m-d', $lock_teamsed, 'America/New_York');
     }
 
     public function teamSet(Group $group) : TeamSet
@@ -487,7 +495,7 @@ class Tournament extends Model
         } elseif ($earlybird_ends instanceof Carbon) {
             $this->attributes['earlybird_ends'] = $earlybird_ends;
         } else {
-            $this->attributes['earlybird_ends'] = Carbon::createFromFormat('m/d/Y', $earlybird_ends);
+            $this->attributes['earlybird_ends'] = Carbon::createFromFormat('m/d/Y', $earlybird_ends, 'America/New_York');
         }
     }
 
@@ -502,7 +510,7 @@ class Tournament extends Model
             return;
         }
 
-        return Carbon::createFromFormat('Y-m-d', $earlybird_ends);
+        return Carbon::createFromFormat('Y-m-d', $earlybird_ends, 'America/New_York');
     }
 
     public function teamsWillLock() : bool
