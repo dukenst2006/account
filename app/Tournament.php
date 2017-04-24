@@ -384,7 +384,7 @@ class Tournament extends Model
      */
     public function getRegistrationStartAttribute($registration_start)
     {
-        return Carbon::createFromFormat('Y-m-d', $registration_start);
+        return Carbon::createFromFormat('Y-m-d', $registration_start)->startOfDay();
     }
 
     /**
@@ -410,7 +410,7 @@ class Tournament extends Model
      */
     public function getRegistrationEndAttribute($registration_end)
     {
-        return Carbon::createFromFormat('Y-m-d', $registration_end);
+        return Carbon::createFromFormat('Y-m-d', $registration_end)->endOfDay();
     }
 
     /**
