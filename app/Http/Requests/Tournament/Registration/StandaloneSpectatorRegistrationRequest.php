@@ -6,7 +6,6 @@ use App\Address;
 use App\Http\Requests\Request;
 use App\Spectator;
 use App\Tournament;
-use App\TournamentQuizmaster;
 use Illuminate\Database\Eloquent\Builder;
 use Validator;
 
