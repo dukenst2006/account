@@ -195,6 +195,15 @@ class TournamentQuizmaster extends Model
         $this->attributes['phone'] = $scrubber->phone($attribute);
     }
 
+    public function getPhoneAttribute()
+    {
+        if ($this->user_id != null) {
+            return $this->user->phone;
+        }
+
+        return $this->attributes['phone'];
+    }
+
     /**
      * @param $value
      *
