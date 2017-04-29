@@ -83,10 +83,10 @@ class TournamentsTest extends TestCase
     {
         $tournament = Tournament::findOrFail(1);
         $tournament->update([
-            'start' => (new Carbon('Feb 1st'))->format('m/d/Y'),
-            'end' => (new Carbon('Feb 1st'))->format('m/d/Y'),
+            'start'              => (new Carbon('Feb 1st'))->format('m/d/Y'),
+            'end'                => (new Carbon('Feb 1st'))->format('m/d/Y'),
             'registration_start' => (new Carbon('Jan 1st'))->format('m/d/Y'),
-            'registration_end' => (new Carbon('Jan 1st'))->format('m/d/Y'),
+            'registration_end'   => (new Carbon('Jan 1st'))->format('m/d/Y'),
         ]);
         $newName = $tournament->name.time();
         $this
