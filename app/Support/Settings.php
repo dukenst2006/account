@@ -63,13 +63,13 @@ class Settings extends SettingsManager
         $this->set('memory_master_deadline', $date->format('F j'));
     }
 
-    public function setFirstYearFree(bool $firstYearFree)
+    public function setFirstYearDiscount(int $firstYearDiscount)
     {
-        $this->set('first_year_free', $firstYearFree);
+        $this->set('first_year_discount', $firstYearDiscount);
     }
 
-    public function firstYearFree() : bool
+    public function firstYearDiscount() : int
     {
-        return $this->get('first_year_free', false);
+        return $this->get('first_year_discount', 0);
     }
 }

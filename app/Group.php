@@ -18,6 +18,7 @@ use Illuminate\Database\Query\JoinClause;
 use Mail;
 use Ramsey\Uuid\Uuid;
 use Validator;
+use Setting;
 
 /**
  * App\Group.
@@ -218,6 +219,26 @@ class Group extends Model
 
             $q->pendingRegistrationPayment($season);
         });
+    }
+
+    public function seasonalFee(array $playerIds) : float
+    {
+        // requires 1 season, since they've registered at this point, but just haven't paid
+        $firstYearPlayercount = Player::whereIn('id', $playerIds)->has('seasons', '=', 1)->count();
+
+        if (Setting::firstYearDiscount() == 100 && $firstYearPlayercount == count($playerIds)) {
+            return round(0, 2);
+        }
+
+        $total = $this->program->registration_fee * count($playerIds);
+
+        if (Setting::firstYearDiscount() > 0) {
+            $discount = (Setting::firstYearDiscount() / 100) * ($this->program->registration_fee * $firstYearPlayercount);
+
+            $total -= $discount;
+        }
+
+        return round($total, 2);
     }
 
     public function scopeHasPendingTournamentRegistrationFees(Builder $query, Tournament $tournament)

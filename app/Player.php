@@ -279,7 +279,7 @@ class Player extends Model
 
     public function scopeWithoutPendingPayment(Builder $query)
     {
-        if (Setting::firstYearFree()) {
+        if (Setting::firstYearDiscount() == 100) {
             $query->orWhere(function ($q) {
                 $q->has('seasons', '=', 1)
                     ->whereNull('player_season.paid');
@@ -291,7 +291,7 @@ class Player extends Model
 
     public function scopePendingRegistrationPayment(Builder $query, Season $season)
     {
-        if (Setting::firstYearFree()) {
+        if (Setting::firstYearDiscount() == 100) {
             $query->has('seasons', '>', 1);
         }
 

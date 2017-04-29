@@ -13,7 +13,7 @@ class PlayerTest extends TestCase
     /** @test */
     public function providesPlayersPendingRegistrationPayment()
     {
-        Setting::shouldReceive('firstYearFree')->once()->andReturn(false);
+        Setting::shouldReceive('firstYearDiscount')->once()->andReturn(75);
 
         $season = Season::findOrFail(2);
 
@@ -23,7 +23,7 @@ class PlayerTest extends TestCase
     /** @test */
     public function excludesFirstYearPlayersFromPendingRegistrationPayments()
     {
-        Setting::shouldReceive('firstYearFree')->once()->andReturn(true);
+        Setting::shouldReceive('firstYearDiscount')->once()->andReturn(100);
 
         Season::findOrFail(1)->players()->attach(5, [
             'grade'         => '11',
@@ -38,7 +38,7 @@ class PlayerTest extends TestCase
     /** @test */
     public function providesPlayersWithoutPendingRegistrationPaymentWhenFirstYearFree()
     {
-        Setting::shouldReceive('firstYearFree')->once()->andReturn(true);
+        Setting::shouldReceive('firstYearDiscount')->once()->andReturn(100);
 
         $season = Season::findOrFail(2);
         $this->assertEquals(6, $season->players()->withoutPendingPayment($season)->count());
@@ -47,7 +47,7 @@ class PlayerTest extends TestCase
     /** @test */
     public function providesPlayersWithoutPendingRegistrationPaymentWhenFirstYearIsNotFree()
     {
-        Setting::shouldReceive('firstYearFree')->once()->andReturn(false);
+        Setting::shouldReceive('firstYearDiscount')->once()->andReturn(75);
 
         DB::update('UPDATE player_season SET paid = NOW() WHERE inactive IS NULL LIMIT 1');
 

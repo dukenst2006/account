@@ -56,9 +56,14 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                <div class="checkbox check-primary">
-                                    {!! Form::checkbox("first_year_free", 1, old("first_year_free", Setting::firstYearFree()), [ "id" => 'firstYearFree' ]) !!}
-                                    <label for="firstYearFree"><strong>No fees for first year players</strong></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>First Year Player Seasonal Fee Discount</h4>
+                                <span class="help">Percentage to be subtracted from above fees for a player's first season</span>
+                                <div class="controls p-b-20">
+                                    {!! Form::number('first_year_discount', Setting::firstYearDiscount(), ['class' => 'form-control', 'maxlength' => 255]) !!}<br/>
                                 </div>
                             </div>
                         </div>

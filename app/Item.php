@@ -64,10 +64,19 @@ class Item extends Model
     {
         // seasonal registrations
         $seasonalGroupRegistrationPrefix = 'SEASON_REG_';
+        $firstYearSuffix = '_FIRST_YEAR';
         if (starts_with($this->sku, $seasonalGroupRegistrationPrefix)) {
-            $program = Program::where('slug', str_replace($seasonalGroupRegistrationPrefix, '', $this->sku))->firstOrFail();
+            $suffix = '';
+            if (ends_with($this->sku, $firstYearSuffix)) {
+                $suffix .= ' (First Year Discount)';
+            }
 
-            return $program->name.' Seasonal Registration';
+            $program = Program::where('slug', str_replace([
+                $seasonalGroupRegistrationPrefix,
+                $firstYearSuffix
+            ], '', $this->sku))->firstOrFail();
+
+            return $program->name.' Seasonal Registration'.$suffix;
         }
 
         // tournament registrations

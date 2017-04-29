@@ -113,4 +113,40 @@ class GroupTest extends TestCase
 
         $this->assertEquals(1, Group::hasPendingTournamentRegistrationFees($tournament)->count());
     }
+
+    /** @test */
+    public function noFeeWhenFullDiscount()
+    {
+        $group = Group::findOrFail(2);
+
+        Setting::setFirstYearDiscount(100);
+        $season = Season::current()->firstOrFail();
+
+        $playerIds = $group->players()->active($season)->get()->modelKeys();
+        $this->assertEquals(0, $group->seasonalFee($playerIds));
+    }
+
+    /** @test */
+    public function reducedFeeWhenDiscountSpecified()
+    {
+        $group = Group::findOrFail(2);
+
+        Setting::setFirstYearDiscount(50);
+        $season = Season::current()->firstOrFail();
+
+        $playerIds = $group->players()->active($season)->get()->modelKeys();
+        $this->assertEquals(35, $group->seasonalFee($playerIds));
+    }
+
+    /** @test */
+    public function fullFeeWhenNoDiscount()
+    {
+        $group = Group::findOrFail(2);
+
+        Setting::setFirstYearDiscount(0);
+        $season = Season::current()->firstOrFail();
+
+        $playerIds = $group->players()->active($season)->get()->modelKeys();
+        $this->assertEquals(70, $group->seasonalFee($playerIds));
+    }
 }

@@ -82,6 +82,12 @@ class TournamentsTest extends TestCase
     public function canEditTournament()
     {
         $tournament = Tournament::findOrFail(1);
+        $tournament->update([
+            'start' => (new Carbon('Feb 1st'))->format('m/d/Y'),
+            'end' => (new Carbon('Feb 1st'))->format('m/d/Y'),
+            'registration_start' => (new Carbon('Jan 1st'))->format('m/d/Y'),
+            'registration_end' => (new Carbon('Jan 1st'))->format('m/d/Y'),
+        ]);
         $newName = $tournament->name.time();
         $this
             ->visit('/admin/tournaments/1/edit')
@@ -90,7 +96,7 @@ class TournamentsTest extends TestCase
             ->type(25.10, 'participantTypes['.ParticipantType::PLAYER.'][fee]')
             ->type(45.10, 'participantTypes['.ParticipantType::PLAYER.'][onsite_fee]')
             ->press('Save')
-            ->see($tournament->name);
+            ->see($newName);
 
         $tournament = Tournament::where('id', 1)->firstOrFail();
         $playerFees = $tournament->participantFees()->where('participant_type_id', ParticipantType::PLAYER)->first();

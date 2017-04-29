@@ -11,7 +11,7 @@
                     <strong>{{ $playersPendingPayment->count() }}</strong> player's fees are due
             @endif
 
-            for a total of <strong>${{ number_format(Session::group()->program->registration_fee * $playersPendingPayment->count()) }}</strong> at ${{ number_format(Session::group()->program->registration_fee) }}/player</p>
+            for a total of <strong>${{ number_format(Session::group()->seasonalFee($playersPendingPayment->modelKeys())) }}</strong></p>
             @if ($playersPendingPayment->count() > 0)
                 <a class="btn btn-primary btn-cons" href="/players/pay">Pay Now</a>
             @endif

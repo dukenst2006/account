@@ -22,6 +22,17 @@ class ItemTest extends TestCase
     }
 
     /** @test */
+    public function generatesSeasonalRegistrationFirstYearDiscountDescription()
+    {
+        foreach (Program::all() as $program) {
+            $item = new Item([
+                'sku' => $program->sku.'_FIRST_YEAR',
+            ]);
+            $this->assertEquals($program->name.' Seasonal Registration (First Year Discount)', $item->name());
+        }
+    }
+
+    /** @test */
     public function generatesTournamentQuizmasterDescriptions()
     {
         $item = new Item([
