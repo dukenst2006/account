@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Ability;
 use App\ParticipantType;
 use Bouncer;
+use Setting;
 
 class TournamentCreateRequest extends Request
 {
@@ -28,9 +29,9 @@ class TournamentCreateRequest extends Request
         return [
             'name'                                                                  => 'required',
             'start'                                                                 => 'required',
-            'end'                                                                   => 'required',
+            'end'                                                                   => 'required|before:'.Setting::seasonEnd()->toDateTimeString(),
             'registration_start'                                                    => 'required',
-            'registration_end'                                                      => 'required',
+            'registration_end'                                                      => 'required|before:'.Setting::seasonEnd()->toDateTimeString(),
             'max_teams'                                                             => 'required',
             'minimum_players_per_team'                                              => 'required',
             'maximum_players_per_team'                                              => 'required',
@@ -49,8 +50,10 @@ class TournamentCreateRequest extends Request
         return [
             'start.required'                                                                        => 'A start date is required',
             'end.required'                                                                          => 'An end date is required',
+            'end.before'                                                                            => 'Tournament must end before '.Setting::seasonEnd()->format('F j, Y'),
             'registration_start.required'                                                           => 'A registration start date is required',
             'registration_end.required'                                                             => 'A registration end date is required',
+            'registration_end.before'                                                               => 'Tournament registration must end before '.Setting::seasonEnd()->format('F j, Y'),
             'max_teams.required'                                                                    => 'Max number of teams is required',
             'minimum_players_per_team.required'                                                     => 'Minimum number of players per team is required',
             'maximum_players_per_team.required'                                                     => 'Maximum number of players per team is required',

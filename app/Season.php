@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Setting;
 
 /**
  * App\Season.
@@ -85,10 +86,8 @@ class Season extends Model
         $lastSeason = self::orderBy('id', 'DESC')->first();
 
         // the end date may change depending on how the admin has configured it
-        // so we assume now since we don't know for certain when the current
-        // season will end
         if ($this->id == $lastSeason->id) {
-            return Carbon::now();
+            return Setting::seasonEnd();
         }
 
         // use the start date of the next season
