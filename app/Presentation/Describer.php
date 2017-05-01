@@ -47,9 +47,9 @@ class Describer
     {
         if ($number == 1) {
             return $number.'st';
-        } else if ($number == 2) {
+        } elseif ($number == 2) {
             return $number.'nd';
-        } else if ($number == 3) {
+        } elseif ($number == 3) {
             return $number.'rd';
         }
 

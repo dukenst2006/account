@@ -2,8 +2,8 @@
 
 namespace App\Groups;
 
-use Illuminate\Support\Fluent;
 use App\Group;
+use Illuminate\Support\Fluent;
 
 class Settings extends Fluent
 {

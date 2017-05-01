@@ -215,7 +215,7 @@ class DatabaseSeeder extends Seeder
         // seed beginner group
         $beginnerGroup = $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address, true);
         $beginnerGroup->update([
-            'program_id' => Program::BEGINNER
+            'program_id' => Program::BEGINNER,
         ]);
         $settings = $beginnerGroup->settings;
         $settings->setGroupToShareRosterWith($group);

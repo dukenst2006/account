@@ -6,14 +6,14 @@ use App\Group;
 use App\Presentation\Describer;
 use App\Program;
 use App\Season;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ShareGraduatingPlayers extends Mailable implements ShouldQueue
 {
@@ -48,7 +48,7 @@ class ShareGraduatingPlayers extends Mailable implements ShouldQueue
         $filename = str_slug($this->group->name).'_'.Describer::suffix($this->program->max_grade).'-graders_'.$this->season->name;
         $this->subject('Graduating '.$grade.' Graders')
             ->attachData($this->playerAttachment($filename, $players)->string('csv'), $filename, [
-                'mime' => 'text/csv'
+                'mime' => 'text/csv',
             ])
             ->withGrade($grade)
             ->withGroup($this->group)
@@ -67,6 +67,7 @@ class ShareGraduatingPlayers extends Mailable implements ShouldQueue
     private function playerAttachment(string $filename, Collection $players) : LaravelExcelWriter
     {
         $excel = app(Excel::class);
+
         return $excel->create($filename, function (LaravelExcelWriter $excel) use ($players) {
             $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
                 $sheet->appendRow([

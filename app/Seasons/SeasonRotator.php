@@ -2,10 +2,10 @@
 
 namespace App\Seasons;
 
+use App\Groups\RosterSharing\ShareGraduatingPlayers;
 use App\Program;
 use App\Role;
 use App\Season;
-use App\Groups\RosterSharing\ShareGraduatingPlayers;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Mail;
