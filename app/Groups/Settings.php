@@ -3,6 +3,7 @@
 namespace App\Groups;
 
 use Illuminate\Support\Fluent;
+use App\Group;
 
 class Settings extends Fluent
 {
@@ -41,6 +42,21 @@ class Settings extends Fluent
             $this->mailchimpEnabled() &&
             $this->mailchimpKey() != null &&
             $this->mailchimpListId() != null;
+    }
+
+    public function groupToShareRosterWith() : Group
+    {
+        return Group::findOrFail($this->get('groupToShareRosterWith'));
+    }
+
+    public function hasGroupToShareRosterWith() : bool
+    {
+        return $this->get('groupToShareRosterWith', null) != null;
+    }
+
+    public function setGroupToShareRosterWith(Group $group)
+    {
+        return $this->groupToShareRosterWith = $group->id;
     }
 
     public function mailchimpEnabled()

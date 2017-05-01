@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Groups\GroupCreator;
+use App\Groups\Settings;
 use App\Http\Requests\GroupCreationRequest;
 use App\Http\Requests\GroupCreatorOnlyRequest;
 use App\Http\Requests\GroupEditRequest;
@@ -72,8 +73,11 @@ class GroupController extends Controller
      */
     public function edit(GroupCreatorOnlyRequest $request, $id)
     {
+        $group = Group::findOrFail($id);
+
         return view('group.edit')
-            ->withGroup(Group::findOrFail($id));
+            ->withGroup($group)
+            ->withSettings($group->settings);
     }
 
     /**
@@ -85,13 +89,20 @@ class GroupController extends Controller
     public function update(GroupEditRequest $request, $id)
     {
         $group = Group::findOrFail($id);
-        $form = $request->all();
+        $form = $request->except('group_id');
 
         // When the user has not checked the "inactive" checkbox.
         if (!$request->has('inactive')) {
             // Group is Active.
             $form['inactive'] = null;
         }
+
+        /** @var Settings $settings */
+        $settings = $group->settings;
+        if ($request->has('group_id')) {
+            $settings->setGroupToShareRosterWith(Group::findOrFail($request->get('group_id')));
+        }
+        $form['settings'] = $settings;
 
         $group->update($form);
 

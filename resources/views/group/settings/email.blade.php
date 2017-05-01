@@ -72,7 +72,7 @@
 @endsection
 
 @js
-    @if(isset($justCreated))
+    @if(isset($justCreated) && $justCreated)
         $(window).load(function(){
             $('#justCreatedModal').modal('show');
         });

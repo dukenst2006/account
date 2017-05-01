@@ -2,7 +2,10 @@
 
 namespace App\Seasons;
 
+use App\Program;
+use App\Role;
 use App\Season;
+use App\Groups\RosterSharing\ShareGraduatingPlayers;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Mail;
@@ -55,6 +58,18 @@ class SeasonRotator extends Command
 
             // since the season rotated today, deactivate inactive groups from last season
             $lastSeason = Season::orderBy('id', 'DESC')->skip(1)->first();
+
+            // Share graduating players with an older group
+            $program = Program::findOrFail(Program::BEGINNER);
+            foreach ($program->groups()->active()->get() as $group) {
+                if ($group->settings->hasGroupToShareRosterWith()) {
+                    foreach ($group->settings->groupToShareRosterWith()->users()->with('roles')->get() as $user) {
+                        if ($user->isA(Role::HEAD_COACH)) {
+                            Mail::to($user)->send(new ShareGraduatingPlayers($group, $program, $lastSeason));
+                        }
+                    }
+                }
+            }
 
             $groupDeactivator->deactivateInactiveGroups($lastSeason);
         }

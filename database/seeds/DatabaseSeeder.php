@@ -156,12 +156,12 @@ class DatabaseSeeder extends Seeder
             'zip_code'         => '40241',
         ]);
         $BKuhlHeadCoach = User::create([
-          'status'                => User::STATUS_CONFIRMED,
-          'first_name'            => 'Ben',
-          'last_name'             => 'HeadCoach',
-          'email'                 => self::HEAD_COACH_EMAIL,
-          'password'              => bcrypt('changeme'),
-          'primary_address_id'    => $address->id,
+            'status'                => User::STATUS_CONFIRMED,
+            'first_name'            => 'Ben',
+            'last_name'             => 'HeadCoach',
+            'email'                 => self::HEAD_COACH_EMAIL,
+            'password'              => bcrypt('changeme'),
+            'primary_address_id'    => $address->id,
         ]);
         $BKuhlHeadCoach->addresses()->save($address);
 
@@ -211,6 +211,16 @@ class DatabaseSeeder extends Seeder
         $BKuhlHeadCoach = User::findOrFail($BKuhlHeadCoach->id);
         $group = $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address);
         $this->seedTeamSet($group);
+
+        // seed beginner group
+        $beginnerGroup = $this->seedGroupWithPlayers($groupCreator, $BKuhlHeadCoach, $address, true);
+        $beginnerGroup->update([
+            'program_id' => Program::BEGINNER
+        ]);
+        $settings = $beginnerGroup->settings;
+        $settings->setGroupToShareRosterWith($group);
+        $beginnerGroup->settings = $settings;
+        $beginnerGroup->save();
 
         return $BKuhlHeadCoach;
     }
@@ -290,7 +300,7 @@ class DatabaseSeeder extends Seeder
         self::$guardian->addresses()->saveMany($savedAddresses);
     }
 
-    private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address)
+    private function seedGroupWithPlayers(GroupCreator $groupCreator, User $headCoach, Address $address, bool $beginner = true)
     {
         $group = $groupCreator->create($headCoach, [
             'name'                  => self::GROUP_NAME,
@@ -308,7 +318,7 @@ class DatabaseSeeder extends Seeder
         $player = seedPlayer($guardian);
         $this->season->players()->attach($player->id, [
             'group_id'      => $group->id,
-            'grade'         => rand(6, 12),
+            'grade'         => $beginner ? rand(3, 5) : rand(6, 12),
             'shirt_size'    => 'YS',
 
             // needed for outstanding registration fee reminder
@@ -318,7 +328,7 @@ class DatabaseSeeder extends Seeder
         $player = seedPlayer($guardian);
         $this->season->players()->attach($player->id, [
             'group_id'      => $group->id,
-            'grade'         => rand(6, 12),
+            'grade'         => $beginner ? rand(3, 5) : rand(6, 12),
             'shirt_size'    => 'YM',
 
             // needed for outstanding registration fee reminder
@@ -334,7 +344,7 @@ class DatabaseSeeder extends Seeder
         $this->season->players()->attach($player->id, [
             'inactive'      => Carbon::now()->toDateTimeString(),
             'group_id'      => $group->id,
-            'grade'         => rand(6, 12),
+            'grade'         => $beginner ? rand(3, 5) : rand(6, 12),
             'shirt_size'    => 'M',
         ]);
 

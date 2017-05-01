@@ -59,6 +59,11 @@ class Program extends Model
         return $this->hasMany(Group::class);
     }
 
+    public function groups() : HasMany
+    {
+        return $this->hasMany(Group::class);
+    }
+
     public function tournaments() : HasMany
     {
         return $this->hasMany(Tournament::class);
