@@ -17,7 +17,7 @@ class PlayerTest extends TestCase
 
         $season = Season::findOrFail(2);
 
-        $this->assertEquals(2, $season->players()->pendingRegistrationPayment($season)->count());
+        $this->assertEquals(4, $season->players()->pendingRegistrationPayment($season)->count());
     }
 
     /** @test */
@@ -41,7 +41,7 @@ class PlayerTest extends TestCase
         Setting::shouldReceive('firstYearDiscount')->once()->andReturn(100);
 
         $season = Season::findOrFail(2);
-        $this->assertEquals(6, $season->players()->withoutPendingPayment($season)->count());
+        $this->assertEquals(9, $season->players()->withoutPendingPayment($season)->count());
     }
 
     /** @test */

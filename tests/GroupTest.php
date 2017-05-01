@@ -16,7 +16,7 @@ class GroupTest extends TestCase
     {
         $season = Season::current()->firstOrFail();
 
-        $this->assertEquals(1, Group::hasPendingRegistrationPayments($season)->count());
+        $this->assertEquals(2, Group::hasPendingRegistrationPayments($season)->count());
     }
 
     /** @test */

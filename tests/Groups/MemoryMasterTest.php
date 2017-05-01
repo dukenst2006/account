@@ -16,6 +16,8 @@ class MemoryMasterTest extends TestCase
     /** @test */
     public function changeMemoryMaster()
     {
+        Carbon::setTestNow(new Carbon('Feb 2nd '.date('Y')));
+
         $this
             ->visit('/memory-master')
             ->check('player[9]')
