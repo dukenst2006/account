@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\JoinClause;
 use Mail;
 use Ramsey\Uuid\Uuid;
-use Validator;
 use Setting;
+use Validator;
 
 /**
  * App\Group.

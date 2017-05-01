@@ -73,7 +73,7 @@ class Item extends Model
 
             $program = Program::where('slug', str_replace([
                 $seasonalGroupRegistrationPrefix,
-                $firstYearSuffix
+                $firstYearSuffix,
             ], '', $this->sku))->firstOrFail();
 
             return $program->name.' Seasonal Registration'.$suffix;
