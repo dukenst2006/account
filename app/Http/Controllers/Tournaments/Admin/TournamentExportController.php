@@ -228,7 +228,7 @@ class TournamentExportController extends Controller
     {
         $tournament = Tournament::findOrFail($tournamentId);
         $quizmasters = $tournament->eligibleQuizmasters()
-            ->with('user', 'group', 'registeredBy')
+            ->with('user', 'user.primaryAddress', 'group', 'group.meetingAddress', 'registeredBy')
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC')
             ->get();
@@ -242,6 +242,11 @@ class TournamentExportController extends Controller
                     'E-mail',
                     'Phone',
                     'Gender',
+                    'Address One',
+                    'Address Two',
+                    'City',
+                    'State',
+                    'Zip Code',
                 ];
 
                 if ($tournament->settings->shouldCollectShirtSizes()) {
@@ -275,6 +280,11 @@ class TournamentExportController extends Controller
                         $quizmaster->email,
                         Html::formatPhone($quizmaster->phone),
                         $quizmaster->gender,
+                        $quizmaster->user != null ? $quizmaster->user->primaryAddress->address_one : '',
+                        $quizmaster->user != null ? $quizmaster->user->primaryAddress->address_two : '',
+                        $quizmaster->user != null ? $quizmaster->user->primaryAddress->city : $quizmaster->group->meetingAddress->city,
+                        $quizmaster->user != null ? $quizmaster->user->primaryAddress->state : $quizmaster->group->meetingAddress->state,
+                        $quizmaster->user != null ? $quizmaster->user->primaryAddress->zip_code : '',
                     ];
 
                     if ($tournament->settings->shouldCollectShirtSizes()) {
@@ -303,11 +313,11 @@ class TournamentExportController extends Controller
             });
         });
 
-        if (app()->environment('testing')) {
+        //if (app()->environment('testing')) {
             echo $document->string('csv');
-        } else {
-            $document->download($format);
-        }
+//        } else {
+//            $document->download($format);
+//        }
     }
 
     public function exportTshirts(int $tournamentId, string $format, ShirtSizeExporter $shirtSizeExporter)
@@ -327,7 +337,7 @@ class TournamentExportController extends Controller
     {
         $tournament = Tournament::findOrFail($tournamentId);
         $spectators = $tournament->eligibleSpectators()
-            ->with('minors', 'group', 'address')
+            ->with('minors', 'group', 'address', 'user', 'user.primaryAddress')
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC')
             ->get();
@@ -353,6 +363,11 @@ class TournamentExportController extends Controller
                     'E-mail',
                     'Phone',
                     'Gender',
+                    'Address One',
+                    'Address Two',
+                    'City',
+                    'State',
+                    'Zip Code',
                 ];
                 if ($tournament->settings->shouldCollectShirtSizes()) {
                     $headers = array_merge($headers, [
@@ -407,6 +422,11 @@ class TournamentExportController extends Controller
                         $spectator->email,
                         Html::formatPhone($spectator->phone),
                         $spectator->gender,
+                        $spectator->address->address_one,
+                        $spectator->address->address_two,
+                        $spectator->address->city,
+                        $spectator->address->state,
+                        $spectator->address->zip_code,
                     ];
 
                     if ($tournament->settings->shouldCollectShirtSizes()) {
