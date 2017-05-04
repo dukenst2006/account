@@ -54,7 +54,13 @@ class ReportsController extends Controller
             ->orderBy('first_name', 'ASC')
             ->get();
 
-        echo $exporter->export($currentSeason->name.'_memory-master-achievers', $players)->string('csv');
+        $document = $exporter->export($currentSeason->name.'_memory-master-achievers', $players);
+
+        if (app()->environment('testing')) {
+            echo $document->string('csv');
+        } else {
+            $document->download('csv');
+        }
     }
 
     /**
