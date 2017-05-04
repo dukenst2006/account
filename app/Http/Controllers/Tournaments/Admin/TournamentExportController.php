@@ -33,6 +33,8 @@ class TournamentExportController extends Controller
             ->select(
                 'players.*',
                 'groups.name AS group_name',
+                'addresses.city AS group_city',
+                'addresses.state AS group_state',
                 'player_season.grade AS player_grade',
                 'teams.name AS team_name',
                 'team_player.created_at AS added_to_team'
@@ -48,6 +50,7 @@ class TournamentExportController extends Controller
                     ->on('teams.id', '=', 'team_player.team_id');
             })
             ->join('groups', 'groups.id', '=', 'team_sets.group_id')
+            ->join('addresses', 'addresses.id', '=', 'groups.meeting_address_id')
             ->with([
                 'events' => function (BelongsToMany $q) use ($tournament) {
                     $q->where('events.tournament_id', $tournament->id);
@@ -69,6 +72,8 @@ class TournamentExportController extends Controller
             $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players, $optionalPlayerEvents) {
                 $headers = [
                     'Group',
+                    'City',
+                    'State',
                     'Team',
                     'First Name',
                     'Last Name',
@@ -85,6 +90,8 @@ class TournamentExportController extends Controller
                 foreach ($players as $player) {
                     $data = [
                         $player->group_name,
+                        $player->group_city,
+                        $player->group_state,
                         $player->team_name,
                         $player->first_name,
                         $player->last_name,
@@ -95,8 +102,8 @@ class TournamentExportController extends Controller
 
                     foreach ($optionalPlayerEvents as $optionalPlayerEvent) {
                         $hasUnpaidFees = $player->events->filter(function ($item) use ($optionalPlayerEvent) {
-                            return $item->id == $optionalPlayerEvent->id && $item->pivot->receipt_id != null;
-                        })->count() == 0;
+                                return $item->id == $optionalPlayerEvent->id && $item->pivot->receipt_id != null;
+                            })->count() == 0;
                         if ($player->events->contains($optionalPlayerEvent->id) && $hasUnpaidFees === false) {
                             $data[] = 'Y';
                         } else {
