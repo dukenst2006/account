@@ -102,8 +102,8 @@ class TournamentExportController extends Controller
 
                     foreach ($optionalPlayerEvents as $optionalPlayerEvent) {
                         $hasUnpaidFees = $player->events->filter(function ($item) use ($optionalPlayerEvent) {
-                                return $item->id == $optionalPlayerEvent->id && $item->pivot->receipt_id != null;
-                            })->count() == 0;
+                            return $item->id == $optionalPlayerEvent->id && $item->pivot->receipt_id != null;
+                        })->count() == 0;
                         if ($player->events->contains($optionalPlayerEvent->id) && $hasUnpaidFees === false) {
                             $data[] = 'Y';
                         } else {
