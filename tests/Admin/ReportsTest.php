@@ -60,7 +60,7 @@ class ReportsTest extends TestCase
 
         ob_start();
         $this
-            ->visit('/admin/reports/export-memory-master/'.\App\Program::BEGINNER)
+            ->visit('/admin/reports/export-memory-master/'.\App\Program::TEEN)
             ->assertResponseOk();
 
         $csvContents = ob_get_contents();
