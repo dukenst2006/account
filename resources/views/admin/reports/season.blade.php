@@ -21,16 +21,44 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4 text-center">
+                    <div class="col-md-4 col-sm-4 col-md-offset-2 col-sm-offset-2 text-center">
                         <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format(\App\Player::achievedMemoryMaster($currentSeason)->count()) }}</h2>
                         <div class="tiles-title blend p-b-25">
                             MEMORY MASTER ACHIEVERS
                             <div class="m-t-10">
-                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master/{{ \App\Program::BEGINNER }}">
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master/{{ \App\Program::BEGINNER }}?seasonId={{ $currentSeason->id }}">
                                     <i class="fa fa-download"></i>
                                     Beginner
                                 </a> &nbsp;
-                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master/{{ \App\Program::TEEN }}">
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master/{{ \App\Program::TEEN }}?seasonId={{ $currentSeason->id }}">
+                                    <i class="fa fa-download"></i>
+                                    Teen
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 text-center">
+                        <h2 class="semi-bold text-primary no-margin p-t-35 p-b-10">{{ number_format($playerCount) }}</h2>
+                        <div class="tiles-title blend p-b-25">
+                            PLAYERS
+                            <div class="m-t-10">
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-players/{{ \App\Program::BEGINNER }}?seasonId={{ $currentSeason->id }}">
+                                    <i class="fa fa-download"></i>
+                                    Beginner
+                                </a> &nbsp;
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-players/{{ \App\Program::TEEN }}?seasonId={{ $currentSeason->id }}">
+                                    <i class="fa fa-download"></i>
+                                    Teen
+                                </a>
+                            </div>
+                            <div class="m-t-10">
+                                For sponsors:
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-players/{{ \App\Program::BEGINNER }}?seasonId={{ $currentSeason->id }}&sponsors=1">
+                                    <i class="fa fa-download"></i>
+                                    Beginner
+                                </a> &nbsp;
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-players/{{ \App\Program::TEEN }}?seasonId={{ $currentSeason->id }}&sponsors=1">
                                     <i class="fa fa-download"></i>
                                     Teen
                                 </a>
