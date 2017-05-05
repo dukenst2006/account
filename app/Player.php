@@ -301,13 +301,22 @@ class Player extends Model
             ->active($season);
     }
 
-    public function scopeAchievedMemoryMaster(Builder $query, Season $season)
+    public function scopeAchievedMemoryMaster(Builder $query, Season $season, int $programId = null)
     {
-        return $query->whereHas('seasons', function (Builder $query) use ($season) {
+        $query->whereHas('seasons', function (Builder $query) use ($season) {
             $query
                 ->where('seasons.id', $season->id)
                 ->where('player_season.memory_master', 1);
         });
+
+        if ($programId != null) {
+            $query->whereHas('groups', function (Builder $query) use ($season, $programId) {
+                $query
+                    ->where('groups.program_id', $programId)
+                    ->where('player_season.season_id', $season->id)
+                    ->where('player_season.memory_master', 1);
+            });
+        }
     }
 
     public function scopeHaveNotAchievedMemoryMaster(Builder $query, Season $season)

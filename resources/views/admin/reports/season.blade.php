@@ -26,9 +26,13 @@
                         <div class="tiles-title blend p-b-25">
                             MEMORY MASTER ACHIEVERS
                             <div class="m-t-10">
-                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master">
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master/{{ \App\Program::BEGINNER }}">
                                     <i class="fa fa-download"></i>
-                                    Export
+                                    Beginner
+                                </a> &nbsp;
+                                <a class="btn btn-primary btn-xs btn-mini" href="/admin/reports/export-memory-master/{{ \App\Program::TEEN }}">
+                                    <i class="fa fa-download"></i>
+                                    Teen
                                 </a>
                             </div>
                         </div>

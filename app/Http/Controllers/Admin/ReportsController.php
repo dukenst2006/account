@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Request;
 use App\Player;
+use App\Program;
 use App\RegistrationSurveyQuestion;
 use App\Reporting\FinancialsRepository;
 use App\Reporting\GroupMetricsRepository;
@@ -43,11 +44,11 @@ class ReportsController extends Controller
         ]);
     }
 
-    public function exportMemoryMaster(Request $request, PlayerExporter $exporter)
+    public function exportMemoryMaster(Request $request, PlayerExporter $exporter, int $programId)
     {
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : Season::current()->first();
 
-        $players = Player::achievedMemoryMaster($currentSeason)
+        $players = Player::achievedMemoryMaster($currentSeason, $programId)
             ->withSeasonCount()
             ->with('guardian', 'guardian.primaryAddress')
             ->orderBy('last_name', 'ASC')
