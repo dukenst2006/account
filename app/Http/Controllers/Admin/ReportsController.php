@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Request;
 use App\Player;
-use App\Program;
 use App\RegistrationSurveyQuestion;
 use App\Reporting\FinancialsRepository;
 use App\Reporting\GroupMetricsRepository;
@@ -13,10 +12,10 @@ use App\Reporting\PlayerExporter;
 use App\Reporting\PlayerMetricsRepository;
 use App\Reporting\SurveyMetricsRepository;
 use App\Season;
+use Html;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
-use Html;
 
 class ReportsController extends Controller
 {
@@ -60,7 +59,7 @@ class ReportsController extends Controller
                     'guardian.primaryAddress',
                     'seasons' => function ($q) use ($currentSeason) {
                         $q->where('seasons.id', $currentSeason->id);
-                    }
+                    },
                 ])
                 ->orderBy('last_name', 'ASC')
                 ->orderBy('first_name', 'ASC')
