@@ -313,11 +313,11 @@ class TournamentExportController extends Controller
             });
         });
 
-        //if (app()->environment('testing')) {
+        if (app()->environment('testing')) {
             echo $document->string('csv');
-//        } else {
-//            $document->download($format);
-//        }
+        } else {
+            $document->download($format);
+        }
     }
 
     public function exportTshirts(int $tournamentId, string $format, ShirtSizeExporter $shirtSizeExporter)

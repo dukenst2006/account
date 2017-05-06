@@ -60,7 +60,7 @@
                             </tr>
                             <tr>
                                 <td>Games quizzed this season</td>
-                                <td>{{ number_format($quizmaster->quizzing_preferences->gamesQuizzedThisSeason()) }}</td>
+                                <td>{{ $quizmaster->quizzing_preferences->gamesQuizzedThisSeason() }}</td>
                             </tr>
                             <tr>
                                 <td>Quizzing interest (1-3)</td>

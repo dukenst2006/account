@@ -24,7 +24,7 @@ class ReceiptController extends Controller
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('account.receipts.pdf', [
             'receipt'         => $receipt,
-            'user'            => Auth::user(),
+            'user'            => $receipt->user,
         ]);
 
         return $pdf->stream();
