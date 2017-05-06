@@ -1,7 +1,7 @@
 <?php
 
-use App\Program;
 use App\Player;
+use App\Program;
 use App\Season;
 use Carbon\Carbon;
 
