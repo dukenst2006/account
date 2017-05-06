@@ -49,7 +49,7 @@ class ReportsController extends Controller
         ]);
     }
 
-    public function exportPlayers(Request $request, PlayerExporter $exporter)
+    public function exportPlayers(Request $request, PlayerExporter $exporter, int $programId)
     {
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : Season::current()->first();
 
@@ -62,6 +62,9 @@ class ReportsController extends Controller
                         $q->where('seasons.id', $currentSeason->id);
                     },
                 ])
+                ->whereHas('groups', function ($q) use ($programId) {
+                    $q->where('program_id', $programId);
+                })
                 ->orderBy('last_name', 'ASC')
                 ->orderBy('first_name', 'ASC')
                 ->get();
@@ -106,6 +109,9 @@ class ReportsController extends Controller
             $players = Player::active($currentSeason)
                 ->withSeasonCount()
                 ->with('guardian', 'guardian.primaryAddress')
+                ->whereHas('groups', function ($q) use ($programId) {
+                    $q->where('program_id', $programId);
+                })
                 ->orderBy('last_name', 'ASC')
                 ->orderBy('first_name', 'ASC')
                 ->get();
