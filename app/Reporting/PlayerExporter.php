@@ -2,6 +2,7 @@
 
 namespace App\Reporting;
 
+use Closure;
 use App\Player;
 use Html;
 use Illuminate\Support\Collection;
@@ -20,13 +21,13 @@ class PlayerExporter
         $this->excel = $excel;
     }
 
-    public function export(string $filename, Collection $players) : LaravelExcelWriter
+    public function export(string $filename, Collection $players, ?Closure $headerModifier = null, ?Closure $playerModifier = null) : LaravelExcelWriter
     {
         $excel = $this->excel;
 
-        return $excel->create($filename, function (LaravelExcelWriter $excel) use ($players) {
-            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
-                $sheet->appendRow([
+        return $excel->create($filename, function (LaravelExcelWriter $excel) use ($players, $headerModifier, $playerModifier) {
+            $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players, $headerModifier, $playerModifier) {
+                $headers = [
                     'GUID',
                     'Last Name',
                     'First Name',
@@ -43,7 +44,11 @@ class PlayerExporter
                     'Guardian First Name',
                     'Guardian Email',
                     'Guardian Phone',
-                ]);
+                ];
+                if ($headerModifier != null) {
+                    $headers = $headerModifier($headers);
+                }
+                $sheet->appendRow($headers);
 
                 $sheet->row(1, function (CellWriter $row) {
                     $row->setFontWeight('bold');
@@ -51,7 +56,7 @@ class PlayerExporter
 
                 /** @var Player $player */
                 foreach ($players as $player) {
-                    $sheet->appendRow([
+                    $playerData = [
                         $player->guid,
                         $player->last_name,
                         $player->first_name,
@@ -68,7 +73,11 @@ class PlayerExporter
                         $player->guardian->first_name,
                         $player->guardian->email,
                         Html::formatPhone($player->guardian->phone),
-                    ]);
+                    ];
+                    if ($playerModifier != null) {
+                        $playerData = $playerModifier($player, $playerData);
+                    }
+                    $sheet->appendRow($playerData);
                 }
             });
         });

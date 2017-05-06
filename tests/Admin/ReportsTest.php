@@ -1,5 +1,6 @@
 <?php
 
+use App\Program;
 use App\Player;
 use App\Season;
 use Carbon\Carbon;
@@ -60,7 +61,7 @@ class ReportsTest extends TestCase
 
         ob_start();
         $this
-            ->visit('/admin/reports/export-memory-master/'.\App\Program::TEEN.'?seasonId='.$currentSeason->id)
+            ->visit('/admin/reports/export-memory-master/'.Program::TEEN.'?seasonId='.$currentSeason->id)
             ->assertResponseOk();
 
         $csvContents = ob_get_contents();

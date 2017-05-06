@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Request;
 use App\Player;
+use App\Program;
 use App\RegistrationSurveyQuestion;
 use App\Reporting\FinancialsRepository;
 use App\Reporting\GroupMetricsRepository;
@@ -80,6 +81,8 @@ class ReportsController extends Controller
                         'City',
                         'State',
                         'Zip Code',
+                        'Group',
+                        'Group GUID',
                     ]);
 
                     /** @var Player $player */
@@ -121,14 +124,32 @@ class ReportsController extends Controller
     {
         $currentSeason = $request->has('seasonId') ? Season::findOrFail($request->get('seasonId')) : Season::current()->first();
 
+        $program = Program::findOrFail($programId);
         $players = Player::achievedMemoryMaster($currentSeason, $programId)
             ->withSeasonCount()
             ->with('guardian', 'guardian.primaryAddress')
+            ->with([
+                'groups' => function ($q) use ($currentSeason) {
+                    $q->where('player_season.season_id', $currentSeason->id);
+                },
+            ])
             ->orderBy('last_name', 'ASC')
             ->orderBy('first_name', 'ASC')
             ->get();
 
-        $document = $exporter->export($currentSeason->name.'_memory-master-achievers', $players);
+        $document = $exporter->export(
+            $currentSeason->name.'_'.$program->name.'_memory-master-achievers',
+            $players,
+            function (array $headers) {
+                array_unshift($headers, 'Group', 'Group GUID');
+                return $headers;
+            },
+            function (Player $player, array $playerData) {
+                $group = $player->groups->first();
+                array_unshift($playerData, $group->name, $group->guid);
+                return $playerData;
+            }
+        );
 
         if (app()->environment('testing')) {
             echo $document->string('csv');
