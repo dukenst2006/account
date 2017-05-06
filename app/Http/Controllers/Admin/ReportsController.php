@@ -142,11 +142,13 @@ class ReportsController extends Controller
             $players,
             function (array $headers) {
                 array_unshift($headers, 'Group', 'Group GUID');
+
                 return $headers;
             },
             function (Player $player, array $playerData) {
                 $group = $player->groups->first();
                 array_unshift($playerData, $group->name, $group->guid);
+
                 return $playerData;
             }
         );

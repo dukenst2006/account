@@ -2,8 +2,8 @@
 
 namespace App\Reporting;
 
-use Closure;
 use App\Player;
+use Closure;
 use Html;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
