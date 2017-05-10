@@ -79,6 +79,7 @@ class TournamentExportController extends Controller
                     'Last Name',
                     'Gender',
                     'Grade',
+                    'Player GUID',
                     'Added To Team',
                 ];
                 foreach ($optionalPlayerEvents as $optionalPlayerEvent) {
@@ -97,6 +98,8 @@ class TournamentExportController extends Controller
                         $player->last_name,
                         $player->gender,
                         $player->player_grade,
+                        $player->team_name,
+                        $player->guid,
                         (new Carbon($player->added_to_team))->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
                     ];
 
@@ -358,6 +361,7 @@ class TournamentExportController extends Controller
             $excel->sheet('Spectators', function (LaravelExcelWorksheet $sheet) use ($spectators, $tournament, $maxMinors) {
                 $headers = [
                     'Group',
+                    'Role',
                     'First Name',
                     'Last Name',
                     'E-mail',
@@ -374,37 +378,37 @@ class TournamentExportController extends Controller
                         'T-shirt Size',
                     ]);
                 }
-
-                $headers = array_merge($headers, [
-                    'Spouse Name',
-                    'Spouse Gender',
-                ]);
-                if ($tournament->settings->shouldCollectShirtSizes()) {
-                    $headers = array_merge($headers, [
-                        'Spouse T-shirt Size',
-                    ]);
-                }
-
-                // add appropriate columns for each minor
-                if ($maxMinors > 0) {
-                    $minorColumns = [];
-                    for ($x = 1; $x <= $maxMinors; $x++) {
-                        $minorColumns = array_merge($minorColumns, [
-                            'Minor '.$x.' Name',
-                            'Minor '.$x.' Age',
-                            'Minor '.$x.' Gender',
-                        ]);
-                        if ($tournament->settings->shouldCollectShirtSizes()) {
-                            $minorColumns = array_merge($minorColumns, [
-                                'Minor '.$x.' T-shirt Size',
-                            ]);
-                        }
-                    }
-                    if (count($minorColumns) > 0) {
-                        array_unshift($minorColumns, 'Minors');
-                        $headers = array_merge($headers, $minorColumns);
-                    }
-                }
+//
+//                $headers = array_merge($headers, [
+//                    'Spouse Name',
+//                    'Spouse Gender',
+//                ]);
+//                if ($tournament->settings->shouldCollectShirtSizes()) {
+//                    $headers = array_merge($headers, [
+//                        'Spouse T-shirt Size',
+//                    ]);
+//                }
+//
+//                // add appropriate columns for each minor
+//                if ($maxMinors > 0) {
+//                    $minorColumns = [];
+//                    for ($x = 1; $x <= $maxMinors; $x++) {
+//                        $minorColumns = array_merge($minorColumns, [
+//                            'Minor '.$x.' Name',
+//                            'Minor '.$x.' Age',
+//                            'Minor '.$x.' Gender',
+//                        ]);
+//                        if ($tournament->settings->shouldCollectShirtSizes()) {
+//                            $minorColumns = array_merge($minorColumns, [
+//                                'Minor '.$x.' T-shirt Size',
+//                            ]);
+//                        }
+//                    }
+//                    if (count($minorColumns) > 0) {
+//                        array_unshift($minorColumns, 'Minors');
+//                        $headers = array_merge($headers, $minorColumns);
+//                    }
+//                }
 
                 $headers = array_merge($headers, [
                     'Registered',
@@ -415,8 +419,14 @@ class TournamentExportController extends Controller
 
                 /** @var Spectator $spectators */
                 foreach ($spectators as $spectator) {
+                    $registeredByData = [
+                        $spectator->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
+                        $spectator->wasRegisteredByHeadCoach() ? $spectator->registeredBy->full_name : '',
+                    ];
+
                     $data = [
                         $spectator->hasGroup() ? $spectator->group->name : '',
+                        'Primary',
                         $spectator->first_name,
                         $spectator->last_name,
                         $spectator->email,
@@ -428,58 +438,65 @@ class TournamentExportController extends Controller
                         $spectator->address->state,
                         $spectator->address->zip_code,
                     ];
-
                     if ($tournament->settings->shouldCollectShirtSizes()) {
-                        $data = array_merge($data, [
-                            $spectator->shirt_size,
-                        ]);
+                        $data[] = $spectator->shirt_size;
                     }
+                    $data = array_merge($data, $registeredByData);
+                    $sheet->appendRow($data);
 
-                    $data = array_merge($data, [
-                        $spectator->spouse_first_name,
-                        $spectator->spouse_gender,
-                    ]);
-
-                    if ($tournament->settings->shouldCollectShirtSizes()) {
-                        $data = array_merge($data, [
-                            $spectator->spouse_shirt_size,
-                        ]);
-                    }
-
-                    // add appropriate minor data
-                    if ($maxMinors > 0) {
-                        $data = array_merge($data, [
-                            $spectator->minors->count(),
-                        ]);
-                        foreach ($spectator->minors as $minor) {
-                            $data = array_merge($data, [
-                                $minor->name,
-                                $minor->age,
-                                $minor->gender,
-                            ]);
-
+                    if ($spectator->isFamily()) {
+                        if ($spectator->hasSpouse()) {
+                            $data = [
+                                $spectator->hasGroup() ? $spectator->group->name : '',
+                                'Spouse',
+                                $spectator->spouse_first_name,
+                                $spectator->spouse_last_name,
+                                $spectator->email,
+                                Html::formatPhone($spectator->phone),
+                                $spectator->spouse_gender,
+                                $spectator->address->address_one,
+                                $spectator->address->address_two,
+                                $spectator->address->city,
+                                $spectator->address->state,
+                                $spectator->address->zip_code,
+                            ];
                             if ($tournament->settings->shouldCollectShirtSizes()) {
-                                $data = array_merge($data, [
-                                    $minor->shirt_size,
-                                ]);
+                                $data[] = $spectator->spouse_shirt_size;
                             }
+                            $data = array_merge($data, $registeredByData);
+                            $sheet->appendRow($data);
+                        }
+
+                        foreach ($spectator->minors as $minor) {
+                            $data = [
+                                $spectator->hasGroup() ? $spectator->group->name : '',
+                                'Minor',
+                                $minor->name,
+                                $spectator->last_name,
+                                $spectator->email,
+                                Html::formatPhone($spectator->phone),
+                                $minor->gender,
+                                $spectator->address->address_one,
+                                $spectator->address->address_two,
+                                $spectator->address->city,
+                                $spectator->address->state,
+                                $spectator->address->zip_code,
+                            ];
+                            if ($tournament->settings->shouldCollectShirtSizes()) {
+                                $data[] = $minor->shirt_size;
+                            }
+                            $data = array_merge($data, $registeredByData);
+                            $sheet->appendRow($data);
                         }
                     }
-
-                    $data = array_merge($data, [
-                        $spectator->created_at->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
-                        $spectator->wasRegisteredByHeadCoach() ? $spectator->registeredBy->full_name : '',
-                    ]);
-
-                    $sheet->appendRow($data);
                 }
             });
         });
 
-        if (app()->environment('testing')) {
+        //if (app()->environment('testing')) {
             echo $document->string('csv');
-        } else {
-            $document->download($format);
-        }
+//        } else {
+//            $document->download($format);
+//        }
     }
 }
