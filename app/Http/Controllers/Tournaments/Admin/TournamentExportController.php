@@ -378,37 +378,6 @@ class TournamentExportController extends Controller
                         'T-shirt Size',
                     ]);
                 }
-//
-//                $headers = array_merge($headers, [
-//                    'Spouse Name',
-//                    'Spouse Gender',
-//                ]);
-//                if ($tournament->settings->shouldCollectShirtSizes()) {
-//                    $headers = array_merge($headers, [
-//                        'Spouse T-shirt Size',
-//                    ]);
-//                }
-//
-//                // add appropriate columns for each minor
-//                if ($maxMinors > 0) {
-//                    $minorColumns = [];
-//                    for ($x = 1; $x <= $maxMinors; $x++) {
-//                        $minorColumns = array_merge($minorColumns, [
-//                            'Minor '.$x.' Name',
-//                            'Minor '.$x.' Age',
-//                            'Minor '.$x.' Gender',
-//                        ]);
-//                        if ($tournament->settings->shouldCollectShirtSizes()) {
-//                            $minorColumns = array_merge($minorColumns, [
-//                                'Minor '.$x.' T-shirt Size',
-//                            ]);
-//                        }
-//                    }
-//                    if (count($minorColumns) > 0) {
-//                        array_unshift($minorColumns, 'Minors');
-//                        $headers = array_merge($headers, $minorColumns);
-//                    }
-//                }
 
                 $headers = array_merge($headers, [
                     'Registered',
@@ -493,10 +462,10 @@ class TournamentExportController extends Controller
             });
         });
 
-        //if (app()->environment('testing')) {
+        if (app()->environment('testing')) {
             echo $document->string('csv');
-//        } else {
-//            $document->download($format);
-//        }
+        } else {
+            $document->download($format);
+        }
     }
 }
