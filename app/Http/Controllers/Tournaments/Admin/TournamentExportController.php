@@ -419,7 +419,7 @@ class TournamentExportController extends Controller
                                 $spectator->hasGroup() ? $spectator->group->name : '',
                                 'Spouse',
                                 $spectator->spouse_first_name,
-                                $spectator->spouse_last_name,
+                                $spectator->last_name,
                                 $spectator->email,
                                 Html::formatPhone($spectator->phone),
                                 $spectator->spouse_gender,
