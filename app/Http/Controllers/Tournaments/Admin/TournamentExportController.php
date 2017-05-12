@@ -98,7 +98,6 @@ class TournamentExportController extends Controller
                         $player->last_name,
                         $player->gender,
                         $player->player_grade,
-                        $player->team_name,
                         $player->guid,
                         (new Carbon($player->added_to_team))->timezone(Auth::user()->settings->timeszone())->toDateTimeString(),
                     ];
