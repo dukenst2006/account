@@ -2,7 +2,6 @@
 # including cron, queues, etc.
 FROM bkuhl/php:7.1
 
-
 WORKDIR /var/www/html
 
 # Copy the application files to the container
@@ -19,7 +18,7 @@ RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
 # Can be moved before application files are added to the container once
 # the issue mentioned above is fixed and released
 USER www-data
-
+RUN ls -latr .
 RUN \
 
     # production-ready dependencies
