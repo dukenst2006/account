@@ -2,6 +2,7 @@
 # including cron, queues, etc.
 FROM bkuhl/php:7.1
 
+
 WORKDIR /var/www/html
 
 # Copy the application files to the container
