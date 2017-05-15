@@ -16,8 +16,6 @@ RUN chown -R www-data:www-data /var/www/html /home/www-data
 # Can be moved before ADD once the Chown's issue is released
 USER www-data
 
-RUN ls -latr .
-
 RUN \
 
     # production-ready dependencies
