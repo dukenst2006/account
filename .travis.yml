@@ -12,7 +12,7 @@ before_install:
 install:
   # Start the docker stuff
   - docker-compose up -d
-  - sleep 8
+  - sleep 10
   # Install dev php dependencies
   - docker-compose exec web sh -c "composer install --no-interaction --prefer-dist"
 script:
