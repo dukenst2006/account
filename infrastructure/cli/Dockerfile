@@ -1,6 +1,6 @@
 # This container should be used for any/all CLI processes
 # including cron, queues, etc.
-FROM bkuhl/php:v7.1
+FROM bkuhl/php:7.1
 
 WORKDIR /var/www/html
 
