@@ -10,15 +10,11 @@ ADD . /var/www/html
 # Can be removed once https://github.com/moby/moby/issues/6119 is released
 RUN chown -R www-data:www-data /var/www/html /home/www-data
 
-# fix permissions in CI
-RUN sed -ri 's/^www-data:x:82:82:/www-data:x:1000:1000:/' /etc/passwd \
-    && sed -ri 's/^www-data:x:82:/www-data:x:1000:/' /etc/group
-
 # Run composer as www-data
 # Can be moved before application files are added to the container once
 # the issue mentioned above is fixed and released
 USER www-data
-RUN ls -latr .
+
 RUN \
 
     # production-ready dependencies
