@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
 use App\Player;
 use App\Season;
-use Html;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
