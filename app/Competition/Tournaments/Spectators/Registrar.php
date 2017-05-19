@@ -74,7 +74,7 @@ class Registrar
 
         // spouse data
         if (isset($attributes['spouse_first_name']) && !empty($attributes['spouse_first_name'])) {
-            $adult->spouse_first_name = $attributes['spouse_first_name'];
+            $adult->spouse_first_name = trim(str_replace($adult->last_name, '', $attributes['spouse_first_name']));
             $adult->spouse_gender = $attributes['spouse_gender'];
             if ($tournament->settings->shouldCollectShirtSizes()) {
                 $adult->spouse_shirt_size = $attributes['spouse_shirt_size'];
