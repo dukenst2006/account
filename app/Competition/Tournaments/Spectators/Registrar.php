@@ -89,7 +89,8 @@ class Registrar
             foreach ($attributes['minor'] as $minor) {
                 if (strlen($minor['first_name']) > 0) {
                     $minorData = [
-                        'name'          => $minor['first_name'],
+                                           // remove last name, people seem to provide this
+                        'name'          => trim(str_replace($adult->last_name, '', $minor['first_name'])),
                         'age'           => $minor['age'],
                         'gender'        => $minor['gender'],
                     ];
