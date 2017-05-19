@@ -20,8 +20,6 @@ class PlayerController extends Controller
 
         $players = Player::active($season)
             ->with([
-                'guardian',
-                'guardian.primaryAddress',
                 'groups.meetingAddress',
                 'seasons' => function ($q) use ($season) {
                     $q->where('seasons.id', $season->id);
@@ -41,21 +39,14 @@ class PlayerController extends Controller
             $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
                 $sheet->appendRow([
                     'Division',
-                    'Player GUID',
-                    'Last Name',
-                    'First Name',
-                    'Grade',
-                    'Email',
-                    'Phone',
-                    'Address One',
-                    'Address Two',
-                    'City',
-                    'State',
-                    'Zip Code',
                     'Group GUID',
                     'Group',
                     'Group City',
                     'Group State',
+                    'Player GUID',
+                    'Last Name',
+                    'First Name',
+                    'Grade',
                 ]);
 
                 /** @var Player $player */
@@ -65,21 +56,14 @@ class PlayerController extends Controller
 
                     $sheet->appendRow([
                         $group->program->abbreviation,
-                        $player->guid,
-                        $player->last_name,
-                        $player->first_name,
-                        $player->seasons->first()->pivot->grade,
-                        $player->guardian->email,
-                        Html::formatPhone($player->guardian->phone),
-                        $player->guardian->primaryAddress->address_one,
-                        $player->guardian->primaryAddress->address_two,
-                        $player->guardian->primaryAddress->city,
-                        $player->guardian->primaryAddress->state,
-                        $player->guardian->primaryAddress->zip_code,
                         $group->guid,
                         $group->name,
                         $group->meetingAddress->city,
                         $group->meetingAddress->state,
+                        $player->guid,
+                        $player->last_name,
+                        $player->first_name,
+                        $player->seasons->first()->pivot->grade,
                     ]);
                 }
             });
