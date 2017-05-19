@@ -62,7 +62,8 @@ class ReportsController extends Controller
                         $q->where('seasons.id', $currentSeason->id);
                     },
                 ])
-                ->whereHas('groups', function ($q) use ($programId) {
+                ->whereHas('groups', function ($q) use ($programId, $currentSeason) {
+                    $q->wherePivot('season_id', $currentSeason->id);
                     $q->where('program_id', $programId);
                 })
                 ->orderBy('last_name', 'ASC')

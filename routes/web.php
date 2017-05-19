@@ -292,7 +292,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('reports/growth', 'ReportsController@getGrowth');
             Route::get('reports/seasons', 'ReportsController@getSeason');
             Route::get('reports/export-memory-master/{programId}', 'ReportsController@exportMemoryMaster');
-            Route::get('reports/export-players/{programId}', 'ReportsController@exportPlayers');
+            Route::get('reports/export-players/{gc}', 'ReportsController@exportPlayers');
             Route::get('reports/financials', 'ReportsController@getFinancials');
             Route::get('reports/registration-surveys', 'ReportsController@getRegistrationSurveys');
         });

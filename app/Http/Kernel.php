@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AuthenticateApiToken;
 use App\Http\Middleware\RedirectIfRequiresSetup;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -40,6 +41,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            'tokenAuth',
         ],
     ];
 
@@ -58,5 +60,6 @@ class Kernel extends HttpKernel
         'guest'          => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'       => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'requires.setup' => RedirectIfRequiresSetup::class,
+        'tokenAuth'      => AuthenticateApiToken::class,
     ];
 }
