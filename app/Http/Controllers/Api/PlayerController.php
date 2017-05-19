@@ -41,6 +41,7 @@ class PlayerController extends Controller
             $excel->sheet('Players', function (LaravelExcelWorksheet $sheet) use ($players) {
                 $sheet->appendRow([
                     'Division',
+                    'Player GUID',
                     'Last Name',
                     'First Name',
                     'Grade',
@@ -64,6 +65,7 @@ class PlayerController extends Controller
 
                     $sheet->appendRow([
                         $group->program->abbreviation,
+                        $player->guid,
                         $player->last_name,
                         $player->first_name,
                         $player->seasons->first()->pivot->grade,
